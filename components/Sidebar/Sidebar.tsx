@@ -50,9 +50,9 @@ const mainLinks = [
     key: 3
   },
   {
-    url: '/governance',
+    url: 'https://forum.honey.finance',
     title: 'Governance',
-    comingSoon: true,
+    comingSoon: false,
     IconComp: IconHand,
     key: 4
   }
