@@ -178,8 +178,11 @@ const useGemFarm = () => {
   const refreshWithLoadingIcon = async () => {
     setIsFetching(true);
     try {
-      await onRefreshNFTs();
-      setIsFetching(false);
+      // wait 3 seconds before refreshing to give the blockchain some time
+      await setTimeout(async () => {
+        await onRefreshNFTs();
+        setIsFetching(false);
+      }, 3000);
     } catch (error) {
       console.log(error);
     }
