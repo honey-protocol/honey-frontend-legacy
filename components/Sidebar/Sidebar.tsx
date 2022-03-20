@@ -33,24 +33,28 @@ const mainLinks = [
     url: '/',
     title: 'Dashboard',
     comingSoon: true,
-    IconComp: IconGrid
+    IconComp: IconGrid,
+    key: 1
   },
   {
     url: '/lend',
     title: 'Loans',
     comingSoon: true,
-    IconComp: IconSplit
+    IconComp: IconSplit,
+    key: 2
   },
   {
     url: '/farm',
     title: 'Farm',
-    IconComp: IconTokens
+    IconComp: IconTokens,
+    key: 3
   },
   {
     url: '/governance',
     title: 'Governance',
     comingSoon: true,
-    IconComp: IconHand
+    IconComp: IconHand,
+    key: 4
   }
 ];
 
@@ -100,7 +104,6 @@ const Sidebar = (props: SidebarProps) => {
               link.url.split('/')[1].toLowerCase() === pageName.toLowerCase();
             return link.comingSoon ? (
               <Button
-                key={link.title}
                 as="a"
                 variant="transparent"
                 disabled={link.comingSoon}
@@ -108,13 +111,14 @@ const Sidebar = (props: SidebarProps) => {
                 size="small"
                 width="full"
                 justifyContent="flex-start"
+                key={link.key}
               >
                 {link.title}
               </Button>
             ) : (
               <SidebarButton
                 isActive={isActive}
-                key={link.title}
+                key={link.key}
                 url={link.url}
                 title={link.title}
                 iconComp={

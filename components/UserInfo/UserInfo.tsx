@@ -1,10 +1,17 @@
-import React, { FC, useState, useEffect, useCallback, useRef } from 'react';
+import React, {
+  FC,
+  useState,
+  useEffect,
+  useCallback,
+  useRef,
+  MutableRefObject
+} from 'react';
 import { Box, IconMenu } from 'degen';
 import { Stack } from 'degen';
 import { Button } from 'degen';
 import { Text } from 'degen';
 import { useWalletKit } from '@gokiprotocol/walletkit';
-import { useConnectedWallet, useSolana } from "@saberhq/use-solana";
+import { useConnectedWallet, useSolana } from '@saberhq/use-solana';
 import * as styles from './UserInfo.css';
 
 interface UserInfoProps {
@@ -12,45 +19,30 @@ interface UserInfoProps {
 }
 
 const UserInfo = (props: UserInfoProps) => {
-  const {
-    disconnect,
-  } = useSolana();
-
+  const { disconnect } = useSolana();
   const wallet = useConnectedWallet();
-
   const { connect } = useWalletKit();
+  const btnRef = useRef<HTMLButtonElement>(null);
+  const btnTextRef = useRef<HTMLElement>(null);
+  const walletAddress = wallet?.publicKey.toString();
 
-  const [hoverRef, isHovered] = useHover<HTMLDivElement>();
+  useEffect(() => {
+    const btn = btnRef.current;
+    if (!btnTextRef.current || !btn || !walletAddress) return;
+    btn.addEventListener('mouseenter', e => {
+      if (!btnTextRef.current) return;
+      btnTextRef.current.innerHTML = 'Disconnect';
+    });
 
-  function useHover<T>(): [MutableRefObject<T>, boolean] {
-    const [value, setValue] = useState<boolean>(false);
-
-    // Wrap in useCallback so we can use in dependencies below
-    const handleMouseOver = useCallback(() => setValue(true), []);
-    const handleMouseOut = useCallback(() => setValue(false), []);
-
-    // Keep track of the last node passed to callbackRef
-    // so we can remove its event listeners.
-    const ref = useRef();
-
-    const callbackRef = useCallback(
-      node => {
-        if (ref.current) {
-          ref.current.removeEventListener("mouseover", handleMouseOver);
-          ref.current.removeEventListener("mouseout", handleMouseOut);
-        }
-
-        ref.current = node;
-
-        if (ref.current) {
-          ref.current.addEventListener("mouseover", handleMouseOver);
-          ref.current.addEventListener("mouseout", handleMouseOut);
-        }
-      },
-      [handleMouseOver, handleMouseOut]
-    );
-    return [callbackRef, value];
-  }
+    btn.addEventListener('mouseleave', e => {
+      if (!btnTextRef.current) return;
+      btnTextRef.current.innerHTML = walletAddress || '';
+    });
+    return () => {
+      btn?.removeEventListener('mouseenter', () => {});
+      btn?.removeEventListener('mouseleave', () => {});
+    };
+  }, [walletAddress]);
 
   return (
     <Box
@@ -77,26 +69,24 @@ const UserInfo = (props: UserInfoProps) => {
           </Button>
         </Box>
         {wallet ? (
-          <Button variant="secondary" size="small" width="48">
-            <Box
-              width="24"
-              onClick={disconnect}
-              ref={hoverRef}
-              >
-              <Text ellipsis>
-                {isHovered ? "Disconnect" : wallet?.publicKey?.toString()}
+          <Button
+            onClick={disconnect}
+            ref={btnRef}
+            variant="secondary"
+            size="small"
+            width="48"
+          >
+            <Box width="24">
+              <Text ref={btnTextRef} ellipsis>
+                {wallet?.publicKey?.toString()}
               </Text>
             </Box>
           </Button>
-          ) : (
-            <Button
-              variant="primary"
-              size="small"
-              width="48"
-              onClick={connect}>
-                Connect Wallet
-            </Button>
-          )}
+        ) : (
+          <Button variant="primary" size="small" width="48" onClick={connect}>
+            Connect Wallet
+          </Button>
+        )}
       </Stack>
     </Box>
   );

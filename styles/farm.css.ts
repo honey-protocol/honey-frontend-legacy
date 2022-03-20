@@ -1,5 +1,5 @@
 import { style } from '@vanilla-extract/css';
-import { sprinkles, vars } from '../../styles/theme.css';
+import { sprinkles, vars } from './theme.css';
 
 export const collectionCardsContainer = style({
   display: 'grid',

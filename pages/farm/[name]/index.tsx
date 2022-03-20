@@ -4,7 +4,7 @@ import Layout from '../../../components/Layout/Layout';
 import useGemFarm from 'hooks/useGemFarm';
 import FarmNFTsContainer from 'components/FarmNFTsContainer/FarmNFTsContainer';
 import Link from 'next/link';
-import * as styles from '../name.css';
+import * as styles from '../../../styles/name.css';
 
 const Nft: NextPage = () => {
   const {

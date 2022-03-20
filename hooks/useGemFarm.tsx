@@ -19,7 +19,7 @@ import {
 import { convertArrayToObject } from 'helpers/utils';
 import useFetchNFTByUser from 'hooks/useNFT';
 import { useRouter } from 'next/router';
-import { newFarmCollections } from 'pages/farm/new-farms';
+import { newFarmCollections } from 'constants/new-farms';
 import React, { ReactNode, useCallback, useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 
