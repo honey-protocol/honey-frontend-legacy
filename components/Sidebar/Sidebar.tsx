@@ -51,6 +51,12 @@ const mainLinks = [
     title: 'Farm',
     IconComp: IconTokens,
     key: 3
+  },
+  {
+    url: '/governance',
+    title: 'Governance',
+    IconComp: IconHand,
+    key: 4
   }
 ];
 
