@@ -67,20 +67,20 @@ const Loan: NextPage = () => {
             padding="1"
           >
             <Input
-              label="Search by name"
+              label=""
               placeholder="Search by name"
               prefix={<IconSearch />}
             />
           </Box>
         </Stack>
-        {/* </Box> */}
         <Box
-          backgroundColor="foregroundSecondary"
-          // height="64"
+          backgroundColor="backgroundTertiary"
           minWidth="full"
           gap="3"
-          borderRadius="large"
-          padding="4"
+          borderRadius="2xLarge"
+          padding="5"
+          width="full"
+          // className={styles.cardContainer}
           >
             <Stack>
               <Box
@@ -101,7 +101,8 @@ const Loan: NextPage = () => {
                 <hr></hr>
               </Box>
               <Box
-                overflow="scroll"
+                // overflow="scroll"
+                // height="full"
               >
                 <Stack>
                   {assetData.map((item) => (
