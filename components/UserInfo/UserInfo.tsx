@@ -51,6 +51,7 @@ const UserInfo = (props: UserInfoProps) => {
       backgroundColor="background"
       className={styles.topbar}
     >
+
       <Stack
         flex={1}
         direction="horizontal"
