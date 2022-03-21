@@ -22,8 +22,10 @@ interface AssetRowProps {
 
 const AssetRow = ({ data }: AssetRowProps) => {
  return (
-  <Card
-    padding="6"
+  <Box
+    backgroundColor="foregroundSecondary"
+    padding="5"
+    borderRadius="2xLarge"
   >
     <Stack
         direction="horizontal"
@@ -44,33 +46,39 @@ const AssetRow = ({ data }: AssetRowProps) => {
                 <Text>{data.vaultName}</Text>
             </Stack>
         </Box>
-        <Text align="left" >
-            <NumberFormat
-                value={data.totalBorrowed}
-                displayType={'text'}
-                thousandSeparator={true}
-                prefix={'$'}
-            />
-        </Text>
-        <Text align="left" >
-            <NumberFormat
-                value={data.interest}
-                displayType={'text'}
-                thousandSeparator={true}
-                suffix={'%'}
-            />
-        </Text>
-        <Text align="left" >
-            <NumberFormat
-                value={data.available}
-                displayType={'text'}
-                thousandSeparator={true}
-                prefix={'$'}
-            />
-        </Text>
-        <Text align="left" >{data.positions}</Text>
+        <Box>
+            <Text align="left" >
+                <NumberFormat
+                    value={data.totalBorrowed}
+                    displayType={'text'}
+                    thousandSeparator={true}
+                    prefix={'$'}
+                />
+            </Text>
+        </Box>
+        <Box>
+            <Text align="left" >
+                <NumberFormat
+                    value={data.interest}
+                    displayType={'text'}
+                    thousandSeparator={true}
+                    suffix={'%'}
+                />
+            </Text>
+        </Box>
+        <Box>
+            <Text align="left" >
+                <NumberFormat
+                    value={data.available}
+                    displayType={'text'}
+                    thousandSeparator={true}
+                    prefix={'$'}
+                />
+            </Text>
+        </Box>
+        <Box><Text align="left" >{data.positions}</Text></Box>
     </Stack>
-  </Card>
+  </Box>
  )
 }
 
