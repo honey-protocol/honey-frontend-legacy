@@ -1,6 +1,7 @@
 import React from 'react';
 import { Box, Button, Card, Stack, Text, Tag } from 'degen';
 import { Avatar } from 'degen';
+import { Input } from 'degen'
 // import { Range } from 'degen';
 import * as styles from './BorrowNFTsModule.css';
 
@@ -39,116 +40,198 @@ const BorrowNFTsModule = (props: BorrowNFTsModule) => {
         <hr></hr>
         <Box gap="3">
           {/* Vault data row */}
-          <Box>
+          <Stack
+            justify="space-between"
+          >
             <Stack
               direction="horizontal"
-              justify="space-between" align="center"
+              justify="space-between"
+              align="center"
             >
               <Box alignItems="flex-start">
                 <Avatar label="" size="10" src={""} />
               </Box>
-              <Box>
+              <Box
+                paddingBottom="2"
+              >
                 <Stack
                   direction="horizontal"
-                  justify="space-between" align="center"
+                  justify="space-between"
+                  align="center"
+                  space="2"
                 >
-                  <Text align="right">NFT name #234</Text>
-                  <Text align="right"></Text>
+                  <Text
+                    align="right"
+                    weight="semiBold"
+                    color="foreground"
+                    variant="large"
+                  >
+                    NFT name #234
+                  </Text>
                 </Stack>
                 <Stack
                   direction="horizontal"
-                  justify="space-between" align="center"
+                  justify="space-between"
+                  align="center"
+                  space="2"
                 >
-                  <Text align="right">Evaluation: </Text>
-                  <Text align="right">$4,500</Text>
+                  <Text align="right" color="textSecondary">Evaluation: </Text>
+                  <Text
+                    align="right"
+                    color="foreground"
+                  >
+                    $4,500
+                  </Text>
                 </Stack>
               </Box>
             </Stack>
-          </Box>
+          </Stack>
           <hr></hr>
           {/* Liquidation and interest data */}
-          <Box>
+          <Box
+            paddingTop="1"
+            paddingBottom="1"
+          >
             <Stack
-              direction="horizontal"
-              justify="space-between" align="center"
+              justify="space-between"
             >
-              <Text align="left">Liquidation threshold</Text>
-              <Text align="right">15.5%</Text>
-            </Stack>
-            <Stack
-              direction="horizontal"
-              justify="space-between" align="center"
-            >
-              <Text align="left">Interest rate</Text>
-              <Text align="right">4.2%</Text>
+              <Stack
+                direction="horizontal"
+                justify="space-between"
+                align="center"
+                space="2"
+              >
+                <Text align="left"
+                color="textSecondary">Liquidation threshold</Text>
+                <Text
+                  align="right"
+                  color="foreground"
+                >
+                  15.5%</Text>
+              </Stack>
+              <Stack
+                direction="horizontal"
+                justify="space-between"
+                align="center"
+                space="2"
+              >
+                <Text align="left"
+                color="textSecondary">Interest rate</Text>
+                <Text
+                  align="right"
+                  color="foreground"
+                >
+                  4.2%</Text>
+              </Stack>
             </Stack>
           </Box>
           <hr></hr>
           {/* Assets borrowed */}
-          <Box>
+          <Box
+            paddingTop="1"
+            paddingBottom="1"
+          >
             <Stack
-              direction="horizontal"
-              justify="space-between" align="center"
+              justify="space-between"
             >
-              <Text align="left">Assets borrowed</Text>
-              <Text align="right">$1,300</Text>
-            </Stack>
-            <Stack
-              direction="horizontal"
-              justify="space-between" align="center"
-            >
-              <Stack direction="horizontal">
-                <Avatar label="Sol token" size="10" src={""} />
-                <Text align="left">782.5 USDC</Text>
-               </Stack>
-              <Text align="right">$782.5</Text>
+              <Stack
+                direction="horizontal"
+                justify="space-between"
+                align="center"
+                space="2"
+              >
+                <Text align="left"
+                color="textSecondary">Assets borrowed</Text>
+                <Text
+                  align="right"
+                  color="foreground"
+                >
+                  $782.5</Text>
+              </Stack>
+              <Stack
+                direction="horizontal"
+                justify="space-between"
+                align="center"
+                space="2"
+              >
+                <Stack direction="horizontal">
+                  {/* <Avatar label="Sol token" size="10" src={""} /> */}
+                  <Text
+                    align="left"
+                    color="foreground"
+                  >
+                    782.5 USDC
+                  </Text>
+                 </Stack>
+                <Text
+                  align="right"
+                  color="foreground"
+                >
+                  $782.5</Text>
+              </Stack>
             </Stack>
           </Box>
           <hr></hr>
           {/* Interest & payback data*/}
-          <Box>
+          <Box
+            paddingTop="1"
+            paddingBottom="1"
+          >
             <Stack
-              direction="horizontal"
-              justify="space-between" align="center"
+              justify="space-between"
             >
-              <Text align="left">Total interest</Text>
-              <Text align="right">$40.5</Text>
-            </Stack>
-            <Stack
-              direction="horizontal"
-              justify="space-between" align="center"
-            >
-              <Text align="left">Total payback</Text>
-              <Text align="right">$1,350.5</Text>
+              <Stack
+                direction="horizontal"
+                justify="space-between"
+                align="center"
+                space="2"
+              >
+                <Text align="left"
+                color="textSecondary">Total interest</Text>
+                <Text
+                  align="right"
+                  color="foreground"
+                >
+                  $40.5
+                </Text>
+              </Stack>
+              <Stack
+                direction="horizontal"
+                justify="space-between"
+                align="center"
+                space="2"
+              >
+                <Text align="left"
+                color="textSecondary">Total payback</Text>
+                <Text
+                  align="right"
+                  color="foreground"
+                >
+                  $1,350.5
+                </Text>
+              </Stack>
             </Stack>
           </Box>
           {/* Borrowed amount and currency */}
           <Box
-            borderRadius="2xLarge"
-            backgroundColor="backgroundSecondary"
-            padding="5"
+            paddingTop="5"
           >
-            <Stack
-              direction="horizontal"
-              align="center"
-              justify="space-between"
-            >
-              <Button
-                size="small"
-                variant="tertiary"
-              >
-                MAX
-              </Button>
-              <Box>
-                <Tag size="medium">0.00</Tag>
-                <Stack direction="horizontal">
-                  <Avatar label="Sol token" size="10" src={""} />
-                  <Text align="left">SOL</Text>
-               </Stack>
-              </Box>
-            </Stack>
+            <Input
+              hideLabel
+              label="Amount"
+              // labelSecondary={<Tag>100 ETH max</Tag>}
+              max={100}
+              min={0}
+              placeholder="20"
+              type="number"
+              units="SOL"
+            />
           </Box>
-          <Stack>
+          <Box
+           height="16"
+          //  gap="3"
+           paddingTop="4"
+          >
             {/* <Range /> */}
             <Stack
               direction="horizontal"
@@ -161,7 +244,7 @@ const BorrowNFTsModule = (props: BorrowNFTsModule) => {
               <Text align="center">75%</Text>
               <Text align="right">100%</Text>
             </Stack>
-          </Stack>
+          </Box>
           <Button width="full">Repay</Button>
         </Box>
       </Card>
