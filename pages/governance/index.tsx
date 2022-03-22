@@ -1,17 +1,31 @@
 import type { NextPage } from 'next';
-import { Box, Button, Card, Text } from 'degen';
+import { Box, Button, Card, Input, Text } from 'degen';
 import { Stack } from 'degen';
 import Layout from '../../components/Layout/Layout';
 import ModalContainer from 'components/ModalContainer/ModalContainer';
+import { useState } from 'react';
+import PHoneyModal from 'components/PHoneyModal';
+import VeHoneyModal from 'components/VeHoneyModal';
 
 const Governance: NextPage = () => {
+  const [showPHoneyModal, setShowPHoneyModal] = useState(false);
+  const [showVeHoneyModal, setShowVeHoneyModal] = useState(false);
+
   return (
     <Layout>
       <Stack space="5" flex={1}>
-        <ModalContainer>
-          <Box width="80" height="96">
-            <Text>Manage locked HONEY</Text>
-          </Box>
+        {/* Modals */}
+        <ModalContainer
+          onClose={() => setShowPHoneyModal(false)}
+          isVisible={showPHoneyModal}
+        >
+          <PHoneyModal />
+        </ModalContainer>
+        <ModalContainer
+          onClose={() => setShowVeHoneyModal(false)}
+          isVisible={showVeHoneyModal}
+        >
+          <VeHoneyModal />
         </ModalContainer>
         {/* Page title */}
         <Box marginTop="5">
@@ -19,7 +33,6 @@ const Governance: NextPage = () => {
             Vote on new collateral assets
           </Text>
         </Box>
-
         {/* Cards row */}
         <Stack
           direction={{
@@ -105,10 +118,20 @@ const Governance: NextPage = () => {
                   <Button width="full" size="small" variant="secondary">
                     Get HONEY
                   </Button>
-                  <Button width="full" size="small" variant="primary">
+                  <Button
+                    onClick={() => setShowPHoneyModal(true)}
+                    width="full"
+                    size="small"
+                    variant="secondary"
+                  >
                     Stake pHONEY
                   </Button>
-                  <Button width="full" size="small" variant="secondary">
+                  <Button
+                    onClick={() => setShowVeHoneyModal(true)}
+                    width="full"
+                    size="small"
+                    variant="secondary"
+                  >
                     Claim veHONEY
                   </Button>
                 </Stack>
