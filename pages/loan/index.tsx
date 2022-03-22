@@ -1,3 +1,4 @@
+import { useState, useEffect } from 'react';
 import type { NextPage } from 'next';
 import Link from 'next/link';
 import { Box, Text, Card } from 'degen';
@@ -5,6 +6,7 @@ import { Stack } from 'degen';
 import { Button } from 'degen';
 import { IconPlusSmall, IconSearch } from 'degen';
 import { Input } from 'degen';
+import ToggleSwitch from '../../components/ToggleSwitch';
 import AssetRow, { AssetRowType } from '../../components/AssetRow';
 import Layout from '../../components/Layout/Layout';
 
@@ -66,6 +68,8 @@ const assetData: Array<AssetRowType> = [
 ];
 
 const Loan: NextPage = () => {
+  const [liveOrCompleted, setLiveOrCompleted] = useState(0);
+
   return (
     <Layout>
       <Stack>
@@ -86,16 +90,16 @@ const Loan: NextPage = () => {
         </Box>
         {/* <Box  height="16" minWidth="full" gap="3" paddingTop="3"> */}
         <Stack direction="horizontal" justify="space-between" align="center">
-          <Box
-            borderRadius="large"
-            backgroundColor="foregroundTertiary"
-            padding="2"
-          >
-            <Stack direction="horizontal" align="center">
-              <Button size="small">Borrow</Button>
-              <Button size="small">Loan</Button>
-            </Stack>
-          </Box>
+          <ToggleSwitch
+              buttons={[
+                {
+                  title: 'Borrow',
+                  onClick: () => setLiveOrCompleted(0)
+                },
+                { title: 'Loan', onClick: () => setLiveOrCompleted(1) }
+              ]}
+              activeIndex={liveOrCompleted}
+            />
           <Box padding="1">
             <Input
               label=""
