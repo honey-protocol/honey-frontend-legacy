@@ -74,27 +74,7 @@ const Loan: NextPage = () => {
           onNFTSelect={onWalletNFTSelect}
           onNFTUnselect={onWalletNFTUnselect}
         />
-        <BorrowNFTsModule
-          isFetching={isFetching}
-          title=""
-          buttons={[
-            {
-              title: `Borrow`,
-              disabled: !selectedVaultNFTs.length,
-              hidden: farmerVaultLocked,
-              onClick: withdrawSelectedGems
-            },
-            {
-              title: 'Repay',
-              disabled: Object.values(stakedNFTsInFarm).length ? false : true,
-              onClick: farmerVaultLocked ? endStaking : startStaking
-            }
-          ]}
-          NFTs={Object.values(stakedNFTsInFarm)}
-          selectedNFTs={selectedVaultNFTs}
-          onNFTSelect={!farmerVaultLocked ? onStakedNFTSelect : null}
-          onNFTUnselect={onStakedNFTUnselect}
-        />
+        <BorrowNFTsModule />
       </Box>
     </Layout>
   );
