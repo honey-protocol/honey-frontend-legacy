@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react';
 import type { NextPage } from 'next';
 import Link from 'next/link';
+import { useWalletKit } from '@gokiprotocol/walletkit';
+import { useConnectedWallet } from '@saberhq/use-solana';
 import { Box, Text, Card } from 'degen';
 import { Stack } from 'degen';
 import { Button } from 'degen';
@@ -68,6 +70,8 @@ const assetData: Array<AssetRowType> = [
 ];
 
 const Loan: NextPage = () => {
+  const wallet = useConnectedWallet();
+  const { connect } = useWalletKit();
   const [liveOrCompleted, setLiveOrCompleted] = useState(0);
 
   return (
@@ -138,11 +142,19 @@ const Loan: NextPage = () => {
             >
               <Stack>
                 {assetData.map(item => (
-                  <Link href="/loan/[name]" as={`/loan/${item.vaultName}`} key={item.vaultName}>
-                    <a>
-                      <AssetRow data={item} />
-                    </a>
-                  </Link>
+                  <Box key={item.vaultName}>
+                    {wallet ? (
+                      <Link href="/loan/[name]" as={`/loan/${item.vaultName}`}>
+                        <a>
+                          <AssetRow data={item} />
+                        </a>
+                      </Link>
+                      ) : (
+                        <Box onClick={connect} cursor="pointer">
+                          <AssetRow data={item} />
+                        </Box>
+                      )}
+                  </Box>
                 ))}
               </Stack>
             </Box>
