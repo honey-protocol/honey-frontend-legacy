@@ -1,7 +1,7 @@
 import React from 'react';
 import { Box, Button, Card, Stack, Text, Tag } from 'degen';
 import { Avatar } from 'degen';
-import { Range } from 'degen';
+// import { Range } from 'degen';
 import * as styles from './BorrowNFTsModule.css';
 
 type TButton = {
@@ -73,14 +73,14 @@ const BorrowNFTsModule = (props: BorrowNFTsModule) => {
               justify="space-between" align="center"
             >
               <Text align="left">Liquidation threshold</Text>
-              <Text align="right"></Text>
+              <Text align="right">15.5%</Text>
             </Stack>
             <Stack
               direction="horizontal"
               justify="space-between" align="center"
             >
               <Text align="left">Interest rate</Text>
-              <Text align="right"></Text>
+              <Text align="right">4.2%</Text>
             </Stack>
           </Box>
           <hr></hr>
@@ -91,7 +91,7 @@ const BorrowNFTsModule = (props: BorrowNFTsModule) => {
               justify="space-between" align="center"
             >
               <Text align="left">Assets borrowed</Text>
-              <Text align="right"></Text>
+              <Text align="right">$1,300</Text>
             </Stack>
             <Stack
               direction="horizontal"
@@ -148,7 +148,7 @@ const BorrowNFTsModule = (props: BorrowNFTsModule) => {
               </Box>
             </Stack>
             <Stack>
-              <Range />
+              {/* <Range /> */}
               <Stack
                 direction="horizontal"
               >
@@ -159,8 +159,8 @@ const BorrowNFTsModule = (props: BorrowNFTsModule) => {
                 <Text align="right">100%</Text>
               </Stack>
             </Stack>
-            <Button width="full">Repay</Button>
           </Box>
+          <Button width="full">Repay</Button>
         </Box>
       </Card>
     </Box>
