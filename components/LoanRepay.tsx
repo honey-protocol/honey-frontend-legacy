@@ -7,7 +7,7 @@ interface LoanRepayProps {
     nftName: string,
     evaluation: number,
     interestRate: number,
-    assetsBorrowed: object[],
+    assetsBorrowed: number,
     totalInterest: number,
     totalPayback: number,
 }

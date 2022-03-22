@@ -6,7 +6,7 @@ import { Input } from 'degen'
 interface LoanBorrowProps {
     borrowApy: number,
     estValue: number,
-    assetsBorrowed: object[],
+    assetsBorrowed: number,
     netBorrowBalance: number,
 }
 

@@ -50,24 +50,25 @@ const BorrowNFTsModule = (props: BorrowNFTsModule) => {
           activeIndex={borrowOrRepay}
         />
         <hr></hr>
-        {borrowOrRepay == 0 && (
-          <LoanBorrow
-            borrowApy={}
-            estValue={}
-            assetsBorrowed={}
-            netBorrowBalance={}
+        {
+          borrowOrRepay == 0  ? (
+            <LoanBorrow
+              borrowApy={1}
+              estValue={1}
+              assetsBorrowed={1}
+              netBorrowBalance={1}
 
-          />
-          ) : (
-            <LoanRepay
-              nftName={}
-              evaluation={}
-              interestRate={}
-              assetsBorrowed={}
-              totalInterest={}
-              totalPayback={}
             />
-          )
+            ) : (
+              <LoanRepay
+                nftName={'test'}
+                evaluation={1}
+                interestRate={1}
+                assetsBorrowed={1}
+                totalInterest={1}
+                totalPayback={1}
+              />
+            )
         };
       </Card>
     </Box>
