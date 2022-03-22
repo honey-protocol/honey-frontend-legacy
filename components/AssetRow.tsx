@@ -33,7 +33,7 @@ const AssetRow = ({ data }: AssetRowProps) => {
         align="center"
     >
         <Box
-            maxWidth="180"
+            // maxWidth="180"
         >
             <Stack
                 direction="horizontal"
@@ -46,37 +46,63 @@ const AssetRow = ({ data }: AssetRowProps) => {
                 <Text>{data.vaultName}</Text>
             </Stack>
         </Box>
-        <Box>
-            <Text align="left" >
-                <NumberFormat
-                    value={data.totalBorrowed}
-                    displayType={'text'}
-                    thousandSeparator={true}
-                    prefix={'$'}
-                />
-            </Text>
+        <Box
+            display="flex"
+            // flexGrow= "2"
+        >
+            <Stack
+                direction="horizontal"
+                space="3"
+                justify="space-between"
+                align="center"
+            >
+                <Box
+                    width="48"
+                    // marginLeft="40"
+                >
+                    <Text align="left" >
+                        <NumberFormat
+                            value={data.totalBorrowed}
+                            displayType={'text'}
+                            thousandSeparator={true}
+                            prefix={'$'}
+                        />
+                    </Text>
+                </Box>
+                <Box
+                    width="48"
+                    // marginLeft="40"
+                >
+                    <Text align="left" >
+                        <NumberFormat
+                            value={data.interest}
+                            displayType={'text'}
+                            thousandSeparator={true}
+                            suffix={'%'}
+                        />
+                    </Text>
+                </Box>
+                <Box
+                    width="48"
+                    // marginLeft="40"
+                >
+                    <Text align="left" >
+                        <NumberFormat
+                            value={data.available}
+                            displayType={'text'}
+                            thousandSeparator={true}
+                            prefix={'$'}
+                        />
+                    </Text>
+                </Box>
+                <Box
+                    width="48"
+                    // marginLeft="40"
+                >
+                    <Text align="center" >{data.positions}</Text>
+                </Box>
+            </Stack>
         </Box>
-        <Box>
-            <Text align="left" >
-                <NumberFormat
-                    value={data.interest}
-                    displayType={'text'}
-                    thousandSeparator={true}
-                    suffix={'%'}
-                />
-            </Text>
-        </Box>
-        <Box>
-            <Text align="left" >
-                <NumberFormat
-                    value={data.available}
-                    displayType={'text'}
-                    thousandSeparator={true}
-                    prefix={'$'}
-                />
-            </Text>
-        </Box>
-        <Box><Text align="left" >{data.positions}</Text></Box>
     </Stack>
   </Box>
  )
