@@ -28,6 +28,8 @@ import { useRouter } from 'next/router';
 const whitePaperUrl =
   'https://tomjpandolfi.com/whitepaper-peer-to-contract-nft-collateral-and-lending-fdd6054328b0';
 
+const governanceUrl = 'https://forum.honey.finance/'
+
 const mainLinks = [
   {
     url: '/',
@@ -48,13 +50,6 @@ const mainLinks = [
     title: 'Farm',
     IconComp: IconTokens,
     key: 3
-  },
-  {
-    url: '/governance',
-    title: 'Governance',
-    comingSoon: true,
-    IconComp: IconHand,
-    key: 4
   }
 ];
 
@@ -127,6 +122,18 @@ const Sidebar = (props: SidebarProps) => {
               />
             );
           })}
+          <Button
+            as="a"
+            href= {governanceUrl}
+            target="_blank"
+            variant="transparent"
+            prefix={<IconHand />}
+            size="small"
+            width="full"
+            justifyContent="flex-start"
+          >
+            Governance
+          </Button>
         </Stack>
         <Box
           borderTopWidth="0.5"
