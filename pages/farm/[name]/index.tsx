@@ -108,7 +108,7 @@ const Nft: NextPage = () => {
                 ? farmerState === 'pendingCooldown'
                   ? 'End cooldown'
                   : 'Unlock'
-                : `Lock`,
+                : `Start rewards`,
               disabled: Object.values(stakedNFTsInFarm).length ? false : true,
               onClick: farmerVaultLocked ? endStaking : startStaking
             }

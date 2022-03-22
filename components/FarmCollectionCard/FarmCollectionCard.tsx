@@ -71,7 +71,7 @@ const FarmCollectionCard = (props: any) => {
               weight="normal"
               color="textTertiary"
             >
-              Allocation:
+              Allocation per NFT:
             </Text>
             <Text align="right" weight="medium">
               {newFarmData.data.allocation} ${newFarmData.data.rewardTokenName}
@@ -85,7 +85,7 @@ const FarmCollectionCard = (props: any) => {
               weight="normal"
               color="textTertiary"
             >
-              Event duration
+              Event duration:
             </Text>
             <Text align="right" weight="medium">
               {newFarmData.data.eventDuration} days

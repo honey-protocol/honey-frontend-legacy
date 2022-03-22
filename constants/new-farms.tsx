@@ -29,7 +29,7 @@ export const newFarmCollections: TGFarm[] = [
     id: "HNYVT",
     imageUrl:
       "https://i.imgflip.com/65u2do.gif",
-    name: "Honey Genesis Bee v3",
+    name: "Honey Genesis Bee",
     totalStaked: "???",
     allocation: "1",
     totalStakedByUser: "-",
