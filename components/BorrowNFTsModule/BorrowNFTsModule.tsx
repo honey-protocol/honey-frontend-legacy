@@ -147,19 +147,21 @@ const BorrowNFTsModule = (props: BorrowNFTsModule) => {
                </Stack>
               </Box>
             </Stack>
-            <Stack>
-              {/* <Range /> */}
-              <Stack
-                direction="horizontal"
-              >
-                <Text align="left">0%</Text>
-                <Text align="center">25%</Text>
-                <Text align="center">50%</Text>
-                <Text align="center">75%</Text>
-                <Text align="right">100%</Text>
-              </Stack>
-            </Stack>
           </Box>
+          <Stack>
+            {/* <Range /> */}
+            <Stack
+              direction="horizontal"
+              align="center"
+              justify="space-around"
+            >
+              <Text align="left">0%</Text>
+              <Text align="center">25%</Text>
+              <Text align="center">50%</Text>
+              <Text align="center">75%</Text>
+              <Text align="right">100%</Text>
+            </Stack>
+          </Stack>
           <Button width="full">Repay</Button>
         </Box>
       </Card>
