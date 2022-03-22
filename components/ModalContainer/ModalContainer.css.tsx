@@ -4,6 +4,7 @@ export const modalContainer = style({
   display: 'flex',
   position: 'fixed',
   opacity: '0',
+  pointerEvents: 'none',
   overflow: 'auto',
   cursor: 'pointer',
   padding: '5rem 0px 0px',

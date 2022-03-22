@@ -1,5 +1,5 @@
 import type { NextPage } from 'next';
-import { Box, Button, Card, Input, Text } from 'degen';
+import { Box, Button, Card, IconExclamation, Input, Text } from 'degen';
 import { Stack } from 'degen';
 import Layout from '../../components/Layout/Layout';
 import ModalContainer from 'components/ModalContainer/ModalContainer';
@@ -44,22 +44,29 @@ const Governance: NextPage = () => {
           space="6"
         >
           <Card width={{ md: '1/2' }} level="2" padding="6">
-            <Stack space="5">
-              <Text variant="small" align="center">
-                To vote for collection to be added as collaterals, You can lock
-                HONEY for a{' '}
-                <Text as="span" color="accent">
-                  minimum of one week
-                </Text>{' '}
-                and receive veHONEY which can be staked as votes in collection
-                honey jars for voting duration.{' '}
-                <Text as="span" color="accent">
-                  Five new collections{' '}
+            <Box display="flex" height="full">
+              <Stack flex={1} justify="center" align="center" space="3">
+                <IconExclamation color="accent" />
+                <Text variant="small" align="center">
+                  pre-IDO HONEY (pHONEY) has to be deposited before the IDO on
+                  March 30th You can{' '}
+                  <Text as="span" color="accent">
+                    stake it for HONEY or vest it for veHONEY.
+                  </Text>{' '}
+                  Check out our docs to learn the difference between HONEY and
+                  veHONEY
                 </Text>
-                will be added every week
-              </Text>
-              <Stack direction="horizontal" justify="space-between">
-                <Stack space="0" align="center">
+                <Stack direction="horizontal" justify="center" align="center">
+                  <Button
+                    as="a"
+                    href="https://docs.honey.finance/"
+                    target="_blank"
+                    size="small"
+                    variant="tertiary"
+                  >
+                    Learn more
+                  </Button>
+                  {/* <Stack space="0" align="center">
                   <Text variant="small">Total HONEY locked</Text>
                   <Text variant="large" weight="bold">
                     22, 236, 780
@@ -70,9 +77,10 @@ const Governance: NextPage = () => {
                   <Text variant="large" weight="bold">
                     22, 236, 780
                   </Text>
+                </Stack> */}
                 </Stack>
               </Stack>
-            </Stack>
+            </Box>
           </Card>
           <Card width={{ md: '1/2' }} level="2" padding="6">
             <Box height="full" width="full" display="flex">
@@ -116,7 +124,7 @@ const Governance: NextPage = () => {
                 </Box>
                 <Stack justify="space-between">
                   <Button width="full" size="small" variant="secondary">
-                    Get HONEY
+                    {' '}
                   </Button>
                   <Button
                     onClick={() => setShowPHoneyModal(true)}
@@ -132,7 +140,7 @@ const Governance: NextPage = () => {
                     size="small"
                     variant="secondary"
                   >
-                    Claim veHONEY
+                    Get veHONEY
                   </Button>
                 </Stack>
               </Stack>
