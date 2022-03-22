@@ -3,6 +3,7 @@ import { style } from '@vanilla-extract/css';
 export const modalContainer = style({
   display: 'flex',
   position: 'fixed',
+  opacity: '0',
   overflow: 'auto',
   cursor: 'pointer',
   padding: '5rem 0px 0px',
@@ -13,5 +14,6 @@ export const modalContainer = style({
   backdropFilter: 'blur(5px)',
   transform: 'translateZ(0px)',
   justifyContent: 'center',
-  alignItems: 'center'
+  alignItems: 'center',
+  transition: 'all .3s'
 });
