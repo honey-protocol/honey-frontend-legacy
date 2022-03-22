@@ -134,9 +134,9 @@ const Loan: NextPage = () => {
             >
               <Stack>
                 {assetData.map(item => (
-                  <Link href="/loan/[name]" as={`/loan/${item.vaultName}`}>
+                  <Link href="/loan/[name]" as={`/loan/${item.vaultName}`} key={item.vaultName}>
                     <a>
-                      <AssetRow data={item} key={item.vaultName} />
+                      <AssetRow data={item} />
                     </a>
                   </Link>
                 ))}
