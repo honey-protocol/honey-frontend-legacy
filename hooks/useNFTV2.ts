@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef, MutableRefObject } from 'react';
 import { Connection, PublicKey } from '@solana/web3.js';
 import {
   resolveToWalletAddress,
@@ -6,6 +6,10 @@ import {
 } from '@nfteyez/sol-rayz';
 import { ConnectedWallet, useSolana } from '@saberhq/use-solana';
 import { programs } from '@metaplex/js';
+
+interface NFTArrayType {
+  [index: string]: Array<NFT>
+}
 
 const defaultNFT: NFT = {
   name: "",
@@ -21,48 +25,60 @@ export default function useFetchNFTByUser(wallet: ConnectedWallet | null): [Arra
   const [NFTs, setNFTs] = useState<Array<NFT>>([]);
   const [isLoading, setLoading] = useState(true);
   const providerMut = useSolana();
+  const cache: MutableRefObject<NFTArrayType> = useRef({})
   useEffect(() => {
+    let didCancel = false
     const fetchNFTByUser = async () => {
-      const connection = providerMut?.connection
-      const walletPublicKey = wallet?.publicKey?.toString() || ""
-      if (walletPublicKey != "") {
-        // check if wallet address is valid
-        const publicAddress = await resolveToWalletAddress({
-          text: walletPublicKey,
-          connection
-        });
-        // get all NFT tokens from wallet
-        const nftArray = await getParsedNftAccountsByOwner({
-          publicAddress,
-          connection
-        });
-        const promises = nftArray.map(async (nft) => {
-            const imageURI = await getNFTImgURI(nft.data.uri)
-            const tokenMetaPublicKey = await programs.metadata.Metadata.getPDA(
-              new PublicKey(nft.mint)
-            );
-            const result: NFT = {
-              name: nft.data.name,
-              symbol: nft.data.name,
-              updateAuthority: nft.updateAuthority,
-              image: imageURI,
-              creators: nft.data.creators,
-              mint: nft.mint,
-              tokenId: tokenMetaPublicKey.toString()
-            }
-            return result
+      if (!didCancel) {
+        const connection = providerMut?.connection
+        const walletPublicKey = wallet?.publicKey?.toString() || ""
+        if (walletPublicKey != "") {
+          if (cache.current[walletPublicKey]) {
+            console.log(`fetching NFT for wallet public key ${walletPublicKey} from cache`)
+            const result = cache.current[walletPublicKey]
+            setNFTs(result)
+          } else {
+            console.log(`cache miss, fetching NFT for wallet public key ${walletPublicKey}`)
+            // check if wallet address is valid
+            const publicAddress = await resolveToWalletAddress({
+              text: walletPublicKey,
+              connection
+            });
+            // get all NFT tokens from wallet
+            const nftArray = await getParsedNftAccountsByOwner({
+              publicAddress,
+              connection
+            });
+            const promises = nftArray.map(async (nft) => {
+                const imageURI = await getNFTImgURI(nft.data.uri)
+                const tokenMetaPublicKey = await programs.metadata.Metadata.getPDA(
+                  new PublicKey(nft.mint)
+                );
+                const result: NFT = {
+                  name: nft.data.name,
+                  symbol: nft.data.name,
+                  updateAuthority: nft.updateAuthority,
+                  image: imageURI,
+                  creators: nft.data.creators,
+                  mint: nft.mint,
+                  tokenId: tokenMetaPublicKey.toString()
+                }
+                return result
+              }
+            )
+            // someone has better idea to make it better
+            const results = await Promise.all(promises.map(p => p.catch(e => {
+              console.error("Error fetching individual NFT with error")
+              console.error(e)
+              return defaultNFT
+            })));
+            const validResults = results.filter(result => !(result.name == ""));
+            cache.current[walletPublicKey] = validResults
+            setNFTs(validResults)
           }
-        )
-        // someone has better idea to make it better
-        const results = await Promise.all(promises.map(p => p.catch(e => {
-          console.error("Error fetching individual NFT with error")
-          console.error(e)
-          return defaultNFT
-        })));
-        const validResults = results.filter(result => !(result.name == ""));
-        setNFTs(validResults)
-      } else {
-        setNFTs([])
+        } else {
+          setNFTs([])
+        }
       }
     }
 
@@ -75,6 +91,10 @@ export default function useFetchNFTByUser(wallet: ConnectedWallet | null): [Arra
       .finally(() => {
         setLoading(false)
       })
+
+    return () => {
+      didCancel = true
+    }
   }, [wallet])
   return [NFTs, isLoading]
 
