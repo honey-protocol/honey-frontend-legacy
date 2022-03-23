@@ -13,12 +13,7 @@ const ToggleSwitchLoan = (props: ToggleSwitchProps) => {
   const { buttons, activeIndex } = props;
 
   return (
-    <Box
-      backgroundColor="foregroundSecondary"
-      paddingTop="1"
-      paddingLeft="1"
-      paddingBottom="1"
-    >
+    <Box>
       <Stack
         direction="horizontal"
         align="center"
@@ -26,16 +21,14 @@ const ToggleSwitchLoan = (props: ToggleSwitchProps) => {
         justify="space-around"
       >
         {buttons.map((button, i) => (
-          <Box paddingRight="1.5" key={button.title}>
-            <Button
-              onClick={() => button.onClick()}
-              variant={i === activeIndex ? 'primary' : 'tertiary'}
-              key={i}
-              width="full"
-            >
-              {button.title}
-            </Button>
-          </Box>
+          <Button
+            onClick={() => button.onClick()}
+            variant={i === activeIndex ? 'primary' : 'tertiary'}
+            key={i}
+            width="full"
+          >
+            {button.title}
+          </Button>
         ))}
       </Stack>
     </Box>
