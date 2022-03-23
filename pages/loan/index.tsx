@@ -11,6 +11,7 @@ import { Input } from 'degen';
 import ToggleSwitch from '../../components/ToggleSwitch';
 import AssetRow, { AssetRowType } from '../../components/AssetRow';
 import Layout from '../../components/Layout/Layout';
+import * as styles from '../../styles/loan.css';
 
 const assetData: Array<AssetRowType> = [
   {
@@ -137,8 +138,7 @@ const Loan: NextPage = () => {
               <hr></hr>
             </Box>
             <Box
-            // overflow="scroll"
-            // height="full"
+              className={styles.vaultsList}
             >
               <Stack>
                 {assetData.map(item => (
