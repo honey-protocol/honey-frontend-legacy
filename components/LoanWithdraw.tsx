@@ -26,92 +26,25 @@ const LoanWithdraw = (props: LoanWithdrawProps) => {
         <Box gap="3">
             {/* Vault data row */}
             <Stack
-            justify="space-between"
-            >
-            <Stack
-                direction="horizontal"
-                justify="space-between"
                 align="center"
             >
-                <Box alignItems="flex-start">
-                <Avatar label="" size="10" src={""} />
-                </Box>
                 <Box
-                paddingBottom="2"
+                    paddingBottom="2"
+                    justifyContent="center"
+                    alignItems="center"
                 >
-                <Stack
-                    direction="horizontal"
-                    justify="space-between"
-                    align="center"
-                    space="2"
-                >
+                    <Avatar label="" size="10" src={""} />
                     <Text
-                    align="right"
-                    weight="semiBold"
-                    color="foreground"
-                    variant="large"
+                        align="right"
+                        weight="semiBold"
+                        color="foreground"
+                        variant="large"
                     >
-                    NFT name #234
+                        NFT name #234
                     </Text>
-                </Stack>
-                <Stack
-                    direction="horizontal"
-                    justify="space-between"
-                    align="center"
-                    space="2"
-                >
-                    <Text align="right" color="textSecondary">Evaluation: </Text>
-                    <Text
-                    align="right"
-                    color="foreground"
-                    >
-                    $4,500
-                    </Text>
-                </Stack>
                 </Box>
             </Stack>
-            </Stack>
-            <hr></hr>
-            {/* Liquidation and interest data */}
-            <Box
-            paddingTop="1"
-            paddingBottom="1"
-            >
-            <Stack
-                justify="space-between"
-            >
-                <Stack
-                direction="horizontal"
-                justify="space-between"
-                align="center"
-                space="2"
-                >
-                <Text align="left"
-                color="textSecondary">Liquidation threshold</Text>
-                <Text
-                    align="right"
-                    color="foreground"
-                >
-                    15.5%</Text>
-                </Stack>
-                <Stack
-                direction="horizontal"
-                justify="space-between"
-                align="center"
-                space="2"
-                >
-                <Text align="left"
-                color="textSecondary">Interest rate</Text>
-                <Text
-                    align="right"
-                    color="foreground"
-                >
-                    4.2%</Text>
-                </Stack>
-            </Stack>
-            </Box>
-            <hr></hr>
-            {/* Assets borrowed */}
+            {/* Assets deposited */}
             <Box
                 paddingTop="1"
                 paddingBottom="1"
@@ -126,7 +59,7 @@ const LoanWithdraw = (props: LoanWithdrawProps) => {
                     space="2"
                     >
                     <Text align="left"
-                    color="textSecondary">Assets borrowed</Text>
+                    color="textSecondary">Assets deposited</Text>
                     <Text
                         align="right"
                         color="foreground"
@@ -170,12 +103,12 @@ const LoanWithdraw = (props: LoanWithdrawProps) => {
                         space="2"
                     >
                         <Text align="left"
-                            color="textSecondary">Total interest</Text>
+                            color="textSecondary">Interest earned</Text>
                         <Text
                             align="right"
                             color="foreground"
                         >
-                            $40.5
+                            $650
                         </Text>
                     </Stack>
                     <Stack
@@ -185,12 +118,12 @@ const LoanWithdraw = (props: LoanWithdrawProps) => {
                         space="2"
                     >
                         <Text align="left"
-                        color="textSecondary">Total payback</Text>
+                        color="textSecondary">Total balance</Text>
                         <Text
                             align="right"
                             color="foreground"
                         >
-                            $1,350.5
+                            $3,239
                         </Text>
                     </Stack>
                 </Stack>
@@ -213,20 +146,8 @@ const LoanWithdraw = (props: LoanWithdrawProps) => {
                 height="16"
                 paddingTop="4"
             >
-            {/* <Range /> */}
-            <Stack
-                direction="horizontal"
-                align="center"
-                justify="space-around"
-            >
-                <Text align="left">0%</Text>
-                <Text align="center">25%</Text>
-                <Text align="center">50%</Text>
-                <Text align="center">75%</Text>
-                <Text align="right">100%</Text>
-            </Stack>
+                <Button width="full">Withdraw</Button>
             </Box>
-            <Button width="full">Repay</Button>
         </Box>
     )
 }

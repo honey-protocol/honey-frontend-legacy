@@ -22,39 +22,24 @@ const LoanDeposit = (props: LoanDepositProps) => {
         <Box gap="3">
             {/* Vault data row */}
             <Stack
-            justify="space-between"
-            >
-            <Stack
-                direction="horizontal"
-                justify="space-between"
                 align="center"
             >
-                <Box alignItems="flex-start">
-                    <Avatar label="" size="10" src={""} />
-                </Box>
                 <Box
                     paddingBottom="2"
+                    justifyContent="center"
+                    alignItems="center"
                 >
-                    <Stack
-                        direction="horizontal"
-                        justify="space-between"
-                        align="center"
-                        space="2"
+                    <Avatar label="" size="10" src={""} />
+                    <Text
+                        align="right"
+                        weight="semiBold"
+                        color="foreground"
+                        variant="large"
                     >
-                        <Text
-                            align="right"
-                            weight="semiBold"
-                            color="foreground"
-                            variant="large"
-                        >
                         NFT name #234
-                        </Text>
-                    </Stack>
+                    </Text>
                 </Box>
             </Stack>
-            </Stack>
-            <hr></hr>
-            {/* Liquidation and interest data */}
             <Box
             paddingTop="1"
             paddingBottom="1"
@@ -71,13 +56,13 @@ const LoanDeposit = (props: LoanDepositProps) => {
                         <Text
                             align="left"
                             color="textSecondary">
-                            Borrow APY
+                            Total supply
                         </Text>
                         <Text
                             align="right"
                             color="foreground"
                         >
-                            4.2%
+                            $2,402,540
                         </Text>
                     </Stack>
                     <Stack
@@ -87,7 +72,22 @@ const LoanDeposit = (props: LoanDepositProps) => {
                     space="2"
                     >
                         <Text align="left"
-                        color="textSecondary">Estimated value</Text>
+                        color="textSecondary">Supply API</Text>
+                        <Text
+                            align="right"
+                            color="foreground"
+                        >
+                            12.2%
+                        </Text>
+                    </Stack>
+                    <Stack
+                    direction="horizontal"
+                    justify="space-between"
+                    align="center"
+                    space="2"
+                    >
+                        <Text align="left"
+                        color="textSecondary">Your deposit</Text>
                         <Text
                             align="right"
                             color="foreground"
@@ -95,81 +95,6 @@ const LoanDeposit = (props: LoanDepositProps) => {
                             $4,500
                         </Text>
                     </Stack>
-                </Stack>
-            </Box>
-            <hr></hr>
-            {/* Assets borrowed */}
-            <Box
-                paddingTop="1"
-                paddingBottom="1"
-            >
-                <Stack
-                    justify="space-between"
-                >
-                    <Stack
-                        direction="horizontal"
-                        justify="space-between"
-                        align="center"
-                        space="2"
-                    >
-                        <Text
-                            align="left"
-                            color="textSecondary">
-                                Assets borrowed
-                        </Text>
-                        <Text
-                            align="right"
-                            color="foreground"
-                        >
-                            $782.5
-                        </Text>
-                    </Stack>
-                    <Stack
-                        direction="horizontal"
-                        justify="space-between"
-                        align="center"
-                        space="2"
-                    >
-                        <Stack direction="horizontal">
-                            <Text
-                                align="left"
-                                color="foreground"
-                            >
-                            782.5 USDC
-                            </Text>
-                        </Stack>
-                    <Text
-                        align="right"
-                        color="foreground"
-                    >
-                        $782.5
-                    </Text>
-                    </Stack>
-                </Stack>
-            </Box>
-            <hr></hr>
-            {/* Interest & payback data*/}
-            <Box
-                paddingTop="1"
-                paddingBottom="3"
-            >
-                <Stack
-                direction="horizontal"
-                justify="space-between"
-                align="center"
-                space="2"
-                >
-                    <Text
-                        align="left"
-                        color="textSecondary">
-                        Net borrow balance
-                    </Text>
-                    <Text
-                        align="right"
-                        color="foreground"
-                    >
-                        $2,500
-                    </Text>
                 </Stack>
             </Box>
             {/* Borrowed amount and currency */}
@@ -190,20 +115,8 @@ const LoanDeposit = (props: LoanDepositProps) => {
                 height="16"
                 paddingTop="4"
             >
-            {/* <Range /> */}
-            <Stack
-                direction="horizontal"
-                align="center"
-                justify="space-around"
-            >
-                <Text align="left">0%</Text>
-                <Text align="center">25%</Text>
-                <Text align="center">50%</Text>
-                <Text align="center">75%</Text>
-                <Text align="right">100%</Text>
-            </Stack>
+                <Button width="full">Deposit</Button>
             </Box>
-            <Button width="full">Borrow</Button>
         </Box>
     )
 }
