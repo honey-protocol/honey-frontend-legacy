@@ -10,7 +10,8 @@ import { IconPlusSmall, IconSearch } from 'degen';
 import { Input } from 'degen';
 import ToggleSwitch from '../../components/ToggleSwitch';
 import AssetRow, { AssetRowType } from '../../components/AssetRow';
-import ModalContainer from 'components/ModalContainer/ModalContainer';
+import ModalContainer from '../../components/ModalContainer/ModalContainer';
+import BorrowNFTsModule from '../../components/BorrowNFTsModule/BorrowNFTsModule';
 import Layout from '../../components/Layout/Layout';
 import * as styles from '../../styles/loan.css';
 
@@ -66,12 +67,14 @@ const Loan: NextPage = () => {
   const wallet = useConnectedWallet();
   const { connect } = useWalletKit();
   const [liveOrCompleted, setLiveOrCompleted] = useState(0);
+  const [modalIsVisible, setModalIsVisible] = useState(false);
 
   const openLoanModal  = wallet && liveOrCompleted === 1
   const loadLoanPage = wallet && liveOrCompleted === 0
 
   function showLoanModal() {
-    alert("Opening loan modal")
+    alert('Open loan modal');
+    // setModalIsVisible(true);
   }
 
   return (
@@ -152,6 +155,12 @@ const Loan: NextPage = () => {
                     {openLoanModal &&
                       <Box onClick={showLoanModal} cursor="pointer">
                         <AssetRow data={item} />
+                        {/* <ModalContainer
+                           onClose={() => setModalIsVisible(false)}
+                           isVisible={modalIsVisible}
+                        >
+                          <BorrowNFTsModule />
+                        </ModalContainer> */}
                       </Box>
                     }
                     {!wallet &&
