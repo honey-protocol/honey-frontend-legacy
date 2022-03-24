@@ -11,6 +11,7 @@ import { Input } from 'degen';
 import ToggleSwitch from '../../components/ToggleSwitch';
 import AssetRow, { AssetRowType } from '../../components/AssetRow';
 import Layout from '../../components/Layout/Layout';
+import * as styles from '../../styles/loan.css';
 
 const assetData: Array<AssetRowType> = [
   {
@@ -57,15 +58,6 @@ const assetData: Array<AssetRowType> = [
     interest: 45.9,
     available: 35345,
     positions: 3
-  },
-  {
-    vaultName: 'SolPunks',
-    vaultImageUrl:
-      'https://pbs.twimg.com/profile_images/1498758008901234689/TCdlxoj7_400x400.jpg',
-    totalBorrowed: 45876,
-    interest: 45.9,
-    available: 35345,
-    positions: 3
   }
 ];
 
@@ -73,6 +65,13 @@ const Loan: NextPage = () => {
   const wallet = useConnectedWallet();
   const { connect } = useWalletKit();
   const [liveOrCompleted, setLiveOrCompleted] = useState(0);
+
+  const openLoanModal  = wallet && liveOrCompleted === 1
+  const loadLoanPage = wallet && liveOrCompleted === 0
+
+  function showLoanModal() {
+    alert("Opening loan modal")
+  }
 
   return (
     <Layout>
@@ -137,24 +136,31 @@ const Loan: NextPage = () => {
               <hr></hr>
             </Box>
             <Box
+              className={styles.vaultsList}
             >
-              <Box>
+              <Stack>
                 {assetData.map(item => (
                   <Box key={item.vaultName}>
-                    {wallet ? (
+                    {loadLoanPage &&
                       <Link href="/loan/[name]" as={`/loan/${item.vaultName}`}>
                         <a>
                           <AssetRow data={item} />
                         </a>
                       </Link>
-                      ) : (
-                        <Box onClick={connect} cursor="pointer">
-                          <AssetRow data={item} />
-                        </Box>
-                      )}
+                    }
+                    {openLoanModal &&
+                      <Box onClick={showLoanModal} cursor="pointer">
+                        <AssetRow data={item} />
+                      </Box>
+                    }
+                    {!wallet &&
+                      <Box onClick={connect} cursor="pointer">
+                        <AssetRow data={item} />
+                      </Box>
+                    }
                   </Box>
                 ))}
-              </Box>
+              </Stack>
             </Box>
           </Stack>
         </Box>
