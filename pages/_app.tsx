@@ -8,10 +8,7 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { PartialNetworkConfigMap } from "@saberhq/use-solana/src/utils/useConnectionInternal";
 
-// const network = process.env.NETWORK as Network;
-const mainNetEndpoint = process.env.NEXT_PUBLIC_RPC_NODE;
 const network = process.env.NETWORK as Network;
-// const networkConfiguration = process.env.NETWORK_CONFIGURATION as PartialNetworkConfigMap
 const networkConfiguration = () => {
   if (process.env.NETWORK_CONFIGURATION) {
     return process.env.NETWORK_CONFIGURATION as PartialNetworkConfigMap
