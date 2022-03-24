@@ -136,7 +136,7 @@ const Loan: NextPage = () => {
               <hr></hr>
             </Box>
             <Box
-              className={styles.vaultsList}
+              // className={styles.vaultsList}
             >
               <Stack>
                 {assetData.map(item => (
