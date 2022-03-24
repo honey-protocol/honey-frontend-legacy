@@ -11,7 +11,7 @@ import { Input } from 'degen';
 import ToggleSwitch from '../../components/ToggleSwitch';
 import AssetRow, { AssetRowType } from '../../components/AssetRow';
 import ModalContainer from '../../components/ModalContainer/ModalContainer';
-import BorrowNFTsModule from '../../components/BorrowNFTsModule/BorrowNFTsModule';
+import DepositWithdrawModule from '../../components/DepositWithdrawModule/DepositWIthdrawModule';
 import Layout from '../../components/Layout/Layout';
 import * as styles from '../../styles/loan.css';
 
@@ -83,7 +83,7 @@ const Loan: NextPage = () => {
           onClose={() => setModalIsVisible(false)}
           isVisible={modalIsVisible}
         >
-          <BorrowNFTsModule />
+          <DepositWithdrawModule />
         </ModalContainer>
         <Box height="16" minWidth="full" gap="3" paddingTop="3">
           <Stack direction="horizontal" justify="space-between" align="center">
