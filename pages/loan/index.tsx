@@ -10,6 +10,7 @@ import { IconPlusSmall, IconSearch } from 'degen';
 import { Input } from 'degen';
 import ToggleSwitch from '../../components/ToggleSwitch';
 import AssetRow, { AssetRowType } from '../../components/AssetRow';
+import ModalContainer from 'components/ModalContainer/ModalContainer';
 import Layout from '../../components/Layout/Layout';
 import * as styles from '../../styles/loan.css';
 
