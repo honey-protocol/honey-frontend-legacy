@@ -5,6 +5,8 @@ import { Text } from 'degen'
 import { Avatar } from 'degen'
 import { Card } from 'degen'
 import NumberFormat from 'react-number-format';
+import * as styles from '../styles/loan.css';
+import { style } from '@vanilla-extract/css';
 
 export interface AssetRowType {
     data?: ReactNode,
@@ -26,14 +28,16 @@ const AssetRow = ({ data }: AssetRowProps) => {
     backgroundColor="foregroundSecondary"
     padding="5"
     borderRadius="2xLarge"
+    className={styles.dataContainer}
   >
     <Stack
         direction="horizontal"
-        justify="space-between"
+        justify="space-around"
         align="center"
     >
         <Box
-            // maxWidth="180"
+            display="flex"
+            className={styles.dataRowWrapper}
         >
             <Stack
                 direction="horizontal"
@@ -41,24 +45,12 @@ const AssetRow = ({ data }: AssetRowProps) => {
                 justify="center"
                 align="center"
             >
-                {/* Implement next image https://degen-xyz.vercel.app/components/Avatar#next-image */}
-                <Avatar label="TetranodeNFT" size="10" src={data.vaultImageUrl} />
-                <Text>{data.vaultName}</Text>
-            </Stack>
-        </Box>
-        <Box
-            display="flex"
-            // flexGrow= "2"
-        >
-            <Stack
-                direction="horizontal"
-                space="3"
-                justify="space-between"
-                align="center"
-            >
+                <Box className={styles.avatarContainer} >
+                    {/* Implement next image https://degen-xyz.vercel.app/components/Avatar#next-image */}
+                    <Avatar label="TetranodeNFT" size="10" src={data.vaultImageUrl} />
+                    <Text>{data.vaultName}</Text>
+                </Box>
                 <Box
-                    width="48"
-                    // marginLeft="40"
                 >
                     <Text align="left" >
                         <NumberFormat
@@ -70,8 +62,6 @@ const AssetRow = ({ data }: AssetRowProps) => {
                     </Text>
                 </Box>
                 <Box
-                    width="48"
-                    // marginLeft="40"
                 >
                     <Text align="left" >
                         <NumberFormat
@@ -83,8 +73,6 @@ const AssetRow = ({ data }: AssetRowProps) => {
                     </Text>
                 </Box>
                 <Box
-                    width="48"
-                    // marginLeft="40"
                 >
                     <Text align="left" >
                         <NumberFormat
@@ -96,8 +84,6 @@ const AssetRow = ({ data }: AssetRowProps) => {
                     </Text>
                 </Box>
                 <Box
-                    width="48"
-                    // marginLeft="40"
                 >
                     <Text align="center" >{data.positions}</Text>
                 </Box>
