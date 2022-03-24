@@ -73,13 +73,18 @@ const Loan: NextPage = () => {
   const loadLoanPage = wallet && liveOrCompleted === 0
 
   function showLoanModal() {
-    alert('Open loan modal');
-    // setModalIsVisible(true);
+    setModalIsVisible(true);
   }
 
   return (
     <Layout>
       <Stack>
+        <ModalContainer
+          onClose={() => setModalIsVisible(false)}
+          isVisible={modalIsVisible}
+        >
+          <BorrowNFTsModule />
+        </ModalContainer>
         <Box height="16" minWidth="full" gap="3" paddingTop="3">
           <Stack direction="horizontal" justify="space-between" align="center">
             <Text align="left" variant="extraLarge" weight="bold">
@@ -155,12 +160,6 @@ const Loan: NextPage = () => {
                     {openLoanModal &&
                       <Box onClick={showLoanModal} cursor="pointer">
                         <AssetRow data={item} />
-                        {/* <ModalContainer
-                           onClose={() => setModalIsVisible(false)}
-                           isVisible={modalIsVisible}
-                        >
-                          <BorrowNFTsModule />
-                        </ModalContainer> */}
                       </Box>
                     }
                     {!wallet &&
