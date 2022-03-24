@@ -47,7 +47,7 @@ const AssetRow = ({ data }: AssetRowProps) => {
             >
                 <Box className={styles.avatarContainer} >
                     {/* Implement next image https://degen-xyz.vercel.app/components/Avatar#next-image */}
-                    <Avatar label="TetranodeNFT" size="10" src={data.vaultImageUrl} />
+                    <Avatar label="TetranodeNFT" size="10" src={'https://images.mirror-media.xyz/publication-images/H-zIoEYWk4SpFkljJiwB9.png'} />
                     <Text>{data.vaultName}</Text>
                 </Box>
                 <Box
@@ -74,7 +74,7 @@ const AssetRow = ({ data }: AssetRowProps) => {
                 </Box>
                 <Box
                 >
-                    <Text align="left" >
+                    <Text align="center" >
                         <NumberFormat
                             value={data.available}
                             displayType={'text'}

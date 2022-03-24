@@ -1,11 +1,11 @@
 import { style, globalStyle } from '@vanilla-extract/css';
 import { sprinkles, vars } from './theme.css';
 
-// export const vaultsList = style({
-//   overflowX: 'hidden',
-//   overflowY: 'auto',
-//   maxHeight: '250px'
-// });
+export const vaultsList = style({
+  overflowX: 'hidden',
+  overflowY: 'auto',
+  maxHeight: '250px'
+});
 
 export const dataContainer = style({
   display: 'flex',
@@ -41,6 +41,35 @@ export const avatarContainer = style({
 })
 
 globalStyle(`${avatarContainer} > div`,  {
-  width: 'auto'
+  width: 'auto',
+  marginRight: '.5em'
 })
 
+export const cardMenuContainer = style({
+  display: 'flex',
+  justifyContent: 'space-between',
+  padding: '0 20px'
+})
+
+globalStyle(`${cardMenuContainer} > hr`, {
+  width: '100%',
+  color: 'white',
+  display: 'block',
+  height: '10px'
+})
+
+
+globalStyle(`${cardMenuContainer} > div`, {
+  width: '20%',
+  textAlign: 'center',
+  display: 'block'
+})
+
+export const lineDivider = style({
+  width: '100%'
+})
+
+
+// direction="horizontal"
+// justify="space-around"
+// align="center"
