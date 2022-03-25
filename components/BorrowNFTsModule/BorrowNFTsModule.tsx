@@ -57,7 +57,6 @@ const BorrowNFTsModule = (props: BorrowNFTsModule) => {
               estValue={1}
               assetsBorrowed={1}
               netBorrowBalance={1}
-
             />
             ) : (
               <LoanRepay

@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
 import { Box, Button, Card, Stack, Text, Tag } from 'degen';
 import { Avatar } from 'degen';
-import { Input } from 'degen'
+import { Input } from 'degen';
+import Slider from '../components/Slider/Slider';
 
 interface LoanBorrowProps {
     borrowApy: number,
@@ -186,22 +187,8 @@ const LoanBorrow = (props: LoanBorrowProps) => {
                 units="SOL"
             />
             </Box>
-            <Box
-                height="16"
-                paddingTop="4"
-            >
-            {/* <Range /> */}
-            <Stack
-                direction="horizontal"
-                align="center"
-                justify="space-around"
-            >
-                <Text align="left">0%</Text>
-                <Text align="center">25%</Text>
-                <Text align="center">50%</Text>
-                <Text align="center">75%</Text>
-                <Text align="right">100%</Text>
-            </Stack>
+            <Box>
+                <Slider />
             </Box>
             <Button width="full">Borrow</Button>
         </Box>
