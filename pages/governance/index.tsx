@@ -5,7 +5,7 @@ import Layout from '../../components/Layout/Layout';
 import ModalContainer from 'components/ModalContainer/ModalContainer';
 import { useState } from 'react';
 import PHoneyModal from 'components/PHoneyModal';
-import VeHoneyModal from 'components/VeHoneyModal';
+import VeHoneyModal from 'components/VeHoneyModal/VeHoneyModal';
 
 const Governance: NextPage = () => {
   const [showPHoneyModal, setShowPHoneyModal] = useState(false);
