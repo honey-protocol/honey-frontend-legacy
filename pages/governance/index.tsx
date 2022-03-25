@@ -66,18 +66,6 @@ const Governance: NextPage = () => {
                   >
                     Learn more
                   </Button>
-                  {/* <Stack space="0" align="center">
-                  <Text variant="small">Total HONEY locked</Text>
-                  <Text variant="large" weight="bold">
-                    22, 236, 780
-                  </Text>
-                </Stack>
-                <Stack space="0" align="center">
-                  <Text variant="small">Total HONEY locked</Text>
-                  <Text variant="large" weight="bold">
-                    22, 236, 780
-                  </Text>
-                </Stack> */}
                 </Stack>
               </Stack>
             </Box>
@@ -132,7 +120,7 @@ const Governance: NextPage = () => {
                     size="small"
                     variant="secondary"
                   >
-                    Stake pHONEY
+                    Get HONEY
                   </Button>
                   <Button
                     onClick={() => setShowVeHoneyModal(true)}
