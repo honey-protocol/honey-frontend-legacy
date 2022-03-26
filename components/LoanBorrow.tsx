@@ -188,15 +188,6 @@ const LoanBorrow = (props: LoanBorrowProps) => {
                         <option value="AVAX">AVAX</option>
                     </select>
                 </Box>
-            {/* <Input
-                hideLabel
-                label="Amount"
-                max={100}
-                min={0}
-                placeholder="20"
-                type="number"
-                units="SOL"
-            /> */}
             </Box>
             <Box>
                 <Slider />
