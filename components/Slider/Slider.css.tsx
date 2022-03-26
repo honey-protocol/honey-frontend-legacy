@@ -22,7 +22,6 @@ globalStyle(`${rangeSlider} > input`, {
     width: '100%',
     outline: 'none'
 })
-
 // style based off of pseudo - also for the input; should define this for moz and other browsers
 globalStyle(`${rangeSlider} > input::-webkit-slider-thumb`, {
     WebkitAppearance: 'none',
@@ -43,5 +42,39 @@ export const percentageWrapper = style({
     margin: '0 auto',
     marginBottom: '2em'
 })
+// styles for the selection overview box; currency / amount and max btn
+export const selectionWrapper = style({
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    height: '5em',
+    width: '100%',
+    borderRadius: '15px',
+    background: 'black',
+    alignItems: 'center',
+})
 
+globalStyle(`${selectionWrapper} > div`, {
+    marginLeft: '1em'
+})
 
+export const selectionDetails = style({
+    display: 'flex',
+    alignItems: 'center'
+})
+
+globalStyle(`${selectionDetails} > *`, {
+    margin: '.75em',
+    color: 'gray',
+    fontSize: '1em'
+})
+
+export const currencyStyles = style({
+    fontSize: '2em'
+})
+
+export const currencySelector = style({
+    background: 'none',
+    border: 'none',
+    marginLeft: '.1em'
+})

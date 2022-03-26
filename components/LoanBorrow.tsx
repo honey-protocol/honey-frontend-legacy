@@ -3,6 +3,7 @@ import { Box, Button, Card, Stack, Text, Tag } from 'degen';
 import { Avatar } from 'degen';
 import { Input } from 'degen';
 import Slider from '../components/Slider/Slider';
+import * as styles from './Slider/Slider.css';
 
 interface LoanBorrowProps {
     borrowApy: number,
@@ -174,10 +175,20 @@ const LoanBorrow = (props: LoanBorrowProps) => {
                 </Stack>
             </Box>
             {/* Borrowed amount and currency */}
-            <Box
-                paddingTop="5"
-            >
-            <Input
+            <Box className={styles.selectionWrapper}>
+                <Box>
+                    <Button>Max</Button>
+                </Box>
+                <Box className={styles.selectionDetails}>
+                    <div className={styles.currencyStyles}>0.00</div>
+                    <Avatar label="TetranodeNFT" size="10" shape="square" src={'https://images.mirror-media.xyz/publication-images/H-zIoEYWk4SpFkljJiwB9.png'} />
+                    <select name="currencySelector" id="currencySelector" className={styles.currencySelector}>
+                        <option value="SOL">SOL</option>
+                        <option value="ETH">ETH</option>
+                        <option value="AVAX">AVAX</option>
+                    </select>
+                </Box>
+            {/* <Input
                 hideLabel
                 label="Amount"
                 max={100}
@@ -185,7 +196,7 @@ const LoanBorrow = (props: LoanBorrowProps) => {
                 placeholder="20"
                 type="number"
                 units="SOL"
-            />
+            /> */}
             </Box>
             <Box>
                 <Slider />
