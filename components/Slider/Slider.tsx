@@ -18,7 +18,7 @@ const Slider = () => {
   return (
     <Box>
         <div className={styles.rangeSlider}>
-            <input className={styles.rangeSliderRange} type="range" value="1" min="0" max="100" onChange={handleOnChange} />
+            <input className={styles.rangeSliderRange} type="range" value={slideCount} min="0" max="100" onChange={handleOnChange} />
         </div> 
         <div className={styles.percentageWrapper}>
             <span>0%</span>

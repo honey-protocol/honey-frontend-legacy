@@ -16,9 +16,16 @@ export const rangeSliderRange = style({
   padding: '0',
   margin: '0 0 2em 0',
 });
+
+globalStyle(`${rangeSlider} > input`, {
+    WebkitAppearance: 'none',
+    width: '100%',
+    outline: 'none'
+})
+
 // style based off of pseudo - also for the input; should define this for moz and other browsers
 globalStyle(`${rangeSlider} > input::-webkit-slider-thumb`, {
-    appearance: 'none',
+    WebkitAppearance: 'none',
     width: '30px',
     height: '30px',
     borderRadius: '50%',
