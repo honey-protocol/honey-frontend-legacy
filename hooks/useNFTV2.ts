@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, MutableRefObject } from 'react';
+import { useState, useEffect, useRef, MutableRefObject, SetStateAction, Dispatch } from 'react';
 import { Connection, PublicKey } from '@solana/web3.js';
 import {
   resolveToWalletAddress,
@@ -21,10 +21,13 @@ const defaultNFT: NFT = {
 }
 
 //this function should fetch all NFT from User
-export default function useFetchNFTByUser(wallet: ConnectedWallet | null): [Array<NFT>, Boolean] {
+export default function useFetchNFTByUser(wallet: ConnectedWallet | null): [Array<NFT>, Boolean, Dispatch<SetStateAction<{}>>] {
   const [NFTs, setNFTs] = useState<Array<NFT>>([]);
   const [isLoading, setLoading] = useState(true);
   const providerMut = useSolana();
+  //adding shouldRefetchNFTs to force refetching by passing {} to refecthNFTs
+  const [shouldRefetchNFTs, refetchNFTs] = useState({});
+  const shouldRefetchRef: MutableRefObject<{}> = useRef(shouldRefetchNFTs)
   const cache: MutableRefObject<NFTArrayType> = useRef({})
   useEffect(() => {
     let didCancel = false
@@ -33,12 +36,13 @@ export default function useFetchNFTByUser(wallet: ConnectedWallet | null): [Arra
         const connection = providerMut?.connection
         const walletPublicKey = wallet?.publicKey?.toString() || ""
         if (walletPublicKey != "") {
-          if (cache.current[walletPublicKey]) {
+          // we need to check if shouldRefetchNFTs trigger this function and we should do refetch instead of getting from cache
+          if (cache.current[walletPublicKey] && shouldRefetchRef.current === shouldRefetchNFTs) {
             console.log(`fetching NFT for wallet public key ${walletPublicKey} from cache`)
             const result = cache.current[walletPublicKey]
             setNFTs(result)
           } else {
-            console.log(`cache miss, fetching NFT for wallet public key ${walletPublicKey}`)
+            console.log(`cache miss or force re-fetching, fetching NFT for wallet public key ${walletPublicKey}`)
             // check if wallet address is valid
             const publicAddress = await resolveToWalletAddress({
               text: walletPublicKey,
@@ -66,7 +70,7 @@ export default function useFetchNFTByUser(wallet: ConnectedWallet | null): [Arra
                 return result
               }
             )
-            // someone has better idea to make it better
+            // We are mapping the exception to default NFT to be filtered out later to make typescript happy
             const results = await Promise.all(promises.map(p => p.catch(e => {
               console.error("Error fetching individual NFT with error")
               console.error(e)
@@ -74,6 +78,7 @@ export default function useFetchNFTByUser(wallet: ConnectedWallet | null): [Arra
             })));
             const validResults = results.filter(result => !(result.name == ""));
             cache.current[walletPublicKey] = validResults
+            shouldRefetchRef.current = shouldRefetchNFTs
             setNFTs(validResults)
           }
         } else {
@@ -95,8 +100,8 @@ export default function useFetchNFTByUser(wallet: ConnectedWallet | null): [Arra
     return () => {
       didCancel = true
     }
-  }, [wallet])
-  return [NFTs, isLoading]
+  }, [wallet, shouldRefetchNFTs])
+  return [NFTs, isLoading, refetchNFTs]
 
 }
 
