@@ -7,12 +7,12 @@ const VeHoneyModal = () => {
   const [vestingPeriod, setVestingPeriod] = useState('3 months');
   const veHoneyRewardRate =
     vestingPeriod === '3 months'
-      ? '2'
+      ? 2
       : vestingPeriod === '6 months'
-      ? '5'
+      ? 5
       : vestingPeriod === '12 months'
-      ? '10'
-      : '1';
+      ? 10
+      : 1;
 
   const onSubmit = () => {
     if (!amount) return;
@@ -31,21 +31,27 @@ const VeHoneyModal = () => {
           <Text align="center" weight="semiBold">
             Deposit pHONEY and recieve veHONey
           </Text>
-          <Box
-            marginX="auto"
-            borderColor="accent"
-            borderWidth="0.375"
-            height="7"
-            borderRadius="large"
-            display="flex"
-            justifyContent="center"
-            alignItems="center"
-            width="3/4"
-          >
-            <Text variant="small" color="accent">
-              1 pHONEY = {veHoneyRewardRate} veHONEY
+          <Stack space="2">
+            <Text align="center" size="small">
+              After vesting, you get:
             </Text>
-          </Box>
+            <Box
+              marginX="auto"
+              borderColor="accent"
+              borderWidth="0.375"
+              minHeight="7"
+              borderRadius="large"
+              display="flex"
+              justifyContent="center"
+              alignItems="center"
+              width="3/4"
+            >
+              <Text variant="small" color="accent">
+                {amount || '0'} pHONEY = {(amount || 0) * veHoneyRewardRate}{' '}
+                HONEY
+              </Text>
+            </Box>
+          </Stack>
           <Stack space="2">
             <Stack direction="horizontal" justify="space-between">
               <Text variant="small" color="textSecondary">
@@ -82,7 +88,8 @@ const VeHoneyModal = () => {
             type="number"
             label="Amount"
             hideLabel
-            placeholder="0"
+            units="pHONEY"
+            // placeholder="0"
             onChange={event => setAmount(Number(event.target.value))}
           />
           <Button
