@@ -8,7 +8,7 @@ export const rangeSlider = style({
 // styles the actual input type is range
 export const rangeSliderRange = style({
   appearance: 'none',
-  width: '28em',
+  width: '100%',
   height: '15px',
   borderRadius: '15px',
   background: 'black',
