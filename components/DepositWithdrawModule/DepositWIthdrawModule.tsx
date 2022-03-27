@@ -45,11 +45,10 @@ const DepositWithdrawModule = (props: DepositWithdrawModuleProps) => {
               title: 'Deposit',
               onClick: () => setDepositOrWithdraw(0)
             },
-            { title: 'Widthdraw', onClick: () => setDepositOrWithdraw(1) }
+            { title: 'Withdraw', onClick: () => setDepositOrWithdraw(1) }
           ]}
           activeIndex={depositOrWithdraw}
         />
-        <hr></hr>
         {
           depositOrWithdraw == 0  ? (
             <LoanDeposit

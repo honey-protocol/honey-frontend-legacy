@@ -1,7 +1,9 @@
 import React from "react";
 import { Box, Button, Card, Stack, Text, Tag } from 'degen';
 import { Avatar } from 'degen';
-import { Input } from 'degen'
+import { Input } from 'degen';
+import * as styles from '../components/Slider/Slider.css';
+import * as loanStyles from '../styles/loan.css';
 
 interface LoanDepositProps {
     borrowApy: number,
@@ -20,15 +22,8 @@ const LoanDeposit = (props: LoanDepositProps) => {
 
     return (
         <Box gap="3">
-            {/* Vault data row */}
-            <Stack
-                align="center"
-            >
-                <Box
-                    paddingBottom="2"
-                    justifyContent="center"
-                    alignItems="center"
-                >
+            <Stack align="center">
+                <Box className={loanStyles.avatarWrapper}>
                     <Avatar label="" size="10" src={"/nfts/2738.png"} />
                     <Text
                         align="right"
@@ -98,18 +93,19 @@ const LoanDeposit = (props: LoanDepositProps) => {
                 </Stack>
             </Box>
             {/* Borrowed amount and currency */}
-            <Box
-                paddingTop="5"
-            >
-            <Input
-                hideLabel
-                label="Amount"
-                max={100}
-                min={0}
-                placeholder="20"
-                type="number"
-                units="SOL"
-            />
+            <Box className={styles.selectionWrapper}>
+                <Box>
+                    <Button size="small" variant="secondary">Max</Button>
+                </Box>
+                <Box className={styles.selectionDetails}>
+                    <div className={styles.currencyStyles}>0.00</div>
+                    <Avatar label="TetranodeNFT" size="10" shape="square" src={'https://images.mirror-media.xyz/publication-images/H-zIoEYWk4SpFkljJiwB9.png'} />
+                    <select name="currencySelector" id="currencySelector" className={styles.currencySelector}>
+                        <option value="SOL">SOL</option>
+                        <option value="ETH">ETH</option>
+                        <option value="AVAX">AVAX</option>
+                    </select>
+                </Box>
             </Box>
             <Box
                 height="16"

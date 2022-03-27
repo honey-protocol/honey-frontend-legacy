@@ -38,26 +38,25 @@ export const avatarContainer = style({
   display: 'flex!important',
   flexDirection: 'row',
   alignItems: 'center'
-})
+});
 
 globalStyle(`${avatarContainer} > div`,  {
   width: 'auto',
   marginRight: '.5em'
-})
+});
 
 export const cardMenuContainer = style({
   display: 'flex',
   justifyContent: 'space-between',
   padding: '0 20px'
-})
+});
 
 globalStyle(`${cardMenuContainer} > hr`, {
   width: '100%',
   color: 'white',
   display: 'block',
   height: '10px'
-})
-
+});
 
 globalStyle(`${cardMenuContainer} > div`, {
   width: '20%',
@@ -67,9 +66,12 @@ globalStyle(`${cardMenuContainer} > div`, {
 
 export const lineDivider = style({
   width: '100%'
-})
+});
 
-
-// direction="horizontal"
-// justify="space-around"
-// align="center"
+// Styles for loan modal - should become a component in component folder with JSX and CSS logic
+export const avatarWrapper = style({
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'center',
+  marginTop: '2em'
+});
