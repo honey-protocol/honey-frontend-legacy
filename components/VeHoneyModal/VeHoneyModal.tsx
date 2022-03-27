@@ -4,13 +4,13 @@ import * as styles from './VeHoneyModal.css';
 
 const VeHoneyModal = () => {
   const [amount, setAmount] = useState<number>();
-  const [vestingPeriod, setVestingPeriod] = useState('3 months');
+  const [vestingPeriod, setVestingPeriod] = useState<number>(90);
   const veHoneyRewardRate =
-    vestingPeriod === '3 months'
+    vestingPeriod === 90
       ? 2
-      : vestingPeriod === '6 months'
+      : vestingPeriod === 180
       ? 5
-      : vestingPeriod === '12 months'
+      : vestingPeriod === 360
       ? 10
       : 1;
 
@@ -74,11 +74,13 @@ const VeHoneyModal = () => {
                   name="vestingPeriod"
                   value={vestingPeriod}
                   className={styles.select}
-                  onChange={event => setVestingPeriod(event.target.value)}
+                  onChange={event =>
+                    setVestingPeriod(Number(event.target.value))
+                  }
                 >
-                  <option value="3 months">3 months</option>
-                  <option value="6 months">6 months</option>
-                  <option value="12 months">12 months</option>
+                  <option value="90">3 months</option>
+                  <option value="180">6 months</option>
+                  <option value="360">12 months</option>
                 </select>
               </Box>
             </Stack>
