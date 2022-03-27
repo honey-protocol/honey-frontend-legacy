@@ -38,7 +38,7 @@ const DepositWithdrawModule = (props: DepositWithdrawModuleProps) => {
 
   return (
     <Box className={styles.cardContainer}>
-      <Card level="2" width="full" padding="8" shadow>
+      <Box width="full" padding="8" className={styles.cardWrapper}>
         <ToggleSwitchLoan
           buttons={[
             {
@@ -69,7 +69,7 @@ const DepositWithdrawModule = (props: DepositWithdrawModuleProps) => {
               />
             )
         };
-      </Card>
+      </Box>
     </Box>
   );
 };
