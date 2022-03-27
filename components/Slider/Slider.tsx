@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Box, Stack } from 'degen';
+import { Box, Stack, Button, Avatar } from 'degen';
 import * as styles from './Slider.css';
 /**
  * @params None
@@ -16,9 +16,24 @@ const Slider = () => {
     console.log(slideCount)
 }
   return (
-    <Box>
+    <Stack>
+      <Box className={styles.selectionWrapper}>
+        <Box>
+          <Button size="small" variant="secondary">Max</Button>
+        </Box>
+        <Box className={styles.selectionDetails}>
+          <div className={styles.currencyStyles}>0.00</div>
+          <Avatar label="TetranodeNFT" size="10" shape="square" src={'https://images.mirror-media.xyz/publication-images/H-zIoEYWk4SpFkljJiwB9.png'} />
+          <select name="currencySelector" id="currencySelector" className={styles.currencySelector}>
+              <option value="SOL">SOL</option>
+              <option value="ETH">ETH</option>
+              <option value="AVAX">AVAX</option>
+          </select>
+        </Box>
+      </Box>
+      <Box>
         <div className={styles.rangeSlider}>
-            <input className={styles.rangeSliderRange} type="range" value={slideCount} min="0" max="100" onChange={handleOnChange} />
+          <input className={styles.rangeSliderRange} type="range" value={slideCount} min="0" max="100" onChange={handleOnChange} />
         </div> 
         <div className={styles.percentageWrapper}>
             <span>0%</span>
@@ -28,6 +43,7 @@ const Slider = () => {
             <span>100%</span>
         </div>
     </Box>
+    </Stack>
   );
 };
 

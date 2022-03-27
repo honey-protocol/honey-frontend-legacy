@@ -52,6 +52,7 @@ export const selectionWrapper = style({
     borderRadius: '15px',
     background: 'black',
     alignItems: 'center',
+    marginTop: '1em',
 })
 
 globalStyle(`${selectionWrapper} > div`, {

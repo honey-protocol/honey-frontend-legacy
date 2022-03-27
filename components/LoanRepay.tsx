@@ -1,7 +1,8 @@
 import React from "react";
 import { Box, Button, Card, Stack, Text, Tag } from 'degen';
 import { Avatar } from 'degen';
-import { Input } from 'degen'
+import { Input } from 'degen';
+import Slider from '../components/Slider/Slider';
 
 interface LoanRepayProps {
     nftName: string,
@@ -195,37 +196,7 @@ const LoanRepay = (props: LoanRepayProps) => {
                     </Stack>
                 </Stack>
             </Box>
-            {/* Borrowed amount and currency */}
-            <Box
-            paddingTop="5"
-            >
-            <Input
-                hideLabel
-                label="Amount"
-                max={100}
-                min={0}
-                placeholder="20"
-                type="number"
-                units="SOL"
-            />
-            </Box>
-            <Box
-                height="16"
-                paddingTop="4"
-            >
-            {/* <Range /> */}
-            <Stack
-                direction="horizontal"
-                align="center"
-                justify="space-around"
-            >
-                <Text align="left">0%</Text>
-                <Text align="center">25%</Text>
-                <Text align="center">50%</Text>
-                <Text align="center">75%</Text>
-                <Text align="right">100%</Text>
-            </Stack>
-            </Box>
+            <Slider />
             <Button width="full">Repay</Button>
         </Box>
     )

@@ -174,21 +174,6 @@ const LoanBorrow = (props: LoanBorrowProps) => {
                     </Text>
                 </Stack>
             </Box>
-            {/* Borrowed amount and currency */}
-            <Box className={styles.selectionWrapper}>
-                <Box>
-                    <Button size="small" variant="secondary">Max</Button>
-                </Box>
-                <Box className={styles.selectionDetails}>
-                    <div className={styles.currencyStyles}>0.00</div>
-                    <Avatar label="TetranodeNFT" size="10" shape="square" src={'https://images.mirror-media.xyz/publication-images/H-zIoEYWk4SpFkljJiwB9.png'} />
-                    <select name="currencySelector" id="currencySelector" className={styles.currencySelector}>
-                        <option value="SOL">SOL</option>
-                        <option value="ETH">ETH</option>
-                        <option value="AVAX">AVAX</option>
-                    </select>
-                </Box>
-            </Box>
             <Box>
                 <Slider />
             </Box>
