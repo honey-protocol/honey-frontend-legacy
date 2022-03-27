@@ -1,4 +1,4 @@
-import FarmNFTCard from 'components/FarmNftCard';
+import LoanNFTCard from '../LoanNftCard';
 import { Box, Button, Card, Spinner, Stack, Text } from 'degen';
 import React from 'react';
 import * as styles from './LoanNFTsContainer.css';
@@ -12,22 +12,22 @@ type TButton = {
 interface LoanNFTsContainerProps {
   isFetching: boolean;
   NFTs: NFT[];
-  selectedNFTs: NFT[];
+  // selectedNFTs: NFT[];
   title: string;
   buttons: TButton[];
-  onNFTSelect: Function | null;
-  onNFTUnselect: (NFT: NFT) => void;
+  // onNFTSelect: Function | null;
+  // onNFTUnselect: (NFT: NFT) => void;
 }
 
 const LoanNFTsContainer = (props: LoanNFTsContainerProps) => {
   const {
     NFTs,
-    selectedNFTs,
+    // selectedNFTs,
     title,
     buttons,
-    onNFTSelect,
-    onNFTUnselect,
-    isFetching
+    // onNFTSelect,
+    // onNFTUnselect,
+    // isFetching
   } = props;
   return (
     <Box className={styles.cardContainer}>
@@ -55,7 +55,7 @@ const LoanNFTsContainer = (props: LoanNFTsContainerProps) => {
                 )}
               </Stack>
             </Stack>
-            {isFetching ? (
+            {/* {isFetching ? (
               <Box className={styles.centerItemContainer}>
                 <Spinner size="large" />
               </Box>
@@ -63,23 +63,23 @@ const LoanNFTsContainer = (props: LoanNFTsContainerProps) => {
               <Box className={styles.centerItemContainer}>
                 <Text>No NFTs to display</Text>
               </Box>
-            ) : (
+            ) : ( */}
               <Box className={styles.nftContainer}>
                 {NFTs.map((nft, i) => (
-                  <FarmNFTCard
-                    key={nft.mint}
+                  <LoanNFTCard
+                    key={nft.key}
                     NFT={nft}
-                    onSelect={onNFTSelect ? () => onNFTSelect(nft) : () => {}}
-                    onUnselect={() => onNFTUnselect(nft)}
-                    isSelected={Boolean(
-                      selectedNFTs.find(
-                        (NFT: NFT) => nft.tokenId === NFT.tokenId
-                      )
-                    )}
+                    // onSelect={onNFTSelect ? () => onNFTSelect(nft) : () => {}}
+                    // onUnselect={() => onNFTUnselect(nft)}
+                    // isSelected={Boolean(
+                    //   selectedNFTs.find(
+                    //     (NFT: NFT) => nft.name === NFT.name
+                    //   )
+                    // )}
                   />
                 ))}
               </Box>
-            )}
+            {/* // )} */}
           </Stack>
         </Box>
       </Card>
