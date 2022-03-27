@@ -9,6 +9,8 @@ import NumberFormat from 'react-number-format';
 import getCollectionExpireDate from 'helpers/gemFarm';
 import * as styles from './FarmCollectionCard.css';
 
+const maxNameLength = 25;
+
 // TODO: Uncomment bellow code to make component accept props
 
 // interface Props {
@@ -25,6 +27,8 @@ const FarmCollectionCard = (props: any) => {
     newFarmData.data.eventDuration
   );
 
+  const projectName = (name: string): string => name?.length > maxNameLength ? `${name.substring(0, maxNameLength).trim()}...` : name;
+
   return (
     <Box
       backgroundColor="backgroundTertiary"
@@ -32,6 +36,7 @@ const FarmCollectionCard = (props: any) => {
       borderRadius="2xLarge"
       width="full"
       className={styles.cardContainer}
+      title={newFarmData.data.name}
     >
       <Stack>
         <Box paddingBottom="3">
@@ -53,14 +58,13 @@ const FarmCollectionCard = (props: any) => {
                   variant="large"
                   ellipsis
                   lineHeight="none"
-                  whiteSpace="pre-wrap"
+                  whiteSpace="nowrap"
                 >
                   {' '}
-                  {newFarmData.data.name}
+                  {projectName(newFarmData.data.name)}
                 </Text>
               </Box>
             </Stack>
-            <Tag tone="accent">V3</Tag>
           </Stack>
         </Box>
         <Stack>
