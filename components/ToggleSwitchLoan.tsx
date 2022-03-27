@@ -1,6 +1,5 @@
 import { Box, Button, Stack } from 'degen';
 import React, { useState } from 'react';
-import * as styles from '../styles/toggleSwitch.css';
 
 interface ToggleSwitchProps {
   buttons: {
@@ -14,17 +13,24 @@ const ToggleSwitchLoan = (props: ToggleSwitchProps) => {
   const { buttons, activeIndex } = props;
 
   return (
-    <Box className={styles.buttonWrapper}>
+    <Box>
+      <Stack
+        direction="horizontal"
+        align="center"
+        space="1.5"
+        justify="space-around"
+      >
         {buttons.map((button, i) => (
-          <button
+          <Button
             onClick={() => button.onClick()}
             variant={i === activeIndex ? 'primary' : 'tertiary'}
             key={i}
             width="full"
           >
             {button.title}
-          </button>
+          </Button>
         ))}
+      </Stack>
     </Box>
   );
 };
