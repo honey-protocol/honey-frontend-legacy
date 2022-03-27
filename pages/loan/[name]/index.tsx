@@ -7,6 +7,54 @@ import BorrowNFTsModule from 'components/BorrowNFTsModule/BorrowNFTsModule';
 import Link from 'next/link';
 import * as styles from '../../../styles/name.css';
 
+const marketNFTs = [
+  {
+    name: 'SMB #2721',
+    image:'/nfts/2721.png',
+    borrowApy: '4.2%',
+    estValue: '$25,800',
+    assetsBorrowed: 0,
+    netBorrowBalance: 0,
+    key: 1
+  },
+  {
+    name: 'SMB #273',
+    image:'/nfts/273.png',
+    borrowApy: '4.2%',
+    estValue: '$23,500',
+    assetsBorrowed: 0,
+    netBorrowBalance: 0,
+    key: 2
+  },
+  {
+    name: 'SMB #1912',
+    image:'/nfts/1912.png',
+    borrowApy: '4.2%',
+    estValue: '$55,000',
+    assetsBorrowed: 0,
+    netBorrowBalance: 0,
+    key: 3
+  },
+  {
+    name: 'SMB #2738',
+    image:'/nfts/2738.png',
+    borrowApy: '4.2%',
+    estValue: '$33,300',
+    assetsBorrowed: 0,
+    netBorrowBalance: 0,
+    key: 4
+  },
+  {
+    name: 'SMB #3956',
+    image:'/nfts/3956.png',
+    borrowApy: '4.2%',
+    estValue: '$39,500',
+    assetsBorrowed: 0,
+    netBorrowBalance: 0,
+    key: 5
+  },
+]
+
 const Loan: NextPage = () => {
   const {
     depositMoreSelectedGems,
@@ -69,10 +117,10 @@ const Loan: NextPage = () => {
                 : depositMoreSelectedGems
             }
           ]}
-          NFTs={Object.values(walletNFTsInFarm)}
-          selectedNFTs={selectedWalletNFTs}
-          onNFTSelect={onWalletNFTSelect}
-          onNFTUnselect={onWalletNFTUnselect}
+          NFTs={marketNFTs}
+          // selectedNFTs={selectedWalletNFTs}
+          // onNFTSelect={onWalletNFTSelect}
+          // onNFTUnselect={onWalletNFTUnselect}
         />
         <BorrowNFTsModule />
       </Box>
