@@ -9,7 +9,7 @@ import NumberFormat from 'react-number-format';
 import getCollectionExpireDate from 'helpers/gemFarm';
 import * as styles from './FarmCollectionCard.css';
 
-const maxNameLength = 25;
+const maxNameLength = 20;
 
 // TODO: Uncomment bellow code to make component accept props
 
