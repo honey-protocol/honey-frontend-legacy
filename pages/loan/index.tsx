@@ -25,51 +25,6 @@ const assetData: Array<AssetRowType> = [
     interest: 0,
     available: 0,
     positions: 0
-  },
-  {
-    vaultName: 'Sol BAYCs',
-    vaultImageUrl:
-    '/nfts/bayc.jpg',
-    totalBorrowed: 45876,
-    interest: 45.9,
-    available: 35345,
-    positions: 3
-  },
-  {
-    vaultName: 'Azuki',
-    vaultImageUrl:
-    '/nfts/azuki.jpg',
-    totalBorrowed: 45876,
-    interest: 45.9,
-    available: 35345,
-    positions: 3
-  },
-  {
-    vaultName: 'Galactic Geckos',
-    vaultImageUrl:
-    '/nfts/gecko.jpg',
-    totalBorrowed: 123123,
-    interest: 45.9,
-    available: 35345,
-    positions: 3
-  },
-  {
-    vaultName: 'Aurory',
-    vaultImageUrl:
-    '/nfts/aurory.jpg',
-    totalBorrowed: 45876,
-    interest: 45.9,
-    available: 35345,
-    positions: 3
-  },
-  {
-    vaultName: 'SolPunks',
-    vaultImageUrl:
-    '/nfts/solpunk.jpg',
-    totalBorrowed: 45876,
-    interest: 45.9,
-    available: 35345,
-    positions: 3
   }
 ];
 
