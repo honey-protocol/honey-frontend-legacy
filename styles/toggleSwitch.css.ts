@@ -4,7 +4,7 @@ import { sprinkles, vars } from './theme.css';
 export const buttonWrapper = style({
     display: 'flex',
     flexDirection: 'row',
-    width: '118%',
+    width: '118.5%',
     marginTop: '-2em',
     marginLeft: '-2em',
     padding: '0',

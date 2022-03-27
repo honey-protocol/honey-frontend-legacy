@@ -21,7 +21,7 @@ const LoanDeposit = (props: LoanDepositProps) => {
     } = props;
 
     return (
-        <Box gap="3">
+        <Box gap="3" className={loanStyles.mainComponentWrapper}>
             <Stack align="center">
                 <Box className={loanStyles.avatarWrapper}>
                     <Avatar label="" size="10" src={"/nfts/2738.png"} />

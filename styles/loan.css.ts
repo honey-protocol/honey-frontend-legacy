@@ -75,3 +75,8 @@ export const avatarWrapper = style({
   alignItems: 'center',
   marginTop: '2em'
 });
+
+export const mainComponentWrapper = style({
+  borderBottomLeftRadius: '1px',
+  borderBottomRightRadius: '1px',
+})

@@ -3,8 +3,14 @@ import { style } from '@vanilla-extract/css';
 export const cardContainer = style({
   width: '100%',
   display: 'flex',
-  alignItems: 'stretch'
+  alignItems: 'stretch',
 });
+
+export const cardWrapper = style({
+  background: 'rgb(20, 20, 20)',
+  borderBottomLeftRadius: '0px',
+
+})
 
 export const nftContainer = style({
   overflow: 'auto',
@@ -13,12 +19,12 @@ export const nftContainer = style({
   gridGap: 13,
   '@media': {
     'screen and (max-width: 768px)': {}
-  }
+  },
 });
 
 export const centerItemContainer = style({
   display: 'flex',
   justifyContent: 'center',
   alignItems: 'center',
-  flex: 1
+  flex: 1, 
 });
