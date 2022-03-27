@@ -1,4 +1,5 @@
 import React, { FC, ReactNode } from "react";
+import Image from 'next/image'
 import { Box } from 'degen'
 import { Stack } from 'degen'
 import { Text } from 'degen'
@@ -47,7 +48,7 @@ const AssetRow = ({ data }: AssetRowProps) => {
             >
                 <Box className={styles.avatarContainer} >
                     {/* Implement next image https://degen-xyz.vercel.app/components/Avatar#next-image */}
-                    <Avatar label="TetranodeNFT" size="10" src={'https://images.mirror-media.xyz/publication-images/H-zIoEYWk4SpFkljJiwB9.png'} />
+                    <Avatar label="SMB" as={Image} size="10" src={data.vaultImageUrl} />
                     <Text>{data.vaultName}</Text>
                 </Box>
                 <Box
