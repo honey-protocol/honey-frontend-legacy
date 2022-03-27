@@ -29,7 +29,7 @@ const LoanDeposit = (props: LoanDepositProps) => {
                     justifyContent="center"
                     alignItems="center"
                 >
-                    <Avatar label="" size="10" src={""} />
+                    <Avatar label="" size="10" src={"/nfts/2738.png"} />
                     <Text
                         align="right"
                         weight="semiBold"
