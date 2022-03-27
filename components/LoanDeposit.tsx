@@ -102,8 +102,8 @@ const LoanDeposit = (props: LoanDepositProps) => {
                     <Avatar label="TetranodeNFT" size="10" shape="square" src={'https://assets.coingecko.com/coins/images/6319/small/USD_Coin_icon.png?1547042389'} />
                     <select name="currencySelector" id="currencySelector" className={styles.currencySelector}>
                         <option value="USDC">USDC</option>
-                        <option value="SOL">SOL</option>
-                        <option value="ETH">ETH</option>
+                        {/* <option value="SOL">SOL</option>
+                        <option value="ETH">ETH</option> */}
                     </select>
                 </Box>
             </Box>
