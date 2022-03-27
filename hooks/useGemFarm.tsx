@@ -17,7 +17,7 @@ import {
   onWithdrawGems
 } from 'helpers/gemFarm';
 import { convertArrayToObject } from 'helpers/utils';
-import useFetchNFTByUser from 'hooks/useNFT';
+import useFetchNFTByUser from './useNFTV2';
 import { useRouter } from 'next/router';
 import { newFarmCollections } from 'constants/new-farms';
 import React, { ReactNode, useCallback, useEffect, useState } from 'react';
@@ -25,7 +25,7 @@ import { toast } from 'react-toastify';
 
 const useGemFarm = () => {
   const wallet = useConnectedWallet();
-  const [AllNFTs, updateNFTsInUserWallet, isLoading] =
+  const [AllNFTs, isLoading, updateNFTsInUserWallet] =
     useFetchNFTByUser(wallet);
   const connection = useConnection();
 
@@ -165,7 +165,7 @@ const useGemFarm = () => {
   const onRefreshNFTs = async () => {
     if (!gb) return;
     const results = await Promise.all([
-      updateNFTsInUserWallet(),
+      updateNFTsInUserWallet({}),
       getGemStakedInFarm(gb, farmerAcc.vault, connection)
     ]);
 
