@@ -2,9 +2,12 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 
 ## General overview of what this repo contains
 
-This repo contains a frontend interface built with nextJS, the UI connects to:
+This repo contains a frontend interface built with nextJS and makes use of the following tools:
 - [GemFarm](https://github.com/gemworks/gem-farm) for Staking as a Service through a service layer API built by Honey Finance - WIP
 - [Honey-SDK](https://github.com/honey-labs/honey-sdk) for permissionless lending pools that use NFTs as collateral - WIP
+- [Goki-wallet](https://github.com/GokiProtocol/walletkit) for connecting to Solana wallets
+- [degen-ui](https://degen-xyz.vercel.app/) for styling as well as;
+- [vanilla-extract](https://vanilla-extract.style/documentation/setup/) for custom CSS code
 
 ## Getting Started
 
@@ -12,6 +15,7 @@ First things first,
 
 Make sure to create a `.env` file based on the `.env.example` file. The RPC_URL is the standard mainnet RPC.
 You should replace this with a custom one if you are in need of better performance.
+We currently do not have farm listed on devnet, however we will add instructions to add farm to devnet in the future.
 
 Install all the required packages via:
 
@@ -44,7 +48,7 @@ yarn build
 To learn more about Honey Finance and the software that we use, take a look at the following resources:
 
 [Docs](https://docs.honey.finance/)
-[Developer-docs] - Coming soon...
+[Developer-docs]() - Coming soon...
 
 Your feedback and contributions are welcome! Feel free to reach out through [Discord](https://discord.com/invite/T7RQ8hMamB) and take a look at the current [Issues](https://github.com/honey-labs/honey-frontend/issues).
 
