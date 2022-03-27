@@ -177,7 +177,7 @@ const LoanBorrow = (props: LoanBorrowProps) => {
             {/* Borrowed amount and currency */}
             <Box className={styles.selectionWrapper}>
                 <Box>
-                    <Button>Max</Button>
+                    <Button size="small" variant="secondary">Max</Button>
                 </Box>
                 <Box className={styles.selectionDetails}>
                     <div className={styles.currencyStyles}>0.00</div>
