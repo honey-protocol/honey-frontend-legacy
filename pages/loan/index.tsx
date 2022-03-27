@@ -10,6 +10,8 @@ import { IconPlusSmall, IconSearch } from 'degen';
 import { Input } from 'degen';
 import ToggleSwitch from '../../components/ToggleSwitch';
 import AssetRow, { AssetRowType } from '../../components/AssetRow';
+import ModalContainer from '../../components/ModalContainer/ModalContainer';
+import DepositWithdrawModule from '../../components/DepositWithdrawModule/DepositWIthdrawModule';
 import Layout from '../../components/Layout/Layout';
 import * as styles from '../../styles/loan.css';
 import { style } from '@vanilla-extract/css';
@@ -59,15 +61,6 @@ const assetData: Array<AssetRowType> = [
     interest: 45.9,
     available: 35345,
     positions: 3
-  },
-  {
-    vaultName: 'SolPunks',
-    vaultImageUrl:
-      'https://pbs.twimg.com/profile_images/1498758008901234689/TCdlxoj7_400x400.jpg',
-    totalBorrowed: 45876,
-    interest: 45.9,
-    available: 35345,
-    positions: 3
   }
 ];
 
@@ -75,10 +68,24 @@ const Loan: NextPage = () => {
   const wallet = useConnectedWallet();
   const { connect } = useWalletKit();
   const [liveOrCompleted, setLiveOrCompleted] = useState(0);
+  const [modalIsVisible, setModalIsVisible] = useState(false);
+
+  const openLoanModal  = wallet && liveOrCompleted === 1
+  const loadLoanPage = wallet && liveOrCompleted === 0
+
+  function showLoanModal() {
+    setModalIsVisible(true);
+  }
 
   return (
     <Layout>
       <Stack>
+        <ModalContainer
+          onClose={() => setModalIsVisible(false)}
+          isVisible={modalIsVisible}
+        >
+          <DepositWithdrawModule />
+        </ModalContainer>
         <Box height="16" minWidth="full" gap="3" paddingTop="3">
           <Stack direction="horizontal" justify="space-between" align="center">
             <Text align="left" variant="extraLarge" weight="bold">
@@ -124,40 +131,52 @@ const Loan: NextPage = () => {
           // className={styles.cardContainer}
         >
           <Stack>
-            <Box className={styles.cardMenuContainer}>
+            <Box gap="3" paddingTop="4">
+              <Stack
+                direction="horizontal"
+                justify="space-around"
+                align="center"
+              >
                 <Text>Vault name</Text>
                 <Text>Total borrowed</Text>
                 <Text>Interest</Text>
                 <Text>Available</Text>
                 <Text>Your positions</Text>
+              </Stack>
             </Box>
-            <Box>
-              <hr className={styles.lineDivider}></hr>
-            </Box>
-            <Box>
-              <Box>
+            </Stack>
+            <hr></hr>
+            <Box
+              // className={styles.vaultsList}
+            >
+              <Stack>
                 {assetData.map(item => (
                   <Box key={item.vaultName}>
-                    {wallet ? (
+                    {loadLoanPage &&
                       <Link href="/loan/[name]" as={`/loan/${item.vaultName}`}>
                         <a>
                           <AssetRow data={item} />
                         </a>
                       </Link>
-                      ) : (
-                        <Box onClick={connect} cursor="pointer">
-                          <AssetRow data={item} />
-                        </Box>
-                      )}
+                    }
+                    {openLoanModal &&
+                      <Box onClick={showLoanModal} cursor="pointer">
+                        <AssetRow data={item} />
+                      </Box>
+                    }
+                    {!wallet &&
+                      <Box onClick={connect} cursor="pointer">
+                        <AssetRow data={item} />
+                      </Box>
+                    }
                   </Box>
                 ))}
-              </Box>
+              </Stack>
+            </Box>
             </Box>
           </Stack>
-        </Box>
-      </Stack>
+
     </Layout>
   );
 };
-
 export default Loan;
