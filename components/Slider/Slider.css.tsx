@@ -28,7 +28,7 @@ globalStyle(`${rangeSlider} > input::-webkit-slider-thumb`, {
     width: '30px',
     height: '30px',
     borderRadius: '50%',
-    background: 'linear-gradient(90deg, #DA630D 0%, #F5A94E 51.04%, #D27910 100%)',
+    background: 'rgb(255,69, 58)',
     cursor: 'pointer',
     transition: 'background 0.15s ease-in-out',
 })
