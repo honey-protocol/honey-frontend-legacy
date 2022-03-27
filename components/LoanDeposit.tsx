@@ -99,11 +99,11 @@ const LoanDeposit = (props: LoanDepositProps) => {
                 </Box>
                 <Box className={styles.selectionDetails}>
                     <div className={styles.currencyStyles}>0.00</div>
-                    <Avatar label="TetranodeNFT" size="10" shape="square" src={'https://images.mirror-media.xyz/publication-images/H-zIoEYWk4SpFkljJiwB9.png'} />
+                    <Avatar label="TetranodeNFT" size="10" shape="square" src={'https://assets.coingecko.com/coins/images/6319/small/USD_Coin_icon.png?1547042389'} />
                     <select name="currencySelector" id="currencySelector" className={styles.currencySelector}>
+                        <option value="USDC">USDC</option>
                         <option value="SOL">SOL</option>
                         <option value="ETH">ETH</option>
-                        <option value="AVAX">AVAX</option>
                     </select>
                 </Box>
             </Box>
