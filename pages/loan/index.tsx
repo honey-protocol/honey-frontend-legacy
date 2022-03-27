@@ -18,18 +18,18 @@ import { style } from '@vanilla-extract/css';
 
 const assetData: Array<AssetRowType> = [
   {
-    vaultName: 'TetranodeNfts',
+    vaultName: 'SMB',
     vaultImageUrl:
-      'https://pbs.twimg.com/profile_images/1498758008901234689/TCdlxoj7_400x400.jpg',
-    totalBorrowed: 45876,
-    interest: 45.9,
-    available: 35345,
-    positions: 3
+      '/nfts/2738.png',
+    totalBorrowed: 0,
+    interest: 0,
+    available: 0,
+    positions: 0
   },
   {
     vaultName: 'Sol BAYCs',
     vaultImageUrl:
-      'https://pbs.twimg.com/profile_images/1498758008901234689/TCdlxoj7_400x400.jpg',
+    '/nfts/bayc.jpg',
     totalBorrowed: 45876,
     interest: 45.9,
     available: 35345,
@@ -38,7 +38,7 @@ const assetData: Array<AssetRowType> = [
   {
     vaultName: 'Azuki',
     vaultImageUrl:
-      'https://pbs.twimg.com/profile_images/1498758008901234689/TCdlxoj7_400x400.jpg',
+    '/nfts/azuki.jpg',
     totalBorrowed: 45876,
     interest: 45.9,
     available: 35345,
@@ -47,7 +47,7 @@ const assetData: Array<AssetRowType> = [
   {
     vaultName: 'Galactic Geckos',
     vaultImageUrl:
-      'https://pbs.twimg.com/profile_images/1498758008901234689/TCdlxoj7_400x400.jpg',
+    '/nfts/gecko.jpg',
     totalBorrowed: 123123,
     interest: 45.9,
     available: 35345,
@@ -56,7 +56,16 @@ const assetData: Array<AssetRowType> = [
   {
     vaultName: 'Aurory',
     vaultImageUrl:
-      'https://pbs.twimg.com/profile_images/1498758008901234689/TCdlxoj7_400x400.jpg',
+    '/nfts/aurory.jpg',
+    totalBorrowed: 45876,
+    interest: 45.9,
+    available: 35345,
+    positions: 3
+  },
+  {
+    vaultName: 'SolPunks',
+    vaultImageUrl:
+    '/nfts/solpunk.jpg',
     totalBorrowed: 45876,
     interest: 45.9,
     available: 35345,
@@ -68,6 +77,7 @@ const Loan: NextPage = () => {
   const wallet = useConnectedWallet();
   const { connect } = useWalletKit();
   const [liveOrCompleted, setLiveOrCompleted] = useState(0);
+
   const [modalIsVisible, setModalIsVisible] = useState(false);
 
   const openLoanModal  = wallet && liveOrCompleted === 1
@@ -77,13 +87,14 @@ const Loan: NextPage = () => {
     setModalIsVisible(true);
   }
 
+
   return (
     <Layout>
       <Stack>
         <ModalContainer
-          onClose={() => setModalIsVisible(false)}
-          isVisible={modalIsVisible}
-        >
+            onClose={() => setModalIsVisible(false)}
+            isVisible={modalIsVisible}
+          >
           <DepositWithdrawModule />
         </ModalContainer>
         <Box height="16" minWidth="full" gap="3" paddingTop="3">
@@ -131,25 +142,18 @@ const Loan: NextPage = () => {
           // className={styles.cardContainer}
         >
           <Stack>
-            <Box gap="3" paddingTop="4">
-              <Stack
-                direction="horizontal"
-                justify="space-around"
-                align="center"
-              >
+            <Box className={styles.cardMenuContainer}>
                 <Text>Vault name</Text>
                 <Text>Total borrowed</Text>
                 <Text>Interest</Text>
                 <Text>Available</Text>
                 <Text>Your positions</Text>
-              </Stack>
             </Box>
-            </Stack>
-            <hr></hr>
-            <Box
-              // className={styles.vaultsList}
-            >
-              <Stack>
+            <Box>
+              <hr className={styles.lineDivider}></hr>
+            </Box>
+            <Stack>
+              <Box>
                 {assetData.map(item => (
                   <Box key={item.vaultName}>
                     {loadLoanPage &&
@@ -171,12 +175,14 @@ const Loan: NextPage = () => {
                     }
                   </Box>
                 ))}
-              </Stack>
-            </Box>
-            </Box>
+              </Box>
+            </Stack>
           </Stack>
-
+        </Box>
+      </Stack>
     </Layout>
   );
 };
+
+
 export default Loan;
