@@ -37,8 +37,8 @@ globalStyle(`${vaultButton} > button > div span `, {
 globalStyle(`${headerWrapper} > div > div > span `, {
     fontSize: '.8em',
     fontWeight: '600',
-    color: 'rgb(201, 125, 44)',
+    color: 'rgb(48, 208, 88)',
     padding: '.25em',
-    background: 'rgb(44, 34, 19)',
+    background: 'rgb(26, 58, 34)',
     borderRadius: '10px'
 });
