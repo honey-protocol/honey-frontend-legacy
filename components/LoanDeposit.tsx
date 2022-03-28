@@ -31,13 +31,13 @@ const LoanDeposit = (props: LoanDepositProps) => {
                         color="foreground"
                         variant="large"
                     >
-                        NFT name #234
+                        SMB
                     </Text>
                 </Box>
             </Stack>
             <Box
-            paddingTop="1"
-            paddingBottom="1"
+                paddingTop="1"
+                paddingBottom="1"
             >
                 <Stack
                     justify="space-between"

@@ -43,7 +43,7 @@ const LoanWithdraw = (props: LoanWithdrawProps) => {
                         color="foreground"
                         variant="large"
                     >
-                        NFT name #234
+                        SMB
                     </Text>
                 </Box>
             </Stack>
