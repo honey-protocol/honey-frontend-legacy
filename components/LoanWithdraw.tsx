@@ -1,7 +1,9 @@
 import React from "react";
 import { Box, Button, Card, Stack, Text, Tag } from 'degen';
 import { Avatar } from 'degen';
-import { Input } from 'degen'
+import { Input } from 'degen';
+import * as styles from '../components/Slider/Slider.css';
+import * as loanStyles from '../styles/loan.css';
 
 interface LoanWithdrawProps {
     nftName: string,
@@ -23,7 +25,7 @@ const LoanWithdraw = (props: LoanWithdrawProps) => {
     } = props;
 
     return (
-        <Box gap="3">
+        <Box gap="3" className={loanStyles.mainComponentWrapper}>
             {/* Vault data row */}
             <Stack
                 align="center"
@@ -32,6 +34,7 @@ const LoanWithdraw = (props: LoanWithdrawProps) => {
                     paddingBottom="2"
                     justifyContent="center"
                     alignItems="center"
+                    className={loanStyles.avatarWrapper}
                 >
                     <Avatar label="" size="10" src={"/nfts/2738.png"} />
                     <Text
@@ -58,8 +61,9 @@ const LoanWithdraw = (props: LoanWithdrawProps) => {
                     align="center"
                     space="2"
                     >
-                    <Text align="left"
-                    color="textSecondary">Assets deposited</Text>
+                    <Text
+                        align="left"
+                        color="textSecondary">Assets deposited</Text>
                     <Text
                         align="right"
                         color="foreground"
@@ -129,18 +133,19 @@ const LoanWithdraw = (props: LoanWithdrawProps) => {
                 </Stack>
             </Box>
             {/* Borrowed amount and currency */}
-            <Box
-            paddingTop="5"
-            >
-            <Input
-                hideLabel
-                label="Amount"
-                max={100}
-                min={0}
-                placeholder="20"
-                type="number"
-                units="SOL"
-            />
+            <Box className={styles.selectionWrapper}>
+                <Box>
+                    <Button size="small" variant="secondary">Max</Button>
+                </Box>
+                <Box className={styles.selectionDetails}>
+                    <div className={styles.currencyStyles}>0.00</div>
+                    <Avatar label="TetranodeNFT" size="10" shape="square" src={'https://assets.coingecko.com/coins/images/6319/small/USD_Coin_icon.png?1547042389'} />
+                    <select name="currencySelector" id="currencySelector" className={styles.currencySelector}>
+                        <option value="USDC">USDC</option>
+                        {/* <option value="SOL">SOL</option>
+                        <option value="ETH">ETH</option> */}
+                    </select>
+                </Box>
             </Box>
             <Box
                 height="16"
