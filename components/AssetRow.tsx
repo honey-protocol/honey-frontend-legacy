@@ -48,7 +48,7 @@ const AssetRow = ({ data }: AssetRowProps) => {
             >
                 <Box className={styles.avatarContainer} >
                     {/* Implement next image https://degen-xyz.vercel.app/components/Avatar#next-image */}
-                    <Avatar label="SMB" as={Image} size="10" src={data.vaultImageUrl} />
+                    <Avatar label="SMB" size="10" src={data.vaultImageUrl} />
                     <Text>{data.vaultName}</Text>
                 </Box>
                 <Box
