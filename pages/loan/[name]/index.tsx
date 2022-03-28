@@ -1,7 +1,6 @@
 import type { NextPage } from 'next';
 import { Box, Stack, Button, IconRefresh, IconChevronLeft } from 'degen';
 import Layout from '../../../components/Layout/Layout';
-import useGemFarm from 'hooks/useGemFarm';
 import LoanNFTsContainer from 'components/LoanNFTsContainer/LoanNFTsContainer';
 import BorrowNFTsModule from 'components/BorrowNFTsModule/BorrowNFTsModule';
 import Link from 'next/link';
@@ -56,28 +55,6 @@ const marketNFTs = [
 ]
 
 const Loan: NextPage = () => {
-  const {
-    depositMoreSelectedGems,
-    claimRewards,
-    endStaking,
-    startStaking,
-    withdrawSelectedGems,
-    depositSelectedGems,
-    initializeFarmerAcc,
-    refreshWithLoadingIcon,
-    onWalletNFTSelect,
-    onWalletNFTUnselect,
-    onStakedNFTSelect,
-    onStakedNFTUnselect,
-    isFetching,
-    stakedNFTsInFarm,
-    walletNFTsInFarm,
-    farmerAcc,
-    farmerState,
-    selectedVaultNFTs,
-    selectedWalletNFTs,
-    farmerVaultLocked
-  } = useGemFarm();
 
   return (
     <Layout>
@@ -104,17 +81,17 @@ const Loan: NextPage = () => {
       </Box>
       <Box display="flex" height="full" className={styles.cardsContainer}>
         <LoanNFTsContainer
-          isFetching={isFetching}
+          // isFetching={isFetching}
           title="Open positions"
           buttons={[
             {
               title: 'New position',
-              disabled: selectedWalletNFTs.length ? false : true,
-              onClick: !farmerAcc
-                ? initializeFarmerAcc
-                : !farmerVaultLocked
-                ? depositSelectedGems
-                : depositMoreSelectedGems
+              // disabled: selectedWalletNFTs.length ? false : true,
+              // onClick: !farmerAcc
+              //   ? initializeFarmerAcc
+              //   : !farmerVaultLocked
+              //   ? depositSelectedGems
+              //   : depositMoreSelectedGems
             }
           ]}
           NFTs={marketNFTs}
