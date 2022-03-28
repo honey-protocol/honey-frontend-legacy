@@ -6,18 +6,22 @@ import Slider from '../components/Slider/Slider';
 import * as styles from './Slider/Slider.css';
 
 interface LoanBorrowProps {
-    borrowApy: number,
-    estValue: number,
-    assetsBorrowed: number,
-    netBorrowBalance: number,
+    name: string,
+    image: string,
+    value: string
+    // Above props only intended for mock data
+
+    // borrowApy: number,
+    // estValue: number,
+    // assetsBorrowed: number,
+    // netBorrowBalance: number,
 }
 
 const LoanBorrow = (props: LoanBorrowProps) => {
     const {
-        borrowApy,
-        estValue,
-        assetsBorrowed,
-        netBorrowBalance
+        name,
+        image,
+        value
     } = props;
 
     return (
@@ -32,7 +36,8 @@ const LoanBorrow = (props: LoanBorrowProps) => {
                 align="center"
             >
                 <Box alignItems="flex-start">
-                    <Avatar label="" size="10" src={"/nfts/2738.png"} />
+                    <Avatar label="" size="10" src={"/nfts/2721.png"} />
+                    {/* <Avatar label="" size="10" src={props.image} /> */}
                 </Box>
                 <Box
                     paddingBottom="2"
@@ -49,7 +54,8 @@ const LoanBorrow = (props: LoanBorrowProps) => {
                             color="foreground"
                             variant="large"
                         >
-                        NFT name #234
+                            {/* {props.name} */}
+                            SMB #2721
                         </Text>
                     </Stack>
                 </Box>
@@ -94,7 +100,8 @@ const LoanBorrow = (props: LoanBorrowProps) => {
                             align="right"
                             color="foreground"
                         >
-                            $4,500
+                            {/* {props.value} */}
+                            $25,800
                         </Text>
                     </Stack>
                 </Stack>
