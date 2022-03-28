@@ -17,7 +17,6 @@ const LoanNFTCard = (props: LoanNFTCardProps) => {
   //  if (selected) {
 
   //  }
-  }
   return (
     <Box
       backgroundColor={'backgroundSecondary'}
