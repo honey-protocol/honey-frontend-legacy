@@ -5,9 +5,9 @@ import * as styles from './LoanNFTsContainer.css';
 
 type TButton = {
   title: string;
-  disabled: boolean;
+  // disabled: boolean;
   hidden?: boolean;
-  onClick: () => void;
+  // onClick: () => void;
 };
 interface LoanNFTsContainerProps {
   isFetching: boolean;
@@ -46,8 +46,9 @@ const LoanNFTsContainer = (props: LoanNFTsContainerProps) => {
                     <Button
                       key={button.title}
                       size="small"
-                      disabled={button.disabled}
-                      onClick={button.onClick}
+                      disabled={true}
+                      // disabled={button.disabled}
+                      // onClick={button.onClick}
                     >
                       {button.title}
                     </Button>
