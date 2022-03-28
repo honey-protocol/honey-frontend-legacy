@@ -1,4 +1,4 @@
-import React, { FC, ReactNode } from 'react';
+import React, { useState, FC, ReactNode } from 'react';
 import Image from 'next/image';
 import { Avatar, Box } from 'degen';
 
@@ -10,17 +10,23 @@ interface LoanNFTCardProps {
 }
 
 const LoanNFTCard = (props: LoanNFTCardProps) => {
+  // const [selected, setSelected] = useState(false);
+
+  // function selectNFT() {
+  //   return (console.log(props.NFT.name))
+  //  if (selected) {
+
+  //  }
+  }
   return (
     <Box
       backgroundColor={'backgroundSecondary'}
       borderRadius="3xLarge"
-      // borderWidth={props.isSelected ? '0.5' : '0'}
+      borderWidth={props.NFT.name == 'SMB #2721' ? '0.5' : '0'}
       borderColor="accent"
       padding="1.5"
       overflow="hidden"
-      // onClick={
-      //   !props.isSelected ? () => props.onSelect() : () => props.onUnselect()
-      // }
+      // onClick={() => setSelected(true)}
     >
       <Avatar
         label={props.NFT.name}
