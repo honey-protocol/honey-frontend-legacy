@@ -52,7 +52,7 @@ const LoanRepay = (props: LoanRepayProps) => {
                     color="foreground"
                     variant="large"
                     >
-                    NFT name #234
+                    Solana Monkey Business #234
                     </Text>
                 </Stack>
                 <Stack
@@ -93,7 +93,7 @@ const LoanRepay = (props: LoanRepayProps) => {
                     align="right"
                     color="foreground"
                 >
-                    15.5%</Text>
+                    50%</Text>
                 </Stack>
                 <Stack
                 direction="horizontal"
@@ -132,7 +132,7 @@ const LoanRepay = (props: LoanRepayProps) => {
                         align="right"
                         color="foreground"
                     >
-                        $782.5</Text>
+                        $0</Text>
                     </Stack>
                     <Stack
                     direction="horizontal"
@@ -144,13 +144,13 @@ const LoanRepay = (props: LoanRepayProps) => {
                             align="left"
                             color="foreground"
                             >
-                            782.5 USDC
+                            0 USDC
                         </Text>
                         <Text
                             align="right"
                             color="foreground"
                         >
-                            $782.5
+                            $0
                         </Text>
                     </Stack>
                 </Stack>
@@ -176,7 +176,7 @@ const LoanRepay = (props: LoanRepayProps) => {
                             align="right"
                             color="foreground"
                         >
-                            $40.5
+                            $0
                         </Text>
                     </Stack>
                     <Stack
@@ -186,12 +186,12 @@ const LoanRepay = (props: LoanRepayProps) => {
                         space="2"
                     >
                         <Text align="left"
-                        color="textSecondary">Total payback</Text>
+                        color="textSecondary">Total debt</Text>
                         <Text
                             align="right"
                             color="foreground"
                         >
-                            $1,350.5
+                            $0
                         </Text>
                     </Stack>
                 </Stack>

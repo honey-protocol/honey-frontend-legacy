@@ -49,7 +49,7 @@ const LoanBorrow = (props: LoanBorrowProps) => {
                             color="foreground"
                             variant="large"
                         >
-                        NFT name #234
+                        Solana Monkey Business #234
                         </Text>
                     </Stack>
                 </Box>
@@ -79,7 +79,7 @@ const LoanBorrow = (props: LoanBorrowProps) => {
                             align="right"
                             color="foreground"
                         >
-                            4.2%
+                            0%
                         </Text>
                     </Stack>
                     <Stack
@@ -94,7 +94,7 @@ const LoanBorrow = (props: LoanBorrowProps) => {
                             align="right"
                             color="foreground"
                         >
-                            $4,500
+                            $0
                         </Text>
                     </Stack>
                 </Stack>
@@ -123,7 +123,7 @@ const LoanBorrow = (props: LoanBorrowProps) => {
                             align="right"
                             color="foreground"
                         >
-                            $782.5
+                            $0
                         </Text>
                     </Stack>
                     <Stack
@@ -137,14 +137,14 @@ const LoanBorrow = (props: LoanBorrowProps) => {
                                 align="left"
                                 color="foreground"
                             >
-                            782.5 USDC
+                            0 USDC
                             </Text>
                         </Stack>
                     <Text
                         align="right"
                         color="foreground"
                     >
-                        $782.5
+                        $0
                     </Text>
                     </Stack>
                 </Stack>
@@ -170,7 +170,7 @@ const LoanBorrow = (props: LoanBorrowProps) => {
                         align="right"
                         color="foreground"
                     >
-                        $2,500
+                        $0
                     </Text>
                 </Stack>
             </Box>
