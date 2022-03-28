@@ -21,7 +21,7 @@ const LoanDeposit = (props: LoanDepositProps) => {
     } = props;
 
     return (
-        <Box gap="3" className={loanStyles.mainComponentWrapper}>
+        <Box gap="3" className={loanStyles.mainComponentWrapper} paddingBottom="min">
             <Stack align="center">
                 <Box className={loanStyles.avatarWrapper}>
                     <Avatar label="" size="10" src={"/nfts/2738.png"} />
@@ -36,8 +36,8 @@ const LoanDeposit = (props: LoanDepositProps) => {
                 </Box>
             </Stack>
             <Box
-            paddingTop="1"
-            paddingBottom="1"
+                paddingTop="1"
+                paddingBottom="1"
             >
                 <Stack
                     justify="space-between"

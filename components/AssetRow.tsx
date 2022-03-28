@@ -1,5 +1,4 @@
 import React, { FC, ReactNode } from "react";
-import Image from 'next/image'
 import { Box } from 'degen'
 import { Stack } from 'degen'
 import { Text } from 'degen'

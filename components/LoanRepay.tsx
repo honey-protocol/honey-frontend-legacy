@@ -35,7 +35,7 @@ const LoanRepay = (props: LoanRepayProps) => {
                 align="center"
             >
                 <Box alignItems="flex-start">
-                <Avatar label="" size="10" src={"/nfts/2738.png"} />
+                <Avatar label="" size="10" src={"/nfts/2721.png"} />
                 </Box>
                 <Box
                 paddingBottom="2"
@@ -66,7 +66,7 @@ const LoanRepay = (props: LoanRepayProps) => {
                     align="right"
                     color="foreground"
                     >
-                    $4,500
+                    $25,800
                     </Text>
                 </Stack>
                 </Box>
