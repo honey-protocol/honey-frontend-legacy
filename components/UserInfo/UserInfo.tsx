@@ -51,7 +51,6 @@ const UserInfo = (props: UserInfoProps) => {
       backgroundColor="background"
       className={styles.topbar}
     >
-
       <Stack
         flex={1}
         direction="horizontal"
@@ -59,9 +58,6 @@ const UserInfo = (props: UserInfoProps) => {
         justify="flex-end"
         align="center"
       >
-      <Button as="a" href="https://honeylend.netlify.app/farm" variant="tertiary" size="small" width="48" >
-            Legacy website
-      </Button>
         <Box marginRight="auto" className={styles.menuIcon}>
           <Button
             onClick={() => props.setShowMobileSidebar(true)}

@@ -14,7 +14,8 @@ import {
   IconHand,
   IconTokens,
   IconSplit,
-  vars
+  vars,
+  IconLink
 } from 'degen';
 import SidebarButton from '../SidebarButton';
 import * as styles from './Sidebar.css';
@@ -28,7 +29,7 @@ import { useRouter } from 'next/router';
 const whitePaperUrl =
   'https://tomjpandolfi.com/whitepaper-peer-to-contract-nft-collateral-and-lending-fdd6054328b0';
 
-const governanceUrl = 'https://forum.honey.finance/'
+const governanceUrl = 'https://forum.honey.finance/';
 
 const mainLinks = [
   {
@@ -63,6 +64,11 @@ const bottomLinks = [
     href: whitePaperUrl,
     title: 'Whitepaper',
     IconComp: IconDocuments
+  },
+  {
+    href: 'https://honeylend.netlify.app/farm',
+    title: 'Legacy website',
+    IconComp: IconLink
   }
 ];
 
@@ -124,7 +130,7 @@ const Sidebar = (props: SidebarProps) => {
           })}
           <Button
             as="a"
-            href= {governanceUrl}
+            href={governanceUrl}
             target="_blank"
             variant="transparent"
             prefix={<IconHand />}

@@ -2,7 +2,7 @@ import { style } from '@vanilla-extract/css';
 import { sprinkles, vars } from '../../styles/theme.css';
 
 export const sidebar = style({
-  height: '100vh',
+  minHeight: '100vh',
   padding: vars.space.medium,
   position: 'sticky',
   top: '0',
