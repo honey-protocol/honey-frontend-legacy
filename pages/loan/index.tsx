@@ -18,7 +18,7 @@ import LoanHeaderComponent from 'components/LoanHeaderComponent/LoanHeaderCompon
 
 const assetData: Array<AssetRowType> = [
   {
-    vaultName: 'SMB',
+    vaultName: 'Solana Monkey Business',
     vaultImageUrl:
       '/nfts/2738.png',
     totalBorrowed: 0,
@@ -54,9 +54,6 @@ const Loan: NextPage = () => {
         </ModalContainer>
         <Box className={styles.headerDivider}>
           <Box className={styles.leftComponent}>
-            <Text align="left" variant="medium" weight="bold">
-              Lend your assets, Earn yield
-            </Text>
             <Stack>
               <ToggleSwitch
                   buttons={[

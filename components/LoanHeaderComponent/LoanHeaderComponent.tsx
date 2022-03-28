@@ -7,12 +7,12 @@ const LoanHeaderComponent = () => {
   return (
     <Box className={styles.headerWrapper}>
         <Box>
-            <Text>Health Factor <span>Moderate</span></Text>
-            <Text>56%</Text>
+            <Text>Health Factor <span>Healthy</span></Text>
+            <Text>100%</Text>
         </Box>
         <Box>
             <Text>Borrow Balance</Text>
-            <Text>255.65$</Text>
+            <Text>0$</Text>
         </Box>
         <Box>
             <Text>Supply Balance</Text>
@@ -20,7 +20,7 @@ const LoanHeaderComponent = () => {
         </Box>
         <Box>
             <Text>Your positions</Text>
-            <Text>3</Text>
+            <Text>0</Text>
         </Box>
         <Box className={styles.vaultButton}>
             <Button><IconPlus /> <span>New Vault</span></Button>

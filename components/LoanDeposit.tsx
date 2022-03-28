@@ -31,7 +31,7 @@ const LoanDeposit = (props: LoanDepositProps) => {
                         color="foreground"
                         variant="large"
                     >
-                        NFT name #234
+                        Solana Monkey Business
                     </Text>
                 </Box>
             </Stack>
