@@ -14,7 +14,7 @@ import ModalContainer from '../../components/ModalContainer/ModalContainer';
 import DepositWithdrawModule from '../../components/DepositWithdrawModule/DepositWIthdrawModule';
 import Layout from '../../components/Layout/Layout';
 import * as styles from '../../styles/loan.css';
-import { style } from '@vanilla-extract/css';
+import LoanHeaderComponent from 'components/LoanHeaderComponent/LoanHeaderComponent';
 
 const assetData: Array<AssetRowType> = [
   {
@@ -52,41 +52,26 @@ const Loan: NextPage = () => {
           >
           <DepositWithdrawModule />
         </ModalContainer>
-        <Box height="16" minWidth="full" gap="3" paddingTop="3">
-          <Stack direction="horizontal" justify="space-between" align="center">
-            <Text align="left" variant="extraLarge" weight="bold">
+        <Box className={styles.headerDivider}>
+          <Box className={styles.leftComponent}>
+            <Text align="left" variant="medium" weight="bold">
               Lend your assets, Earn yield
             </Text>
-            <Button
-              prefix={<IconPlusSmall />}
-              variant="transparent"
-              size="small"
-              onClick={() => {}}
-            >
-              New Vault
-            </Button>
-          </Stack>
-        </Box>
-        {/* <Box  height="16" minWidth="full" gap="3" paddingTop="3"> */}
-        <Stack direction="horizontal" justify="space-between" align="center">
-          <ToggleSwitch
-              buttons={[
-                {
-                  title: 'Borrow',
-                  onClick: () => setLiveOrCompleted(0)
-                },
-                { title: 'Loan', onClick: () => setLiveOrCompleted(1) }
-              ]}
-              activeIndex={liveOrCompleted}
-            />
-          <Box padding="1">
-            <Input
-              label=""
-              placeholder="Search by name"
-              prefix={<IconSearch />}
-            />
+            <Stack>
+              <ToggleSwitch
+                  buttons={[
+                    {
+                      title: 'Borrow',
+                      onClick: () => setLiveOrCompleted(0)
+                    },
+                    { title: 'Loan', onClick: () => setLiveOrCompleted(1) }
+                  ]}
+                  activeIndex={liveOrCompleted}
+                />
+            </Stack>
           </Box>
-        </Stack>
+          <LoanHeaderComponent />
+        </Box>
         <Box
           backgroundColor="backgroundTertiary"
           minWidth="full"
@@ -94,11 +79,16 @@ const Loan: NextPage = () => {
           borderRadius="2xLarge"
           padding="5"
           width="full"
-          // className={styles.cardContainer}
         >
           <Stack>
             <Box className={styles.cardMenuContainer}>
-                <Text>Vault name</Text>
+              <Box padding="1">
+                <Input
+                  label=""
+                  placeholder="Search by name"
+                  prefix={<IconSearch />}
+                />
+              </Box>
                 <Text>Total borrowed</Text>
                 <Text>Interest</Text>
                 <Text>Available</Text>

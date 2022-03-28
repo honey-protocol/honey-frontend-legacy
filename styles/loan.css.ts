@@ -80,3 +80,21 @@ export const mainComponentWrapper = style({
   borderBottomLeftRadius: '1px',
   borderBottomRightRadius: '1px',
 })
+
+export const headerDivider = style({
+  display: 'flex',
+  flexDirection: 'row',
+})
+
+export const leftComponent = style({
+  height: '8em',
+  display: 'flex',
+  flexDirection: 'column',
+  justifyContent: 'space-around'
+})
+
+globalStyle(`${cardMenuContainer} > div`, {
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+})
