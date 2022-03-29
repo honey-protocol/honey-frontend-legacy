@@ -2,10 +2,10 @@ const assert = require("assert");
 import * as anchor from "@project-serum/anchor";
 import { Program } from "@project-serum/anchor";
 import { ASSOCIATED_TOKEN_PROGRAM_ID, Token } from "@solana/spl-token";
-import { VeHoney } from "./types/ve_honey";
-import { Stake } from "./types/stake";
-import * as constants from "../constants/vehoney";
-import kp from './keypair.json'
+import { VeHoney } from "../types/ve_honey";
+import { Stake } from "../types/stake";
+import * as constants from "../../constants/vehoney";
+// import kp from './keypair.json'
 
 
 // const idl = JSON.parse(fs.readFileSync("./target/idl/ve_honey.json", "utf8"));
@@ -16,7 +16,7 @@ const clusterUrl = "https://api.devnet.solana.com";
 // const clusterUrl = "http://127.0.0.1:8899";
 
 // read this from local file 
-const payer = anchor.web3.Keypair.generate(); 
+const payer = anchor.web3.Keypair.generate();  
 const connection = new anchor.web3.Connection(clusterUrl, "processed");
 const provider = new anchor.Provider(connection, new anchor.Wallet(payer), {
   skipPreflight: false,
@@ -25,6 +25,8 @@ const provider = new anchor.Provider(connection, new anchor.Wallet(payer), {
 });
 anchor.setProvider(provider);
 const program = anchor.workspace.VeHoney as Program<VeHoney>;
+// const program = new Program(idl, programID, provider)
+
 const publicConnection = new anchor.web3.Connection(clusterUrl, {
   commitment: "processed",
 });
@@ -33,11 +35,11 @@ const SYSTEM_PROGRAM = anchor.web3.SystemProgram.programId;
 const TOKEN_PROGRAM_ID = anchor.Spl.token().programId;
 const LAMPORTS_PER_SOL = anchor.web3.LAMPORTS_PER_SOL;
 
-const admin = anchor.web3.Keypair.generate();
+const admin = anchor.web3.Keypair.generate(); //
 const user = anchor.web3.Keypair.generate();
 let honeyMint: Token;
 let pHoneyMint: Token;
-const honeyMintAuthority = anchor.web3.Keypair.generate(); // import from file
+const honeyMintAuthority = anchor.web3.Keypair.generate(); // import
 const pHoneyMintAuthority = anchor.web3.Keypair.generate(); // import from file 
 const base = anchor.web3.Keypair.generate(); // import from file
 let userPHoneyToken: anchor.web3.PublicKey,
@@ -59,7 +61,7 @@ let tokenVault: anchor.web3.PublicKey,
   vaultAuthorityBump: number;
 
 
- const initiliazeTest =  async () => {
+ export const initiliazeTest =  async () => {
     console.log("Airdrop 1 SOL to payer ...");
     await publicConnection.confirmTransaction(
       await publicConnection.requestAirdrop(payer.publicKey, LAMPORTS_PER_SOL),
@@ -155,7 +157,7 @@ let tokenVault: anchor.web3.PublicKey,
     assert.ok(lockerAccount.admin.equals(admin.publicKey));
   };
 //   Approve program lock privilegeR
-     async () => {
+const approveProgramLockPrivilege = async () => {
     const lt = program.addEventListener("ApproveLockPrivilegeEvent", (e, s) => {
       console.log("Approve Program Lock in Slot: ", s);
       console.log("Locker: ", e.locker.toString());
@@ -193,10 +195,10 @@ let tokenVault: anchor.web3.PublicKey,
         setTimeout(() => {
           program.removeEventListener(lt);
         }, 2000);
-      };
-
-
-  it("Initialize stake program ...", async () => {
+      });
+    
+// Initialize stake program 
+  const initializeStakeProgram = async () => {
     [tokenVault, tokenVaultBump] =
       await anchor.web3.PublicKey.findProgramAddress(
         [
@@ -233,9 +235,10 @@ let tokenVault: anchor.web3.PublicKey,
 
     assert.ok(tokenVaultAccount.mint.equals(honeyMint.publicKey));
     assert.ok(tokenVaultAccount.owner.equals(vaultAuthority));
-  });
+  };
 
-  it("Set mint authority of Honey token to PDA ...", async () => {
+  // Set mint authority of Honey token to PDA
+const setMintAuthority = async () => {
     await stakeProgram.rpc.setMintAuthority(vaultAuthorityBump, {
       accounts: {
         tokenMint: honeyMint.publicKey,
@@ -248,15 +251,12 @@ let tokenVault: anchor.web3.PublicKey,
       signers: [honeyMintAuthority],
     });
 
-    const honeyMintAccount = await honeyMint.getMintInfo();
-
-    assert.ok(honeyMintAccount.mintAuthority.equals(vaultAuthority));
-  });
+  };
 
   const stakeAmount = 3000000;
-  const duration = 5;
+  const duration = 6;
   // Stake pHoney tokens to lock Honey and get Escrow ...
-async () => {
+const stakePHONEY = async (stakeAmount: number, duration: number) => {
     const lt1 = program.addEventListener("LockEvent", (e, s) => {
       console.log("Lock in Slot: ", s);
       console.log("Locker: ", e.locker.toString());
@@ -370,7 +370,7 @@ async () => {
     );
   };
   // Unlock tokens from Escrow (user2) ...
- async () => {
+ const stakeVehoney = async () => {
     const lt = program.addEventListener("ExitEscrowEvent", (e, s) => {
       console.log("Exit Escrow in Slot: ", s);
       console.log("Locker: ", e.locker.toString());
@@ -390,7 +390,7 @@ async () => {
     const lockerAccountBefore = await program.account.locker.fetch(locker);
     const escrowAccountBefore = await program.account.escrow.fetch(escrow);
 
-    await sleep(6000);
+    // await sleep(6000);
 
     await program.rpc
       .exit({
@@ -447,9 +447,9 @@ async () => {
     );
 
     const honeyMintAccount = await honeyMint.getMintInfo();
-    assert.ok(
-      honeyMintAccount.mintAuthority.equals(honeyMintAuthority.publicKey)
-    );
+    // assert.ok(
+    //   honeyMintAccount.mintAuthority.equals(honeyMintAuthority.publicKey)
+    // );
   };
 
     //   Revoke program lock privilege
