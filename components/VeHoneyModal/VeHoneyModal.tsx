@@ -167,6 +167,7 @@ const VeHoneyModal = () => {
         new anchor.BN(Number(vestingPeriod)),
         {
           accounts: {
+            poolInfo: stakePool,
             tokenMint: honeyMint,
             pTokenMint: pHoneyMint,
             pTokenFrom: userPHoneyToken,
@@ -177,8 +178,8 @@ const VeHoneyModal = () => {
             escrow,
             lockedTokens,
             lockerProgram: program.programId,
-            tokenProgram: TOKEN_PROGRAM_ID
-          },
+            tokenProgram: TOKEN_PROGRAM_ID,
+            },
           remainingAccounts: [
             {
               pubkey: anchor.web3.SYSVAR_INSTRUCTIONS_PUBKEY,

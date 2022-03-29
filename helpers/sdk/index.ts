@@ -1,7 +1,7 @@
 import { PublicKey } from '@solana/web3.js';
 
-export * from './vehoney';
-export * from './vehoney.pda';
+// export * from './vehoney';
+// export * from './vehoney.pda';
 
 export const STAKE_PROGRAM_ID = new PublicKey(
   '4V68qajTiVHm3Pm9fQoV8D4tEYBmq3a34R9NV5TymLr7'
