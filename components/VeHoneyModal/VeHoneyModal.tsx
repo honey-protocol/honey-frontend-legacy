@@ -1,15 +1,22 @@
 import { Box, Button, Input, Stack, Text } from 'degen';
 import React, { ChangeEvent, useState } from 'react';
 import * as styles from './VeHoneyModal.css';
-const idl = require('../../idl/ve_honey.json');
-const stakeIdl = require('../../idl/stake.json');
+const idl = require('../../helpers/idl/ve_honey.json');
+const stakeIdl = require('../../helpers/idl/stake.json');
 import * as anchor from '@project-serum/anchor';
 import { web3, Wallet, Program } from '@project-serum/anchor';
-import { Connection, PublicKey,  clusterApiUrl } from '@solana/web3.js';
+import { Connection, PublicKey, clusterApiUrl } from '@solana/web3.js';
 import { ASSOCIATED_TOKEN_PROGRAM_ID, Token } from '@solana/spl-token';
-import type { VeHoney } from '../../helpers/types/ve_honey';
 import type { Stake } from '../../helpers/types/stake';
+import type { VeHoney } from '../../helpers/types/stake';
+
 import * as constants from '../../constants/vehoney';
+import {
+  STAKE_PROGRAM_ID,
+  VE_HONEY_PROGRAM_ID,
+  HONEY_MINT
+  // PHONEY_MINT
+} from '../../helpers/sdk/index';
 import {
   useConnectedWallet,
   useSolana,
@@ -17,17 +24,15 @@ import {
   useConnection,
   ConnectedWallet
 } from '@saberhq/use-solana';
+const { SystemProgram } = web3;
 
-const { SystemProgram, Keypair } = web3;
-
-// const programID = new PublicKey(idl.metadata.address)
-// console.log(programID)
-
+// todo import these from sdk
 const programID = new anchor.web3.PublicKey(
-  "6ambmng2tpfATEvkofjne6dSA49PswjHC24FvDmG14qZ"
+  'CKQapf8pWoMddT15grV8UCPjiLCTHa12NRgkKV63Lc7q'
 );
+// todo import these from sdk
 const stakeProgramID = new anchor.web3.PublicKey(
-  "6Ko5DhTrcvsMasSdAYAwWWMVq5v2bMwCa1nYxZ5Cozh6"
+  '4V68qajTiVHm3Pm9fQoV8D4tEYBmq3a34R9NV5TymLr7'
 );
 
 const clusterUrl = 'https://api.devnet.solana.com';
@@ -36,11 +41,11 @@ const VeHoneyModal = () => {
   const [amount, setAmount] = useState<number>();
   const [vestingPeriod, setVestingPeriod] = useState(1);
   const veHoneyRewardRate =
-    vestingPeriod === 1
+    vestingPeriod === 7689600
       ? 2
-      : vestingPeriod === 3
+      : vestingPeriod === 15811200
       ? 5
-      : vestingPeriod === 5
+      : vestingPeriod === 31622400
       ? 10
       : 1;
 
@@ -51,19 +56,25 @@ const VeHoneyModal = () => {
   };
 
   // Anchor imports
-  const payer: ConnectedWallet | null = useConnectedWallet();
-
+  const user: ConnectedWallet | null = useConnectedWallet();
+  const honeyMint = HONEY_MINT;
+  const pHoneyMint = new anchor.web3.PublicKey(
+    '7unYPivFG6cuDGeDVjhbutcjYDcMKPu2mBCnRyJ5Qki2'
+  );
+  const base = new anchor.web3.PublicKey(
+    'BaigWR1uBJ5JbVXHaK1DgnzwbTykugFzFuBoi2dc9RZA'
+  );
   const connection = useConnection();
-  const {walletProviderInfo} = useSolana();
+  const { walletProviderInfo } = useSolana();
 
-  const provider = new anchor.Provider(connection, payer as unknown as Wallet, {
+  const provider = new anchor.Provider(connection, user as unknown as Wallet, {
     skipPreflight: false,
     preflightCommitment: 'processed',
     commitment: 'processed'
   });
   anchor.setProvider(provider);
-  // const program = anchor.workspace.VeHoney as Program<VeHoney>;
-  const program = new Program(idl, programID, provider) ;
+
+  const program = new Program(idl, programID, provider) as Program<VeHoney>;
 
   const publicConnection = new anchor.web3.Connection(clusterUrl, {
     commitment: 'processed'
@@ -72,72 +83,94 @@ const VeHoneyModal = () => {
   const SYSTEM_PROGRAM = anchor.web3.SystemProgram.programId;
   const TOKEN_PROGRAM_ID = anchor.Spl.token().programId;
 
-  const user = anchor.web3.Keypair.generate();
-  let honeyMint: Token;
-  let pHoneyMint: Token;
-  const base = anchor.web3.Keypair.generate();
-  let userPHoneyToken: anchor.web3.PublicKey,
-    userHoneyToken: anchor.web3.PublicKey,
-    locker: anchor.web3.PublicKey,
-    escrow: anchor.web3.PublicKey,
-    lockedTokens: anchor.web3.PublicKey,
-    whitelistEntry: anchor.web3.PublicKey;
-  const lockerParams = {
-    whitelistEnabled: true,
-    minStakeDuration: new anchor.BN(1),
-    maxStakeDuration: new anchor.BN(5),
-    multiplier: 48
-  };
-
   // const stakeProgram = anchor.workspace.Stake as Program<Stake>;
-  const stakeProgram = new Program(stakeIdl, stakeProgramID, provider) as Program<Stake>;
-
-  let tokenVault: anchor.web3.PublicKey,
-    tokenVaultBump: number,
-    vaultAuthority: anchor.web3.PublicKey,
-    vaultAuthorityBump: number;
-
-  // Importing variables
-
+  const stakeProgram = new Program(
+    stakeIdl,
+    stakeProgramID,
+    provider
+  ) as Program<Stake>;
 
   const stakeVehoney = async (amount: Number, vestingPeriod: Number) => {
-    if (amount === 0 ) {
-      console.log('No pHONEY amount has been provided')
-      return 
+    if (amount === 0) {
+      console.log('No pHONEY amount has been provided');
+      return;
     }
     setAmount(0);
     console.log('pHONEY amount link: ', amount);
     try {
-    
-      // console.log('ping')
-      let escrowBump: number;
-      [escrow, escrowBump] = await anchor.web3.PublicKey.findProgramAddress(
-        [
-          Buffer.from(constants.ESCROW_SEED),
-          locker.toBuffer(),
-          user.publicKey.toBuffer(),
-        ],
-        program.programId
-      );
-  
-      lockedTokens = await Token.getAssociatedTokenAddress(
+      const userPHoneyToken = await Token.getAssociatedTokenAddress(
         ASSOCIATED_TOKEN_PROGRAM_ID,
         TOKEN_PROGRAM_ID,
-        honeyMint.publicKey,
+        pHoneyMint,
+        user!.publicKey
+      );
+      const [tokenVault, tokenVaultBump] =
+        await anchor.web3.PublicKey.findProgramAddress(
+          [
+            Buffer.from(constants.TOKEN_VAULT_SEED),
+            honeyMint.toBuffer(),
+            pHoneyMint.toBuffer()
+          ],
+          stakeProgram.programId
+        );
+      const [locker, lockerBump] =
+        await anchor.web3.PublicKey.findProgramAddress(
+          [Buffer.from(constants.LOCKER_SEED), base.toBuffer()],
+          program.programId
+        );
+
+      const [escrow, escrowBump] =
+        await anchor.web3.PublicKey.findProgramAddress(
+          [
+            Buffer.from(constants.ESCROW_SEED),
+            locker.toBuffer(),
+            user!.publicKey.toBuffer()
+          ],
+          program.programId
+        );
+
+      const lockedTokens = await Token.getAssociatedTokenAddress(
+        ASSOCIATED_TOKEN_PROGRAM_ID,
+        TOKEN_PROGRAM_ID,
+        honeyMint,
         escrow,
         true
       );
-  
-      await stakeProgram.rpc.stake(
-        vaultAuthorityBump,
-        new anchor.BN(Number(amount)), 
+
+      const [stakePool] = await anchor.web3.PublicKey.findProgramAddress(
+        [
+          Buffer.from(constants.POOL_INFO_SEED),
+          honeyMint.toBuffer(),
+          pHoneyMint.toBuffer()
+        ],
+        STAKE_PROGRAM_ID
+      );
+
+      const [vaultAuthority] =
+        await anchor.web3.PublicKey.findProgramAddress(
+          [Buffer.from(constants.VAULT_AUTHORITY_SEED), stakePool.toBuffer()],
+          stakeProgram.programId
+        );
+
+      const [whitelistEntry] =
+        await anchor.web3.PublicKey.findProgramAddress(
+          [
+            Buffer.from(constants.WHITELIST_ENTRY_SEED),
+            locker.toBuffer(),
+            stakeProgram.programId.toBuffer(),
+            SYSTEM_PROGRAM.toBuffer()
+          ],
+          program.programId
+        );
+        const tx = await stakeProgram.rpc.stake(
+        new anchor.BN(Number(amount)),
         new anchor.BN(Number(vestingPeriod)),
         {
           accounts: {
-            tokenMint: honeyMint.publicKey,
-            pTokenMint: pHoneyMint.publicKey,
-            pTokenFrom: userPHoneyToken, // no access 
-            userAuthority: user.publicKey,
+            tokenMint: honeyMint,
+            pTokenMint: pHoneyMint,
+            pTokenFrom: userPHoneyToken,
+            userAuthority: user!.publicKey,
             tokenVault,
             authority: vaultAuthority,
             locker,
@@ -162,17 +195,17 @@ const VeHoneyModal = () => {
             Token.createAssociatedTokenAccountInstruction(
               ASSOCIATED_TOKEN_PROGRAM_ID,
               TOKEN_PROGRAM_ID,
-              honeyMint.publicKey,
+              honeyMint,
               lockedTokens,
               escrow,
-              user.publicKey
+              user!.publicKey
             ),
             program.instruction.initEscrow({
               accounts: {
-                payer: user.publicKey,
+                payer: user!.publicKey,
                 locker,
                 escrow: escrow,
-                escrowOwner: user.publicKey,
+                escrowOwner: user!.publicKey,
                 systemProgram: SYSTEM_PROGRAM
               },
               signers: [user]
@@ -182,18 +215,11 @@ const VeHoneyModal = () => {
         }
       );
       //
-      console.log(
-        'pHoney staked succesfully ',
-      );
+      console.log('pHoney staked succesfully ');
     } catch (error) {
       console.log('Error staking pHoney account: ', error);
     }
   };
-
-  // console.log('Payer', payer);
-  // console.log('Connection', connection);
-  // console.log('Provider', provider);
-  // console.log('Program', program);
 
   return (
     <Box width="96">
@@ -250,11 +276,13 @@ const VeHoneyModal = () => {
                   name="vestingPeriod"
                   value={vestingPeriod}
                   className={styles.select}
-                  onChange={event => setVestingPeriod(Number(event.target.value))}
+                  onChange={event =>
+                    setVestingPeriod(Number(event.target.value))
+                  }
                 >
-                  <option value='1'>3 months</option>
-                  <option value="3">6 months</option>
-                  <option value="5">12 months</option>
+                  <option value="7689600">3 months</option>
+                  <option value="15811200">6 months</option>
+                  <option value="31622400">12 months</option>
                 </select>
               </Box>
             </Stack>
