@@ -1,10 +1,11 @@
 import { Box, Button, Input, Stack, Text } from 'degen';
 import React, { ChangeEvent, useState } from 'react';
 import * as styles from './VeHoneyModal.css';
-import * as idl from '../../idl/ve_honey.json';
+const idl = require('../../idl/ve_honey.json');
+const stakeIdl = require('../../idl/stake.json');
 import * as anchor from '@project-serum/anchor';
-import { web3, Program, Wallet } from '@project-serum/anchor';
-import { Connection, PublicKey, clusterApiUrl } from '@solana/web3.js';
+import { web3, Wallet, Program } from '@project-serum/anchor';
+import { Connection, PublicKey,  clusterApiUrl } from '@solana/web3.js';
 import { ASSOCIATED_TOKEN_PROGRAM_ID, Token } from '@solana/spl-token';
 import type { VeHoney } from '../../helpers/types/ve_honey';
 import type { Stake } from '../../helpers/types/stake';
@@ -13,7 +14,8 @@ import {
   useConnectedWallet,
   useSolana,
   SolanaProvider,
-  useConnection
+  useConnection,
+  ConnectedWallet
 } from '@saberhq/use-solana';
 
 const { SystemProgram, Keypair } = web3;
@@ -32,13 +34,13 @@ const clusterUrl = 'https://api.devnet.solana.com';
 
 const VeHoneyModal = () => {
   const [amount, setAmount] = useState<number>();
-  const [vestingPeriod, setVestingPeriod] = useState('3 months');
+  const [vestingPeriod, setVestingPeriod] = useState(1);
   const veHoneyRewardRate =
-    vestingPeriod === '3 months'
+    vestingPeriod === 1
       ? 2
-      : vestingPeriod === '6 months'
+      : vestingPeriod === 3
       ? 5
-      : vestingPeriod === '12 months'
+      : vestingPeriod === 5
       ? 10
       : 1;
 
@@ -49,19 +51,19 @@ const VeHoneyModal = () => {
   };
 
   // Anchor imports
-  const payer: Wallet = useConnectedWallet();
+  const payer: ConnectedWallet | null = useConnectedWallet();
 
   const connection = useConnection();
   const {walletProviderInfo} = useSolana();
 
-  const provider = new anchor.Provider(connection, payer, {
+  const provider = new anchor.Provider(connection, payer as unknown as Wallet, {
     skipPreflight: false,
     preflightCommitment: 'processed',
     commitment: 'processed'
   });
   anchor.setProvider(provider);
   // const program = anchor.workspace.VeHoney as Program<VeHoney>;
-  const program = new Program(idl, programID, provider) as Program<VeHoney>;
+  const program = new Program(idl, programID, provider) ;
 
   const publicConnection = new anchor.web3.Connection(clusterUrl, {
     commitment: 'processed'
@@ -88,14 +90,17 @@ const VeHoneyModal = () => {
   };
 
   // const stakeProgram = anchor.workspace.Stake as Program<Stake>;
-  const stakeProgram = new Program(idl, stakeProgramID, provider) as Program<Stake>;
+  const stakeProgram = new Program(stakeIdl, stakeProgramID, provider) as Program<Stake>;
 
   let tokenVault: anchor.web3.PublicKey,
     tokenVaultBump: number,
     vaultAuthority: anchor.web3.PublicKey,
     vaultAuthorityBump: number;
 
-  const stakeVehoney = async (amount: Number, vestingPeriod: String) => {
+  // Importing variables
+
+
+  const stakeVehoney = async (amount: Number, vestingPeriod: Number) => {
     if (amount === 0 ) {
       console.log('No pHONEY amount has been provided')
       return 
@@ -125,8 +130,8 @@ const VeHoneyModal = () => {
   
       await stakeProgram.rpc.stake(
         vaultAuthorityBump,
-        new anchor.BN(Number(amount)), // remove Number to see error
-        new anchor.BN(vestingPeriod),
+        new anchor.BN(Number(amount)), 
+        new anchor.BN(Number(vestingPeriod)),
         {
           accounts: {
             tokenMint: honeyMint.publicKey,
@@ -245,11 +250,11 @@ const VeHoneyModal = () => {
                   name="vestingPeriod"
                   value={vestingPeriod}
                   className={styles.select}
-                  onChange={event => setVestingPeriod(event.target.value)}
+                  onChange={event => setVestingPeriod(Number(event.target.value))}
                 >
-                  <option value='30'>3 months</option>
-                  <option value="6 months">6 months</option>
-                  <option value="12 months">12 months</option>
+                  <option value='1'>3 months</option>
+                  <option value="3">6 months</option>
+                  <option value="5">12 months</option>
                 </select>
               </Box>
             </Stack>
