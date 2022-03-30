@@ -1,191 +1,51 @@
+import React, { useCallback, useMemo, useState } from 'react';
 import { Box, Button, Input, Stack, Text } from 'degen';
-import React, { useState } from 'react';
-import * as anchor from '@project-serum/anchor';
-import { web3, Wallet, Program } from '@project-serum/anchor';
-import { ASSOCIATED_TOKEN_PROGRAM_ID, Token } from '@solana/spl-token';
-import {
-  useConnectedWallet,
-  useSolana,
-  useConnection,
-  ConnectedWallet
-} from '@saberhq/use-solana';
-import {
-  STAKE_PROGRAM_ID,
-  HONEY_MINT,
-  PHONEY_MINT
-} from '../../helpers/sdk/index';
-const stakeIdl = require('../../helpers/idl/stake.json');
-import * as constants from '../../constants/vehoney';
-import { Stake } from '../../helpers/types/stake.json';
+import { PublicKey } from '@solana/web3.js';
 
-const { SystemProgram, Keypair } = web3;
-
-const clusterUrl = 'https://api.devnet.solana.com';
+import { useStake } from 'hooks/useStake';
+import { useAccounts } from 'hooks/useAccounts';
+import { PHONEY_DECIMALS, PHONEY_MINT } from 'helpers/sdk/constant';
+import { convert, convertToBN } from 'helpers/utils';
 
 const PHoneyModal = () => {
-  const [depositAmount, setDepositAmount] = useState<number>(0);
-  // public keys
-  const user = useConnectedWallet();
-  const honeyMint = HONEY_MINT;
-  const pHoneyMint = PHONEY_MINT;
-  // const pHoneyMint = new anchor.web3.PublicKey(
-  //   '7unYPivFG6cuDGeDVjhbutcjYDcMKPu2mBCnRyJ5Qki2'
-  // );
+  const [amount, setAmount] = useState<number>(0);
+  const { tokenAccounts } = useAccounts();
 
-  // connection todo:
-  const connection = useConnection();
-  const { walletProviderInfo } = useSolana();
+  // ======================== Should replace with configuration ================
+  const pHoneyToken = tokenAccounts.find(t => t.info.mint.equals(PHONEY_MINT));
+  const STAKE_POOL_ADDRESS = new PublicKey(
+    process.env.NEXT_STAKE_POOL_ADDR ||
+      'Cv9Hx3VRvqkz5JRPiZM8A2BH31yvpcT4qiUJLdtgu7TE'
+  );
+  // ============================================================================
 
-  const provider = new anchor.Provider(connection, user as unknown as Wallet, {
-    skipPreflight: false,
-    preflightCommitment: 'processed',
-    commitment: 'processed'
-  });
-  anchor.setProvider(provider);
+  const { user, createUser, deposit, claim } = useStake(STAKE_POOL_ADDRESS);
 
-  const stakeProgram = new Program(
-    stakeIdl,
-    STAKE_PROGRAM_ID,
-    provider
-  ) as Program<Stake>;
-
-  const SYSTEM_PROGRAM = anchor.web3.SystemProgram.programId;
-  const TOKEN_PROGRAM_ID = anchor.Spl.token().programId;
-
-  // Handles the onsubmit
-  const onSubmit = () => {
-    if (!depositAmount) return;
-    // call the deposit phoney rpc
-    depositPHoney(depositAmount);
-    console.log({ depositAmount });
-  };
-  // Handles the onsubmit
-  const onClaimSubmit = () => {
-    // call the deposit phoney rpc
-    claimHoney();
-    console.log({ depositAmount });
-  };
-
-  // Builds the deposit to pool 1 one rpc call
-  const depositPHoney = async (amount: Number) => {
-    if (amount === 0) {
-      console.log('No pHONEY amount has been provided');
-      return;
+  const depositedAmount = useMemo(() => {
+    if (!user) {
+      return 0;
     }
-    setDepositAmount(0);
-    console.log('pHONEY amount link: ', amount);
-    try {
-      const userPHoneyToken = await Token.getAssociatedTokenAddress(
-        ASSOCIATED_TOKEN_PROGRAM_ID,
-        TOKEN_PROGRAM_ID,
-        pHoneyMint,
-        user!.publicKey
-      );
-      const [stakePool] = await anchor.web3.PublicKey.findProgramAddress(
-        [
-          Buffer.from(constants.POOL_INFO_SEED),
-          honeyMint.toBuffer(),
-          pHoneyMint.toBuffer()
-        ],
-        stakeProgram.programId
-      );
-      const [poolUser] = await anchor.web3.PublicKey.findProgramAddress(
-        [
-          Buffer.from(constants.POOL_USER_SEED),
-          stakePool.toBuffer(),
-          user!.publicKey.toBuffer()
-        ],
-        stakeProgram.programId
-      );
 
-      const initializeIx = stakeProgram.instruction.initializeUser({
-        accounts: {
-          payer: user!.publicKey,
-          poolInfo: stakePool,
-          userInfo: poolUser,
-          userOwner: user!.publicKey,
-          systemProgram: SYSTEM_PROGRAM
-        },
-        signers: [user]
-      });
+    return convert(user.depositAmount, PHONEY_DECIMALS);
+  }, [user]);
 
-      const tx = await stakeProgram.rpc.deposit(new anchor.BN(depositAmount), {
-        accounts: {
-          poolInfo: stakePool,
-          userInfo: poolUser,
-          userOwner: user!.publicKey,
-          pTokenMint: pHoneyMint,
-          source: userPHoneyToken,
-          userAuthority: user!.publicKey,
-          tokenProgram: TOKEN_PROGRAM_ID
-        },
-        preInstructions: [initializeIx],
-        signers: [user]
-      });
-
-      //
-      console.log(tx);
-      console.log('pHoney deposited succesfully ');
-    } catch (error) {
-      console.log('Error depositing pHoney : ', error);
+  const pHoneyAmount = useMemo(() => {
+    if (!pHoneyToken) {
+      return 0;
     }
-  };
 
-  const claimHoney = async () => {
-    const userPHoneyToken = await Token.getAssociatedTokenAddress(
-      ASSOCIATED_TOKEN_PROGRAM_ID,
-      TOKEN_PROGRAM_ID,
-      honeyMint,
-      user!.publicKey
-    );
-    const [stakePool] = await anchor.web3.PublicKey.findProgramAddress(
-      [
-        Buffer.from(constants.POOL_INFO_SEED),
-        honeyMint.toBuffer(),
-        pHoneyMint.toBuffer()
-      ],
-      stakeProgram.programId
-    );
-    const [vaultAuthority, vaultAuthorityBump] =
-      await anchor.web3.PublicKey.findProgramAddress(
-        [Buffer.from(constants.VAULT_AUTHORITY_SEED), stakePool.toBuffer()],
-        stakeProgram.programId
-      );
+    return convert(pHoneyToken.info.amount, PHONEY_DECIMALS);
+  }, [pHoneyToken]);
 
-   
-    const [poolUser] = await anchor.web3.PublicKey.findProgramAddress(
-      [
-        Buffer.from(constants.POOL_USER_SEED),
-        stakePool.toBuffer(),
-        user!.publicKey.toBuffer()
-      ],
-      stakeProgram.programId
-    );
+  const handleDeposit = useCallback(async () => {
+    if (!amount) return;
 
-    await stakeProgram.rpc.claim({
-      accounts: {
-        payer: user!.publicKey,
-        poolInfo: stakePool,
-        authority: vaultAuthority,
-        tokenMint: honeyMint,
-        userInfo: poolUser,
-        userOwner: user!.publicKey,
-        destination: userPHoneyToken,
-        tokenProgram: TOKEN_PROGRAM_ID
-      },
-      preInstructions: [
-        Token.createAssociatedTokenAccountInstruction(
-          ASSOCIATED_TOKEN_PROGRAM_ID,
-          TOKEN_PROGRAM_ID,
-          honeyMint,
-          userPHoneyToken,
-          user!.publicKey,
-          user!.publicKey
-        )
-      ],
-      signers: [user]
-    });
-  };
+    if (!user) {
+      await createUser();
+    }
+
+    await deposit(convertToBN(amount, PHONEY_DECIMALS));
+  }, [createUser, deposit, user, amount]);
 
   return (
     <Box width="96">
@@ -219,33 +79,29 @@ const PHoneyModal = () => {
               <Text variant="small" color="textSecondary">
                 Your pHONEY deposited
               </Text>
-              <Text variant="small">332,420</Text>
+              <Text variant="small">{depositedAmount}</Text>
             </Stack>
             <Stack direction="horizontal" justify="space-between">
               <Text variant="small" color="textSecondary">
                 Your pHONEY balance
               </Text>
-              <Text variant="small">332,420</Text>
+              <Text variant="small">{pHoneyAmount}</Text>
             </Stack>
           </Stack>
           <Input
-            value={depositAmount}
+            value={amount}
             type="number"
             label="Amount"
             hideLabel
             units="pHONEY"
             // placeholder="0"
-            onChange={event => setDepositAmount(Number(event.target.value))}
+            onChange={event => setAmount(Number(event.target.value))}
           />
-          <Button
-            onClick={onSubmit}
-            disabled={depositAmount ? false : true}
-            width="full"
-          >
-            {depositAmount ? 'Deposit' : 'Enter amount'}
+          <Button onClick={handleDeposit} disabled={!amount} width="full">
+            {amount ? 'Deposit' : 'Enter amount'}
           </Button>
           <Button
-            onClick={onClaimSubmit}
+            onClick={claim}
             // Make disabled
             disabled={true}
             width="full"
