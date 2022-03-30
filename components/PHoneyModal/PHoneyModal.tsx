@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useState, useEffect} from 'react';
+import React, { useCallback, useMemo, useState, useEffect } from 'react';
 import { Box, Button, Input, Stack, Text } from 'degen';
 import { PublicKey } from '@solana/web3.js';
 import { useStake } from 'hooks/useStake';
@@ -19,12 +19,6 @@ const PHoneyModal = () => {
   // ============================================================================
 
   const { user, createUser, deposit, claim } = useStake(STAKE_POOL_ADDRESS);
-  
-  useEffect(() => {
-    if (!user) {
-      
-    }
-  }, [user]);
 
   const depositedAmount = useMemo(() => {
     if (!user) {
@@ -51,6 +45,7 @@ const PHoneyModal = () => {
 
     await deposit(convertToBN(amount, PHONEY_DECIMALS));
   }, [createUser, deposit, user, amount]);
+
 
   return (
     <Box width="96">
@@ -93,26 +88,38 @@ const PHoneyModal = () => {
               <Text variant="small">{pHoneyAmount}</Text>
             </Stack>
           </Stack>
-          <Input
-            value={amount}
-            type="number"
-            label="Amount"
-            hideLabel
-            units="pHONEY"
-            // placeholder="0"
-            onChange={event => setAmount(Number(event.target.value))}
-          />
-          <Button onClick={handleDeposit} disabled={!amount} width="full">
-            {amount ? 'Deposit' : 'Enter amount'}
-          </Button>
-          <Button
-            onClick={claim}
-            // Make disabled
-            disabled={true}
-            width="full"
-          >
-            Claim
-          </Button>
+          {!user ? (
+            <Button
+              onClick={handleDeposit}
+              
+              width="full"
+            >
+              Initialize Account
+            </Button>
+          ) : (
+            <>
+              <Input
+                value={amount}
+                type="number"
+                label="Amount"
+                hideLabel
+                units="pHONEY"
+                // placeholder="0"
+                onChange={event => setAmount(Number(event.target.value))}
+              />
+              <Button onClick={handleDeposit} disabled={!amount} width="full">
+                {amount ? 'Deposit' : 'Enter amount'}
+              </Button>
+              <Button
+                onClick={claim}
+                // Make disabled
+                disabled={true}
+                width="full"
+              >
+                Claim
+              </Button>
+            </>
+          )}
         </Stack>
       </Box>
     </Box>

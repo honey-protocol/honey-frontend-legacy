@@ -10,6 +10,7 @@ import { convert, convertToBN } from 'helpers/utils';
 const VeHoneyModal = () => {
   const [amount, setAmount] = useState<number>(1);
   const [vestingPeriod, setVestingPeriod] = useState<number>(7689600);
+  const [pHoneyConversionAmount, setPHoneyConversionAmount] = useState<number>(0)
 
   const veHoneyRewardRate =
     vestingPeriod === 7689600
