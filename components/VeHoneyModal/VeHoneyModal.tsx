@@ -7,8 +7,8 @@ import * as anchor from '@project-serum/anchor';
 import { web3, Wallet, Program } from '@project-serum/anchor';
 import { Connection, PublicKey, clusterApiUrl } from '@solana/web3.js';
 import { ASSOCIATED_TOKEN_PROGRAM_ID, Token } from '@solana/spl-token';
-import type { Stake } from '../../helpers/types/stake';
-import type { VeHoney } from '../../helpers/types/stake';
+import type { Stake } from 'helpers/types/stake';
+import type { VeHoney } from 'helpers/types/ve_honey';
 
 import * as constants from '../../constants/vehoney';
 import {
@@ -146,27 +146,26 @@ const VeHoneyModal = () => {
         STAKE_PROGRAM_ID
       );
 
-      const [vaultAuthority] =
-        await anchor.web3.PublicKey.findProgramAddress(
-          [Buffer.from(constants.VAULT_AUTHORITY_SEED), stakePool.toBuffer()],
-          stakeProgram.programId
-        );
+      const [vaultAuthority] = await anchor.web3.PublicKey.findProgramAddress(
+        [Buffer.from(constants.VAULT_AUTHORITY_SEED), stakePool.toBuffer()],
+        stakeProgram.programId
+      );
 
-      const [whitelistEntry] =
-        await anchor.web3.PublicKey.findProgramAddress(
-          [
-            Buffer.from(constants.WHITELIST_ENTRY_SEED),
-            locker.toBuffer(),
-            stakeProgram.programId.toBuffer(),
-            SYSTEM_PROGRAM.toBuffer()
-          ],
-          program.programId
-        );
-        const tx = await stakeProgram.rpc.stake(
+      const [whitelistEntry] = await anchor.web3.PublicKey.findProgramAddress(
+        [
+          Buffer.from(constants.WHITELIST_ENTRY_SEED),
+          locker.toBuffer(),
+          stakeProgram.programId.toBuffer(),
+          SYSTEM_PROGRAM.toBuffer()
+        ],
+        program.programId
+      );
+      const tx = await stakeProgram.rpc.stake(
         new anchor.BN(Number(amount)),
         new anchor.BN(Number(vestingPeriod)),
         {
           accounts: {
+            poolInfo: stakePool,
             tokenMint: honeyMint,
             pTokenMint: pHoneyMint,
             pTokenFrom: userPHoneyToken,
