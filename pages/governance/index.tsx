@@ -3,13 +3,46 @@ import { Box, Button, Card, IconExclamation, Input, Text } from 'degen';
 import { Stack } from 'degen';
 import Layout from '../../components/Layout/Layout';
 import ModalContainer from 'components/ModalContainer/ModalContainer';
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import PHoneyModal from 'components/PHoneyModal/PHoneyModal';
 import VeHoneyModal from 'components/VeHoneyModal/VeHoneyModal';
+import { PublicKey } from '@solana/web3.js';
+import { useStake } from 'hooks/useStake';
+import { useAccounts } from 'hooks/useAccounts';
+import { PHONEY_DECIMALS, PHONEY_MINT } from 'helpers/sdk/constant';
+import { convert, convertToBN } from 'helpers/utils';
 
 const Governance: NextPage = () => {
   const [showPHoneyModal, setShowPHoneyModal] = useState(false);
   const [showVeHoneyModal, setShowVeHoneyModal] = useState(false);
+  
+  const { tokenAccounts } = useAccounts();
+
+  // ======================== Should replace with configuration ================
+  const pHoneyToken = tokenAccounts.find(t => t.info.mint.equals(PHONEY_MINT));
+  const STAKE_POOL_ADDRESS = new PublicKey(
+    process.env.NEXT_STAKE_POOL_ADDR ||
+      'Cv9Hx3VRvqkz5JRPiZM8A2BH31yvpcT4qiUJLdtgu7TE'
+  );
+  // ============================================================================
+
+  const { user, createUser, deposit, claim } = useStake(STAKE_POOL_ADDRESS);
+
+  const depositedAmount = useMemo(() => {
+    if (!user) {
+      return 0;
+    }
+
+    return convert(user.depositAmount, PHONEY_DECIMALS);
+  }, [user]);
+
+  const pHoneyAmount = useMemo(() => {
+    if (!pHoneyToken) {
+      return 0;
+    }
+
+    return convert(pHoneyToken.info.amount, PHONEY_DECIMALS);
+  }, [pHoneyToken]);
 
   return (
     <Layout>
@@ -59,7 +92,7 @@ const Governance: NextPage = () => {
                 <Stack direction="horizontal" justify="center" align="center">
                   <Button
                     as="a"
-                    href="https://docs.honey.finance/"
+                    href="https://docs.honey.finance/products/tokens"
                     target="_blank"
                     size="small"
                     variant="tertiary"
@@ -88,32 +121,27 @@ const Governance: NextPage = () => {
                         height="12"
                       ></Box>
                       <Stack align="flex-end">
-                        <Text size="small">Your total HONEY</Text>
-                        <Text size="small">236, 780</Text>
+                        <Text size="small">Your HONEY balance:</Text>
+                        <Text size="small">--</Text>
                       </Stack>
                     </Stack>
                     <Box marginTop="auto">
                       <Stack space="3">
+                        
                         <Stack justify="space-between" direction="horizontal">
-                          <Text size="small">Total locked:</Text>
-                          <Text size="small">125,987</Text>
+                          <Text size="small">Total pHoney deposited:</Text>
+                          <Text size="small" >{depositedAmount}</Text>
                         </Stack>
                         <Stack justify="space-between" direction="horizontal">
-                          <Text size="small">Total locked:</Text>
-                          <Text size="small">125,987</Text>
-                        </Stack>
-                        <Stack justify="space-between" direction="horizontal">
-                          <Text size="small">Total locked:</Text>
-                          <Text size="small">125,987</Text>
+                          <Text size="small">Your pHoney balance</Text>
+                          <Text size="small">{pHoneyAmount}</Text>
                         </Stack>
                       </Stack>
                     </Box>
                   </Stack>
                 </Box>
-                <Stack justify="space-between">
-                  <Button width="full" size="small" variant="secondary">
-                    {' '}
-                  </Button>
+                <Stack justify="space-around">
+                  
                   <Button
                     onClick={() => setShowPHoneyModal(true)}
                     width="full"

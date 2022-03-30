@@ -16,9 +16,17 @@ export const PHONEY_MINT = new PublicKey(
   '7unYPivFG6cuDGeDVjhbutcjYDcMKPu2mBCnRyJ5Qki2'
 );
 
+export const BASE_ACCOUNT = new PublicKey(
+  'FptXMUHKYVvWPvMkDqw2nzihErZA9YQjeZgwFqTJgEJX'
+);
+
+export const WHITELIST_ENTRY = new PublicKey(
+  'EAc9qa3DXCgBwSEjRkXGZxPUmvuNTV56zfYzbjihbiYv'
+);
 export const PHONEY_DECIMALS = 6;
 
 export const POOL_INFO_SEED = 'PoolInfo';
 export const POOL_USER_SEED = 'PoolUser';
 export const TOKEN_VAULT_SEED = 'TokenVault';
 export const VAULT_AUTHORITY_SEED = 'VaultAuthority';
+export const LOCKER_SEED = "Locker";

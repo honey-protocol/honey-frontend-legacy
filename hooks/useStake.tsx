@@ -110,6 +110,21 @@ export const useStake = (stakePool: PublicKey) => {
     }
   }, [sc, userKey, honeyToken]);
 
+  const stake = useCallback(
+    async (amount: BN, duration: BN) => {
+      if (sc && userKey && pHoneyToken) {
+        setIsLoading(true);
+        try {
+          await sc.stake(stakePool, userKey, pHoneyToken.pubkey, amount, duration);
+          setIsLoading(false);
+        } catch (e) {
+          console.log(e);
+          setIsLoading(false);
+        }
+      }
+    },
+    [sc, userKey, pHoneyToken]
+  );
   return {
     pool,
     user: user
@@ -121,6 +136,7 @@ export const useStake = (stakePool: PublicKey) => {
     isLoading,
     createUser,
     deposit,
-    claim
+    claim,
+    stake
   };
 };

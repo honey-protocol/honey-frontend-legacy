@@ -1,7 +1,6 @@
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { useCallback, useMemo, useState, useEffect} from 'react';
 import { Box, Button, Input, Stack, Text } from 'degen';
 import { PublicKey } from '@solana/web3.js';
-
 import { useStake } from 'hooks/useStake';
 import { useAccounts } from 'hooks/useAccounts';
 import { PHONEY_DECIMALS, PHONEY_MINT } from 'helpers/sdk/constant';
@@ -20,6 +19,12 @@ const PHoneyModal = () => {
   // ============================================================================
 
   const { user, createUser, deposit, claim } = useStake(STAKE_POOL_ADDRESS);
+  
+  useEffect(() => {
+    if (!user) {
+      
+    }
+  }, [user]);
 
   const depositedAmount = useMemo(() => {
     if (!user) {

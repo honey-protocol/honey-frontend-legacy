@@ -9,24 +9,34 @@ import {
 import {
   HONEY_MINT,
   PHONEY_MINT,
+  BASE_ACCOUNT,
   STAKE_PROGRAM_ID,
   POOL_USER_SEED,
-  VAULT_AUTHORITY_SEED
+  VAULT_AUTHORITY_SEED,
+  TOKEN_VAULT_SEED,
+  LOCKER_SEED,
+  WHITELIST_ENTRY
 } from './constant';
 import stakeIdl from '../idl/stake.json';
+import veHoneyIdl from '../idl/ve_honey.json';
 import { Stake } from '../types/stake';
+import { VeHoney } from '../types/ve_honey';
+import { ESCROW_SEED } from 'constants/vehoney';
+import { VE_HONEY_PROGRAM_ID } from './vehoney';
 
 export class StakeClient {
   private connection: Connection;
   public wallet: anchor.Wallet;
   private provider!: anchor.Provider;
   private program!: anchor.Program<Stake>;
+  private veProgram!: anchor.Program<VeHoney>;
 
   constructor(connection: Connection, wallet: anchor.Wallet) {
     this.connection = connection;
     this.wallet = wallet;
     this.setProvider();
     this.setStakeProgram();
+    this.setVeHoneyProgram();
   }
 
   setProvider() {
@@ -42,6 +52,14 @@ export class StakeClient {
     this.program = new anchor.Program<Stake>(
       stakeIdl as any,
       STAKE_PROGRAM_ID,
+      this.provider
+    );
+  }
+
+  setVeHoneyProgram() {
+    this.veProgram = new anchor.Program<VeHoney>(
+      veHoneyIdl as any,
+      VE_HONEY_PROGRAM_ID,
       this.provider
     );
   }
@@ -127,6 +145,86 @@ export class StakeClient {
     return { destination, txSig };
   }
 
+  async stake(
+    pool: PublicKey,
+    user: PublicKey,
+    source: PublicKey,
+    amount: anchor.BN,
+    duration: anchor.BN
+  ) {
+    const userPHoneyToken = await Token.getAssociatedTokenAddress(
+      ASSOCIATED_TOKEN_PROGRAM_ID,
+      TOKEN_PROGRAM_ID,
+      PHONEY_MINT,
+      this.wallet.publicKey
+    );
+
+    const [locker] = await this.getLockerPDA(BASE_ACCOUNT);
+    const [escrow] = await this.getEscrowPDA(pool);
+    const [tokenVault] = await this.getTokenVaultPDA(pool);
+    const [vaultAuthority] = await this.getVaultAuthority(pool);
+
+    const lockedTokens = await Token.getAssociatedTokenAddress(
+      ASSOCIATED_TOKEN_PROGRAM_ID,
+      TOKEN_PROGRAM_ID,
+      HONEY_MINT,
+      escrow,
+      true
+    );
+    const txSig = await this.program.rpc.stake(
+      new anchor.BN(amount),
+      new anchor.BN(duration),
+      {
+        accounts: {
+          poolInfo: pool,
+          tokenMint: HONEY_MINT,
+          pTokenMint: PHONEY_MINT,
+          pTokenFrom: userPHoneyToken,
+          userAuthority: this.wallet.publicKey,
+          tokenVault,
+          authority: vaultAuthority,
+          locker,
+          escrow,
+          lockedTokens,
+          lockerProgram: this.veProgram.programId,
+          tokenProgram: TOKEN_PROGRAM_ID
+        },
+        remainingAccounts: [
+          {
+            pubkey: anchor.web3.SYSVAR_INSTRUCTIONS_PUBKEY,
+            isSigner: false,
+            isWritable: false
+          },
+          {
+            pubkey: WHITELIST_ENTRY,
+            isSigner: false,
+            isWritable: false
+          }
+        ],
+        preInstructions: [
+          Token.createAssociatedTokenAccountInstruction(
+            ASSOCIATED_TOKEN_PROGRAM_ID,
+            TOKEN_PROGRAM_ID,
+            HONEY_MINT,
+            lockedTokens,
+            escrow,
+            user
+          ),
+          this.veProgram.instruction.initEscrow({
+            accounts: {
+              payer: user,
+              locker,
+              escrow: escrow,
+              escrowOwner: user,
+              systemProgram: anchor.web3.SystemProgram.programId
+            }
+          })
+        ]
+      }
+    );
+    return { txSig, amount, duration };
+  }
+
   async getUserPDA(pool: PublicKey) {
     return anchor.web3.PublicKey.findProgramAddress(
       [
@@ -142,6 +240,43 @@ export class StakeClient {
     return anchor.web3.PublicKey.findProgramAddress(
       [Buffer.from(VAULT_AUTHORITY_SEED), pool.toBuffer()],
       this.program.programId
+    );
+  }
+
+  async getTokenVaultPDA(pool: PublicKey) {
+    return anchor.web3.PublicKey.findProgramAddress(
+      [
+        Buffer.from(TOKEN_VAULT_SEED),
+        HONEY_MINT.toBuffer(),
+        PHONEY_MINT.toBuffer()
+      ],
+      this.program.programId
+    );
+  }
+  async getVaultAuthority(pool: PublicKey) {
+    return anchor.web3.PublicKey.findProgramAddress(
+      [Buffer.from(VAULT_AUTHORITY_SEED), pool.toBuffer()], //check if right stake pool
+      this.program.programId //
+    );
+  }
+
+  async getLockerPDA(base: PublicKey) {
+    return anchor.web3.PublicKey.findProgramAddress(
+      [Buffer.from(LOCKER_SEED), base.toBuffer()],
+      this.veProgram.programId
+    );
+  }
+
+  async getEscrowPDA(pool: PublicKey) {
+    const [locker] = await this.getLockerPDA(BASE_ACCOUNT);
+
+    return anchor.web3.PublicKey.findProgramAddress(
+      [
+        Buffer.from(ESCROW_SEED),
+        locker.toBuffer(),
+        this.wallet.publicKey.toBuffer()
+      ],
+      this.veProgram.programId
     );
   }
 }
