@@ -134,6 +134,8 @@ export class StakeClient {
   }
 
   async claim(pool: PublicKey, user: PublicKey, destination?: PublicKey) {
+    let preInstructions: anchor.web3.TransactionInstruction[] | undefined =
+      undefined;
     if (!destination) {
       destination = await Token.getAssociatedTokenAddress(
         ASSOCIATED_TOKEN_PROGRAM_ID,
@@ -141,6 +143,17 @@ export class StakeClient {
         HONEY_MINT,
         this.wallet.publicKey
       );
+
+      preInstructions = [
+        Token.createAssociatedTokenAccountInstruction(
+          ASSOCIATED_TOKEN_PROGRAM_ID,
+          TOKEN_PROGRAM_ID,
+          HONEY_MINT,
+          destination,
+          this.wallet.publicKey,
+          this.wallet.publicKey
+        )
+      ];
     }
 
     const [authority] = await this.getPoolAuthorityPDA(pool);
@@ -155,7 +168,8 @@ export class StakeClient {
         userOwner: this.wallet.publicKey,
         destination,
         tokenProgram: TOKEN_PROGRAM_ID
-      }
+      },
+      preInstructions
     });
 
     return { destination, txSig };
