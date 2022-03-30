@@ -9,13 +9,17 @@ import VeHoneyModal from 'components/VeHoneyModal/VeHoneyModal';
 import { PublicKey } from '@solana/web3.js';
 import { useStake } from 'hooks/useStake';
 import { useAccounts } from 'hooks/useAccounts';
-import { PHONEY_DECIMALS, PHONEY_MINT } from 'helpers/sdk/constant';
+import {
+  PHONEY_DECIMALS,
+  PHONEY_MINT,
+  HONEY_DECIMALS
+} from 'helpers/sdk/constant';
 import { convert, convertToBN } from 'helpers/utils';
 
 const Governance: NextPage = () => {
   const [showPHoneyModal, setShowPHoneyModal] = useState(false);
   const [showVeHoneyModal, setShowVeHoneyModal] = useState(false);
-  
+
   const { tokenAccounts } = useAccounts();
 
   // ======================== Should replace with configuration ================
@@ -24,9 +28,21 @@ const Governance: NextPage = () => {
     process.env.NEXT_STAKE_POOL_ADDR ||
       'Cv9Hx3VRvqkz5JRPiZM8A2BH31yvpcT4qiUJLdtgu7TE'
   );
+  const LOCKER_ADDRESS = new PublicKey(
+    process.env.NEXT_LOCKER_ADDR ||
+      '5FnK8H9kDbmPNpBYMuvSkDevkMfnVPRrPNNqmTQyBBae'
+  );
   // ============================================================================
 
-  const { user, createUser, deposit, claim } = useStake(STAKE_POOL_ADDRESS);
+  const { user, escrow } = useStake(STAKE_POOL_ADDRESS, LOCKER_ADDRESS);
+
+  const lockedAmount = useMemo(() => {
+    if (!escrow) {
+      return 0;
+    }
+
+    return convert(escrow.amount, HONEY_DECIMALS);
+  }, [escrow]);
 
   const depositedAmount = useMemo(() => {
     if (!user) {
@@ -122,15 +138,14 @@ const Governance: NextPage = () => {
                       ></Box>
                       <Stack align="flex-end">
                         <Text size="small">Your HONEY balance:</Text>
-                        <Text size="small">--</Text>
+                        <Text size="small">{lockedAmount}</Text>
                       </Stack>
                     </Stack>
                     <Box marginTop="auto">
                       <Stack space="3">
-                        
                         <Stack justify="space-between" direction="horizontal">
                           <Text size="small">Total pHoney deposited:</Text>
-                          <Text size="small" >{depositedAmount}</Text>
+                          <Text size="small">{depositedAmount}</Text>
                         </Stack>
                         <Stack justify="space-between" direction="horizontal">
                           <Text size="small">Your pHoney balance</Text>
@@ -141,7 +156,6 @@ const Governance: NextPage = () => {
                   </Stack>
                 </Box>
                 <Stack justify="space-around">
-                  
                   <Button
                     onClick={() => setShowPHoneyModal(true)}
                     width="full"

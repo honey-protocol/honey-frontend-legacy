@@ -1,25 +1,46 @@
 import React, { useCallback, useMemo, useState } from 'react';
 import { Box, Button, Input, Stack, Text } from 'degen';
 import { PublicKey } from '@solana/web3.js';
+import * as anchor from '@project-serum/anchor';
+
 import * as styles from './VeHoneyModal.css';
 import { useStake } from 'hooks/useStake';
 import { useAccounts } from 'hooks/useAccounts';
-import { PHONEY_DECIMALS, PHONEY_MINT } from 'helpers/sdk/constant';
+import {
+  HONEY_DECIMALS,
+  PHONEY_DECIMALS,
+  PHONEY_MINT
+} from 'helpers/sdk/constant';
 import { convert, convertToBN } from 'helpers/utils';
 
 const VeHoneyModal = () => {
   const [amount, setAmount] = useState<number>(1);
-  const [vestingPeriod, setVestingPeriod] = useState<number>(7689600);
-  const [pHoneyConversionAmount, setPHoneyConversionAmount] = useState<number>(0)
+  const [vestingPeriod, setVestingPeriod] = useState<number>(3);
+  const [pHoneyConversionAmount, setPHoneyConversionAmount] =
+    useState<number>(0);
 
-  const veHoneyRewardRate =
-    vestingPeriod === 7689600
+  const veHoneyRewardRate = useMemo(() => {
+    return vestingPeriod === 3
       ? 2
-      : vestingPeriod === 15811200
+      : vestingPeriod === 6
       ? 5
-      : vestingPeriod === 31622400
+      : vestingPeriod === 12
       ? 10
-      : 1;
+      : 0;
+  }, [vestingPeriod]);
+
+  const vestingPeriodInSeconds = useMemo(() => {
+    if ([3, 6, 12].includes(vestingPeriod)) {
+      const date = new Date();
+      const current = Math.floor(date.getTime() / 1000);
+      date.setMonth(date.getMonth() + vestingPeriod);
+      const nMonthsLater = Math.floor(date.getTime() / 1000);
+
+      return nMonthsLater - current;
+    }
+    return 0;
+  }, [vestingPeriod]);
+
   const { tokenAccounts } = useAccounts();
 
   // ======================== Should replace with configuration ================
@@ -28,17 +49,21 @@ const VeHoneyModal = () => {
     process.env.NEXT_STAKE_POOL_ADDR ||
       'Cv9Hx3VRvqkz5JRPiZM8A2BH31yvpcT4qiUJLdtgu7TE'
   );
+  const LOCKER_ADDRESS = new PublicKey(
+    process.env.NEXT_LOCKER_ADDR ||
+      '5FnK8H9kDbmPNpBYMuvSkDevkMfnVPRrPNNqmTQyBBae'
+  );
   // ============================================================================
 
-  const { user, createUser, stake } = useStake(STAKE_POOL_ADDRESS);
+  const { stake, escrow } = useStake(STAKE_POOL_ADDRESS, LOCKER_ADDRESS);
 
-  const depositedAmount = useMemo(() => {
-    if (!user) {
+  const lockedAmount = useMemo(() => {
+    if (!escrow) {
       return 0;
     }
 
-    return convert(user.depositAmount, PHONEY_DECIMALS);
-  }, [user]);
+    return convert(escrow.amount, HONEY_DECIMALS);
+  }, [escrow]);
 
   const pHoneyAmount = useMemo(() => {
     if (!pHoneyToken) {
@@ -49,14 +74,16 @@ const VeHoneyModal = () => {
   }, [pHoneyToken]);
 
   const handleStake = useCallback(async () => {
-    if (!amount) return;
+    if (!amount || !vestingPeriodInSeconds) return;
 
-    if (!user) {
-      await createUser();
-    }
-    // todo: change for stake function (not inplemnted)
-    await stake(convertToBN(amount, PHONEY_DECIMALS), convertToBN(vestingPeriod));
-  }, [createUser, stake, user, amount, vestingPeriod]);
+    console.log(vestingPeriodInSeconds);
+
+    await stake(
+      convertToBN(amount, PHONEY_DECIMALS),
+      new anchor.BN(vestingPeriodInSeconds),
+      !!escrow
+    );
+  }, [stake, escrow, amount, vestingPeriodInSeconds]);
 
   return (
     <Box width="96">
@@ -86,17 +113,16 @@ const VeHoneyModal = () => {
               width="3/4"
             >
               <Text variant="small" color="accent">
-                {amount } pHONEY = {amount  * veHoneyRewardRate}{' '}
-                HONEY
+                {amount} pHONEY = {amount * veHoneyRewardRate} HONEY
               </Text>
             </Box>
           </Stack>
           <Stack space="2">
             <Stack direction="horizontal" justify="space-between">
               <Text variant="small" color="textSecondary">
-                Your pHoney deposited
+                Your Honey locked
               </Text>
-              <Text variant="small">{depositedAmount}</Text>
+              <Text variant="small">{lockedAmount}</Text>
             </Stack>
             <Stack direction="horizontal" justify="space-between">
               <Text variant="small" color="textSecondary">
@@ -117,9 +143,9 @@ const VeHoneyModal = () => {
                     setVestingPeriod(Number(event.target.value))
                   }
                 >
-                  <option value="7689600">3 months</option>
-                  <option value="15811200">6 months</option>
-                  <option value="31622400">12 months</option>
+                  <option value="3">3 months</option>
+                  <option value="6">6 months</option>
+                  <option value="12">12 months</option>
                 </select>
               </Box>
             </Stack>

@@ -16,9 +16,13 @@ const PHoneyModal = () => {
     process.env.NEXT_STAKE_POOL_ADDR ||
       'Cv9Hx3VRvqkz5JRPiZM8A2BH31yvpcT4qiUJLdtgu7TE'
   );
+  const LOCKER_ADDRESS = new PublicKey(
+    process.env.NEXT_LOCKER_ADDR ||
+      '5FnK8H9kDbmPNpBYMuvSkDevkMfnVPRrPNNqmTQyBBae'
+  );
   // ============================================================================
 
-  const { user, createUser, deposit, claim } = useStake(STAKE_POOL_ADDRESS);
+  const { user, deposit, claim } = useStake(STAKE_POOL_ADDRESS, LOCKER_ADDRESS);
 
   const depositedAmount = useMemo(() => {
     if (!user) {
@@ -44,7 +48,7 @@ const PHoneyModal = () => {
     // }
 
     await deposit(convertToBN(amount, PHONEY_DECIMALS), !!user);
-  }, [createUser, deposit, user, amount]);
+  }, [deposit, user, amount]);
 
   return (
     <Box width="96">

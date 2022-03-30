@@ -6,67 +6,27 @@ import {
   TOKEN_PROGRAM_ID
 } from '@solana/spl-token';
 
-import {
-  HONEY_MINT,
-  PHONEY_MINT,
-  BASE_ACCOUNT,
-  STAKE_PROGRAM_ID,
-  POOL_USER_SEED,
-  VAULT_AUTHORITY_SEED,
-  TOKEN_VAULT_SEED,
-  LOCKER_SEED,
-  WHITELIST_ENTRY
-} from './constant';
+import { ClientBase } from './base';
+import { HONEY_MINT, PHONEY_MINT } from './constant';
 import stakeIdl from '../idl/stake.json';
-import veHoneyIdl from '../idl/ve_honey.json';
 import { Stake } from '../types/stake';
-import { VeHoney } from '../types/ve_honey';
-import { ESCROW_SEED } from 'constants/vehoney';
-import { VE_HONEY_PROGRAM_ID } from './vehoney';
+import { VeHoneyClient } from './vehoney';
 
-export class StakeClient {
-  private connection: Connection;
-  public wallet: anchor.Wallet;
-  private provider!: anchor.Provider;
-  private program!: anchor.Program<Stake>;
-  private veProgram!: anchor.Program<VeHoney>;
+export const STAKE_PROGRAM_ID = new PublicKey(
+  '4V68qajTiVHm3Pm9fQoV8D4tEYBmq3a34R9NV5TymLr7'
+);
+export const POOL_USER_SEED = 'PoolUser';
+export const TOKEN_VAULT_SEED = 'TokenVault';
+export const VAULT_AUTHORITY_SEED = 'VaultAuthority';
 
+export class StakeClient extends ClientBase<Stake> {
   constructor(connection: Connection, wallet: anchor.Wallet) {
-    this.connection = connection;
-    this.wallet = wallet;
-    this.setProvider();
-    this.setStakeProgram();
-    this.setVeHoneyProgram();
-  }
-
-  setProvider() {
-    this.provider = new anchor.Provider(
-      this.connection,
-      this.wallet,
-      anchor.Provider.defaultOptions()
-    );
-    anchor.setProvider(this.provider);
-  }
-
-  setStakeProgram() {
-    this.program = new anchor.Program<Stake>(
-      stakeIdl as any,
-      STAKE_PROGRAM_ID,
-      this.provider
-    );
-  }
-
-  setVeHoneyProgram() {
-    this.veProgram = new anchor.Program<VeHoney>(
-      veHoneyIdl as any,
-      VE_HONEY_PROGRAM_ID,
-      this.provider
-    );
+    super(connection, wallet, stakeIdl, STAKE_PROGRAM_ID);
   }
 
   async fetchPoolInfo(pool: PublicKey) {
     try {
-      return this.program.account.poolInfo.fetch(pool);
+      return await this.program.account.poolInfo.fetch(pool);
     } catch (e) {
       console.log(e);
     }
@@ -74,7 +34,7 @@ export class StakeClient {
 
   async fetchPoolUser(user: PublicKey) {
     try {
-      return this.program.account.poolUser.fetch(user);
+      return await this.program.account.poolUser.fetch(user);
     } catch (e) {
       console.log(e);
     }
@@ -133,7 +93,11 @@ export class StakeClient {
     return { txSig, amount };
   }
 
-  async claim(pool: PublicKey, user: PublicKey, destination?: PublicKey) {
+  async claim(pool: PublicKey, user?: PublicKey, destination?: PublicKey) {
+    if (!user) {
+      [user] = await this.getUserPDA(pool);
+    }
+
     let preInstructions: anchor.web3.TransactionInstruction[] | undefined =
       undefined;
     if (!destination) {
@@ -177,30 +141,45 @@ export class StakeClient {
 
   async stake(
     pool: PublicKey,
-    user: PublicKey,
+    locker: PublicKey,
     source: PublicKey,
+    veHoneyClient: VeHoneyClient,
     amount: anchor.BN,
-    duration: anchor.BN
+    duration: anchor.BN,
+    whitelistEnabled?: boolean,
+    hasEscrow?: boolean
   ) {
-    const userPHoneyToken = await Token.getAssociatedTokenAddress(
-      ASSOCIATED_TOKEN_PROGRAM_ID,
-      TOKEN_PROGRAM_ID,
-      PHONEY_MINT,
-      this.wallet.publicKey
-    );
+    const preInstructions = !hasEscrow
+      ? [...(await veHoneyClient.createInitializeEscrowIx(locker))]
+      : undefined;
 
-    const [locker] = await this.getLockerPDA(BASE_ACCOUNT);
-    const [escrow] = await this.getEscrowPDA(pool);
-    const [tokenVault] = await this.getTokenVaultPDA(pool);
-    const [vaultAuthority] = await this.getVaultAuthority(pool);
+    const remainingAccounts = whitelistEnabled
+      ? [
+          {
+            pubkey: anchor.web3.SYSVAR_INSTRUCTIONS_PUBKEY,
+            isSigner: false,
+            isWritable: false
+          },
+          {
+            pubkey: (
+              await veHoneyClient.getWhitelistEntryPDA(
+                locker,
+                this.program.programId,
+                anchor.web3.SystemProgram.programId
+              )
+            )[0],
+            isSigner: false,
+            isWritable: false
+          }
+        ]
+      : undefined;
 
-    const lockedTokens = await Token.getAssociatedTokenAddress(
-      ASSOCIATED_TOKEN_PROGRAM_ID,
-      TOKEN_PROGRAM_ID,
-      HONEY_MINT,
-      escrow,
-      true
-    );
+    const [tokenVault] = await this.getTokenVaultPDA();
+    const [authority] = await this.getPoolAuthorityPDA(pool);
+    const [escrow] = await veHoneyClient.getEscrowPDA(locker);
+    const lockedTokens = await veHoneyClient.getEscrowLockedTokenPDA(escrow);
+    const lockerProgram = veHoneyClient.getProgramId();
+
     const txSig = await this.program.rpc.stake(
       new anchor.BN(amount),
       new anchor.BN(duration),
@@ -209,50 +188,22 @@ export class StakeClient {
           poolInfo: pool,
           tokenMint: HONEY_MINT,
           pTokenMint: PHONEY_MINT,
-          pTokenFrom: userPHoneyToken,
+          pTokenFrom: source,
           userAuthority: this.wallet.publicKey,
           tokenVault,
-          authority: vaultAuthority,
+          authority,
           locker,
           escrow,
           lockedTokens,
-          lockerProgram: this.veProgram.programId,
+          lockerProgram,
           tokenProgram: TOKEN_PROGRAM_ID
         },
-        remainingAccounts: [
-          {
-            pubkey: anchor.web3.SYSVAR_INSTRUCTIONS_PUBKEY,
-            isSigner: false,
-            isWritable: false
-          },
-          {
-            pubkey: WHITELIST_ENTRY,
-            isSigner: false,
-            isWritable: false
-          }
-        ],
-        preInstructions: [
-          Token.createAssociatedTokenAccountInstruction(
-            ASSOCIATED_TOKEN_PROGRAM_ID,
-            TOKEN_PROGRAM_ID,
-            HONEY_MINT,
-            lockedTokens,
-            escrow,
-            user
-          ),
-          this.veProgram.instruction.initEscrow({
-            accounts: {
-              payer: user,
-              locker,
-              escrow: escrow,
-              escrowOwner: user,
-              systemProgram: anchor.web3.SystemProgram.programId
-            }
-          })
-        ]
+        remainingAccounts,
+        preInstructions
       }
     );
-    return { txSig, amount, duration };
+
+    return { txSig, escrow };
   }
 
   async getUserPDA(pool: PublicKey) {
@@ -273,7 +224,7 @@ export class StakeClient {
     );
   }
 
-  async getTokenVaultPDA(pool: PublicKey) {
+  async getTokenVaultPDA() {
     return anchor.web3.PublicKey.findProgramAddress(
       [
         Buffer.from(TOKEN_VAULT_SEED),
@@ -283,30 +234,11 @@ export class StakeClient {
       this.program.programId
     );
   }
+
   async getVaultAuthority(pool: PublicKey) {
     return anchor.web3.PublicKey.findProgramAddress(
-      [Buffer.from(VAULT_AUTHORITY_SEED), pool.toBuffer()], //check if right stake pool
-      this.program.programId //
-    );
-  }
-
-  async getLockerPDA(base: PublicKey) {
-    return anchor.web3.PublicKey.findProgramAddress(
-      [Buffer.from(LOCKER_SEED), base.toBuffer()],
-      this.veProgram.programId
-    );
-  }
-
-  async getEscrowPDA(pool: PublicKey) {
-    const [locker] = await this.getLockerPDA(BASE_ACCOUNT);
-
-    return anchor.web3.PublicKey.findProgramAddress(
-      [
-        Buffer.from(ESCROW_SEED),
-        locker.toBuffer(),
-        this.wallet.publicKey.toBuffer()
-      ],
-      this.veProgram.programId
+      [Buffer.from(VAULT_AUTHORITY_SEED), pool.toBuffer()],
+      this.program.programId
     );
   }
 }
