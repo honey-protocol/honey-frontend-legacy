@@ -100,8 +100,23 @@ export class StakeClient {
     pool: PublicKey,
     user: PublicKey,
     source: PublicKey,
-    amount: anchor.BN
+    amount: anchor.BN,
+    hasUser: boolean
   ) {
+    const preInstructions = !hasUser
+      ? [
+          this.program.instruction.initializeUser({
+            accounts: {
+              payer: this.wallet.publicKey,
+              poolInfo: pool,
+              userInfo: user,
+              userOwner: this.wallet.publicKey,
+              systemProgram: anchor.web3.SystemProgram.programId
+            }
+          })
+        ]
+      : undefined;
+
     const txSig = await this.program.rpc.deposit(new anchor.BN(amount), {
       accounts: {
         poolInfo: pool,
@@ -111,7 +126,8 @@ export class StakeClient {
         source,
         userAuthority: this.wallet.publicKey,
         tokenProgram: TOKEN_PROGRAM_ID
-      }
+      },
+      preInstructions
     });
 
     return { txSig, amount };

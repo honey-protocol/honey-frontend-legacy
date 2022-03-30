@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useState, useEffect} from 'react';
+import React, { useCallback, useMemo, useState, useEffect } from 'react';
 import { Box, Button, Input, Stack, Text } from 'degen';
 import { PublicKey } from '@solana/web3.js';
 import { useStake } from 'hooks/useStake';
@@ -19,12 +19,6 @@ const PHoneyModal = () => {
   // ============================================================================
 
   const { user, createUser, deposit, claim } = useStake(STAKE_POOL_ADDRESS);
-  
-  useEffect(() => {
-    if (!user) {
-      
-    }
-  }, [user]);
 
   const depositedAmount = useMemo(() => {
     if (!user) {
@@ -45,11 +39,11 @@ const PHoneyModal = () => {
   const handleDeposit = useCallback(async () => {
     if (!amount) return;
 
-    if (!user) {
-      await createUser();
-    }
+    // if (!user) {
+    //   await createUser();
+    // }
 
-    await deposit(convertToBN(amount, PHONEY_DECIMALS));
+    await deposit(convertToBN(amount, PHONEY_DECIMALS), !!user);
   }, [createUser, deposit, user, amount]);
 
   return (

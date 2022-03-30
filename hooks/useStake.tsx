@@ -62,7 +62,6 @@ export const useStake = (stakePool: PublicKey) => {
       }, 10000);
 
       return () => {
-        console.log('AGG');
         clearInterval(timer);
       };
     }
@@ -82,11 +81,17 @@ export const useStake = (stakePool: PublicKey) => {
   }, [sc]);
 
   const deposit = useCallback(
-    async (amount: BN) => {
+    async (amount: BN, hasUser: boolean = true) => {
       if (sc && userKey && pHoneyToken) {
         setIsLoading(true);
         try {
-          await sc.deposit(stakePool, userKey, pHoneyToken.pubkey, amount);
+          await sc.deposit(
+            stakePool,
+            userKey,
+            pHoneyToken.pubkey,
+            amount,
+            hasUser
+          );
           setIsLoading(false);
         } catch (e) {
           console.log(e);
@@ -115,7 +120,13 @@ export const useStake = (stakePool: PublicKey) => {
       if (sc && userKey && pHoneyToken) {
         setIsLoading(true);
         try {
-          await sc.stake(stakePool, userKey, pHoneyToken.pubkey, amount, duration);
+          await sc.stake(
+            stakePool,
+            userKey,
+            pHoneyToken.pubkey,
+            amount,
+            duration
+          );
           setIsLoading(false);
         } catch (e) {
           console.log(e);

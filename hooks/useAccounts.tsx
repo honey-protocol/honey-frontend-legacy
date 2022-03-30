@@ -52,7 +52,7 @@ export const useAccounts = () => {
 
       const timer = setInterval(() => {
         fetchUserTokenAccounts();
-      }, 30000);
+      }, 10000);
 
       return () => {
         clearInterval(timer);
