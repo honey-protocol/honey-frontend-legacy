@@ -39,13 +39,12 @@ const PHoneyModal = () => {
   const handleDeposit = useCallback(async () => {
     if (!amount) return;
 
-    if (!user) {
-      await createUser();
-    }
+    // if (!user) {
+    //   await createUser();
+    // }
 
-    await deposit(convertToBN(amount, PHONEY_DECIMALS));
+    await deposit(convertToBN(amount, PHONEY_DECIMALS), !!user);
   }, [createUser, deposit, user, amount]);
-
 
   return (
     <Box width="96">
@@ -88,38 +87,26 @@ const PHoneyModal = () => {
               <Text variant="small">{pHoneyAmount}</Text>
             </Stack>
           </Stack>
-          {!user ? (
-            <Button
-              onClick={handleDeposit}
-              
-              width="full"
-            >
-              Initialize Account
-            </Button>
-          ) : (
-            <>
-              <Input
-                value={amount}
-                type="number"
-                label="Amount"
-                hideLabel
-                units="pHONEY"
-                // placeholder="0"
-                onChange={event => setAmount(Number(event.target.value))}
-              />
-              <Button onClick={handleDeposit} disabled={!amount} width="full">
-                {amount ? 'Deposit' : 'Enter amount'}
-              </Button>
-              <Button
-                onClick={claim}
-                // Make disabled
-                disabled={true}
-                width="full"
-              >
-                Claim
-              </Button>
-            </>
-          )}
+          <Input
+            value={amount}
+            type="number"
+            label="Amount"
+            hideLabel
+            units="pHONEY"
+            // placeholder="0"
+            onChange={event => setAmount(Number(event.target.value))}
+          />
+          <Button onClick={handleDeposit} disabled={!amount} width="full">
+            {amount ? 'Deposit' : 'Enter amount'}
+          </Button>
+          <Button
+            onClick={claim}
+            // Make disabled
+            disabled={true}
+            width="full"
+          >
+            Claim
+          </Button>
         </Stack>
       </Box>
     </Box>
