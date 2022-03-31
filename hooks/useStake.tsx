@@ -78,7 +78,7 @@ export const useStake = (stakePool: PublicKey, locker: PublicKey) => {
       fetchInfo();
 
       const timer = setInterval(() => {
-        console.log('interval');
+        // console.log('interval');
         fetchInfo();
       }, 10000);
 

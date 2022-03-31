@@ -76,7 +76,7 @@ const VeHoneyModal = () => {
   const handleStake = useCallback(async () => {
     if (!amount || !vestingPeriodInSeconds) return;
 
-    console.log(vestingPeriodInSeconds);
+    // console.log(vestingPeriodInSeconds);
 
     await stake(
       convertToBN(amount, PHONEY_DECIMALS),
@@ -151,12 +151,12 @@ const VeHoneyModal = () => {
             </Stack>
           </Stack>
           <Input
-            value={amount}
+            // value={amount}
             type="number"
             label="Amount"
             hideLabel
             units="pHONEY"
-            // placeholder="0"
+            placeholder="0"
             onChange={event => setAmount(Number(event.target.value))}
           />
           <Button

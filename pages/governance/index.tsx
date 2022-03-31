@@ -97,7 +97,7 @@ const Governance: NextPage = () => {
               <Stack flex={1} justify="center" align="center" space="3">
                 <IconExclamation color="accent" />
                 <Text variant="small" align="center">
-                  pre-IDO HONEY (pHONEY) has to be deposited before the IDO on
+                  pre-IDO HONEY (pHONEY) has to be deposited after the IDO on
                   March 30th You can{' '}
                   <Text as="span" color="accent">
                     stake it for HONEY or vest it for veHONEY.
