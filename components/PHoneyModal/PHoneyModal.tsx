@@ -92,12 +92,11 @@ const PHoneyModal = () => {
             </Stack>
           </Stack>
           <Input
-            value={amount}
             type="number"
             label="Amount"
             hideLabel
             units="pHONEY"
-            // placeholder="0"
+            placeholder="0"
             onChange={event => setAmount(Number(event.target.value))}
           />
           <Button onClick={handleDeposit} disabled={!amount} width="full">
