@@ -176,7 +176,7 @@ const useGemFarm = () => {
     setSelectedWalletNFTs([]);
   };
 
-  const refreshWithLoadingIcon = async () => {
+  const refreshNFTsWithLoadingIcon = async () => {
     setIsFetching(true);
     try {
       // wait 3 seconds before refreshing to give the blockchain some time
@@ -250,7 +250,7 @@ const useGemFarm = () => {
         toast('Depositing NFT failed');
       }
     }
-    await refreshWithLoadingIcon();
+    await refreshNFTsWithLoadingIcon();
     setSelectedWalletNFTs([]);
   };
 
@@ -271,7 +271,7 @@ const useGemFarm = () => {
         toast('Withdrawing NFT failed');
       }
     }
-    await refreshWithLoadingIcon();
+    await refreshNFTsWithLoadingIcon();
     setSelectedVaultNFTs([]);
   };
 
@@ -339,7 +339,7 @@ const useGemFarm = () => {
         toast('Failed to deposit more NFTs');
       }
     }
-    await refreshWithLoadingIcon();
+    await refreshNFTsWithLoadingIcon();
     setSelectedWalletNFTs([]);
   };
 
@@ -351,7 +351,7 @@ const useGemFarm = () => {
     withdrawSelectedGems,
     depositSelectedGems,
     initializeFarmerAcc,
-    refreshWithLoadingIcon,
+    refreshNFTsWithLoadingIcon,
     onWalletNFTSelect,
     onWalletNFTUnselect,
     onStakedNFTSelect,
