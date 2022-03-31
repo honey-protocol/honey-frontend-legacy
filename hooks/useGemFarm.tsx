@@ -22,6 +22,7 @@ import { useRouter } from 'next/router';
 import { newFarmCollections } from 'constants/new-farms';
 import React, { ReactNode, useCallback, useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
+import { blockchainWaitTime } from 'constants/timeouts';
 
 const useGemFarm = () => {
   const wallet = useConnectedWallet();
@@ -182,7 +183,7 @@ const useGemFarm = () => {
       await setTimeout(async () => {
         await onRefreshNFTs();
         setIsFetching(false);
-      }, 3000);
+      }, blockchainWaitTime);
     } catch (error) {
       console.log(error);
     }
@@ -218,8 +219,11 @@ const useGemFarm = () => {
     if (!gb || !gf || !wallet?.publicKey) return;
     try {
       await gf.initFarmerWallet(new PublicKey(farmAddress!));
-      await fetchFarmerDetails(gf, gb);
-      toast('Farmer account initialized');
+      //we have to wait some seconds before fectching farmer's details to give the blockchain some time
+      setTimeout(async () => {
+        await fetchFarmerDetails(gf, gb);
+        toast('Farmer account initialized');
+      }, blockchainWaitTime);
     } catch (error) {
       console.log(error);
       toast('Account initialization failed!');
@@ -335,10 +339,8 @@ const useGemFarm = () => {
         toast('Failed to deposit more NFTs');
       }
     }
-    await setTimeout(async () => {
-      await refreshWithLoadingIcon();
-      setSelectedWalletNFTs([]);
-    }, 2000);
+    await refreshWithLoadingIcon();
+    setSelectedWalletNFTs([]);
   };
 
   return {
