@@ -203,7 +203,7 @@ const useGemFarm = () => {
   };
 
   const onStakedNFTSelect = (NFT: NFT) => {
-    if (selectedVaultNFTs.length >= 5) return;
+    if (selectedVaultNFTs.length >= 7) return;
     setSelectedVaultNFTs([...selectedVaultNFTs, NFT]);
   };
 
@@ -282,8 +282,10 @@ const useGemFarm = () => {
     setSelectedWalletNFTs([]);
     try {
       await gf.stakeWallet(new PublicKey(farmAddress!));
-      await fetchFarmerDetails(gf, gb);
-      toast('Vault Locked');
+      setTimeout(async () => {
+        await fetchFarmerDetails(gf, gb);
+        toast('Vault Locked');
+      }, blockchainWaitTime);
     } catch (error) {
       console.log(error);
       toast('Failed to lock vault');
@@ -296,8 +298,11 @@ const useGemFarm = () => {
     setSelectedWalletNFTs([]);
     try {
       await gf.unstakeWallet(new PublicKey(farmAddress!));
-      await fetchFarmerDetails(gf, gb);
-      toast('Vault unlocked');
+      refreshNFTsWithLoadingIcon();
+      setTimeout(async () => {
+        await fetchFarmerDetails(gf, gb);
+        toast('Vault unlocked');
+      }, blockchainWaitTime);
     } catch (error) {
       console.log(error);
       toast('Failed to unlock vault');
