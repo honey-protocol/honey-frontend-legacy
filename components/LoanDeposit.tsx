@@ -31,7 +31,7 @@ const LoanDeposit = (props: LoanDepositProps) => {
                         color="foreground"
                         variant="large"
                     >
-                        SMB
+                        Solana Monkey Business
                     </Text>
                 </Box>
             </Stack>
@@ -57,7 +57,7 @@ const LoanDeposit = (props: LoanDepositProps) => {
                             align="right"
                             color="foreground"
                         >
-                            $2,402,540
+                            $0
                         </Text>
                     </Stack>
                     <Stack
@@ -67,12 +67,12 @@ const LoanDeposit = (props: LoanDepositProps) => {
                     space="2"
                     >
                         <Text align="left"
-                        color="textSecondary">Supply API</Text>
+                        color="textSecondary">Supply APY</Text>
                         <Text
                             align="right"
                             color="foreground"
                         >
-                            12.2%
+                            0%
                         </Text>
                     </Stack>
                     <Stack
@@ -87,7 +87,7 @@ const LoanDeposit = (props: LoanDepositProps) => {
                             align="right"
                             color="foreground"
                         >
-                            $4,500
+                            $0
                         </Text>
                     </Stack>
                 </Stack>

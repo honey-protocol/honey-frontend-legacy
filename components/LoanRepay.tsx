@@ -89,7 +89,7 @@ const LoanRepay = (props: LoanRepayProps) => {
                     align="right"
                     color="foreground"
                 >
-                    15.5%</Text>
+                    50%</Text>
                 </Stack>
                 <Stack
                 direction="horizontal"
@@ -182,7 +182,7 @@ const LoanRepay = (props: LoanRepayProps) => {
                         space="2"
                     >
                         <Text align="left"
-                        color="textSecondary">Total payback</Text>
+                        color="textSecondary">Total debt</Text>
                         <Text
                             align="right"
                             color="foreground"

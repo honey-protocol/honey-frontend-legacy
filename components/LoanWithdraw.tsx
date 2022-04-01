@@ -43,7 +43,7 @@ const LoanWithdraw = (props: LoanWithdrawProps) => {
                         color="foreground"
                         variant="large"
                     >
-                        SMB
+                        Solana Monkey Business
                     </Text>
                 </Box>
             </Stack>
@@ -68,7 +68,7 @@ const LoanWithdraw = (props: LoanWithdrawProps) => {
                         align="right"
                         color="foreground"
                     >
-                        $782.5</Text>
+                        $0</Text>
                     </Stack>
                     <Stack
                     direction="horizontal"
@@ -80,13 +80,13 @@ const LoanWithdraw = (props: LoanWithdrawProps) => {
                             align="left"
                             color="foreground"
                             >
-                            782.5 USDC
+                            0 USDC
                         </Text>
                         <Text
                             align="right"
                             color="foreground"
                         >
-                            $782.5
+                            $0
                         </Text>
                     </Stack>
                 </Stack>
@@ -112,7 +112,7 @@ const LoanWithdraw = (props: LoanWithdrawProps) => {
                             align="right"
                             color="foreground"
                         >
-                            $650
+                            $0
                         </Text>
                     </Stack>
                     <Stack
@@ -127,7 +127,7 @@ const LoanWithdraw = (props: LoanWithdrawProps) => {
                             align="right"
                             color="foreground"
                         >
-                            $3,239
+                            $0
                         </Text>
                     </Stack>
                 </Stack>
