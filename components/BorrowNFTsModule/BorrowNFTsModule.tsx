@@ -6,7 +6,7 @@ import * as styles from './BorrowNFTsModule.css';
 import ToggleSwitchLoan from '../../components/ToggleSwitchLoan';
 
 interface BorrowNFTsModule {
-  NFT: [{
+  NFT: {
     name: string,
     image: string,
     borrowApy: string,
@@ -14,7 +14,7 @@ interface BorrowNFTsModule {
     assetsBorrowed: number,
     netBorrowBalance: number,
     key: number
-  }]
+  }
 }
 
 const BorrowNFTsModule = (props: BorrowNFTsModule) => {
