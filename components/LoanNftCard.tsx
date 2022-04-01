@@ -4,28 +4,23 @@ import { Avatar, Box } from 'degen';
 
 interface LoanNFTCardProps {
   NFT: NFT;
-  // onSelect: () => void;
-  // isSelected: boolean;
-  // onUnselect: () => void;
+  onSelect: (key: number) => void;
 }
 
 const LoanNFTCard = (props: LoanNFTCardProps) => {
-  // const [selected, setSelected] = useState(false);
+  const {
+    onSelect
+  } = props;
 
-  // function selectNFT() {
-  //   return (console.log(props.NFT.name))
-  //  if (selected) {
-
-  //  }
   return (
     <Box
       backgroundColor={'backgroundSecondary'}
       borderRadius="3xLarge"
-      borderWidth={props.NFT.name == 'SMB #2721' ? '0.5' : '0'}
+      borderWidth={props.selected ? '0.5' : '0'}
       borderColor="accent"
       padding="1.5"
       overflow="hidden"
-      // onClick={() => setSelected(true)}
+      onClick={() => onSelect(props.NFT.key)}
     >
       <Avatar
         label={props.NFT.name}
