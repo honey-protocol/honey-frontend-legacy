@@ -5,23 +5,20 @@ import { Input } from 'degen';
 import Slider from '../components/Slider/Slider';
 
 interface LoanRepayProps {
-    nftName: string,
-    evaluation: number,
-    interestRate: number,
-    assetsBorrowed: number,
-    totalInterest: number,
-    totalPayback: number,
+    NFT: [{
+        name: string,
+        image: string,
+        borrowApy: string,
+        estValue: string,
+        assetsBorrowed: number,
+        netBorrowBalance: number,
+        key: number
+    }]
 }
 
 const LoanRepay = (props: LoanRepayProps) => {
-    const {
-        nftName,
-        evaluation,
-        interestRate,
-        assetsBorrowed,
-        totalInterest,
-        totalPayback
-    } = props;
+    const { NFT } = props;
+    const selected = NFT[0];
 
     return (
         <Box gap="3">
@@ -35,7 +32,7 @@ const LoanRepay = (props: LoanRepayProps) => {
                 align="center"
             >
                 <Box alignItems="flex-start">
-                <Avatar label="" size="10" src={"/nfts/2721.png"} />
+                    <Avatar label="" size="10" src={selected.image} />
                 </Box>
                 <Box
                 paddingBottom="2"
@@ -52,7 +49,7 @@ const LoanRepay = (props: LoanRepayProps) => {
                     color="foreground"
                     variant="large"
                     >
-                    SMB #2721
+                    {selected.name}
                     </Text>
                 </Stack>
                 <Stack
@@ -66,7 +63,7 @@ const LoanRepay = (props: LoanRepayProps) => {
                     align="right"
                     color="foreground"
                     >
-                    $25,800
+                    {selected.estValue}
                     </Text>
                 </Stack>
                 </Box>
@@ -132,7 +129,7 @@ const LoanRepay = (props: LoanRepayProps) => {
                         align="right"
                         color="foreground"
                     >
-                        $782.5</Text>
+                        {selected.assetsBorrowed}</Text>
                     </Stack>
                     <Stack
                     direction="horizontal"
@@ -144,13 +141,13 @@ const LoanRepay = (props: LoanRepayProps) => {
                             align="left"
                             color="foreground"
                             >
-                            782.5 USDC
+                            {selected.assetsBorrowed} USDC
                         </Text>
                         <Text
                             align="right"
                             color="foreground"
                         >
-                            $782.5
+                            {selected.assetsBorrowed}
                         </Text>
                     </Stack>
                 </Stack>
@@ -176,7 +173,7 @@ const LoanRepay = (props: LoanRepayProps) => {
                             align="right"
                             color="foreground"
                         >
-                            $40.5
+                            $0
                         </Text>
                     </Stack>
                     <Stack
@@ -191,7 +188,7 @@ const LoanRepay = (props: LoanRepayProps) => {
                             align="right"
                             color="foreground"
                         >
-                            $1,350.5
+                            $0
                         </Text>
                     </Stack>
                 </Stack>

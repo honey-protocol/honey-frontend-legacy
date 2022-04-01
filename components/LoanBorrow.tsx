@@ -6,23 +6,20 @@ import Slider from '../components/Slider/Slider';
 import * as styles from './Slider/Slider.css';
 
 interface LoanBorrowProps {
-    name: string,
-    image: string,
-    value: string
-    // Above props only intended for mock data
-
-    // borrowApy: number,
-    // estValue: number,
-    // assetsBorrowed: number,
-    // netBorrowBalance: number,
+    NFT: [{
+        name: string,
+        image: string,
+        borrowApy: string,
+        estValue: string,
+        assetsBorrowed: number,
+        netBorrowBalance: number,
+        key: number
+      }]
 }
 
 const LoanBorrow = (props: LoanBorrowProps) => {
-    const {
-        name,
-        image,
-        value
-    } = props;
+    const { NFT } = props;
+    const selected = NFT[0]
 
     return (
         <Box gap="3">
@@ -36,8 +33,7 @@ const LoanBorrow = (props: LoanBorrowProps) => {
                 align="center"
             >
                 <Box alignItems="flex-start">
-                    <Avatar label="" size="10" src={"/nfts/2721.png"} />
-                    {/* <Avatar label="" size="10" src={props.image} /> */}
+                    <Avatar label="" size="10" src={selected.image} />
                 </Box>
                 <Box
                     paddingBottom="2"
@@ -54,8 +50,7 @@ const LoanBorrow = (props: LoanBorrowProps) => {
                             color="foreground"
                             variant="large"
                         >
-                            {/* {props.name} */}
-                            SMB #2721
+                            {selected.name}
                         </Text>
                     </Stack>
                 </Box>
@@ -100,8 +95,7 @@ const LoanBorrow = (props: LoanBorrowProps) => {
                             align="right"
                             color="foreground"
                         >
-                            {/* {props.value} */}
-                            $25,800
+                            {selected.estValue}
                         </Text>
                     </Stack>
                 </Stack>
@@ -130,7 +124,7 @@ const LoanBorrow = (props: LoanBorrowProps) => {
                             align="right"
                             color="foreground"
                         >
-                            $782.5
+                            {selected.assetsBorrowed}
                         </Text>
                     </Stack>
                     <Stack
@@ -144,14 +138,14 @@ const LoanBorrow = (props: LoanBorrowProps) => {
                                 align="left"
                                 color="foreground"
                             >
-                            782.5 USDC
+                            {selected.assetsBorrowed} USDC
                             </Text>
                         </Stack>
                     <Text
                         align="right"
                         color="foreground"
                     >
-                        $782.5
+                        {selected.assetsBorrowed}
                     </Text>
                     </Stack>
                 </Stack>
@@ -177,7 +171,7 @@ const LoanBorrow = (props: LoanBorrowProps) => {
                         align="right"
                         color="foreground"
                     >
-                        $2,500
+                        {selected.netBorrowBalance}
                     </Text>
                 </Stack>
             </Box>
