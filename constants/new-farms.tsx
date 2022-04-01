@@ -26,6 +26,21 @@ export type TGFarm = {
 
 export const newFarmCollections: TGFarm[] = [
   {
+    id: "OFHNY",
+    imageUrl:
+      "https://raw.githubusercontent.com/solana-labs/token-list/main/assets/mainnet/HonyeYAaTPgKUgQpayL914P6VAqbQZPrbkGMETZvW4iN/logo.svg",
+    name: "$HONEY Farm",
+    totalStaked: "???",
+    allocation: "10",
+    totalStakedByUser: "-",
+    eventStartDate: "2022/3/30/18/50",
+    eventDuration: "-",
+    updateAuthority: "B2a66dokeqxGJoUqmtaRNn6JeQJZjatNL5ykZduLjFXY",
+    rewardTokenName: "HONEY",
+    farmAddress: "Haparmtd9Si4Wp4jke5CdaqLduqm22fhrn3QiD2xC6wY",
+    bankAddress: "DT5iQCmjzgNL2Q2AKErTAUwaCbuc8ufedoLH61fr6TVm",
+  },
+  {
     id: "HNYVT",
     imageUrl:
       "https://i.imgflip.com/65u2do.gif",
