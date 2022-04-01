@@ -1,7 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { Box, Button, Card, Stack, Text, Tag } from 'degen';
-import { Avatar } from 'degen';
-import { Input } from 'degen'
+import React, { useState } from 'react';
+import { Box, Card } from 'degen';
 import LoanBorrow from '../../components/LoanBorrow';
 import LoanRepay from '../../components/LoanRepay';
 import * as styles from './BorrowNFTsModule.css';
