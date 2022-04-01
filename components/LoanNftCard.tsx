@@ -4,6 +4,7 @@ import { Avatar, Box } from 'degen';
 
 interface LoanNFTCardProps {
   NFT: NFT;
+  selected: boolean;
   onSelect: (key: number) => void;
 }
 
