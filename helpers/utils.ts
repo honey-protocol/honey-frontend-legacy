@@ -1,5 +1,6 @@
 import { programs } from '@metaplex/js';
 import { Connection, PublicKey } from '@solana/web3.js';
+import * as anchor from '@project-serum/anchor';
 
 export const convertArrayToObject = (array: any[], key: string) => {
   const initialValue = {};
@@ -38,4 +39,22 @@ export const extractMetaData = async (
     tokenId: tokenmetaPubkey.toString(),
     mint: mint.toString()
   };
+};
+
+export const convert = (amount: anchor.BN, decimals: number = 6): number => {
+  const wads = new anchor.BN(10).pow(new anchor.BN(decimals));
+
+  const div = new anchor.BN(amount).div(wads).toNumber();
+  const rem = new anchor.BN(amount).mod(wads).toNumber() / wads.toNumber();
+
+  return div + rem;
+};
+
+export const convertToBN = (
+  amount: number,
+  decimals: number = 6
+): anchor.BN => {
+  const wads = new anchor.BN(10).pow(new anchor.BN(decimals));
+
+  return new anchor.BN(amount).mul(wads);
 };

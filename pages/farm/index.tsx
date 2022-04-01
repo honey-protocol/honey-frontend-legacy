@@ -80,7 +80,7 @@ const Farm: NextPage = (props: any) => {
   return (
     <Layout>
       <Box>
-        <Box height="16" minWidth="full" gap="3" paddingTop="4">
+        <Box minWidth="full" gap="3" paddingTop="4">
           <Stack direction="horizontal" wrap justify="center" align="center">
             <Stack
               direction="horizontal"
