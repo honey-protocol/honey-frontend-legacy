@@ -26,7 +26,7 @@ import { GithubIcon } from 'icons/GithubIcon';
 import { useRouter } from 'next/router';
 
 const whitePaperUrl =
-  'https://tomjpandolfi.com/whitepaper-peer-to-contract-nft-collateral-and-lending-fdd6054328b0';
+  'https://4291845233-files.gitbook.io/~/files/v0/b/gitbook-x-prod.appspot.com/o/spaces%2FLxClA4ViEZ3CcRvINtyy%2Fuploads%2FsDr0JNKhTU5H9f9qkkX2%2Fhoney_whitepaper.pdf?alt=media&token=c9054e88-e3a5-43fd-a80f-ac55e2d49162';
 
 const governanceUrl = "https://forum.honey.finance/"
 
@@ -49,6 +49,13 @@ const mainLinks = [
     title: 'Farm',
     IconComp: IconTokens,
     key: 3
+  },
+  {
+    url: 'https://forum.honey.finance',
+    title: 'Governance',
+    comingSoon: false,
+    IconComp: IconHand,
+    key: 4
   }
 ];
 
