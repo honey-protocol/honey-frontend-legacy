@@ -9,7 +9,7 @@ type TButton = {
 };
 interface LoanNFTsContainerProps {
   isFetching: boolean;
-  NFTs: [];
+  NFTs: any[];
   selectedId: number,
   onSelectNFT: (key: number) => void,
   title: string;
