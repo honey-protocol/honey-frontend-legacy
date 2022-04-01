@@ -59,9 +59,8 @@ const Loan: NextPage = () => {
 
   const [selectedId, setSelectedId] = useState(1);
 
-  function selectNFT(key) {
+  function selectNFT(key: number) {
     setSelectedId(key);
-    console.log(key)
   };
 
   return (
