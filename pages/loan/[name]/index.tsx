@@ -1,6 +1,6 @@
 import type { NextPage } from 'next';
 import React, { useState } from 'react';
-import { Box, Stack, Button, IconChevronLeft } from 'degen';
+import { Box, Stack, Button, IconChevronLeft, Text } from 'degen';
 import Layout from '../../../components/Layout/Layout';
 import LoanNFTsContainer from 'components/LoanNFTsContainer/LoanNFTsContainer';
 import BorrowNFTsModule from 'components/BorrowNFTsModule/BorrowNFTsModule';
@@ -100,8 +100,7 @@ const Loan: NextPage = () => {
 
         />
         <BorrowNFTsModule NFT={marketNFTs.find(
-          (NFT) => NFT.key === selectedId
-        )} />
+          (NFT) => NFT.key === selectedId) || marketNFTs[0]} />
       </Box>
     </Layout>
   );
