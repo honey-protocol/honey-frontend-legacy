@@ -1,19 +1,41 @@
 # Contributing -- example from Preact for review!
 
-This document is intended for developers interest in making contributions to the Honey Finance frontend and document our internal processes like releasing a new version.
+This document is intended for developers interested in making contributions to the Honey Finance Front-end and to document our internal with respect to processes and standards regarding e.g. releasing a new version.
 
 ## Getting Started
 
-This steps will help you to set up your development environment. That includes all dependencies we use to build the Honey Finance frontend (and developer tooling like git commit hooks).
+These steps will help you to set up your development environment. That includes all dependencies we use to build the Honey Finance Front-end (and developer tooling like git commit hooks).
 
-1. Clone the git repository: `git clone git@github.com:honey-labs/honey-frontend.git`
-2. Go into the cloned folder: `cd honey-frontend/`
-3. Install all dependencies: `yarn install`
+Before completing the below stated steps [please see the requirements]() in order to run the project successfully.
 
-TODO:
-## The Repo Structure  -- example from Preact for review! (core devs should structure this and the repo as it needs to become)
+1. Clone the git repository: 
+```bash
+git clone git@github.com:honey-labs/honey-frontend.git
+```
+2. Navigate into the cloned folder: 
+```bash 
+cd honey-frontend/
+```
+3. Install all dependencies: 
+```bash 
+yarn install 
+```
+4. Spin up the local environment:
+```bash
+yarn dev
+```
 
-This repository contains the Honey Finance frontend itself, as well as ... (EXAMPLE: several addons like the debugging package). This is reflected in the directory structure of this repository. Each package has a `src/` folder where the source code can be found, a `test` folder for all sorts of tests that check if the code in `src/` is correct, and a `dist/` folder where you can find the bundled artifacts. Note that the `dist/` folder may not be present initially. It will be created as soon as you run any of the build scripts inside `package.json`. 
+## The Repo Structure
+This repository contains the structure of the Honey Finance Front-end. Please note that this documentation is still a WIP. The Honey Finance Front-end consists of the following stack:
+- <a href="https://nextjs.org/" target="_blank">Next.JS</a>
+- <a href="https://create-react-app.dev/">Create-react-app</a>
+- <a href="https://www.typescriptlang.org/" target="_blank">Typescript</a>
+
+
+The root of the project is listed in `pages/app.tsx`. This file contains the logic of integrating the GokiProtocol wallet kit 
+
+
+as well as ... (EXAMPLE: several addons like the debugging package). This is reflected in the directory structure of this repository. Each package has a `src/` folder where the source code can be found, a `test` folder for all sorts of tests that check if the code in `src/` is correct, and a `dist/` folder where you can find the bundled artifacts. Note that the `dist/` folder may not be present initially. It will be created as soon as you run any of the build scripts inside `package.json`. 
 
 A quick overview of our repository (or ideally how it should become):
 
