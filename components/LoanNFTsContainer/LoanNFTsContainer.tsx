@@ -5,30 +5,26 @@ import * as styles from './LoanNFTsContainer.css';
 
 type TButton = {
   title: string;
-  // disabled: boolean;
   hidden?: boolean;
-  // onClick: () => void;
 };
 interface LoanNFTsContainerProps {
   isFetching: boolean;
   NFTs: NFT[];
-  // selectedNFTs: NFT[];
+  selectedId: number,
+  onSelectNFT: (key: number) => void,
   title: string;
   buttons: TButton[];
-  // onNFTSelect: Function | null;
-  // onNFTUnselect: (NFT: NFT) => void;
 }
 
 const LoanNFTsContainer = (props: LoanNFTsContainerProps) => {
   const {
     NFTs,
-    // selectedNFTs,
     title,
     buttons,
-    // onNFTSelect,
-    // onNFTUnselect,
-    // isFetching
+    selectedId,
+    onSelectNFT,
   } = props;
+
   return (
     <Box className={styles.cardContainer}>
       <Card level="2" width="full" padding="8" shadow>
@@ -47,8 +43,6 @@ const LoanNFTsContainer = (props: LoanNFTsContainerProps) => {
                       key={button.title}
                       size="small"
                       disabled={true}
-                      // disabled={button.disabled}
-                      // onClick={button.onClick}
                     >
                       {button.title}
                     </Button>
@@ -56,31 +50,16 @@ const LoanNFTsContainer = (props: LoanNFTsContainerProps) => {
                 )}
               </Stack>
             </Stack>
-            {/* {isFetching ? (
-              <Box className={styles.centerItemContainer}>
-                <Spinner size="large" />
-              </Box>
-            ) : !NFTs.length ? (
-              <Box className={styles.centerItemContainer}>
-                <Text>No NFTs to display</Text>
-              </Box>
-            ) : ( */}
               <Box className={styles.nftContainer}>
                 {NFTs.map((nft, i) => (
                   <LoanNFTCard
+                    selected={nft.key === selectedId}
                     key={nft.key}
                     NFT={nft}
-                    // onSelect={onNFTSelect ? () => onNFTSelect(nft) : () => {}}
-                    // onUnselect={() => onNFTUnselect(nft)}
-                    // isSelected={Boolean(
-                    //   selectedNFTs.find(
-                    //     (NFT: NFT) => nft.name === NFT.name
-                    //   )
-                    // )}
+                    onSelect={onSelectNFT}
                   />
                 ))}
               </Box>
-            {/* // )} */}
           </Stack>
         </Box>
       </Card>
@@ -89,3 +68,5 @@ const LoanNFTsContainer = (props: LoanNFTsContainerProps) => {
 };
 
 export default LoanNFTsContainer;
+
+
