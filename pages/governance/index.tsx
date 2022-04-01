@@ -161,14 +161,14 @@ const Governance: NextPage = () => {
                 </Box>
                 <Stack justify="space-around">
                   {wallet ? (
-                    <Button
-                      onClick={() => setShowPHoneyModal(true)}
-                      width="full"
-                      size="small"
-                      variant="secondary"
-                    >
-                      Get HONEY
-                    </Button>
+                      <Button
+                        onClick={() => setShowPHoneyModal(true)}
+                        width="full"
+                        size="small"
+                        variant="secondary"
+                      >
+                        Get HONEY
+                      </Button>
                   ) : (
                     <Button
                       onClick={connect}
@@ -180,14 +180,14 @@ const Governance: NextPage = () => {
                     </Button>
                   )}
                   {wallet ? (
-                    <Button
-                      onClick={() => setShowVeHoneyModal(true)}
-                      width="full"
-                      size="small"
-                      variant="secondary"
-                    >
-                      Get HONEY
-                    </Button>
+                      <Button
+                        onClick={() => setShowVeHoneyModal(true)}
+                        width="full"
+                        size="small"
+                        variant="secondary"
+                      >
+                        Get veHONEY
+                      </Button>
                   ) : (
                     <Button
                       onClick={connect}
@@ -195,7 +195,7 @@ const Governance: NextPage = () => {
                       size="small"
                       variant="secondary"
                     >
-                      Get HONEY
+                      Get veHONEY
                     </Button>
                   )}
                 </Stack>
@@ -204,11 +204,11 @@ const Governance: NextPage = () => {
           </Card>
         </Stack>
         {/* Table */}
-        <Box
+        {/* <Box
           flex={1}
           borderRadius="2xLarge"
           backgroundColor="backgroundTertiary"
-        ></Box>
+        ></Box> */}
       </Stack>
     </Layout>
   );
