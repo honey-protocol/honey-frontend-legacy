@@ -7,6 +7,8 @@ import { useState, useMemo } from 'react';
 import PHoneyModal from 'components/PHoneyModal/PHoneyModal';
 import VeHoneyModal from 'components/VeHoneyModal/VeHoneyModal';
 import { PublicKey } from '@solana/web3.js';
+import { useConnectedWallet } from '@saberhq/use-solana';
+import { useWalletKit } from '@gokiprotocol/walletkit';
 import { useStake } from 'hooks/useStake';
 import { useAccounts } from 'hooks/useAccounts';
 import {
@@ -17,6 +19,8 @@ import {
 import { convert, convertToBN } from 'helpers/utils';
 
 const Governance: NextPage = () => {
+  const wallet = useConnectedWallet();
+  const { connect } = useWalletKit();
   const [showPHoneyModal, setShowPHoneyModal] = useState(false);
   const [showVeHoneyModal, setShowVeHoneyModal] = useState(false);
 
@@ -156,22 +160,44 @@ const Governance: NextPage = () => {
                   </Stack>
                 </Box>
                 <Stack justify="space-around">
-                  <Button
-                    onClick={() => setShowPHoneyModal(true)}
-                    width="full"
-                    size="small"
-                    variant="secondary"
-                  >
-                    Get HONEY
-                  </Button>
-                  <Button
-                    onClick={() => setShowVeHoneyModal(true)}
-                    width="full"
-                    size="small"
-                    variant="secondary"
-                  >
-                    Get veHONEY
-                  </Button>
+                  {wallet ? (
+                    <Button
+                      onClick={() => setShowPHoneyModal(true)}
+                      width="full"
+                      size="small"
+                      variant="secondary"
+                    >
+                      Get HONEY
+                    </Button>
+                  ) : (
+                    <Button
+                      onClick={connect}
+                      width="full"
+                      size="small"
+                      variant="secondary"
+                    >
+                      Get HONEY
+                    </Button>
+                  )}
+                  {wallet ? (
+                    <Button
+                      onClick={() => setShowVeHoneyModal(true)}
+                      width="full"
+                      size="small"
+                      variant="secondary"
+                    >
+                      Get HONEY
+                    </Button>
+                  ) : (
+                    <Button
+                      onClick={connect}
+                      width="full"
+                      size="small"
+                      variant="secondary"
+                    >
+                      Get HONEY
+                    </Button>
+                  )}
                 </Stack>
               </Stack>
             </Box>
