@@ -1,5 +1,6 @@
 import type { NextPage } from 'next';
-import { Box, Stack, Button, IconRefresh, IconChevronLeft } from 'degen';
+import React, { useState } from 'react';
+import { Box, Stack, Button, IconChevronLeft } from 'degen';
 import Layout from '../../../components/Layout/Layout';
 import LoanNFTsContainer from 'components/LoanNFTsContainer/LoanNFTsContainer';
 import BorrowNFTsModule from 'components/BorrowNFTsModule/BorrowNFTsModule';
@@ -51,10 +52,17 @@ const marketNFTs = [
     assetsBorrowed: 0,
     netBorrowBalance: 0,
     key: 5
-  },
+  }
 ]
 
 const Loan: NextPage = () => {
+
+  const [selectedId, setSelectedId] = useState(1);
+
+  function selectNFT(key) {
+    setSelectedId(key);
+    console.log(key)
+  };
 
   return (
     <Layout>
@@ -81,25 +89,20 @@ const Loan: NextPage = () => {
       </Box>
       <Box display="flex" height="full" className={styles.cardsContainer}>
         <LoanNFTsContainer
-          // isFetching={isFetching}
           title="Open positions"
+          selectedId={selectedId}
+          onSelectNFT={selectNFT}
           buttons={[
             {
               title: 'New position',
-              // disabled: selectedWalletNFTs.length ? false : true,
-              // onClick: !farmerAcc
-              //   ? initializeFarmerAcc
-              //   : !farmerVaultLocked
-              //   ? depositSelectedGems
-              //   : depositMoreSelectedGems
             }
           ]}
           NFTs={marketNFTs}
-          // selectedNFTs={selectedWalletNFTs}
-          // onNFTSelect={onWalletNFTSelect}
-          // onNFTUnselect={onWalletNFTUnselect}
+
         />
-        <BorrowNFTsModule />
+        <BorrowNFTsModule NFT={marketNFTs.filter(
+          (NFT) => NFT.key === selectedId
+        )} />
       </Box>
     </Layout>
   );
