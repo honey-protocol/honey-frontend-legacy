@@ -3,7 +3,11 @@ import Image from 'next/image';
 import { Avatar, Box } from 'degen';
 
 interface LoanNFTCardProps {
-  NFT: NFT;
+  NFT: {
+    name: string,
+    image: string,
+    key: number
+  };
   selected: boolean;
   onSelect: (key: number) => void;
 }
