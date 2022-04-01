@@ -30,7 +30,7 @@ const Governance: NextPage = () => {
   const pHoneyToken = tokenAccounts.find(t => t.info.mint.equals(PHONEY_MINT));
   const STAKE_POOL_ADDRESS = new PublicKey(
     process.env.NEXT_STAKE_POOL_ADDR ||
-      'Cv9Hx3VRvqkz5JRPiZM8A2BH31yvpcT4qiUJLdtgu7TE'
+      '4v62DWSwrUVEHe2g88MeyJ7g32vVzQsCnADZF8yUy8iU'
   );
   const LOCKER_ADDRESS = new PublicKey(
     process.env.NEXT_LOCKER_ADDR ||
