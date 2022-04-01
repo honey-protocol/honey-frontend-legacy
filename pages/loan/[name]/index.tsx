@@ -99,7 +99,7 @@ const Loan: NextPage = () => {
           NFTs={marketNFTs}
 
         />
-        <BorrowNFTsModule NFT={marketNFTs.filter(
+        <BorrowNFTsModule NFT={marketNFTs.find(
           (NFT) => NFT.key === selectedId
         )} />
       </Box>
