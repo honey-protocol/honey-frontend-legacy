@@ -6,7 +6,7 @@ import Slider from '../components/Slider/Slider';
 import * as styles from './Slider/Slider.css';
 
 interface LoanBorrowProps {
-    NFT: [{
+    NFT: {
         name: string,
         image: string,
         borrowApy: string,
@@ -14,12 +14,11 @@ interface LoanBorrowProps {
         assetsBorrowed: number,
         netBorrowBalance: number,
         key: number
-      }]
+    }
 }
 
 const LoanBorrow = (props: LoanBorrowProps) => {
     const { NFT } = props;
-    const selected = NFT[0]
 
     return (
         <Box gap="3">
@@ -33,7 +32,7 @@ const LoanBorrow = (props: LoanBorrowProps) => {
                 align="center"
             >
                 <Box alignItems="flex-start">
-                    <Avatar label="" size="10" src={selected.image} />
+                    <Avatar label="" size="10" src={NFT.image} />
                 </Box>
                 <Box
                     paddingBottom="2"
@@ -50,7 +49,7 @@ const LoanBorrow = (props: LoanBorrowProps) => {
                             color="foreground"
                             variant="large"
                         >
-                            {selected.name}
+                            {NFT.name}
                         </Text>
                     </Stack>
                 </Box>
@@ -95,7 +94,7 @@ const LoanBorrow = (props: LoanBorrowProps) => {
                             align="right"
                             color="foreground"
                         >
-                            {selected.estValue}
+                            {NFT.estValue}
                         </Text>
                     </Stack>
                 </Stack>
@@ -124,7 +123,7 @@ const LoanBorrow = (props: LoanBorrowProps) => {
                             align="right"
                             color="foreground"
                         >
-                            {selected.assetsBorrowed}
+                            {NFT.assetsBorrowed}
                         </Text>
                     </Stack>
                     <Stack
@@ -138,14 +137,14 @@ const LoanBorrow = (props: LoanBorrowProps) => {
                                 align="left"
                                 color="foreground"
                             >
-                            {selected.assetsBorrowed} USDC
+                            {NFT.assetsBorrowed} USDC
                             </Text>
                         </Stack>
                     <Text
                         align="right"
                         color="foreground"
                     >
-                        {selected.assetsBorrowed}
+                        {NFT.assetsBorrowed}
                     </Text>
                     </Stack>
                 </Stack>
@@ -171,7 +170,7 @@ const LoanBorrow = (props: LoanBorrowProps) => {
                         align="right"
                         color="foreground"
                     >
-                        {selected.netBorrowBalance}
+                        {NFT.netBorrowBalance}
                     </Text>
                 </Stack>
             </Box>
