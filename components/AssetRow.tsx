@@ -5,6 +5,8 @@ import { Text } from 'degen'
 import { Avatar } from 'degen'
 import { Card } from 'degen'
 import NumberFormat from 'react-number-format';
+import * as styles from '../styles/loan.css';
+import { style } from '@vanilla-extract/css';
 
 export interface AssetRowType {
     data?: ReactNode,
@@ -22,16 +24,20 @@ interface AssetRowProps {
 
 const AssetRow = ({ data }: AssetRowProps) => {
  return (
-  <Card
-    padding="6"
+  <Box
+    backgroundColor="foregroundSecondary"
+    padding="5"
+    borderRadius="2xLarge"
+    className={styles.dataContainer}
   >
     <Stack
         direction="horizontal"
-        justify="space-between"
+        justify="space-around"
         align="center"
     >
         <Box
-            maxWidth="180"
+            display="flex"
+            className={styles.dataRowWrapper}
         >
             <Stack
                 direction="horizontal"
@@ -39,38 +45,52 @@ const AssetRow = ({ data }: AssetRowProps) => {
                 justify="center"
                 align="center"
             >
-                {/* Implement next image https://degen-xyz.vercel.app/components/Avatar#next-image */}
-                <Avatar label="TetranodeNFT" size="10" src={data.vaultImageUrl} />
-                <Text>{data.vaultName}</Text>
+                <Box className={styles.avatarContainer} >
+                    {/* Implement next image https://degen-xyz.vercel.app/components/Avatar#next-image */}
+                    <Avatar label="SMB" size="10" src={data.vaultImageUrl} />
+                    <Text>{data.vaultName}</Text>
+                </Box>
+                <Box
+                >
+                    <Text align="left" >
+                        <NumberFormat
+                            value={data.totalBorrowed}
+                            displayType={'text'}
+                            thousandSeparator={true}
+                            prefix={'$'}
+                        />
+                    </Text>
+                </Box>
+                <Box
+                >
+                    <Text align="left" >
+                        <NumberFormat
+                            value={data.interest}
+                            displayType={'text'}
+                            thousandSeparator={true}
+                            suffix={'%'}
+                        />
+                    </Text>
+                </Box>
+                <Box
+                >
+                    <Text align="center" >
+                        <NumberFormat
+                            value={data.available}
+                            displayType={'text'}
+                            thousandSeparator={true}
+                            prefix={'$'}
+                        />
+                    </Text>
+                </Box>
+                <Box
+                >
+                    <Text align="center" >{data.positions}</Text>
+                </Box>
             </Stack>
         </Box>
-        <Text align="left" >
-            <NumberFormat
-                value={data.totalBorrowed}
-                displayType={'text'}
-                thousandSeparator={true}
-                prefix={'$'}
-            />
-        </Text>
-        <Text align="left" >
-            <NumberFormat
-                value={data.interest}
-                displayType={'text'}
-                thousandSeparator={true}
-                suffix={'%'}
-            />
-        </Text>
-        <Text align="left" >
-            <NumberFormat
-                value={data.available}
-                displayType={'text'}
-                thousandSeparator={true}
-                prefix={'$'}
-            />
-        </Text>
-        <Text align="left" >{data.positions}</Text>
     </Stack>
-  </Card>
+  </Box>
  )
 }
 
