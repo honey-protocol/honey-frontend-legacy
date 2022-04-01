@@ -26,23 +26,46 @@ yarn dev
 ```
 
 ## <span style="color: rgb(235, 85, 69); font-weight: 900">The Repo Structure
-This repository contains the structure of the Honey Finance Front-end. Please note that this documentation is still a WIP. The Honey Finance Front-end consists of the following stack:
+This repository contains the structure of the Honey Finance Front-end. Please note that this documentation is still a WIP. The Honey Finance Front-end can be divided into two stacks, the <b style="color: rgb(235, 85, 69); font-weight: 900">main-stack</b> and the <b style="color: rgb(235, 85, 69); font-weight: 900">sub-stack</b>. The main-stack consists of the following technologies:
 - <a href="https://nextjs.org/" target="_blank">Next.JS</a>
 - <a href="https://create-react-app.dev/">Create-react-app</a>
 - <a href="https://www.typescriptlang.org/" target="_blank">Typescript</a>
 
-The stack is important because it defines also the structure of the project.
-Next.JS has a file system based router built on the concept of pages. Whenever a new file is added to the `pages` directory it automatically becomes available as a route 🎉. To find a more detailed overview of routing within Next.JS please visit the following <a href="https://nextjs.org/docs/routing/introduction" target="_blank">link</a>
 
-The root of the project is listed in `pages/app.tsx`. This file contains the logic of importing and wrapping the application with respect to packages / SDKs and other third party services. The file which is then being served as main (index) of the project is called; index.tsx `pages/index.tsx`. Next.JS automatically serves this page as the root of the project.
+#### <span style="color: rgb(235, 85, 69); font-weight: 900">Main stack structure</span>
+The main-stack uses Next.JS underneath the hood which is the main wrapper of the whole application. Next.JS has a file system based router built on the concept of pages. Whenever a new file is added to the `pages` directory it automatically becomes available as a route. To find a more detailed overview of routing within Next.JS please visit the following <a href="https://nextjs.org/docs/routing/introduction" target="_blank">link</a>
+
+The root of the project is listed in `pages/app.tsx`. This file contains the logic of importing and wrapping the application with respect to packages / SDKs and other third party services. The file which is then being served as main (index) of the project is called; index.tsx `pages/index.tsx`. Next.JS automatically serves this page as the root of the project. This page renders out the home page of Honey Finance. Apart from the `index.tsx` file you can find a folder which is named `pages`. Each page inside this folder makes uses of a styles component which lives inside the `~/styles` folder. These styling components figure as the core stylers for the overall page layout. However, when components are being imported there are custom stylecomponents being written to style them separately. 
+
+#### <span style="color: rgb(235, 85, 69); font-weight: 900">Sub stack structure</span>
+- Degen
+- Vanilla
+- Other tooling which is being used
 
 ## <span style="color: rgb(235, 85, 69); font-weight: 900">Coding Standards
+- Structure of components
+- Declaration of constants and variables
+- 
 ## <span style="color: rgb(235, 85, 69); font-weight: 900">Creating a branch
 ## <span style="color: rgb(235, 85, 69); font-weight: 900">How to create an issue
 ## <span style="color: rgb(235, 85, 69); font-weight: 900">Tests
+The Honey Finance Front-end makes use of two frameworks regarding testing: 
+- Jest
+- React Testing Library
+
+<b>Jest</b> a framework that will actually run our test. Jest runs in a headless mode which means it doenst actually opens a browser. It uses JSDOM under the hood to render out the components. So we dont have access to the window object. 
+<b>React Testing Library takes each of our react components and gives us the 'end' result as in how the user will see it. So this is more regarding the UI part, as we can also interact with all the components.
+</b>
+
+`jest.setup.js`: 
 
 
 
+
+
+
+
+****
 as well as ... (EXAMPLE: several addons like the debugging package). This is reflected in the directory structure of this repository. Each package has a `src/` folder where the source code can be found, a `test` folder for all sorts of tests that check if the code in `src/` is correct, and a `dist/` folder where you can find the bundled artifacts. Note that the `dist/` folder may not be present initially. It will be created as soon as you run any of the build scripts inside `package.json`. 
 
 A quick overview of our repository (or ideally how it should become):
