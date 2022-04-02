@@ -6,6 +6,7 @@ import { useAccounts } from 'hooks/useAccounts';
 import { PHONEY_DECIMALS, PHONEY_MINT } from 'helpers/sdk/constant';
 import { convert, convertToBN } from 'helpers/utils';
 
+// console.log("The stake pool address is : ", process.env.PUBLIC_NEXT_STAKE_POOL_ADDRESS)
 const PHoneyModal = () => {
   const [amount, setAmount] = useState<number>(0);
   const { tokenAccounts } = useAccounts();
@@ -14,7 +15,7 @@ const PHoneyModal = () => {
   const pHoneyToken = tokenAccounts.find(t => t.info.mint.equals(PHONEY_MINT));
   const STAKE_POOL_ADDRESS = new PublicKey(
     process.env.NEXT_STAKE_POOL_ADDR ||
-      'Cv9Hx3VRvqkz5JRPiZM8A2BH31yvpcT4qiUJLdtgu7TE'
+      '4v62DWSwrUVEHe2g88MeyJ7g32vVzQsCnADZF8yUy8iU'
   );
   const LOCKER_ADDRESS = new PublicKey(
     process.env.NEXT_LOCKER_ADDR ||
