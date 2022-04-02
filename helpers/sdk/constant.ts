@@ -3,13 +3,13 @@ import { PublicKey } from '@solana/web3.js';
 export const HONEY_WADS = 1000000;
 
 export const HONEY_MINT = new PublicKey(
-  'Bh7vMfPZkGsQJqUjBBGGfcAj6yQdkL8SoLtK5TCYeJtY'
+  'HonyeYAaTPgKUgQpayL914P6VAqbQZPrbkGMETZvW4iN'
 );
 
 export const HONEY_DECIMALS = 6;
 
 export const PHONEY_MINT = new PublicKey(
-  '7unYPivFG6cuDGeDVjhbutcjYDcMKPu2mBCnRyJ5Qki2'
+  'PHnyhLEnsD9SiP9tk9kHHKiCxCTPFnymzPspDqAicMe'
 );
 
 export const WHITELIST_ENTRY = new PublicKey(

@@ -30,7 +30,7 @@ const Governance: NextPage = () => {
   const pHoneyToken = tokenAccounts.find(t => t.info.mint.equals(PHONEY_MINT));
   const STAKE_POOL_ADDRESS = new PublicKey(
     process.env.NEXT_STAKE_POOL_ADDR ||
-      'Cv9Hx3VRvqkz5JRPiZM8A2BH31yvpcT4qiUJLdtgu7TE'
+      '4v62DWSwrUVEHe2g88MeyJ7g32vVzQsCnADZF8yUy8iU'
   );
   const LOCKER_ADDRESS = new PublicKey(
     process.env.NEXT_LOCKER_ADDR ||
@@ -141,7 +141,7 @@ const Governance: NextPage = () => {
                         height="12"
                       ></Box>
                       <Stack align="flex-end">
-                        <Text size="small">Your HONEY balance:</Text>
+                        <Text size="small">Your HONEY locked:</Text>
                         <Text size="small">{lockedAmount}</Text>
                       </Stack>
                     </Stack>
@@ -167,7 +167,7 @@ const Governance: NextPage = () => {
                         size="small"
                         variant="secondary"
                       >
-                        Get HONEY
+                        Convert pHONEY
                       </Button>
                   ) : (
                     <Button
@@ -176,7 +176,7 @@ const Governance: NextPage = () => {
                       size="small"
                       variant="secondary"
                     >
-                      Get HONEY
+                      Convert pHONEY
                     </Button>
                   )}
                   {wallet ? (
@@ -186,7 +186,7 @@ const Governance: NextPage = () => {
                         size="small"
                         variant="secondary"
                       >
-                        Get veHONEY
+                        Vest pHONEY
                       </Button>
                   ) : (
                     <Button
@@ -195,7 +195,7 @@ const Governance: NextPage = () => {
                       size="small"
                       variant="secondary"
                     >
-                      Get veHONEY
+                      Vest pHONEY
                     </Button>
                   )}
                 </Stack>
