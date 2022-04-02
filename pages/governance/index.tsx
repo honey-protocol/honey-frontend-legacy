@@ -141,7 +141,7 @@ const Governance: NextPage = () => {
                         height="12"
                       ></Box>
                       <Stack align="flex-end">
-                        <Text size="small">Your HONEY balance:</Text>
+                        <Text size="small">Your HONEY locked:</Text>
                         <Text size="small">{lockedAmount}</Text>
                       </Stack>
                     </Stack>
@@ -167,7 +167,7 @@ const Governance: NextPage = () => {
                         size="small"
                         variant="secondary"
                       >
-                        Get HONEY
+                        Convert pHONEY
                       </Button>
                   ) : (
                     <Button
@@ -176,7 +176,7 @@ const Governance: NextPage = () => {
                       size="small"
                       variant="secondary"
                     >
-                      Get HONEY
+                      Convert pHONEY
                     </Button>
                   )}
                   {wallet ? (
@@ -186,7 +186,7 @@ const Governance: NextPage = () => {
                         size="small"
                         variant="secondary"
                       >
-                        Get veHONEY
+                        Vest pHONEY
                       </Button>
                   ) : (
                     <Button
@@ -195,7 +195,7 @@ const Governance: NextPage = () => {
                       size="small"
                       variant="secondary"
                     >
-                      Get veHONEY
+                      Vest pHONEY
                     </Button>
                   )}
                 </Stack>
