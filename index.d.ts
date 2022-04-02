@@ -37,5 +37,3 @@ type NFT = {
   tokenId: string;
   mint: string;
 };
-
-export {}
