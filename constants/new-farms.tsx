@@ -29,9 +29,9 @@ export const newFarmCollections: TGFarm[] = [
     id: "OFHNY",
     imageUrl:
       "https://raw.githubusercontent.com/solana-labs/token-list/main/assets/mainnet/HonyeYAaTPgKUgQpayL914P6VAqbQZPrbkGMETZvW4iN/logo.svg",
-    name: "$HONEY Farm",
+    name: "Honey Genesis Bee (NEW)",
     totalStaked: "???",
-    allocation: "10",
+    allocation: "22.96",
     totalStakedByUser: "-",
     eventStartDate: "2022/3/30/18/50",
     eventDuration: "-",
@@ -44,7 +44,7 @@ export const newFarmCollections: TGFarm[] = [
     id: "HNYVT",
     imageUrl:
       "https://i.imgflip.com/65u2do.gif",
-    name: "Honey Genesis Bee",
+    name: "Honey Genesis Bee (OLD)",
     totalStaked: "???",
     allocation: "1",
     totalStakedByUser: "-",
