@@ -104,7 +104,7 @@ const Governance: NextPage = () => {
                   pre-IDO HONEY (pHONEY) has to be deposited after the IDO on
                   March 30th You can{' '}
                   <Text as="span" color="accent">
-                    stake it for HONEY or vest it for veHONEY.
+                    stake it for HONEY or lock it for veHONEY.
                   </Text>{' '}
                   Check out our docs to learn the difference between HONEY and
                   veHONEY
