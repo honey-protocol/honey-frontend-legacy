@@ -11,11 +11,31 @@ const mainNetEndpoint = process.env.NEXT_PUBLIC_RPC_NODE;
  * "yarn build/yarn start" is prod build so by default should use settings related to Mainnet
  * */
 
+/**
+ *  In order for feature toggle, we need to add feature flags to the environment variable also we need to disable
+ *  pages in prod build
+ *
+ */
+
+//code for disable page in prod build
+// export const getStaticProps: GetStaticProps = async () => {
+//   if (process.env.NODE_ENV === 'production') {
+//     return { notFound: true };
+//   }
+//   return { props: {} };
+// };
+
 module.exports = (phase, {defaultConfig}) => {
   if (phase === PHASE_DEVELOPMENT_SERVER) {
+    const featureToggle = {
+      // we can then use process.env.FEATURE_TOGGLE.featureName to get the feature flag
+      featureA: true,
+      featureB: false,
+    }
     const env = {
       NETWORK: 'devnet',
-      NETWORK_CONFIGURATION: undefined
+      NETWORK_CONFIGURATION: undefined,
+      FEATURE_TOGGLE: featureToggle,
     }
 
     const devNextConfig = {
@@ -24,6 +44,10 @@ module.exports = (phase, {defaultConfig}) => {
     };
     return withVanillaExtract(devNextConfig)
   } else {
+    const featureToggle = {
+      featureA: false,
+      featureB: false,
+    }
     const env = {
       NETWORK: "mainnet-beta",
       NETWORK_CONFIGURATION: {
@@ -31,7 +55,8 @@ module.exports = (phase, {defaultConfig}) => {
           name: 'mainnet-beta',
           endpoint: mainNetEndpoint,
         }
-      }
+      },
+      FEATURE_TOGGLE: featureToggle,
     }
     const ProdNextConfig = {
       reactStrictMode: true,
