@@ -55,8 +55,13 @@ const FarmCollectionCard = (props: any) => {
                   lineHeight="none"
                   whiteSpace="pre-wrap"
                 >
-                  {' '}
-                  {newFarmData.data.name}
+                  <div
+                    className={styles.cardTitle}
+                    title={newFarmData.data.name}
+                  >
+                    {' '}
+                    {newFarmData.data.name}
+                  </div>
                 </Text>
               </Box>
             </Stack>
@@ -73,9 +78,9 @@ const FarmCollectionCard = (props: any) => {
             >
               Allocation per NFT:
             </Text>
-            <Text align="right" weight="medium">
-              {newFarmData.data.allocation} ${newFarmData.data.rewardTokenName}
-              /day
+            <Text align="right" weight="medium" whiteSpace="pre-wrap">
+              {newFarmData.data.allocation}
+              {'\n'}${newFarmData.data.rewardTokenName}/day
             </Text>
           </Stack>
           <Stack direction="horizontal" align="center" justify="space-between">
