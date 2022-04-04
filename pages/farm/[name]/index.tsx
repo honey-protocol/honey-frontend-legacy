@@ -16,7 +16,7 @@ const Nft: NextPage = () => {
     withdrawSelectedGems,
     depositSelectedGems,
     initializeFarmerAcc,
-    refreshWithLoadingIcon,
+    refreshNFTsWithLoadingIcon,
     onWalletNFTSelect,
     onWalletNFTUnselect,
     onStakedNFTSelect,
@@ -66,7 +66,7 @@ const Nft: NextPage = () => {
           <Stack space="3" direction="horizontal">
             <Box>
               <Button
-                onClick={refreshWithLoadingIcon}
+                onClick={refreshNFTsWithLoadingIcon}
                 variant="secondary"
                 shape="square"
                 size="small"

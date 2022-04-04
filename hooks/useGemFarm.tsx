@@ -22,6 +22,7 @@ import { useRouter } from 'next/router';
 import { newFarmCollections } from 'constants/new-farms';
 import React, { ReactNode, useCallback, useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
+import { blockchainWaitTime } from 'constants/timeouts';
 
 const useGemFarm = () => {
   const wallet = useConnectedWallet();
@@ -175,14 +176,14 @@ const useGemFarm = () => {
     setSelectedWalletNFTs([]);
   };
 
-  const refreshWithLoadingIcon = async () => {
+  const refreshNFTsWithLoadingIcon = async () => {
     setIsFetching(true);
     try {
       // wait 3 seconds before refreshing to give the blockchain some time
       await setTimeout(async () => {
         await onRefreshNFTs();
         setIsFetching(false);
-      }, 3000);
+      }, blockchainWaitTime);
     } catch (error) {
       console.log(error);
     }
@@ -202,7 +203,7 @@ const useGemFarm = () => {
   };
 
   const onStakedNFTSelect = (NFT: NFT) => {
-    if (selectedVaultNFTs.length >= 5) return;
+    if (selectedVaultNFTs.length >= 7) return;
     setSelectedVaultNFTs([...selectedVaultNFTs, NFT]);
   };
 
@@ -218,8 +219,11 @@ const useGemFarm = () => {
     if (!gb || !gf || !wallet?.publicKey) return;
     try {
       await gf.initFarmerWallet(new PublicKey(farmAddress!));
-      await fetchFarmerDetails(gf, gb);
-      toast.success('Farmer account initialized');
+      //we have to wait some seconds before fectching farmer's details to give the blockchain some time
+      setTimeout(async () => {
+        await fetchFarmerDetails(gf, gb);
+        toast.success('Farmer account initialized');
+      }, blockchainWaitTime);
     } catch (error) {
       console.log(error);
       toast.error('Account initialization failed!');
@@ -246,7 +250,7 @@ const useGemFarm = () => {
         toast.error('Depositing NFT failed');
       }
     }
-    await refreshWithLoadingIcon();
+    await refreshNFTsWithLoadingIcon();
     setSelectedWalletNFTs([]);
   };
 
@@ -267,7 +271,7 @@ const useGemFarm = () => {
         toast.error('Withdrawing NFT failed');
       }
     }
-    await refreshWithLoadingIcon();
+    await refreshNFTsWithLoadingIcon();
     setSelectedVaultNFTs([]);
   };
 
@@ -278,8 +282,10 @@ const useGemFarm = () => {
     setSelectedWalletNFTs([]);
     try {
       await gf.stakeWallet(new PublicKey(farmAddress!));
-      await fetchFarmerDetails(gf, gb);
-      toast.success('Vault Locked');
+      setTimeout(async () => {
+        await fetchFarmerDetails(gf, gb);
+        toast.success('Vault Locked');
+      }, blockchainWaitTime);
     } catch (error) {
       console.log(error);
       toast.error('Failed to lock vault');
@@ -292,8 +298,11 @@ const useGemFarm = () => {
     setSelectedWalletNFTs([]);
     try {
       await gf.unstakeWallet(new PublicKey(farmAddress!));
-      await fetchFarmerDetails(gf, gb);
-      toast.success('Vault unlocked');
+      refreshNFTsWithLoadingIcon();
+      setTimeout(async () => {
+        await fetchFarmerDetails(gf, gb);
+        toast.success('Vault unlocked');
+      }, blockchainWaitTime);
     } catch (error) {
       console.log(error);
       toast.error('Failed to unlock vault');
@@ -335,10 +344,8 @@ const useGemFarm = () => {
         toast.error('Failed to deposit more NFTs');
       }
     }
-    await setTimeout(async () => {
-      await refreshWithLoadingIcon();
-      setSelectedWalletNFTs([]);
-    }, 2000);
+    await refreshNFTsWithLoadingIcon();
+    setSelectedWalletNFTs([]);
   };
 
   return {
@@ -349,7 +356,7 @@ const useGemFarm = () => {
     withdrawSelectedGems,
     depositSelectedGems,
     initializeFarmerAcc,
-    refreshWithLoadingIcon,
+    refreshNFTsWithLoadingIcon,
     onWalletNFTSelect,
     onWalletNFTUnselect,
     onStakedNFTSelect,
