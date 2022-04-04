@@ -6,6 +6,7 @@ import * as styles from './FarmNFTsContainer.css';
 type TButton = {
   title: string;
   disabled: boolean;
+  loading?: boolean;
   hidden?: boolean;
   onClick: () => void;
 };
@@ -47,6 +48,7 @@ const FarmNFTsContainer = (props: FarmNFTsContainerProps) => {
                       key={button.title}
                       size="small"
                       disabled={button.disabled}
+                      loading={button.loading}
                       onClick={button.onClick}
                     >
                       {button.title}
