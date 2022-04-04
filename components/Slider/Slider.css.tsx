@@ -40,7 +40,7 @@ export const percentageWrapper = style({
     justifyContent: 'space-between',
     width: '95%',
     margin: '0 auto',
-    marginBottom: '2em'
+    marginBottom: '1em'
 })
 // styles for the selection overview box; currency / amount and max btn
 export const selectionWrapper = style({
@@ -52,7 +52,7 @@ export const selectionWrapper = style({
     borderRadius: '15px',
     background: 'black',
     alignItems: 'center',
-    marginTop: '1em',
+    marginTop: '0.2em',
 })
 
 globalStyle(`${selectionWrapper} > div`, {
