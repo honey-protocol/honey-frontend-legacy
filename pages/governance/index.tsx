@@ -16,7 +16,7 @@ import {
   PHONEY_MINT,
   HONEY_DECIMALS
 } from 'helpers/sdk/constant';
-import { convert, convertToBN } from 'helpers/utils';
+import { convert, convertToBN , convertBnTimestampToDate, calcVeHoneyAmount} from 'helpers/utils';
 
 const Governance: NextPage = () => {
   const wallet = useConnectedWallet();
@@ -47,6 +47,30 @@ const Governance: NextPage = () => {
 
     return convert(escrow.amount, HONEY_DECIMALS);
   }, [escrow]);
+
+  const lockedPeriodStart = useMemo(() => {
+    if (!escrow) {
+      return 0;
+    }
+
+    return convertBnTimestampToDate(escrow.escrowStartedAt);
+  }, [escrow]);
+
+  const lockedPeriodEnd = useMemo(() => {
+    if (!escrow) {
+      return 0;
+    }
+
+    return convertBnTimestampToDate(escrow.escrowEndsAt);
+  }, [escrow]);
+
+  const veHoneyAmount = useMemo(() => {
+    if (!escrow) {
+      return 0;
+    }
+    return calcVeHoneyAmount(escrow.escrowStartedAt, escrow.escrowEndsAt, escrow.amount)
+  }, [escrow]);
+
 
   const depositedAmount = useMemo(() => {
     if (!user) {
@@ -81,11 +105,11 @@ const Governance: NextPage = () => {
           <VeHoneyModal />
         </ModalContainer>
         {/* Page title */}
-        <Box marginTop="5">
+        {/* <Box marginTop="5">
           <Text variant="extraLarge" weight="bold">
             Vote on new collateral assets
           </Text>
-        </Box>
+        </Box> */}
         {/* Cards row */}
         <Stack
           direction={{
@@ -134,25 +158,31 @@ const Governance: NextPage = () => {
                 >
                   <Stack flex={1} justify="space-between" space="6">
                     <Stack justify="space-between" direction="horizontal">
-                      <Box
-                        backgroundColor={'red'}
-                        borderRadius="full"
-                        width="12"
-                        height="12"
-                      ></Box>
+                    <Stack align="flex-end">
+                    <Text size="small"><b>{veHoneyAmount}</b> $veHONEY (locked)</Text>
+                      </Stack>
+
                       <Stack align="flex-end">
-                        <Text size="small">Your HONEY locked:</Text>
-                        <Text size="small">{lockedAmount}</Text>
+                        {/* <Text size="small">$HONEY locked</Text> */}
+                        <Text size="small"><b>{lockedAmount}</b> $HONEY (locked)</Text>
                       </Stack>
                     </Stack>
                     <Box marginTop="auto">
                       <Stack space="3">
+                      <Stack justify="space-between" direction="horizontal">
+                          <Text size="small">Lock period starts</Text>
+                          <Text size="small">{lockedPeriodStart}</Text>
+                        </Stack>
+                        <Stack justify="space-between" direction="horizontal">
+                          <Text size="small">Lock period ends</Text>
+                          <Text size="small">{lockedPeriodEnd}</Text>
+                        </Stack>
                         <Stack justify="space-between" direction="horizontal">
                           <Text size="small">Total pHoney deposited:</Text>
                           <Text size="small">{depositedAmount}</Text>
                         </Stack>
                         <Stack justify="space-between" direction="horizontal">
-                          <Text size="small">Your pHoney balance</Text>
+                          <Text size="small">$pHoney balance</Text>
                           <Text size="small">{pHoneyAmount}</Text>
                         </Stack>
                       </Stack>

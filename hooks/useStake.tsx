@@ -7,6 +7,7 @@ import { StakeClient } from 'helpers/sdk/stake';
 import { useAccounts } from './useAccounts';
 import { HONEY_MINT, PHONEY_MINT } from 'helpers/sdk/constant';
 import { VeHoneyClient } from 'helpers/sdk';
+import { toast } from 'react-toastify';
 
 export const useStake = (stakePool: PublicKey, locker: PublicKey) => {
   const wallet = useConnectedWallet();
@@ -113,8 +114,11 @@ export const useStake = (stakePool: PublicKey, locker: PublicKey) => {
             amount,
             hasUser
           );
+          toast.success('pHONEY successfully deposited')
           setIsLoading(false);
         } catch (e) {
+          toast.error('pHONEY deposit failed')
+
           console.log(e);
           setIsLoading(false);
         }
@@ -128,9 +132,11 @@ export const useStake = (stakePool: PublicKey, locker: PublicKey) => {
       setIsLoading(true);
       try {
         await sc.claim(stakePool, userKey, honeyToken?.pubkey);
+        toast.success('Claim processed successfully')
         setIsLoading(false);
       } catch (e) {
         console.log(e);
+        toast.error("Error processing claim")
         setIsLoading(false);
       }
     }
@@ -151,9 +157,11 @@ export const useStake = (stakePool: PublicKey, locker: PublicKey) => {
             true,
             hasEscrow
           );
+          toast.success('pHONEY successfully vested')
           setIsLoading(false);
         } catch (e) {
           console.log(e);
+          toast.error('pHONEY vesting failed')
           setIsLoading(false);
         }
       }
