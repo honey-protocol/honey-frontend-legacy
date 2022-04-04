@@ -87,7 +87,7 @@ export const newFarmCollections: TGFarm[] = [
   {
     id: "CBST",
     imageUrl: "https://dl.airtable.com/.attachmentThumbnails/c642aad027ea2e63393f597fd02ab8a1/b1645707",
-    name: "Cubist",
+    name: "Cubist Collective",
     totalStaked: "???",
     allocation: "1",
     totalStakedByUser: "-",
