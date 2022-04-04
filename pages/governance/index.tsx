@@ -216,7 +216,7 @@ const Governance: NextPage = () => {
                         size="small"
                         variant="secondary"
                       >
-                        Vest pHONEY
+                        Lock pHONEY
                       </Button>
                   ) : (
                     <Button
@@ -225,7 +225,7 @@ const Governance: NextPage = () => {
                       size="small"
                       variant="secondary"
                     >
-                      Vest pHONEY
+                      Lock pHONEY
                     </Button>
                   )}
                 </Stack>
