@@ -24,7 +24,7 @@ const PHoneyModal = () => {
   // ============================================================================
 
   const { user, deposit, claim } = useStake(STAKE_POOL_ADDRESS, LOCKER_ADDRESS);
-
+  
   const depositedAmount = useMemo(() => {
     if (!user) {
       return 0;
@@ -105,7 +105,7 @@ const PHoneyModal = () => {
           </Button>
           <Button
             onClick={claim}
-            // Make disabled
+            // TODO enable when claimableAmount. 
             disabled={true}
             width="full"
           >
