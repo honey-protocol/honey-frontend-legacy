@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { Box, Button, Input, Stack, Text } from 'degen';
 import { PublicKey } from '@solana/web3.js';
 import * as anchor from '@project-serum/anchor';
@@ -11,7 +11,7 @@ import {
   PHONEY_DECIMALS,
   PHONEY_MINT
 } from 'helpers/sdk/constant';
-import { convert, convertToBN } from 'helpers/utils';
+import { convert, convertToBN , convertBnTimestampToDate, calcVeHoneyAmount} from 'helpers/utils';
 
 const VeHoneyModal = () => {
   const [amount, setAmount] = useState<number>(1);
@@ -56,13 +56,35 @@ const VeHoneyModal = () => {
   // ============================================================================
 
   const { stake, escrow } = useStake(STAKE_POOL_ADDRESS, LOCKER_ADDRESS);
-
   const lockedAmount = useMemo(() => {
     if (!escrow) {
       return 0;
     }
 
     return convert(escrow.amount, HONEY_DECIMALS);
+  }, [escrow]);
+
+  const lockedPeriodStart = useMemo(() => {
+    if (!escrow) {
+      return 0;
+    }
+
+    return convertBnTimestampToDate(escrow.escrowStartedAt);
+  }, [escrow]);
+
+  const lockedPeriodEnd = useMemo(() => {
+    if (!escrow) {
+      return 0;
+    }
+
+    return convertBnTimestampToDate(escrow.escrowEndsAt);
+  }, [escrow]);
+
+  const veHoneyAmount = useMemo(() => {
+    if (!escrow) {
+      return 0;
+    }
+    return calcVeHoneyAmount(escrow.escrowStartedAt, escrow.escrowEndsAt, escrow.amount)
   }, [escrow]);
 
   const pHoneyAmount = useMemo(() => {
@@ -85,6 +107,9 @@ const VeHoneyModal = () => {
     );
   }, [stake, escrow, amount, vestingPeriodInSeconds]);
 
+  useEffect(()=> {
+    console.log(escrow)
+  }, [escrow]);
   return (
     <Box width="96">
       <Box borderBottomWidth="0.375" paddingX="6" paddingY="4">
@@ -120,13 +145,33 @@ const VeHoneyModal = () => {
           <Stack space="2">
             <Stack direction="horizontal" justify="space-between">
               <Text variant="small" color="textSecondary">
-                Your Honey locked
+                $HONEY (locked)
               </Text>
               <Text variant="small">{lockedAmount}</Text>
             </Stack>
             <Stack direction="horizontal" justify="space-between">
               <Text variant="small" color="textSecondary">
-                Your pHONEY balance
+                $veHoney (locked) 
+              </Text>
+              <Text variant="small">{veHoneyAmount}</Text>
+            </Stack>
+
+            <Stack direction="horizontal" justify="space-between">
+              <Text variant="small" color="textSecondary">
+                Lock period starts  
+              </Text>
+              <Text variant="small">{lockedPeriodStart}</Text>
+            </Stack>
+            <Stack direction="horizontal" justify="space-between">
+              <Text variant="small" color="textSecondary">
+                Lock period ends  
+              </Text>
+              <Text variant="small">{lockedPeriodEnd}</Text>
+            </Stack>
+           
+            <Stack direction="horizontal" justify="space-between">
+              <Text variant="small" color="textSecondary">
+                pHONEY balance
               </Text>
               <Text variant="small">{pHoneyAmount}</Text>
             </Stack>
