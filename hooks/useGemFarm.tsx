@@ -219,10 +219,10 @@ const useGemFarm = () => {
     try {
       await gf.initFarmerWallet(new PublicKey(farmAddress!));
       await fetchFarmerDetails(gf, gb);
-      toast('Farmer account initialized');
+      toast.success('Farmer account initialized');
     } catch (error) {
       console.log(error);
-      toast('Account initialization failed!');
+      toast.error('Account initialization failed!');
     }
   };
 
@@ -240,10 +240,10 @@ const useGemFarm = () => {
           new PublicKey(selectedWalletNFTs[i].mint),
           new PublicKey(selectedWalletNFTs[i].creators[0].address)
         );
-        toast(`Deposited ${i + 1} NFTs `);
+        toast.success(`Deposited ${i + 1} NFTs `);
       } catch (error) {
         console.log(error);
-        toast('Depositing NFT failed');
+        toast.error('Depositing NFT failed');
       }
     }
     await refreshWithLoadingIcon();
@@ -261,10 +261,10 @@ const useGemFarm = () => {
           farmerAcc?.vault,
           new PublicKey(selectedVaultNFTs[i].mint)
         );
-        toast(`Withdrawn ${i + 1} NFTs `);
+        toast.success(`Withdrawn ${i + 1} NFTs `);
       } catch (error) {
         console.log(error);
-        toast('Withdrawing NFT failed');
+        toast.error('Withdrawing NFT failed');
       }
     }
     await refreshWithLoadingIcon();
@@ -279,10 +279,10 @@ const useGemFarm = () => {
     try {
       await gf.stakeWallet(new PublicKey(farmAddress!));
       await fetchFarmerDetails(gf, gb);
-      toast('Vault Locked');
+      toast.success('Vault Locked');
     } catch (error) {
       console.log(error);
-      toast('Failed to lock vault');
+      toast.error('Failed to lock vault');
     }
   };
 
@@ -293,10 +293,10 @@ const useGemFarm = () => {
     try {
       await gf.unstakeWallet(new PublicKey(farmAddress!));
       await fetchFarmerDetails(gf, gb);
-      toast('Vault unlocked');
+      toast.success('Vault unlocked');
     } catch (error) {
       console.log(error);
-      toast('Failed to unlock vault');
+      toast.error('Failed to unlock vault');
     }
   };
 
@@ -309,10 +309,10 @@ const useGemFarm = () => {
         new PublicKey(farmAcc.rewardA.rewardMint!),
         new PublicKey(farmAcc.rewardB.rewardMint!)
       );
-      toast('Rewards claimed!');
+      toast.success('Rewards claimed!');
     } catch (error) {
       console.log(error);
-      toast('Failed to claim rewards');
+      toast.error('Failed to claim rewards');
     }
     await fetchFarmerDetails(gf, gb);
   };
@@ -329,10 +329,10 @@ const useGemFarm = () => {
           new PublicKey(farmAddress),
           wallet?.publicKey
         );
-        toast(`Deposited ${i + 1} more NFTs to locked vault`);
+        toast.success(`Deposited ${i + 1} more NFTs to locked vault`);
       } catch (error) {
         console.log(error);
-        toast('Failed to deposit more NFTs');
+        toast.error('Failed to deposit more NFTs');
       }
     }
     await setTimeout(async () => {
