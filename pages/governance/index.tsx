@@ -128,10 +128,10 @@ const Governance: NextPage = () => {
                   pre-IDO HONEY (pHONEY) has to be deposited after the IDO on
                   March 30th You can{' '}
                   <Text as="span" color="accent">
-                    stake it for HONEY or vest it for veHONEY.
+                    Convert it for HONEY or Lock/Vest it for veHONEY.
                   </Text>{' '}
                   Check out our docs to learn the difference between HONEY and
-                  veHONEY
+                  veHONEY + exchange rates.
                 </Text>
                 <Stack direction="horizontal" justify="center" align="center">
                   <Button
