@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import { Box, Button, Input, Stack, Text } from 'degen';
+import { Box, Button, Input, Stack, Text, Tag } from 'degen';
 import { PublicKey } from '@solana/web3.js';
 import * as anchor from '@project-serum/anchor';
 
@@ -14,11 +14,17 @@ import {
 import { convert, convertToBN , convertBnTimestampToDate, calcVeHoneyAmount} from 'helpers/utils';
 
 const VeHoneyModal = () => {
-  const [amount, setAmount] = useState<number>(1);
+  const [amount, setAmount] = useState<string>("");
   const [vestingPeriod, setVestingPeriod] = useState<number>(3);
   const [pHoneyConversionAmount, setPHoneyConversionAmount] =
     useState<number>(0);
 
+    const handleOnChange = (event: any) => {
+      // ideally we want to implement a debaunce here and not fire the function every second the user interacts with it
+      setAmount(event.target.value)
+  }
+  
+  
   const veHoneyRewardRate = useMemo(() => {
     return vestingPeriod === 3
       ? 2
@@ -56,6 +62,8 @@ const VeHoneyModal = () => {
   // ============================================================================
 
   const { stake, escrow } = useStake(STAKE_POOL_ADDRESS, LOCKER_ADDRESS);
+
+
   const lockedAmount = useMemo(() => {
     if (!escrow) {
       return 0;
@@ -101,14 +109,14 @@ const VeHoneyModal = () => {
     // console.log(vestingPeriodInSeconds);
 
     await stake(
-      convertToBN(amount, PHONEY_DECIMALS),
+      convertToBN(Number(amount), PHONEY_DECIMALS),
       new anchor.BN(vestingPeriodInSeconds),
       !!escrow
     );
   }, [stake, escrow, amount, vestingPeriodInSeconds]);
 
   useEffect(()=> {
-    console.log(escrow)
+    // console.log(escrow)
   }, [escrow]);
   return (
     <Box width="96">
@@ -138,7 +146,7 @@ const VeHoneyModal = () => {
               width="3/4"
             >
               <Text variant="small" color="accent">
-                {amount} pHONEY = {amount * veHoneyRewardRate} HONEY
+                {amount} pHONEY = {Number(amount) * veHoneyRewardRate} HONEY
               </Text>
             </Box>
           </Stack>
@@ -196,14 +204,18 @@ const VeHoneyModal = () => {
             </Stack>
           </Stack>
           <Input
-            // value={amount}
             type="number"
             label="Amount"
-            hideLabel
+            labelSecondary={<Tag>{pHoneyAmount} pHONEY max</Tag>}
+            max={pHoneyAmount || ""}
+            min={0}
+            value={amount || ""}
+            // hideLabel
             units="pHONEY"
             placeholder="0"
-            onChange={event => setAmount(Number(event.target.value))}
+            onChange={handleOnChange}
           />
+
           <Button
             onClick={handleStake}
             disabled={amount ? false : true}
