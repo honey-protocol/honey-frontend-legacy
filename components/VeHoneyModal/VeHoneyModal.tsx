@@ -14,16 +14,14 @@ import {
 import { convert, convertToBN , convertBnTimestampToDate, calcVeHoneyAmount} from 'helpers/utils';
 
 const VeHoneyModal = () => {
-  const [amount, setAmount] = useState<string>("");
+  const [amount, setAmount] = useState<number>(0);
   const [vestingPeriod, setVestingPeriod] = useState<number>(3);
   const [pHoneyConversionAmount, setPHoneyConversionAmount] =
     useState<number>(0);
 
     const handleOnChange = (event: any) => {
-      // ideally we want to implement a debaunce here and not fire the function every second the user interacts with it
       setAmount(event.target.value)
   }
-  
   
   const veHoneyRewardRate = useMemo(() => {
     return vestingPeriod === 3
@@ -109,15 +107,12 @@ const VeHoneyModal = () => {
     // console.log(vestingPeriodInSeconds);
 
     await stake(
-      convertToBN(Number(amount), PHONEY_DECIMALS),
+      convertToBN(amount, PHONEY_DECIMALS),
       new anchor.BN(vestingPeriodInSeconds),
       !!escrow
     );
   }, [stake, escrow, amount, vestingPeriodInSeconds]);
 
-  useEffect(()=> {
-    // console.log(escrow)
-  }, [escrow]);
   return (
     <Box width="96">
       <Box borderBottomWidth="0.375" paddingX="6" paddingY="4">
@@ -210,6 +205,7 @@ const VeHoneyModal = () => {
             max={pHoneyAmount || ""}
             min={0}
             value={amount || ""}
+            disabled={!pHoneyAmount}
             // hideLabel
             units="pHONEY"
             placeholder="0"
