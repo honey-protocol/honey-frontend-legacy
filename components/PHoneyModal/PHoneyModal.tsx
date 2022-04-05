@@ -41,11 +41,11 @@ const PHoneyModal = () => {
   useEffect(() => {
     if (!user) {
       setisClaimable(false);
-      return
+      return;
     }
     if (claimedAmount === 0) {
       setisClaimable(false);
-      return
+      return;
     }
     setisClaimable(true);
   }, [claimedAmount, user]);
