@@ -35,6 +35,7 @@
     "@vanilla-extract/sprinkles": "^1.4.0",
     "bn.js": "^5.2.0",
     "degen": "^0.0.69",
+    "honey-sdk": "^1.0.4",
     "jsbi": "^4.1.0",
     "next": "12.1.0",
     "react": "17.0.2",
