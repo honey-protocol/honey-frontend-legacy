@@ -24,6 +24,25 @@ import React, { ReactNode, useCallback, useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 import { blockchainWaitTime } from 'constants/timeouts';
 
+//this fn takes the error caught in a tryCatch block and check for
+//some specified errors and show toast notifications for them
+const checkErrorAndShowToast = (error: any, defaultToastMsg: string) => {
+  const errorMsg: string = error.message;
+  let toastMsg: string;
+
+  if (errorMsg.includes('0x1')) {
+    toastMsg = 'Insufficient balance';
+  } else if (errorMsg.includes('rpc')) {
+    toastMsg = 'Sorry. Solana is congested. Tx may fail';
+  } else if (errorMsg.includes('Network request failed')) {
+    toastMsg = 'Failed! Check your network connection';
+  } else {
+    toastMsg = defaultToastMsg;
+  }
+
+  return toast.error(toastMsg);
+};
+
 const useGemFarm = () => {
   const wallet = useConnectedWallet();
   const [AllNFTs, isLoading, updateNFTsInUserWallet] =
@@ -82,7 +101,7 @@ const useGemFarm = () => {
         setFarmerIdentity(farmer.farmerIdentity);
         setFarmerState(farmer.farmerState);
       } catch (error) {
-        console.log('Farmer account not found');
+        checkErrorAndShowToast(error, 'Farmer account not found');
       }
     },
     [wallet, farmAddress]
@@ -226,7 +245,7 @@ const useGemFarm = () => {
       }, blockchainWaitTime);
     } catch (error) {
       console.log(error);
-      toast.error('Account initialization failed!');
+      checkErrorAndShowToast(error, 'Account initialization failed!');
     }
   };
 
@@ -247,7 +266,7 @@ const useGemFarm = () => {
         toast.success(`Deposited ${i + 1} NFTs `);
       } catch (error) {
         console.log(error);
-        toast.error('Depositing NFT failed');
+        checkErrorAndShowToast(error, 'Depositing NFT failed');
       }
     }
     await refreshNFTsWithLoadingIcon();
@@ -268,7 +287,7 @@ const useGemFarm = () => {
         toast.success(`Withdrawn ${i + 1} NFTs `);
       } catch (error) {
         console.log(error);
-        toast.error('Withdrawing NFT failed');
+        checkErrorAndShowToast(error, 'Withdrawing NFT failed');
       }
     }
     await refreshNFTsWithLoadingIcon();
@@ -287,8 +306,8 @@ const useGemFarm = () => {
         toast.success('Vault Locked');
       }, blockchainWaitTime);
     } catch (error) {
-      console.log(error);
-      toast.error('Failed to lock vault');
+      console.log({ error });
+      checkErrorAndShowToast(error, 'Failed to lock vault');
     }
   };
 
@@ -305,7 +324,7 @@ const useGemFarm = () => {
       }, blockchainWaitTime);
     } catch (error) {
       console.log(error);
-      toast.error('Failed to unlock vault');
+      checkErrorAndShowToast(error, 'Failed to unlock vault');
     }
   };
 
@@ -321,7 +340,7 @@ const useGemFarm = () => {
       toast.success('Rewards claimed!');
     } catch (error) {
       console.log(error);
-      toast.error('Failed to claim rewards');
+      checkErrorAndShowToast(error, 'Failed to claim rewards');
     }
     await fetchFarmerDetails(gf, gb);
   };
@@ -341,7 +360,7 @@ const useGemFarm = () => {
         toast.success(`Deposited ${i + 1} more NFTs to locked vault`);
       } catch (error) {
         console.log(error);
-        toast.error('Failed to deposit more NFTs');
+        checkErrorAndShowToast(error, 'Failed to deposit more NFTs');
       }
     }
     await refreshNFTsWithLoadingIcon();
