@@ -9,7 +9,7 @@ import { convert, convertToBN } from 'helpers/utils';
 // console.log("The stake pool address is : ", process.env.PUBLIC_NEXT_STAKE_POOL_ADDRESS)
 const PHoneyModal = () => {
   const [amount, setAmount] = useState<number>(0);
-  const [isClaimable, setisClaimable] = useState<boolean>(false);
+  const [isClaimable, setIsClaimable] = useState<boolean>(false);
 
   const handleOnChange = (event: any) => {
     
@@ -38,7 +38,7 @@ const PHoneyModal = () => {
   );
 
   useEffect(() => {
-    setisClaimable(claimableAmount !== 0);
+    setIsClaimable(claimableAmount !== 0);
   }, [claimableAmount]);
 
   const depositedAmount = useMemo(() => {
@@ -109,7 +109,7 @@ const PHoneyModal = () => {
             </Stack>
             <Stack direction="horizontal" justify="space-between">
               <Text variant="small" color="textSecondary">
-                Claim Amount
+                Claimable Amount
               </Text>
               <Text variant="small">{claimableAmount}</Text>
             </Stack>
@@ -130,7 +130,7 @@ const PHoneyModal = () => {
           <Button onClick={handleDeposit} disabled={!amount} width="full">
             {amount ? 'Deposit' : 'Enter amount'}
           </Button>
-          <Button onClick={claim}  width="full">
+          <Button onClick={claim} disabled={claimableAmount == 0} width="full">
             Claim
           </Button>
         </Stack>
