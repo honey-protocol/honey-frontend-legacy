@@ -5,6 +5,7 @@ import useGemFarm from 'hooks/useGemFarm';
 import FarmNFTsContainer from 'components/FarmNFTsContainer/FarmNFTsContainer';
 import Link from 'next/link';
 import * as styles from '../../../styles/name.css';
+import { useState } from 'react';
 
 const Nft: NextPage = () => {
   const {
@@ -15,7 +16,7 @@ const Nft: NextPage = () => {
     withdrawSelectedGems,
     depositSelectedGems,
     initializeFarmerAcc,
-    refreshWithLoadingIcon,
+    refreshNFTsWithLoadingIcon,
     onWalletNFTSelect,
     onWalletNFTUnselect,
     onStakedNFTSelect,
@@ -29,6 +30,17 @@ const Nft: NextPage = () => {
     selectedWalletNFTs,
     farmerVaultLocked
   } = useGemFarm();
+
+  const [txLoading, setTxLoading] = useState({
+    value: false,
+    txName: ''
+  });
+
+  const withTxLoading = async (tx: Function, txName: string) => {
+    setTxLoading({ value: true, txName });
+    await tx();
+    setTxLoading({ value: false, txName: '' });
+  };
 
   return (
     <Layout>
@@ -54,7 +66,7 @@ const Nft: NextPage = () => {
           <Stack space="3" direction="horizontal">
             <Box>
               <Button
-                onClick={refreshWithLoadingIcon}
+                onClick={refreshNFTsWithLoadingIcon}
                 variant="secondary"
                 shape="square"
                 size="small"
@@ -81,11 +93,12 @@ const Nft: NextPage = () => {
                 ? `Deposit ( ${selectedWalletNFTs.length} )`
                 : `Deposit  (${selectedWalletNFTs.length}) more`,
               disabled: selectedWalletNFTs.length ? false : true,
+              loading: txLoading.value && txLoading.txName === 'deposit',
               onClick: !farmerAcc
-                ? initializeFarmerAcc
+                ? () => withTxLoading(initializeFarmerAcc, 'deposit')
                 : !farmerVaultLocked
-                ? depositSelectedGems
-                : depositMoreSelectedGems
+                ? () => withTxLoading(depositSelectedGems, 'deposit')
+                : () => withTxLoading(depositMoreSelectedGems, 'deposit')
             }
           ]}
           NFTs={Object.values(walletNFTsInFarm)}
@@ -101,7 +114,8 @@ const Nft: NextPage = () => {
               title: `Withdraw (${selectedVaultNFTs.length})`,
               disabled: !selectedVaultNFTs.length,
               hidden: farmerVaultLocked,
-              onClick: withdrawSelectedGems
+              loading: txLoading.value && txLoading.txName === 'withdraw',
+              onClick: () => withTxLoading(withdrawSelectedGems, 'withdraw')
             },
             {
               title: farmerVaultLocked
@@ -110,7 +124,10 @@ const Nft: NextPage = () => {
                   : 'Unlock'
                 : `Start rewards`,
               disabled: Object.values(stakedNFTsInFarm).length ? false : true,
-              onClick: farmerVaultLocked ? endStaking : startStaking
+              loading: txLoading.value && txLoading.txName === 'vault',
+              onClick: farmerVaultLocked
+                ? () => withTxLoading(endStaking, 'vault')
+                : () => withTxLoading(startStaking, 'vault')
             }
           ]}
           NFTs={Object.values(stakedNFTsInFarm)}

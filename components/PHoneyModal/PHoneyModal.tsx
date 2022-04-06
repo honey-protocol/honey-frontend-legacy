@@ -12,7 +12,9 @@ const PHoneyModal = () => {
   const [isClaimable, setisClaimable] = useState<boolean>(false);
 
   const handleOnChange = (event: any) => {
+    
     // ideally we want to implement a debaunce here and not fire the function every second the user interacts with it
+    
     setAmount(Number(event.target.value));
   };
 
@@ -29,6 +31,7 @@ const PHoneyModal = () => {
       '5FnK8H9kDbmPNpBYMuvSkDevkMfnVPRrPNNqmTQyBBae'
   );
   // ============================================================================
+
   const { user, deposit, claim, claimableAmount } = useStake(
     STAKE_POOL_ADDRESS,
     LOCKER_ADDRESS
@@ -118,6 +121,7 @@ const PHoneyModal = () => {
             disabled={!pHoneyAmount}
             max={pHoneyAmount || ''}
             min={0}
+            hideLabel
             value={amount || ''}
             units="pHONEY"
             placeholder="0"

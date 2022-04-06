@@ -135,10 +135,10 @@ const Governance: NextPage = () => {
                   pre-IDO HONEY (pHONEY) has to be deposited after the IDO on
                   March 30th You can{' '}
                   <Text as="span" color="accent">
-                    stake it for HONEY or vest it for veHONEY.
+                    Convert it for HONEY or Lock/Vest it for veHONEY.
                   </Text>{' '}
                   Check out our docs to learn the difference between HONEY and
-                  veHONEY
+                  veHONEY + exchange rates.
                 </Text>
                 <Stack direction="horizontal" justify="center" align="center">
                   <Button
@@ -221,14 +221,14 @@ const Governance: NextPage = () => {
                     </Button>
                   )}
                   {wallet ? (
-                    <Button
-                      onClick={() => setShowVeHoneyModal(true)}
-                      width="full"
-                      size="small"
-                      variant="secondary"
-                    >
-                      Vest pHONEY
-                    </Button>
+                      <Button
+                        onClick={() => setShowVeHoneyModal(true)}
+                        width="full"
+                        size="small"
+                        variant="secondary"
+                      >
+                        Lock pHONEY
+                      </Button>
                   ) : (
                     <Button
                       onClick={connect}
@@ -236,7 +236,7 @@ const Governance: NextPage = () => {
                       size="small"
                       variant="secondary"
                     >
-                      Vest pHONEY
+                      Lock pHONEY
                     </Button>
                   )}
                 </Stack>
