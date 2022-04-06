@@ -12,6 +12,9 @@ const PHoneyModal = () => {
   const [isClaimable, setisClaimable] = useState<boolean>(false);
 
   const handleOnChange = (event: any) => {
+    
+    // ideally we want to implement a debaunce here and not fire the function every second the user interacts with it
+    
     setAmount(Number(event.target.value));
   };
 
@@ -28,26 +31,15 @@ const PHoneyModal = () => {
       '5FnK8H9kDbmPNpBYMuvSkDevkMfnVPRrPNNqmTQyBBae'
   );
   // ============================================================================
-  const { user, deposit, claim } = useStake(STAKE_POOL_ADDRESS, LOCKER_ADDRESS);
 
-  const claimedAmount = useMemo(() => {
-    if (!user) {
-      return 0;
-    }
-    return Number(convert(user?.claimedAmount));
-  }, [user]);
+  const { user, deposit, claim, claimableAmount } = useStake(
+    STAKE_POOL_ADDRESS,
+    LOCKER_ADDRESS
+  );
 
   useEffect(() => {
-    if (!user) {
-      setisClaimable(false);
-      return;
-    }
-    if (claimedAmount === 0) {
-      setisClaimable(false);
-      return;
-    }
-    setisClaimable(true);
-  }, [claimedAmount, user]);
+    setisClaimable(claimableAmount !== 0);
+  }, [claimableAmount]);
 
   const depositedAmount = useMemo(() => {
     if (!user) {
@@ -119,7 +111,7 @@ const PHoneyModal = () => {
               <Text variant="small" color="textSecondary">
                 Claim Amount
               </Text>
-              <Text variant="small">{claimedAmount}</Text>
+              <Text variant="small">{claimableAmount}</Text>
             </Stack>
           </Stack>
           <Input
@@ -138,7 +130,7 @@ const PHoneyModal = () => {
           <Button onClick={handleDeposit} disabled={!amount} width="full">
             {amount ? 'Deposit' : 'Enter amount'}
           </Button>
-          <Button onClick={claim}  width="full">
+          <Button onClick={claim} disabled={isClaimable == false} width="full">
             Claim
           </Button>
         </Stack>
