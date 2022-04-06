@@ -6,6 +6,7 @@ import ModalContainer from 'components/ModalContainer/ModalContainer';
 import { useState, useMemo } from 'react';
 import PHoneyModal from 'components/PHoneyModal/PHoneyModal';
 import VeHoneyModal from 'components/VeHoneyModal/VeHoneyModal';
+import HoneyModal from 'components/HoneyModal/HoneyModal';
 import { PublicKey } from '@solana/web3.js';
 import { useConnectedWallet } from '@saberhq/use-solana';
 import { useWalletKit } from '@gokiprotocol/walletkit';
@@ -14,6 +15,7 @@ import { useAccounts } from 'hooks/useAccounts';
 import {
   PHONEY_DECIMALS,
   PHONEY_MINT,
+  HONEY_MINT,
   HONEY_DECIMALS
 } from 'helpers/sdk/constant';
 import {
@@ -27,11 +29,14 @@ const Governance: NextPage = () => {
   const { connect } = useWalletKit();
   const [showPHoneyModal, setShowPHoneyModal] = useState(false);
   const [showVeHoneyModal, setShowVeHoneyModal] = useState(false);
+  const [showHoneyModal, setShowHoneyModal] = useState(false);
 
   const { tokenAccounts } = useAccounts();
 
   // ======================== Should replace with configuration ================
   const pHoneyToken = tokenAccounts.find(t => t.info.mint.equals(PHONEY_MINT));
+  const honeyToken = tokenAccounts.find(t => t.info.mint.equals(HONEY_MINT))
+
   const STAKE_POOL_ADDRESS = new PublicKey(
     process.env.NEXT_STAKE_POOL_ADDR ||
       '4v62DWSwrUVEHe2g88MeyJ7g32vVzQsCnADZF8yUy8iU'
@@ -95,6 +100,14 @@ const Governance: NextPage = () => {
     return convert(pHoneyToken.info.amount, PHONEY_DECIMALS);
   }, [pHoneyToken]);
 
+  const honeyAmount = useMemo(() => {
+    if (!honeyToken) {
+      return 0;
+    }
+
+    return convert(honeyToken.info.amount, HONEY_DECIMALS);
+  }, [honeyToken]);
+
   return (
     <Layout>
       <Stack space="5" flex={1}>
@@ -110,6 +123,12 @@ const Governance: NextPage = () => {
           isVisible={showVeHoneyModal}
         >
           <VeHoneyModal />
+        </ModalContainer>
+        <ModalContainer
+          onClose={() => setShowHoneyModal(false)}
+          isVisible={showHoneyModal}
+        >
+          <HoneyModal />
         </ModalContainer>
         {/* Page title */}
         {/* <Box marginTop="5">
@@ -189,37 +208,22 @@ const Governance: NextPage = () => {
                           <Text size="small">{lockedPeriodEnd}</Text>
                         </Stack>
                         <Stack justify="space-between" direction="horizontal">
-                          <Text size="small">Total pHoney deposited:</Text>
+                          <Text size="small">$pHONEY deposited:</Text>
                           <Text size="small">{depositedAmount}</Text>
                         </Stack>
                         <Stack justify="space-between" direction="horizontal">
-                          <Text size="small">$pHoney balance</Text>
+                          <Text size="small">$pHONEY balance</Text>
                           <Text size="small">{pHoneyAmount}</Text>
+                        </Stack>
+                        <Stack justify="space-between" direction="horizontal">
+                          <Text size="small">$HONEY balance</Text>
+                          <Text size="small">{honeyAmount}</Text>
                         </Stack>
                       </Stack>
                     </Box>
                   </Stack>
                 </Box>
                 <Stack justify="space-around">
-                  {wallet ? (
-                    <Button
-                      onClick={() => setShowPHoneyModal(true)}
-                      width="full"
-                      size="small"
-                      variant="secondary"
-                    >
-                      Convert pHONEY
-                    </Button>
-                  ) : (
-                    <Button
-                      onClick={connect}
-                      width="full"
-                      size="small"
-                      variant="secondary"
-                    >
-                      Convert pHONEY
-                    </Button>
-                  )}
                   {wallet ? (
                       <Button
                         onClick={() => setShowVeHoneyModal(true)}
@@ -237,6 +241,44 @@ const Governance: NextPage = () => {
                       variant="secondary"
                     >
                       Lock pHONEY
+                    </Button>
+                  )}
+                  {wallet ? (
+                      <Button
+                        onClick={() => setShowHoneyModal(true)}
+                        width="full"
+                        size="small"
+                        variant="secondary"
+                      >
+                        Lock HONEY
+                      </Button>
+                  ) : (
+                    <Button
+                      onClick={connect}
+                      width="full"
+                      size="small"
+                      variant="secondary"
+                    >
+                      Lock HONEY
+                    </Button>
+                  )}
+                        {wallet ? (
+                    <Button
+                      onClick={() => setShowPHoneyModal(true)}
+                      width="full"
+                      size="small"
+                      variant="secondary"
+                    >
+                      Convert pHONEY
+                    </Button>
+                  ) : (
+                    <Button
+                      onClick={connect}
+                      width="full"
+                      size="small"
+                      variant="secondary"
+                    >
+                      Convert pHONEY
                     </Button>
                   )}
                 </Stack>

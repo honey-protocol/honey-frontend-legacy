@@ -170,6 +170,31 @@ export const useStake = (stakePool: PublicKey, locker: PublicKey) => {
     },
     [sc, vc, userKey, pHoneyToken]
   );
+  
+  const lock = useCallback(
+    async(amount: BN, duration: BN, hasEscrow: boolean = true) => {
+      if (sc && vc && userKey && honeyToken) {
+        setIsLoading(true);
+        try {
+          await vc.lock(
+            locker,
+            honeyToken.pubkey,
+            amount,
+            duration,
+            hasEscrow
+          );
+          toast.success('HONEY successfully vested');
+          setIsLoading(false);
+        } catch (e) {
+          console.log(e);
+          toast.error('HONEY vesting failed');
+          setIsLoading(false);
+        }
+
+      }
+    },
+    [sc, vc, userKey, honeyToken]
+  );
 
   const unlock = useCallback(async () => {
     if (vc) {
@@ -234,6 +259,7 @@ export const useStake = (stakePool: PublicKey, locker: PublicKey) => {
     deposit,
     claim,
     stake,
+    lock,
     unlock,
     claimableAmount
   };
