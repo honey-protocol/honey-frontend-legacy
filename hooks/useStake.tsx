@@ -81,7 +81,7 @@ export const useStake = (stakePool: PublicKey, locker: PublicKey) => {
       const timer = setInterval(() => {
         // console.log('interval');
         fetchInfo();
-      }, 10000);
+      }, 30000);
 
       return () => {
         clearInterval(timer);
@@ -114,10 +114,10 @@ export const useStake = (stakePool: PublicKey, locker: PublicKey) => {
             amount,
             hasUser
           );
-          toast.success('pHONEY successfully deposited')
+          toast.success('pHONEY successfully deposited');
           setIsLoading(false);
         } catch (e) {
-          toast.error('pHONEY deposit failed')
+          toast.error('pHONEY deposit failed');
 
           console.log(e);
           setIsLoading(false);
@@ -132,11 +132,11 @@ export const useStake = (stakePool: PublicKey, locker: PublicKey) => {
       setIsLoading(true);
       try {
         await sc.claim(stakePool, userKey, honeyToken?.pubkey);
-        toast.success('Claim processed successfully')
+        toast.success('Claim processed successfully');
         setIsLoading(false);
       } catch (e) {
         console.log(e);
-        toast.error("Error processing claim")
+        toast.error('Error processing claim');
         setIsLoading(false);
       }
     }
@@ -157,11 +157,11 @@ export const useStake = (stakePool: PublicKey, locker: PublicKey) => {
             true,
             hasEscrow
           );
-          toast.success('pHONEY successfully vested')
+          toast.success('pHONEY successfully vested');
           setIsLoading(false);
         } catch (e) {
           console.log(e);
-          toast.error('pHONEY vesting failed')
+          toast.error('pHONEY vesting failed');
           setIsLoading(false);
         }
       }
