@@ -31,7 +31,7 @@ export const newFarmCollections: TGFarm[] = [
       "https://raw.githubusercontent.com/solana-labs/token-list/main/assets/mainnet/HonyeYAaTPgKUgQpayL914P6VAqbQZPrbkGMETZvW4iN/logo.svg",
     name: "Honey Genesis Bee (NEW)",
     totalStaked: "???",
-    allocation: "20.8",
+    allocation: "14.63",
     totalStakedByUser: "-",
     eventStartDate: "2022/3/30/18/50",
     eventDuration: "∞",
