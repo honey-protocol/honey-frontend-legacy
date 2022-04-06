@@ -1,6 +1,6 @@
 import type { AppProps } from 'next/app';
 import { ThemeProvider } from 'degen';
-import { ConnectionProvider, Honey, AnchorProvider  } from '@honey-defi/sdk/src/contexts';
+import { HoneyProvider, AnchorProvider } from '@honey-defi/sdk';
 import 'degen/styles';
 import { WalletKitProvider } from '@gokiprotocol/walletkit';
 import '../styles/globals.css';
@@ -21,44 +21,22 @@ const networkConfiguration = () => {
   }
 }
 
-export interface Wallet extends WalletAdapter {
-  name: string;
-  forgetAccounts: Function;
-}
-export interface SolongWallet {
-  name: string;
-  inProcess: boolean;
-  currentAccount: string;
-  selectMsg: any;
-  signature: any;
-  transferRst: any;
-  publicKey: any;
-  on: Function;
-  disconnect: Function;
-  connect: Function;
-  forgetAccounts: Function;
-}
-
 const OnChainProvider: FC<{ children: ReactNode }> = ({ children }) => {
-  const wallet : Wallet | SolongWallet | null = useConnectedWallet() as unknown as Wallet;
+  const wallet = useConnectedWallet();
   const connection = useConnection();
   const network = 'devnet';
 
   return (
     <AnchorProvider wallet={wallet} connection={connection} network={network}>
-      <Honey wallet={wallet}>
+      <HoneyProvider wallet={wallet}>
         {children}
-      </Honey>
+      </HoneyProvider>
     </AnchorProvider>
   )
 }
 
-function MyApp({Component, pageProps}: AppProps) {
+const MyApp: FC<AppProps> = ({ Component, pageProps }) => {
   return (
-    <ConnectionProvider
-      endpoint={"https://api.devnet.solana.com/%22%7D"} 
-      network={"devnet"}
-    >
       <ThemeProvider defaultMode="dark" defaultAccent="red">
         <WalletKitProvider
           defaultNetwork={network}
@@ -68,11 +46,12 @@ function MyApp({Component, pageProps}: AppProps) {
           networkConfigs={networkConfiguration()}
         >
           {/* {children} */}
-          <Component {...pageProps} />
-          <ToastContainer theme="dark" position="bottom-right"/>
+          <OnChainProvider>
+            <Component {...pageProps} />
+          </OnChainProvider>
+          <ToastContainer theme="dark" position="bottom-right" />
         </WalletKitProvider>
       </ThemeProvider>
-    </ConnectionProvider>
   );
 }
 
