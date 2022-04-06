@@ -12,7 +12,6 @@ const PHoneyModal = () => {
   const [isClaimable, setisClaimable] = useState<boolean>(false);
 
   const handleOnChange = (event: any) => {
-    // ideally we want to implement a debaunce here and not fire the function every second the user interacts with it
     setAmount(Number(event.target.value));
   };
 
@@ -130,6 +129,7 @@ const PHoneyModal = () => {
             disabled={!pHoneyAmount}
             max={pHoneyAmount || ''}
             min={0}
+            hideLabel
             value={amount || ''}
             units="pHONEY"
             placeholder="0"
@@ -138,7 +138,7 @@ const PHoneyModal = () => {
           <Button onClick={handleDeposit} disabled={!amount} width="full">
             {amount ? 'Deposit' : 'Enter amount'}
           </Button>
-          <Button onClick={claim} disabled={isClaimable == false} width="full">
+          <Button onClick={claim}  width="full">
             Claim
           </Button>
         </Stack>

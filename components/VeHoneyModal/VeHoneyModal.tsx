@@ -214,7 +214,7 @@ const VeHoneyModal = () => {
             min={0}
             value={amount || ''}
             disabled={!pHoneyAmount}
-            // hideLabel
+            hideLabel
             units="pHONEY"
             placeholder="0"
             onChange={handleOnChange}
