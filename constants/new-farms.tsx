@@ -28,10 +28,10 @@ export const newFarmCollections: TGFarm[] = [
   {
     id: "OFHNY",
     imageUrl:
-      "https://i.imgflip.com/65u2do.gif",
+      "https://raw.githubusercontent.com/solana-labs/token-list/main/assets/mainnet/HonyeYAaTPgKUgQpayL914P6VAqbQZPrbkGMETZvW4iN/logo.svg",
     name: "Honey Genesis Bee (NEW)",
     totalStaked: "???",
-    allocation: "16",
+    allocation: "14.63",
     totalStakedByUser: "-",
     eventStartDate: "2022/3/30/18/50",
     eventDuration: "∞",
@@ -39,21 +39,6 @@ export const newFarmCollections: TGFarm[] = [
     rewardTokenName: "HONEY",
     farmAddress: "Haparmtd9Si4Wp4jke5CdaqLduqm22fhrn3QiD2xC6wY",
     bankAddress: "DT5iQCmjzgNL2Q2AKErTAUwaCbuc8ufedoLH61fr6TVm",
-  },
-  {
-    id: "HNYVT",
-    imageUrl:
-      "https://raw.githubusercontent.com/solana-labs/token-list/main/assets/mainnet/HonyeYAaTPgKUgQpayL914P6VAqbQZPrbkGMETZvW4iN/logo.svg",
-    name: "Honey Genesis Bee (OLD)",
-    totalStaked: "???",
-    allocation: "1",
-    totalStakedByUser: "-",
-    eventStartDate: "2022/3/11/18/50",
-    eventDuration: "0",
-    updateAuthority: "B2a66dokeqxGJoUqmtaRNn6JeQJZjatNL5ykZduLjFXY",
-    rewardTokenName: "pHONEY",
-    farmAddress: "7S4C6uABB5gxBxR9UGWq27qLPzFPs9hbzmWrfeaPRrcC",
-    bankAddress: "B33Cvmgug1jgDmnkxRriTXVamZmnAqmui82aJt2t2VQc",
   },
   {
     id: "dinoK",
@@ -108,7 +93,7 @@ export const newFarmCollections: TGFarm[] = [
     eventStartDate: "2022/3/4/14/50",
     eventDuration: "30",
     updateAuthority: "skU11A6Br8HjAWgwFScGgsqzSyG7qQir4AinHa94pRf",
-    rewardTokenName: "SKULLS",
+    rewardTokenName: "SKULL",
     farmAddress: "6Xq5nXkBLHwoVAiELfSSFsEc1SsHXhjBtCQBqZMaGUcq",
     bankAddress: "TS8FfCgfGHeEPNzH7GLGUwRVpiGsXKmoPoAGsnnipSS",
   }
