@@ -1,13 +1,15 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useConnectedWallet, useConnection } from '@saberhq/use-solana';
+import * as anchor from '@project-serum/anchor';
 import { PublicKey } from '@solana/web3.js';
 import { BN } from '@project-serum/anchor';
 
 import { StakeClient } from 'helpers/sdk/stake';
 import { useAccounts } from './useAccounts';
-import { HONEY_MINT, PHONEY_MINT } from 'helpers/sdk/constant';
-import { VeHoneyClient } from 'helpers/sdk';
+import { HONEY_MINT, PHONEY_MINT, HONEY_DECIMALS } from 'helpers/sdk/constant';
+import { VeHoneyClient, PoolParams } from 'helpers/sdk';
 import { toast } from 'react-toastify';
+import { convert } from 'helpers/utils';
 
 export const useStake = (stakePool: PublicKey, locker: PublicKey) => {
   const wallet = useConnectedWallet();
@@ -182,6 +184,37 @@ export const useStake = (stakePool: PublicKey, locker: PublicKey) => {
     }
   }, [vc, escrowKey, honeyToken]);
 
+  const claimableAmount = useMemo(() => {
+    if (pool && user) {
+      const params = pool.params as PoolParams;
+      const now = Math.floor(Date.now() / 1000);
+      const claimStartsAt = user.depositedAt.gt(params.startsAt)
+        ? user.depositedAt
+        : params.startsAt;
+      const duration = new anchor.BN(now).sub(claimStartsAt);
+      const maxClaimPeriod = new anchor.BN(params.maxClaimCount).mul(
+        params.claimPeriodUnit
+      );
+      let claimableAmount: anchor.BN = new anchor.BN(0);
+      if (duration.gt(maxClaimPeriod)) {
+        claimableAmount = user.depositAmount.sub(user.claimedAmount);
+      } else {
+        const count = parseInt(duration.div(params.claimPeriodUnit).toString());
+        if (count > user.count) {
+          const delta = count - user.count;
+          claimableAmount = user.depositAmount
+            .mul(new anchor.BN(delta))
+            .div(new anchor.BN(params.maxClaimCount));
+        }
+      }
+
+      if (claimableAmount.gt(new anchor.BN(0))) {
+        return convert(claimableAmount, HONEY_DECIMALS);
+      }
+    }
+    return 0;
+  }, [pool, user]);
+
   return {
     pool,
     user: user
@@ -201,6 +234,7 @@ export const useStake = (stakePool: PublicKey, locker: PublicKey) => {
     deposit,
     claim,
     stake,
-    unlock
+    unlock,
+    claimableAmount
   };
 };
