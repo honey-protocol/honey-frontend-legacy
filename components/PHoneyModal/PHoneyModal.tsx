@@ -1,5 +1,5 @@
 import React, { useCallback, useMemo, useState, useEffect } from 'react';
-import { Box, Button, Input, Stack, Text } from 'degen';
+import { Box, Button, Input, Stack, Text, Tag } from 'degen';
 import { PublicKey } from '@solana/web3.js';
 import { useStake } from 'hooks/useStake';
 import { useAccounts } from 'hooks/useAccounts';
@@ -9,6 +9,13 @@ import { convert, convertToBN } from 'helpers/utils';
 // console.log("The stake pool address is : ", process.env.PUBLIC_NEXT_STAKE_POOL_ADDRESS)
 const PHoneyModal = () => {
   const [amount, setAmount] = useState<number>(0);
+  const [isClaimable, setisClaimable] = useState<boolean>(false);
+
+  const handleOnChange = (event: any) => {
+    // ideally we want to implement a debaunce here and not fire the function every second the user interacts with it
+    setAmount(Number(event.target.value));
+  };
+
   const { tokenAccounts } = useAccounts();
 
   // ======================== Should replace with configuration ================
@@ -22,9 +29,27 @@ const PHoneyModal = () => {
       '5FnK8H9kDbmPNpBYMuvSkDevkMfnVPRrPNNqmTQyBBae'
   );
   // ============================================================================
-
   const { user, deposit, claim } = useStake(STAKE_POOL_ADDRESS, LOCKER_ADDRESS);
-  
+
+  const claimedAmount = useMemo(() => {
+    if (!user) {
+      return 0;
+    }
+    return Number(convert(user?.claimedAmount));
+  }, [user]);
+
+  useEffect(() => {
+    if (!user) {
+      setisClaimable(false);
+      return;
+    }
+    if (claimedAmount === 0) {
+      setisClaimable(false);
+      return;
+    }
+    setisClaimable(true);
+  }, [claimedAmount, user]);
+
   const depositedAmount = useMemo(() => {
     if (!user) {
       return 0;
@@ -91,24 +116,29 @@ const PHoneyModal = () => {
               </Text>
               <Text variant="small">{pHoneyAmount}</Text>
             </Stack>
+            <Stack direction="horizontal" justify="space-between">
+              <Text variant="small" color="textSecondary">
+                Claim Amount
+              </Text>
+              <Text variant="small">{claimedAmount}</Text>
+            </Stack>
           </Stack>
           <Input
             type="number"
             label="Amount"
-            hideLabel
+            labelSecondary={<Tag>{pHoneyAmount} pHONEY max</Tag>}
+            disabled={!pHoneyAmount}
+            max={pHoneyAmount || ''}
+            min={0}
+            value={amount || ''}
             units="pHONEY"
             placeholder="0"
-            onChange={event => setAmount(Number(event.target.value))}
+            onChange={handleOnChange}
           />
           <Button onClick={handleDeposit} disabled={!amount} width="full">
             {amount ? 'Deposit' : 'Enter amount'}
           </Button>
-          <Button
-            onClick={claim}
-            // TODO enable when claimableAmount. 
-            disabled={true}
-            width="full"
-          >
+          <Button onClick={claim} disabled={isClaimable == false} width="full">
             Claim
           </Button>
         </Stack>

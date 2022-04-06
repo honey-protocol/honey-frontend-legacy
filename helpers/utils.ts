@@ -86,6 +86,9 @@ export const convertToBN = (
   decimals: number = 6
 ): anchor.BN => {
   const wads = new anchor.BN(10).pow(new anchor.BN(decimals));
+  const mod =
+    parseFloat((amount - Math.floor(amount)).toFixed(decimals)) *
+    Math.pow(10, decimals);
 
-  return new anchor.BN(amount).mul(wads);
+  return new anchor.BN(amount).mul(wads).add(new anchor.BN(mod));
 };
