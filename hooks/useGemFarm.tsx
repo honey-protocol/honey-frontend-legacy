@@ -39,6 +39,8 @@ const checkErrorAndShowToast = (error: any, defaultToastMsg: string) => {
     toastMsg = 'Sorry. Solana is congested. Tx may have failed';
   } else if (errorMsg.includes('Network request failed')) {
     toastMsg = 'Failed! Check your network connection';
+  } else if (errorMsg.includes('0x1786')) {
+    toastMsg = 'NFT is not approved for staking';
   } else {
     toastMsg = defaultToastMsg;
   }
