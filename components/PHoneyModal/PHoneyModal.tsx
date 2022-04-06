@@ -130,7 +130,7 @@ const PHoneyModal = () => {
           <Button onClick={handleDeposit} disabled={!amount} width="full">
             {amount ? 'Deposit' : 'Enter amount'}
           </Button>
-          <Button onClick={claim} disabled={isClaimable == false} width="full">
+          <Button onClick={claim}  width="full">
             Claim
           </Button>
         </Stack>
