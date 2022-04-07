@@ -129,15 +129,15 @@ const HoneyModal = () => {
             </Stack>
             <Stack direction="horizontal" justify="space-between">
               <Text variant="small" color="textSecondary">
-                $veHoney (locked)
+                veHoney (locked)
               </Text>
               <Text variant="small">{veHoneyAmount}</Text>
             </Stack>
 
             <Stack direction="horizontal" justify="space-between">
-              <Text variant="small" color="textSecondary">
+              {/* <Text variant="small" color="textSecondary">
                 Lock period starts
-              </Text>
+              </Text> */}
               <Text variant="small">{lockedPeriodStart}</Text>
             </Stack>
             <Stack direction="horizontal" justify="space-between">

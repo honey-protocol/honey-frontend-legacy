@@ -102,9 +102,9 @@ const PHoneyModal = () => {
               <Text variant="small">{depositedAmount}</Text>
             </Stack>
             <Stack direction="horizontal" justify="space-between">
-              <Text variant="small" color="textSecondary">
+              {/* <Text variant="small" color="textSecondary">
                 Your pHONEY balance
-              </Text>
+              </Text> */}
               <Text variant="small">{pHoneyAmount}</Text>
             </Stack>
             <Stack direction="horizontal" justify="space-between">
