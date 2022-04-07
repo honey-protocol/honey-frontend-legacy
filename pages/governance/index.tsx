@@ -319,7 +319,7 @@ const Governance: NextPage = () => {
                       <Text weight="bold" size="large">
                         {hip.title}
                       </Text>
-                      <Tag>{hip.date}</Tag>
+                      <Tag hover>{hip.date}</Tag>
                     </Stack>
                     <IconChevronRight color="text" />
                   </Stack>
