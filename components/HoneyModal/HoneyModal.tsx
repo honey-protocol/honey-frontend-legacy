@@ -19,7 +19,7 @@ import {
 
 const HoneyModal = () => {
   const [amount, setAmount] = useState<number>(0);
-  const [vestingPeriod, setVestingPeriod] = useState<number>(3);
+  const [vestingPeriod, setVestingPeriod] = useState<number>(12);
 
   const handleOnChange = (event: any) => {
     setAmount(event.target.value);
@@ -118,7 +118,7 @@ const HoneyModal = () => {
       <Box padding="6">
         <Stack space="6">
           <Text align="center" weight="semiBold">
-            Deposit HONEY and recieve veHONEY
+            Deposit HONEY and receive veHONEY
           </Text>
           <Stack space="2">
             <Stack direction="horizontal" justify="space-between">
@@ -165,10 +165,12 @@ const HoneyModal = () => {
                   onChange={event =>
                     setVestingPeriod(Number(event.target.value))
                   }
-                >
+                > 
+                  <option value="1">1 months</option>
                   <option value="3">3 months</option>
                   <option value="6">6 months</option>
-                  <option value="12">12 months</option>
+                  <option value="12">1 year</option>
+                  <option value="48">4 years</option>
                 </select>
               </Box>
             </Stack>

@@ -77,7 +77,7 @@ const PHoneyModal = () => {
       <Box padding="6">
         <Stack space="6">
           <Text align="center" weight="semiBold">
-            Deposit pHONEY and recieve HONEY
+            Deposit pHONEY and receive HONEY
           </Text>
           <Box
             marginX="auto"

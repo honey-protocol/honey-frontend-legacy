@@ -269,7 +269,7 @@ const Governance: NextPage = () => {
                       size="small"
                       variant="secondary"
                     >
-                      Convert pHONEY
+                      pHONEY to HONEY
                     </Button>
                   ) : (
                     <Button
@@ -278,7 +278,7 @@ const Governance: NextPage = () => {
                       size="small"
                       variant="secondary"
                     >
-                      Convert pHONEY
+                      pHONEY to HONEY
                     </Button>
                   )}
                 </Stack>
