@@ -116,6 +116,53 @@ export class VeHoneyClient extends ClientBase<VeHoney> {
     return { txSig, destination };
   }
 
+  async lock(
+    locker: PublicKey,
+    source: PublicKey,
+    amount: anchor.BN,
+    duration: anchor.BN,
+    hasEscrow?: boolean
+  ) {
+    const preInstructions = !hasEscrow
+      ? [...(await this.createInitializeEscrowIx(locker))]
+      : undefined;
+
+    const remainingAccounts = [
+      {
+        pubkey: anchor.web3.SYSVAR_INSTRUCTIONS_PUBKEY,
+        isSigner: false,
+        isWritable: false
+      },
+      {
+        pubkey: this.program.programId,
+        isSigner: false,
+        isWritable: false
+      }
+    ];
+
+    const [escrow] = await this.getEscrowPDA(locker);
+    const lockedTokens = await this.getEscrowLockedTokenPDA(escrow);
+
+    const txSig = await this.program.rpc.lock(
+      new anchor.BN(amount),
+      new anchor.BN(duration),
+      {
+        accounts: {
+          locker,
+          escrow,
+          lockedTokens,
+          escrowOwner: this.wallet.publicKey,
+          sourceTokens: source,
+          sourceTokensAuthority: this.wallet.publicKey,
+          tokenProgram: TOKEN_PROGRAM_ID
+        },
+        remainingAccounts,
+        preInstructions
+      }
+    );
+
+    return { txSig, escrow };
+  }
   async getEscrowPDA(locker: PublicKey) {
     return anchor.web3.PublicKey.findProgramAddress(
       [

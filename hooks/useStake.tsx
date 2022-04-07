@@ -1,13 +1,15 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useConnectedWallet, useConnection } from '@saberhq/use-solana';
+import * as anchor from '@project-serum/anchor';
 import { PublicKey } from '@solana/web3.js';
 import { BN } from '@project-serum/anchor';
 
 import { StakeClient } from 'helpers/sdk/stake';
 import { useAccounts } from './useAccounts';
-import { HONEY_MINT, PHONEY_MINT } from 'helpers/sdk/constant';
-import { VeHoneyClient } from 'helpers/sdk';
+import { HONEY_MINT, PHONEY_MINT, HONEY_DECIMALS } from 'helpers/sdk/constant';
+import { VeHoneyClient, PoolParams } from 'helpers/sdk';
 import { toast } from 'react-toastify';
+import { convert } from 'helpers/utils';
 
 export const useStake = (stakePool: PublicKey, locker: PublicKey) => {
   const wallet = useConnectedWallet();
@@ -81,7 +83,7 @@ export const useStake = (stakePool: PublicKey, locker: PublicKey) => {
       const timer = setInterval(() => {
         // console.log('interval');
         fetchInfo();
-      }, 10000);
+      }, 30000);
 
       return () => {
         clearInterval(timer);
@@ -114,10 +116,10 @@ export const useStake = (stakePool: PublicKey, locker: PublicKey) => {
             amount,
             hasUser
           );
-          toast.success('pHONEY successfully deposited')
+          toast.success('pHONEY successfully deposited');
           setIsLoading(false);
         } catch (e) {
-          toast.error('pHONEY deposit failed')
+          toast.error('pHONEY deposit failed');
 
           console.log(e);
           setIsLoading(false);
@@ -132,11 +134,11 @@ export const useStake = (stakePool: PublicKey, locker: PublicKey) => {
       setIsLoading(true);
       try {
         await sc.claim(stakePool, userKey, honeyToken?.pubkey);
-        toast.success('Claim processed successfully')
+        toast.success('Claim processed successfully');
         setIsLoading(false);
       } catch (e) {
         console.log(e);
-        toast.error("Error processing claim")
+        toast.error('Error processing claim');
         setIsLoading(false);
       }
     }
@@ -157,16 +159,41 @@ export const useStake = (stakePool: PublicKey, locker: PublicKey) => {
             true,
             hasEscrow
           );
-          toast.success('pHONEY successfully vested')
+          toast.success('pHONEY successfully vested');
           setIsLoading(false);
         } catch (e) {
           console.log(e);
-          toast.error('pHONEY vesting failed')
+          toast.error('pHONEY vesting failed');
           setIsLoading(false);
         }
       }
     },
     [sc, vc, userKey, pHoneyToken]
+  );
+  
+  const lock = useCallback(
+    async(amount: BN, duration: BN, hasEscrow: boolean = true) => {
+      if (sc && vc && userKey && honeyToken) {
+        setIsLoading(true);
+        try {
+          await vc.lock(
+            locker,
+            honeyToken.pubkey,
+            amount,
+            duration,
+            hasEscrow
+          );
+          toast.success('HONEY successfully vested');
+          setIsLoading(false);
+        } catch (e) {
+          console.log(e);
+          toast.error('HONEY vesting failed');
+          setIsLoading(false);
+        }
+
+      }
+    },
+    [sc, vc, userKey, honeyToken]
   );
 
   const unlock = useCallback(async () => {
@@ -181,6 +208,37 @@ export const useStake = (stakePool: PublicKey, locker: PublicKey) => {
       }
     }
   }, [vc, escrowKey, honeyToken]);
+
+  const claimableAmount = useMemo(() => {
+    if (pool && user) {
+      const params = pool.params as PoolParams;
+      const now = Math.floor(Date.now() / 1000);
+      const claimStartsAt = user.depositedAt.gt(params.startsAt)
+        ? user.depositedAt
+        : params.startsAt;
+      const duration = new anchor.BN(now).sub(claimStartsAt);
+      const maxClaimPeriod = new anchor.BN(params.maxClaimCount).mul(
+        params.claimPeriodUnit
+      );
+      let claimableAmount: anchor.BN = new anchor.BN(0);
+      if (duration.gt(maxClaimPeriod)) {
+        claimableAmount = user.depositAmount.sub(user.claimedAmount);
+      } else {
+        const count = parseInt(duration.div(params.claimPeriodUnit).toString());
+        if (count > user.count) {
+          const delta = count - user.count;
+          claimableAmount = user.depositAmount
+            .mul(new anchor.BN(delta))
+            .div(new anchor.BN(params.maxClaimCount));
+        }
+      }
+
+      if (claimableAmount.gt(new anchor.BN(0))) {
+        return convert(claimableAmount, HONEY_DECIMALS);
+      }
+    }
+    return 0;
+  }, [pool, user]);
 
   return {
     pool,
@@ -201,6 +259,8 @@ export const useStake = (stakePool: PublicKey, locker: PublicKey) => {
     deposit,
     claim,
     stake,
-    unlock
+    lock,
+    unlock,
+    claimableAmount
   };
 };
