@@ -1,5 +1,14 @@
 import type { NextPage } from 'next';
-import { Box, Button, Card, IconExclamation, Input, Text } from 'degen';
+import {
+  Box,
+  Button,
+  Card,
+  IconChevronRight,
+  IconExclamation,
+  Input,
+  Tag,
+  Text
+} from 'degen';
 import { Stack } from 'degen';
 import Layout from '../../components/Layout/Layout';
 import ModalContainer from 'components/ModalContainer/ModalContainer';
@@ -16,7 +25,13 @@ import {
   PHONEY_MINT,
   HONEY_DECIMALS
 } from 'helpers/sdk/constant';
-import { convert, convertToBN , convertBnTimestampToDate, calcVeHoneyAmount} from 'helpers/utils';
+import {
+  convert,
+  convertToBN,
+  convertBnTimestampToDate,
+  calcVeHoneyAmount
+} from 'helpers/utils';
+import { HIPS } from 'constants/hip-links';
 
 const Governance: NextPage = () => {
   const wallet = useConnectedWallet();
@@ -68,9 +83,12 @@ const Governance: NextPage = () => {
     if (!escrow) {
       return 0;
     }
-    return calcVeHoneyAmount(escrow.escrowStartedAt, escrow.escrowEndsAt, escrow.amount)
+    return calcVeHoneyAmount(
+      escrow.escrowStartedAt,
+      escrow.escrowEndsAt,
+      escrow.amount
+    );
   }, [escrow]);
-
 
   const depositedAmount = useMemo(() => {
     if (!user) {
@@ -158,18 +176,22 @@ const Governance: NextPage = () => {
                 >
                   <Stack flex={1} justify="space-between" space="6">
                     <Stack justify="space-between" direction="horizontal">
-                    <Stack align="flex-end">
-                    <Text size="small"><b>{veHoneyAmount}</b> $veHONEY (locked)</Text>
+                      <Stack align="flex-end">
+                        <Text size="small">
+                          <b>{veHoneyAmount}</b> $veHONEY (locked)
+                        </Text>
                       </Stack>
 
                       <Stack align="flex-end">
                         {/* <Text size="small">$HONEY locked</Text> */}
-                        <Text size="small"><b>{lockedAmount}</b> $HONEY (locked)</Text>
+                        <Text size="small">
+                          <b>{lockedAmount}</b> $HONEY (locked)
+                        </Text>
                       </Stack>
                     </Stack>
                     <Box marginTop="auto">
                       <Stack space="3">
-                      <Stack justify="space-between" direction="horizontal">
+                        <Stack justify="space-between" direction="horizontal">
                           <Text size="small">Lock period starts</Text>
                           <Text size="small">{lockedPeriodStart}</Text>
                         </Stack>
@@ -191,14 +213,14 @@ const Governance: NextPage = () => {
                 </Box>
                 <Stack justify="space-around">
                   {wallet ? (
-                      <Button
-                        onClick={() => setShowPHoneyModal(true)}
-                        width="full"
-                        size="small"
-                        variant="secondary"
-                      >
-                        Convert pHONEY
-                      </Button>
+                    <Button
+                      onClick={() => setShowPHoneyModal(true)}
+                      width="full"
+                      size="small"
+                      variant="secondary"
+                    >
+                      Convert pHONEY
+                    </Button>
                   ) : (
                     <Button
                       onClick={connect}
@@ -210,14 +232,14 @@ const Governance: NextPage = () => {
                     </Button>
                   )}
                   {wallet ? (
-                      <Button
-                        onClick={() => setShowVeHoneyModal(true)}
-                        width="full"
-                        size="small"
-                        variant="secondary"
-                      >
-                        Lock pHONEY
-                      </Button>
+                    <Button
+                      onClick={() => setShowVeHoneyModal(true)}
+                      width="full"
+                      size="small"
+                      variant="secondary"
+                    >
+                      Lock pHONEY
+                    </Button>
                   ) : (
                     <Button
                       onClick={connect}
@@ -233,12 +255,37 @@ const Governance: NextPage = () => {
             </Box>
           </Card>
         </Stack>
-        {/* Table */}
-        {/* <Box
+        {/* HIP cards container */}
+        <Box
           flex={1}
+          padding="10"
           borderRadius="2xLarge"
           backgroundColor="backgroundTertiary"
-        ></Box> */}
+        >
+          <Stack>
+            {HIPS.map(hip => (
+              <Box
+                as="a"
+                href={hip.link}
+                target="blank"
+                cursor="pointer"
+                key={hip.link}
+              >
+                <Card padding="5">
+                  <Stack align="center" direction="horizontal">
+                    <Stack flex={1}>
+                      <Text weight="bold" size="large">
+                        {hip.title}
+                      </Text>
+                      <Tag>{hip.date}</Tag>
+                    </Stack>
+                    <IconChevronRight color="text" />
+                  </Stack>
+                </Card>
+              </Box>
+            ))}
+          </Stack>
+        </Box>
       </Stack>
     </Layout>
   );
