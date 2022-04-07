@@ -26,7 +26,7 @@ const HoneyModal = () => {
   };
 
   const vestingPeriodInSeconds = useMemo(() => {
-    if ([3, 6, 12].includes(vestingPeriod)) {
+    if ([1, 3, 6, 12, 48].includes(vestingPeriod)) {
       const date = new Date();
       const current = Math.floor(date.getTime() / 1000);
       date.setMonth(date.getMonth() + vestingPeriod);
@@ -43,7 +43,7 @@ const HoneyModal = () => {
   const honeyToken = tokenAccounts.find(t => t.info.mint.equals(HONEY_MINT));
   const STAKE_POOL_ADDRESS = new PublicKey(
     process.env.NEXT_STAKE_POOL_ADDR ||
-      'Cv9Hx3VRvqkz5JRPiZM8A2BH31yvpcT4qiUJLdtgu7TE'
+      '4v62DWSwrUVEHe2g88MeyJ7g32vVzQsCnADZF8yUy8iU'
   );
   const LOCKER_ADDRESS = new PublicKey(
     process.env.NEXT_LOCKER_ADDR ||
@@ -166,7 +166,7 @@ const HoneyModal = () => {
                     setVestingPeriod(Number(event.target.value))
                   }
                 > 
-                  <option value="1">1 months</option>
+                  <option value="1">1 month</option>
                   <option value="3">3 months</option>
                   <option value="6">6 months</option>
                   <option value="12">1 year</option>
