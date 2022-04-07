@@ -140,7 +140,7 @@ const HoneyModal = () => {
                     setVestingPeriod(Number(event.target.value))
                   }
                 > 
-                  <option value="1">1 months</option>
+                  <option value="1">1 month</option>
                   <option value="3">3 months</option>
                   <option value="6">6 months</option>
                   <option value="12">1 year</option>
