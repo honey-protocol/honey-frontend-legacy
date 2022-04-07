@@ -174,7 +174,7 @@ const Governance: NextPage = () => {
                 <Stack direction="horizontal" justify="center" align="center">
                   <Button
                     as="a"
-                    href="https://docs.honey.finance/products/tokens"
+                    href="https://docs.honey.finance/tokenomics/vehoney"
                     target="_blank"
                     size="small"
                     variant="tertiary"
