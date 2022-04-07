@@ -1,15 +1,11 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import { Box, Button, Input, Stack, Text, Tag } from 'degen';
 import { PublicKey } from '@solana/web3.js';
 import * as anchor from '@project-serum/anchor';
-
 import * as styles from './HoneyModal.css';
 import { useStake } from 'hooks/useStake';
 import { useAccounts } from 'hooks/useAccounts';
-import {
-  HONEY_DECIMALS,
-  HONEY_MINT
-} from 'helpers/sdk/constant';
+import { HONEY_DECIMALS, HONEY_MINT } from 'helpers/sdk/constant';
 import {
   convert,
   convertToBN,
@@ -26,7 +22,7 @@ const HoneyModal = () => {
   };
 
   const vestingPeriodInSeconds = useMemo(() => {
-    if ([3, 6, 12].includes(vestingPeriod)) {
+    if ([1, 3, 6, 12, 48].includes(vestingPeriod)) {
       const date = new Date();
       const current = Math.floor(date.getTime() / 1000);
       date.setMonth(date.getMonth() + vestingPeriod);
@@ -43,7 +39,7 @@ const HoneyModal = () => {
   const honeyToken = tokenAccounts.find(t => t.info.mint.equals(HONEY_MINT));
   const STAKE_POOL_ADDRESS = new PublicKey(
     process.env.NEXT_STAKE_POOL_ADDR ||
-      'Cv9Hx3VRvqkz5JRPiZM8A2BH31yvpcT4qiUJLdtgu7TE'
+      '4v62DWSwrUVEHe2g88MeyJ7g32vVzQsCnADZF8yUy8iU'
   );
   const LOCKER_ADDRESS = new PublicKey(
     process.env.NEXT_LOCKER_ADDR ||
@@ -59,14 +55,6 @@ const HoneyModal = () => {
     }
 
     return convert(escrow.amount, HONEY_DECIMALS);
-  }, [escrow]);
-
-  const lockedPeriodStart = useMemo(() => {
-    if (!escrow) {
-      return 0;
-    }
-
-    return convertBnTimestampToDate(escrow.escrowStartedAt);
   }, [escrow]);
 
   const lockedPeriodEnd = useMemo(() => {
@@ -133,25 +121,11 @@ const HoneyModal = () => {
               </Text>
               <Text variant="small">{veHoneyAmount}</Text>
             </Stack>
-
-            <Stack direction="horizontal" justify="space-between">
-              {/* <Text variant="small" color="textSecondary">
-                Lock period starts
-              </Text> */}
-              <Text variant="small">{lockedPeriodStart}</Text>
-            </Stack>
             <Stack direction="horizontal" justify="space-between">
               <Text variant="small" color="textSecondary">
                 Lock period ends
               </Text>
               <Text variant="small">{lockedPeriodEnd}</Text>
-            </Stack>
-
-            <Stack direction="horizontal" justify="space-between">
-              <Text variant="small" color="textSecondary">
-                HONEY balance
-              </Text>
-              <Text variant="small">{HoneyAmount}</Text>
             </Stack>
             <Stack direction="horizontal" justify="space-between">
               <Text variant="small" color="textSecondary">
@@ -166,9 +140,11 @@ const HoneyModal = () => {
                     setVestingPeriod(Number(event.target.value))
                   }
                 >
+                  <option value="1">1 month</option>
                   <option value="3">3 months</option>
                   <option value="6">6 months</option>
-                  <option value="12">12 months</option>
+                  <option value="12">1 year</option>
+                  <option value="48">4 years</option>
                 </select>
               </Box>
             </Stack>

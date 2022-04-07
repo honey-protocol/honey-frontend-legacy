@@ -12,9 +12,8 @@ const PHoneyModal = () => {
   const [isClaimable, setIsClaimable] = useState<boolean>(false);
 
   const handleOnChange = (event: any) => {
-    
     // ideally we want to implement a debaunce here and not fire the function every second the user interacts with it
-    
+
     setAmount(Number(event.target.value));
   };
 
@@ -100,12 +99,6 @@ const PHoneyModal = () => {
                 Your pHONEY deposited
               </Text>
               <Text variant="small">{depositedAmount}</Text>
-            </Stack>
-            <Stack direction="horizontal" justify="space-between">
-              {/* <Text variant="small" color="textSecondary">
-                Your pHONEY balance
-              </Text> */}
-              <Text variant="small">{pHoneyAmount}</Text>
             </Stack>
             <Stack direction="horizontal" justify="space-between">
               <Text variant="small" color="textSecondary">
