@@ -313,7 +313,7 @@ const Governance: NextPage = () => {
                 cursor="pointer"
                 key={hip.link}
               >
-                <Card padding="5">
+                <Card hover padding="5">
                   <Stack align="center" direction="horizontal">
                     <Stack flex={1}>
                       <Text weight="bold" size="large">
