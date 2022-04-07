@@ -1,5 +1,14 @@
 import type { NextPage } from 'next';
-import { Box, Button, Card, IconExclamation, Text } from 'degen';
+import {
+  Box,
+  Button,
+  Card,
+  IconChevronRight,
+  IconExclamation,
+  Input,
+  Tag,
+  Text
+} from 'degen';
 import { Stack } from 'degen';
 import Layout from '../../components/Layout/Layout';
 import ModalContainer from 'components/ModalContainer/ModalContainer';
@@ -20,9 +29,11 @@ import {
 } from 'helpers/sdk/constant';
 import {
   convert,
+  convertToBN,
   convertBnTimestampToDate,
   calcVeHoneyAmount
 } from 'helpers/utils';
+import { HIPS } from 'constants/hip-links';
 
 const Governance: NextPage = () => {
   const wallet = useConnectedWallet();
@@ -35,7 +46,7 @@ const Governance: NextPage = () => {
 
   // ======================== Should replace with configuration ================
   const pHoneyToken = tokenAccounts.find(t => t.info.mint.equals(PHONEY_MINT));
-  const honeyToken = tokenAccounts.find(t => t.info.mint.equals(HONEY_MINT))
+  const honeyToken = tokenAccounts.find(t => t.info.mint.equals(HONEY_MINT));
 
   const STAKE_POOL_ADDRESS = new PublicKey(
     process.env.NEXT_STAKE_POOL_ADDR ||
@@ -225,14 +236,14 @@ const Governance: NextPage = () => {
                 </Box>
                 <Stack justify="space-around">
                   {wallet ? (
-                      <Button
-                        onClick={() => setShowVeHoneyModal(true)}
-                        width="full"
-                        size="small"
-                        variant="secondary"
-                      >
-                        Lock pHONEY
-                      </Button>
+                    <Button
+                      onClick={() => setShowVeHoneyModal(true)}
+                      width="full"
+                      size="small"
+                      variant="secondary"
+                    >
+                      Lock pHONEY
+                    </Button>
                   ) : (
                     <Button
                       onClick={connect}
@@ -244,14 +255,14 @@ const Governance: NextPage = () => {
                     </Button>
                   )}
                   {wallet ? (
-                      <Button
-                        onClick={() => setShowHoneyModal(true)}
-                        width="full"
-                        size="small"
-                        variant="secondary"
-                      >
-                        Lock HONEY
-                      </Button>
+                    <Button
+                      onClick={() => setShowHoneyModal(true)}
+                      width="full"
+                      size="small"
+                      variant="secondary"
+                    >
+                      Lock HONEY
+                    </Button>
                   ) : (
                     <Button
                       onClick={connect}
@@ -262,7 +273,7 @@ const Governance: NextPage = () => {
                       Lock HONEY
                     </Button>
                   )}
-                        {wallet ? (
+                  {wallet ? (
                     <Button
                       onClick={() => setShowPHoneyModal(true)}
                       width="full"
@@ -286,12 +297,37 @@ const Governance: NextPage = () => {
             </Box>
           </Card>
         </Stack>
-        {/* Table */}
-        {/* <Box
+        {/* HIP cards container */}
+        <Box
           flex={1}
+          padding="10"
           borderRadius="2xLarge"
           backgroundColor="backgroundTertiary"
-        ></Box> */}
+        >
+          <Stack>
+            {HIPS.map(hip => (
+              <Box
+                as="a"
+                href={hip.link}
+                target="blank"
+                cursor="pointer"
+                key={hip.link}
+              >
+                <Card padding="5">
+                  <Stack align="center" direction="horizontal">
+                    <Stack flex={1}>
+                      <Text weight="bold" size="large">
+                        {hip.title}
+                      </Text>
+                      <Tag>{hip.date}</Tag>
+                    </Stack>
+                    <IconChevronRight color="text" />
+                  </Stack>
+                </Card>
+              </Box>
+            ))}
+          </Stack>
+        </Box>
       </Stack>
     </Layout>
   );
