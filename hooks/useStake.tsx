@@ -22,9 +22,9 @@ const checkErrorAndShowToast = (error: any, defaultToastMsg: string) => {
   } else if (
     errorMsg.includes('A voting escrow refresh cannot shorten the escrow time remaining.')
   ) {
-    toastMsg = "Selected vesting period cannot be shorter than the previously selected vesting period.";
+    toastMsg = 'Selected vesting period cannot be shorter than the previously selected vesting period.';
   } else {
-    toastMsg = defaultToastMsg;
+    toastMsg = error.message;
   }
 
   return toast.error(toastMsg);
