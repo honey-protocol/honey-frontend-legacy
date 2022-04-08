@@ -91,7 +91,7 @@ export const newFarmCollections: TGFarm[] = [
     allocation: "150",
     totalStakedByUser: "-",
     eventStartDate: "2022/3/4/14/50",
-    eventDuration: "-",
+    eventDuration: "∞",
     updateAuthority: "skU11A6Br8HjAWgwFScGgsqzSyG7qQir4AinHa94pRf",
     rewardTokenName: "SKULL",
     farmAddress: "6Xq5nXkBLHwoVAiELfSSFsEc1SsHXhjBtCQBqZMaGUcq",
