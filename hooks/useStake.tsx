@@ -11,6 +11,25 @@ import { VeHoneyClient, PoolParams } from 'helpers/sdk';
 import { toast } from 'react-toastify';
 import { convert } from 'helpers/utils';
 
+//this fn takes the error caught in a tryCatch block and check for
+//some specified errors and show toast notifications for them
+const checkErrorAndShowToast = (error: any, defaultToastMsg: string) => {
+  const errorMsg: string = error.message;
+  let toastMsg: string;
+
+  if (errorMsg.includes('0x1')) {
+    toastMsg = 'Insufficient balance';
+  } else if (
+    errorMsg.includes('A voting escrow refresh cannot shorten the escrow time remaining.')
+  ) {
+    toastMsg = "Selected vesting period cannot be shorter than the previously selected vesting period.";
+  } else {
+    toastMsg = defaultToastMsg;
+  }
+
+  return toast.error(toastMsg);
+};
+
 export const useStake = (stakePool: PublicKey, locker: PublicKey) => {
   const wallet = useConnectedWallet();
   const connection = useConnection();
@@ -119,9 +138,8 @@ export const useStake = (stakePool: PublicKey, locker: PublicKey) => {
           toast.success('pHONEY successfully deposited');
           setIsLoading(false);
         } catch (e) {
-          toast.error('pHONEY deposit failed');
-
           console.log(e);
+          checkErrorAndShowToast(e, 'pHONEY deposit failed');
           setIsLoading(false);
         }
       }
@@ -138,7 +156,7 @@ export const useStake = (stakePool: PublicKey, locker: PublicKey) => {
         setIsLoading(false);
       } catch (e) {
         console.log(e);
-        toast.error('Error processing claim');
+        checkErrorAndShowToast(e, 'Error processing claim');
         setIsLoading(false);
       }
     }
@@ -163,7 +181,7 @@ export const useStake = (stakePool: PublicKey, locker: PublicKey) => {
           setIsLoading(false);
         } catch (e) {
           console.log(e);
-          toast.error('pHONEY vesting failed');
+          checkErrorAndShowToast(e, 'pHONEY vesting failed');
           setIsLoading(false);
         }
       }
@@ -187,7 +205,8 @@ export const useStake = (stakePool: PublicKey, locker: PublicKey) => {
           setIsLoading(false);
         } catch (e) {
           console.log(e);
-          toast.error('HONEY vesting failed');
+          checkErrorAndShowToast(e, "HONEY failed vesting")
+          // toast.error(`${e}`);
           setIsLoading(false);
         }
 
@@ -204,6 +223,7 @@ export const useStake = (stakePool: PublicKey, locker: PublicKey) => {
         setIsLoading(false);
       } catch (e) {
         console.log(e);
+        checkErrorAndShowToast(e, "Error unlocking")
         setIsLoading(false);
       }
     }
