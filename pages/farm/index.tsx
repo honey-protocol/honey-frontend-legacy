@@ -6,36 +6,37 @@ import * as styles from '../../styles/farm.css';
 import ToggleSwitch from '../../components/ToggleSwitch';
 import { useState, useEffect } from 'react';
 import { newFarmCollections, TGFarm } from '../../constants/new-farms';
-import getCollectionExpireDate from '../../helpers/gemFarm';
 import { useConnectedWallet } from '@saberhq/use-solana';
 import { useWalletKit } from '@gokiprotocol/walletkit';
 import FarmCollectionCard from 'components/FarmCollectionCard/FarmCollectionCard';
+import getCollectionExpireDate from 'helpers/dateUtils';
 
 /**
  * @params collection and i
  * @description filters collection based off expire date
  * @returns array of live farms
  **/
-const liveFarms = newFarmCollections.filter(
-  (collection, i) =>
-    getCollectionExpireDate(
-      collection.eventStartDate,
-      collection.eventDuration
-    ) > new Date()
-);
+const liveFarms = newFarmCollections.filter((collection, i) => {
+  if (collection.eventDuration === '∞') return true;
+  const expireDate = getCollectionExpireDate(
+    new Date(collection.eventStartDate),
+    Number(collection.eventDuration)
+  );
+  return expireDate > new Date();
+});
 
 /**
  * @params collection and i
  * @description filters based off completion date
  * @returns an array of completed farms
  **/
-const completedFarms = newFarmCollections.filter(
-  (collection, i) =>
-    getCollectionExpireDate(
-      collection.eventStartDate,
-      collection.eventDuration
-    ) < new Date()
-);
+const completedFarms = newFarmCollections.filter((collection, i) => {
+  const expireDate = getCollectionExpireDate(
+    new Date(collection.eventStartDate),
+    Number(collection.eventDuration)
+  );
+  return expireDate < new Date();
+});
 
 // TOOD: Needs to accept props for data
 // TODO: render rows of length two for NFT collections based on data props
@@ -43,7 +44,6 @@ const Farm: NextPage = (props: any) => {
   const wallet = useConnectedWallet();
   const { connect } = useWalletKit();
   const [liveOrCompleted, setLiveOrCompleted] = useState(0);
-  const [showCompletedFarms, setShowCompletedFarms] = useState(false);
   const [searchInput, setSearchInput] = useState('');
   const [displayedCollections, setDisplayedCollections] = useState(liveFarms);
 
@@ -54,12 +54,12 @@ const Farm: NextPage = (props: any) => {
    **/
   const onSearchInputChange = (event: any) => {
     const { value } = event.target;
-    // @Daan - we call the setSearchInput- we pass a value but we don't do anything with the value?
     setSearchInput(value);
-    const collection = showCompletedFarms ? completedFarms : liveFarms;
+    const collection = liveOrCompleted ? completedFarms : liveFarms;
     const searchResult = collection.filter(collection =>
       collection.name.toLowerCase().includes(value.toLowerCase())
     );
+    setDisplayedCollections(searchResult);
   };
 
   /**
@@ -70,12 +70,12 @@ const Farm: NextPage = (props: any) => {
    **/
   useEffect(() => {
     setSearchInput('');
-    if (!showCompletedFarms) {
+    if (!liveOrCompleted) {
       setDisplayedCollections(liveFarms);
     } else {
       setDisplayedCollections(completedFarms);
     }
-  }, [showCompletedFarms]);
+  }, [liveOrCompleted]);
 
   return (
     <Layout>
@@ -107,6 +107,8 @@ const Farm: NextPage = (props: any) => {
             <Box className={styles.searchContainer}>
               <Input
                 label=""
+                value={searchInput}
+                onChange={onSearchInputChange}
                 placeholder="Search by name"
                 prefix={<IconSearch />}
               />
@@ -117,7 +119,7 @@ const Farm: NextPage = (props: any) => {
           <Stack>
             <Box className={styles.collectionCardsContainer}>
               {/* {[0, 1, 2, 3, 4].map((num, i) => ( */}
-              {newFarmCollections.map((item: TGFarm, i: number) => (
+              {displayedCollections.map((item: TGFarm, i: number) => (
                 <Box key={item.id}>
                   {wallet ? (
                     <Link href="/farm/[name]" as={`/farm/${item.name}`}>

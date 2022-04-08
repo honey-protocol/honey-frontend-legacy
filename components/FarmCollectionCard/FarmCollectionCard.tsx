@@ -76,7 +76,7 @@ const FarmCollectionCard = (props: any) => {
               weight="normal"
               color="textTertiary"
             >
-              Allocation per NFT:
+              Rewards per NFT:
             </Text>
             <Text align="right" weight="medium" whiteSpace="pre-wrap">
               {newFarmData.data.allocation}
