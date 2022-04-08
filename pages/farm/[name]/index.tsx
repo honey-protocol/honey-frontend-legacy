@@ -1,6 +1,7 @@
 import type { NextPage } from 'next';
 import { Box, Stack, Button, IconRefresh, IconChevronLeft } from 'degen';
 import Layout from '../../../components/Layout/Layout';
+import FarmHeaderComponent from 'components/FarmHeaderComponent/FarmHeaderComponent';
 import useGemFarm from 'hooks/useGemFarm';
 import FarmNFTsContainer from 'components/FarmNFTsContainer/FarmNFTsContainer';
 import Link from 'next/link';
@@ -63,7 +64,8 @@ const Nft: NextPage = () => {
               </Button>
             </Link>
           </Box>
-          <Stack space="3" direction="horizontal">
+          <FarmHeaderComponent />
+          {/* <Stack space="3" direction="horizontal">
             <Box>
               <Button
                 onClick={refreshNFTsWithLoadingIcon}
@@ -78,7 +80,7 @@ const Nft: NextPage = () => {
             <Button onClick={claimRewards} size="small">
               Claim rewards
             </Button>
-          </Stack>
+          </Stack> */}
         </Stack>
       </Box>
       <Box display="flex" height="full" className={styles.cardsContainer}>
