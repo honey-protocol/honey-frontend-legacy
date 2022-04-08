@@ -74,14 +74,6 @@ const VeHoneyModal = () => {
     return convert(escrow.amount, HONEY_DECIMALS);
   }, [escrow]);
 
-  const lockedPeriodStart = useMemo(() => {
-    if (!escrow) {
-      return 0;
-    }
-
-    return convertBnTimestampToDate(escrow.escrowStartedAt);
-  }, [escrow]);
-
   const lockedPeriodEnd = useMemo(() => {
     if (!escrow) {
       return 0;
@@ -162,29 +154,15 @@ const VeHoneyModal = () => {
             </Stack>
             <Stack direction="horizontal" justify="space-between">
               <Text variant="small" color="textSecondary">
-                $veHoney (locked)
+                veHoney (locked)
               </Text>
               <Text variant="small">{veHoneyAmount}</Text>
-            </Stack>
-
-            <Stack direction="horizontal" justify="space-between">
-              <Text variant="small" color="textSecondary">
-                Lock period starts
-              </Text>
-              <Text variant="small">{lockedPeriodStart}</Text>
             </Stack>
             <Stack direction="horizontal" justify="space-between">
               <Text variant="small" color="textSecondary">
                 Lock period ends
               </Text>
               <Text variant="small">{lockedPeriodEnd}</Text>
-            </Stack>
-
-            <Stack direction="horizontal" justify="space-between">
-              <Text variant="small" color="textSecondary">
-                pHONEY balance
-              </Text>
-              <Text variant="small">{pHoneyAmount}</Text>
             </Stack>
             <Stack direction="horizontal" justify="space-between">
               <Text variant="small" color="textSecondary">

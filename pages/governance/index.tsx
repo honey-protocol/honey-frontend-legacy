@@ -1,5 +1,14 @@
 import type { NextPage } from 'next';
-import { Box, Button, Card, IconExclamation, Text } from 'degen';
+import {
+  Box,
+  Button,
+  Card,
+  IconChevronRight,
+  IconExclamation,
+  Input,
+  Tag,
+  Text
+} from 'degen';
 import { Stack } from 'degen';
 import Layout from '../../components/Layout/Layout';
 import ModalContainer from 'components/ModalContainer/ModalContainer';
@@ -20,9 +29,11 @@ import {
 } from 'helpers/sdk/constant';
 import {
   convert,
+  convertToBN,
   convertBnTimestampToDate,
   calcVeHoneyAmount
 } from 'helpers/utils';
+import { HIPS } from 'constants/hip-links';
 
 const Governance: NextPage = () => {
   const wallet = useConnectedWallet();
@@ -35,7 +46,7 @@ const Governance: NextPage = () => {
 
   // ======================== Should replace with configuration ================
   const pHoneyToken = tokenAccounts.find(t => t.info.mint.equals(PHONEY_MINT));
-  const honeyToken = tokenAccounts.find(t => t.info.mint.equals(HONEY_MINT))
+  const honeyToken = tokenAccounts.find(t => t.info.mint.equals(HONEY_MINT));
 
   const STAKE_POOL_ADDRESS = new PublicKey(
     process.env.NEXT_STAKE_POOL_ADDR ||
@@ -151,18 +162,19 @@ const Governance: NextPage = () => {
               <Stack flex={1} justify="center" align="center" space="3">
                 <IconExclamation color="accent" />
                 <Text variant="small" align="center">
-                  pre-IDO HONEY (pHONEY) has to be deposited after the IDO on
-                  March 30th You can{' '}
+                  Pre-IDO HONEY (pHONEY) can be converted to HONEY at a 1:1 ratio. 
+                  {' '}
                   <Text as="span" color="accent">
-                    Convert it for HONEY or Lock/Vest it for veHONEY.
+                  You can increase this ratio by locking your tokens 
                   </Text>{' '}
-                  Check out our docs to learn the difference between HONEY and
-                  veHONEY + exchange rates.
+                  (and receive veHONEY).
+
+                  To participate in governance, you can lock your HONEY for veHONEY.
                 </Text>
                 <Stack direction="horizontal" justify="center" align="center">
                   <Button
                     as="a"
-                    href="https://docs.honey.finance/products/tokens"
+                    href="https://docs.honey.finance/tokenomics/vehoney"
                     target="_blank"
                     size="small"
                     variant="tertiary"
@@ -186,7 +198,7 @@ const Governance: NextPage = () => {
                     <Stack justify="space-between" direction="horizontal">
                       <Stack align="flex-end">
                         <Text size="small">
-                          <b>{veHoneyAmount}</b> $veHONEY (locked)
+                          <b>{veHoneyAmount}</b> veHONEY balance
                         </Text>
                       </Stack>
 
@@ -200,19 +212,19 @@ const Governance: NextPage = () => {
                     <Box marginTop="auto">
                       <Stack space="3">
                         <Stack justify="space-between" direction="horizontal">
-                          <Text size="small">Lock period starts</Text>
-                          <Text size="small">{lockedPeriodStart}</Text>
+                          {/* <Text size="small">Lock period starts</Text> */}
+                          {/* <Text size="small">{lockedPeriodStart}</Text> */}
                         </Stack>
                         <Stack justify="space-between" direction="horizontal">
                           <Text size="small">Lock period ends</Text>
                           <Text size="small">{lockedPeriodEnd}</Text>
                         </Stack>
                         <Stack justify="space-between" direction="horizontal">
-                          <Text size="small">$pHONEY deposited:</Text>
+                          <Text size="small">pHONEY deposited:</Text>
                           <Text size="small">{depositedAmount}</Text>
                         </Stack>
                         <Stack justify="space-between" direction="horizontal">
-                          <Text size="small">$pHONEY balance</Text>
+                          <Text size="small">pHONEY balance</Text>
                           <Text size="small">{pHoneyAmount}</Text>
                         </Stack>
                         <Stack justify="space-between" direction="horizontal">
@@ -224,52 +236,14 @@ const Governance: NextPage = () => {
                   </Stack>
                 </Box>
                 <Stack justify="space-around">
-                  {wallet ? (
-                      <Button
-                        onClick={() => setShowVeHoneyModal(true)}
-                        width="full"
-                        size="small"
-                        variant="secondary"
-                      >
-                        Lock pHONEY
-                      </Button>
-                  ) : (
-                    <Button
-                      onClick={connect}
-                      width="full"
-                      size="small"
-                      variant="secondary"
-                    >
-                      Lock pHONEY
-                    </Button>
-                  )}
-                  {wallet ? (
-                      <Button
-                        onClick={() => setShowHoneyModal(true)}
-                        width="full"
-                        size="small"
-                        variant="secondary"
-                      >
-                        Lock HONEY
-                      </Button>
-                  ) : (
-                    <Button
-                      onClick={connect}
-                      width="full"
-                      size="small"
-                      variant="secondary"
-                    >
-                      Lock HONEY
-                    </Button>
-                  )}
-                        {wallet ? (
+                {wallet ? (
                     <Button
                       onClick={() => setShowPHoneyModal(true)}
                       width="full"
                       size="small"
                       variant="secondary"
                     >
-                      pHONEY to HONEY
+                      pHONEY →  HONEY
                     </Button>
                   ) : (
                     <Button
@@ -278,20 +252,84 @@ const Governance: NextPage = () => {
                       size="small"
                       variant="secondary"
                     >
-                      pHONEY to HONEY
+                      pHONEY →  HONEY
                     </Button>
                   )}
+                  {wallet ? (
+                    <Button
+                      onClick={() => setShowVeHoneyModal(true)}
+                      width="full"
+                      size="small"
+                      variant="secondary"
+                    >
+                      pHONEY  →  veHONEY
+                    </Button>
+                  ) : (
+                    <Button
+                      onClick={connect}
+                      width="full"
+                      size="small"
+                      variant="secondary"
+                    >
+                      pHONEY  →  veHONEY
+                    </Button>
+                  )}
+                  {wallet ? (
+                    <Button
+                      onClick={() => setShowHoneyModal(true)}
+                      width="full"
+                      size="small"
+                      variant="secondary"
+                    >
+                      HONEY → veHONEY
+                    </Button>
+                  ) : (
+                    <Button
+                      onClick={connect}
+                      width="full"
+                      size="small"
+                      variant="secondary"
+                    >
+                      HONEY → veHONEY
+                    </Button>
+                  )}
+
                 </Stack>
               </Stack>
             </Box>
           </Card>
         </Stack>
-        {/* Table */}
-        {/* <Box
+        {/* HIP cards container */}
+        <Box
           flex={1}
+          padding="10"
           borderRadius="2xLarge"
           backgroundColor="backgroundTertiary"
-        ></Box> */}
+        >
+          <Stack>
+            {HIPS.map(hip => (
+              <Box
+                as="a"
+                href={hip.link}
+                target="blank"
+                cursor="pointer"
+                key={hip.link}
+              >
+                <Card hover padding="5">
+                  <Stack align="center" direction="horizontal">
+                    <Stack flex={1}>
+                      <Text weight="bold" size="large">
+                        {hip.title}
+                      </Text>
+                      <Tag hover>{hip.date}</Tag>
+                    </Stack>
+                    <IconChevronRight color="text" />
+                  </Stack>
+                </Card>
+              </Box>
+            ))}
+          </Stack>
+        </Box>
       </Stack>
     </Layout>
   );

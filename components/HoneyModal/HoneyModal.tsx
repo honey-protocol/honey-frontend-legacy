@@ -1,15 +1,11 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import { Box, Button, Input, Stack, Text, Tag } from 'degen';
 import { PublicKey } from '@solana/web3.js';
 import * as anchor from '@project-serum/anchor';
-
 import * as styles from './HoneyModal.css';
 import { useStake } from 'hooks/useStake';
 import { useAccounts } from 'hooks/useAccounts';
-import {
-  HONEY_DECIMALS,
-  HONEY_MINT
-} from 'helpers/sdk/constant';
+import { HONEY_DECIMALS, HONEY_MINT } from 'helpers/sdk/constant';
 import {
   convert,
   convertToBN,
@@ -59,14 +55,6 @@ const HoneyModal = () => {
     }
 
     return convert(escrow.amount, HONEY_DECIMALS);
-  }, [escrow]);
-
-  const lockedPeriodStart = useMemo(() => {
-    if (!escrow) {
-      return 0;
-    }
-
-    return convertBnTimestampToDate(escrow.escrowStartedAt);
   }, [escrow]);
 
   const lockedPeriodEnd = useMemo(() => {
@@ -129,29 +117,15 @@ const HoneyModal = () => {
             </Stack>
             <Stack direction="horizontal" justify="space-between">
               <Text variant="small" color="textSecondary">
-                $veHoney (locked)
+                veHoney (locked)
               </Text>
               <Text variant="small">{veHoneyAmount}</Text>
-            </Stack>
-
-            <Stack direction="horizontal" justify="space-between">
-              <Text variant="small" color="textSecondary">
-                Lock period starts
-              </Text>
-              <Text variant="small">{lockedPeriodStart}</Text>
             </Stack>
             <Stack direction="horizontal" justify="space-between">
               <Text variant="small" color="textSecondary">
                 Lock period ends
               </Text>
               <Text variant="small">{lockedPeriodEnd}</Text>
-            </Stack>
-
-            <Stack direction="horizontal" justify="space-between">
-              <Text variant="small" color="textSecondary">
-                HONEY balance
-              </Text>
-              <Text variant="small">{HoneyAmount}</Text>
             </Stack>
             <Stack direction="horizontal" justify="space-between">
               <Text variant="small" color="textSecondary">
