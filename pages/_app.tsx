@@ -7,6 +7,7 @@ import { Network } from '@saberhq/solana-contrib';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { PartialNetworkConfigMap } from "@saberhq/use-solana/src/utils/useConnectionInternal";
+import { accentSequence, ThemeAccent } from 'helpers/theme-utils';
 
 const network = process.env.NETWORK as Network;
 const networkConfiguration = () => {
@@ -15,11 +16,14 @@ const networkConfiguration = () => {
   } else {
     return undefined
   }
-}
+};
+
+const defaultAccent: ThemeAccent = accentSequence[0];
+const storedAccent = typeof window !== "undefined" ? localStorage.getItem('accent') as ThemeAccent : undefined;
 
 function MyApp({Component, pageProps}: AppProps) {
   return (
-    <ThemeProvider defaultMode="dark" defaultAccent="red">
+    <ThemeProvider defaultMode="dark" defaultAccent={storedAccent || defaultAccent}>
       <WalletKitProvider
         defaultNetwork={network}
         app={{

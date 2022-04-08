@@ -5,26 +5,23 @@ import {
   Heading,
   Button,
   IconGrid,
-  IconUsersSolid,
-  IconPencil,
-  IconCode,
-  IconCollection,
   IconBookOpen,
   IconDocuments,
   IconHand,
   IconTokens,
   IconSplit,
   vars,
-  IconLink
+  IconLink,
+  useTheme
 } from 'degen';
 import SidebarButton from '../SidebarButton';
 import * as styles from './Sidebar.css';
-import { ReactNodeNoStrings } from 'degen/dist/types/types';
 import { DiscordIcon } from 'icons/DiscordIcon';
 import { TwitterIcon } from 'icons/TwitterIcon';
 import { MediumIcon } from 'icons/MediumIcon';
 import { GithubIcon } from 'icons/GithubIcon';
 import { useRouter } from 'next/router';
+import { nextAccentMap } from 'helpers/theme-utils';
 
 const whitePaperUrl =
   'https://4291845233-files.gitbook.io/~/files/v0/b/gitbook-x-prod.appspot.com/o/spaces%2FLxClA4ViEZ3CcRvINtyy%2Fuploads%2FsDr0JNKhTU5H9f9qkkX2%2Fhoney_whitepaper.pdf?alt=media&token=c9054e88-e3a5-43fd-a80f-ac55e2d49162';
@@ -84,6 +81,13 @@ interface SidebarProps {
 const Sidebar = (props: SidebarProps) => {
   const router = useRouter();
   const pageName = router.route.split('/')[1];
+  const { accent, setAccent } = useTheme();
+
+  const toggleAccent = React.useCallback(() => {
+    const nextAccent = nextAccentMap[accent];
+    localStorage.setItem('accent', nextAccent);
+    setAccent(nextAccent);
+  }, [accent, setAccent]);
 
   return (
     <Box
@@ -101,12 +105,14 @@ const Sidebar = (props: SidebarProps) => {
           display="flex"
           height="16"
         >
-          <Heading as="h5" color="foreground" align="center" responsive>
-            Honey Finance
-          </Heading>
+          <Button variant="transparent" onClick={toggleAccent}>
+            <Heading as="h5" color="foreground" align="center" responsive>
+              Honey Finance
+            </Heading>
+          </Button>
         </Box>
         <Stack>
-          {mainLinks.map((link, i) => {
+          {mainLinks.map(link => {
             const isActive =
               link.url.split('/')[1].toLowerCase() === pageName.toLowerCase();
             return link.comingSoon ? (
