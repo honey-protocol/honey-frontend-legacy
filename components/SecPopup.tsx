@@ -25,12 +25,12 @@ const SecPopup = (props: { setShowPopup: Function }) => {
           responsible for themselves for the compliance with all local rules and
           regulations
         </Text>
-        <Text align="center" lineHeight="1.375">
-          Honey finance is unavailable to residences of United States of America
+        <Text variant="large" weight="bold" align="center" lineHeight="1.375">
+          Honey Finance is unavailable to residents and citizens of the United States of America.
         </Text>
       </Stack>
       <Box marginTop="7">
-        <Button size="small" onClick={() => props.setShowPopup(false)}>
+        <Button variant="secondary" size="small" onClick={() => props.setShowPopup(false)}>
           I understand, proceed to the app
         </Button>
       </Box>
