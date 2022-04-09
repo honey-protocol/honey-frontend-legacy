@@ -7,7 +7,7 @@ import { Network } from '@saberhq/solana-contrib';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { PartialNetworkConfigMap } from '@saberhq/use-solana/src/utils/useConnectionInternal';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import SecPopup from 'components/SecPopup';
 
 const network = process.env.NETWORK as Network;
@@ -21,6 +21,16 @@ const networkConfiguration = () => {
 
 function MyApp({ Component, pageProps }: AppProps) {
   const [showPopup, setShowPopup] = useState(true);
+  const [shouldRender, setShouldRender] = useState(false);
+
+  useEffect(() => {
+    const cautionAgreed = localStorage.getItem('caution-agreed');
+    setShowPopup(cautionAgreed === 'true' ? false : true);
+    setShouldRender(true);
+  }, []);
+
+  if (!shouldRender) return null;
+
   return (
     <ThemeProvider defaultMode="dark" defaultAccent="red">
       <WalletKitProvider

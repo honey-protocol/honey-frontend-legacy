@@ -2,6 +2,10 @@ import { Box, Button, Stack, Text } from 'degen';
 import React from 'react';
 
 const SecPopup = (props: { setShowPopup: Function }) => {
+  const onAgree = () => {
+    localStorage.setItem('caution-agreed', 'true');
+    props.setShowPopup(false);
+  };
   return (
     <Box
       display="flex"
@@ -26,11 +30,12 @@ const SecPopup = (props: { setShowPopup: Function }) => {
           regulations
         </Text>
         <Text variant="large" weight="bold" align="center" lineHeight="1.375">
-          Honey Finance is unavailable to residents and citizens of the United States of America.
+          Honey Finance is unavailable to residents and citizens of the United
+          States of America.
         </Text>
       </Stack>
       <Box marginTop="7">
-        <Button variant="secondary" size="small" onClick={() => props.setShowPopup(false)}>
+        <Button variant="secondary" size="small" onClick={onAgree}>
           I understand, proceed to the app
         </Button>
       </Box>
