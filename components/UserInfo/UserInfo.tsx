@@ -72,7 +72,7 @@ const UserInfo = (props: UserInfoProps) => {
           <Button
             onClick={disconnect}
             ref={btnRef}
-            variant="secondary"
+            variant="primary"
             size="small"
             width="48"
           >
@@ -83,7 +83,7 @@ const UserInfo = (props: UserInfoProps) => {
             </Box>
           </Button>
         ) : (
-          <Button variant="primary" size="small" width="48" onClick={connect}>
+          <Button variant="secondary" size="small" width="48" onClick={connect}>
             Connect Wallet
           </Button>
         )}

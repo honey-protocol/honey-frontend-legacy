@@ -3,7 +3,7 @@ import { defineProperties, createSprinkles } from '@vanilla-extract/sprinkles';
 
 export const vars = createGlobalTheme(':root', {
   colors: {
-    // orange: 'orange',
+    orange: 'orange',
     // black: '#101115',
     // gray: '#262730'
   },
