@@ -372,6 +372,12 @@ const useGemFarm = () => {
     setSelectedWalletNFTs([]);
   };
 
+  // const availableToClaimA = farmerAcc?.rewardA
+  //   ? farmerAcc.rewardA.accruedReward
+  //       .sub(farmerAcc.rewardA.paidOutReward)
+  //       .toString()
+  //   : null
+
   return {
     depositMoreSelectedGems,
     claimRewards,
@@ -385,10 +391,14 @@ const useGemFarm = () => {
     onWalletNFTUnselect,
     onStakedNFTSelect,
     onStakedNFTUnselect,
+    // availableToClaimA,
+    availableA,
+    availableB,
     isFetching,
     stakedNFTsInFarm,
     walletNFTsInFarm,
     farmerAcc,
+    farmAcc,
     farmerState,
     selectedVaultNFTs,
     selectedWalletNFTs,

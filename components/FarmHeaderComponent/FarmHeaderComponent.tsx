@@ -8,31 +8,73 @@ import useGemFarm from 'hooks/useGemFarm';
 const FarmHeaderComponent = () => {
     const {
         farmerAcc,
+        farmAcc,
+        availableA,
+        availableB,
         claimRewards,
         refreshNFTsWithLoadingIcon,
       } = useGemFarm();
 // todo useMemo
+  console.log("Farm account from component", farmAcc)
+
+  const stakedNftCount = useMemo(() => {
+    if (!farmAcc) {
+      return 0
+    }
+    return farmAcc?.gemsStaked.toNumber()
+  },[farmAcc])
+
+  const farmerCount = useMemo(() => {
+    if (!farmAcc) {
+      return 0
+    }
+    return farmAcc?.farmerCount.toNumber()
+  },[farmAcc])
+  
+  const percentageStaked = useMemo(() => {
+    if (!farmAcc){
+      return 0
+    }
+    const totalNfts = 10000;
+    return ((stakedNftCount / totalNfts) * 100).toFixed(2)
+  },[farmAcc, stakedNftCount])
+  
+  const claimA = useMemo(() => {
+    if (!farmerAcc) {
+      return 0
+    }
+    return availableA ;
+  }, [farmerAcc, availableA])
+
+  const claimB = useMemo(() => {
+    if (!farmerAcc) {
+      return 0
+    }
+    return availableB?.toString()
+  }, [farmerAcc, availableB])
+
   return (
     <Box className={styles.headerWrapper}>
         <Box>
             <Text variant='label'>Total staked</Text>
-            <Text variant='small'>{farmerAcc?.gemsStaked.toNumber()}</Text>
+            <Text variant='small'>{stakedNftCount}</Text>
         </Box>
         <Box>
             <Text variant='label'>% Staked</Text>
-            <Text variant='small'>15%</Text>
+            <Text variant='small'>{percentageStaked} %</Text>
         </Box>
         <Box>
-            <Text variant='label'>Total Yield</Text>
-            <Text variant='small'>432321 $HONEY</Text>
+            <Text variant='label'>Farmer Count</Text>
+            <Text variant='small'>{farmerCount}</Text>
         </Box>
+        {/* <Box>
+            <Text variant='label'>Unstaking fee</Text>
+            <Text variant='small'>10 $HONEY</Text>
+        </Box> */}
+     
         <Box>
-            <Text variant='label'>Lock Ends</Text>
-            <Text variant='small'>Feb 24th 22, 4:35 am</Text>
-        </Box>
-        <Box>
-            <Text variant='label'>Cooldown ends</Text>
-            <Text variant='small'>Apr 8th 22, 2:22 pm</Text>
+            <Text variant='label'>Cooldown</Text>
+            <Text variant='small'>Yes</Text>
         </Box>
         <Stack space="3" direction="horizontal">
             <Box>
@@ -47,7 +89,7 @@ const FarmHeaderComponent = () => {
             </Box>
 
             <Button onClick={claimRewards} size="small">
-              Claim rewards
+             {`Claim ${claimA} A / ${claimB} B`}
             </Button>
           </Stack>
     </Box>
