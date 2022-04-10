@@ -162,14 +162,13 @@ const Governance: NextPage = () => {
               <Stack flex={1} justify="center" align="center" space="3">
                 <IconExclamation color="accent" />
                 <Text variant="small" align="center">
-                  Pre-IDO HONEY (pHONEY) can be converted to HONEY at a 1:1 ratio. 
-                  {' '}
+                  Pre-IDO HONEY (pHONEY) can be converted to HONEY at a 1:1
+                  ratio.{' '}
                   <Text as="span" color="accent">
-                  You can increase this ratio by locking your tokens 
+                    You can increase this ratio by locking your tokens
                   </Text>{' '}
-                  (and receive veHONEY).
-
-                  To participate in governance, you can lock your HONEY for veHONEY.
+                  (and receive veHONEY). To participate in governance, you can
+                  lock your HONEY for veHONEY.
                 </Text>
                 <Stack direction="horizontal" justify="center" align="center">
                   <Button
@@ -185,14 +184,24 @@ const Governance: NextPage = () => {
               </Stack>
             </Box>
           </Card>
-          <Card width={{ md: '1/2' }} level="2" padding="6">
+          <Card width={{ md: 'auto' }} level="2" padding="6">
             <Box height="full" width="full" display="flex">
-              <Stack flex={1} direction="horizontal" space="3">
+              <Stack
+                flex={1}
+                direction={{
+                  lg: 'horizontal',
+                  md: 'horizontal',
+                  sm: 'horizontal',
+                  xs: 'vertical'
+                }}
+                space="3"
+              >
                 <Box
-                  width="3/4"
-                  display="flex"
-                  paddingRight="3"
-                  borderRightWidth="0.375"
+                  width={{ lg: '3/4', md: '3/4', xs: 'full', sm: 'full' }}
+                  paddingRight={{ xs: '0', sm: '3' }}
+                  paddingBottom={{ xs: '3', sm: '0' }}
+                  borderBottomWidth={{ xs: '0.375', sm: '0' }}
+                  borderRightWidth={{ xs: '0', sm: '0.375' }}
                 >
                   <Stack flex={1} justify="space-between" space="6">
                     <Stack justify="space-between" direction="horizontal">
@@ -235,65 +244,34 @@ const Governance: NextPage = () => {
                     </Box>
                   </Stack>
                 </Box>
-                <Stack justify="space-around">
-                {wallet ? (
-                    <Button
-                      onClick={() => setShowPHoneyModal(true)}
-                      width="full"
-                      size="small"
-                      variant="secondary"
-                    >
-                      pHONEY →  HONEY
-                    </Button>
-                  ) : (
-                    <Button
-                      onClick={connect}
-                      width="full"
-                      size="small"
-                      variant="secondary"
-                    >
-                      pHONEY →  HONEY
-                    </Button>
-                  )}
-                  {wallet ? (
-                    <Button
-                      onClick={() => setShowVeHoneyModal(true)}
-                      width="full"
-                      size="small"
-                      variant="secondary"
-                    >
-                      pHONEY  →  veHONEY
-                    </Button>
-                  ) : (
-                    <Button
-                      onClick={connect}
-                      width="full"
-                      size="small"
-                      variant="secondary"
-                    >
-                      pHONEY  →  veHONEY
-                    </Button>
-                  )}
-                  {wallet ? (
-                    <Button
-                      onClick={() => setShowHoneyModal(true)}
-                      width="full"
-                      size="small"
-                      variant="secondary"
-                    >
-                      HONEY → veHONEY
-                    </Button>
-                  ) : (
-                    <Button
-                      onClick={connect}
-                      width="full"
-                      size="small"
-                      variant="secondary"
-                    >
-                      HONEY → veHONEY
-                    </Button>
-                  )}
-
+                <Stack
+                  flex={{ md: 'none', lg: 'none', sm: 1 }}
+                  justify="space-around"
+                >
+                  <Button
+                    onClick={wallet ? () => setShowPHoneyModal(true) : connect}
+                    width="full"
+                    size="small"
+                    variant="secondary"
+                  >
+                    pHONEY → HONEY
+                  </Button>
+                  <Button
+                    onClick={wallet ? () => setShowVeHoneyModal(true) : connect}
+                    width="full"
+                    size="small"
+                    variant="secondary"
+                  >
+                    pHONEY → veHONEY
+                  </Button>
+                  <Button
+                    onClick={wallet ? () => setShowHoneyModal(true) : connect}
+                    width="full"
+                    size="small"
+                    variant="secondary"
+                  >
+                    HONEY → veHONEY
+                  </Button>
                 </Stack>
               </Stack>
             </Box>
