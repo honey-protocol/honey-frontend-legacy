@@ -11,11 +11,19 @@ const FarmHeaderComponent = () => {
         farmAcc,
         availableA,
         availableB,
+        availableToClaimA,
         claimRewards,
         refreshNFTsWithLoadingIcon,
       } = useGemFarm();
 // todo useMemo
-  console.log("Farm account from component", farmAcc)
+  console.log("Farmer account: ", farmerAcc)
+  
+  const cooldownSecs = useMemo(() => {
+    if (!farmAcc) {
+      return 0
+    }
+    return farmAcc?.config.cooldownPeriodSec.toNumber()
+  },[farmAcc])
 
   const stakedNftCount = useMemo(() => {
     if (!farmAcc) {
@@ -46,12 +54,15 @@ const FarmHeaderComponent = () => {
     return availableA ;
   }, [farmerAcc, availableA])
 
+  console.log('CLAIM A', claimA)
+
   const claimB = useMemo(() => {
     if (!farmerAcc) {
       return 0
     }
     return availableB?.toString()
   }, [farmerAcc, availableB])
+  console.log('CLAIM B', claimB)
 
   return (
     <Box className={styles.headerWrapper}>
@@ -73,8 +84,8 @@ const FarmHeaderComponent = () => {
         </Box> */}
      
         <Box>
-            <Text variant='label'>Cooldown</Text>
-            <Text variant='small'>Yes</Text>
+            <Text variant='label'>Cooldown Secs</Text>
+            <Text variant='small'>{cooldownSecs}</Text>
         </Box>
         <Stack space="3" direction="horizontal">
             <Box>
@@ -89,7 +100,7 @@ const FarmHeaderComponent = () => {
             </Box>
 
             <Button onClick={claimRewards} size="small">
-             {`Claim ${claimA} A / ${claimB} B`}
+             {`Claim ${availableToClaimA} A / ${claimB} B`}
             </Button>
           </Stack>
     </Box>
