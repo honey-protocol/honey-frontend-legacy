@@ -19,9 +19,3 @@ export const menuIcon = style([
     }
   })
 ]);
-
-export const buttonColor = style([
-  sprinkles({
-    background: 'orange'
-  })
-])
