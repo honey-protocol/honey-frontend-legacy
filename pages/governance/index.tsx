@@ -157,125 +157,136 @@ const Governance: NextPage = () => {
           }}
           space="6"
         >
-          <Card width={{ md: '1/2' }} level="2" padding="6">
-            <Box display="flex" height="full">
-              <Stack flex={1} justify="center" align="center" space="3">
-                <IconExclamation color="accent" />
-                <Text variant="small" align="center">
-                  Pre-IDO HONEY (pHONEY) can be converted to HONEY at a 1:1
-                  ratio.{' '}
-                  <Text as="span" color="accent">
-                    You can increase this ratio by locking your tokens
-                  </Text>{' '}
-                  (and receive veHONEY). To participate in governance, you can
-                  lock your HONEY for veHONEY.
-                </Text>
-                <Stack direction="horizontal" justify="center" align="center">
-                  <Button
-                    as="a"
-                    href="https://docs.honey.finance/tokenomics/vehoney"
-                    target="_blank"
-                    size="small"
-                    variant="tertiary"
-                  >
-                    Learn more
-                  </Button>
-                </Stack>
-              </Stack>
-            </Box>
-          </Card>
-          <Card width={{ md: 'auto' }} level="2" padding="6">
-            <Box height="full" width="full" display="flex">
-              <Stack
-                flex={1}
-                direction={{
-                  lg: 'horizontal',
-                  md: 'horizontal',
-                  sm: 'horizontal',
-                  xs: 'vertical'
-                }}
-                space="3"
-              >
-                <Box
-                  width={{ lg: '3/4', md: '3/4', xs: 'full', sm: 'full' }}
-                  paddingRight={{ xs: '0', sm: '3' }}
-                  paddingBottom={{ xs: '3', sm: '0' }}
-                  borderBottomWidth={{ xs: '0.375', sm: '0' }}
-                  borderRightWidth={{ xs: '0', sm: '0.375' }}
-                >
-                  <Stack flex={1} justify="space-between" space="6">
-                    <Stack justify="space-between" direction="horizontal">
-                      <Stack align="flex-end">
-                        <Text size="small">
-                          <b>{veHoneyAmount}</b> veHONEY balance
-                        </Text>
-                      </Stack>
-
-                      <Stack align="flex-end">
-                        {/* <Text size="small">$HONEY locked</Text> */}
-                        <Text size="small">
-                          <b>{lockedAmount}</b> $HONEY (locked)
-                        </Text>
-                      </Stack>
-                    </Stack>
-                    <Box marginTop="auto">
-                      <Stack space="3">
-                        <Stack justify="space-between" direction="horizontal">
-                          {/* <Text size="small">Lock period starts</Text> */}
-                          {/* <Text size="small">{lockedPeriodStart}</Text> */}
-                        </Stack>
-                        <Stack justify="space-between" direction="horizontal">
-                          <Text size="small">Lock period ends</Text>
-                          <Text size="small">{lockedPeriodEnd}</Text>
-                        </Stack>
-                        <Stack justify="space-between" direction="horizontal">
-                          <Text size="small">pHONEY deposited:</Text>
-                          <Text size="small">{depositedAmount}</Text>
-                        </Stack>
-                        <Stack justify="space-between" direction="horizontal">
-                          <Text size="small">pHONEY balance</Text>
-                          <Text size="small">{pHoneyAmount}</Text>
-                        </Stack>
-                        <Stack justify="space-between" direction="horizontal">
-                          <Text size="small">$HONEY balance</Text>
-                          <Text size="small">{honeyAmount}</Text>
-                        </Stack>
-                      </Stack>
-                    </Box>
+          <Box height="full" width={{ sm: 'full', md: '1/2' }}>
+            <Card level="2" padding="6">
+              <Box display="flex" height="full">
+                <Stack flex={1} justify="center" align="center" space="3">
+                  <IconExclamation color="accent" />
+                  <Text variant="small" align="center">
+                    Pre-IDO HONEY (pHONEY) can be converted to HONEY at a 1:1
+                    ratio.{' '}
+                    <Text as="span" color="accent">
+                      You can increase this ratio by locking your tokens
+                    </Text>{' '}
+                    (and receive veHONEY). To participate in governance, you can
+                    lock your HONEY for veHONEY.
+                  </Text>
+                  <Stack direction="horizontal" justify="center" align="center">
+                    <Button
+                      as="a"
+                      href="https://docs.honey.finance/tokenomics/vehoney"
+                      target="_blank"
+                      size="small"
+                      variant="tertiary"
+                    >
+                      Learn more
+                    </Button>
                   </Stack>
-                </Box>
-                <Stack
-                  flex={{ md: 'none', lg: 'none', sm: 1 }}
-                  justify="space-around"
-                >
-                  <Button
-                    onClick={wallet ? () => setShowPHoneyModal(true) : connect}
-                    width="full"
-                    size="small"
-                    variant="secondary"
-                  >
-                    pHONEY → HONEY
-                  </Button>
-                  <Button
-                    onClick={wallet ? () => setShowVeHoneyModal(true) : connect}
-                    width="full"
-                    size="small"
-                    variant="secondary"
-                  >
-                    pHONEY → veHONEY
-                  </Button>
-                  <Button
-                    onClick={wallet ? () => setShowHoneyModal(true) : connect}
-                    width="full"
-                    size="small"
-                    variant="secondary"
-                  >
-                    HONEY → veHONEY
-                  </Button>
                 </Stack>
-              </Stack>
-            </Box>
-          </Card>
+              </Box>
+            </Card>
+          </Box>
+          <Box
+            height="full"
+            display="flex"
+            alignItems="stretch"
+            style={{ minWidth: '50%' }}
+            width={{ sm: 'full', md: 'fit' }}
+          >
+            <Card width="full" level="2" padding="6">
+              <Box height="full" width="full" display="flex">
+                <Stack
+                  flex={1}
+                  direction={{
+                    lg: 'horizontal',
+                    md: 'horizontal',
+                    sm: 'horizontal',
+                    xs: 'vertical'
+                  }}
+                  space="3"
+                >
+                  <Box
+                    width={{ lg: '3/4', md: '3/4', xs: 'full', sm: 'full' }}
+                    paddingRight={{ xs: '0', sm: '3' }}
+                    paddingBottom={{ xs: '3', sm: '0' }}
+                    borderBottomWidth={{ xs: '0.375', sm: '0' }}
+                    borderRightWidth={{ xs: '0', sm: '0.375' }}
+                  >
+                    <Stack flex={1} justify="space-between" space="6">
+                      <Stack justify="space-between" direction="horizontal">
+                        <Stack align="flex-end">
+                          <Text size="small">
+                            <b>{veHoneyAmount}</b> veHONEY balance
+                          </Text>
+                        </Stack>
+
+                        <Stack align="flex-end">
+                          {/* <Text size="small">$HONEY locked</Text> */}
+                          <Text size="small">
+                            <b>{lockedAmount}</b> $HONEY (locked)
+                          </Text>
+                        </Stack>
+                      </Stack>
+                      <Box marginTop="auto">
+                        <Stack space="3">
+                          <Stack justify="space-between" direction="horizontal">
+                            {/* <Text size="small">Lock period starts</Text> */}
+                            {/* <Text size="small">{lockedPeriodStart}</Text> */}
+                          </Stack>
+                          <Stack justify="space-between" direction="horizontal">
+                            <Text size="small">Lock period ends</Text>
+                            <Text size="small">{lockedPeriodEnd}</Text>
+                          </Stack>
+                          <Stack justify="space-between" direction="horizontal">
+                            <Text size="small">pHONEY deposited:</Text>
+                            <Text size="small">{depositedAmount}</Text>
+                          </Stack>
+                          <Stack justify="space-between" direction="horizontal">
+                            <Text size="small">pHONEY balance</Text>
+                            <Text size="small">{pHoneyAmount}</Text>
+                          </Stack>
+                          <Stack justify="space-between" direction="horizontal">
+                            <Text size="small">$HONEY balance</Text>
+                            <Text size="small">{honeyAmount}</Text>
+                          </Stack>
+                        </Stack>
+                      </Box>
+                    </Stack>
+                  </Box>
+                  <Stack flex={1} justify="space-around">
+                    <Button
+                      onClick={
+                        wallet ? () => setShowPHoneyModal(true) : connect
+                      }
+                      width="full"
+                      size="small"
+                      variant="secondary"
+                    >
+                      pHONEY → HONEY
+                    </Button>
+                    <Button
+                      onClick={
+                        wallet ? () => setShowVeHoneyModal(true) : connect
+                      }
+                      width="full"
+                      size="small"
+                      variant="secondary"
+                    >
+                      pHONEY → veHONEY
+                    </Button>
+                    <Button
+                      onClick={wallet ? () => setShowHoneyModal(true) : connect}
+                      width="full"
+                      size="small"
+                      variant="secondary"
+                    >
+                      HONEY → veHONEY
+                    </Button>
+                  </Stack>
+                </Stack>
+              </Box>
+            </Card>
+          </Box>
         </Stack>
         {/* HIP cards container */}
         <Box
