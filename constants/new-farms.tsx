@@ -55,6 +55,21 @@ export const newFarmCollections: TGFarm[] = [
     bankAddress: 'Dnijy2vbPZNvSyLm1de2vjCxsEwGjJHXoqub1dRPArJt'
   },
   {
+    id: "HNYVT",
+    imageUrl:
+      "https://i.imgflip.com/65u2do.gif",
+    name: "Honey Genesis Bee (OLD)",
+    totalStaked: "???",
+    allocation: "1",
+    totalStakedByUser: "-",
+    eventStartDate: "2022-03-11T18:50Z",
+    eventDuration: "15",
+    updateAuthority: "B2a66dokeqxGJoUqmtaRNn6JeQJZjatNL5ykZduLjFXY",
+    rewardTokenName: "pHONEY",
+    farmAddress: "7S4C6uABB5gxBxR9UGWq27qLPzFPs9hbzmWrfeaPRrcC",
+    bankAddress: "B33Cvmgug1jgDmnkxRriTXVamZmnAqmui82aJt2t2VQc",
+  },
+  {
     id: 'BDK',
     imageUrl:
       'https://4njm3yz2f6j34gsagmsdoteegnfbqc5sxinqqot5rngvdw2e.arweave.net/41LN4z--ovk74aQDMkN0yEM0oYC7K6Gwg6fYtNUd-tE',
