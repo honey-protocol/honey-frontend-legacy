@@ -157,7 +157,12 @@ const Governance: NextPage = () => {
           }}
           space="6"
         >
-          <Box height="full" width={{ sm: 'full', md: '1/2' }}>
+          <Box
+            height="full"
+            display="flex"
+            alignItems="stretch"
+            width={{ sm: 'full', md: '1/2' }}
+          >
             <Card level="2" padding="6">
               <Box display="flex" height="full">
                 <Stack flex={1} justify="center" align="center" space="3">
