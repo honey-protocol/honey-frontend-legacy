@@ -36,7 +36,7 @@ const checkErrorAndShowToast = (error: any, defaultToastMsg: string) => {
     errorMsg.includes('Transaction was not confirmed in') &&
     errorMsg.includes('unknown if it succeeded or failed')
   ) {
-    toastMsg = 'Sorry. Solana is congested. Tx may have failed';
+    toastMsg = 'Transaction timed out due to network congestion';
   } else if (errorMsg.includes('Network request failed')) {
     toastMsg = 'Failed! Check your network connection';
   } else if (errorMsg.includes('0x1786')) {
