@@ -31,7 +31,7 @@ const checkErrorAndShowToast = (error: any, defaultToastMsg: string) => {
   let toastMsg: string;
 
   if (errorMsg.includes('0x1')) {
-    toastMsg = 'Insufficient balance';
+    toastMsg = 'Insufficient SOL balance';
   } else if (
     errorMsg.includes('Transaction was not confirmed in') &&
     errorMsg.includes('unknown if it succeeded or failed')
