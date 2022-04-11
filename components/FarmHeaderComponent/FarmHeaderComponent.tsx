@@ -1,13 +1,7 @@
-import {
-  Box,
-  Button,
-  IconRefresh,
-  Stack,
-  Text,
-} from 'degen';
+import { Box, Button, IconRefresh, Stack, Text } from 'degen';
 import React, { useMemo } from 'react';
 import { LAMPORTS_PER_SOL } from '@solana/web3.js';
-import * as styles from './FarmHeaderComponent.css';
+// import * as styles from './FarmHeaderComponent.css';
 import useGemFarm from 'hooks/useGemFarm';
 
 const FarmHeaderComponent = () => {
@@ -56,7 +50,7 @@ const FarmHeaderComponent = () => {
     }
     const totalNfts = Number(collectionTotalNumber);
     return ((stakedNftCount / totalNfts) * 100).toFixed(2);
-  }, [farmAcc, stakedNftCount,collectionTotalNumber]);
+  }, [farmAcc, stakedNftCount, collectionTotalNumber]);
 
   const claimA = useMemo(() => {
     if (!farmerAcc) {
@@ -73,48 +67,72 @@ const FarmHeaderComponent = () => {
   // }, [farmerAcc, availableToClaimB]);
 
   return (
-    <Box className={styles.headerWrapper}>
-      <Box>
-        <Text variant="label">Total staked</Text>
-        <Text variant="small">{stakedNftCount}</Text>
-      </Box>
-      <Box>
-        <Text variant="label">% Staked</Text>
-        <Text variant="small">{percentageStaked} %</Text>
-      </Box>
-      <Box>
-        <Text variant="label">Farmer Count</Text>
-        <Text variant="small">{farmerCount}</Text>
-      </Box>
-      {unstakingFee ? (
-        <>
-               <Box>
-            <Text variant="label">Unstaking fee</Text>
-            <Text variant="small">
-              {(unstakingFee / LAMPORTS_PER_SOL).toFixed(2) + ' SOL'}
+    <Box
+      backgroundColor="background"
+      width="full"
+      paddingX="5"
+      paddingY="3"
+      borderRadius="2xLarge"
+      flex={1}
+    >
+      <Stack
+        space="12"
+        align="center"
+        justify="space-between"
+        flex={1}
+        direction={{ md: 'horizontal', sm: 'vertical', xs: 'vertical' }}
+      >
+        <Stack
+          wrap={{ md: false, sm: true }}
+          direction="horizontal"
+          justify="space-between"
+          space="4"
+          flex={1}
+        >
+          <Stack direction="vertical" space="1" align="center">
+            <Text align="center" size="small" variant="label">
+              Total staked
             </Text>
-          </Box>
-        </>
-      ) : (
-        <>
-        </>
-      )}
-      {cooldownSecs ? (
-        <>
-          <Box>
-            <Text variant="label">Cooldown</Text>
-            <Text variant="small">
-              Yes
+            <Text size="small" variant="small">
+              {stakedNftCount}
             </Text>
-          </Box>
-        </>
-      ) : (
-        <>
-        </>
-      )}
-
-      <Stack space="3" direction="horizontal">
-        <Box>
+          </Stack>
+          <Stack direction="vertical" space="1" align="center">
+            <Text size="small" align="center" variant="label">
+              % Staked
+            </Text>
+            <Text size="small" variant="small">
+              {percentageStaked} %
+            </Text>
+          </Stack>
+          <Stack direction="vertical" space="1" align="center">
+            <Text size="small" align="center" variant="label">
+              Farmer Count
+            </Text>
+            <Text size="small" variant="small">
+              {farmerCount}
+            </Text>
+          </Stack>
+          {Boolean(unstakingFee) && (
+            <Stack direction="vertical" space="1" align="center">
+              <Text align="center" variant="label">
+                Unstaking fee
+              </Text>
+              <Text variant="small">
+                {(unstakingFee / LAMPORTS_PER_SOL).toFixed(2) + ' SOL'}
+              </Text>
+            </Stack>
+          )}
+          {Boolean(cooldownSecs) && (
+            <Stack direction="vertical" space="1" align="center">
+              <Text align="center" variant="label">
+                Cooldown
+              </Text>
+              <Text variant="small">Yes</Text>
+            </Stack>
+          )}
+        </Stack>
+        <Stack space="3" direction="horizontal">
           <Button
             onClick={handleRefreshRewardsButtonClick}
             variant="secondary"
@@ -123,11 +141,11 @@ const FarmHeaderComponent = () => {
           >
             <IconRefresh />
           </Button>
-        </Box>
 
-        <Button onClick={claimRewards} size="small">
-          {`Claim ${(claimA / 1000000).toFixed(2)} $${rewardTokenName}`}
-        </Button>
+          <Button onClick={claimRewards} size="small">
+            {`Claim ${(claimA / 1000000).toFixed(2)} $${rewardTokenName}`}
+          </Button>
+        </Stack>
       </Stack>
     </Box>
   );
