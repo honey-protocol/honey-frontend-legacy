@@ -130,8 +130,8 @@ const FarmHeaderComponent = () => {
               </Text>
               <Text variant="small">Yes</Text>
             </Stack>
-          )}
-        </Stack> */}
+          )} */}
+        </Stack>
         <Stack space="3" direction="horizontal">
           <Button
             onClick={handleRefreshRewardsButtonClick}
