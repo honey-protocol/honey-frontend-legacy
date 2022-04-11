@@ -40,6 +40,35 @@ export const newFarmCollections: TGFarm[] = [
     bankAddress: 'DT5iQCmjzgNL2Q2AKErTAUwaCbuc8ufedoLH61fr6TVm'
   },
   {
+    id: "NATA",
+    imageUrl:
+      "https://pbs.twimg.com/profile_images/1492926663969198080/BKeKhTHc_400x400.png",
+    name: "Atadians (FIXED)",
+    totalStaked: "???",
+    allocation: "109",
+    totalStakedByUser: "-",
+    eventStartDate: "2022-03-11T18:50Z",
+    eventDuration: "∞",
+    updateAuthority: "7FZDdgbyUv1gWQ89uV4NpnfpRBgr4S7zhKLC1BKdttZP",
+    rewardTokenName: "ATA",
+    farmAddress: "1G72FGcqtc3ZbC8guy87rMB7MSeEpce7FDgW3es8RdY",
+    bankAddress: "2o8DnjzW8WZSLNMo8DEbaAoScx7i7w1bAsL5h8tq6dJe",
+  },
+  {
+    id: "ATAD",
+    imageUrl: "https://419390487-files.gitbook.io/~/files/v0/b/gitbook-x-prod.appspot.com/o/spaces%2FPvfBeReHNYKceCE1VoLw%2Fuploads%2FFh3bfPzf4oxSoo3qcXkv%2FAtadia_Twitter_Banner_Light.jpeg?alt=media&token=5ae8a8ad-d562-4e05-ade9-386ff23a7e1c",
+    name: "Atadians (OLD)",
+    totalStaked: "???",
+    allocation: "0",
+    totalStakedByUser: "-",
+    eventStartDate: "2022-03-04T14:50Z",
+    eventDuration: "∞",
+    updateAuthority: "7FZDdgbyUv1gWQ89uV4NpnfpRBgr4S7zhKLC1BKdttZP",
+    rewardTokenName: "ATA",
+    farmAddress: "3yR4hroSjQqvCePRry2yJMPynLTfhK252yuCZBTk3Hvr",
+    bankAddress: "ASdASL2X3jwGvLrgjyBZXVuwesSoNvtvts3S8s4Jmtcc",
+  },
+  {
     id: 'dinoK',
     imageUrl:
       'https://dl.airtable.com/.attachmentThumbnails/ab654b7db8bc5f861fe01e63d7defa5b/52855ea1',
@@ -112,22 +141,9 @@ export const newFarmCollections: TGFarm[] = [
     farmAddress: "6Xq5nXkBLHwoVAiELfSSFsEc1SsHXhjBtCQBqZMaGUcq",
     bankAddress: "TS8FfCgfGHeEPNzH7GLGUwRVpiGsXKmoPoAGsnnipSS",
   },
+
   {
-    id: "ATAD",
-    imageUrl: "https://419390487-files.gitbook.io/~/files/v0/b/gitbook-x-prod.appspot.com/o/spaces%2FPvfBeReHNYKceCE1VoLw%2Fuploads%2FFh3bfPzf4oxSoo3qcXkv%2FAtadia_Twitter_Banner_Light.jpeg?alt=media&token=5ae8a8ad-d562-4e05-ade9-386ff23a7e1c",
-    name: "Atadians",
-    totalStaked: "???",
-    allocation: "-",
-    totalStakedByUser: "-",
-    eventStartDate: "2022-03-04T14:50Z",
-    eventDuration: "∞",
-    updateAuthority: "7FZDdgbyUv1gWQ89uV4NpnfpRBgr4S7zhKLC1BKdttZP",
-    rewardTokenName: "ATA",
-    farmAddress: "3yR4hroSjQqvCePRry2yJMPynLTfhK252yuCZBTk3Hvr",
-    bankAddress: "ASdASL2X3jwGvLrgjyBZXVuwesSoNvtvts3S8s4Jmtcc",
-  },
-  {
-    id: "GUAV3",
+    id: "GUAV3", // manager BRkAbtjmzY9DBrmZJRgQ1thJsVVQd8vdW8CXmWzA6PK9
     imageUrl: "https://img-cdn.magiceden.dev/rs:fill:640:640:0:0/plain/https://www.arweave.net/oPjxhg-jCZK7WXPJbvt4LvCPr28efSAOA2oSoCC0Wys?ext=png",
     name: "New Bat City v3",
     totalStaked: "???",
