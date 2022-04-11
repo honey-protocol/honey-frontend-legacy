@@ -3,6 +3,7 @@ export type TGFarm = {
   id: string;
   imageUrl: string;
   name: string;
+  totalNumber: number;
   totalStaked: string;
   allocation: string;
   totalStakedByUser: string;
@@ -31,6 +32,7 @@ export const newFarmCollections: TGFarm[] = [
       "https://i.imgur.com/aDEvZgO.png",
     name: "Honey Genesis Bee (NEW)",
     totalStaked: "???",
+    totalNumber: 10000,
     allocation: "14.63",
     totalStakedByUser: "-",
     eventStartDate: "2022/3/30/18/50",
@@ -46,6 +48,7 @@ export const newFarmCollections: TGFarm[] = [
       "https://dl.airtable.com/.attachmentThumbnails/ab654b7db8bc5f861fe01e63d7defa5b/52855ea1",
     name: "Dino Kingz",
     totalStaked: "???",
+    totalNumber: 2222,
     allocation: "50",
     totalStakedByUser: "-",
     eventStartDate: "2022/3/4/14/50",
@@ -60,6 +63,7 @@ export const newFarmCollections: TGFarm[] = [
     imageUrl: "https://4njm3yz2f6j34gsagmsdoteegnfbqc5sxinqqot5rngvdw2e.arweave.net/41LN4z--ovk74aQDMkN0yEM0oYC7K6Gwg6fYtNUd-tE",
     name: "Baby Dino Kingz",
     totalStaked: "???",
+    totalNumber: 3333,
     allocation: "5",
     totalStakedByUser: "-",
     eventStartDate: "2022/3/4/14/50",
@@ -74,6 +78,7 @@ export const newFarmCollections: TGFarm[] = [
     imageUrl: "https://dl.airtable.com/.attachmentThumbnails/c642aad027ea2e63393f597fd02ab8a1/b1645707",
     name: "Cubist Collective",
     totalStaked: "???",
+    totalNumber: 5000,
     allocation: "1",
     totalStakedByUser: "-",
     eventStartDate: "2022/3/4/14/50",
@@ -88,6 +93,7 @@ export const newFarmCollections: TGFarm[] = [
     imageUrl: "https://img-cdn.magiceden.dev/rs:fill:640:640:0:0/plain/https://www.arweave.net/pozaL5nqCfxsBTXXKddXcQblK4oJ3k2jBuR6pcCLxp4?ext=png",
     name: "Skeleton Crew",
     totalStaked: "???",
+    totalNumber: 6666,
     allocation: "150",
     totalStakedByUser: "-",
     eventStartDate: "2022/3/4/14/50",

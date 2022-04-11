@@ -372,11 +372,35 @@ const useGemFarm = () => {
     setSelectedWalletNFTs([]);
   };
 
+  const handleRefreshRewardsButtonClick = async () => {
+    if (!gf || !gb || !farmerAcc.identity) return true;
+
+    console.log('[Staking Hook] Refreshing farmer...');
+    const { txSig } = await gf.refreshFarmerWallet(
+      new PublicKey(farmAddress),
+      farmerAcc.identity
+    );
+
+    await connection.confirmTransaction(txSig);
+
+    await fetchFarmerDetails(gf, gb);
+    await refreshNFTsWithLoadingIcon();
+  };
+
   const availableToClaimA = farmerAcc?.rewardA
     ? farmerAcc.rewardA.accruedReward
         .sub(farmerAcc.rewardA.paidOutReward)
         .toString()
-    : null
+    : null;
+
+  const availableToClaimB = farmerAcc?.rewardB
+    ? farmerAcc.rewardB.accruedReward
+        .sub(farmerAcc.rewardB.paidOutReward)
+        .toString()
+    : null;
+
+  const collectionTotalNumber = collection?.totalNumber;
+  const rewardTokenName = collection?.rewardTokenName;
 
   return {
     depositMoreSelectedGems,
@@ -391,7 +415,11 @@ const useGemFarm = () => {
     onWalletNFTUnselect,
     onStakedNFTSelect,
     onStakedNFTUnselect,
+    handleRefreshRewardsButtonClick,
     availableToClaimA,
+    availableToClaimB,
+    collectionTotalNumber,
+    rewardTokenName,
     availableA,
     availableB,
     isFetching,

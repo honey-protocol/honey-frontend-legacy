@@ -1,5 +1,12 @@
 import type { NextPage } from 'next';
-import { Box, Stack, Button, IconRefresh, IconChevronLeft } from 'degen';
+import {
+  Box,
+  Stack,
+  Button,
+  IconRefresh,
+  IconChevronLeft,
+  Heading
+} from 'degen';
 import Layout from '../../../components/Layout/Layout';
 import FarmHeaderComponent from 'components/FarmHeaderComponent/FarmHeaderComponent';
 import useGemFarm from 'hooks/useGemFarm';
@@ -7,17 +14,16 @@ import FarmNFTsContainer from 'components/FarmNFTsContainer/FarmNFTsContainer';
 import Link from 'next/link';
 import * as styles from '../../../styles/name.css';
 import { useState } from 'react';
+import { useRouter } from 'next/router';
 
 const Nft: NextPage = () => {
   const {
     depositMoreSelectedGems,
-    claimRewards,
     endStaking,
     startStaking,
     withdrawSelectedGems,
     depositSelectedGems,
     initializeFarmerAcc,
-    refreshNFTsWithLoadingIcon,
     onWalletNFTSelect,
     onWalletNFTUnselect,
     onStakedNFTSelect,
@@ -31,6 +37,9 @@ const Nft: NextPage = () => {
     selectedWalletNFTs,
     farmerVaultLocked
   } = useGemFarm();
+
+  const router = useRouter();
+  const collectionName = router.query.name;
 
   const [txLoading, setTxLoading] = useState({
     value: false,
@@ -64,23 +73,8 @@ const Nft: NextPage = () => {
               </Button>
             </Link>
           </Box>
-          <FarmHeaderComponent />
-          {/* <Stack space="3" direction="horizontal">
-            <Box>
-              <Button
-                onClick={refreshNFTsWithLoadingIcon}
-                variant="secondary"
-                shape="square"
-                size="small"
-              >
-                <IconRefresh />
-              </Button>
-            </Box>
-
-            <Button onClick={claimRewards} size="small">
-              Claim rewards
-            </Button>
-          </Stack> */}
+          <Heading level="2">{collectionName}</Heading>
+          <FarmHeaderComponent name={collectionName}/>
         </Stack>
       </Box>
       <Box display="flex" height="full" className={styles.cardsContainer}>

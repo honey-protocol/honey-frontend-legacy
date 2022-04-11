@@ -1,7 +1,7 @@
 import { style, globalStyle } from '@vanilla-extract/css';
 
 export const headerWrapper = style({
-    width: '85%',
+    width: '100%',
     display: 'flex',
     justifyContent: 'space-between',
     background: 'rgb(20, 20, 20)',
@@ -9,7 +9,7 @@ export const headerWrapper = style({
     height: '5em',
     alignItems: 'center',
     borderRadius: '10px',
-    marginLeft: '2em'
+    marginLeft: ''
 });
 
 globalStyle(`${headerWrapper} > div `, {
