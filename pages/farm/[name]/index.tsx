@@ -1,6 +1,15 @@
 import type { NextPage } from 'next';
-import { Box, Stack, Button, IconRefresh, IconChevronLeft } from 'degen';
+import {
+  Box,
+  Stack,
+  Button,
+  IconRefresh,
+  IconChevronLeft,
+  Heading,
+  Text
+} from 'degen';
 import Layout from '../../../components/Layout/Layout';
+import FarmHeaderComponent from 'components/FarmHeaderComponent/FarmHeaderComponent';
 import useGemFarm from 'hooks/useGemFarm';
 import FarmNFTsContainer from 'components/FarmNFTsContainer/FarmNFTsContainer';
 import Link from 'next/link';
@@ -10,13 +19,11 @@ import { useState } from 'react';
 const Nft: NextPage = () => {
   const {
     depositMoreSelectedGems,
-    claimRewards,
     endStaking,
     startStaking,
     withdrawSelectedGems,
     depositSelectedGems,
     initializeFarmerAcc,
-    refreshNFTsWithLoadingIcon,
     onWalletNFTSelect,
     onWalletNFTUnselect,
     onStakedNFTSelect,
@@ -30,6 +37,7 @@ const Nft: NextPage = () => {
     selectedWalletNFTs,
     farmerVaultLocked
   } = useGemFarm();
+
 
   const [txLoading, setTxLoading] = useState({
     value: false,
@@ -63,22 +71,7 @@ const Nft: NextPage = () => {
               </Button>
             </Link>
           </Box>
-          <Stack space="3" direction="horizontal">
-            <Box>
-              <Button
-                onClick={refreshNFTsWithLoadingIcon}
-                variant="secondary"
-                shape="square"
-                size="small"
-              >
-                <IconRefresh />
-              </Button>
-            </Box>
-
-            <Button onClick={claimRewards} size="small">
-              Claim rewards
-            </Button>
-          </Stack>
+          <FarmHeaderComponent />
         </Stack>
       </Box>
       <Box display="flex" height="full" className={styles.cardsContainer}>
