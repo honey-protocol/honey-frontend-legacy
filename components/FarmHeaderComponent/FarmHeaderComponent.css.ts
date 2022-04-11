@@ -1,7 +1,7 @@
 import { style, globalStyle } from '@vanilla-extract/css';
 
 export const headerWrapper = style({
-    width: '100%',
+    width: '85%',
     display: 'flex',
     justifyContent: 'space-between',
     background: 'rgb(20, 20, 20)',

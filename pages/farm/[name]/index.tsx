@@ -15,7 +15,6 @@ import FarmNFTsContainer from 'components/FarmNFTsContainer/FarmNFTsContainer';
 import Link from 'next/link';
 import * as styles from '../../../styles/name.css';
 import { useState } from 'react';
-import { useRouter } from 'next/router';
 
 const Nft: NextPage = () => {
   const {
@@ -39,8 +38,6 @@ const Nft: NextPage = () => {
     farmerVaultLocked
   } = useGemFarm();
 
-  const router = useRouter();
-  const collectionName = router.query.name;
 
   const [txLoading, setTxLoading] = useState({
     value: false,
@@ -74,7 +71,6 @@ const Nft: NextPage = () => {
               </Button>
             </Link>
           </Box>
-          <Text variant='large'>{collectionName}</Text>
           <FarmHeaderComponent />
         </Stack>
       </Box>
