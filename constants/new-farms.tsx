@@ -117,7 +117,7 @@ export const newFarmCollections: TGFarm[] = [
     imageUrl: "https://419390487-files.gitbook.io/~/files/v0/b/gitbook-x-prod.appspot.com/o/spaces%2FPvfBeReHNYKceCE1VoLw%2Fuploads%2FFh3bfPzf4oxSoo3qcXkv%2FAtadia_Twitter_Banner_Light.jpeg?alt=media&token=5ae8a8ad-d562-4e05-ade9-386ff23a7e1c",
     name: "Atadians",
     totalStaked: "???",
-    allocation: "5",
+    allocation: "-",
     totalStakedByUser: "-",
     eventStartDate: "2022/3/4/14/50",
     eventDuration: "∞",
