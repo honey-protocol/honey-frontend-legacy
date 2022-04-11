@@ -88,11 +88,11 @@ const Farm: NextPage = (props: any) => {
               wrap
               align="center"
             >
-              <Box paddingRight="3">
+              {/* <Box paddingRight="3">
                 <Text align="left" variant="extraLarge" weight="bold">
                   Staking v3 Alpha
                 </Text>
-              </Box>
+              </Box> */}
               <ToggleSwitch
                 buttons={[
                   {

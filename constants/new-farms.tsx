@@ -55,6 +55,21 @@ export const newFarmCollections: TGFarm[] = [
     bankAddress: 'Dnijy2vbPZNvSyLm1de2vjCxsEwGjJHXoqub1dRPArJt'
   },
   {
+    id: "HNYVT",
+    imageUrl:
+      "https://i.imgflip.com/65u2do.gif",
+    name: "Honey Genesis Bee (OLD)",
+    totalStaked: "???",
+    allocation: "1",
+    totalStakedByUser: "-",
+    eventStartDate: "2022-03-11T18:50Z",
+    eventDuration: "15",
+    updateAuthority: "B2a66dokeqxGJoUqmtaRNn6JeQJZjatNL5ykZduLjFXY",
+    rewardTokenName: "pHONEY",
+    farmAddress: "7S4C6uABB5gxBxR9UGWq27qLPzFPs9hbzmWrfeaPRrcC",
+    bankAddress: "B33Cvmgug1jgDmnkxRriTXVamZmnAqmui82aJt2t2VQc",
+  },
+  {
     id: 'BDK',
     imageUrl:
       'https://4njm3yz2f6j34gsagmsdoteegnfbqc5sxinqqot5rngvdw2e.arweave.net/41LN4z--ovk74aQDMkN0yEM0oYC7K6Gwg6fYtNUd-tE',
@@ -96,5 +111,33 @@ export const newFarmCollections: TGFarm[] = [
     rewardTokenName: "SKULL",
     farmAddress: "6Xq5nXkBLHwoVAiELfSSFsEc1SsHXhjBtCQBqZMaGUcq",
     bankAddress: "TS8FfCgfGHeEPNzH7GLGUwRVpiGsXKmoPoAGsnnipSS",
-  }
+  },
+  {
+    id: "ATAD",
+    imageUrl: "https://419390487-files.gitbook.io/~/files/v0/b/gitbook-x-prod.appspot.com/o/spaces%2FPvfBeReHNYKceCE1VoLw%2Fuploads%2FFh3bfPzf4oxSoo3qcXkv%2FAtadia_Twitter_Banner_Light.jpeg?alt=media&token=5ae8a8ad-d562-4e05-ade9-386ff23a7e1c",
+    name: "Atadians",
+    totalStaked: "???",
+    allocation: "-",
+    totalStakedByUser: "-",
+    eventStartDate: "2022/3/4/14/50",
+    eventDuration: "∞",
+    updateAuthority: "7FZDdgbyUv1gWQ89uV4NpnfpRBgr4S7zhKLC1BKdttZP",
+    rewardTokenName: "ATA",
+    farmAddress: "3yR4hroSjQqvCePRry2yJMPynLTfhK252yuCZBTk3Hvr",
+    bankAddress: "ASdASL2X3jwGvLrgjyBZXVuwesSoNvtvts3S8s4Jmtcc",
+  },
+  {
+    id: "GUAV3",
+    imageUrl: "https://img-cdn.magiceden.dev/rs:fill:640:640:0:0/plain/https://www.arweave.net/oPjxhg-jCZK7WXPJbvt4LvCPr28efSAOA2oSoCC0Wys?ext=png",
+    name: "New Bat City v3",
+    totalStaked: "???",
+    allocation: "-",
+    totalStakedByUser: "-",
+    eventStartDate: "2022/3/4/14/50",
+    eventDuration: "∞",
+    updateAuthority: "BCUmFs2WkCRt4NLqw27KybkckwFdfdK8n5pSfPmcQBv2",
+    rewardTokenName: "GUANO",
+    farmAddress: "3yR4hroSjQqvCePRry2yJMPynLTfhK252yuCZBTk3Hvr",
+    bankAddress: "ASdASL2X3jwGvLrgjyBZXVuwesSoNvtvts3S8s4Jmtcc",
+  },
 ];
