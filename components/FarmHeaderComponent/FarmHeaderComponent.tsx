@@ -22,13 +22,6 @@ const FarmHeaderComponent = () => {
     handleRefreshRewardsButtonClick
   } = useGemFarm();
 
-  const cooldownSecs = useMemo(() => {
-    if (!farmAcc) {
-      return 0;
-    }
-    return farmAcc?.config.cooldownPeriodSec;
-  }, [farmAcc]);
-
   const unstakingFee = useMemo(() => {
     if (!farmAcc) {
       return 0;
@@ -99,20 +92,6 @@ const FarmHeaderComponent = () => {
         <>
         </>
       )}
-      {cooldownSecs ? (
-        <>
-          <Box>
-            <Text variant="label">Cooldown</Text>
-            <Text variant="small">
-              Yes
-            </Text>
-          </Box>
-        </>
-      ) : (
-        <>
-        </>
-      )}
-
       <Stack space="3" direction="horizontal">
         <Box>
           <Button
