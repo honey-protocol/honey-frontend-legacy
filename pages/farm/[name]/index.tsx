@@ -38,7 +38,6 @@ const Nft: NextPage = () => {
     farmerVaultLocked
   } = useGemFarm();
 
-
   const [txLoading, setTxLoading] = useState({
     value: false,
     txName: ''
@@ -54,12 +53,18 @@ const Nft: NextPage = () => {
     <Layout>
       <Box marginY="4">
         <Stack
-          direction="horizontal"
-          justify="space-between"
+          direction={{ md: 'horizontal', sm: 'vertical', xs: 'vertical' }}
+          justify={{ lg: 'space-between', sm: 'flex-start' }}
           wrap
           align="center"
+          space="5"
         >
-          <Box display="flex" alignSelf="center" justifySelf="center">
+          <Box
+            marginRight="auto"
+            display="flex"
+            alignSelf="center"
+            justifySelf="center"
+          >
             <Link href="/farm" passHref>
               <Button
                 size="small"
