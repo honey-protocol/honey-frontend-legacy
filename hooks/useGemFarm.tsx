@@ -250,7 +250,7 @@ const useGemFarm = () => {
       }, blockchainWaitTime);
     } catch (error) {
       console.log(error);
-      checkErrorAndShowToast(error, 'Account initialization failed!');
+      checkErrorAndShowToast(error, 'Account initialization failed, please refresh.');
     }
   };
 
