@@ -5,7 +5,8 @@ import {
   Button,
   IconRefresh,
   IconChevronLeft,
-  Heading
+  Heading,
+  Text
 } from 'degen';
 import Layout from '../../../components/Layout/Layout';
 import FarmHeaderComponent from 'components/FarmHeaderComponent/FarmHeaderComponent';
@@ -73,8 +74,8 @@ const Nft: NextPage = () => {
               </Button>
             </Link>
           </Box>
-          <Heading level="2">{collectionName}</Heading>
-          <FarmHeaderComponent name={collectionName}/>
+          <Text variant='large'>{collectionName}</Text>
+          <FarmHeaderComponent />
         </Stack>
       </Box>
       <Box display="flex" height="full" className={styles.cardsContainer}>

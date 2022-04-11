@@ -10,7 +10,7 @@ import { LAMPORTS_PER_SOL } from '@solana/web3.js';
 import * as styles from './FarmHeaderComponent.css';
 import useGemFarm from 'hooks/useGemFarm';
 
-const FarmHeaderComponent = (name:string) => {
+const FarmHeaderComponent = () => {
   const {
     farmerAcc,
     farmAcc,
