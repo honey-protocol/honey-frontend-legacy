@@ -15,7 +15,8 @@ import {
   IconTokens,
   IconSplit,
   vars,
-  IconLink
+  IconLink,
+  IconFlag
 } from 'degen';
 import SidebarButton from '../SidebarButton';
 import * as styles from './Sidebar.css';
@@ -26,8 +27,8 @@ import { MediumIcon } from 'icons/MediumIcon';
 import { GithubIcon } from 'icons/GithubIcon';
 import { useRouter } from 'next/router';
 
-const whitePaperUrl =
-  'https://drive.google.com/file/d/1dN0W9enyq2Q71VXegm6bJL6zUcbRZMkm/view?usp=sharing';
+const feedbackUrl =
+  'https://feedback.honey.finance/';
 
 
 const governanceUrl = "https://forum.honey.finance/"
@@ -62,20 +63,21 @@ const mainLinks = [
 ];
 
 const bottomLinks = [
-  {
-    href: 'https://docs.honey.finance/',
-    title: 'Documentation',
-    IconComp: IconBookOpen
-  },
-  {
-    href: whitePaperUrl,
-    title: 'Whitepaper',
-    IconComp: IconDocuments
-  },
+
   {
     href: 'https://honeylend.netlify.app/farm',
     title: 'Legacy website',
     IconComp: IconLink
+  },
+  {
+    href: feedbackUrl,
+    title: 'Feedback',
+    IconComp: IconFlag
+  },
+  {
+    href: 'https://docs.honey.finance/',
+    title: 'Documentation',
+    IconComp: IconBookOpen
   }
 ];
 
