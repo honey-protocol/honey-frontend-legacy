@@ -20,7 +20,7 @@ import {
 
 const VeHoneyModal = () => {
   const [amount, setAmount] = useState<number>(0);
-  const [vestingPeriod, setVestingPeriod] = useState<number>(3);
+  const [vestingPeriod, setVestingPeriod] = useState<number>(12);
   const [pHoneyConversionAmount, setPHoneyConversionAmount] =
     useState<number>(0);
 
@@ -123,7 +123,7 @@ const VeHoneyModal = () => {
       <Box padding="6">
         <Stack space="6">
           <Text align="center" weight="semiBold">
-            Deposit pHONEY and recieve veHONEY
+            Deposit pHONEY and receive veHONEY
           </Text>
           <Stack space="2">
             <Text align="center" size="small">
@@ -179,7 +179,7 @@ const VeHoneyModal = () => {
                 >
                   <option value="3">3 months</option>
                   <option value="6">6 months</option>
-                  <option value="12">12 months</option>
+                  <option value="12">1 year</option>
                 </select>
               </Box>
             </Stack>
