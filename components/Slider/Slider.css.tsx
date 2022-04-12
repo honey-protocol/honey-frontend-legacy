@@ -61,7 +61,9 @@ globalStyle(`${selectionWrapper} > div`, {
 
 export const selectionDetails = style({
     display: 'flex',
-    alignItems: 'center'
+    alignItems: 'center',
+    width: '20em',
+    justifyContent: 'flex-end'
 })
 
 globalStyle(`${selectionDetails} > *`, {
