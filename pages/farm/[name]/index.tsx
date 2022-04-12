@@ -1,6 +1,15 @@
 import type { NextPage } from 'next';
-import { Box, Stack, Button, IconRefresh, IconChevronLeft } from 'degen';
+import {
+  Box,
+  Stack,
+  Button,
+  IconRefresh,
+  IconChevronLeft,
+  Heading,
+  Text
+} from 'degen';
 import Layout from '../../../components/Layout/Layout';
+import FarmHeaderComponent from 'components/FarmHeaderComponent/FarmHeaderComponent';
 import useGemFarm from 'hooks/useGemFarm';
 import FarmNFTsContainer from 'components/FarmNFTsContainer/FarmNFTsContainer';
 import Link from 'next/link';
@@ -10,13 +19,11 @@ import { useState } from 'react';
 const Nft: NextPage = () => {
   const {
     depositMoreSelectedGems,
-    claimRewards,
     endStaking,
     startStaking,
     withdrawSelectedGems,
     depositSelectedGems,
     initializeFarmerAcc,
-    refreshNFTsWithLoadingIcon,
     onWalletNFTSelect,
     onWalletNFTUnselect,
     onStakedNFTSelect,
@@ -46,12 +53,18 @@ const Nft: NextPage = () => {
     <Layout>
       <Box marginY="4">
         <Stack
-          direction="horizontal"
-          justify="space-between"
+          direction={{ md: 'horizontal', sm: 'vertical', xs: 'vertical' }}
+          justify={{ lg: 'space-between', sm: 'flex-start' }}
           wrap
           align="center"
+          space="5"
         >
-          <Box display="flex" alignSelf="center" justifySelf="center">
+          <Box
+            marginRight="auto"
+            display="flex"
+            alignSelf="center"
+            justifySelf="center"
+          >
             <Link href="/farm" passHref>
               <Button
                 size="small"
@@ -63,22 +76,7 @@ const Nft: NextPage = () => {
               </Button>
             </Link>
           </Box>
-          <Stack space="3" direction="horizontal">
-            <Box>
-              <Button
-                onClick={refreshNFTsWithLoadingIcon}
-                variant="secondary"
-                shape="square"
-                size="small"
-              >
-                <IconRefresh />
-              </Button>
-            </Box>
-
-            <Button onClick={claimRewards} size="small">
-              Claim rewards
-            </Button>
-          </Stack>
+          <FarmHeaderComponent />
         </Stack>
       </Box>
       <Box display="flex" height="full" className={styles.cardsContainer}>
