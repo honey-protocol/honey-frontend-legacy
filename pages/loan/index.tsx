@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import type { NextPage } from 'next';
 import Link from 'next/link';
 import { useWalletKit } from '@gokiprotocol/walletkit';
-import { useConnectedWallet } from '@saberhq/use-solana';
+import { useConnection, useConnectedWallet } from '@saberhq/use-solana';
 import { Box, Text, Card } from 'degen';
 import { Stack } from 'degen';
 import { Button } from 'degen';
@@ -15,7 +15,13 @@ import DepositWithdrawModule from '../../components/DepositWithdrawModule/Deposi
 import Layout from '../../components/Layout/Layout';
 import * as styles from '../../styles/loan.css';
 import LoanHeaderComponent from 'components/LoanHeaderComponent/LoanHeaderComponent';
+import { useMarket } from '@honey-defi/sdk'
 
+/**
+ * @description base dummy data object - should be converted to returns from honey SDK
+ * @params none
+ * @returns dummy object
+*/
 const assetData: Array<AssetRowType> = [
   {
     vaultName: 'Solana Monkey Business',
@@ -29,6 +35,24 @@ const assetData: Array<AssetRowType> = [
 ];
 
 const Loan: NextPage = () => {
+  /**
+   * @description Calls upon the honey sdk 
+   * @params none
+   * @returns honeyClient, honeyMarket, honeyUser, honeyReserves
+  */
+  const saberHqConnection = useConnection();
+  const sdkWallet = useConnectedWallet();
+  const { honeyClient, honeyMarket, honeyUser, honeyReserves } = useMarket(saberHqConnection, sdkWallet, 'GU7mDmGtLXNMo6YsF1FBsrXj2DqnrL82P4eMDKsDPnZZ');
+ 
+  useEffect(() => {
+    console.log(honeyClient, honeyMarket, honeyUser, honeyReserves);  
+  }, [honeyClient, honeyMarket, honeyUser, honeyReserves]);
+
+  /**
+   * @description should be converted to new SDK implementation 
+   * @params none
+   * @returns modals 
+  */
   const wallet = useConnectedWallet();
   const { connect } = useWalletKit();
   const [liveOrCompleted, setLiveOrCompleted] = useState(0);
@@ -41,7 +65,6 @@ const Loan: NextPage = () => {
   function showLoanModal() {
     setModalIsVisible(true);
   }
-
 
   return (
     <Layout>
