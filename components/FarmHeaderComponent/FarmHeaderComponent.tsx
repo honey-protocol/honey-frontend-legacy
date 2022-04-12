@@ -107,7 +107,7 @@ const FarmHeaderComponent = () => {
           </Stack>
           <Stack direction="vertical" space="1" align="center">
             <Text size="small" align="center" variant="label">
-              Farmer Count
+              Farmers
             </Text>
             <Text size="small" variant="small">
               {farmerCount}
