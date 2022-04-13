@@ -42,11 +42,11 @@ const Loan: NextPage = () => {
   */
   const saberHqConnection = useConnection();
   const sdkWallet = useConnectedWallet();
-  const { honeyClient, honeyMarket, honeyUser, honeyReserves } = useMarket(saberHqConnection, sdkWallet, 'GU7mDmGtLXNMo6YsF1FBsrXj2DqnrL82P4eMDKsDPnZZ');
+  const { honeyClient, honeyUser, honeyReserves } = useMarket(saberHqConnection, sdkWallet, 'GU7mDmGtLXNMo6YsF1FBsrXj2DqnrL82P4eMDKsDPnZZ');
  
   useEffect(() => {
-    console.log(honeyClient, honeyMarket, honeyUser, honeyReserves);  
-  }, [honeyClient, honeyMarket, honeyUser, honeyReserves]);
+    console.log(honeyClient, honeyUser, honeyReserves);  
+  }, [honeyClient, honeyUser, honeyReserves]);
 
   /**
    * @description should be converted to new SDK implementation 
