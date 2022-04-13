@@ -8,8 +8,8 @@ const FarmHeaderComponent = () => {
   const {
     farmerAcc,
     farmAcc,
-    availableToClaimA,
-    availableToClaimB,
+    // availableToClaimA,
+    // availableToClaimB,
     collectionTotalNumber,
     rewardTokenName,
     claimRewards,
@@ -52,12 +52,12 @@ const FarmHeaderComponent = () => {
     return ((stakedNftCount / totalNfts) * 100).toFixed(2);
   }, [farmAcc, stakedNftCount, collectionTotalNumber]);
 
-  const claimA = useMemo(() => {
-    if (!farmerAcc) {
-      return 0;
-    }
-    return availableToClaimA;
-  }, [farmerAcc, availableToClaimA]);
+  // const claimA = useMemo(() => {
+  //   if (!farmerAcc) {
+  //     return 0;
+  //   }
+  //   return availableToClaimA;
+  // }, [farmerAcc, availableToClaimA]);
 
   // const claimB = useMemo(() => {
   //   if (!farmerAcc) {
@@ -143,7 +143,7 @@ const FarmHeaderComponent = () => {
           </Button>
 
           <Button onClick={claimRewards} size="small">
-            {`Claim ${(claimA / 1000000).toFixed(2)} $${rewardTokenName}`}
+            {`Claim $${rewardTokenName}`}
           </Button>
         </Stack>
       </Stack>
