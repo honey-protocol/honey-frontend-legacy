@@ -19,7 +19,7 @@ const networkConfiguration = () => {
   }
 };
 
-console.log({ networkConfiguration });
+console.log({ networkConfiguration: networkConfiguration() });
 
 function MyApp({ Component, pageProps }: AppProps) {
   const [showPopup, setShowPopup] = useState(true);
