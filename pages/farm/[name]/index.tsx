@@ -11,7 +11,6 @@ import {
 import Layout from '../../../components/Layout/Layout';
 import FarmHeaderComponent from 'components/FarmHeaderComponent/FarmHeaderComponent';
 import useGemFarm from 'hooks/useGemFarm';
-
 import FarmNFTsContainer from 'components/FarmNFTsContainer/FarmNFTsContainer';
 import Link from 'next/link';
 import * as styles from '../../../styles/name.css';
@@ -91,15 +90,15 @@ const Nft: NextPage = () => {
               title: !farmerAcc
                 ? 'Initialize'
                 : !farmerVaultLocked
-                ? `Deposit ( ${selectedWalletNFTs.length} )`
-                : `Deposit  (${selectedWalletNFTs.length}) more`,
+                ? `Stake ( ${selectedWalletNFTs.length} )`
+                : `Stake  (${selectedWalletNFTs.length}) more`,
               disabled: selectedWalletNFTs.length ? false : true,
               loading: txLoading.value && txLoading.txName === 'deposit',
               onClick: !farmerAcc
                 ? () => withTxLoading(initializeFarmerAcc, 'deposit')
                 : !farmerVaultLocked
                 ? () => withTxLoading(handleStakeButtonClick, 'deposit')
-                : () => withTxLoading(depositMoreSelectedGems, 'deposit')
+                : () => withTxLoading(handleStakeButtonClick, 'deposit')
             }
           ]}
           NFTs={Object.values(walletNFTsInFarm)}
@@ -107,6 +106,7 @@ const Nft: NextPage = () => {
           onNFTSelect={onWalletNFTSelect}
           onNFTUnselect={onWalletNFTUnselect}
         />
+        {/* Staked NFT container */}
         <FarmNFTsContainer
           isFetching={isFetching}
           title="Your vault"
@@ -119,15 +119,15 @@ const Nft: NextPage = () => {
             //   onClick: () => withTxLoading(withdrawSelectedGems, 'withdraw')
             // },
             {
-              title: "unstake",
-              disabled: Object.values(stakedNFTsInFarm).length ? false : true,
+              title: `Unstake (${selectedVaultNFTs.length})`,
+              disabled: !selectedVaultNFTs.length,
               loading: txLoading.value && txLoading.txName === 'vault',
-              onClick: () => withTxLoading(handleStakeButtonClick, 'vault')
+              onClick: () => withTxLoading(handleUnstakeButtonClick, 'vault')
             }
           ]}
           NFTs={Object.values(stakedNFTsInFarm)}
           selectedNFTs={selectedVaultNFTs}
-          onNFTSelect={!farmerVaultLocked ? onStakedNFTSelect : null}
+          onNFTSelect={onStakedNFTSelect}
           onNFTUnselect={onStakedNFTUnselect}
         />
       </Box>
