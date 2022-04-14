@@ -13,7 +13,7 @@
     "@emotion/styled": "^11.8.1",
     "@fontsource/ia-writer-mono": "^4.5.1",
     "@fontsource/inter": "^4.5.4",
-    "@gemworks/gem-farm-ts": "^0.22.8",
+    "@gemworks/gem-farm-ts": "^0.22.11",
     "@gokiprotocol/walletkit": "^1.6.5",
     "@metaplex-foundation/mpl-auction": "^0.0.2",
     "@metaplex-foundation/mpl-core": "^0.0.4",

@@ -11,6 +11,7 @@ import {
 import Layout from '../../../components/Layout/Layout';
 import FarmHeaderComponent from 'components/FarmHeaderComponent/FarmHeaderComponent';
 import useGemFarm from 'hooks/useGemFarm';
+
 import FarmNFTsContainer from 'components/FarmNFTsContainer/FarmNFTsContainer';
 import Link from 'next/link';
 import * as styles from '../../../styles/name.css';
@@ -19,15 +20,17 @@ import { useState } from 'react';
 const Nft: NextPage = () => {
   const {
     depositMoreSelectedGems,
-    endStaking,
-    startStaking,
-    withdrawSelectedGems,
-    depositSelectedGems,
+    // endStaking,
+    // startStaking,
+    // withdrawSelectedGems,
+    // depositSelectedGems,
     initializeFarmerAcc,
     onWalletNFTSelect,
     onWalletNFTUnselect,
     onStakedNFTSelect,
     onStakedNFTUnselect,
+    handleStakeButtonClick,
+    handleUnstakeButtonClick,
     isFetching,
     stakedNFTsInFarm,
     walletNFTsInFarm,
@@ -95,7 +98,7 @@ const Nft: NextPage = () => {
               onClick: !farmerAcc
                 ? () => withTxLoading(initializeFarmerAcc, 'deposit')
                 : !farmerVaultLocked
-                ? () => withTxLoading(depositSelectedGems, 'deposit')
+                ? () => withTxLoading(handleStakeButtonClick, 'deposit')
                 : () => withTxLoading(depositMoreSelectedGems, 'deposit')
             }
           ]}
@@ -108,24 +111,18 @@ const Nft: NextPage = () => {
           isFetching={isFetching}
           title="Your vault"
           buttons={[
+            // {
+            //   title: `Withdraw (${selectedVaultNFTs.length})`,
+            //   disabled: !selectedVaultNFTs.length,
+            //   hidden: farmerVaultLocked,
+            //   loading: txLoading.value && txLoading.txName === 'withdraw',
+            //   onClick: () => withTxLoading(withdrawSelectedGems, 'withdraw')
+            // },
             {
-              title: `Withdraw (${selectedVaultNFTs.length})`,
-              disabled: !selectedVaultNFTs.length,
-              hidden: farmerVaultLocked,
-              loading: txLoading.value && txLoading.txName === 'withdraw',
-              onClick: () => withTxLoading(withdrawSelectedGems, 'withdraw')
-            },
-            {
-              title: farmerVaultLocked
-                ? farmerState === 'pendingCooldown'
-                  ? 'End cooldown'
-                  : 'Unlock'
-                : `Start rewards`,
+              title: "unstake",
               disabled: Object.values(stakedNFTsInFarm).length ? false : true,
               loading: txLoading.value && txLoading.txName === 'vault',
-              onClick: farmerVaultLocked
-                ? () => withTxLoading(endStaking, 'vault')
-                : () => withTxLoading(startStaking, 'vault')
+              onClick: () => withTxLoading(handleStakeButtonClick, 'vault')
             }
           ]}
           NFTs={Object.values(stakedNFTsInFarm)}

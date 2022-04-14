@@ -366,10 +366,10 @@
   resolved "https://registry.yarnpkg.com/@fontsource/inter/-/inter-4.5.7.tgz#f0657c52105ed51e04ac636a25d6016896c5ee9d"
   integrity sha512-25k3thupaOEBexuU+jAkGqieKPbuhSuA+sinDwp1iBNhqQPiJ9QHDvsXgoCgCbZ4sGlE8aCwZmSlDJrPdJHNkw==
 
-"@gemworks/gem-farm-ts@^0.22.8":
-  version "0.22.8"
-  resolved "https://registry.yarnpkg.com/@gemworks/gem-farm-ts/-/gem-farm-ts-0.22.8.tgz#3de93ecab7cbc1cbe367a20cad60f333c36327cf"
-  integrity sha512-oEbuj5P/FwaYN6uM3fg47a6RlfzbXyh33yXl2cQHofr0NV7JGXm7jwxoaXy++WgbOMiFcp/XRZmt1t1x8xXb4A==
+"@gemworks/gem-farm-ts@^0.22.11":
+  version "0.22.11"
+  resolved "https://registry.yarnpkg.com/@gemworks/gem-farm-ts/-/gem-farm-ts-0.22.11.tgz#216758e125679b19f4a3558b9933c6db923f0ec9"
+  integrity sha512-ux+Qg9wp3sb9caz7ioWzbPlDzUNRg4rQmSqkjuaG9h4eUvq8N73yScLONCeA23wKzhzW1k92+Oeylh8v5KWgIA==
   dependencies:
     "@metaplex-foundation/mpl-token-metadata" "^0.0.2"
     "@metaplex/js" "^4.9.0"

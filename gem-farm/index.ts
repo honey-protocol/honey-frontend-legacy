@@ -1,5 +1,7 @@
 import { Connection, Keypair, PublicKey } from '@solana/web3.js';
+import { SignerWalletAdapter } from "@solana/wallet-adapter-base"
 import { BN, Idl } from '@project-serum/anchor';
+import { createFakeWallet } from "../gem-bank"
 import {
   GemFarmClient,
   FarmConfig,
@@ -10,27 +12,17 @@ import {
   GEM_FARM_PROG_ID,
   GEM_BANK_PROG_ID
 } from '@gemworks/gem-farm-ts';
-import { NodeWallet, programs } from '@metaplex/js';
+import { programs } from '@metaplex/js';
 import { ConnectedWallet } from '@saberhq/use-solana';
 
-//when we only want to view vaults, no need to connect a real wallet.
-export function createFakeWallet() {
-  const leakedKp = Keypair.fromSecretKey(
-    Uint8Array.from([
-      208, 175, 150, 242, 88, 34, 108, 88, 177, 16, 168, 75, 115, 181, 199, 242,
-      120, 4, 78, 75, 19, 227, 13, 215, 184, 108, 226, 53, 111, 149, 179, 84,
-      137, 121, 79, 1, 160, 223, 124, 241, 202, 203, 220, 237, 50, 242, 57, 158,
-      226, 207, 203, 188, 43, 28, 70, 110, 214, 234, 251, 15, 249, 157, 62, 80
-    ])
-  );
-  return new NodeWallet(leakedKp);
-}
-
-export async function initGemFarm(conn: Connection, wallet?: ConnectedWallet) {
-  const walletToUse = wallet ?? createFakeWallet();
-  const farmIdl = await (await fetch('../../idl/gem_farm.json')).json();
-  const bankIdl = await (await fetch('../../idl/gem_bank.json')).json();
-  return new GemFarm(conn, walletToUse as any, farmIdl, bankIdl);
+export async function initGemFarm(
+  conn: Connection,
+  wallet?: ConnectedWallet
+) {
+  const walletToUse = wallet ?? createFakeWallet()
+  const farmIdl = await (await fetch("/idl/gem_farm.json")).json()
+  const bankIdl = await (await fetch("/idl/gem_bank.json")).json()
+  return new GemFarm(conn, walletToUse as any, farmIdl, bankIdl)
 }
 
 export class GemFarm extends GemFarmClient {
@@ -59,6 +51,7 @@ export class GemFarm extends GemFarmClient {
       rewardBType,
       farmConfig
     );
+
 
     console.log('new farm started!', farm.publicKey.toBase58());
     console.log('bank is:', bank.publicKey.toBase58());
@@ -102,7 +95,7 @@ export class GemFarm extends GemFarmClient {
       funder
     );
 
-    console.log('DEauthorized funder', funder.toBase58());
+    console.log('Deauthorized funder', funder.toBase58());
 
     return result;
   }
@@ -252,20 +245,16 @@ export class GemFarm extends GemFarmClient {
     return result;
   }
 
-  async stakeWallet(farm: PublicKey) {
-    const result = await this.stake(farm, this.wallet.publicKey);
+  async stakeWalletIx(farm: PublicKey) {
+    const { builder } = await this.buildStakeCommon(farm, this.wallet.publicKey);
 
-    console.log('begun staking for farmer', this.wallet.publicKey.toBase58());
-
-    return result;
+    return builder.instruction()
   }
 
-  async unstakeWallet(farm: PublicKey) {
-    const result = await this.unstake(farm, this.wallet.publicKey);
+  async unstakeWalletIx(farm: PublicKey) {
+    const { builder } = await this.buildStakeCommon(farm, this.wallet.publicKey, true);
 
-    console.log('ended staking for farmer', this.wallet.publicKey.toBase58());
-
-    return result;
+    return builder.instruction()
   }
 
   async claimWallet(
