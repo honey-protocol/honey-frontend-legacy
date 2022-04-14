@@ -1,5 +1,5 @@
 import type { NextPage } from 'next';
-import { Box, Card, Text, vars } from 'degen';
+import { Box, Button, Card, IconChevronLeft, Text, vars } from 'degen';
 import { Stack } from 'degen';
 import Layout from '../../components/Layout/Layout';
 import DepositWithdrawModule from 'components/DepositWithdrawModule/DepositWIthdrawModule';
@@ -11,6 +11,8 @@ import {
   XAxis,
   YAxis
 } from 'recharts';
+import Link from 'next/link';
+import * as styles from '../../styles/lend.css';
 
 // TOOD: Needs to accept props for data
 // TODO: render rows of length two for NFT collections based on data props
@@ -64,25 +66,60 @@ const cardsDetails = [
 const Borrow: NextPage = () => {
   return (
     <Layout>
-      <Stack direction="horizontal">
-        <Box flex={1}>
-          <Stack direction="horizontal">
+      <Box marginY="4">
+        <Stack
+          direction="horizontal"
+          justify="space-between"
+          wrap
+          align="center"
+        >
+          <Box display="flex" alignSelf="center" justifySelf="center">
+            <Link href="/loan" passHref>
+              <Button
+                size="small"
+                variant="transparent"
+                rel="noreferrer"
+                prefix={<IconChevronLeft />}
+              >
+                Pools
+              </Button>
+            </Link>
+          </Box>
+        </Stack>
+      </Box>
+      <Box display="flex" gap="10" flex={1}>
+        <Stack direction="vertical" flex={1} space="8">
+          <Stack wrap direction="horizontal">
             {cardsDetails.map((detail, i) => (
-              <Card level="2" width="full" key={detail.title}>
-                <Box padding="4" minHeight="40">
-                  <Text>{detail.title}</Text>
-                  <Text>{detail.value}</Text>
-                </Box>
-              </Card>
+              <Box flex={1} key={detail.title}>
+                <Card level="2">
+                  <Box
+                    display="flex"
+                    flexDirection="column"
+                    justifyContent="space-between"
+                    padding="5"
+                    minHeight="40"
+                  >
+                    <Text size="large" weight="semiBold" color="textPrimary">
+                      {detail.title}
+                    </Text>
+                    <Text>{detail.value}</Text>
+                  </Box>
+                </Card>
+              </Box>
             ))}
           </Stack>
-          <Box maxWidth="full">
-            <Text size="headingTwo">Supply APR</Text>
-            <Card width="180">
-              <ResponsiveContainer height={330}>
+          <Card padding="6" level="2" width="full">
+            <Box marginX="2">
+              <Text size="large" weight="semiBold" color="textPrimary">
+                Supply APR
+              </Text>
+            </Box>
+            <Box marginTop="4" className={styles.chartArea}>
+              <ResponsiveContainer>
                 <AreaChart
                   data={chartData}
-                  margin={{ top: 10, right: 20, left: -10, bottom: 0 }}
+                  margin={{ top: 10, right: 0, left: -20, bottom: 0 }}
                 >
                   <defs>
                     <linearGradient
@@ -124,12 +161,13 @@ const Borrow: NextPage = () => {
                   />
                 </AreaChart>
               </ResponsiveContainer>
-            </Card>
-          </Box>
+            </Box>
+          </Card>
+        </Stack>
+        <Box position="sticky" top="0" display="flex" alignItems="center">
+          <DepositWithdrawModule />
         </Box>
-
-        <DepositWithdrawModule />
-      </Stack>
+      </Box>
     </Layout>
   );
 };
