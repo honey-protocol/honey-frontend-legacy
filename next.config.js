@@ -3,7 +3,8 @@ const withVanillaExtract = createVanillaExtractPlugin();
 const {PHASE_DEVELOPMENT_SERVER} = require('next/constants')
 
 /** @type {import('next').NextConfig} */
-const mainNetEndpoint = process.env.NEXT_PUBLIC_RPC_NODE;
+const mainNetEndpoint = process.env.NEXT_PRIVATE_RPC_NODE;
+const devNetEndpoint = process.env.NEXT_PUBLIC_RPC_NODE;
 
 /** We should put all environment dependent variables into this file. However, Prod RPC NODE should still reside in
  * .env file for security reason. API Keys and secrets should also reside in .env file
