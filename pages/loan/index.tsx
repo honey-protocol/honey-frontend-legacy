@@ -47,6 +47,15 @@ const Loan: NextPage = () => {
   useEffect(() => {
     console.log(honeyClient, honeyUser, honeyReserves);  
   }, [honeyClient, honeyUser, honeyReserves]);
+  
+  // TODO:: Setup to work with SDK wallet 
+  /**
+   * @description PRE-SDK implementation: should be converted to new SDK implementation 
+   * @params none
+   * @returns modals 
+  */
+  const wallet = useConnectedWallet();
+  const { connect } = useWalletKit();
 
   /**
    * @description calls upon useHoney
@@ -55,26 +64,29 @@ const Loan: NextPage = () => {
   */
   const initializeHoney = useHoney();
   console.log('@@@', initializeHoney)
+
   /**
    * @description calls upon useBorrowPositions
    * @params connection && wallet && JET ID
-   * @returns context
+   * @returns TBorrowPosition array of data
   */
   const getBorrowPoistions = useBorrowPositions(saberHqConnection, sdkWallet, 'GU7mDmGtLXNMo6YsF1FBsrXj2DqnrL82P4eMDKsDPnZZ');
   console.log('@@--GET BORROW POSITIONS--@@', getBorrowPoistions);
 
-  function initializeBorrow() {
-    console.log('getBorrow', getBorrowPoistions)
-  }
   /**
-   * @description should be converted to new SDK implementation 
-   * @params none
-   * @returns modals 
+   * @description should return available pools which render in the interface table
+   * @params connection && wallet && JET ID
+   * @returns a table of pools
   */
-  const wallet = useConnectedWallet();
-  const { connect } = useWalletKit();
-  const [liveOrCompleted, setLiveOrCompleted] = useState(0);
+  const getPools = usePools(saberHqConnection, sdkWallet, 'GU7mDmGtLXNMo6YsF1FBsrXj2DqnrL82P4eMDKsDPnZZ');
+  console.log('@@- GET POOLS--@@', getPools);
 
+  /**
+   * @description component logic regarding handlers and modals
+   * @params none unless specified above function declaration
+   * @returns modal
+  */
+  const [liveOrCompleted, setLiveOrCompleted] = useState(0);
   const [modalIsVisible, setModalIsVisible] = useState(false);
 
   const openLoanModal  = wallet && liveOrCompleted === 1
@@ -82,6 +94,14 @@ const Loan: NextPage = () => {
 
   function showLoanModal() {
     setModalIsVisible(true);
+  }
+  /**
+   * @description function to handle borrow btn click
+   * @params none
+   * @returns TBorrowPosition array of data
+  */
+  function initializeBorrow() {
+    console.log('Called getBorrow from Handler', getBorrowPoistions)
   }
 
   return (
