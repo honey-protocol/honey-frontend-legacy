@@ -9,12 +9,9 @@ import { PublicKey, Transaction } from '@solana/web3.js';
 import { GemBank, initGemBank } from 'gem-bank';
 import { GemFarm, initGemFarm } from 'gem-farm';
 import {
-  addSingleGem,
   fetchFarm,
   fetchFarmer,
   getGemStakedInFarm,
-  // onDepositGems,
-  // onWithdrawGems,
   tokenAccountResult
 } from 'helpers/gemFarm';
 import { BN } from '@project-serum/anchor';
@@ -89,7 +86,6 @@ const useGemFarm = () => {
   const [gb, setGb] = useState<GemBank>();
   const [farmAcc, setFarmAcc] = useState<any>();
   const [vaultAcc, setVaultAcc] = useState<any>();
-  // const [selectedWalletItems, setSelectedWalletItems] = useState<NFT[]>([])
   const [feedbackStatus, setFeedbackStatus] = useState('');
 
   const [farmerIdentity, setFarmerIdentity] = useState<string>();
@@ -215,7 +211,7 @@ const useGemFarm = () => {
     setIsFetching(true);
     try {
       // wait 3 seconds before refreshing to give the blockchain some time
-      await setTimeout(async () => {
+      setTimeout(async () => {
         await onRefreshNFTs();
         setIsFetching(false);
       }, blockchainWaitTime);
@@ -268,52 +264,6 @@ const useGemFarm = () => {
     }
   };
 
-  // // Deposit selected Gems
-  // const depositSelectedGems = async () => {
-  //   if (!gf || !gb || !wallet) return;
-  //   for (let i = 0; i < selectedWalletNFTs.length; i++) {
-  //     try {
-  //       await onDepositGems(
-  //         gf,
-  //         gb,
-  //         wallet?.publicKey,
-  //         new PublicKey(farmerAcc?.vault),
-  //         new PublicKey(bankAddress),
-  //         new PublicKey(selectedWalletNFTs[i].mint),
-  //         new PublicKey(selectedWalletNFTs[i].creators[0].address)
-  //       );
-  //       toast.success(`Deposited ${i + 1} NFTs `);
-  //     } catch (error) {
-  //       console.log(error);
-  //       checkErrorAndShowToast(error, 'Depositing NFT failed');
-  //     }
-  //   }
-  //   await refreshNFTsWithLoadingIcon();
-  //   setSelectedWalletNFTs([]);
-  // };
-
-  // // withdraw selected gems
-  // const withdrawSelectedGems = async () => {
-  //   if (!gb) return;
-  //   for (let i = 0; i < selectedVaultNFTs.length; i++) {
-  //     try {
-  //       await onWithdrawGems(
-  //         gb,
-  //         bankAddress,
-  //         farmerAcc?.vault,
-  //         new PublicKey(selectedVaultNFTs[i].mint)
-  //       );
-  //       toast.success(`Withdrawn ${i + 1} NFTs `);
-  //     } catch (error) {
-  //       console.log(error);
-  //       checkErrorAndShowToast(error, 'Withdrawing NFT failed');
-  //     }
-  //   }
-  //   await refreshNFTsWithLoadingIcon();
-  //   setSelectedVaultNFTs([]);
-  // };
-
-  // new stuff
   const handleStakeButtonClick = async () => {
     if (!gf || !gb) throw new Error('No Gem Bank client has been initialized.');
 
@@ -359,11 +309,10 @@ const useGemFarm = () => {
 
     setFeedbackStatus('');
 
-    setSelectedVaultNFTs([]);
     setSelectedWalletNFTs([]);
+    setSelectedVaultNFTs([]);
   };
 
-  // current proccess, unlock -> end cooldown -> then you can select -> withdraw or start rewards
   const handleUnstakeButtonClick = async () => {
     if (!gf || !gb) throw new Error('No Gem Bank client has been initialized.');
 
@@ -374,20 +323,9 @@ const useGemFarm = () => {
     // End cooldown
     tx.add(await gf.unstakeWalletIx(new PublicKey(farmAddress!)));
 
-    console.log(selectedVaultNFTs)
+    console.log(selectedVaultNFTs);
 
-    // for (const nft of selectedVaultNFTs) {
-    //   tx.add(
-    //     await gb.withdrawGemWalletIx(
-    //       farmAcc.bank,
-    //       farmerAcc.vault,
-    //       new BN(1),
-    //       new PublicKey(nft.mint)
-    //     )
-    //   );
-    // }
-
-    for ( let i = 0 ; i < selectedVaultNFTs.length ; i++ ) {
+    for (let i = 0; i < selectedVaultNFTs.length; i++) {
       tx.add(
         await gb.withdrawGemWalletIx(
           new PublicKey(bankAddress),
@@ -397,7 +335,7 @@ const useGemFarm = () => {
         )
       );
     }
-    if (selectedVaultNFTs.length < farmAcc.gemsStaked.toNumber()) {
+    if (selectedVaultNFTs.length < farmerAcc.gemsStaked.toNumber()) {
       // Re-stake remaining
       tx.add(await gf.stakeWalletIx(new PublicKey(farmAddress!)));
     }
@@ -414,41 +352,6 @@ const useGemFarm = () => {
     setSelectedWalletNFTs([]);
   };
 
-  // //start staking
-  // const startStaking = async () => {
-  //   if (!gf) return;
-  //   setSelectedVaultNFTs([]);
-  //   setSelectedWalletNFTs([]);
-  //   try {
-  //     await gf.stakeWallet(new PublicKey(farmAddress!));
-  //     setTimeout(async () => {
-  //       await fetchFarmerDetails(gf, gb);
-  //       toast.success('Vault Locked');
-  //     }, blockchainWaitTime);
-  //   } catch (error) {
-  //     console.log({ error });
-  //     checkErrorAndShowToast(error, 'Failed to lock vault');
-  //   }
-  // };
-
-  // const endStaking = async () => {
-  //   if (!gf) return;
-  //   setSelectedVaultNFTs([]);
-  //   setSelectedWalletNFTs([]);
-  //   try {
-  //     await gf.unstakeWallet(new PublicKey(farmAddress!));
-  //     refreshNFTsWithLoadingIcon();
-  //     setTimeout(async () => {
-  //       await fetchFarmerDetails(gf, gb);
-  //       toast.success('Vault unlocked');
-  //     }, blockchainWaitTime);
-  //   } catch (error) {
-  //     console.log(error);
-  //     checkErrorAndShowToast(error, 'Failed to unlock vault');
-  //   }
-  // };
-
-  // claim all rewards
   const claimRewards = async () => {
     if (!gf) return;
     try {
@@ -463,28 +366,6 @@ const useGemFarm = () => {
       checkErrorAndShowToast(error, 'Failed to claim rewards');
     }
     await fetchFarmerDetails(gf, gb);
-  };
-
-  // Deposit more selected Gems to a locked vault
-  const depositMoreSelectedGems = async () => {
-    if (!gf || !gb || !wallet) return;
-    for (let i = 0; i < selectedWalletNFTs.length; i++) {
-      try {
-        await addSingleGem(
-          gf,
-          new PublicKey(selectedWalletNFTs[i].mint),
-          new PublicKey(selectedWalletNFTs[i].creators[0].address),
-          new PublicKey(farmAddress),
-          wallet?.publicKey
-        );
-        toast.success(`Deposited ${i + 1} more NFTs to locked vault`);
-      } catch (error) {
-        console.log(error);
-        checkErrorAndShowToast(error, 'Failed to deposit more NFTs');
-      }
-    }
-    await refreshNFTsWithLoadingIcon();
-    setSelectedWalletNFTs([]);
   };
 
   const handleRefreshRewardsButtonClick = async () => {
@@ -518,12 +399,7 @@ const useGemFarm = () => {
   const rewardTokenName = collection?.rewardTokenName;
 
   return {
-    depositMoreSelectedGems,
     claimRewards,
-    // endStaking,
-    // startStaking,
-    // withdrawSelectedGems,
-    // depositSelectedGems,
     initializeFarmerAcc,
     refreshNFTsWithLoadingIcon,
     onWalletNFTSelect,

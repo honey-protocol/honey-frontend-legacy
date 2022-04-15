@@ -1,27 +1,17 @@
 import { Box, Button, IconRefresh, Stack, Text } from 'degen';
 import React, { useMemo } from 'react';
 import { LAMPORTS_PER_SOL } from '@solana/web3.js';
-// import * as styles from './FarmHeaderComponent.css';
 import useGemFarm from 'hooks/useGemFarm';
 
 const FarmHeaderComponent = () => {
   const {
     farmerAcc,
     farmAcc,
-    // availableToClaimA,
-    // availableToClaimB,
     collectionTotalNumber,
     rewardTokenName,
-    claimRewards,
-    handleRefreshRewardsButtonClick
+    refreshNFTsWithLoadingIcon,
+    claimRewards
   } = useGemFarm();
-
-  // const cooldownSecs = useMemo(() => {
-  //   if (!farmAcc) {
-  //     return 0;
-  //   }
-  //   return farmAcc?.config.cooldownPeriodSec;
-  // }, [farmAcc]);
 
   const unstakingFee = useMemo(() => {
     if (!farmAcc) {
@@ -51,20 +41,6 @@ const FarmHeaderComponent = () => {
     const totalNfts = Number(collectionTotalNumber);
     return ((stakedNftCount / totalNfts) * 100).toFixed(2);
   }, [farmAcc, stakedNftCount, collectionTotalNumber]);
-
-  // const claimA = useMemo(() => {
-  //   if (!farmerAcc) {
-  //     return 0;
-  //   }
-  //   return availableToClaimA;
-  // }, [farmerAcc, availableToClaimA]);
-
-  // const claimB = useMemo(() => {
-  //   if (!farmerAcc) {
-  //     return 0;
-  //   }
-  //   return availableToClaimB?.toString();
-  // }, [farmerAcc, availableToClaimB]);
 
   return (
     <Box
@@ -123,18 +99,10 @@ const FarmHeaderComponent = () => {
               </Text>
             </Stack>
           )}
-          {/* {Boolean(cooldownSecs) && (
-            <Stack direction="vertical" space="1" align="center">
-              <Text align="center" variant="label">
-                Cooldown
-              </Text>
-              <Text variant="small">Yes</Text>
-            </Stack>
-          )} */}
         </Stack>
         <Stack space="3" direction="horizontal">
           <Button
-            onClick={handleRefreshRewardsButtonClick}
+            onClick={refreshNFTsWithLoadingIcon}
             variant="secondary"
             shape="square"
             size="small"
