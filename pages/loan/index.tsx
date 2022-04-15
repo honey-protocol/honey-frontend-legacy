@@ -15,7 +15,7 @@ import DepositWithdrawModule from '../../components/DepositWithdrawModule/Deposi
 import Layout from '../../components/Layout/Layout';
 import * as styles from '../../styles/loan.css';
 import LoanHeaderComponent from 'components/LoanHeaderComponent/LoanHeaderComponent';
-import { useMarket } from '@honey-defi/sdk'
+import { useMarket, usePools, useBorrowPositions, useHoney,  } from '@honey-defi/sdk'
 
 /**
  * @description base dummy data object - should be converted to returns from honey SDK
@@ -36,9 +36,9 @@ const assetData: Array<AssetRowType> = [
 
 const Loan: NextPage = () => {
   /**
-   * @description Calls upon the honey sdk 
-   * @params none
-   * @returns honeyClient, honeyMarket, honeyUser, honeyReserves
+   * @description calls upon the honey sdk - market to be speicifc
+   * @params solanas useConnection func. && useConnectedWallet func. && JET ID
+   * @returns honeyUser which is the main object - honeyMarket, honeyReserves are for testing purposes
   */
   const saberHqConnection = useConnection();
   const sdkWallet = useConnectedWallet();
@@ -48,6 +48,24 @@ const Loan: NextPage = () => {
     console.log(honeyClient, honeyUser, honeyReserves);  
   }, [honeyClient, honeyUser, honeyReserves]);
 
+  /**
+   * @description calls upon useHoney
+   * @params none
+   * @returns context
+  */
+  const initializeHoney = useHoney();
+  console.log('@@@', initializeHoney)
+  /**
+   * @description calls upon useBorrowPositions
+   * @params connection && wallet && JET ID
+   * @returns context
+  */
+  const getBorrowPoistions = useBorrowPositions(saberHqConnection, sdkWallet, 'GU7mDmGtLXNMo6YsF1FBsrXj2DqnrL82P4eMDKsDPnZZ');
+  console.log('@@--GET BORROW POSITIONS--@@', getBorrowPoistions);
+
+  function initializeBorrow() {
+    console.log('getBorrow', getBorrowPoistions)
+  }
   /**
    * @description should be converted to new SDK implementation 
    * @params none
@@ -82,7 +100,7 @@ const Loan: NextPage = () => {
                   buttons={[
                     {
                       title: 'Borrow',
-                      onClick: () => setLiveOrCompleted(0)
+                      onClick: () => {initializeBorrow(); setLiveOrCompleted(0) }
                     },
                     { title: 'Loan', onClick: () => setLiveOrCompleted(1) }
                   ]}
