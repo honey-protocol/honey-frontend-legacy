@@ -233,7 +233,7 @@ const useGemFarm = () => {
 
   // on nfts select and unselect fns
   const onWalletNFTSelect = (NFT: NFT) => {
-    if (selectedWalletNFTs.length >= 3) return;
+    if (selectedWalletNFTs.length >= 2) return;
     setSelectedWalletNFTs([...selectedWalletNFTs, NFT]);
   };
 
