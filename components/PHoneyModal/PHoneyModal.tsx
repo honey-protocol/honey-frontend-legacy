@@ -1,5 +1,5 @@
 import React, { useCallback, useMemo, useState, useEffect } from 'react';
-import { Box, Button, Input, Stack, Text } from 'degen';
+import { Box, Button, Input, Stack, Text, Tag } from 'degen';
 import { PublicKey } from '@solana/web3.js';
 import { useStake } from 'hooks/useStake';
 import { useAccounts } from 'hooks/useAccounts';
@@ -9,6 +9,14 @@ import { convert, convertToBN } from 'helpers/utils';
 // console.log("The stake pool address is : ", process.env.PUBLIC_NEXT_STAKE_POOL_ADDRESS)
 const PHoneyModal = () => {
   const [amount, setAmount] = useState<number>(0);
+  const [isClaimable, setIsClaimable] = useState<boolean>(false);
+
+  const handleOnChange = (event: any) => {
+    // ideally we want to implement a debaunce here and not fire the function every second the user interacts with it
+
+    setAmount(Number(event.target.value));
+  };
+
   const { tokenAccounts } = useAccounts();
 
   // ======================== Should replace with configuration ================
@@ -23,7 +31,14 @@ const PHoneyModal = () => {
   );
   // ============================================================================
 
-  const { user, deposit, claim } = useStake(STAKE_POOL_ADDRESS, LOCKER_ADDRESS);
+  const { user, deposit, claim, claimableAmount } = useStake(
+    STAKE_POOL_ADDRESS,
+    LOCKER_ADDRESS
+  );
+
+  useEffect(() => {
+    setIsClaimable(claimableAmount !== 0);
+  }, [claimableAmount]);
 
   const depositedAmount = useMemo(() => {
     if (!user) {
@@ -61,7 +76,7 @@ const PHoneyModal = () => {
       <Box padding="6">
         <Stack space="6">
           <Text align="center" weight="semiBold">
-            Deposit pHONEY and recieve HONEY
+            Deposit pHONEY and receive HONEY
           </Text>
           <Box
             marginX="auto"
@@ -87,28 +102,28 @@ const PHoneyModal = () => {
             </Stack>
             <Stack direction="horizontal" justify="space-between">
               <Text variant="small" color="textSecondary">
-                Your pHONEY balance
+                Claimable Amount
               </Text>
-              <Text variant="small">{pHoneyAmount}</Text>
+              <Text variant="small">{claimableAmount}</Text>
             </Stack>
           </Stack>
           <Input
             type="number"
             label="Amount"
+            labelSecondary={<Tag>{pHoneyAmount} pHONEY max</Tag>}
+            disabled={!pHoneyAmount}
+            max={pHoneyAmount || ''}
+            min={0}
             hideLabel
+            value={amount || ''}
             units="pHONEY"
             placeholder="0"
-            onChange={event => setAmount(Number(event.target.value))}
+            onChange={handleOnChange}
           />
           <Button onClick={handleDeposit} disabled={!amount} width="full">
             {amount ? 'Deposit' : 'Enter amount'}
           </Button>
-          <Button
-            onClick={claim}
-            // Make disabled
-            disabled={true}
-            width="full"
-          >
+          <Button onClick={claim} disabled={claimableAmount == 0} width="full">
             Claim
           </Button>
         </Stack>

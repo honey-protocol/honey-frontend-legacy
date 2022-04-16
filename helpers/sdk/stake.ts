@@ -19,6 +19,12 @@ export const POOL_USER_SEED = 'PoolUser';
 export const TOKEN_VAULT_SEED = 'TokenVault';
 export const VAULT_AUTHORITY_SEED = 'VaultAuthority';
 
+export interface PoolParams {
+  startsAt: anchor.BN;
+  claimPeriodUnit: anchor.BN;
+  maxClaimCount: number;
+}
+
 export class StakeClient extends ClientBase<Stake> {
   constructor(connection: Connection, wallet: anchor.Wallet) {
     super(connection, wallet, stakeIdl, STAKE_PROGRAM_ID);

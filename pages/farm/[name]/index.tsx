@@ -1,21 +1,29 @@
 import type { NextPage } from 'next';
-import { Box, Stack, Button, IconRefresh, IconChevronLeft } from 'degen';
+import {
+  Box,
+  Stack,
+  Button,
+  IconRefresh,
+  IconChevronLeft,
+  Heading,
+  Text
+} from 'degen';
 import Layout from '../../../components/Layout/Layout';
+import FarmHeaderComponent from 'components/FarmHeaderComponent/FarmHeaderComponent';
 import useGemFarm from 'hooks/useGemFarm';
 import FarmNFTsContainer from 'components/FarmNFTsContainer/FarmNFTsContainer';
 import Link from 'next/link';
 import * as styles from '../../../styles/name.css';
+import { useState } from 'react';
 
 const Nft: NextPage = () => {
   const {
     depositMoreSelectedGems,
-    claimRewards,
     endStaking,
     startStaking,
     withdrawSelectedGems,
     depositSelectedGems,
     initializeFarmerAcc,
-    refreshWithLoadingIcon,
     onWalletNFTSelect,
     onWalletNFTUnselect,
     onStakedNFTSelect,
@@ -30,16 +38,33 @@ const Nft: NextPage = () => {
     farmerVaultLocked
   } = useGemFarm();
 
+  const [txLoading, setTxLoading] = useState({
+    value: false,
+    txName: ''
+  });
+
+  const withTxLoading = async (tx: Function, txName: string) => {
+    setTxLoading({ value: true, txName });
+    await tx();
+    setTxLoading({ value: false, txName: '' });
+  };
+
   return (
     <Layout>
       <Box marginY="4">
         <Stack
-          direction="horizontal"
-          justify="space-between"
+          direction={{ md: 'horizontal', sm: 'vertical', xs: 'vertical' }}
+          justify={{ lg: 'space-between', sm: 'flex-start' }}
           wrap
           align="center"
+          space="5"
         >
-          <Box display="flex" alignSelf="center" justifySelf="center">
+          <Box
+            marginRight="auto"
+            display="flex"
+            alignSelf="center"
+            justifySelf="center"
+          >
             <Link href="/farm" passHref>
               <Button
                 size="small"
@@ -51,22 +76,7 @@ const Nft: NextPage = () => {
               </Button>
             </Link>
           </Box>
-          <Stack space="3" direction="horizontal">
-            <Box>
-              <Button
-                onClick={refreshWithLoadingIcon}
-                variant="secondary"
-                shape="square"
-                size="small"
-              >
-                <IconRefresh />
-              </Button>
-            </Box>
-
-            <Button onClick={claimRewards} size="small">
-              Claim rewards
-            </Button>
-          </Stack>
+          <FarmHeaderComponent />
         </Stack>
       </Box>
       <Box display="flex" height="full" className={styles.cardsContainer}>
@@ -81,11 +91,12 @@ const Nft: NextPage = () => {
                 ? `Deposit ( ${selectedWalletNFTs.length} )`
                 : `Deposit  (${selectedWalletNFTs.length}) more`,
               disabled: selectedWalletNFTs.length ? false : true,
+              loading: txLoading.value && txLoading.txName === 'deposit',
               onClick: !farmerAcc
-                ? initializeFarmerAcc
+                ? () => withTxLoading(initializeFarmerAcc, 'deposit')
                 : !farmerVaultLocked
-                ? depositSelectedGems
-                : depositMoreSelectedGems
+                ? () => withTxLoading(depositSelectedGems, 'deposit')
+                : () => withTxLoading(depositMoreSelectedGems, 'deposit')
             }
           ]}
           NFTs={Object.values(walletNFTsInFarm)}
@@ -101,7 +112,8 @@ const Nft: NextPage = () => {
               title: `Withdraw (${selectedVaultNFTs.length})`,
               disabled: !selectedVaultNFTs.length,
               hidden: farmerVaultLocked,
-              onClick: withdrawSelectedGems
+              loading: txLoading.value && txLoading.txName === 'withdraw',
+              onClick: () => withTxLoading(withdrawSelectedGems, 'withdraw')
             },
             {
               title: farmerVaultLocked
@@ -110,7 +122,10 @@ const Nft: NextPage = () => {
                   : 'Unlock'
                 : `Start rewards`,
               disabled: Object.values(stakedNFTsInFarm).length ? false : true,
-              onClick: farmerVaultLocked ? endStaking : startStaking
+              loading: txLoading.value && txLoading.txName === 'vault',
+              onClick: farmerVaultLocked
+                ? () => withTxLoading(endStaking, 'vault')
+                : () => withTxLoading(startStaking, 'vault')
             }
           ]}
           NFTs={Object.values(stakedNFTsInFarm)}

@@ -10,3 +10,14 @@ export const cardsContainer = style({
     }
   }
 });
+
+export const loanCardsContainer = style({
+  display: 'grid',
+  gridTemplateColumns: '2fr 1fr',
+  gridGap: 20,
+  '@media': {
+    'screen and (min-width: 860px)': {
+      gridTemplateColumns: '2fr 1fr'
+    }
+  }
+});

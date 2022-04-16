@@ -86,7 +86,7 @@ const Loan: NextPage = () => {
           </Box>
         </Stack>
       </Box>
-      <Box display="flex" height="full" className={styles.cardsContainer}>
+      <Box display="flex" height="full" className={styles.loanCardsContainer}>
         <LoanNFTsContainer
           title="Open positions"
           selectedId={selectedId}

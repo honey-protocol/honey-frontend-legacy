@@ -23,8 +23,8 @@ import { GithubIcon } from 'icons/GithubIcon';
 import { useRouter } from 'next/router';
 import { nextAccentMap } from 'helpers/theme-utils';
 
-const whitePaperUrl =
-  'https://4291845233-files.gitbook.io/~/files/v0/b/gitbook-x-prod.appspot.com/o/spaces%2FLxClA4ViEZ3CcRvINtyy%2Fuploads%2FsDr0JNKhTU5H9f9qkkX2%2Fhoney_whitepaper.pdf?alt=media&token=c9054e88-e3a5-43fd-a80f-ac55e2d49162';
+const feedbackUrl =
+  'https://feedback.honey.finance/';
 
 
 const governanceUrl = "https://forum.honey.finance/"
@@ -40,6 +40,7 @@ const mainLinks = [
   {
     url: '/loan',
     title: 'Loans',
+    comingSoon: true,
     IconComp: IconSplit,
     key: 2
   },
@@ -58,20 +59,21 @@ const mainLinks = [
 ];
 
 const bottomLinks = [
-  {
-    href: 'https://docs.honey.finance/',
-    title: 'Documentation',
-    IconComp: IconBookOpen
-  },
-  {
-    href: whitePaperUrl,
-    title: 'Whitepaper',
-    IconComp: IconDocuments
-  },
+
   {
     href: 'https://honeylend.netlify.app/farm',
     title: 'Legacy website',
     IconComp: IconLink
+  },
+  {
+    href: feedbackUrl,
+    title: 'Feedback',
+    IconComp: IconFlag
+  },
+  {
+    href: 'https://docs.honey.finance/',
+    title: 'Documentation',
+    IconComp: IconBookOpen
   }
 ];
 

@@ -10,3 +10,9 @@ export const cardContainer = style({
     borderColor: vars.colors.foregroundSecondary
   }
 });
+
+export const cardTitle = style({
+  WebkitLineClamp: 1,
+  display: '-webkit-box',
+  WebkitBoxOrient: 'vertical'
+});
