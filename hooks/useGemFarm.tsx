@@ -136,11 +136,21 @@ const useGemFarm = () => {
         (await getGemStakedInFarm(gb, farmerAcc?.vault, connection)) || [];
       setStakedNFTsInFarm(convertArrayToObject(stakedNFTs, 'tokenId'));
       setIsFetching(false);
+
+      // if (!walletNFTsInFarm.length && !stakedNFTs.length) {
+      //   toast('No NFTs in this farm');
+      // }
     } catch (error) {
       console.log(error);
     }
   }, [AllNFTs, collection, connection, gb, farmerAcc?.vault]);
 
+  useEffect(() => {
+    if (!wallet) {
+      setWalletNFTsInFarm({});
+      setStakedNFTsInFarm({});
+    }
+  }, [wallet]);
   /**
    * @params
    * @description
@@ -250,7 +260,10 @@ const useGemFarm = () => {
       }, blockchainWaitTime);
     } catch (error) {
       console.log(error);
-      checkErrorAndShowToast(error, 'Account initialization failed, please refresh.');
+      checkErrorAndShowToast(
+        error,
+        'Account initialization failed, please refresh.'
+      );
     }
   };
 
