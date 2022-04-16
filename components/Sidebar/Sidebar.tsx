@@ -12,6 +12,7 @@ import {
   IconSplit,
   vars,
   IconLink,
+  IconFlag,
   useTheme
 } from 'degen';
 import SidebarButton from '../SidebarButton';
