@@ -17,32 +17,40 @@ import * as styles from '../../styles/loan.css';
 import LoanHeaderComponent from 'components/LoanHeaderComponent/LoanHeaderComponent';
 import { useMarket, usePools, useBorrowPositions, useHoney,  } from '@honey-defi/sdk'
 
-/**
- * @description base dummy data object - should be converted to returns from honey SDK
- * @params none
- * @returns dummy object
-*/
-const assetData: Array<AssetRowType> = [
-  {
-    vaultName: 'Solana Monkey Business',
-    vaultImageUrl:
-      '/nfts/2738.png',
-    totalBorrowed: 0,
-    interest: 0,
-    available: 0,
-    positions: 0
-  }
-];
-
 const Loan: NextPage = () => {
   /**
-   * @description calls upon the honey sdk - market to be speicifc
+   * @description object layout for pools table - should be filled by getPools()
+   * @params none
+   * @returns dummy object
+  */
+  const assetData: Array<AssetRowType> = [
+    {
+      vaultName: 'Solana Monkey Business',
+      vaultImageUrl:
+        '/nfts/2738.png',
+      totalBorrowed: 0,
+      interest: 0,
+      available: 0,
+      positions: 0
+    }
+  ];
+
+  /**
+   * @description base sdk config object
+   * @params none
+   * @returns connection | wallet | jetID
+  */
+  const sdkConfig = {
+    saberHqConnection: useConnection(),
+    sdkWallet: useConnectedWallet(),
+    jetID: 'GU7mDmGtLXNMo6YsF1FBsrXj2DqnrL82P4eMDKsDPnZZ'
+  }
+  /**
+   * @description calls upon the honey sdk - market 
    * @params solanas useConnection func. && useConnectedWallet func. && JET ID
    * @returns honeyUser which is the main object - honeyMarket, honeyReserves are for testing purposes
   */
-  const saberHqConnection = useConnection();
-  const sdkWallet = useConnectedWallet();
-  const { honeyClient, honeyUser, honeyReserves } = useMarket(saberHqConnection, sdkWallet, 'GU7mDmGtLXNMo6YsF1FBsrXj2DqnrL82P4eMDKsDPnZZ');
+  const { honeyClient, honeyUser, honeyReserves } = useMarket(sdkConfig.saberHqConnection, sdkConfig.sdkWallet, sdkConfig.jetID);
  
   useEffect(() => {
     console.log(honeyClient, honeyUser, honeyReserves);  
@@ -63,23 +71,20 @@ const Loan: NextPage = () => {
    * @returns context
   */
   const initializeHoney = useHoney();
-  console.log('@@@', initializeHoney)
 
   /**
    * @description calls upon useBorrowPositions
    * @params connection && wallet && JET ID
    * @returns TBorrowPosition array of data
   */
-  const getBorrowPoistions = useBorrowPositions(saberHqConnection, sdkWallet, 'GU7mDmGtLXNMo6YsF1FBsrXj2DqnrL82P4eMDKsDPnZZ');
-  console.log('@@--GET BORROW POSITIONS--@@', getBorrowPoistions);
-
+  const getBorrowPoistions = useBorrowPositions(sdkConfig.saberHqConnection, sdkConfig.sdkWallet, sdkConfig.jetID);
+  
   /**
    * @description should return available pools which render in the interface table
    * @params connection && wallet && JET ID
    * @returns a table of pools
   */
-  const getPools = usePools(saberHqConnection, sdkWallet, 'GU7mDmGtLXNMo6YsF1FBsrXj2DqnrL82P4eMDKsDPnZZ');
-  console.log('@@- GET POOLS--@@', getPools);
+  const getPools = usePools(sdkConfig.saberHqConnection, sdkConfig.sdkWallet, sdkConfig.jetID);
 
   /**
    * @description component logic regarding handlers and modals
@@ -95,6 +100,7 @@ const Loan: NextPage = () => {
   function showLoanModal() {
     setModalIsVisible(true);
   }
+
   /**
    * @description function to handle borrow btn click
    * @params none
