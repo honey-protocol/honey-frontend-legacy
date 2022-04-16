@@ -6,7 +6,7 @@ import {
   WhitelistType,
 } from '@gemworks/gem-farm-ts';
 import { Connection, Keypair, PublicKey } from '@solana/web3.js';
-import { SignerWalletAdapter } from '@solana/wallet-adapter-base';
+import { SignerWalletAdapter } from "@solana/wallet-adapter-base"
 import { NodeWallet, programs } from '@metaplex/js';
 
 //when we only want to view vaults, no need to connect a real wallet.
@@ -28,8 +28,8 @@ export async function initGemBank(
   wallet?: any
 ) {
   const walletToUse = wallet ?? createFakeWallet();
-  const bankIdl = await (await fetch("/idl/gem_bank.json")).json()
-  return new GemBank(conn, walletToUse as any, bankIdl);
+  const idl = await (await fetch("/idl/gem_bank.json")).json()
+  return new GemBank(conn, walletToUse as any, idl);
 }
 
 export class GemBank extends GemBankClient {
@@ -43,7 +43,7 @@ export class GemBank extends GemBankClient {
       bank,
       this.wallet.publicKey,
       this.wallet.publicKey
-    );
+    )
     return { bank, txSig };
   }
 
@@ -65,7 +65,7 @@ export class GemBank extends GemBankClient {
     return this.setVaultLock(bank, vault, this.wallet.publicKey, vaultLocked);
   }
 
-  async depositGemWallet(
+  async depositGemWalletIx(
     bank: PublicKey,
     vault: PublicKey,
     gemAmount: BN,
@@ -77,7 +77,7 @@ export class GemBank extends GemBankClient {
     const [creatorProof, bump2] = await findWhitelistProofPDA(bank, creator);
     const metadata = await programs.metadata.Metadata.getPDA(gemMint);
 
-    return this.depositGem(
+    const { builder } = await this.buildDepositGem(
       bank,
       vault,
       this.wallet.publicKey,
@@ -88,15 +88,17 @@ export class GemBank extends GemBankClient {
       metadata,
       creatorProof
     );
+
+    return builder.instruction()
   }
 
-  async withdrawGemWallet(
+  async withdrawGemWalletIx(
     bank: PublicKey,
     vault: PublicKey,
     gemAmount: BN,
     gemMint: PublicKey
   ) {
-    return this.withdrawGem(
+    const { builder } = await this.buildWithdrawGem(
       bank,
       vault,
       this.wallet.publicKey,
@@ -104,6 +106,8 @@ export class GemBank extends GemBankClient {
       gemMint,
       this.wallet.publicKey
     );
+
+    return builder.instruction()
   }
 
   async addToWhitelistWallet(
