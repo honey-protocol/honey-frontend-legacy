@@ -1,5 +1,5 @@
 import { Box, Button, IconRefresh, Stack, Text } from 'degen';
-import React, { useMemo } from 'react';
+import React, { useMemo, useState } from 'react';
 import { LAMPORTS_PER_SOL } from '@solana/web3.js';
 import useGemFarm from 'hooks/useGemFarm';
 
@@ -12,6 +12,11 @@ const FarmHeaderComponent = () => {
     refreshNFTsWithLoadingIcon,
     claimRewards
   } = useGemFarm();
+
+  const [txLoading, setTxLoading] = useState({
+    value: false,
+    txName: ''
+  });
 
   const unstakingFee = useMemo(() => {
     if (!farmAcc) {
@@ -41,6 +46,17 @@ const FarmHeaderComponent = () => {
     const totalNfts = Number(collectionTotalNumber);
     return ((stakedNftCount / totalNfts) * 100).toFixed(2);
   }, [farmAcc, stakedNftCount, collectionTotalNumber]);
+
+  const withTxLoading = async (tx: Function, txName: string) => {
+    try {
+      setTxLoading({ value: true, txName });
+        await tx();
+      setTxLoading({ value: false, txName: '' });
+    } catch (error) {
+      console.log(error)
+      setTxLoading({ value: false, txName: '' });
+    }
+  };
 
   return (
     <Box
@@ -102,6 +118,7 @@ const FarmHeaderComponent = () => {
         </Stack>
         <Stack space="3" direction="horizontal">
           <Button
+            
             onClick={refreshNFTsWithLoadingIcon}
             variant="secondary"
             shape="square"
@@ -110,7 +127,11 @@ const FarmHeaderComponent = () => {
             <IconRefresh />
           </Button>
 
-          <Button onClick={claimRewards} size="small">
+          <Button 
+          onClick={() => withTxLoading(claimRewards, 'claim')}
+          loading={txLoading.value && txLoading.txName === 'claim'}
+          size="small"
+          >
             {`Claim $${rewardTokenName}`}
           </Button>
         </Stack>

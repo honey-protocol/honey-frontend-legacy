@@ -1,9 +1,6 @@
-import { programs } from '@metaplex/js';
-import { useWalletNfts } from '@nfteyez/sol-rayz-react';
 import {
   useConnectedWallet,
   useConnection,
-  WalletAdapter
 } from '@saberhq/use-solana';
 import { PublicKey, Transaction } from '@solana/web3.js';
 import { GemBank, initGemBank } from 'gem-bank';
@@ -23,6 +20,7 @@ import { newFarmCollections } from 'constants/new-farms';
 import React, { ReactNode, useCallback, useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 import { blockchainWaitTime } from 'constants/timeouts';
+import { connected } from 'process';
 
 // import useWalletNFTs, { NFT } from "hooks/useWalletNFTs"
 const SPL_ASSOCIATED_TOKEN_ACCOUNT_PROGRAM_ID: PublicKey = new PublicKey(
@@ -59,7 +57,7 @@ const useGemFarm = () => {
     useFetchNFTByUser(wallet);
   const connection = useConnection();
 
-  const [isFetching, setIsFetching] = useState(true);
+  const [isFetching, setIsFetching] = useState(false);
 
   const [stakedNFTsInFarm, setStakedNFTsInFarm] = useState<{
     [tokenId: string]: NFT;
@@ -70,6 +68,8 @@ const useGemFarm = () => {
 
   const [selectedWalletNFTs, setSelectedWalletNFTs] = useState<NFT[]>([]);
   const [selectedVaultNFTs, setSelectedVaultNFTs] = useState<NFT[]>([]);
+
+  console.log(wallet?.connected)
 
   // Get farm and bank addresses from router
   const router = useRouter();
@@ -153,27 +153,27 @@ const useGemFarm = () => {
    * @description
    * @returns
    **/
-  //Gem farm data fetches
+  // gem-farm data fetches
   const freshStart = useCallback(async () => {
     if (!wallet) return;
     console.log('Starting fresh');
     setIsStartingGemFarm(true);
     try {
-      //initialize gem
+      // initialize gem
       const gemFarm = await initGemFarm(connection, wallet);
       const gemBank = await initGemBank(connection, wallet);
       setGf(gemFarm);
       setGb(gemBank);
       setFarmerIdentity(new PublicKey(wallet.publicKey).toBase58());
 
-      //reset stuff
+      // reset stuff
       setFarmAcc(undefined);
       setFarmerAcc(undefined);
       setFarmerState('');
       setAvailableA(undefined);
       setAvailableB(undefined);
 
-      //fetch farm and farmer details
+      // fetch farm and farmer details
       const farmAccResult = await fetchFarm(gemFarm, farmAddress);
       setFarmAcc(farmAccResult);
       await fetchFarmerDetails(gemFarm, gemBank);
@@ -184,15 +184,26 @@ const useGemFarm = () => {
     setIsStartingGemFarm(false);
   }, [connection, farmAddress, fetchFarmerDetails, wallet]);
 
+  // const onWalletDisconnect = async () => {
+  //   if( wallet?.connected == undefined ) {
+  //     console.log("wallet  not connected ")
+  //   };
+  // };
+
   useEffect(() => {
     freshStart();
   }, [freshStart]);
+
+  // useEffect(() => {
+  //   onWalletDisconnect()
+  // }, [onWalletDisconnect, wallet])
 
   useEffect(() => {
     if (!isStartingGemFarm) {
       setNFTs();
     }
   }, [isStartingGemFarm, setNFTs]);
+
 
   const onRefreshNFTs = async () => {
     if (!gb) return;
@@ -201,7 +212,7 @@ const useGemFarm = () => {
       getGemStakedInFarm(gb, farmerAcc.vault, connection)
     ]);
 
-    // No need to setWalletNFTsInFarm cause updateNFTsInUserWallet sets AllNFTs and that triggers
+    // no need to setWalletNFTsInFarm cause updateNFTsInUserWallet sets AllNFTs and that triggers
     setStakedNFTsInFarm(convertArrayToObject(results[1], 'tokenId'));
     setSelectedVaultNFTs([]);
     setSelectedWalletNFTs([]);
@@ -222,7 +233,7 @@ const useGemFarm = () => {
 
   // on nfts select and unselect fns
   const onWalletNFTSelect = (NFT: NFT) => {
-    if (selectedWalletNFTs.length >= 5) return;
+    if (selectedWalletNFTs.length >= 3) return;
     setSelectedWalletNFTs([...selectedWalletNFTs, NFT]);
   };
 
@@ -234,7 +245,7 @@ const useGemFarm = () => {
   };
 
   const onStakedNFTSelect = (NFT: NFT) => {
-    if (selectedVaultNFTs.length >= 7) return;
+    if (selectedVaultNFTs.length >= 3) return;
     setSelectedVaultNFTs([...selectedVaultNFTs, NFT]);
   };
 
@@ -263,6 +274,7 @@ const useGemFarm = () => {
       );
     }
   };
+
 
   const handleStakeButtonClick = async () => {
     if (!gf || !gb) throw new Error('No Gem Bank client has been initialized.');

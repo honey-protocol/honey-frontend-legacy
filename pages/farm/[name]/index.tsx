@@ -15,11 +15,11 @@ import { useState } from 'react';
 
 const Nft: NextPage = () => {
   const {
-    initializeFarmerAcc,
     onWalletNFTSelect,
     onWalletNFTUnselect,
     onStakedNFTSelect,
     onStakedNFTUnselect,
+    initializeFarmerAcc,
     handleStakeButtonClick,
     handleUnstakeButtonClick,
     isFetching,
@@ -36,9 +36,14 @@ const Nft: NextPage = () => {
   });
 
   const withTxLoading = async (tx: Function, txName: string) => {
-    setTxLoading({ value: true, txName });
-    await tx();
-    setTxLoading({ value: false, txName: '' });
+    try {
+      setTxLoading({ value: true, txName });
+        await tx();
+      setTxLoading({ value: false, txName: '' });
+    } catch (error) {
+      console.log(error)
+      setTxLoading({ value: false, txName: '' });
+    }
   };
 
   return (
