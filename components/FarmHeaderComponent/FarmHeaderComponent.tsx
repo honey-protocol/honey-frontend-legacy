@@ -1,27 +1,22 @@
 import { Box, Button, IconRefresh, Stack, Text } from 'degen';
-import React, { useMemo } from 'react';
+import React, { useMemo, useState } from 'react';
 import { LAMPORTS_PER_SOL } from '@solana/web3.js';
-// import * as styles from './FarmHeaderComponent.css';
 import useGemFarm from 'hooks/useGemFarm';
 
 const FarmHeaderComponent = () => {
   const {
     farmerAcc,
     farmAcc,
-    availableToClaimA,
-    availableToClaimB,
     collectionTotalNumber,
     rewardTokenName,
-    claimRewards,
-    handleRefreshRewardsButtonClick
+    refreshNFTsWithLoadingIcon,
+    claimRewards
   } = useGemFarm();
 
-  // const cooldownSecs = useMemo(() => {
-  //   if (!farmAcc) {
-  //     return 0;
-  //   }
-  //   return farmAcc?.config.cooldownPeriodSec;
-  // }, [farmAcc]);
+  const [txLoading, setTxLoading] = useState({
+    value: false,
+    txName: ''
+  });
 
   const unstakingFee = useMemo(() => {
     if (!farmAcc) {
@@ -52,19 +47,16 @@ const FarmHeaderComponent = () => {
     return ((stakedNftCount / totalNfts) * 100).toFixed(2);
   }, [farmAcc, stakedNftCount, collectionTotalNumber]);
 
-  const claimA = useMemo(() => {
-    if (!farmerAcc) {
-      return 0;
+  const withTxLoading = async (tx: Function, txName: string) => {
+    try {
+      setTxLoading({ value: true, txName });
+        await tx();
+      setTxLoading({ value: false, txName: '' });
+    } catch (error) {
+      console.log(error)
+      setTxLoading({ value: false, txName: '' });
     }
-    return availableToClaimA;
-  }, [farmerAcc, availableToClaimA]);
-
-  // const claimB = useMemo(() => {
-  //   if (!farmerAcc) {
-  //     return 0;
-  //   }
-  //   return availableToClaimB?.toString();
-  // }, [farmerAcc, availableToClaimB]);
+  };
 
   return (
     <Box
@@ -107,7 +99,7 @@ const FarmHeaderComponent = () => {
           </Stack>
           <Stack direction="vertical" space="1" align="center">
             <Text size="small" align="center" variant="label">
-              Farmer Count
+              Farmers
             </Text>
             <Text size="small" variant="small">
               {farmerCount}
@@ -123,18 +115,11 @@ const FarmHeaderComponent = () => {
               </Text>
             </Stack>
           )}
-          {/* {Boolean(cooldownSecs) && (
-            <Stack direction="vertical" space="1" align="center">
-              <Text align="center" variant="label">
-                Cooldown
-              </Text>
-              <Text variant="small">Yes</Text>
-            </Stack>
-          )} */}
         </Stack>
         <Stack space="3" direction="horizontal">
           <Button
-            onClick={handleRefreshRewardsButtonClick}
+            
+            onClick={refreshNFTsWithLoadingIcon}
             variant="secondary"
             shape="square"
             size="small"
@@ -142,8 +127,12 @@ const FarmHeaderComponent = () => {
             <IconRefresh />
           </Button>
 
-          <Button onClick={claimRewards} size="small">
-            {`Claim ${(claimA / 1000000).toFixed(2)} $${rewardTokenName}`}
+          <Button 
+          onClick={() => withTxLoading(claimRewards, 'claim')}
+          loading={txLoading.value && txLoading.txName === 'claim'}
+          size="small"
+          >
+            {`Claim $${rewardTokenName}`}
           </Button>
         </Stack>
       </Stack>
