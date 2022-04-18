@@ -1,7 +1,7 @@
 import type { NextPage } from 'next';
 import { Box, Button, Card, IconChevronLeft, Text, vars } from 'degen';
 import { Stack } from 'degen';
-import Layout from '../../components/Layout/Layout';
+import Layout from '../../../components/Layout/Layout';
 import DepositWithdrawModule from 'components/DepositWithdrawModule/DepositWIthdrawModule';
 import {
   Area,
@@ -12,7 +12,7 @@ import {
   YAxis
 } from 'recharts';
 import Link from 'next/link';
-import * as styles from '../../styles/lend.css';
+import * as styles from '../../../styles/lend.css';
 
 // TOOD: Needs to accept props for data
 // TODO: render rows of length two for NFT collections based on data props
