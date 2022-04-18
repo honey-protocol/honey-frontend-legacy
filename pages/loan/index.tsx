@@ -30,12 +30,12 @@ const assetData: Array<AssetRowType> = [
 const Loan: NextPage = () => {
   const wallet = useConnectedWallet();
   const { connect } = useWalletKit();
-  const [liveOrCompleted, setLiveOrCompleted] = useState(0);
+  const [borrowOrLend, setBorrowOrLend] = useState(0);
 
   const [modalIsVisible, setModalIsVisible] = useState(false);
 
-  const openLoanModal = wallet && liveOrCompleted === 1;
-  const loadLoanPage = wallet && liveOrCompleted === 0;
+  const loadBorrowPage = wallet && borrowOrLend === 0;
+  const loadLendPage = wallet && borrowOrLend === 1;
 
   function showLoanModal() {
     setModalIsVisible(true);
@@ -61,13 +61,12 @@ const Loan: NextPage = () => {
                 buttons={[
                   {
                     title: 'Borrow',
-                    onClick: () => setLiveOrCompleted(0)
+                    onClick: () => setBorrowOrLend(0)
                   },
-                  { title: 'Loan', onClick: () => setLiveOrCompleted(1) }
+                  { title: 'Lend', onClick: () => setBorrowOrLend(1) }
                 ]}
-                activeIndex={liveOrCompleted}
+                activeIndex={borrowOrLend}
               />
-              <LoanHeaderComponent />
             </Stack>
           </Stack>
         </Box>
@@ -100,17 +99,22 @@ const Loan: NextPage = () => {
               <Box>
                 {assetData.map(item => (
                   <Box key={item.vaultName}>
-                    {loadLoanPage && (
+                    {loadBorrowPage && (
                       <Link href="/loan/[name]" as={`/loan/${item.vaultName}`}>
                         <a>
                           <AssetRow data={item} />
                         </a>
                       </Link>
                     )}
-                    {openLoanModal && (
-                      <Box onClick={showLoanModal} cursor="pointer">
-                        <AssetRow data={item} />
-                      </Box>
+                    {loadLendPage && (
+                      <Link
+                        href="/loan/lend/[name]"
+                        as={`/loan/lend/${item.vaultName}`}
+                      >
+                        <a>
+                          <AssetRow data={item} />
+                        </a>
+                      </Link>
                     )}
                     {!wallet && (
                       <Box onClick={connect} cursor="pointer">
