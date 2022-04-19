@@ -56,7 +56,6 @@ const marketNFTs = [
 ]
 
 const Loan: NextPage = () => {
-
   const [selectedId, setSelectedId] = useState(1);
 
   function selectNFT(key: number) {

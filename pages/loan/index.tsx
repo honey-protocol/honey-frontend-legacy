@@ -20,25 +20,23 @@ import { useHoney } from '@honey-finance/sdk/lib/contexts';
 import { deposit, depositCollateral, depositNFT, HoneyUser } from '@honey-finance/sdk';
 
 
-const Loan: NextPage = () => {
-  
-  /**
+const Loan: NextPage = () => {  
+    /**
    * @description object layout for pools table - should be filled by getPools()
    * @params none
    * @returns dummy object
   */
-  const assetData: Array<AssetRowType> = [
-    {
-      vaultName: 'Solana Monkey Business',
-      vaultImageUrl:
-        '/nfts/2738.png',
-      totalBorrowed: 0,
-      interest: 0,
-      available: 0,
-      positions: 0
-    }
-  ];
-
+     const assetData: Array<AssetRowType> = [
+      {
+        vaultName: 'Solana Monkey Business',
+        vaultImageUrl:
+          '/nfts/2738.png',
+        totalBorrowed: 0,
+        interest: 0,
+        available: 0,
+        positions: 0
+      }
+    ];
   /**
    * @description base sdk config object
    * @params none
@@ -97,32 +95,6 @@ const Loan: NextPage = () => {
    * @params none
    * @returns requested value
   */
-  const { 
-    address, 
-    borrow, 
-    collateral,
-    deposit, 
-    deposits, 
-    depositCollateral, 
-    depositNFT, 
-    getObligationData,
-    liquidate,
-    loans,
-    makeBorrowTx,
-    makeDepositCollateralTx,
-    makeDepositTx,
-    makeLiquidateTx,
-    makeNFTDepositTx,
-    makeRepayTx,
-    makeWithdrawTx,
-    market,
-    refresh,
-    repay,
-    reserves,
-    withdraw,
-    withdrawCollateral,
-    withdrawNFT
-  } = honeyUser;
 
   /**
    * @description component logic regarding handlers and modals
@@ -154,7 +126,7 @@ const Loan: NextPage = () => {
    * @returns array of tokens
   */
   function initializeLoan() {
-    const userLoans = loans();
+    const userLoans = honeyUser.loans();
   }
 
   return (
