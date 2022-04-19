@@ -15,7 +15,8 @@ import DepositWithdrawModule from '../../components/DepositWithdrawModule/Deposi
 import Layout from '../../components/Layout/Layout';
 import * as styles from '../../styles/loan.css';
 import LoanHeaderComponent from 'components/LoanHeaderComponent/LoanHeaderComponent';
-import { useMarket, usePools, useBorrowPositions, useHoney,  } from '@honey-defi/sdk'
+import { useMarket, usePools, useBorrowPositions } from '@honey-finance/sdk/lib/hooks';
+import { useHoney } from '@honey-finance/sdk/lib/contexts';
 
 const Loan: NextPage = () => {
   /**
@@ -43,14 +44,15 @@ const Loan: NextPage = () => {
   const sdkConfig = {
     saberHqConnection: useConnection(),
     sdkWallet: useConnectedWallet(),
-    jetID: 'GU7mDmGtLXNMo6YsF1FBsrXj2DqnrL82P4eMDKsDPnZZ'
+    honeyId: '6ujVJiHnyqaTBHzwwfySzTDX5EPFgmXqnibuMp3Hun1w',
+    marketID: 'CqFM8kwwkkrwPTVFZh52yFNSaZ3kQPDADSobHeDEkdj3'
   }
   /**
    * @description calls upon the honey sdk - market 
    * @params solanas useConnection func. && useConnectedWallet func. && JET ID
    * @returns honeyUser which is the main object - honeyMarket, honeyReserves are for testing purposes
   */
-  const { honeyClient, honeyUser, honeyReserves } = useMarket(sdkConfig.saberHqConnection, sdkConfig.sdkWallet, sdkConfig.jetID);
+  const { honeyClient, honeyUser, honeyReserves } = useMarket(sdkConfig.saberHqConnection, sdkConfig.sdkWallet, sdkConfig.honeyId, sdkConfig.marketID);
  
   useEffect(() => {
     console.log(honeyClient, honeyUser, honeyReserves);  
@@ -77,14 +79,14 @@ const Loan: NextPage = () => {
    * @params connection && wallet && JET ID
    * @returns TBorrowPosition array of data
   */
-  const getBorrowPoistions = useBorrowPositions(sdkConfig.saberHqConnection, sdkConfig.sdkWallet, sdkConfig.jetID);
+  const getBorrowPoistions = useBorrowPositions(sdkConfig.saberHqConnection, sdkConfig.sdkWallet, sdkConfig.honeyId, sdkConfig.marketID);
   
   /**
    * @description should return available pools which render in the interface table
    * @params connection && wallet && JET ID
    * @returns a table of pools
   */
-  const getPools = usePools(sdkConfig.saberHqConnection, sdkConfig.sdkWallet, sdkConfig.jetID);
+  const getPools = usePools(sdkConfig.saberHqConnection, sdkConfig.sdkWallet, sdkConfig.honeyId, sdkConfig.marketID);
 
   /**
    * @description component logic regarding handlers and modals

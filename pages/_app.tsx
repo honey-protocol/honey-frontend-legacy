@@ -1,6 +1,5 @@
 import type { AppProps } from 'next/app';
 import { ThemeProvider } from 'degen';
-import { HoneyProvider, AnchorProvider } from '@honey-defi/sdk';
 import 'degen/styles';
 import { WalletKitProvider } from '@gokiprotocol/walletkit';
 import '../styles/globals.css';
@@ -8,9 +7,10 @@ import { Network } from '@saberhq/solana-contrib';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { PartialNetworkConfigMap } from "@saberhq/use-solana/src/utils/useConnectionInternal";
-import { useConnectedWallet, useConnection, WalletAdapter } from '@saberhq/use-solana';
+import { useConnectedWallet, useConnection } from '@saberhq/use-solana';
 import React, { FC, ReactNode, useEffect, useState } from "react";
 import SecPopup from 'components/SecPopup';
+import { HoneyProvider, AnchorProvider } from '@honey-finance/sdk/lib/contexts';
 
 const network = process.env.NETWORK as Network;
 
@@ -29,7 +29,7 @@ const OnChainProvider: FC<{ children: ReactNode }> = ({ children }) => {
 
   return (
     <AnchorProvider wallet={wallet} connection={connection} network={network}>
-     <HoneyProvider wallet={wallet}> 
+     <HoneyProvider wallet={wallet} connection={connection} honeyProgramId={"6ujVJiHnyqaTBHzwwfySzTDX5EPFgmXqnibuMp3Hun1w"} honeyMarketId={"CqFM8kwwkkrwPTVFZh52yFNSaZ3kQPDADSobHeDEkdj3"}> 
         {children}
       </HoneyProvider>
     </AnchorProvider>
