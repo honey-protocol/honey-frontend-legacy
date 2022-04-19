@@ -1,9 +1,11 @@
 import type { NextPage } from 'next';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Box, Stack, Button, IconChevronLeft, Text } from 'degen';
 import Layout from '../../../components/Layout/Layout';
 import LoanNFTsContainer from 'components/LoanNFTsContainer/LoanNFTsContainer';
 import BorrowNFTsModule from 'components/BorrowNFTsModule/BorrowNFTsModule';
+import useFetchNFTByUser from '../../../hooks/useNFTV2';
+import { useConnection, useConnectedWallet } from '@saberhq/use-solana';
 import Link from 'next/link';
 import * as styles from '../../../styles/name.css';
 
@@ -57,6 +59,15 @@ const marketNFTs = [
 
 const Loan: NextPage = () => {
   const [selectedId, setSelectedId] = useState(1);
+  /**
+   * @description wip testing with fetching nft hook - for now no nfts in wallet
+   * @params wallet
+   * @returns array of nfts held by user in wallet
+  */
+  const wallet = useConnectedWallet();
+  const nftArray = useFetchNFTByUser(wallet)
+
+  console.log(nftArray)
 
   function selectNFT(key: number) {
     setSelectedId(key);
@@ -70,7 +81,7 @@ const Loan: NextPage = () => {
           justify="space-between"
           wrap
           align="center"
-        >
+        > 
           <Box display="flex" alignSelf="center" justifySelf="center">
             <Link href="/loan" passHref>
               <Button
@@ -95,8 +106,7 @@ const Loan: NextPage = () => {
               title: 'New position',
             }
           ]}
-          NFTs={marketNFTs}
-
+          NFTs={nftArray}
         />
         <BorrowNFTsModule NFT={marketNFTs.find(
           (NFT) => NFT.key === selectedId) || marketNFTs[0]} />
