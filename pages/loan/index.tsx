@@ -17,8 +17,11 @@ import * as styles from '../../styles/loan.css';
 import LoanHeaderComponent from 'components/LoanHeaderComponent/LoanHeaderComponent';
 import { useMarket, usePools, useBorrowPositions } from '@honey-finance/sdk/lib/hooks';
 import { useHoney } from '@honey-finance/sdk/lib/contexts';
+import { deposit, depositCollateral, depositNFT, HoneyUser } from '@honey-finance/sdk';
+
 
 const Loan: NextPage = () => {
+  
   /**
    * @description object layout for pools table - should be filled by getPools()
    * @params none
@@ -45,8 +48,9 @@ const Loan: NextPage = () => {
     saberHqConnection: useConnection(),
     sdkWallet: useConnectedWallet(),
     honeyId: '6ujVJiHnyqaTBHzwwfySzTDX5EPFgmXqnibuMp3Hun1w',
-    marketID: 'CqFM8kwwkkrwPTVFZh52yFNSaZ3kQPDADSobHeDEkdj3'
+    marketID: 'CqFM8kwwkkrwPTVFZh52yFNSaZ3kQPDADSobHeDEkdj3',
   }
+
   /**
    * @description calls upon the honey sdk - market 
    * @params solanas useConnection func. && useConnectedWallet func. && JET ID
@@ -89,6 +93,38 @@ const Loan: NextPage = () => {
   const getPools = usePools(sdkConfig.saberHqConnection, sdkConfig.sdkWallet, sdkConfig.honeyId);
 
   /**
+   * @description extract functionalities from honeyUser
+   * @params none
+   * @returns requested value
+  */
+  const { 
+    address, 
+    borrow, 
+    collateral,
+    deposit, 
+    deposits, 
+    depositCollateral, 
+    depositNFT, 
+    getObligationData,
+    liquidate,
+    loans,
+    makeBorrowTx,
+    makeDepositCollateralTx,
+    makeDepositTx,
+    makeLiquidateTx,
+    makeNFTDepositTx,
+    makeRepayTx,
+    makeWithdrawTx,
+    market,
+    refresh,
+    repay,
+    reserves,
+    withdraw,
+    withdrawCollateral,
+    withdrawNFT
+  } = honeyUser;
+
+  /**
    * @description component logic regarding handlers and modals
    * @params none unless specified above function declaration
    * @returns modal
@@ -110,6 +146,15 @@ const Loan: NextPage = () => {
   */
   function initializeBorrow() {
     console.log('Called getBorrow from Handler', getBorrowPoistions)
+  }
+
+  /**
+   * @description gets loans held by user
+   * @params none
+   * @returns array of tokens
+  */
+  function initializeLoan() {
+    const userLoans = loans();
   }
 
   return (
