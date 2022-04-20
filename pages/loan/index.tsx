@@ -21,7 +21,6 @@ import { PublicKey } from '@solana/web3.js';
 import { Metadata } from '@metaplex-foundation/mpl-token-metadata';
 import { deposit, depositCollateral, depositNFT, HoneyUser } from '@honey-finance/sdk';
 
-
 const Loan: NextPage = () => {  
     /**
    * @description object layout for pools table - should be filled by getPools()
@@ -57,7 +56,7 @@ const Loan: NextPage = () => {
    * @params solanas useConnection func. && useConnectedWallet func. && JET ID
    * @returns honeyUser which is the main object - honeyMarket, honeyReserves are for testing purposes
   */
-  const { honeyClient, honeyUser, honeyReserves } = useMarket(sdkConfig.saberHqConnection, sdkConfig.sdkWallet, sdkConfig.honeyId, sdkConfig.marketID);
+  const { honeyClient, honeyUser, honeyReserves } = useMarket(sdkConfig.saberHqConnection, sdkConfig.sdkWallet, sdkConfig.honeyId);
  
   useEffect(() => {
     console.log(honeyClient, honeyUser, honeyReserves);  
@@ -84,7 +83,7 @@ const Loan: NextPage = () => {
    * @params connection && wallet && JET ID
    * @returns TBorrowPosition array of data
   */
-  const getBorrowPoistions = useBorrowPositions(sdkConfig.saberHqConnection, sdkConfig.sdkWallet, sdkConfig.honeyId, sdkConfig.marketID);
+  const getBorrowPoistions = useBorrowPositions(sdkConfig.saberHqConnection, sdkConfig.sdkWallet, sdkConfig.honeyId);
 
   useEffect(() => {
     console.log(getBorrowPoistions);
@@ -95,7 +94,7 @@ const Loan: NextPage = () => {
    * @params connection && wallet && JET ID
    * @returns a table of pools
   */
-  const getPools = usePools(sdkConfig.saberHqConnection, sdkConfig.sdkWallet, sdkConfig.honeyId, sdkConfig.marketID);
+  const getPools = usePools(sdkConfig.saberHqConnection, sdkConfig.sdkWallet, sdkConfig.honeyId);
 
   /**
    * @description extract functionalities from honeyUser
