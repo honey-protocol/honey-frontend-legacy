@@ -15,8 +15,11 @@ import DepositWithdrawModule from '../../components/DepositWithdrawModule/Deposi
 import Layout from '../../components/Layout/Layout';
 import * as styles from '../../styles/loan.css';
 import LoanHeaderComponent from 'components/LoanHeaderComponent/LoanHeaderComponent';
-import { useMarket, usePools, useBorrowPositions } from '@honey-finance/sdk/lib/hooks';
+import { useMarket, usePools, useBorrowPositions, METADATA_PROGRAM_ID } from '@honey-finance/sdk/lib/hooks';
 import { useHoney } from '@honey-finance/sdk/lib/contexts';
+import { depositNFT } from '@honey-finance/sdk';
+import { PublicKey } from '@solana/web3.js';
+import { Metadata } from '@metaplex-foundation/mpl-token-metadata';
 
 const Loan: NextPage = () => {
   /**
@@ -45,7 +48,8 @@ const Loan: NextPage = () => {
     saberHqConnection: useConnection(),
     sdkWallet: useConnectedWallet(),
     honeyId: '6ujVJiHnyqaTBHzwwfySzTDX5EPFgmXqnibuMp3Hun1w',
-    marketID: 'CqFM8kwwkkrwPTVFZh52yFNSaZ3kQPDADSobHeDEkdj3'
+    // marketID: 'CqFM8kwwkkrwPTVFZh52yFNSaZ3kQPDADSobHeDEkdj3'
+    marketID: 'G7zjY7uvG48kwJL5NWcts44RExQotjnCMyN1EHRRgJYV'
   }
   /**
    * @description calls upon the honey sdk - market 
@@ -80,6 +84,10 @@ const Loan: NextPage = () => {
    * @returns TBorrowPosition array of data
   */
   const getBorrowPoistions = useBorrowPositions(sdkConfig.saberHqConnection, sdkConfig.sdkWallet, sdkConfig.honeyId, sdkConfig.marketID);
+
+  useEffect(() => {
+    console.log(getBorrowPoistions);
+  }, [getBorrowPoistions])
   
   /**
    * @description should return available pools which render in the interface table
@@ -112,6 +120,11 @@ const Loan: NextPage = () => {
     console.log('Called getBorrow from Handler', getBorrowPoistions)
   }
 
+  async function executeDepositNFT() {
+    const metadata = await Metadata.findByMint(sdkConfig.saberHqConnection, "2SfG6uYpNowVWaF9Uh86kbC21Pv7WwVjhvBG6g5NAJ92")
+    depositNFT(sdkConfig.saberHqConnection, honeyUser, metadata.pubkey);
+  }
+
   return (
     <Layout>
       <Stack>
@@ -128,7 +141,7 @@ const Loan: NextPage = () => {
                   buttons={[
                     {
                       title: 'Borrow',
-                      onClick: () => {initializeBorrow(); setLiveOrCompleted(0) }
+                      onClick: () => {executeDepositNFT(); setLiveOrCompleted(0) }
                     },
                     { title: 'Loan', onClick: () => setLiveOrCompleted(1) }
                   ]}
