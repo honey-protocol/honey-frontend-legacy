@@ -22,7 +22,7 @@ import { Metadata } from '@metaplex-foundation/mpl-token-metadata';
 import { deposit, depositCollateral, depositNFT, HoneyUser } from '@honey-finance/sdk';
 
 const Loan: NextPage = () => {  
-    /**
+  /**
    * @description object layout for pools table - should be filled by getPools()
    * @params none
    * @returns dummy object
@@ -38,6 +38,7 @@ const Loan: NextPage = () => {
         positions: 0
       }
     ];
+
   /**
    * @description base sdk config object
    * @params none
@@ -48,7 +49,7 @@ const Loan: NextPage = () => {
     sdkWallet: useConnectedWallet(),
     honeyId: '6ujVJiHnyqaTBHzwwfySzTDX5EPFgmXqnibuMp3Hun1w',
     // marketID: 'CqFM8kwwkkrwPTVFZh52yFNSaZ3kQPDADSobHeDEkdj3'
-    marketID: 'G7zjY7uvG48kwJL5NWcts44RExQotjnCMyN1EHRRgJYV'
+    marketID: 'HB82woFm5MrTx3X4gsRpVcUxtWJJyDBeT5xNGCUUrLLe'
   }
 
   /**
@@ -56,7 +57,7 @@ const Loan: NextPage = () => {
    * @params solanas useConnection func. && useConnectedWallet func. && JET ID
    * @returns honeyUser which is the main object - honeyMarket, honeyReserves are for testing purposes
   */
-  const { honeyClient, honeyUser, honeyReserves } = useMarket(sdkConfig.saberHqConnection, sdkConfig.sdkWallet, sdkConfig.honeyId);
+  const { honeyClient, honeyUser, honeyReserves } = useMarket(sdkConfig.saberHqConnection, sdkConfig.sdkWallet, sdkConfig.honeyId, sdkConfig.marketID);
  
   useEffect(() => {
     console.log(honeyClient, honeyUser, honeyReserves);  
@@ -83,7 +84,7 @@ const Loan: NextPage = () => {
    * @params connection && wallet && JET ID
    * @returns TBorrowPosition array of data
   */
-  const getBorrowPoistions = useBorrowPositions(sdkConfig.saberHqConnection, sdkConfig.sdkWallet, sdkConfig.honeyId);
+  const getBorrowPoistions = useBorrowPositions(sdkConfig.saberHqConnection, sdkConfig.sdkWallet, sdkConfig.honeyId, sdkConfig.marketID);
 
   useEffect(() => {
     console.log(getBorrowPoistions);
@@ -94,7 +95,7 @@ const Loan: NextPage = () => {
    * @params connection && wallet && JET ID
    * @returns a table of pools
   */
-  const getPools = usePools(sdkConfig.saberHqConnection, sdkConfig.sdkWallet, sdkConfig.honeyId);
+  const getPools = usePools(sdkConfig.saberHqConnection, sdkConfig.sdkWallet, sdkConfig.honeyId, sdkConfig.marketID);
 
   /**
    * @description extract functionalities from honeyUser
@@ -127,7 +128,8 @@ const Loan: NextPage = () => {
   }
 
   async function executeDepositNFT() {
-    const metadata = await Metadata.findByMint(sdkConfig.saberHqConnection, "2SfG6uYpNowVWaF9Uh86kbC21Pv7WwVjhvBG6g5NAJ92")
+    // mint of the NFT can be find on solscan
+    const metadata = await Metadata.findByMint(sdkConfig.saberHqConnection, "8Sfcn3XwQGA5phFMTmp71K3akzv9FS5bAAcoxredaa6y")
     depositNFT(sdkConfig.saberHqConnection, honeyUser, metadata.pubkey);
   }
   /**

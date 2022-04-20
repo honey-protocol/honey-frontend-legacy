@@ -393,20 +393,20 @@
     "tslib" "^2.3.1"
     "unstated-next" "^1.1.0"
 
-"@honey-finance/sdk@../honey-sdk":
+"@honey-finance/sdk@file:../honey-sdk":
   "resolved" "file:../honey-sdk"
-  "version" "1.0.2"
+  "version" "1.0.3"
   dependencies:
     "@metaplex-foundation/mpl-token-metadata" "^1.2.0"
     "@project-serum/anchor" "^0.20.1"
     "@project-serum/serum" "^0.13.61"
     "@pythnetwork/client" "^2.5.3"
+    "@solana/buffer-layout" "^3.0.0"
     "@solana/spl-token" "^0.1.8"
     "@solana/web3.js" "^1.32.1"
     "@types/chai" "^4.3.0"
     "@types/chai-as-promised" "^7.1.5"
     "@types/mocha" "^9.1.0"
-    "js-tokens" "^7.0.0"
 
 "@humanwhocodes/config-array@^0.9.2":
   "integrity" "sha512-ObyMyWxZiCu/yTisA7uzx81s40xR2fD5Cg/2Kq7G02ajkNubJf6BopgDTmDyc3U7sXpNKM8cYOw7s7Tyr+DnCw=="
