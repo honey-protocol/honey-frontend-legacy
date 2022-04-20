@@ -15,15 +15,15 @@ export interface AssetRowType {
     totalBorrowed: number,
     interest: number,
     available: number,
-    positions: number,
+    positions: number
 }
 
 interface AssetRowProps {
-    data: AssetRowType,
+    data: AssetRowType
 }
 
 const AssetRow = ({ data }: AssetRowProps) => {
- return (
+    return (
   <Box
     backgroundColor="foregroundSecondary"
     padding="5"

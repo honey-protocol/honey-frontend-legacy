@@ -17,28 +17,28 @@ import * as styles from '../../styles/loan.css';
 import LoanHeaderComponent from 'components/LoanHeaderComponent/LoanHeaderComponent';
 import { useMarket, usePools, useBorrowPositions, METADATA_PROGRAM_ID } from '@honey-finance/sdk/lib/hooks';
 import { useHoney } from '@honey-finance/sdk/lib/contexts';
-import { depositNFT } from '@honey-finance/sdk';
 import { PublicKey } from '@solana/web3.js';
 import { Metadata } from '@metaplex-foundation/mpl-token-metadata';
+import { deposit, depositCollateral, depositNFT, HoneyUser } from '@honey-finance/sdk';
 
-const Loan: NextPage = () => {
-  /**
+
+const Loan: NextPage = () => {  
+    /**
    * @description object layout for pools table - should be filled by getPools()
    * @params none
    * @returns dummy object
   */
-  const assetData: Array<AssetRowType> = [
-    {
-      vaultName: 'Solana Monkey Business',
-      vaultImageUrl:
-        '/nfts/2738.png',
-      totalBorrowed: 0,
-      interest: 0,
-      available: 0,
-      positions: 0
-    }
-  ];
-
+     const assetData: Array<AssetRowType> = [
+      {
+        vaultName: 'Solana Monkey Business',
+        vaultImageUrl:
+          '/nfts/2738.png',
+        totalBorrowed: 0,
+        interest: 0,
+        available: 0,
+        positions: 0
+      }
+    ];
   /**
    * @description base sdk config object
    * @params none
@@ -51,6 +51,7 @@ const Loan: NextPage = () => {
     // marketID: 'CqFM8kwwkkrwPTVFZh52yFNSaZ3kQPDADSobHeDEkdj3'
     marketID: 'G7zjY7uvG48kwJL5NWcts44RExQotjnCMyN1EHRRgJYV'
   }
+
   /**
    * @description calls upon the honey sdk - market 
    * @params solanas useConnection func. && useConnectedWallet func. && JET ID
@@ -97,6 +98,12 @@ const Loan: NextPage = () => {
   const getPools = usePools(sdkConfig.saberHqConnection, sdkConfig.sdkWallet, sdkConfig.honeyId, sdkConfig.marketID);
 
   /**
+   * @description extract functionalities from honeyUser
+   * @params none
+   * @returns requested value
+  */
+
+  /**
    * @description component logic regarding handlers and modals
    * @params none unless specified above function declaration
    * @returns modal
@@ -123,6 +130,14 @@ const Loan: NextPage = () => {
   async function executeDepositNFT() {
     const metadata = await Metadata.findByMint(sdkConfig.saberHqConnection, "2SfG6uYpNowVWaF9Uh86kbC21Pv7WwVjhvBG6g5NAJ92")
     depositNFT(sdkConfig.saberHqConnection, honeyUser, metadata.pubkey);
+  }
+  /**
+   * @description gets loans held by user
+   * @params none
+   * @returns array of tokens
+  */
+  function initializeLoan() {
+    const userLoans = honeyUser.loans();
   }
 
   return (
