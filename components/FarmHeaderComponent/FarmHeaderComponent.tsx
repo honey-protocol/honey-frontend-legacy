@@ -9,6 +9,7 @@ const FarmHeaderComponent = () => {
     farmAcc,
     collectionTotalNumber,
     rewardTokenName,
+    feedbackStatus,
     refreshNFTsWithLoadingIcon,
     claimRewards
   } = useGemFarm();
@@ -115,6 +116,14 @@ const FarmHeaderComponent = () => {
               </Text>
             </Stack>
           )}
+        </Stack>
+        <Stack direction="vertical" space="1" align="center">
+              <Text align="center" variant="label">
+                Status
+              </Text>
+              <Text variant="small">
+                {feedbackStatus}
+              </Text>
         </Stack>
         <Stack space="3" direction="horizontal">
           <Button

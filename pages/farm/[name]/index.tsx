@@ -1,10 +1,5 @@
 import type { NextPage } from 'next';
-import {
-  Box,
-  Stack,
-  Button,
-  IconChevronLeft,
-} from 'degen';
+import { Box, Stack, Button, IconChevronLeft } from 'degen';
 import Layout from '../../../components/Layout/Layout';
 import FarmHeaderComponent from 'components/FarmHeaderComponent/FarmHeaderComponent';
 import useGemFarm from 'hooks/useGemFarm';
@@ -27,7 +22,7 @@ const Nft: NextPage = () => {
     walletNFTsInFarm,
     farmerAcc,
     selectedVaultNFTs,
-    selectedWalletNFTs,
+    selectedWalletNFTs
   } = useGemFarm();
 
   const [txLoading, setTxLoading] = useState({
@@ -38,10 +33,10 @@ const Nft: NextPage = () => {
   const withTxLoading = async (tx: Function, txName: string) => {
     try {
       setTxLoading({ value: true, txName });
-        await tx();
+      await tx();
       setTxLoading({ value: false, txName: '' });
     } catch (error) {
-      console.log(error)
+      console.log(error);
       setTxLoading({ value: false, txName: '' });
     }
   };
@@ -77,7 +72,7 @@ const Nft: NextPage = () => {
         </Stack>
       </Box>
       <Box display="flex" height="full" className={styles.cardsContainer}>
-         {/* User wallet NFT container */}
+        {/* User wallet NFT container */}
         <FarmNFTsContainer
           isFetching={isFetching}
           title="Select your NFTs"
@@ -86,7 +81,11 @@ const Nft: NextPage = () => {
               title: !farmerAcc
                 ? 'Initialize'
                 : `Stake ( ${selectedWalletNFTs.length} )`,
-              disabled: !farmerAcc ? false :selectedWalletNFTs.length ? false : true,
+              disabled: !farmerAcc
+                ? false
+                : selectedWalletNFTs.length
+                ? false
+                : true,
               loading: txLoading.value && txLoading.txName === 'deposit',
               onClick: !farmerAcc
                 ? () => withTxLoading(initializeFarmerAcc, 'deposit')

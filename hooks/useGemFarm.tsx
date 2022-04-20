@@ -1,7 +1,4 @@
-import {
-  useConnectedWallet,
-  useConnection,
-} from '@saberhq/use-solana';
+import { useConnectedWallet, useConnection } from '@saberhq/use-solana';
 import { PublicKey, Transaction } from '@solana/web3.js';
 import { GemBank, initGemBank } from 'gem-bank';
 import { GemFarm, initGemFarm } from 'gem-farm';
@@ -12,7 +9,6 @@ import {
   tokenAccountResult
 } from 'helpers/gemFarm';
 import { BN } from '@project-serum/anchor';
-
 import { convertArrayToObject } from 'helpers/utils';
 import useFetchNFTByUser from './useNFTV2';
 import { useRouter } from 'next/router';
@@ -20,9 +16,7 @@ import { newFarmCollections } from 'constants/new-farms';
 import React, { ReactNode, useCallback, useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 import { blockchainWaitTime } from 'constants/timeouts';
-import { connected } from 'process';
 
-// import useWalletNFTs, { NFT } from "hooks/useWalletNFTs"
 const SPL_ASSOCIATED_TOKEN_ACCOUNT_PROGRAM_ID: PublicKey = new PublicKey(
   'ATokenGPvbdGVxr1b2hvZbsiqW5xWH25efTNsLJA8knL'
 );
@@ -68,8 +62,12 @@ const useGemFarm = () => {
 
   const [selectedWalletNFTs, setSelectedWalletNFTs] = useState<NFT[]>([]);
   const [selectedVaultNFTs, setSelectedVaultNFTs] = useState<NFT[]>([]);
-
-  console.log(wallet?.connected)
+  const [selectedChunkWalletNFTs, setSelectedChunkWalletNFTs] = useState<
+    NFT[][]
+  >([]);
+  const [selectedChunkVaultNFTs, setSelectedChunkVaultNFTs] = useState<NFT[][]>(
+    []
+  );
 
   // Get farm and bank addresses from router
   const router = useRouter();
@@ -120,8 +118,21 @@ const useGemFarm = () => {
   );
 
   // Get wallet and vault NFts
+  const cleanState = useCallback(async () => {
+    try {
+      if (!wallet?.connected) {
+        setStakedNFTsInFarm({});
+        setWalletNFTsInFarm({});
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }, [wallet]);
+
+  // Get wallet and vault NFts
   const setNFTs = useCallback(async () => {
     try {
+    
       setIsFetching(true);
 
       //getting farm nfts in wallet
@@ -146,13 +157,8 @@ const useGemFarm = () => {
     } catch (error) {
       console.log(error);
     }
-  }, [AllNFTs, collection, connection, gb, farmerAcc?.vault]);
+  }, [AllNFTs, collection, connection, gb, farmerAcc?.vault, wallet?.connected]);
 
-  /**
-   * @params
-   * @description
-   * @returns
-   **/
   // gem-farm data fetches
   const freshStart = useCallback(async () => {
     if (!wallet) return;
@@ -194,16 +200,15 @@ const useGemFarm = () => {
     freshStart();
   }, [freshStart]);
 
-  // useEffect(() => {
-  //   onWalletDisconnect()
-  // }, [onWalletDisconnect, wallet])
+  useEffect(() => {
+    cleanState();
+  }, [cleanState]);
 
   useEffect(() => {
     if (!isStartingGemFarm) {
       setNFTs();
     }
   }, [isStartingGemFarm, setNFTs]);
-
 
   const onRefreshNFTs = async () => {
     if (!gb) return;
@@ -233,7 +238,7 @@ const useGemFarm = () => {
 
   // on nfts select and unselect fns
   const onWalletNFTSelect = (NFT: NFT) => {
-    if (selectedWalletNFTs.length >= 3) return;
+    // if (selectedWalletNFTs.length >= 4) return;
     setSelectedWalletNFTs([...selectedWalletNFTs, NFT]);
   };
 
@@ -245,9 +250,34 @@ const useGemFarm = () => {
   };
 
   const onStakedNFTSelect = (NFT: NFT) => {
-    if (selectedVaultNFTs.length >= 3) return;
+    if (selectedVaultNFTs.length >= 10) return;
     setSelectedVaultNFTs([...selectedVaultNFTs, NFT]);
   };
+
+  const chunk = (arr: NFT[], chunkSize: number) => {
+    if (chunkSize <= 0) throw 'Invalid chunk size';
+    var R = [];
+    for (var i = 0, len = arr.length; i < len; i += chunkSize)
+      R.push(arr.slice(i, i + chunkSize));
+    return R;
+  };
+  
+  const getSelectedVaultNFTChunks = (chunkSize: number) => {
+    if (!selectedVaultNFTs.length) return [];
+
+    const chunkNFTs: NFT[][] = chunk(selectedVaultNFTs, chunkSize);
+    setSelectedChunkVaultNFTs(chunkNFTs);
+    return chunkNFTs;
+  };
+
+  const getSelectedWalletNFTChunks = (chunkSize: number) => {
+    if (!selectedWalletNFTs.length) return [];
+
+    const chunkNFTs: NFT[][] = chunk(selectedWalletNFTs, chunkSize);
+    setSelectedChunkWalletNFTs(chunkNFTs);
+    return chunkNFTs;
+  };
+
 
   const onStakedNFTUnselect = (unselectedNFT: NFT) => {
     const newSelected = selectedVaultNFTs.filter(
@@ -275,93 +305,119 @@ const useGemFarm = () => {
     }
   };
 
-
   const handleStakeButtonClick = async () => {
-    if (!gf || !gb) throw new Error('No Gem Bank client has been initialized.');
+    const selectedWalletChunks = getSelectedWalletNFTChunks(2);
+    for (let i = 0; i < selectedWalletChunks.length; i++) {
+      {
+        if (!gf || !gb)
+          throw new Error('No Gem Bank client has been initialized.');
 
-    const tx = new Transaction();
-    setFeedbackStatus('Staking...');
-    if (vaultAcc?.locked) {
-      // Unlock vault
-      tx.add(await gf.unstakeWalletIx(new PublicKey(farmAddress!)));
-      // End cooldown
-      tx.add(await gf.unstakeWalletIx(new PublicKey(farmAddress!)));
+        try {
+          const tx = new Transaction();
+          setFeedbackStatus('Staking...');
+          if (vaultAcc?.locked) {
+            // Unlock vault
+            tx.add(await gf.unstakeWalletIx(new PublicKey(farmAddress!)));
+            // End cooldown
+            tx.add(await gf.unstakeWalletIx(new PublicKey(farmAddress!)));
+          }
+
+          for (let j = 0; j < selectedWalletChunks[i].length; j++) {
+            const creator = new PublicKey(
+              selectedWalletChunks[i][j].creators[0].address || ''
+            );
+            const tokenAccResult = await tokenAccountResult(
+              gf,
+              gb,
+              wallet!.publicKey,
+              new PublicKey(selectedWalletChunks[i][j].mint)
+            );
+
+            tx.add(
+              await gb.depositGemWalletIx(
+                new PublicKey(bankAddress),
+                new PublicKey(farmerAcc.vault),
+                new BN(1),
+                new PublicKey(selectedWalletChunks[i][j].mint),
+                new PublicKey(tokenAccResult[0]),
+                creator
+              )
+            );
+          }
+
+          tx.add(await gf.stakeWalletIx(new PublicKey(farmAddress!)));
+
+          const txSig = await gf.provider.send(tx);
+          await connection.confirmTransaction(txSig);
+          toast.success(`Staked NFTs `);
+          timer(6000);
+        } catch (error) {
+          console.log(error);
+          checkErrorAndShowToast(error, 'Staking NFT Failed');
+        }
+        await fetchFarmerDetails(gf, gb);
+        await refreshNFTsWithLoadingIcon();
+
+        setFeedbackStatus('');
+
+        // setSelectedWalletNFTs([]);
+        // setSelectedVaultNFTs([]);
+      }
     }
-
-    for (let i = 0; i < selectedWalletNFTs.length; i++) {
-      const creator = new PublicKey(
-        selectedWalletNFTs[i].creators[0].address || ''
-      );
-      const tokenAccResult = await tokenAccountResult(
-        gf,
-        gb,
-        wallet!.publicKey,
-        new PublicKey(selectedWalletNFTs[i].mint)
-      );
-
-      tx.add(
-        await gb.depositGemWalletIx(
-          new PublicKey(bankAddress),
-          new PublicKey(farmerAcc.vault),
-          new BN(1),
-          new PublicKey(selectedWalletNFTs[i].mint),
-          new PublicKey(tokenAccResult[0]),
-          creator
-        )
-      );
-    }
-
-    tx.add(await gf.stakeWalletIx(new PublicKey(farmAddress!)));
-
-    const txSig = await gf.provider.send(tx);
-    await connection.confirmTransaction(txSig);
-
-    await fetchFarmerDetails(gf, gb);
-    await refreshNFTsWithLoadingIcon();
-
-    setFeedbackStatus('');
-
-    setSelectedWalletNFTs([]);
-    setSelectedVaultNFTs([]);
   };
+  // Returns a Promise that resolves after "ms" Milliseconds
+const timer = (ms: number )=> new Promise(res => setTimeout(res, ms))
 
   const handleUnstakeButtonClick = async () => {
-    if (!gf || !gb) throw new Error('No Gem Bank client has been initialized.');
+    const nftChunksArray = getSelectedVaultNFTChunks(3);
+    for (let i = 0; i < selectedChunkVaultNFTs.length; i++) {
+      {
+        if (!gf || !gb)
+          throw new Error('No Gem Bank client has been initialized.');
+        // console.log(loopOver[i])
+        try {
+          const tx = new Transaction();
+          setFeedbackStatus('Unstaking wallet...');
+          // Unlock vault
+          tx.add(await gf.unstakeWalletIx(new PublicKey(farmAddress!)));
+          // End cooldown
+          tx.add(await gf.unstakeWalletIx(new PublicKey(farmAddress!)));
 
-    const tx = new Transaction();
-    setFeedbackStatus('Unstaking wallet...');
-    // Unlock vault
-    tx.add(await gf.unstakeWalletIx(new PublicKey(farmAddress!)));
-    // End cooldown
-    tx.add(await gf.unstakeWalletIx(new PublicKey(farmAddress!)));
+          console.log(nftChunksArray);
 
-    console.log(selectedVaultNFTs);
+          for (let j = 0; j < selectedChunkVaultNFTs[i].length; j++) {
+            tx.add(
+              await gb.withdrawGemWalletIx(
+                new PublicKey(bankAddress),
+                new PublicKey(farmerAcc.vault),
+                new BN(1),
+                new PublicKey(selectedChunkVaultNFTs[i][j].mint)
+              )
+            );
+          }
+          // if (selectedChunkVaultNFTs[i].length < farmerAcc.gemsStaked.toNumber()) {
+          //   // Re-stake remaining
+          //   tx.add(await gf.stakeWalletIx(new PublicKey(farmAddress!)));
+          // }
 
-    for (let i = 0; i < selectedVaultNFTs.length; i++) {
-      tx.add(
-        await gb.withdrawGemWalletIx(
-          new PublicKey(bankAddress),
-          new PublicKey(farmerAcc.vault),
-          new BN(1),
-          new PublicKey(selectedVaultNFTs[i].mint)
-        )
-      );
+          const txSig = await gf.provider.send(tx);
+          await connection.confirmTransaction(txSig);
+          timer(3000);
+          toast.success(`Unstaked ${i + 1} NFTs `);
+        } catch (error) {
+          console.log(error);
+          checkErrorAndShowToast(error, 'Unstaking NFT failed');
+        }
+
+        await fetchFarmerDetails(gf, gb);
+        await refreshNFTsWithLoadingIcon();
+
+        setFeedbackStatus('');
+
+        setSelectedVaultNFTs([]);
+        setSelectedWalletNFTs([]);
+      }
     }
-    if (selectedVaultNFTs.length < farmerAcc.gemsStaked.toNumber()) {
-      // Re-stake remaining
-      tx.add(await gf.stakeWalletIx(new PublicKey(farmAddress!)));
-    }
-
-    const txSig = await gf.provider.send(tx);
-    await connection.confirmTransaction(txSig);
-
-    await fetchFarmerDetails(gf, gb);
-    await refreshNFTsWithLoadingIcon();
-
-    setFeedbackStatus('');
-
-    setSelectedVaultNFTs([]);
-    setSelectedWalletNFTs([]);
   };
 
   const claimRewards = async () => {
@@ -435,7 +491,8 @@ const useGemFarm = () => {
     farmerState,
     selectedVaultNFTs,
     selectedWalletNFTs,
-    farmerVaultLocked: vaultAcc?.locked
+    farmerVaultLocked: vaultAcc?.locked,
+    feedbackStatus
   };
 };
 
