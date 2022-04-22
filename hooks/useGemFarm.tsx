@@ -360,13 +360,13 @@ const useGemFarm = () => {
 
         setFeedbackStatus('');
 
-        // setSelectedWalletNFTs([]);
-        // setSelectedVaultNFTs([]);
+        setSelectedWalletNFTs([]);
+        setSelectedVaultNFTs([]);
       }
     }
   };
   // Returns a Promise that resolves after "ms" Milliseconds
-const timer = (ms: number )=> new Promise(res => setTimeout(res, ms))
+  const timer = (ms: number )=> new Promise(res => setTimeout(res, ms))
 
   const handleUnstakeButtonClick = async () => {
     const nftChunksArray = getSelectedVaultNFTChunks(3);
@@ -395,10 +395,10 @@ const timer = (ms: number )=> new Promise(res => setTimeout(res, ms))
               )
             );
           }
-          // if (selectedChunkVaultNFTs[i].length < farmerAcc.gemsStaked.toNumber()) {
-          //   // Re-stake remaining
-          //   tx.add(await gf.stakeWalletIx(new PublicKey(farmAddress!)));
-          // }
+          if (selectedChunkVaultNFTs[i].length < farmerAcc.gemsStaked.toNumber()) {
+            // Re-stake remaining
+            tx.add(await gf.stakeWalletIx(new PublicKey(farmAddress!)));
+          }
 
           const txSig = await gf.provider.send(tx);
           await connection.confirmTransaction(txSig);
@@ -408,7 +408,7 @@ const timer = (ms: number )=> new Promise(res => setTimeout(res, ms))
           console.log(error);
           checkErrorAndShowToast(error, 'Unstaking NFT failed');
         }
-
+        
         await fetchFarmerDetails(gf, gb);
         await refreshNFTsWithLoadingIcon();
 

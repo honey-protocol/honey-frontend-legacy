@@ -42,6 +42,8 @@ export default function useFetchNFTByUser(
     let didCancel = false;
     const fetchNFTByUser = async () => {
       if (!didCancel) {
+        setLoading(true)
+
         const connection = providerMut?.connection;
         const walletPublicKey = wallet?.publicKey?.toString() || '';
         if (walletPublicKey != '') {
