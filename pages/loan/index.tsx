@@ -35,7 +35,7 @@ const Loan: NextPage = () => {
         totalBorrowed: 0,
         interest: 0,
         available: 0,
-        positions: 0
+        positions: 0,
       }
     ];
 
@@ -78,17 +78,6 @@ const Loan: NextPage = () => {
    * @returns context
   */
   const initializeHoney = useHoney();
-
-  /**
-   * @description calls upon useBorrowPositions
-   * @params connection && wallet && JET ID
-   * @returns TBorrowPosition array of data
-  */
-  const getBorrowPoistions = useBorrowPositions(sdkConfig.saberHqConnection, sdkConfig.sdkWallet, sdkConfig.honeyId, sdkConfig.marketID);
-
-  useEffect(() => {
-    console.log(getBorrowPoistions);
-  }, [getBorrowPoistions])
   
   /**
    * @description should return available pools which render in the interface table
@@ -96,6 +85,7 @@ const Loan: NextPage = () => {
    * @returns a table of pools
   */
   const getPools = usePools(sdkConfig.saberHqConnection, sdkConfig.sdkWallet, sdkConfig.honeyId, sdkConfig.marketID);
+  console.log('get pools..', getPools);
 
   /**
    * @description extract functionalities from honeyUser
@@ -116,15 +106,6 @@ const Loan: NextPage = () => {
 
   function showLoanModal() {
     setModalIsVisible(true);
-  }
-
-  /**
-   * @description function to handle borrow btn click
-   * @params none
-   * @returns TBorrowPosition array of data
-  */
-  function initializeBorrow() {
-    console.log('Called getBorrow from Handler', getBorrowPoistions)
   }
 
   async function executeDepositNFT() {

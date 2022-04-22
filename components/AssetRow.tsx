@@ -15,7 +15,7 @@ export interface AssetRowType {
     totalBorrowed: number,
     interest: number,
     available: number,
-    positions: number
+    positions: number,
 }
 
 interface AssetRowProps {
