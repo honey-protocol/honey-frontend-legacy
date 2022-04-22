@@ -1,6 +1,6 @@
 import LoanNFTCard from '../LoanNftCard';
 import { Box, Button, Card, Spinner, Stack, Text } from 'degen';
-import React from 'react';
+import React, { useState } from 'react';
 import * as styles from './LoanNFTsContainer.css';
 
 type TButton = {
@@ -8,7 +8,8 @@ type TButton = {
   hidden?: boolean;
 };
 interface LoanNFTsContainerProps {
-  NFTs: any[];
+  openPositions: any[],
+  NFTs: any[],
   selectedId: number,
   onSelectNFT: (key: number) => void,
   title: string;
@@ -17,6 +18,7 @@ interface LoanNFTsContainerProps {
 
 const LoanNFTsContainer = (props: LoanNFTsContainerProps) => {
   const {
+    openPositions,
     NFTs,
     title,
     buttons,
@@ -24,7 +26,20 @@ const LoanNFTsContainer = (props: LoanNFTsContainerProps) => {
     onSelectNFT,
   } = props;
 
-  console.log('NFT', NFTs)
+  const [renderState, handleRenderStateChange] = useState(0);
+
+
+  function handleNewPosition() {
+    console.log('handle new position')
+    handleRenderStateChange(0);
+  }
+  
+  function handleOpenPositions() {
+    console.log('handle open position')
+    handleRenderStateChange(1);
+  }
+
+  console.log('NFT', openPositions, NFTs)
 
   return (
     <Box className={styles.cardContainer}>
@@ -44,6 +59,7 @@ const LoanNFTsContainer = (props: LoanNFTsContainerProps) => {
                       key={button.title}
                       size="small"
                       disabled={false}
+                      onClick={handleNewPosition}
                     >
                       {button.title}
                     </Button>
@@ -52,7 +68,7 @@ const LoanNFTsContainer = (props: LoanNFTsContainerProps) => {
               </Stack>
             </Stack>
               <Box className={styles.nftContainer}>
-                { NFTs && NFTs.map((nft: any, i: number) => (
+                { openPositions && openPositions.map((nft: any, i: number) => (
                   <LoanNFTCard
                     selected={nft.collateralTokenId === selectedId}
                     key={nft.tokenId}

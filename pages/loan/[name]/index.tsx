@@ -80,12 +80,6 @@ const Loan: NextPage = () => {
    * @returns TBorrowPosition array of data
   */
   const getBorrowPoistions = useBorrowPositions(sdkConfig.saberHqConnection, sdkConfig.sdkWallet, sdkConfig.honeyId, sdkConfig.marketID);
-
-  useEffect(() => {
-    console.log('the borrowed positions', getBorrowPoistions);
-  }, [getBorrowPoistions])
-
-  const [selectedId, setSelectedId] = useState(1);
   
   /**
    * @description wip testing with fetching nft hook - for now no nfts in wallet
@@ -94,7 +88,13 @@ const Loan: NextPage = () => {
   */
   const wallet = useConnectedWallet();
   const availableNFTs = useFetchNFTByUser(wallet)
+  
+  useEffect(() => {
+    console.log('the borrowed positions', getBorrowPoistions, availableNFTs);
+  }, [getBorrowPoistions, availableNFTs])
 
+  const [selectedId, setSelectedId] = useState(1);
+  
   console.log('the nft arr', availableNFTs)
 
   function selectNFT(key: number) {
@@ -126,15 +126,19 @@ const Loan: NextPage = () => {
       </Box>
       <Box display="flex" height="full" className={styles.loanCardsContainer}>
         <LoanNFTsContainer
-          title="Open positions"
+          // title="Open positions"
           selectedId={selectedId}
           onSelectNFT={selectNFT}
           buttons={[
             {
-              title: 'New position',
+              title: 'Open position'
+            },
+            {
+              title: 'New position'
             }
           ]}
-          NFTs={getBorrowPoistions.data}
+          openPositions={getBorrowPoistions.data}
+          NFTs={availableNFTs}
         />
         <BorrowNFTsModule NFT={marketNFTs.find(
           (NFT) => NFT.key === selectedId) || marketNFTs[0]} />
