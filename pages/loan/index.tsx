@@ -15,30 +15,40 @@ import DepositWithdrawModule from '../../components/DepositWithdrawModule/Deposi
 import Layout from '../../components/Layout/Layout';
 import * as styles from '../../styles/loan.css';
 import LoanHeaderComponent from 'components/LoanHeaderComponent/LoanHeaderComponent';
-import { useMarket, usePools, useBorrowPositions, METADATA_PROGRAM_ID } from '@honey-finance/sdk/lib/hooks';
-import { useHoney } from '@honey-finance/sdk/lib/contexts';
-import { PublicKey } from '@solana/web3.js';
 import { Metadata } from '@metaplex-foundation/mpl-token-metadata';
-import { deposit, depositCollateral, depositNFT, HoneyUser } from '@honey-finance/sdk';
+import {
+  deposit,
+  depositCollateral,
+  HoneyUser,
+  depositNFT,
+  withdrawNFT,
+  useBorrowPositions,
+  useMarket,
+  usePools,
+  useHoney,
+  withdraw,
+  withdrawCollateral
+} from '@honey-finance/sdk';
+import { PublicKey } from '@solana/web3.js';
 
 
-const Loan: NextPage = () => {  
-    /**
-   * @description object layout for pools table - should be filled by getPools()
-   * @params none
-   * @returns dummy object
-  */
-     const assetData: Array<AssetRowType> = [
-      {
-        vaultName: 'Solana Monkey Business',
-        vaultImageUrl:
-          '/nfts/2738.png',
-        totalBorrowed: 0,
-        interest: 0,
-        available: 0,
-        positions: 0
-      }
-    ];
+const Loan: NextPage = () => {
+  /**
+ * @description object layout for pools table - should be filled by getPools()
+ * @params none
+ * @returns dummy object
+*/
+  const assetData: Array<AssetRowType> = [
+    {
+      vaultName: 'Solana Monkey Business',
+      vaultImageUrl:
+        '/nfts/2738.png',
+      totalBorrowed: 0,
+      interest: 0,
+      available: 0,
+      positions: 0
+    }
+  ];
   /**
    * @description base sdk config object
    * @params none
@@ -49,7 +59,7 @@ const Loan: NextPage = () => {
     sdkWallet: useConnectedWallet(),
     honeyId: '6ujVJiHnyqaTBHzwwfySzTDX5EPFgmXqnibuMp3Hun1w',
     // marketID: 'CqFM8kwwkkrwPTVFZh52yFNSaZ3kQPDADSobHeDEkdj3'
-    marketID: 'G7zjY7uvG48kwJL5NWcts44RExQotjnCMyN1EHRRgJYV'
+    marketID: 'GLBPMnxYr5QkkF4o5SMug7B5DmPSDDdAw7W46RgZdRyf'
   }
 
   /**
@@ -57,12 +67,12 @@ const Loan: NextPage = () => {
    * @params solanas useConnection func. && useConnectedWallet func. && JET ID
    * @returns honeyUser which is the main object - honeyMarket, honeyReserves are for testing purposes
   */
-  const { honeyClient, honeyUser, honeyReserves } = useMarket(sdkConfig.saberHqConnection, sdkConfig.sdkWallet, sdkConfig.honeyId, sdkConfig.marketID);
- 
+  const { honeyClient, honeyUser, honeyReserves } = useMarket(sdkConfig.saberHqConnection, sdkConfig.sdkWallet!, sdkConfig.honeyId, sdkConfig.marketID);
+
   useEffect(() => {
-    console.log(honeyClient, honeyUser, honeyReserves);  
+    console.log(honeyClient, honeyUser, honeyReserves);
   }, [honeyClient, honeyUser, honeyReserves]);
-  
+
   // TODO:: Setup to work with SDK wallet 
   /**
    * @description PRE-SDK implementation: should be converted to new SDK implementation 
@@ -84,18 +94,18 @@ const Loan: NextPage = () => {
    * @params connection && wallet && JET ID
    * @returns TBorrowPosition array of data
   */
-  const getBorrowPoistions = useBorrowPositions(sdkConfig.saberHqConnection, sdkConfig.sdkWallet, sdkConfig.honeyId, sdkConfig.marketID);
+  const getBorrowPoistions = useBorrowPositions(sdkConfig.saberHqConnection, sdkConfig.sdkWallet!, sdkConfig.honeyId, sdkConfig.marketID);
 
   useEffect(() => {
     console.log(getBorrowPoistions);
   }, [getBorrowPoistions])
-  
+
   /**
    * @description should return available pools which render in the interface table
    * @params connection && wallet && JET ID
    * @returns a table of pools
   */
-  const getPools = usePools(sdkConfig.saberHqConnection, sdkConfig.sdkWallet, sdkConfig.honeyId, sdkConfig.marketID);
+  const getPools = usePools(sdkConfig.saberHqConnection, sdkConfig.sdkWallet!, sdkConfig.honeyId, sdkConfig.marketID);
 
   /**
    * @description extract functionalities from honeyUser
@@ -111,26 +121,36 @@ const Loan: NextPage = () => {
   const [liveOrCompleted, setLiveOrCompleted] = useState(0);
   const [modalIsVisible, setModalIsVisible] = useState(false);
 
-  const openLoanModal  = wallet && liveOrCompleted === 1
+  const openLoanModal = wallet && liveOrCompleted === 1
   const loadLoanPage = wallet && liveOrCompleted === 0
 
   function showLoanModal() {
     setModalIsVisible(true);
   }
 
-  /**
-   * @description function to handle borrow btn click
-   * @params none
-   * @returns TBorrowPosition array of data
-  */
-  function initializeBorrow() {
-    console.log('Called getBorrow from Handler', getBorrowPoistions)
+  async function executeDeposit() {
+    const tokenAmount = 0.1;
+    const depositTokenMint = new PublicKey('So11111111111111111111111111111111111111112');
+    await deposit(honeyUser, tokenAmount, depositTokenMint, honeyReserves);
+  }
+
+  async function executeWithdraw() {
+    const tokenAmount = 0.1;
+    const depositTokenMint = new PublicKey('So11111111111111111111111111111111111111112');
+    await withdraw(honeyUser, tokenAmount, depositTokenMint, honeyReserves);
   }
 
   async function executeDepositNFT() {
-    const metadata = await Metadata.findByMint(sdkConfig.saberHqConnection, "2SfG6uYpNowVWaF9Uh86kbC21Pv7WwVjhvBG6g5NAJ92")
+    const metadata = await Metadata.findByMint(sdkConfig.saberHqConnection, "FG1n7yGdxzge6EtJu1H5oLEc2ppPh3Tec8WSN8epxWcY")
     depositNFT(sdkConfig.saberHqConnection, honeyUser, metadata.pubkey);
   }
+
+  async function executeWithdrawNFT() {
+    const metadata = await Metadata.findByMint(sdkConfig.saberHqConnection, "FG1n7yGdxzge6EtJu1H5oLEc2ppPh3Tec8WSN8epxWcY");
+    withdrawNFT(sdkConfig.saberHqConnection, honeyUser, metadata.pubkey);
+  }
+
+
   /**
    * @description gets loans held by user
    * @params none
@@ -144,24 +164,28 @@ const Loan: NextPage = () => {
     <Layout>
       <Stack>
         <ModalContainer
-            onClose={() => setModalIsVisible(false)}
-            isVisible={modalIsVisible}
-          >
+          onClose={() => setModalIsVisible(false)}
+          isVisible={modalIsVisible}
+        >
           <DepositWithdrawModule />
         </ModalContainer>
         <Box className={styles.headerDivider}>
           <Box className={styles.leftComponent}>
             <Stack>
               <ToggleSwitch
-                  buttons={[
-                    {
-                      title: 'Borrow',
-                      onClick: () => {executeDepositNFT(); setLiveOrCompleted(0) }
-                    },
-                    { title: 'Loan', onClick: () => setLiveOrCompleted(1) }
-                  ]}
-                  activeIndex={liveOrCompleted}
-                />
+                buttons={[
+                  {
+                    title: 'Borrow',
+                    onClick: () => { setLiveOrCompleted(0) }
+                  },
+                  { title: 'Deposit NFT', onClick: () => { executeDepositNFT() } },
+                  { title: 'Withdraw NFT', onClick: () => { executeWithdrawNFT(); } },
+                  { title: 'Despoit 0.1 SOL', onClick: () => { executeDeposit() } },
+                  { title: 'Withdraw 0.1 SOL', onClick: () => { executeWithdraw() } },
+                  { title: 'Loan', onClick: () => setLiveOrCompleted(1) }
+                ]}
+                activeIndex={liveOrCompleted}
+              />
             </Stack>
           </Box>
           <LoanHeaderComponent />
@@ -183,10 +207,10 @@ const Loan: NextPage = () => {
                   prefix={<IconSearch />}
                 />
               </Box>
-                <Text>Total borrowed</Text>
-                <Text>Interest</Text>
-                <Text>Available</Text>
-                <Text>Your positions</Text>
+              <Text>Total borrowed</Text>
+              <Text>Interest</Text>
+              <Text>Available</Text>
+              <Text>Your positions</Text>
             </Box>
             <Box>
               <hr className={styles.lineDivider}></hr>

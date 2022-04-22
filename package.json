@@ -7,7 +7,9 @@
         "prestart": "npm-link-shared ./node_modules/@honey-defi/sdk/node_modules . react",
         "build": "next build",
         "start": "next start",
-        "lint": "next lint"
+        "lint": "next lint",
+        "install:local:honey-sdk": "rm -rf node_modules/@honey-finance/ && yarn add ../honey-sdk && rm -rf node_modules/@honey-finance/sdk/node_modules/react && rm -rf node_modules/@honey-finance/sdk/node_modules/react-dom",
+        "update:local:honey-sdk": "rm -rf ./node_modules/@honey-finance/lib && cp -r ../honey-sdk/lib ./node_modules/honey-finance/lib"
     },
     "dependencies": {
         "@emotion/react": "^11.8.1",
@@ -16,7 +18,7 @@
         "@fontsource/inter": "^4.5.4",
         "@gemworks/gem-farm-ts": "^0.22.8",
         "@gokiprotocol/walletkit": "^1.6.5",
-        "@honey-finance/sdk": "../honey-sdk",
+        "@honey-finance/sdk": "1.0.40",
         "@metaplex-foundation/mpl-auction": "^0.0.2",
         "@metaplex-foundation/mpl-core": "^0.0.4",
         "@metaplex-foundation/mpl-metaplex": "^0.0.5",

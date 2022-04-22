@@ -10,7 +10,7 @@ import { PartialNetworkConfigMap } from "@saberhq/use-solana/src/utils/useConnec
 import { useConnectedWallet, useConnection } from '@saberhq/use-solana';
 import React, { FC, ReactNode, useEffect, useState } from "react";
 import SecPopup from 'components/SecPopup';
-import { HoneyProvider, AnchorProvider } from '@honey-finance/sdk/lib/contexts';
+import { AnchorProvider, HoneyProvider } from '@honey-finance/sdk';
 
 const network = process.env.NETWORK as Network;
 
@@ -28,8 +28,16 @@ const OnChainProvider: FC<{ children: ReactNode }> = ({ children }) => {
   const network = 'devnet';
 
   return (
-    <AnchorProvider wallet={wallet} connection={connection} network={network}>
-     <HoneyProvider wallet={wallet} connection={connection} honeyProgramId={"6ujVJiHnyqaTBHzwwfySzTDX5EPFgmXqnibuMp3Hun1w"} honeyMarketId={"CqFM8kwwkkrwPTVFZh52yFNSaZ3kQPDADSobHeDEkdj3"}> 
+    <AnchorProvider 
+      wallet={wallet} 
+      connection={connection} 
+      network={network} 
+      honeyProgram={"6ujVJiHnyqaTBHzwwfySzTDX5EPFgmXqnibuMp3Hun1w"}>
+     <HoneyProvider 
+      wallet={wallet} 
+      connection={connection}
+      honeyProgramId={"6ujVJiHnyqaTBHzwwfySzTDX5EPFgmXqnibuMp3Hun1w"} 
+      honeyMarketId={"GLBPMnxYr5QkkF4o5SMug7B5DmPSDDdAw7W46RgZdRyf"}> 
         {children}
       </HoneyProvider>
     </AnchorProvider>
