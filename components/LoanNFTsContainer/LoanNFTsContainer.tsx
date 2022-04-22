@@ -24,6 +24,8 @@ const LoanNFTsContainer = (props: LoanNFTsContainerProps) => {
     onSelectNFT,
   } = props;
 
+  console.log('NFT', NFTs)
+
   return (
     <Box className={styles.cardContainer}>
       <Card level="2" width="full" padding="8" shadow>
@@ -41,7 +43,7 @@ const LoanNFTsContainer = (props: LoanNFTsContainerProps) => {
                     <Button
                       key={button.title}
                       size="small"
-                      disabled={true}
+                      disabled={false}
                     >
                       {button.title}
                     </Button>
@@ -50,9 +52,9 @@ const LoanNFTsContainer = (props: LoanNFTsContainerProps) => {
               </Stack>
             </Stack>
               <Box className={styles.nftContainer}>
-                {NFTs.map((nft: any, i: number) => (
+                { NFTs && NFTs.map((nft: any, i: number) => (
                   <LoanNFTCard
-                    selected={nft.tokenId === selectedId}
+                    selected={nft.collateralTokenId === selectedId}
                     key={nft.tokenId}
                     NFT={nft}
                     onSelect={onSelectNFT}
