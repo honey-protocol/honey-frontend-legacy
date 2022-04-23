@@ -22,3 +22,10 @@ export const centerItemContainer = style({
   alignItems: 'center',
   flex: 1
 });
+
+export const buttonSelectionWrapper = style({
+  display: 'flex',
+  flexDirection: 'row',
+  justifyContent: 'space-between',
+  width: '100%'
+})

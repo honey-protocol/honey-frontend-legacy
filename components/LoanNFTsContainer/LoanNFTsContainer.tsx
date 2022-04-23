@@ -1,6 +1,6 @@
 import LoanNFTCard from '../LoanNftCard';
 import { Box, Button, Card, Spinner, Stack, Text } from 'degen';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import * as styles from './LoanNFTsContainer.css';
 
 type TButton = {
@@ -28,18 +28,12 @@ const LoanNFTsContainer = (props: LoanNFTsContainerProps) => {
 
   const [renderState, handleRenderStateChange] = useState(0);
 
-
-  function handleNewPosition() {
-    console.log('handle new position')
-    handleRenderStateChange(0);
-  }
-  
-  function handleOpenPositions() {
-    console.log('handle open position')
-    handleRenderStateChange(1);
+  function handleNewPosition(value: string) {
+    console.log('handle new position', value)
+    value == 'New position' ? handleRenderStateChange(1) : handleRenderStateChange(0);
   }
 
-  console.log('NFT', openPositions, NFTs)
+  useEffect(() => {console.log('use effect running', renderState)}, [renderState])
 
   return (
     <Box className={styles.cardContainer}>
@@ -50,32 +44,48 @@ const LoanNFTsContainer = (props: LoanNFTsContainerProps) => {
               <Text weight="semiBold" variant="large">
                 {title}
               </Text>
-              <Stack direction="horizontal" space="2">
-                {buttons.map(button =>
-                  button.hidden ? (
-                    <></>
-                  ) : (
-                    <Button
-                      key={button.title}
-                      size="small"
-                      disabled={false}
-                      onClick={handleNewPosition}
-                    >
-                      {button.title}
-                    </Button>
-                  )
-                )}
-              </Stack>
+              <Box className={styles.buttonSelectionWrapper}>
+                  {buttons.map(button =>
+                    button.hidden ? (
+                      <></>
+                    ) : (
+                      <Button
+                        key={button.title}
+                        size="small"
+                        disabled={false}
+                        onClick={() => {handleNewPosition(button.title)}}
+                      >
+                        {button.title}
+                      </Button>
+                    )
+                  )}
+              </Box>
             </Stack>
               <Box className={styles.nftContainer}>
-                { openPositions && openPositions.map((nft: any, i: number) => (
-                  <LoanNFTCard
-                    selected={nft.collateralTokenId === selectedId}
-                    key={nft.tokenId}
-                    NFT={nft}
-                    onSelect={onSelectNFT}
-                  />
-                ))}
+                { renderState == 0 && openPositions ?
+                  openPositions.map((nft: any, i: number) => {
+                    return (
+                      <LoanNFTCard
+                      selected={nft.collateralTokenId === selectedId}
+                      key={nft.tokenId}
+                      NFT={nft}
+                      onSelect={onSelectNFT}
+                      isLocked={true}
+                    />
+                    )
+                  }) : 
+                  NFTs[0].map((nft: any, i: number) => {
+                    return (
+                      <LoanNFTCard 
+                      selected={nft.tokenId || selectedId}
+                      key={nft.tokenId}
+                      NFT={nft}
+                      onSelect={onSelectNFT}
+                      isLocked={false}
+                    />
+                    )
+                  })
+                }
               </Box>
           </Stack>
         </Box>

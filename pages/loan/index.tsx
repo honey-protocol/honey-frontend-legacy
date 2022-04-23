@@ -60,7 +60,6 @@ const Loan: NextPage = () => {
   const { honeyClient, honeyUser, honeyReserves } = useMarket(sdkConfig.saberHqConnection, sdkConfig.sdkWallet, sdkConfig.honeyId, sdkConfig.marketID);
  
   useEffect(() => {
-    console.log(honeyClient, honeyUser, honeyReserves);  
   }, [honeyClient, honeyUser, honeyReserves]);
   
   // TODO:: Setup to work with SDK wallet 
@@ -85,7 +84,6 @@ const Loan: NextPage = () => {
    * @returns a table of pools
   */
   const getPools = usePools(sdkConfig.saberHqConnection, sdkConfig.sdkWallet, sdkConfig.honeyId, sdkConfig.marketID);
-  console.log('get pools..', getPools);
 
   /**
    * @description extract functionalities from honeyUser

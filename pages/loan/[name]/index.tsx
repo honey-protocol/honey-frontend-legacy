@@ -90,12 +90,9 @@ const Loan: NextPage = () => {
   const availableNFTs = useFetchNFTByUser(wallet)
   
   useEffect(() => {
-    console.log('the borrowed positions', getBorrowPoistions, availableNFTs);
   }, [getBorrowPoistions, availableNFTs])
 
   const [selectedId, setSelectedId] = useState(1);
-  
-  console.log('the nft arr', availableNFTs)
 
   function selectNFT(key: number) {
     setSelectedId(key);
