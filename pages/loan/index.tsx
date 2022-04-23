@@ -26,8 +26,10 @@ import {
   usePools,
   useHoney,
   withdraw,
+  borrow,
+  repay,
 } from '@honey-finance/sdk';
-import { PublicKey } from '@solana/web3.js';
+import { LAMPORTS_PER_SOL, PublicKey } from '@solana/web3.js';
 
 
 const Loan: NextPage = () => {
@@ -69,6 +71,12 @@ const Loan: NextPage = () => {
   const { market, marketReserveInfo, parsedReserves }  = useHoney();
 
   useEffect(() => {
+    console.log("market: ", market);
+    console.log("Market reserve info ", marketReserveInfo);
+    console.log("Parsed Reserves ", parsedReserves);
+  }, [market, marketReserveInfo, parsedReserves])
+
+  useEffect(() => {
     console.log("Market:", market);
     console.log("Market Reserve Info: ", marketReserveInfo);
     console.log("Reserves: ", parsedReserves);
@@ -88,39 +96,16 @@ const Loan: NextPage = () => {
   const { connect } = useWalletKit();
 
   /**
-   * @description calls upon useHoney
-   * @params none
-   * @returns context
-  */
-  const initializeHoney = useHoney();
-
-  /**
    * @description calls upon useBorrowPositions
-   * @params connection && wallet && JET ID
+   * @params connection && wallet && HONEY_PROGRAM_ID
    * @returns TBorrowPosition array of data
   */
-  const getBorrowPoistions = useBorrowPositions(sdkConfig.saberHqConnection, sdkConfig.sdkWallet!, sdkConfig.honeyId, sdkConfig.marketID);
+  const { loading, collateralNFTPositions, loanPositions, error} = useBorrowPositions(sdkConfig.saberHqConnection, sdkConfig.sdkWallet!, sdkConfig.honeyId, sdkConfig.marketID);
 
   useEffect(() => {
-    console.log(getBorrowPoistions);
-  }, [getBorrowPoistions])
-
-  /**
-   * @description should return available pools which render in the interface table
-   * @params connection && wallet && JET ID
-   * @returns a table of pools
-  */
-  const getPools = usePools(sdkConfig.saberHqConnection, sdkConfig.sdkWallet!, sdkConfig.honeyId, sdkConfig.marketID);
-
-  useEffect(() => {
-    console.log(getPools);
-  }, [getPools]);
-
-  /**
-   * @description extract functionalities from honeyUser
-   * @params none
-   * @returns requested value
-  */
+    console.log("collateral nft positions ", collateralNFTPositions);
+    console.log("loan positions: ", loanPositions);
+  }, [collateralNFTPositions, loanPositions])
 
   /**
    * @description component logic regarding handlers and modals
@@ -138,35 +123,37 @@ const Loan: NextPage = () => {
   }
 
   async function executeDeposit() {
-    const tokenAmount = 0.1;
+    const tokenAmount = 1 * LAMPORTS_PER_SOL;
     const depositTokenMint = new PublicKey('So11111111111111111111111111111111111111112');
     await deposit(honeyUser, tokenAmount, depositTokenMint, honeyReserves);
   }
 
   async function executeWithdraw() {
-    const tokenAmount = 0.1;
+    const tokenAmount = 1 * LAMPORTS_PER_SOL;
     const depositTokenMint = new PublicKey('So11111111111111111111111111111111111111112');
     await withdraw(honeyUser, tokenAmount, depositTokenMint, honeyReserves);
   }
 
   async function executeDepositNFT() {
-    const metadata = await Metadata.findByMint(sdkConfig.saberHqConnection, "FG1n7yGdxzge6EtJu1H5oLEc2ppPh3Tec8WSN8epxWcY")
+    const metadata = await Metadata.findByMint(sdkConfig.saberHqConnection, "3W3BUk69PBSDj1tqinjfjtmEAZL9oFyVzcYiS6JjPJYV")
     depositNFT(sdkConfig.saberHqConnection, honeyUser, metadata.pubkey);
   }
 
   async function executeWithdrawNFT() {
-    const metadata = await Metadata.findByMint(sdkConfig.saberHqConnection, "FG1n7yGdxzge6EtJu1H5oLEc2ppPh3Tec8WSN8epxWcY");
+    const metadata = await Metadata.findByMint(sdkConfig.saberHqConnection, "3W3BUk69PBSDj1tqinjfjtmEAZL9oFyVzcYiS6JjPJYV");
     withdrawNFT(sdkConfig.saberHqConnection, honeyUser, metadata.pubkey);
   }
 
+  async function executeBorrow() {
+    const borrowTokenMint = new PublicKey('So11111111111111111111111111111111111111112');
+    const tx = await borrow(honeyUser, 1 * LAMPORTS_PER_SOL, borrowTokenMint, honeyReserves);
+    console.log(tx);
+  }
 
-  /**
-   * @description gets loans held by user
-   * @params none
-   * @returns array of tokens
-  */
-  function initializeLoan() {
-    const userLoans = honeyUser.loans();
+  async function executeRepay() {
+    const repayTokenMint = new PublicKey('So11111111111111111111111111111111111111112');
+    const tx = await repay(honeyUser, 1 * LAMPORTS_PER_SOL, repayTokenMint, honeyReserves)
+    console.log(tx);
   }
 
   return (
@@ -183,16 +170,17 @@ const Loan: NextPage = () => {
             <Stack>
               <ToggleSwitch
                 buttons={[
-                  {
-                    title: 'Borrow',
-                    onClick: () => { setLiveOrCompleted(0) }
-                  },
+                  // {
+                  //   title: 'Borrow',
+                  //   onClick: () => { setLiveOrCompleted(0) }
+                  // },
                   { title: 'Deposit NFT', onClick: () => { executeDepositNFT() } },
                   { title: 'Withdraw NFT', onClick: () => { executeWithdrawNFT(); } },
                   { title: 'Despoit 0.1 SOL', onClick: () => { executeDeposit() } },
                   { title: 'Withdraw 0.1 SOL', onClick: () => { executeWithdraw() } },
                   { title: 'Loan', onClick: () => setLiveOrCompleted(1) },
-                  { title: 'print reserves', onClick: () => console.log(reserves)}
+                  { title: 'Borrow', onClick: () => executeBorrow() },
+                  { title: 'Repay', onClick: () => { executeRepay(); }}
                 ]}
                 activeIndex={liveOrCompleted}
               />
