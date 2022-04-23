@@ -100,7 +100,7 @@ const Loan: NextPage = () => {
    * @params connection && wallet && HONEY_PROGRAM_ID
    * @returns TBorrowPosition array of data
   */
-  const { loading, collateralNFTPositions, loanPositions, error} = useBorrowPositions(sdkConfig.saberHqConnection, sdkConfig.sdkWallet!, sdkConfig.honeyId, sdkConfig.marketID);
+  const { loading, collateralNFTPositions, loanPositions, error } = useBorrowPositions(sdkConfig.saberHqConnection, sdkConfig.sdkWallet!, sdkConfig.honeyId, sdkConfig.marketID);
 
   useEffect(() => {
     console.log("collateral nft positions ", collateralNFTPositions);
@@ -176,8 +176,8 @@ const Loan: NextPage = () => {
                   // },
                   { title: 'Deposit NFT', onClick: () => { executeDepositNFT() } },
                   { title: 'Withdraw NFT', onClick: () => { executeWithdrawNFT(); } },
-                  { title: 'Despoit 0.1 SOL', onClick: () => { executeDeposit() } },
-                  { title: 'Withdraw 0.1 SOL', onClick: () => { executeWithdraw() } },
+                  { title: 'Despoit 1 SOL', onClick: () => { executeDeposit() } },
+                  { title: 'Withdraw 1 SOL', onClick: () => { executeWithdraw() } },
                   { title: 'Loan', onClick: () => setLiveOrCompleted(1) },
                   { title: 'Borrow', onClick: () => executeBorrow() },
                   { title: 'Repay', onClick: () => { executeRepay(); }}
