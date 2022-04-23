@@ -45,8 +45,8 @@ const Farm: NextPage = (props: any) => {
   const wallet = useConnectedWallet();
   const { connect } = useWalletKit();
   const connection = useConnection();
-  const [liveOrCompleted, setLiveOrCompleted] = useState(0);
-  const [allOrStakedIn, setAllOrStakedIn] = useState(0);
+  const [liveOrCompleted, setLiveOrCompleted] = useState<0 | 1>(0);
+  const [allOrStakedIn, setAllOrStakedIn] = useState<0 | 1>(0);
   const [searchInput, setSearchInput] = useState('');
   const [displayedCollections, setDisplayedCollections] = useState(liveFarms);
   const [isLoading, setIsLoading] = useState(false);
@@ -66,8 +66,21 @@ const Farm: NextPage = (props: any) => {
     setDisplayedCollections(searchResult);
   };
 
+  const stakedInFilter = useCallback(
+    async (farms: TGFarm[]) => {
+      setIsLoading(true);
+      const stakedInFarms = await getFarmsStakedIn(farms, connection, wallet);
+      if (!stakedInFarms) {
+        setDisplayedCollections([]);
+      } else {
+        setDisplayedCollections(stakedInFarms);
+      }
+      setIsLoading(false);
+    },
+    [connection, wallet]
+  );
+
   /**
-   * @relatesTo onSearchInputChange function
    * @params None
    * @description sets the UI to live or completed farms
    * @returns sets the farms in the UI
@@ -77,39 +90,13 @@ const Farm: NextPage = (props: any) => {
     if (!liveOrCompleted && !allOrStakedIn) {
       setDisplayedCollections(liveFarms);
     } else if (!liveOrCompleted && allOrStakedIn) {
-      //
-      setIsLoading(true);
-      const stakedInFarms = await getFarmsStakedIn(
-        liveFarms,
-        connection,
-        wallet
-      );
-      if (!stakedInFarms) {
-        setDisplayedCollections([]);
-      } else {
-        setDisplayedCollections(stakedInFarms);
-      }
-      setIsLoading(false);
-      //
+      stakedInFilter(liveFarms);
     } else if (liveOrCompleted && allOrStakedIn) {
-      //
-      setIsLoading(true);
-      const stakedInFarms = await getFarmsStakedIn(
-        completedFarms,
-        connection,
-        wallet
-      );
-      if (!stakedInFarms) {
-        setDisplayedCollections([]);
-      } else {
-        setDisplayedCollections(stakedInFarms);
-      }
-      setIsLoading(false);
-      //
+      stakedInFilter(completedFarms);
     } else {
       setDisplayedCollections(completedFarms);
     }
-  }, [allOrStakedIn, liveOrCompleted, connection, wallet]);
+  }, [allOrStakedIn, liveOrCompleted, stakedInFilter]);
 
   useEffect(() => {
     if (!wallet) return;
@@ -178,6 +165,15 @@ const Farm: NextPage = (props: any) => {
             alignItems="center"
           >
             <Spinner size="large" />
+          </Box>
+        ) : !displayedCollections.length ? (
+          <Box
+            flex={1}
+            display="flex"
+            justifyContent="center"
+            alignItems="center"
+          >
+            <Text>No collections to display</Text>
           </Box>
         ) : (
           <Box minWidth="full" gap="6" paddingTop="8">
