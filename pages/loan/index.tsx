@@ -18,7 +18,6 @@ import LoanHeaderComponent from 'components/LoanHeaderComponent/LoanHeaderCompon
 import { Metadata } from '@metaplex-foundation/mpl-token-metadata';
 import {
   deposit,
-  depositCollateral,
   HoneyUser,
   depositNFT,
   withdrawNFT,
@@ -27,7 +26,6 @@ import {
   usePools,
   useHoney,
   withdraw,
-  withdrawCollateral
 } from '@honey-finance/sdk';
 import { PublicKey } from '@solana/web3.js';
 
@@ -68,6 +66,13 @@ const Loan: NextPage = () => {
    * @returns honeyUser which is the main object - honeyMarket, honeyReserves are for testing purposes
   */
   const { honeyClient, honeyUser, honeyReserves } = useMarket(sdkConfig.saberHqConnection, sdkConfig.sdkWallet!, sdkConfig.honeyId, sdkConfig.marketID);
+  const { market, marketReserveInfo, parsedReserves }  = useHoney();
+
+  useEffect(() => {
+    console.log("Market:", market);
+    console.log("Market Reserve Info: ", marketReserveInfo);
+    console.log("Reserves: ", parsedReserves);
+  }, [market, marketReserveInfo, parsedReserves]);
 
   useEffect(() => {
     console.log(honeyClient, honeyUser, honeyReserves);
@@ -106,6 +111,10 @@ const Loan: NextPage = () => {
    * @returns a table of pools
   */
   const getPools = usePools(sdkConfig.saberHqConnection, sdkConfig.sdkWallet!, sdkConfig.honeyId, sdkConfig.marketID);
+
+  useEffect(() => {
+    console.log(getPools);
+  }, [getPools]);
 
   /**
    * @description extract functionalities from honeyUser
@@ -182,7 +191,8 @@ const Loan: NextPage = () => {
                   { title: 'Withdraw NFT', onClick: () => { executeWithdrawNFT(); } },
                   { title: 'Despoit 0.1 SOL', onClick: () => { executeDeposit() } },
                   { title: 'Withdraw 0.1 SOL', onClick: () => { executeWithdraw() } },
-                  { title: 'Loan', onClick: () => setLiveOrCompleted(1) }
+                  { title: 'Loan', onClick: () => setLiveOrCompleted(1) },
+                  { title: 'print reserves', onClick: () => console.log(reserves)}
                 ]}
                 activeIndex={liveOrCompleted}
               />
