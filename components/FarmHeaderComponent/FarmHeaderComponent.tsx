@@ -50,10 +50,10 @@ const FarmHeaderComponent = () => {
   const withTxLoading = async (tx: Function, txName: string) => {
     try {
       setTxLoading({ value: true, txName });
-        await tx();
+      await tx();
       setTxLoading({ value: false, txName: '' });
     } catch (error) {
-      console.log(error)
+      console.log(error);
       setTxLoading({ value: false, txName: '' });
     }
   };
@@ -62,14 +62,14 @@ const FarmHeaderComponent = () => {
     <Box
       backgroundColor="background"
       width="full"
-      paddingX="5"
-      paddingY="3"
+      paddingX="8"
+      paddingY="4"
       borderRadius="2xLarge"
       flex={1}
     >
       <Stack
         space="12"
-        align="center"
+        align={{ md: 'center', sm: 'stretch', xs: 'stretch' }}
         justify="space-between"
         flex={1}
         direction={{ md: 'horizontal', sm: 'vertical', xs: 'vertical' }}
@@ -116,9 +116,8 @@ const FarmHeaderComponent = () => {
             </Stack>
           )}
         </Stack>
-        <Stack space="3" direction="horizontal">
+        <Stack space="3" justify="center" direction="horizontal">
           <Button
-            
             onClick={refreshNFTsWithLoadingIcon}
             variant="secondary"
             shape="square"
@@ -127,10 +126,10 @@ const FarmHeaderComponent = () => {
             <IconRefresh />
           </Button>
 
-          <Button 
-          onClick={() => withTxLoading(claimRewards, 'claim')}
-          loading={txLoading.value && txLoading.txName === 'claim'}
-          size="small"
+          <Button
+            onClick={() => withTxLoading(claimRewards, 'claim')}
+            loading={txLoading.value && txLoading.txName === 'claim'}
+            size="small"
           >
             {`Claim $${rewardTokenName}`}
           </Button>
