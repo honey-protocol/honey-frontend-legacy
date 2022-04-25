@@ -39,7 +39,6 @@ const completedFarms = newFarmCollections.filter((collection, i) => {
   );
   return expireDate < new Date();
 });
-
 // TOOD: Needs to accept props for data
 // TODO: render rows of length two for NFT collections based on data props
 const Farm: NextPage = (props: any) => {
@@ -128,7 +127,7 @@ const Farm: NextPage = (props: any) => {
             <Stack align="center" direction={'horizontal'}>
               <SmallToggleSwitch
                 isActive={Boolean(allOrStakedIn)}
-                setIsActive={setAllOrStakedIn}
+                setIsActive={wallet ? setAllOrStakedIn : connect}
               />
               <Text variant="label">Staked only</Text>
               <ToggleSwitch
