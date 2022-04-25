@@ -44,25 +44,30 @@ const Nft: NextPage = () => {
   return (
     <Layout>
       <Box marginTop="3" marginBottom="2">
-        <Box
-          marginRight="auto"
-          display="flex"
-          alignSelf="center"
-          justifySelf="center"
-          marginBottom="3"
+        <Stack
+          direction={{ lg: 'horizontal', md: 'vertical' }}
+          justify="space-between"
         >
-          <Link href="/farm" passHref>
-            <Button
-              size="small"
-              variant="transparent"
-              rel="noreferrer"
-              prefix={<IconChevronLeft />}
-            >
-              Farms
-            </Button>
-          </Link>
-        </Box>
-        <FarmHeaderComponent />
+          <Box
+            marginRight="auto"
+            display="flex"
+            alignSelf="center"
+            justifySelf="center"
+            marginBottom="3"
+          >
+            <Link href="/farm" passHref>
+              <Button
+                size="small"
+                variant="transparent"
+                rel="noreferrer"
+                prefix={<IconChevronLeft />}
+              >
+                Farms
+              </Button>
+            </Link>
+          </Box>
+          <FarmHeaderComponent />
+        </Stack>
       </Box>
       <Box display="flex" height="full" className={styles.cardsContainer}>
         {/* User wallet NFT container */}
