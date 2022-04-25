@@ -25,7 +25,7 @@ export const slider = style({
   bottom: 0,
   transition: '0.4s',
   borderRadius: '34px',
-  backgroundColor: vars.colors.background
+  backgroundColor: vars.colors.foregroundSecondary
 });
 
 globalStyle(`${slider}:before`, {

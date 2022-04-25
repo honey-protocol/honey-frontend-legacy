@@ -125,32 +125,32 @@ const Farm: NextPage = (props: any) => {
                   Staking v3 Alpha
                 </Text>
               </Box> */}
-            <ToggleSwitch
-              buttons={[
-                {
-                  title: 'Live',
-                  onClick: () => setLiveOrCompleted(0)
-                },
-                { title: 'Completed', onClick: () => setLiveOrCompleted(1) }
-              ]}
-              activeIndex={liveOrCompleted}
-            />
             <Stack align="center" direction={'horizontal'}>
-              <Text variant="label">Staked only</Text>
               <SmallToggleSwitch
                 isActive={Boolean(allOrStakedIn)}
                 setIsActive={setAllOrStakedIn}
               />
-              <Box className={styles.searchContainer}>
-                <Input
-                  label=""
-                  value={searchInput}
-                  onChange={onSearchInputChange}
-                  placeholder="Search by name"
-                  prefix={<IconSearch />}
-                />
-              </Box>
+              <Text variant="label">Staked only</Text>
+              <ToggleSwitch
+                buttons={[
+                  {
+                    title: 'Live',
+                    onClick: () => setLiveOrCompleted(0)
+                  },
+                  { title: 'Completed', onClick: () => setLiveOrCompleted(1) }
+                ]}
+                activeIndex={liveOrCompleted}
+              />
             </Stack>
+            <Box className={styles.searchContainer}>
+              <Input
+                label=""
+                value={searchInput}
+                onChange={onSearchInputChange}
+                placeholder="Search by name"
+                prefix={<IconSearch />}
+              />
+            </Box>
           </Stack>
         </Box>
         {isLoading ? (
