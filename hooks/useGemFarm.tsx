@@ -384,9 +384,10 @@ const useGemFarm = () => {
         new PublicKey(farmAcc.rewardB.rewardMint!)
       );
       toast.success(
-        `${Number(availableA).toFixed(1)} $${
-          collection?.rewardTokenName
-        } claimed!`
+        // `${Number(availableA).toFixed(1)} $${
+        //   collection?.rewardTokenName
+        // } claimed!`
+        'Rewards claimed!'
       );
       setAvailableA('0');
       setAvailableB('0');
