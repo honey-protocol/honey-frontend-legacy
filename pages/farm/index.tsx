@@ -11,6 +11,7 @@ import { useWalletKit } from '@gokiprotocol/walletkit';
 import FarmCollectionCard from 'components/FarmCollectionCard/FarmCollectionCard';
 import getCollectionExpireDate from 'helpers/dateUtils';
 import { getFarmsStakedIn } from 'helpers/gemFarm';
+import SmallToggleSwitch from 'components/SmallToggleSwitch/SmallToggleSwitch';
 
 /**
  * @params collection and i
@@ -46,7 +47,7 @@ const Farm: NextPage = (props: any) => {
   const { connect } = useWalletKit();
   const connection = useConnection();
   const [liveOrCompleted, setLiveOrCompleted] = useState<0 | 1>(0);
-  const [allOrStakedIn, setAllOrStakedIn] = useState<0 | 1>(0);
+  const [allOrStakedIn, setAllOrStakedIn] = useState<boolean>(false);
   const [searchInput, setSearchInput] = useState('');
   const [displayedCollections, setDisplayedCollections] = useState(liveFarms);
   const [isLoading, setIsLoading] = useState(false);
@@ -135,15 +136,10 @@ const Farm: NextPage = (props: any) => {
               activeIndex={liveOrCompleted}
             />
             <Stack align="center" direction={'horizontal'}>
-              <ToggleSwitch
-                buttons={[
-                  {
-                    title: 'All',
-                    onClick: () => setAllOrStakedIn(0)
-                  },
-                  { title: 'Staked In', onClick: () => setAllOrStakedIn(1) }
-                ]}
-                activeIndex={allOrStakedIn}
+              <Text variant="label">Staked only</Text>
+              <SmallToggleSwitch
+                isActive={Boolean(allOrStakedIn)}
+                setIsActive={setAllOrStakedIn}
               />
               <Box className={styles.searchContainer}>
                 <Input
