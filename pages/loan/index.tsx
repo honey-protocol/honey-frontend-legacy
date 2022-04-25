@@ -3,7 +3,7 @@ import type { NextPage } from 'next';
 import Link from 'next/link';
 import { useWalletKit } from '@gokiprotocol/walletkit';
 import { useConnectedWallet } from '@saberhq/use-solana';
-import { Box, Text, Card } from 'degen';
+import { Box, Text, Card, IconPlus } from 'degen';
 import { Stack } from 'degen';
 import { Button } from 'degen';
 import { IconPlusSmall, IconSearch } from 'degen';
@@ -19,8 +19,7 @@ import LoanHeaderComponent from 'components/LoanHeaderComponent/LoanHeaderCompon
 const assetData: Array<AssetRowType> = [
   {
     vaultName: 'Solana Monkey Business',
-    vaultImageUrl:
-      '/nfts/2738.png',
+    vaultImageUrl: '/nfts/2738.png',
     totalBorrowed: 0,
     interest: 0,
     available: 0,
@@ -35,39 +34,48 @@ const Loan: NextPage = () => {
 
   const [modalIsVisible, setModalIsVisible] = useState(false);
 
-  const openLoanModal  = wallet && liveOrCompleted === 1
-  const loadLoanPage = wallet && liveOrCompleted === 0
+  const openLoanModal = wallet && liveOrCompleted === 1;
+  const loadLoanPage = wallet && liveOrCompleted === 0;
 
   function showLoanModal() {
     setModalIsVisible(true);
   }
 
-
   return (
     <Layout>
       <Stack>
         <ModalContainer
-            onClose={() => setModalIsVisible(false)}
-            isVisible={modalIsVisible}
-          >
+          onClose={() => setModalIsVisible(false)}
+          isVisible={modalIsVisible}
+        >
           <DepositWithdrawModule />
         </ModalContainer>
-        <Box className={styles.headerDivider}>
-          <Box className={styles.leftComponent}>
-            <Stack>
+        <Box marginY="4">
+          <Stack direction="vertical" space="5">
+            <Stack
+              direction="horizontal"
+              align="center"
+              justify="space-between"
+            >
               <ToggleSwitch
-                  buttons={[
-                    {
-                      title: 'Borrow',
-                      onClick: () => setLiveOrCompleted(0)
-                    },
-                    { title: 'Loan', onClick: () => setLiveOrCompleted(1) }
-                  ]}
-                  activeIndex={liveOrCompleted}
-                />
+                buttons={[
+                  {
+                    title: 'Borrow',
+                    onClick: () => setLiveOrCompleted(0)
+                  },
+                  { title: 'Loan', onClick: () => setLiveOrCompleted(1) }
+                ]}
+                activeIndex={liveOrCompleted}
+              />
+
+              <Box>
+                <Button prefix={<IconPlus />} size="small">
+                  New Vault
+                </Button>
+              </Box>
             </Stack>
-          </Box>
-          <LoanHeaderComponent />
+            <LoanHeaderComponent />
+          </Stack>
         </Box>
         <Box
           backgroundColor="backgroundTertiary"
@@ -86,10 +94,10 @@ const Loan: NextPage = () => {
                   prefix={<IconSearch />}
                 />
               </Box>
-                <Text>Total borrowed</Text>
-                <Text>Interest</Text>
-                <Text>Available</Text>
-                <Text>Your positions</Text>
+              <Text>Total borrowed</Text>
+              <Text>Interest</Text>
+              <Text>Available</Text>
+              <Text>Your positions</Text>
             </Box>
             <Box>
               <hr className={styles.lineDivider}></hr>
@@ -98,23 +106,23 @@ const Loan: NextPage = () => {
               <Box>
                 {assetData.map(item => (
                   <Box key={item.vaultName}>
-                    {loadLoanPage &&
+                    {loadLoanPage && (
                       <Link href="/loan/[name]" as={`/loan/${item.vaultName}`}>
                         <a>
                           <AssetRow data={item} />
                         </a>
                       </Link>
-                    }
-                    {openLoanModal &&
+                    )}
+                    {openLoanModal && (
                       <Box onClick={showLoanModal} cursor="pointer">
                         <AssetRow data={item} />
                       </Box>
-                    }
-                    {!wallet &&
+                    )}
+                    {!wallet && (
                       <Box onClick={connect} cursor="pointer">
                         <AssetRow data={item} />
                       </Box>
-                    }
+                    )}
                   </Box>
                 ))}
               </Box>
@@ -125,6 +133,5 @@ const Loan: NextPage = () => {
     </Layout>
   );
 };
-
 
 export default Loan;
