@@ -26,15 +26,15 @@ const LoanDeposit = (props: LoanDepositProps) => {
       className={loanStyles.mainComponentWrapper}
       paddingBottom="min"
     >
-      <Stack align="center">
-        <Avatar label="" size="15" src={'/nfts/2738.png'} />
+      <Stack align="center" direction="horizontal" justify="space-between">
+        <Avatar label="" size="12" src={'/nfts/2738.png'} />
         <Text
           align="right"
           weight="semiBold"
           color="foreground"
           variant="large"
         >
-          Solana Monkey Business
+          SMB
         </Text>
       </Stack>
       <Box paddingTop="1" paddingBottom="1">
