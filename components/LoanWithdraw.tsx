@@ -31,7 +31,7 @@ const LoanWithdraw = (props: LoanWithdrawProps) => {
       display="flex"
       flexDirection="column"
       justifyContent="space-between"
-      marginTop="4"
+      marginTop="8"
       className={loanStyles.mainComponentWrapper}
       paddingBottom="min"
     >

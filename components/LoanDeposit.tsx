@@ -22,19 +22,20 @@ const LoanDeposit = (props: LoanDepositProps) => {
       display="flex"
       flexDirection="column"
       justifyContent="space-between"
-      marginTop="4"
+      marginTop="8"
       className={loanStyles.mainComponentWrapper}
       paddingBottom="min"
     >
-      <Stack align="center" direction="horizontal" justify="space-between">
-        <Avatar label="" size="12" src={'/nfts/2738.png'} />
+      {/* Vault data row */}
+      <Stack align="center">
+        <Avatar label="" size="15" src={'/nfts/2738.png'} />
         <Text
           align="right"
           weight="semiBold"
           color="foreground"
           variant="large"
         >
-          SMB
+          Solana Monkey Business
         </Text>
       </Stack>
       <Box paddingTop="1" paddingBottom="1">
