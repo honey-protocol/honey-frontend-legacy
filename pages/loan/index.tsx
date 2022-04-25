@@ -15,17 +15,30 @@ import DepositWithdrawModule from '../../components/DepositWithdrawModule/Deposi
 import Layout from '../../components/Layout/Layout';
 import * as styles from '../../styles/loan.css';
 import LoanHeaderComponent from 'components/LoanHeaderComponent/LoanHeaderComponent';
-import { useMarket, usePools, useBorrowPositions, METADATA_PROGRAM_ID } from '@honey-finance/sdk/lib/hooks';
-import { useHoney } from '@honey-finance/sdk/lib/contexts';
-import { PublicKey } from '@solana/web3.js';
-import ConfigureSDK  from '../../helpers/config';
+import ConfigureSDK from 'helpers/config';
+import { Metadata } from '@metaplex-foundation/mpl-token-metadata';
+import {
+  deposit,
+  HoneyUser,
+  depositNFT,
+  withdrawNFT,
+  useBorrowPositions,
+  useMarket,
+  usePools,
+  useHoney,
+  withdraw,
+  borrow,
+  repay,
+} from '@honey-finance/sdk';
+import { LAMPORTS_PER_SOL, PublicKey } from '@solana/web3.js';
 
-const Loan: NextPage = () => {  
+
+const Loan: NextPage = () => {
   /**
-   * @description object layout for pools table - should be filled by getPools()
-   * @params none
-   * @returns dummy object
-  */
+ * @description object layout for pools table - should be filled by getPools()
+ * @params none
+ * @returns dummy object
+*/
   const assetData: Array<AssetRowType> = [
     {
       vaultName: 'Solana Monkey Business',
@@ -34,27 +47,40 @@ const Loan: NextPage = () => {
       totalBorrowed: 0,
       interest: 0,
       available: 0,
-      positions: 0,
+      positions: 0
     }
   ];
-
   /**
    * @description base sdk config object
    * @params none
    * @returns connection | wallet | jetID
   */
-  const sdkConfig = ConfigureSDK()
+  const sdkConfig = ConfigureSDK();
 
   /**
    * @description calls upon the honey sdk - market 
    * @params solanas useConnection func. && useConnectedWallet func. && JET ID
    * @returns honeyUser which is the main object - honeyMarket, honeyReserves are for testing purposes
   */
-  const { honeyClient, honeyUser, honeyReserves } = useMarket(sdkConfig.saberHqConnection, sdkConfig.sdkWallet, sdkConfig.honeyId, sdkConfig.marketID);
- 
+  const { honeyClient, honeyUser, honeyReserves } = useMarket(sdkConfig.saberHqConnection, sdkConfig.sdkWallet!, sdkConfig.honeyId, sdkConfig.marketID);
+  const { market, marketReserveInfo, parsedReserves }  = useHoney();
+
   useEffect(() => {
+    console.log("market: ", market);
+    console.log("Market reserve info ", marketReserveInfo);
+    console.log("Parsed Reserves ", parsedReserves);
+  }, [market, marketReserveInfo, parsedReserves])
+
+  useEffect(() => {
+    console.log("Market:", market);
+    console.log("Market Reserve Info: ", marketReserveInfo);
+    console.log("Reserves: ", parsedReserves);
+  }, [market, marketReserveInfo, parsedReserves]);
+
+  useEffect(() => {
+    console.log(honeyClient, honeyUser, honeyReserves);
   }, [honeyClient, honeyUser, honeyReserves]);
-  
+
   // TODO:: Setup to work with SDK wallet 
   /**
    * @description PRE-SDK implementation: should be converted to new SDK implementation 
@@ -65,24 +91,16 @@ const Loan: NextPage = () => {
   const { connect } = useWalletKit();
 
   /**
-   * @description calls upon useHoney
-   * @params none
-   * @returns context
+   * @description calls upon useBorrowPositions
+   * @params connection && wallet && HONEY_PROGRAM_ID
+   * @returns TBorrowPosition array of data
   */
-  const initializeHoney = useHoney();
-  
-  /**
-   * @description should return available pools which render in the interface table
-   * @params connection && wallet && JET ID
-   * @returns a table of pools
-  */
-  const getPools = usePools(sdkConfig.saberHqConnection, sdkConfig.sdkWallet, sdkConfig.honeyId, sdkConfig.marketID);
+  const { loading, collateralNFTPositions, loanPositions, error } = useBorrowPositions(sdkConfig.saberHqConnection, sdkConfig.sdkWallet!, sdkConfig.honeyId, sdkConfig.marketID);
 
-  /**
-   * @description extract functionalities from honeyUser
-   * @params none
-   * @returns requested value
-  */
+  useEffect(() => {
+    console.log("collateral nft positions ", collateralNFTPositions);
+    console.log("loan positions: ", loanPositions);
+  }, [collateralNFTPositions, loanPositions])
 
   /**
    * @description component logic regarding handlers and modals
@@ -92,44 +110,81 @@ const Loan: NextPage = () => {
   const [liveOrCompleted, setLiveOrCompleted] = useState(0);
   const [modalIsVisible, setModalIsVisible] = useState(false);
 
-  const openLoanModal  = wallet && liveOrCompleted === 1
+  const openLoanModal = wallet && liveOrCompleted === 1
   const loadLoanPage = wallet && liveOrCompleted === 0
 
   function showLoanModal() {
     setModalIsVisible(true);
   }
 
-  /**
-   * @description gets loans held by user
-   * @params none
-   * @returns array of tokens
-  */
-  function initializeLoan() {
-    const userLoans = honeyUser.loans();
+  async function executeDeposit() {
+    const tokenAmount = 1 * LAMPORTS_PER_SOL;
+    const depositTokenMint = new PublicKey('So11111111111111111111111111111111111111112');
+    await deposit(honeyUser, tokenAmount, depositTokenMint, honeyReserves);
+  }
+
+  async function executeWithdraw() {
+    const tokenAmount = 1 * LAMPORTS_PER_SOL;
+    const depositTokenMint = new PublicKey('So11111111111111111111111111111111111111112');
+    await withdraw(honeyUser, tokenAmount, depositTokenMint, honeyReserves);
+  }
+
+  async function executeDepositNFT() {
+    const metadata = await Metadata.findByMint(sdkConfig.saberHqConnection, "3W3BUk69PBSDj1tqinjfjtmEAZL9oFyVzcYiS6JjPJYV")
+    depositNFT(sdkConfig.saberHqConnection, honeyUser, metadata.pubkey);
+  }
+
+  async function executeWithdrawNFT() {
+    const metadata = await Metadata.findByMint(sdkConfig.saberHqConnection, "3W3BUk69PBSDj1tqinjfjtmEAZL9oFyVzcYiS6JjPJYV");
+    withdrawNFT(sdkConfig.saberHqConnection, honeyUser, metadata.pubkey);
+  }
+
+  async function executeBorrow() {
+    const borrowTokenMint = new PublicKey('So11111111111111111111111111111111111111112');
+    const tx = await borrow(honeyUser, 1 * LAMPORTS_PER_SOL, borrowTokenMint, honeyReserves);
+    console.log(tx);
+  }
+
+  async function executeRepay() {
+    const repayTokenMint = new PublicKey('So11111111111111111111111111111111111111112');
+    const tx = await repay(honeyUser, 1 * LAMPORTS_PER_SOL, repayTokenMint, honeyReserves)
+    console.log(tx);
   }
 
   return (
     <Layout>
       <Stack>
         <ModalContainer
-            onClose={() => setModalIsVisible(false)}
-            isVisible={modalIsVisible}
-          >
+          onClose={() => setModalIsVisible(false)}
+          isVisible={modalIsVisible}
+        >
           <DepositWithdrawModule />
         </ModalContainer>
         <Box className={styles.headerDivider}>
           <Box className={styles.leftComponent}>
             <Stack>
               <ToggleSwitch
-                  buttons={[
-                    {
-                      title: 'Borrow',
-                      onClick: () => setLiveOrCompleted(0)
-                    },
-                    { title: 'Loan', onClick: () => setLiveOrCompleted(1) }
-                  ]}
-                  activeIndex={liveOrCompleted}
-                />
+                buttons={[
+                  // {
+                  //   title: 'Borrow',
+                  //   onClick: () => { setLiveOrCompleted(0) }
+                  // },
+                  // { title: 'Deposit NFT', onClick: () => { executeDepositNFT() } },
+                  // { title: 'Withdraw NFT', onClick: () => { executeWithdrawNFT(); } },
+                  // { title: 'Despoit 1 SOL', onClick: () => { executeDeposit() } },
+                  // { title: 'Withdraw 1 SOL', onClick: () => { executeWithdraw() } },
+                  // { title: 'Loan', onClick: () => setLiveOrCompleted(1) },
+                  // { title: 'Borrow', onClick: () => executeBorrow() },
+                  // { title: 'Repay', onClick: () => { executeRepay(); }}
+
+                  {
+                    title: 'Borrow',
+                    onClick: () => setLiveOrCompleted(0)
+                  },
+                  { title: 'Loan', onClick: () => setLiveOrCompleted(1) }
+                ]}
+                activeIndex={liveOrCompleted}
+              />
             </Stack>
           </Box>
           <LoanHeaderComponent />
@@ -151,10 +206,10 @@ const Loan: NextPage = () => {
                   prefix={<IconSearch />}
                 />
               </Box>
-                <Text>Total borrowed</Text>
-                <Text>Interest</Text>
-                <Text>Available</Text>
-                <Text>Your positions</Text>
+              <Text>Total borrowed</Text>
+              <Text>Interest</Text>
+              <Text>Available</Text>
+              <Text>Your positions</Text>
             </Box>
             <Box>
               <hr className={styles.lineDivider}></hr>

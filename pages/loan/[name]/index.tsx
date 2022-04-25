@@ -6,7 +6,7 @@ import LoanNFTsContainer from 'components/LoanNFTsContainer/LoanNFTsContainer';
 import BorrowNFTsModule from 'components/BorrowNFTsModule/BorrowNFTsModule';
 import useFetchNFTByUser from '../../../hooks/useNFTV2';
 import { useConnection, useConnectedWallet } from '@saberhq/use-solana';
-import { useBorrowPositions } from '@honey-finance/sdk/lib/hooks';
+import { useBorrowPositions } from '@honey-finance/sdk';
 import Link from 'next/link';
 import * as styles from '../../../styles/name.css';
 

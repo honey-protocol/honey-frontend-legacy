@@ -5,7 +5,7 @@ import React, { useEffect, useState } from 'react';
 import * as styles from './LoanNFTsContainer.css';
 import ConfigureSDK  from '../../helpers/config';
 import { deposit, depositCollateral, depositNFT, HoneyUser } from '@honey-finance/sdk';
-import { useMarket, usePools, useBorrowPositions, METADATA_PROGRAM_ID } from '@honey-finance/sdk/lib/hooks';
+import { useMarket, usePools, useBorrowPositions, METADATA_PROGRAM_ID } from '@honey-finance/sdk';
 
 type TButton = {
   title: string;
