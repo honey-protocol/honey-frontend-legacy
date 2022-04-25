@@ -10,15 +10,17 @@ interface LoanNFTCardProps {
   };
   selected: boolean;
   onSelect: (key: number) => void,
+  executeDepositNFT?: () => void,
   isLocked: boolean
 }
 
 const LoanNFTCard = (props: LoanNFTCardProps) => {
   const {
-    onSelect
+    onSelect,
+    executeDepositNFT
   } = props;
 
-console.log('@@@@@@@@@-this is the nft', props.NFT)
+console.log('@@@@@@@@@-this is the nft', props)
 
   return (
     <Box

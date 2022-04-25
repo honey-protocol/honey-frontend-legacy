@@ -58,7 +58,7 @@ const marketNFTs = [
   }
 ]
 
-const Loan: NextPage = () => {
+const Loan: NextPage = (props) => {
   /**
    * @description base sdk config object
    * @params none

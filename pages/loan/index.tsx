@@ -18,8 +18,7 @@ import LoanHeaderComponent from 'components/LoanHeaderComponent/LoanHeaderCompon
 import { useMarket, usePools, useBorrowPositions, METADATA_PROGRAM_ID } from '@honey-finance/sdk/lib/hooks';
 import { useHoney } from '@honey-finance/sdk/lib/contexts';
 import { PublicKey } from '@solana/web3.js';
-import { Metadata } from '@metaplex-foundation/mpl-token-metadata';
-import { deposit, depositCollateral, depositNFT, HoneyUser } from '@honey-finance/sdk';
+import ConfigureSDK  from '../../helpers/config';
 
 const Loan: NextPage = () => {  
   /**
@@ -27,30 +26,24 @@ const Loan: NextPage = () => {
    * @params none
    * @returns dummy object
   */
-     const assetData: Array<AssetRowType> = [
-      {
-        vaultName: 'Solana Monkey Business',
-        vaultImageUrl:
-          '/nfts/2738.png',
-        totalBorrowed: 0,
-        interest: 0,
-        available: 0,
-        positions: 0,
-      }
-    ];
+  const assetData: Array<AssetRowType> = [
+    {
+      vaultName: 'Solana Monkey Business',
+      vaultImageUrl:
+        '/nfts/2738.png',
+      totalBorrowed: 0,
+      interest: 0,
+      available: 0,
+      positions: 0,
+    }
+  ];
 
   /**
    * @description base sdk config object
    * @params none
    * @returns connection | wallet | jetID
   */
-  const sdkConfig = {
-    saberHqConnection: useConnection(),
-    sdkWallet: useConnectedWallet(),
-    honeyId: '6ujVJiHnyqaTBHzwwfySzTDX5EPFgmXqnibuMp3Hun1w',
-    // marketID: 'CqFM8kwwkkrwPTVFZh52yFNSaZ3kQPDADSobHeDEkdj3'
-    marketID: 'HB82woFm5MrTx3X4gsRpVcUxtWJJyDBeT5xNGCUUrLLe'
-  }
+  const sdkConfig = ConfigureSDK()
 
   /**
    * @description calls upon the honey sdk - market 
@@ -106,11 +99,6 @@ const Loan: NextPage = () => {
     setModalIsVisible(true);
   }
 
-  async function executeDepositNFT() {
-    // mint of the NFT can be find on solscan
-    const metadata = await Metadata.findByMint(sdkConfig.saberHqConnection, "8Sfcn3XwQGA5phFMTmp71K3akzv9FS5bAAcoxredaa6y")
-    depositNFT(sdkConfig.saberHqConnection, honeyUser, metadata.pubkey);
-  }
   /**
    * @description gets loans held by user
    * @params none
@@ -136,7 +124,7 @@ const Loan: NextPage = () => {
                   buttons={[
                     {
                       title: 'Borrow',
-                      onClick: () => {executeDepositNFT(); setLiveOrCompleted(0) }
+                      onClick: () => setLiveOrCompleted(0)
                     },
                     { title: 'Loan', onClick: () => setLiveOrCompleted(1) }
                   ]}
