@@ -101,6 +101,7 @@ const useGemFarm = () => {
           farmAddress,
           wallet?.publicKey
         );
+        console.log({ farmer });
         setFarmerAcc(farmer.farmerAcc);
         setVaultAcc(farmer.vaultAcc);
         setAvailableA(farmer.rewards.availableA);
@@ -371,7 +372,10 @@ const useGemFarm = () => {
     setSelectedWalletNFTs([]);
   };
 
+  console.log({ availableA });
+
   const claimRewards = async () => {
+    console.log({ availableA });
     if (!gf) return;
     try {
       await gf.claimWallet(
