@@ -67,14 +67,8 @@ const Loan: NextPage = () => {
                 ]}
                 activeIndex={liveOrCompleted}
               />
-
-              <Box>
-                <Button prefix={<IconPlus />} size="small">
-                  New Vault
-                </Button>
-              </Box>
+              <LoanHeaderComponent />
             </Stack>
-            <LoanHeaderComponent />
           </Stack>
         </Box>
         <Box

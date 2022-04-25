@@ -32,6 +32,9 @@ const LoanHeaderComponent = () => {
           0
         </Text>
       </Box>
+      <Button prefix={<IconPlus />} size="small">
+        New Vault
+      </Button>
     </Box>
   );
 };
