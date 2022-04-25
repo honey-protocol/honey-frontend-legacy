@@ -27,7 +27,7 @@ const BorrowNFTsModule = (props: BorrowNFTsModule) => {
     <Box className={styles.cardContainer}>
       <Card level="2" width="full" padding="8" shadow>
         <Stack space="5">
-          <ToggleSwitch
+          <ToggleSwitchLoan
             buttons={[
               {
                 title: 'Borrow',

@@ -23,7 +23,7 @@ const ToggleSwitchLoan = (props: ToggleSwitchProps) => {
         {buttons.map((button, i) => (
           <Button
             onClick={() => button.onClick()}
-            variant={i === activeIndex ? 'primary' : 'tertiary'}
+            variant={i === activeIndex ? 'primary' : 'secondary'}
             key={i}
             width="full"
           >

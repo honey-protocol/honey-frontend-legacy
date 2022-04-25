@@ -46,7 +46,7 @@ const DepositWithdrawModule = (props: DepositWithdrawModuleProps) => {
     >
       <Card width="full" padding="6" level="2">
         <Box height="full" display="flex" flexDirection="column">
-          <ToggleSwitch
+          <ToggleSwitchLoan
             buttons={[
               {
                 title: 'Deposit',
