@@ -9,7 +9,7 @@ const FarmHeaderComponent = () => {
     farmAcc,
     collectionTotalNumber,
     rewardTokenName,
-    refreshNFTsWithLoadingIcon,
+    handleRefreshRewardsButtonClick,
     claimRewards
   } = useGemFarm();
 
@@ -118,7 +118,7 @@ const FarmHeaderComponent = () => {
         </Stack>
         <Stack space="3" justify="center" direction="horizontal">
           <Button
-            onClick={refreshNFTsWithLoadingIcon}
+            onClick={handleRefreshRewardsButtonClick}
             variant="secondary"
             shape="square"
             size="small"
