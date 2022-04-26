@@ -4,7 +4,7 @@ import { Box, Button, Card, Spinner, Stack, Text } from 'degen';
 import React, { useEffect, useState } from 'react';
 import * as styles from './LoanNFTsContainer.css';
 import ConfigureSDK  from '../../helpers/config';
-import { deposit, depositCollateral, depositNFT, HoneyUser } from '@honey-finance/sdk';
+import { deposit, depositCollateral, depositNFT, HoneyUser, withdrawNFT } from '@honey-finance/sdk';
 import { useMarket, usePools, useBorrowPositions, METADATA_PROGRAM_ID } from '@honey-finance/sdk';
 
 type TButton = {
@@ -17,6 +17,7 @@ interface LoanNFTsContainerProps {
   selectedId: number,
   onSelectNFT: (key: number) => void,
   executeDepositNFT?: () => void,
+  hans?: () => void,
   title: string;
   buttons: TButton[];
 }
@@ -55,6 +56,11 @@ const LoanNFTsContainer = (props: LoanNFTsContainerProps) => {
     depositNFT(sdkConfig.saberHqConnection, honeyUser, metadata.pubkey);
   }
 
+  async function executeWithdrawNFT() {
+    const metadata = await Metadata.findByMint(sdkConfig.saberHqConnection, "3W3BUk69PBSDj1tqinjfjtmEAZL9oFyVzcYiS6JjPJYV");
+    withdrawNFT(sdkConfig.saberHqConnection, honeyUser, metadata.pubkey);
+  }
+
   useEffect(() => {console.log('use effect running', renderState)}, [renderState])
 
   return (
@@ -88,23 +94,24 @@ const LoanNFTsContainer = (props: LoanNFTsContainerProps) => {
                   openPositions.map((nft: any, i: number) => {
                     return (
                       <LoanNFTCard
-                      selected={nft.collateralTokenId === selectedId}
-                      key={nft.tokenId}
-                      NFT={nft}
-                      onSelect={onSelectNFT}
-                      isLocked={true}
+                        selected={nft.collateralTokenId === selectedId}
+                        key={nft.tokenId}
+                        NFT={nft}
+                        onSelect={onSelectNFT}
+                        executeWithdrawNFT={executeWithdrawNFT}
+                        isLocked={true}
                     />
                     )
                   }) : 
                   NFTs[0].map((nft: any, i: number) => {
                     return (
                       <LoanNFTCard 
-                      selected={nft.tokenId || selectedId}
-                      key={nft.tokenId}
-                      NFT={nft}
-                      onSelect={onSelectNFT}
-                      isLocked={false}
-                      executeDepositNFT={executeDepositNFT}
+                        selected={nft.tokenId || selectedId}
+                        key={nft.tokenId}
+                        NFT={nft}
+                        onSelect={onSelectNFT}
+                        isLocked={false}
+                        executeDepositNFT={executeDepositNFT}
                     />
                     )
                   })

@@ -126,16 +126,6 @@ const Loan: NextPage = () => {
     await withdraw(honeyUser, tokenAmount, depositTokenMint, honeyReserves);
   }
 
-  async function executeDepositNFT() {
-    const metadata = await Metadata.findByMint(sdkConfig.saberHqConnection, "3W3BUk69PBSDj1tqinjfjtmEAZL9oFyVzcYiS6JjPJYV")
-    depositNFT(sdkConfig.saberHqConnection, honeyUser, metadata.pubkey);
-  }
-
-  async function executeWithdrawNFT() {
-    const metadata = await Metadata.findByMint(sdkConfig.saberHqConnection, "3W3BUk69PBSDj1tqinjfjtmEAZL9oFyVzcYiS6JjPJYV");
-    withdrawNFT(sdkConfig.saberHqConnection, honeyUser, metadata.pubkey);
-  }
-
   async function executeBorrow() {
     const borrowTokenMint = new PublicKey('So11111111111111111111111111111111111111112');
     const tx = await borrow(honeyUser, 1 * LAMPORTS_PER_SOL, borrowTokenMint, honeyReserves);
