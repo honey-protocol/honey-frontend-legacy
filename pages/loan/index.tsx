@@ -32,7 +32,6 @@ import {
 } from '@honey-finance/sdk';
 import { LAMPORTS_PER_SOL, PublicKey } from '@solana/web3.js';
 
-
 const Loan: NextPage = () => {
   const [hUser, updateUser] = useState('')
   /**
@@ -42,13 +41,11 @@ const Loan: NextPage = () => {
   */
    const sdkConfig = ConfigureSDK();
 
-  
-
-   /**
-    * @description calls upon the honey sdk - market 
-    * @params solanas useConnection func. && useConnectedWallet func. && JET ID
-    * @returns honeyUser which is the main object - honeyMarket, honeyReserves are for testing purposes
-   */
+  /**
+   * @description calls upon the honey sdk - market 
+   * @params solanas useConnection func. && useConnectedWallet func. && JET ID
+   * @returns honeyUser which is the main object - honeyMarket, honeyReserves are for testing purposes
+  */
    const { honeyClient, honeyUser, honeyReserves } = useMarket(sdkConfig.saberHqConnection, sdkConfig.sdkWallet!, sdkConfig.honeyId, sdkConfig.marketID);
    const { market, marketReserveInfo, parsedReserves }  = useHoney();
   /**

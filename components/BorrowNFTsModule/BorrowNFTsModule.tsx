@@ -14,7 +14,12 @@ import {
   useMarket
 } from '@honey-finance/sdk';
 
+type TButton = {
+  title: string;
+  hidden?: boolean;
+};
 interface BorrowNFTsModule {
+  buttons: TButton[],
   NFT: {
     name: string,
     image: string,
@@ -28,7 +33,7 @@ interface BorrowNFTsModule {
 
 const BorrowNFTsModule = (props: BorrowNFTsModule) => {
   const sdkConfig = ConfigureSDK();
-  const { NFT } = props;
+  const { NFT, buttons } = props;
 
   /**
     * @description calls upon the honey sdk - market 

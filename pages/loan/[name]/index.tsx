@@ -6,10 +6,11 @@ import LoanNFTsContainer from 'components/LoanNFTsContainer/LoanNFTsContainer';
 import BorrowNFTsModule from 'components/BorrowNFTsModule/BorrowNFTsModule';
 import useFetchNFTByUser from '../../../hooks/useNFTV2';
 import { useConnection, useConnectedWallet } from '@saberhq/use-solana';
-import { useBorrowPositions } from '@honey-finance/sdk';
+import { useBorrowPositions, depositNFT, withdrawNFT, useMarket } from '@honey-finance/sdk';
 import ConfigureSDK from '../../../helpers/config';
 import Link from 'next/link';
 import * as styles from '../../../styles/name.css';
+import { Metadata } from '@metaplex-foundation/mpl-token-metadata';
 
 const marketNFTs = [
   {
@@ -68,6 +69,16 @@ const Loan: NextPage = (props) => {
   const sdkConfig = ConfigureSDK()
   
   /**
+    * @description calls upon the honey sdk - market 
+    * @params solanas useConnection func. && useConnectedWallet func. && JET ID
+    * @returns honeyUser which is the main object - honeyMarket, honeyReserves are for testing purposes
+  */
+  const { honeyUser } = useMarket(sdkConfig.saberHqConnection, sdkConfig.sdkWallet!, sdkConfig.honeyId, sdkConfig.marketID);
+	
+	useEffect(() => {
+    console.log('the honeyUser;', honeyUser);
+  }, [honeyUser]);
+  /**
    * @description wip testing with fetching nft hook - for now no nfts in wallet
    * @params wallet
    * @returns array of nfts held by user in wallet
@@ -91,12 +102,27 @@ const Loan: NextPage = (props) => {
     console.log('availableNFTs', availableNFTs)
     console.log('loading', loading)
   }, [collateralNFTPositions, loanPositions, availableNFTs, loading])
-
+  /**
+   * @description this logic regards the selection of NFTs
+   * @params NFT id
+   * @returns NFT
+  */
   const [selectedId, setSelectedId] = useState(1);
 
   function selectNFT(key: number) {
     setSelectedId(key);
   };
+
+	async function executeDepositNFT() {
+    // mint of the NFT can be find on solscan
+    const metadata = await Metadata.findByMint(sdkConfig.saberHqConnection, "8Sfcn3XwQGA5phFMTmp71K3akzv9FS5bAAcoxredaa6y")
+    depositNFT(sdkConfig.saberHqConnection, honeyUser, metadata.pubkey);
+  }
+
+  async function executeWithdrawNFT() {
+    const metadata = await Metadata.findByMint(sdkConfig.saberHqConnection, "3W3BUk69PBSDj1tqinjfjtmEAZL9oFyVzcYiS6JjPJYV");
+    withdrawNFT(sdkConfig.saberHqConnection, honeyUser, metadata.pubkey);
+  }
 
   return (
     <Layout>
@@ -131,22 +157,25 @@ const Loan: NextPage = (props) => {
               title: 'Open position'
             },
             {
-              title: 'Withdraw NFT',
-              // onClick: () => { executeWithdraw() }
-            },
-            {
               title: 'New position',
-            },
-            {
-              title: 'Deposit NFT'
-              // onClick: () => { executeDepositNFT() }
             }
           ]}
           openPositions={collateralNFTPositions}
           NFTs={availableNFTs}
         />
-        <BorrowNFTsModule NFT={marketNFTs.find(
-          (NFT) => NFT.key === selectedId) || marketNFTs[0]} />
+        <BorrowNFTsModule
+          NFT={marketNFTs.find((NFT) => NFT.key === selectedId) || marketNFTs[0]} 
+          buttons={[
+            {
+							title: 'WithdrawNFT',
+							// onClick: () => { executeWithdrawNFT() }
+						},
+						{
+							title: 'Deposit NFT',
+							// onClick: () => { executeDepositNFT() }
+						}
+          ]}
+        />
       </Box>
     </Layout>
   );

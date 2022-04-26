@@ -17,6 +17,7 @@ interface LoanNFTsContainerProps {
   selectedId: number,
   onSelectNFT: (key: number) => void,
   executeDepositNFT?: () => void,
+  executeWithdrawNFT?: () => void,
   hans?: () => void,
   title: string;
   buttons: TButton[];
@@ -30,6 +31,8 @@ const LoanNFTsContainer = (props: LoanNFTsContainerProps) => {
     buttons,
     selectedId,
     onSelectNFT,
+    executeDepositNFT,
+    executeWithdrawNFT,
   } = props;
 
   const sdkConfig = ConfigureSDK();
@@ -49,17 +52,6 @@ const LoanNFTsContainer = (props: LoanNFTsContainerProps) => {
    * @returns honeyUser which is the main object - honeyMarket, honeyReserves are for testing purposes
   */
    const { honeyClient, honeyUser, honeyReserves } = useMarket(sdkConfig.saberHqConnection, sdkConfig.sdkWallet, sdkConfig.honeyId, sdkConfig.marketID);
-
-  async function executeDepositNFT() {
-    // mint of the NFT can be find on solscan
-    const metadata = await Metadata.findByMint(sdkConfig.saberHqConnection, "8Sfcn3XwQGA5phFMTmp71K3akzv9FS5bAAcoxredaa6y")
-    depositNFT(sdkConfig.saberHqConnection, honeyUser, metadata.pubkey);
-  }
-
-  async function executeWithdrawNFT() {
-    const metadata = await Metadata.findByMint(sdkConfig.saberHqConnection, "3W3BUk69PBSDj1tqinjfjtmEAZL9oFyVzcYiS6JjPJYV");
-    withdrawNFT(sdkConfig.saberHqConnection, honeyUser, metadata.pubkey);
-  }
 
   useEffect(() => {console.log('use effect running', renderState)}, [renderState])
 
