@@ -110,80 +110,21 @@ export const fetchFarmer = async (
   };
 };
 
-//staking
-/**
- * @params
- * @description
- * @returns
- **/
-export const onDepositGems = async (
+export const tokenAccountResult = async (
   gf: GemFarm,
   gb: GemBank,
   walletAddress: PublicKey,
-  vaultAddress: PublicKey,
-  bankAddress: PublicKey,
-  nftMint: PublicKey,
-  creator: PublicKey
+  nftMint: PublicKey
 ) => {
-  console.log('Adding single gem');
-  //get token Account address
   const tokenAccResult = await PublicKey.findProgramAddress(
     [walletAddress.toBuffer(), TOKEN_PROGRAM_ID.toBuffer(), nftMint.toBuffer()],
     SPL_ASSOCIATED_TOKEN_ACCOUNT_PROGRAM_ID
   );
 
-  const { txSig } = await gb.depositGemWallet(
-    bankAddress,
-    vaultAddress,
-    new BN(1),
-    nftMint,
-    tokenAccResult[0],
-    creator
-  );
-  console.log(txSig);
+  return tokenAccResult;
 };
 
-export const onWithdrawGems = async (
-  gb: GemBank,
-  bankAddress: string,
-  farmerVaultAddress: string,
-  nftMint: PublicKey
-) => {
-  console.log('removing a single gem', nftMint.toString());
-  const { txSig } = await gb.withdrawGemWallet(
-    new PublicKey(bankAddress),
-    new PublicKey(farmerVaultAddress),
-    new BN(1),
-    nftMint
-  );
-  console.log(txSig);
-};
-
-// --------------------------------------- adding extra gem to locked vault
-export const addSingleGem = async (
-  gf: GemFarm,
-  gemMint: PublicKey,
-  creator: PublicKey,
-  farmAddress: PublicKey,
-  walletAddress: PublicKey
-) => {
-  //get token Account address
-  const tokenAccResult = await PublicKey.findProgramAddress(
-    [walletAddress.toBuffer(), TOKEN_PROGRAM_ID.toBuffer(), gemMint.toBuffer()],
-    SPL_ASSOCIATED_TOKEN_ACCOUNT_PROGRAM_ID
-  );
-
-  await gf.flashDepositWallet(
-    farmAddress!,
-    '1',
-    gemMint,
-    tokenAccResult[0],
-    creator
-  );
-  console.log('flash deposited');
-};
-
-//FETCH GEMS STAKED
+// fetch gems staked
 export const getGemStakedInFarm = async (
   gb: GemBank,
   farmerVaultAddress: string,

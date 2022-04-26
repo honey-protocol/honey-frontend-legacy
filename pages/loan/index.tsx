@@ -3,7 +3,7 @@ import type { NextPage } from 'next';
 import Link from 'next/link';
 import { useWalletKit } from '@gokiprotocol/walletkit';
 import { useConnectedWallet } from '@saberhq/use-solana';
-import { Box, Text, Card } from 'degen';
+import { Box, Text, Card, IconPlus } from 'degen';
 import { Stack } from 'degen';
 import { Button } from 'degen';
 import { IconPlusSmall, IconSearch } from 'degen';
@@ -50,9 +50,13 @@ const Loan: NextPage = () => {
         >
           <DepositWithdrawModule />
         </ModalContainer>
-        <Box className={styles.headerDivider}>
-          <Box className={styles.leftComponent}>
-            <Stack>
+        <Box marginY="4">
+          <Stack direction="vertical" space="5">
+            <Stack
+              direction="horizontal"
+              align="center"
+              justify="space-between"
+            >
               <ToggleSwitch
                 buttons={[
                   {
@@ -64,8 +68,7 @@ const Loan: NextPage = () => {
                 activeIndex={borrowOrLend}
               />
             </Stack>
-          </Box>
-          <LoanHeaderComponent />
+          </Stack>
         </Box>
         <Box
           backgroundColor="backgroundTertiary"

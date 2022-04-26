@@ -6,25 +6,35 @@ import * as styles from './LoanHeaderComponent.css';
 const LoanHeaderComponent = () => {
   return (
     <Box className={styles.headerWrapper}>
-        <Box>
-            <Text>Health Factor <span>Healthy</span></Text>
-            <Text>100%</Text>
-        </Box>
-        <Box>
-            <Text>Borrow Balance</Text>
-            <Text>0$</Text>
-        </Box>
-        <Box>
-            <Text>Supply Balance</Text>
-            <Text>0$</Text>
-        </Box>
-        <Box>
-            <Text>Your positions</Text>
-            <Text>0</Text>
-        </Box>
-        <Box className={styles.vaultButton}>
-            <Button><IconPlus /> <span>New Vault</span></Button>
-        </Box>
+      <Box>
+        <Text>
+          Health Factor <span>Healthy</span>
+        </Text>
+        <Text weight="medium" color="textSecondary">
+          100%
+        </Text>
+      </Box>
+      <Box>
+        <Text>Borrow Balance</Text>
+        <Text weight="medium" color="textSecondary">
+          0$
+        </Text>
+      </Box>
+      <Box>
+        <Text>Supply Balance</Text>
+        <Text weight="medium" color="textSecondary">
+          0$
+        </Text>
+      </Box>
+      <Box>
+        <Text>Your positions</Text>
+        <Text weight="medium" color="textSecondary">
+          0
+        </Text>
+      </Box>
+      <Button prefix={<IconPlus />} size="small">
+        New Vault
+      </Button>
     </Box>
   );
 };
