@@ -1,7 +1,4 @@
-import {
-  useConnectedWallet,
-  useConnection,
-} from '@saberhq/use-solana';
+import { useConnectedWallet, useConnection } from '@saberhq/use-solana';
 import { PublicKey, Transaction } from '@solana/web3.js';
 import { GemBank, initGemBank } from 'gem-bank';
 import { GemFarm, initGemFarm } from 'gem-farm';
@@ -69,8 +66,6 @@ const useGemFarm = () => {
   const [selectedWalletNFTs, setSelectedWalletNFTs] = useState<NFT[]>([]);
   const [selectedVaultNFTs, setSelectedVaultNFTs] = useState<NFT[]>([]);
 
-  console.log(wallet?.connected)
-
   // Get farm and bank addresses from router
   const router = useRouter();
   const collectionName = router.query.name;
@@ -106,12 +101,17 @@ const useGemFarm = () => {
           farmAddress,
           wallet?.publicKey
         );
+        console.log({ farmer });
         setFarmerAcc(farmer.farmerAcc);
         setVaultAcc(farmer.vaultAcc);
         setAvailableA(farmer.rewards.availableA);
         setAvailableB(farmer.rewards.availableB);
         setFarmerIdentity(farmer.farmerIdentity);
         setFarmerState(farmer.farmerState);
+        console.log({
+          rewardA: farmer.rewards.availableA,
+          rewardB: farmer.rewards.availableA
+        });
       } catch (error) {
         checkErrorAndShowToast(error, 'Farmer account not found');
       }
@@ -214,7 +214,6 @@ const useGemFarm = () => {
     }
   }, [isStartingGemFarm, setNFTs]);
 
-
   const onRefreshNFTs = async () => {
     if (!gb) return;
     const results = await Promise.all([
@@ -284,7 +283,6 @@ const useGemFarm = () => {
       );
     }
   };
-
 
   const handleStakeButtonClick = async () => {
     if (!gf || !gb) throw new Error('No Gem Bank client has been initialized.');
@@ -374,7 +372,10 @@ const useGemFarm = () => {
     setSelectedWalletNFTs([]);
   };
 
+  console.log({ availableA });
+
   const claimRewards = async () => {
+    console.log({ availableA });
     if (!gf) return;
     try {
       await gf.claimWallet(
@@ -382,7 +383,14 @@ const useGemFarm = () => {
         new PublicKey(farmAcc.rewardA.rewardMint!),
         new PublicKey(farmAcc.rewardB.rewardMint!)
       );
-      toast.success('Rewards claimed!');
+      toast.success(
+        // `${Number(availableA).toFixed(1)} $${
+        //   collection?.rewardTokenName
+        // } claimed!`
+        'Rewards claimed!'
+      );
+      setAvailableA('0');
+      setAvailableB('0');
     } catch (error) {
       console.log(error);
       checkErrorAndShowToast(error, 'Failed to claim rewards');
