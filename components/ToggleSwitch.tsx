@@ -19,17 +19,12 @@ const ToggleSwitch = (props: ToggleSwitchProps) => {
       paddingTop="2"
       paddingLeft="2"
       paddingBottom="2"
-      // padding="2"
     >
-      <Stack
-        direction="horizontal"
-        align="center"
-        space="1.5"
-        justify="space-around"
-      >
+      <Stack direction="horizontal" align="center" space="1.5">
         {buttons.map((button, i) => (
-          <Box paddingRight="1.5" key={button.title}>
+          <Box flex={1} paddingRight="1.5" key={button.title}>
             <Button
+              width="full"
               onClick={() => button.onClick()}
               variant={i === activeIndex ? 'primary' : 'secondary'}
               key={i}

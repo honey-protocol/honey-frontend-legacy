@@ -15,12 +15,12 @@ export const dataContainer = style({
 
 export const dataRowWrapper = style({
   width: '100%',
-  display: 'flex',
-})
+  display: 'flex'
+});
 
 globalStyle(`${dataRowWrapper} > div`, {
   width: '100%',
-  justifyContent: 'space-around',
+  justifyContent: 'space-around'
 });
 
 globalStyle(`${dataRowWrapper} > div > *`, {
@@ -40,7 +40,7 @@ export const avatarContainer = style({
   alignItems: 'center'
 });
 
-globalStyle(`${avatarContainer} > div`,  {
+globalStyle(`${avatarContainer} > div`, {
   width: 'auto',
   marginRight: '.5em'
 });
@@ -62,39 +62,32 @@ globalStyle(`${cardMenuContainer} > div`, {
   width: '20%',
   textAlign: 'center',
   display: 'block'
-})
+});
 
 export const lineDivider = style({
   width: '100%'
 });
 
 // Styles for loan modal - should become a component in component folder with JSX and CSS logic
-export const avatarWrapper = style({
-  display: 'flex',
-  flexDirection: 'column',
-  alignItems: 'center',
-  marginTop: '2em'
-});
-
 export const mainComponentWrapper = style({
   borderBottomLeftRadius: '1px',
-  borderBottomRightRadius: '1px',
-})
+  borderBottomRightRadius: '1px'
+});
 
 export const headerDivider = style({
   display: 'flex',
-  flexDirection: 'row',
-})
+  flexDirection: 'row'
+});
 
 export const leftComponent = style({
   height: '8em',
   display: 'flex',
   flexDirection: 'column',
   justifyContent: 'space-around'
-})
+});
 
 globalStyle(`${cardMenuContainer} > div`, {
   display: 'flex',
   alignItems: 'center',
-  justifyContent: 'center',
-})
+  justifyContent: 'center'
+});
