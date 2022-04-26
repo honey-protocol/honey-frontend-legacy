@@ -7,6 +7,7 @@ import BorrowNFTsModule from 'components/BorrowNFTsModule/BorrowNFTsModule';
 import useFetchNFTByUser from '../../../hooks/useNFTV2';
 import { useConnection, useConnectedWallet } from '@saberhq/use-solana';
 import { useBorrowPositions } from '@honey-finance/sdk';
+import ConfigureSDK from '../../../helpers/config';
 import Link from 'next/link';
 import * as styles from '../../../styles/name.css';
 
@@ -60,26 +61,11 @@ const marketNFTs = [
 
 const Loan: NextPage = (props) => {
   /**
-   * @description base sdk config object
+   * @description loads sdk config object
    * @params none
-   * @returns connection | wallet | jetID
+   * @returns connection | wallet | honeyID | marketID
   */
-  const sdkConfig = {
-    saberHqConnection: useConnection(),
-    sdkWallet: useConnectedWallet(),
-    honeyId: '6ujVJiHnyqaTBHzwwfySzTDX5EPFgmXqnibuMp3Hun1w',
-    // marketID: 'CqFM8kwwkkrwPTVFZh52yFNSaZ3kQPDADSobHeDEkdj3'
-    marketID: 'HB82woFm5MrTx3X4gsRpVcUxtWJJyDBeT5xNGCUUrLLe'
-  }
-
-  const [openPositions, setOpenPositions] = useState()
-
-  /**
-   * @description calls upon useBorrowPositions
-   * @params connection && wallet && JET ID
-   * @returns TBorrowPosition array of data
-  */
-  const getBorrowPoistions = useBorrowPositions(sdkConfig.saberHqConnection, sdkConfig.sdkWallet, sdkConfig.honeyId, sdkConfig.marketID);
+  const sdkConfig = ConfigureSDK()
   
   /**
    * @description wip testing with fetching nft hook - for now no nfts in wallet
@@ -88,9 +74,23 @@ const Loan: NextPage = (props) => {
   */
   const wallet = useConnectedWallet();
   const availableNFTs = useFetchNFTByUser(wallet)
-  
+
+  /**
+   * @description calls upon useBorrowPositions
+   * @params connection && wallet && HONEY_PROGRAM_ID
+   * @returns loading state | NFTs posted as collateral | loan positions | error
+  */
+  const { loading, collateralNFTPositions, loanPositions, error } = useBorrowPositions(sdkConfig.saberHqConnection, sdkConfig.sdkWallet!, sdkConfig.honeyId, sdkConfig.marketID);
+
+  /**
+   * @TODO when loading state is true show loader in NFTs block
+  */
   useEffect(() => {
-  }, [getBorrowPoistions, availableNFTs])
+    console.log("collateral nft positions ", collateralNFTPositions);
+    console.log("loan positions: ", loanPositions);
+    console.log('availableNFTs', availableNFTs)
+    console.log('loading', loading)
+  }, [collateralNFTPositions, loanPositions, availableNFTs, loading])
 
   const [selectedId, setSelectedId] = useState(1);
 
@@ -131,10 +131,18 @@ const Loan: NextPage = (props) => {
               title: 'Open position'
             },
             {
-              title: 'New position'
+              title: 'Withdraw NFT',
+              // onClick: () => { executeWithdraw() }
+            },
+            {
+              title: 'New position',
+            },
+            {
+              title: 'Deposit NFT'
+              // onClick: () => { executeDepositNFT() }
             }
           ]}
-          openPositions={getBorrowPoistions.data}
+          openPositions={collateralNFTPositions}
           NFTs={availableNFTs}
         />
         <BorrowNFTsModule NFT={marketNFTs.find(

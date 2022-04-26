@@ -34,6 +34,23 @@ import { LAMPORTS_PER_SOL, PublicKey } from '@solana/web3.js';
 
 
 const Loan: NextPage = () => {
+  const [hUser, updateUser] = useState('')
+  /**
+   * @description base sdk config object
+   * @params none
+   * @returns connection | wallet | jetID
+  */
+   const sdkConfig = ConfigureSDK();
+
+  
+
+   /**
+    * @description calls upon the honey sdk - market 
+    * @params solanas useConnection func. && useConnectedWallet func. && JET ID
+    * @returns honeyUser which is the main object - honeyMarket, honeyReserves are for testing purposes
+   */
+   const { honeyClient, honeyUser, honeyReserves } = useMarket(sdkConfig.saberHqConnection, sdkConfig.sdkWallet!, sdkConfig.honeyId, sdkConfig.marketID);
+   const { market, marketReserveInfo, parsedReserves }  = useHoney();
   /**
  * @description object layout for pools table - should be filled by getPools()
  * @params none
@@ -47,23 +64,9 @@ const Loan: NextPage = () => {
       totalBorrowed: 0,
       interest: 0,
       available: 0,
-      positions: 0
+      positions: 0,
     }
   ];
-  /**
-   * @description base sdk config object
-   * @params none
-   * @returns connection | wallet | jetID
-  */
-  const sdkConfig = ConfigureSDK();
-
-  /**
-   * @description calls upon the honey sdk - market 
-   * @params solanas useConnection func. && useConnectedWallet func. && JET ID
-   * @returns honeyUser which is the main object - honeyMarket, honeyReserves are for testing purposes
-  */
-  const { honeyClient, honeyUser, honeyReserves } = useMarket(sdkConfig.saberHqConnection, sdkConfig.sdkWallet!, sdkConfig.honeyId, sdkConfig.marketID);
-  const { market, marketReserveInfo, parsedReserves }  = useHoney();
 
   useEffect(() => {
     console.log("market: ", market);
@@ -72,13 +75,7 @@ const Loan: NextPage = () => {
   }, [market, marketReserveInfo, parsedReserves])
 
   useEffect(() => {
-    console.log("Market:", market);
-    console.log("Market Reserve Info: ", marketReserveInfo);
-    console.log("Reserves: ", parsedReserves);
-  }, [market, marketReserveInfo, parsedReserves]);
-
-  useEffect(() => {
-    console.log(honeyClient, honeyUser, honeyReserves);
+    console.log(honeyClient, 'the honeyUser;', honeyUser, honeyReserves);
   }, [honeyClient, honeyUser, honeyReserves]);
 
   // TODO:: Setup to work with SDK wallet 
@@ -165,18 +162,8 @@ const Loan: NextPage = () => {
             <Stack>
               <ToggleSwitch
                 buttons={[
-                  // {
-                  //   title: 'Borrow',
-                  //   onClick: () => { setLiveOrCompleted(0) }
-                  // },
-                  // { title: 'Deposit NFT', onClick: () => { executeDepositNFT() } },
-                  // { title: 'Withdraw NFT', onClick: () => { executeWithdrawNFT(); } },
                   // { title: 'Despoit 1 SOL', onClick: () => { executeDeposit() } },
                   // { title: 'Withdraw 1 SOL', onClick: () => { executeWithdraw() } },
-                  // { title: 'Loan', onClick: () => setLiveOrCompleted(1) },
-                  // { title: 'Borrow', onClick: () => executeBorrow() },
-                  // { title: 'Repay', onClick: () => { executeRepay(); }}
-
                   {
                     title: 'Borrow',
                     onClick: () => setLiveOrCompleted(0)

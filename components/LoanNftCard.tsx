@@ -27,7 +27,6 @@ console.log('@@@@@@@@@-this is the nft', props)
       backgroundColor={'backgroundSecondary'}
       borderRadius="3xLarge"
       borderWidth={props.selected ? '0.5' : '0'}
-      borderColor="accent"
       padding="1.5"
       overflow="hidden"
       onClick={() => onSelect(props.NFT.key)}

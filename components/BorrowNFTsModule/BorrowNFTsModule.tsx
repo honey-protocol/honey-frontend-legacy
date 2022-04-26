@@ -4,6 +4,13 @@ import LoanBorrow from '../../components/LoanBorrow';
 import LoanRepay from '../../components/LoanRepay';
 import * as styles from './BorrowNFTsModule.css';
 import ToggleSwitchLoan from '../../components/ToggleSwitchLoan';
+import ConfigureSDK from '../../helpers/config';
+import { LAMPORTS_PER_SOL, PublicKey } from '@solana/web3.js';
+import {
+  borrow,
+  repay,
+  useMarket
+} from '@honey-finance/sdk';
 
 interface BorrowNFTsModule {
   NFT: {
@@ -18,9 +25,28 @@ interface BorrowNFTsModule {
 }
 
 const BorrowNFTsModule = (props: BorrowNFTsModule) => {
+  const sdkConfig = ConfigureSDK();
   const { NFT } = props;
 
+  /**
+    * @description calls upon the honey sdk - market 
+    * @params solanas useConnection func. && useConnectedWallet func. && JET ID
+    * @returns honeyUser which is the main object - honeyMarket, honeyReserves are for testing purposes
+  */
+  const { honeyClient, honeyUser, honeyReserves } = useMarket(sdkConfig.saberHqConnection, sdkConfig.sdkWallet!, sdkConfig.honeyId, sdkConfig.marketID);
   const [borrowOrRepay, setBorrowOrRepay] = useState(0);
+
+  async function executeBorrow() {
+    const borrowTokenMint = new PublicKey('So11111111111111111111111111111111111111112');
+    const tx = await borrow(honeyUser, 1 * LAMPORTS_PER_SOL, borrowTokenMint, honeyReserves);
+    console.log(tx);
+  }
+
+  async function executeRepay() {
+    const repayTokenMint = new PublicKey('So11111111111111111111111111111111111111112');
+    const tx = await repay(honeyUser, 1 * LAMPORTS_PER_SOL, repayTokenMint, honeyReserves)
+    console.log(tx);
+  }
 
   return (
     <Box className={styles.cardContainer}>
@@ -29,9 +55,12 @@ const BorrowNFTsModule = (props: BorrowNFTsModule) => {
           buttons={[
             {
               title: 'Borrow',
-              onClick: () => setBorrowOrRepay(0)
+              onClick: () => executeBorrow()
             },
-            { title: 'Repay', onClick: () => setBorrowOrRepay(1) }
+            { 
+              title: 'Repay', 
+              onClick: () => executeRepay() 
+            }
           ]}
           activeIndex={borrowOrRepay}
         />

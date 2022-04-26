@@ -40,6 +40,8 @@ const LoanNFTsContainer = (props: LoanNFTsContainerProps) => {
     value == 'New position' ? handleRenderStateChange(1) : handleRenderStateChange(0);
   }
 
+  useEffect(() => {}, [renderState])
+
   /**
    * @description calls upon the honey sdk - market 
    * @params solanas useConnection func. && useConnectedWallet func. && JET ID
