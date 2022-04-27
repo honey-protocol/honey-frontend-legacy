@@ -17,6 +17,7 @@ import {
 type TButton = {
   title: string;
   hidden?: boolean;
+  onClick?: void;
 };
 interface BorrowNFTsModule {
   buttons: TButton[],
@@ -88,7 +89,10 @@ const BorrowNFTsModule = (props: BorrowNFTsModule) => {
         <hr></hr>
         {
           borrowOrRepay == 0  ? (
-            <LoanBorrow NFT={NFT} />
+            <LoanBorrow 
+              NFT={NFT} 
+
+            />
             ) : (
               <LoanRepay NFT={NFT} />
             )

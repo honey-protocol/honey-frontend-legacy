@@ -42,8 +42,7 @@ const marketNFTs = [
     tokenId: 'D3NhaYYpYa8twQE6C6gfMLR6QajeTeV1LsHpg9R9FAtJ',
     key: 3
   },
-
-]
+];
 
 const Loan: NextPage = (props) => {
   /**
@@ -51,7 +50,7 @@ const Loan: NextPage = (props) => {
    * @params none
    * @returns connection | wallet | honeyID | marketID
   */
-  const sdkConfig = ConfigureSDK()
+  const sdkConfig = ConfigureSDK();
   
   /**
     * @description calls upon the honey sdk - market 
@@ -69,8 +68,9 @@ const Loan: NextPage = (props) => {
    * @returns array of nfts held by user in wallet
   */
   const wallet = useConnectedWallet();
-  const availableNFTs = useFetchNFTByUser(wallet)
+  const availableNFTs = useFetchNFTByUser(wallet);
 
+  const [selectedNFT, setSelection] = useState(0);
   /**
    * @description calls upon useBorrowPositions
    * @params connection && wallet && HONEY_PROGRAM_ID
@@ -78,7 +78,6 @@ const Loan: NextPage = (props) => {
   */
   const { loading, collateralNFTPositions, loanPositions, error } = useBorrowPositions(sdkConfig.saberHqConnection, sdkConfig.sdkWallet!, sdkConfig.honeyId, sdkConfig.marketID);
 
-  console.log('this is coll NFT@@@@@@', collateralNFTPositions)
   /**
    * @TODO when loading state is true show loader in NFTs block
   */
@@ -87,7 +86,7 @@ const Loan: NextPage = (props) => {
     console.log("loan positions: ", loanPositions);
     console.log('availableNFTs', availableNFTs)
     console.log('loading', loading)
-  }, [collateralNFTPositions, loanPositions, availableNFTs, loading])
+  }, [collateralNFTPositions, loanPositions, availableNFTs, loading, selectedNFT])
   /**
    * @description this logic regards the selection of NFTs
    * @params NFT id
@@ -96,8 +95,8 @@ const Loan: NextPage = (props) => {
   const [selectedId, setSelectedId] = useState(1);
 
   function selectNFT(key: number) {
-    setSelectedId(key);
     console.log('----@@@-- this is the key', key)
+    setSelection(key)
   };
 
 	async function executeDepositNFT() {
@@ -137,29 +136,35 @@ const Loan: NextPage = (props) => {
       <Box display="flex" height="full" className={styles.loanCardsContainer}>
         <LoanNFTsContainer
           // title="Open positions"
-          selectedId={selectedId}
-          onSelectNFT={selectNFT}
+          selectedId={selectedNFT || 0}
           buttons={[
             {
               title: 'Open position'
             },
             {
+              title: 'Withdraw NFT'
+            },
+            {
               title: 'New position',
+            },
+            {
+              title: 'Deposit NFT',
             }
           ]}
           openPositions={collateralNFTPositions}
           NFTs={availableNFTs}
+          connection={sdkConfig.saberHqConnection}
+          honeyUser={honeyUser}
+          onSelectNFT={selectNFT}
         />
         <BorrowNFTsModule
           NFT={marketNFTs.find((NFT) => NFT.key === selectedId) || marketNFTs[0]} 
           buttons={[
             {
 							title: 'WithdrawNFT',
-							// onClick: () => { executeWithdrawNFT() }
 						},
 						{
 							title: 'Deposit NFT',
-							// onClick: () => { executeDepositNFT() }
 						}
           ]}
         />
