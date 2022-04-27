@@ -16,4 +16,5 @@ type NFT = {
   creators: Array<Creator>;
   tokenId: string;
   mint: string;
+  tokenMetaPublicKey: PublicKey
 };
