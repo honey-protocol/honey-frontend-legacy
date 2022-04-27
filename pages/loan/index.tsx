@@ -33,7 +33,6 @@ import {
 import { LAMPORTS_PER_SOL, PublicKey } from '@solana/web3.js';
 
 const Loan: NextPage = () => {
-  const [hUser, updateUser] = useState('')
   /**
    * @description base sdk config object
    * @params none

@@ -28,4 +28,8 @@ export const buttonSelectionWrapper = style({
   flexDirection: 'row',
   justifyContent: 'space-between',
   width: '100%'
-})
+});
+
+export const nftWrapper = style({
+  cursor: 'pointer'
+});

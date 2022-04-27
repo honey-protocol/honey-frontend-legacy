@@ -35,6 +35,8 @@ const BorrowNFTsModule = (props: BorrowNFTsModule) => {
   const sdkConfig = ConfigureSDK();
   const { NFT, buttons } = props;
 
+  console.log('this are the buttons', buttons);
+
   /**
     * @description calls upon the honey sdk - market 
     * @params solanas useConnection func. && useConnectedWallet func. && JET ID

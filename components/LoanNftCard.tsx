@@ -1,6 +1,7 @@
 import React, { useState, FC, ReactNode } from 'react';
 import Image from 'next/image';
 import { Avatar, Box } from 'degen';
+import * as styles from '../components/LoanNFTsContainer/LoanNFTsContainer.css';
 
 interface LoanNFTCardProps {
   NFT: {
@@ -22,16 +23,22 @@ const LoanNFTCard = (props: LoanNFTCardProps) => {
     executeWithdrawNFT
   } = props;
 
-  console.log('@@@- this is the nft', props)
+  function handleClick(nft: any) {
+    onSelect(nft)
+
+  }  
 
   return (
     <Box
+      className={styles.nftWrapper}
       backgroundColor={'backgroundSecondary'}
       borderRadius="3xLarge"
       borderWidth={props.selected ? '0.5' : '0'}
       padding="1.5"
       overflow="hidden"
-      onClick={() => onSelect(props.NFT.key)}
+      onClick={() => {
+        handleClick(props.NFT)
+      }}
     >
       <Avatar
         label={props.NFT.name}

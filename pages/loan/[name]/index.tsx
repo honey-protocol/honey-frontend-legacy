@@ -14,50 +14,35 @@ import { Metadata } from '@metaplex-foundation/mpl-token-metadata';
 
 const marketNFTs = [
   {
-    name: 'SMB #2721',
-    image:'/nfts/2721.png',
+    name: 'Cofre #529',
+    image:'https://www.arweave.net/5zeisOPbDekgyqYHd0okraQKaWwlVxvIIiXLH4Sr2M8?ext=png',
     borrowApy: '4.2%',
     estValue: '$25,800',
-    assetsBorrowed: 0,
-    netBorrowBalance: 0,
+    assetsBorrowed: 12000,
+    netBorrowBalance: 13800,
     key: 1
   },
   {
-    name: 'SMB #273',
-    image:'/nfts/273.png',
-    borrowApy: '4.2%',
+    name: 'Sammy Wow',
+    image:'https://www.arweave.net/Vw2M1pzgj8j5kDTtiUhLrZRocFsLcdOs0fZcLeD6yeY?ext=png',
+    borrowApy: '8.1%',
     estValue: '$23,500',
-    assetsBorrowed: 0,
+    assetsBorrowed: 11000,
     netBorrowBalance: 0,
+    tokenId: '9LZvVgGXjLQ3VH6simxE5RspmgA9kTNayTN8e7Y8dexq',
     key: 2
   },
   {
-    name: 'SMB #1912',
-    image:'/nfts/1912.png',
+    name: 'Sammy Sponge',
+    image:'https://www.arweave.net/qXTBbViM3_7KZ1DCcvZ7CEQ8sMh51e3L_j4Q0U7PBYU?ext=png',
     borrowApy: '4.2%',
     estValue: '$55,000',
     assetsBorrowed: 0,
     netBorrowBalance: 0,
+    tokenId: 'D3NhaYYpYa8twQE6C6gfMLR6QajeTeV1LsHpg9R9FAtJ',
     key: 3
   },
-  {
-    name: 'SMB #2738',
-    image:'/nfts/2738.png',
-    borrowApy: '4.2%',
-    estValue: '$33,300',
-    assetsBorrowed: 0,
-    netBorrowBalance: 0,
-    key: 4
-  },
-  {
-    name: 'SMB #3956',
-    image:'/nfts/3956.png',
-    borrowApy: '4.2%',
-    estValue: '$39,500',
-    assetsBorrowed: 0,
-    netBorrowBalance: 0,
-    key: 5
-  }
+
 ]
 
 const Loan: NextPage = (props) => {
@@ -93,6 +78,7 @@ const Loan: NextPage = (props) => {
   */
   const { loading, collateralNFTPositions, loanPositions, error } = useBorrowPositions(sdkConfig.saberHqConnection, sdkConfig.sdkWallet!, sdkConfig.honeyId, sdkConfig.marketID);
 
+  console.log('this is coll NFT@@@@@@', collateralNFTPositions)
   /**
    * @TODO when loading state is true show loader in NFTs block
   */
@@ -111,6 +97,7 @@ const Loan: NextPage = (props) => {
 
   function selectNFT(key: number) {
     setSelectedId(key);
+    console.log('----@@@-- this is the key', key)
   };
 
 	async function executeDepositNFT() {

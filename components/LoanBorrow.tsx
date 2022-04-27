@@ -79,7 +79,7 @@ const LoanBorrow = (props: LoanBorrowProps) => {
                             align="right"
                             color="foreground"
                         >
-                            0%
+                            12%
                         </Text>
                     </Stack>
                     <Stack
