@@ -18,6 +18,7 @@ const defaultNFT: NFT = {
   creators: [],
   tokenId: "",
   mint: "",
+  tokenMetaPublicKey: PublicKey.default
 }
 
 //this function should fetch all NFT from User
@@ -65,8 +66,10 @@ export default function useFetchNFTByUser(wallet: ConnectedWallet | null): [Arra
                   image: imageURI,
                   creators: nft.data.creators,
                   mint: nft.mint,
-                  tokenId: tokenMetaPublicKey.toString()
+                  tokenId: tokenMetaPublicKey.toString(),
+                  tokenMetaPublicKey: tokenMetaPublicKey
                 }
+                console.log('this is the result object', result)
                 return result
               }
             )
