@@ -16,7 +16,7 @@ interface LoanNFTsContainerProps {
   NFTs: any[],
   selectedId: number,
   onSelectNFT: (key: number) => void,
-  executeDepositNFT?: () => void,
+  executeDepositNFT: () => void,
   executeWithdrawNFT?: () => void,
   hans?: () => void,
   title: string;
@@ -37,23 +37,29 @@ const LoanNFTsContainer = (props: LoanNFTsContainerProps) => {
 
   const sdkConfig = ConfigureSDK();
 
-  const [renderState, handleRenderStateChange] = useState(0);
-
-  function handleNewPosition(value: string) {
-    console.log('handle new position', value)
-    value == 'New position' ? handleRenderStateChange(1) : handleRenderStateChange(0);
-  }
-
-  useEffect(() => {}, [renderState])
-
   /**
    * @description calls upon the honey sdk - market 
    * @params solanas useConnection func. && useConnectedWallet func. && JET ID
    * @returns honeyUser which is the main object - honeyMarket, honeyReserves are for testing purposes
   */
-   const { honeyClient, honeyUser, honeyReserves } = useMarket(sdkConfig.saberHqConnection, sdkConfig.sdkWallet, sdkConfig.honeyId, sdkConfig.marketID);
+   const { honeyUser } = useMarket(sdkConfig.saberHqConnection, sdkConfig.sdkWallet!, sdkConfig.honeyId, sdkConfig.marketID);
 
-  useEffect(() => {console.log('use effect running', renderState)}, [renderState])
+  const [renderState, handleRenderStateChange] = useState(0);
+
+  function handleNewPosition(value: string) {
+    console.log('handle new position', value)
+    if (value == 'New position') {
+      handleRenderStateChange(1)
+    } else if (value == 'Open position') {
+      handleRenderStateChange(0)
+    }
+
+    if (value == 'Deposit NFT' && selectedId.tokenMetaPublicKey) {
+      depositNFT(sdkConfig.saberHqConnection, honeyUser, selectedId.tokenMetaPublicKey)
+    }
+  }
+
+  useEffect(() => {console.log('use effect running', renderState, selectedId)}, [renderState, selectedId])
 
   return (
     <Box className={styles.cardContainer}>
