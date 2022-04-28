@@ -13,11 +13,12 @@ interface LoanRepayProps {
         assetsBorrowed: number,
         netBorrowBalance: number,
         key: number
-    }
+    },
+    handleRepay: () => void
 }
 
 const LoanRepay = (props: LoanRepayProps) => {
-    const { NFT } = props;
+    const { NFT, handleRepay } = props;
 
     return (
         <Box gap="3">
@@ -193,7 +194,7 @@ const LoanRepay = (props: LoanRepayProps) => {
                 </Stack>
             </Box>
             <Slider />
-            <Button width="full">Repay</Button>
+            <Button width="full" onClick={handleRepay}>Repay</Button>
         </Box>
     )
 }

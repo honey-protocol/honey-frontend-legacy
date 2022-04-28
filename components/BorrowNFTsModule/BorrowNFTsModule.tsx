@@ -49,19 +49,27 @@ const BorrowNFTsModule = (props: BorrowNFTsModule) => {
   async function executeBorrow() {
     setTimeout(() => {
       handleBorrow(1)
-    },5000)
+    },3000)
     const borrowTokenMint = new PublicKey('So11111111111111111111111111111111111111112');
     const tx = await borrow(honeyUser, 1 * LAMPORTS_PER_SOL, borrowTokenMint, honeyReserves);
+
+    setTimeout(() => {
+      handleBorrow(0)
+    },3000)
   }
 
   async function executeRepay() {
     setTimeout(() => {
       handleBorrow(0)
-    },5000)
+    },3000)
 
     const repayTokenMint = new PublicKey('So11111111111111111111111111111111111111112');
     const tx = await repay(honeyUser, 1 * LAMPORTS_PER_SOL, repayTokenMint, honeyReserves)
     console.log(tx);
+  }
+
+  function handleToggle(value:string) {
+    setBorrowOrRepay(value);
   }
 
   return (
@@ -71,11 +79,11 @@ const BorrowNFTsModule = (props: BorrowNFTsModule) => {
           buttons={[
             {
               title: 'Borrow',
-              onClick: () => executeBorrow()
+              onClick: () => handleToggle(0)
             },
             { 
               title: 'Repay', 
-              onClick: () => executeRepay() 
+              onClick: () => handleToggle(1) 
             }
           ]}
           activeIndex={borrowOrRepay}
@@ -89,7 +97,7 @@ const BorrowNFTsModule = (props: BorrowNFTsModule) => {
               loanPositions={loanPositions}
             />
             ) : (
-              <LoanRepay NFT={NFT} />
+              <LoanRepay NFT={NFT} handleRepay={executeRepay} />
             )
         };
       </Card>

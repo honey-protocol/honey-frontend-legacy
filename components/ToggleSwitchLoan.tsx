@@ -10,8 +10,14 @@ interface ToggleSwitchProps {
 }
 
 const ToggleSwitchLoan = (props: ToggleSwitchProps) => {
-  const { buttons, activeIndex } = props;
+  let { buttons, activeIndex,  } = props;
 
+  console.log('this is buttons', buttons)
+
+  function handleClick() {
+    console.log('click handler')
+  }
+  
   return (
     <Box>
       <Stack
@@ -22,8 +28,8 @@ const ToggleSwitchLoan = (props: ToggleSwitchProps) => {
       >
         {buttons.map((button, i) => (
           <Button
-            onClick={() => button.onClick()}
-            variant={i === activeIndex ? 'primary' : 'tertiary'}
+            onClick={button.onClick}
+            variant={'primary'}
             key={i}
             width="full"
           >
@@ -36,3 +42,4 @@ const ToggleSwitchLoan = (props: ToggleSwitchProps) => {
 };
 
 export default ToggleSwitchLoan;
+
