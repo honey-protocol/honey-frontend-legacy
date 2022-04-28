@@ -23,7 +23,7 @@ const Slider = () => {
         </Box>
         <Box className={styles.selectionDetails}>
           {/* Should become a helper function that calculates max available, divided by 100 multiplied by percentage selected */}
-          <div className={styles.currencyStyles}>{((25800 - 12000)/100) * slideCount}</div>
+          <div className={styles.currencyStyles}>{slideCount / 100}</div>
           <Avatar label="TetranodeNFT" size="10" shape="square" src={'https://assets.coingecko.com/coins/images/4128/small/solana.png?1640133422'} />
           <select name="currencySelector" id="currencySelector" className={styles.currencySelector}>
             <option value="SOL">SOL</option>
