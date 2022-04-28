@@ -22,7 +22,7 @@ const Loan: NextPage = (props) => {
   */
   const sdkConfig = ConfigureSDK();
 
-  const [borrowB, setBorrowB] = useState(0);
+  const [borrowB, setBorrowB] = useState(1);
 
 
   const marketNFTs = [
