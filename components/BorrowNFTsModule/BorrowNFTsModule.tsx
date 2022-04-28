@@ -55,8 +55,6 @@ const BorrowNFTsModule = (props: BorrowNFTsModule) => {
     console.log(tx);
   }
 
-  // executeBorrow()
-
   return (
     <Box className={styles.cardContainer}>
       <Card level="2" width="full" padding="8" shadow>
@@ -78,7 +76,7 @@ const BorrowNFTsModule = (props: BorrowNFTsModule) => {
           borrowOrRepay == 0  ? (
             <LoanBorrow 
               NFT={NFT} 
-
+              handleBorrow={executeBorrow}
             />
             ) : (
               <LoanRepay NFT={NFT} />

@@ -23,11 +23,12 @@ interface LoanBorrowProps {
         netBorrowBalance: number,
         key: number
     },
-    buttons: TButton[]
+    buttons: TButton[],
+    handleBorrow: () => void
 }
 
 const LoanBorrow = (props: LoanBorrowProps) => {
-    const { NFT, buttons } = props;
+    const { NFT, buttons, handleBorrow } = props;
 
     function handleWithdraw() {
         console.log('handle withdraw function')
@@ -92,7 +93,7 @@ const LoanBorrow = (props: LoanBorrowProps) => {
                             align="right"
                             color="foreground"
                         >
-                            12%
+                            {NFT.borrowApy}
                         </Text>
                     </Stack>
                     <Stack
@@ -193,8 +194,8 @@ const LoanBorrow = (props: LoanBorrowProps) => {
             <ToggleSwitchLoan
                   buttons={[
                     {
-                      title: 'Deposit',
-                      onClick: () => handleWithdraw()
+                      title: 'Borrow',
+                      onClick: () => handleBorrow()
                     }
                   ]}
                   activeIndex={0}

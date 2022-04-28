@@ -1,4 +1,4 @@
-import React, { useState, FC, ReactNode } from 'react';
+import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
 import { Avatar, Box } from 'degen';
 import * as styles from '../components/LoanNFTsContainer/LoanNFTsContainer.css';
@@ -19,13 +19,11 @@ interface LoanNFTCardProps {
 const LoanNFTCard = (props: LoanNFTCardProps) => {
   const {
     onSelect,
-    executeDepositNFT,
-    executeWithdrawNFT
+    NFT
   } = props;
 
   function handleClick(nft: any) {
     onSelect(nft)
-
   }  
 
   return (

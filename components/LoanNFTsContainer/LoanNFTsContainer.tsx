@@ -42,6 +42,8 @@ const LoanNFTsContainer = (props: LoanNFTsContainerProps) => {
 
   useEffect(() => {
     console.log('change happend open;', openPositions, 'nfts;', NFTs)
+    updatePositions(openPositions)
+    updateAvailableNfts(NFTs)
   },[openPositions, NFTs])
 
   /**
@@ -142,8 +144,8 @@ const LoanNFTsContainer = (props: LoanNFTsContainerProps) => {
               </Box>
             </Stack>
               <Box className={styles.nftContainer}>
-                { (renderState == 'open' && openPositions) ?
-                  openPositions.map((nft: any, i: number) => {
+                { (renderState == 'open' && openP) ?
+                  openP.map((nft: any, i: number) => {
                     return (
                       <LoanNFTCard
                         selected={nft.collateralTokenId === selectedId}
@@ -155,7 +157,7 @@ const LoanNFTsContainer = (props: LoanNFTsContainerProps) => {
                     />
                     )
                   }) : 
-                  NFTs[0].map((nft: any, i: number) => {
+                  availableNtfs[0].map((nft: any, i: number) => {
                     return (
                       <LoanNFTCard 
                         selected={nft.tokenId || selectedId}
