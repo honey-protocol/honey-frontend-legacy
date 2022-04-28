@@ -150,7 +150,7 @@ const LoanBorrow = (props: LoanBorrowProps) => {
                                 align="left"
                                 color="foreground"
                             >
-                            {NFT.assetsBorrowed} USDC
+                            {NFT.assetsBorrowed} SOL
                             </Text>
                         </Stack>
                     <Text

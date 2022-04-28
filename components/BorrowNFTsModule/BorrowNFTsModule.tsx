@@ -44,18 +44,6 @@ const BorrowNFTsModule = (props: BorrowNFTsModule) => {
   const { honeyClient, honeyUser, honeyReserves } = useMarket(sdkConfig.saberHqConnection, sdkConfig.sdkWallet!, sdkConfig.honeyId, sdkConfig.marketID);
   const [borrowOrRepay, setBorrowOrRepay] = useState(0);
 
-  async function executeDeposit() {
-    const tokenAmount = 1 * LAMPORTS_PER_SOL;
-    const depositTokenMint = new PublicKey('So11111111111111111111111111111111111111112');
-    await deposit(honeyUser, tokenAmount, depositTokenMint, honeyReserves);
-  }
-
-  async function executeWithdraw() {
-    const tokenAmount = 1 * LAMPORTS_PER_SOL;
-    const depositTokenMint = new PublicKey('So11111111111111111111111111111111111111112');
-    await withdraw(honeyUser, tokenAmount, depositTokenMint, honeyReserves);
-  }
-
   async function executeBorrow() {
     const borrowTokenMint = new PublicKey('So11111111111111111111111111111111111111112');
     const tx = await borrow(honeyUser, 1 * LAMPORTS_PER_SOL, borrowTokenMint, honeyReserves);

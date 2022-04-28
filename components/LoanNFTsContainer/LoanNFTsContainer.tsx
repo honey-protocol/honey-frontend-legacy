@@ -37,6 +37,13 @@ const LoanNFTsContainer = (props: LoanNFTsContainerProps) => {
 
   const sdkConfig = ConfigureSDK();
 
+  const [openP, updatePositions] = useState(openPositions)
+  const [availableNtfs, updateAvailableNfts] = useState(NFTs)
+
+  useEffect(() => {
+    console.log('change happend open;', openPositions, 'nfts;', NFTs)
+  },[openPositions, NFTs])
+
   /**
    * @description calls upon the honey sdk - market 
    * @params solanas useConnection func. && useConnectedWallet func. && JET ID
@@ -82,12 +89,12 @@ const LoanNFTsContainer = (props: LoanNFTsContainerProps) => {
               </Text>
               {/* temp logic for rendering out buttons  */}
               <Box className={styles.buttonSelectionWrapper}>
-                  {buttons.map((button) => {
+                  {buttons.map((button, i) => {
                     if (button.title.includes('NFT')) {
                       if (button.title == 'Withdraw NFT' && renderState == 'open' && selectedId != 0) {
                         return (
                           <Button
-                            key={button.title}
+                            key={button.title[i]}
                             size="small"
                             disabled={false}
                             onClick={() => {handleNewPosition(button.title)}}
@@ -98,7 +105,7 @@ const LoanNFTsContainer = (props: LoanNFTsContainerProps) => {
                       } else if (button.title == 'Deposit NFT' && renderState == 'new' && selectedId != 0) {
                           return (
                             <Button
-                              key={button.title}
+                              key={button.title[i]}
                               size="small"
                               disabled={false}
                               onClick={() => {handleNewPosition(button.title)}}
@@ -109,7 +116,7 @@ const LoanNFTsContainer = (props: LoanNFTsContainerProps) => {
                         } else {
                           return (
                             <Button
-                              key={button.title}
+                              key={button.title[i]}
                               size="small"
                               disabled={true}
                               onClick={() => {handleNewPosition(button.title)}}
@@ -121,7 +128,7 @@ const LoanNFTsContainer = (props: LoanNFTsContainerProps) => {
                   } else {
                     return (
                       <Button
-                        key={button.title}
+                        key={button.title[i]}
                         size="small"
                         disabled={false}
                         onClick={() => {handleNewPosition(button.title)}}
