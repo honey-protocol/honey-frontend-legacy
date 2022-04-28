@@ -5,7 +5,7 @@ export default function ConfigureSDK() {
         saberHqConnection: useConnection(),
         sdkWallet: useConnectedWallet(),
         honeyId: '6ujVJiHnyqaTBHzwwfySzTDX5EPFgmXqnibuMp3Hun1w',
-        marketID: 'HB82woFm5MrTx3X4gsRpVcUxtWJJyDBeT5xNGCUUrLLe'
+        marketID: 'GLBPMnxYr5QkkF4o5SMug7B5DmPSDDdAw7W46RgZdRyf'
     }
 }
   

@@ -31,8 +31,8 @@ const LoanNFTsContainer = (props: LoanNFTsContainerProps) => {
     buttons,
     selectedId,
     onSelectNFT,
-    executeDepositNFT,
     executeWithdrawNFT,
+    executeDepositNFT
   } = props;
 
   const sdkConfig = ConfigureSDK();
@@ -45,6 +45,7 @@ const LoanNFTsContainer = (props: LoanNFTsContainerProps) => {
    const { honeyUser } = useMarket(sdkConfig.saberHqConnection, sdkConfig.sdkWallet!, sdkConfig.honeyId, sdkConfig.marketID);
 
   const [renderState, handleRenderStateChange] = useState(0);
+
 
   function handleNewPosition(value: string) {
     console.log('handle new position', value)
