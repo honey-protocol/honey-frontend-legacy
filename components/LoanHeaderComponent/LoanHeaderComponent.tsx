@@ -20,7 +20,7 @@ const LoanHeaderComponent = () => {
         </Box>
         <Box>
             <Text>Your positions</Text>
-            <Text>0</Text>
+            <Text>2</Text>
         </Box>
         <Box className={styles.vaultButton}>
             <Button><IconPlus /> <span>New Vault</span></Button>

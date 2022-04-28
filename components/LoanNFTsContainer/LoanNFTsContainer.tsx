@@ -47,13 +47,12 @@ const LoanNFTsContainer = (props: LoanNFTsContainerProps) => {
   const [renderState, handleRenderStateChange] = useState('open');
   // EQPFwVdLg2XEiz7XEH8h7UBPqNPjosWWSkzb7aahjFAU
   
-  async function executeWithdrawNFT() {
-    const metadata = await Metadata.findByMint(sdkConfig.saberHqConnection, "2JWUgRCyuZ32XuwTZ4MCEt62GoUAEmRjdJz8ch2aGbnH");
+  async function executeWithdrawNFT(mint:any) {
+    const metadata = await Metadata.findByMint(sdkConfig.saberHqConnection, mint);
     withdrawNFT(sdkConfig.saberHqConnection, honeyUser, metadata.pubkey);
   }
 
-
-  function handleNewPosition(value: string) {
+  async function handleNewPosition(value: string) {
     if (value == 'New position') {
       handleRenderStateChange('new')
     } else if (value == 'Open position') {
@@ -61,7 +60,8 @@ const LoanNFTsContainer = (props: LoanNFTsContainerProps) => {
     }
 
     if (value == 'Withdraw NFT') {
-      withdrawNFT(sdkConfig.saberHqConnection, honeyUser, selectedId.mint)
+      let decodedNFT = await Metadata.findByMint(sdkConfig.saberHqConnection, selectedId.mint)
+      executeWithdrawNFT(decodedNFT.data.mint)
     }
 
     if (value == 'Deposit NFT' && selectedId.tokenMetaPublicKey) {

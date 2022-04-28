@@ -98,6 +98,12 @@ const Loan: NextPage = (props) => {
     setSelection(key)
   };
 
+  collateralNFTPositions?.map(async (item) => {
+    console.log('-----------XXXXXX', item)
+    let x = await Metadata.findByMint(sdkConfig.saberHqConnection, item.mint)
+    console.log('!!!!',x)
+  })
+
 	// async function executeDepositNFT() {
   //   // mint of the NFT can be find on solscan
   //   const metadata = await Metadata.findByMint(sdkConfig.saberHqConnection, "8Sfcn3XwQGA5phFMTmp71K3akzv9FS5bAAcoxredaa6y")
