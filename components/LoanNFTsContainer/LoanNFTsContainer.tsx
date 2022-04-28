@@ -44,7 +44,7 @@ const LoanNFTsContainer = (props: LoanNFTsContainerProps) => {
   */
    const { honeyUser } = useMarket(sdkConfig.saberHqConnection, sdkConfig.sdkWallet!, sdkConfig.honeyId, sdkConfig.marketID);
 
-  const [renderState, handleRenderStateChange] = useState(0);
+  const [renderState, handleRenderStateChange] = useState('open');
   // EQPFwVdLg2XEiz7XEH8h7UBPqNPjosWWSkzb7aahjFAU
   
   async function executeWithdrawNFT() {
@@ -54,11 +54,10 @@ const LoanNFTsContainer = (props: LoanNFTsContainerProps) => {
 
 
   function handleNewPosition(value: string) {
-    console.log('handle new position', value)
     if (value == 'New position') {
-      handleRenderStateChange(1)
+      handleRenderStateChange('new')
     } else if (value == 'Open position') {
-      handleRenderStateChange(0)
+      handleRenderStateChange('open')
     }
 
     if (value == 'Withdraw NFT') {
@@ -87,19 +86,19 @@ const LoanNFTsContainer = (props: LoanNFTsContainerProps) => {
               {/* temp logic for rendering out buttons  */}
               <Box className={styles.buttonSelectionWrapper}>
                   {buttons.map((button) => {
-                    if (renderState == 1) {
-                      if (button.title == 'Withdraw NFT') {
+                    if (button.title.includes('NFT')) {
+                      if (button.title == 'Withdraw NFT' && renderState == 'open' && selectedId != 0) {
                         return (
                           <Button
                             key={button.title}
                             size="small"
-                            disabled={true}
+                            disabled={false}
                             onClick={() => {handleNewPosition(button.title)}}
                           >
                             {button.title}
                           </Button>
                         )
-                      } else {
+                      } else if (button.title == 'Deposit NFT' && renderState == 'new' && selectedId != 0) {
                           return (
                             <Button
                               key={button.title}
@@ -110,38 +109,36 @@ const LoanNFTsContainer = (props: LoanNFTsContainerProps) => {
                               {button.title}
                             </Button>
                           )
-                        }
-                    } else if (renderState == 0) {
-                        if (button.title == 'Deposit NFT') {
-                          return (
-                              <Button
-                                key={button.title}
-                                size="small"
-                                disabled={true}
-                                onClick={() => {handleNewPosition(button.title)}}
-                              >
-                                {button.title}
-                              </Button>
-                          )
                         } else {
-                            return (
-                              <Button
-                                key={button.title}
-                                size="small"
-                                disabled={false}
-                                onClick={() => {handleNewPosition(button.title)}}
-                              >
-                                {button.title}
-                              </Button>
-                            )
-                          }
-                      }
-                    }
-                  )}
+                          return (
+                            <Button
+                              key={button.title}
+                              size="small"
+                              disabled={true}
+                              onClick={() => {handleNewPosition(button.title)}}
+                            >
+                              {button.title}
+                            </Button>
+                          )
+                        }
+                  } else {
+                    return (
+                      <Button
+                        key={button.title}
+                        size="small"
+                        disabled={false}
+                        onClick={() => {handleNewPosition(button.title)}}
+                      >
+                        {button.title}
+                      </Button>
+                    )
+                  }
+                  })}
+
               </Box>
             </Stack>
               <Box className={styles.nftContainer}>
-                { renderState == 0 && openPositions ?
+                { (renderState == 'open' && openPositions) ?
                   openPositions.map((nft: any, i: number) => {
                     return (
                       <LoanNFTCard

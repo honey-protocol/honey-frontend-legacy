@@ -47,20 +47,20 @@ const Loan: NextPage = () => {
   */
    const { honeyClient, honeyUser, honeyReserves } = useMarket(sdkConfig.saberHqConnection, sdkConfig.sdkWallet!, sdkConfig.honeyId, sdkConfig.marketID);
    const { market, marketReserveInfo, parsedReserves }  = useHoney();
+   const [amountOfLoans, setAmountOfLoans] = useState(0);
   /**
- * @description object layout for pools table - should be filled by getPools()
- * @params none
- * @returns dummy object
-*/
+    * @description object layout for pools table - should be filled by getPools()
+    * @params none
+    * @returns dummy object
+  */
   const assetData: Array<AssetRowType> = [
     {
-      vaultName: 'Solana Monkey Business',
-      vaultImageUrl:
-        '/nfts/2738.png',
-      totalBorrowed: 0,
-      interest: 0,
-      available: 0,
-      positions: 0,
+      vaultName: 'Cofre',
+      vaultImageUrl: 'https://www.arweave.net/5zeisOPbDekgyqYHd0okraQKaWwlVxvIIiXLH4Sr2M8?ext=png',
+      totalBorrowed: 14000,
+      interest: 4,
+      available: 33000,
+      positions: amountOfLoans,
     }
   ];
 
@@ -92,7 +92,9 @@ const Loan: NextPage = () => {
 
   useEffect(() => {
     console.log("collateral nft positions ", collateralNFTPositions);
-    console.log("loan positions: ", loanPositions);
+    if (collateralNFTPositions) {
+      setAmountOfLoans(collateralNFTPositions.length)  
+    }
   }, [collateralNFTPositions, loanPositions])
 
   /**
