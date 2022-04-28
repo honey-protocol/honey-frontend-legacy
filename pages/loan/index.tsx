@@ -66,8 +66,8 @@ const Loan: NextPage = () => {
 
   useEffect(() => {
     console.log("market: ", market);
-    console.log("Market reserve info ", marketReserveInfo);
-    console.log("Parsed Reserves ", parsedReserves);
+    // console.log("Market reserve info ", marketReserveInfo);
+    // console.log("Parsed Reserves ", parsedReserves);
   }, [market, marketReserveInfo, parsedReserves])
 
   useEffect(() => {

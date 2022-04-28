@@ -58,10 +58,10 @@ const Loan: NextPage = (props) => {
     * @returns honeyUser which is the main object - honeyMarket, honeyReserves are for testing purposes
   */
   const { honeyUser } = useMarket(sdkConfig.saberHqConnection, sdkConfig.sdkWallet!, sdkConfig.honeyId, sdkConfig.marketID);
-	
 	useEffect(() => {
-    console.log('the honeyUser;', honeyUser);
-  }, [honeyUser]);
+    
+  }, [honeyUser])
+
   /**
    * @description wip testing with fetching nft hook - for now no nfts in wallet
    * @params wallet
@@ -82,10 +82,9 @@ const Loan: NextPage = (props) => {
    * @TODO when loading state is true show loader in NFTs block
   */
   useEffect(() => {
-    console.log("collateral nft positions ", collateralNFTPositions);
+    console.log("----collateral nft positions ", collateralNFTPositions);
     console.log("loan positions: ", loanPositions);
-    console.log('availableNFTs', availableNFTs)
-    console.log('loading', loading)
+    console.log('@@@availableNFTs', availableNFTs)
   }, [collateralNFTPositions, loanPositions, availableNFTs, loading, selectedNFT])
   /**
    * @description this logic regards the selection of NFTs
@@ -95,20 +94,20 @@ const Loan: NextPage = (props) => {
   const [selectedId, setSelectedId] = useState(1);
 
   function selectNFT(key: number) {
-    console.log('----@@@-- this is the key', key)
+    console.log('----@@@-- this is the selected key', key)
     setSelection(key)
   };
 
-	async function executeDepositNFT() {
-    // mint of the NFT can be find on solscan
-    const metadata = await Metadata.findByMint(sdkConfig.saberHqConnection, "8Sfcn3XwQGA5phFMTmp71K3akzv9FS5bAAcoxredaa6y")
-    depositNFT(sdkConfig.saberHqConnection, honeyUser, metadata.pubkey);
-  }
+	// async function executeDepositNFT() {
+  //   // mint of the NFT can be find on solscan
+  //   const metadata = await Metadata.findByMint(sdkConfig.saberHqConnection, "8Sfcn3XwQGA5phFMTmp71K3akzv9FS5bAAcoxredaa6y")
+  //   depositNFT(sdkConfig.saberHqConnection, honeyUser, metadata.pubkey);
+  // }
 
-  async function executeWithdrawNFT() {
-    const metadata = await Metadata.findByMint(sdkConfig.saberHqConnection, "3W3BUk69PBSDj1tqinjfjtmEAZL9oFyVzcYiS6JjPJYV");
-    withdrawNFT(sdkConfig.saberHqConnection, honeyUser, metadata.pubkey);
-  }
+  // async function executeWithdrawNFT() {
+  //   const metadata = await Metadata.findByMint(sdkConfig.saberHqConnection, "3W3BUk69PBSDj1tqinjfjtmEAZL9oFyVzcYiS6JjPJYV");
+  //   withdrawNFT(sdkConfig.saberHqConnection, honeyUser, metadata.pubkey);
+  // }
 
   return (
     <Layout>
