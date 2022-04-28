@@ -30,12 +30,13 @@ interface BorrowNFTsModule {
     netBorrowBalance: number,
     key: number
   },
-  handleBorrow: () => void
+  handleBorrow: () => void,
+  loanPositions?: number
 }
 
 const BorrowNFTsModule = (props: BorrowNFTsModule) => {
   const sdkConfig = ConfigureSDK();
-  const { NFT, buttons, handleBorrow } = props;
+  const { NFT, buttons, handleBorrow, loanPositions } = props;
 
   /**
     * @description calls upon the honey sdk - market 
@@ -57,7 +58,7 @@ const BorrowNFTsModule = (props: BorrowNFTsModule) => {
     setTimeout(() => {
       handleBorrow(0)
     },5000)
-    
+
     const repayTokenMint = new PublicKey('So11111111111111111111111111111111111111112');
     const tx = await repay(honeyUser, 1 * LAMPORTS_PER_SOL, repayTokenMint, honeyReserves)
     console.log(tx);
@@ -85,6 +86,7 @@ const BorrowNFTsModule = (props: BorrowNFTsModule) => {
             <LoanBorrow 
               NFT={NFT} 
               handleBorrow={executeBorrow}
+              loanPositions={loanPositions}
             />
             ) : (
               <LoanRepay NFT={NFT} />

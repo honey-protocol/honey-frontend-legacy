@@ -153,6 +153,7 @@ const Loan: NextPage = (props) => {
         <BorrowNFTsModule
           NFT={marketNFTs.find((NFT) => NFT.key === selectedId) || marketNFTs[0]}
           handleBorrow={updateBorrow} 
+          loanPositions={loanPositions}
         />
       </Box>
     </Layout>

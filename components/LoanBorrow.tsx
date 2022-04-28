@@ -1,10 +1,12 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Box, Button, Card, Stack, Text, Tag } from 'degen';
 import { Avatar } from 'degen';
 import { Input } from 'degen';
 import Slider from '../components/Slider/Slider';
 import * as styles from './Slider/Slider.css';
 import ToggleSwitchLoan from '../components/ToggleSwitchLoan';
+import { useBorrowPositions, depositNFT, withdrawNFT, useMarket, borrow, repay } from '@honey-finance/sdk';
+import ConfigureSDK from '../helpers/config';
 
 type TButton = {
     title: string;
@@ -24,11 +26,31 @@ interface LoanBorrowProps {
         key: number
     },
     buttons: TButton[],
-    handleBorrow: () => void
+    handleBorrow: () => void,
+    loanPositions?: number
 }
 
 const LoanBorrow = (props: LoanBorrowProps) => {
     const { NFT, buttons, handleBorrow } = props;
+    const sdkConfig = ConfigureSDK();
+
+    /**
+        * @description calls upon useBorrowPositions
+        * @params connection && wallet && HONEY_PROGRAM_ID
+        * @returns loading state | NFTs posted as collateral | loan positions | error
+    */
+    let { loanPositions } = useBorrowPositions(sdkConfig.saberHqConnection, sdkConfig.sdkWallet!, sdkConfig.honeyId, sdkConfig.marketID);
+
+    const [lP, updateLp] = useState<number>(0)
+
+    /**
+     * @TODO when loading state is true show loader in NFTs block
+     */
+    useEffect(() => {
+        if (loanPositions) {
+            updateLp(loanPositions[0].amount)
+        }
+    }, [loanPositions])
 
     function handleWithdraw() {
         console.log('handle withdraw function')
@@ -137,7 +159,7 @@ const LoanBorrow = (props: LoanBorrowProps) => {
                             align="right"
                             color="foreground"
                         >
-                            {NFT.assetsBorrowed}
+                            {lP}
                         </Text>
                     </Stack>
                     <Stack
