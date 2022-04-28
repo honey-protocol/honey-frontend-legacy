@@ -37,6 +37,11 @@ const Loan: NextPage = (props) => {
     }
   ];
   
+  function updateBorrow(value:number) {
+    setBorrowB(value)
+  }
+
+  useEffect(() => {}, [borrowB]);
   /**
     * @description calls upon the honey sdk - market 
     * @params solanas useConnection func. && useConnectedWallet func. && JET ID
@@ -146,7 +151,8 @@ const Loan: NextPage = (props) => {
           onSelectNFT={selectNFT}
         />
         <BorrowNFTsModule
-          NFT={marketNFTs.find((NFT) => NFT.key === selectedId) || marketNFTs[0]} 
+          NFT={marketNFTs.find((NFT) => NFT.key === selectedId) || marketNFTs[0]}
+          handleBorrow={updateBorrow} 
         />
       </Box>
     </Layout>
