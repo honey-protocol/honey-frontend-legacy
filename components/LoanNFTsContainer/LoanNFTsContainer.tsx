@@ -31,7 +31,7 @@ const LoanNFTsContainer = (props: LoanNFTsContainerProps) => {
     buttons,
     selectedId,
     onSelectNFT,
-    executeWithdrawNFT,
+    // executeWithdrawNFT,
     executeDepositNFT
   } = props;
 
@@ -45,6 +45,12 @@ const LoanNFTsContainer = (props: LoanNFTsContainerProps) => {
    const { honeyUser } = useMarket(sdkConfig.saberHqConnection, sdkConfig.sdkWallet!, sdkConfig.honeyId, sdkConfig.marketID);
 
   const [renderState, handleRenderStateChange] = useState(0);
+  // EQPFwVdLg2XEiz7XEH8h7UBPqNPjosWWSkzb7aahjFAU
+  
+  async function executeWithdrawNFT() {
+    const metadata = await Metadata.findByMint(sdkConfig.saberHqConnection, "2JWUgRCyuZ32XuwTZ4MCEt62GoUAEmRjdJz8ch2aGbnH");
+    withdrawNFT(sdkConfig.saberHqConnection, honeyUser, metadata.pubkey);
+  }
 
 
   function handleNewPosition(value: string) {
@@ -55,10 +61,17 @@ const LoanNFTsContainer = (props: LoanNFTsContainerProps) => {
       handleRenderStateChange(0)
     }
 
+    if (value == 'Withdraw NFT') {
+      withdrawNFT(sdkConfig.saberHqConnection, honeyUser, selectedId.mint)
+    }
+
     if (value == 'Deposit NFT' && selectedId.tokenMetaPublicKey) {
       depositNFT(sdkConfig.saberHqConnection, honeyUser, selectedId.tokenMetaPublicKey)
     }
   }
+  
+  // console.log('this is selectedId', selectedId.mint)
+  // executeWithdrawNFT()
 
   useEffect(() => {console.log('use effect running', renderState, selectedId)}, [renderState, selectedId])
 
@@ -71,20 +84,59 @@ const LoanNFTsContainer = (props: LoanNFTsContainerProps) => {
               <Text weight="semiBold" variant="large">
                 {title}
               </Text>
+              {/* temp logic for rendering out buttons  */}
               <Box className={styles.buttonSelectionWrapper}>
-                  {buttons.map(button =>
-                    button.hidden ? (
-                      <></>
-                    ) : (
-                      <Button
-                        key={button.title}
-                        size="small"
-                        disabled={false}
-                        onClick={() => {handleNewPosition(button.title)}}
-                      >
-                        {button.title}
-                      </Button>
-                    )
+                  {buttons.map((button) => {
+                    if (renderState == 1) {
+                      if (button.title == 'Withdraw NFT') {
+                        return (
+                          <Button
+                            key={button.title}
+                            size="small"
+                            disabled={true}
+                            onClick={() => {handleNewPosition(button.title)}}
+                          >
+                            {button.title}
+                          </Button>
+                        )
+                      } else {
+                          return (
+                            <Button
+                              key={button.title}
+                              size="small"
+                              disabled={false}
+                              onClick={() => {handleNewPosition(button.title)}}
+                            >
+                              {button.title}
+                            </Button>
+                          )
+                        }
+                    } else if (renderState == 0) {
+                        if (button.title == 'Deposit NFT') {
+                          return (
+                              <Button
+                                key={button.title}
+                                size="small"
+                                disabled={true}
+                                onClick={() => {handleNewPosition(button.title)}}
+                              >
+                                {button.title}
+                              </Button>
+                          )
+                        } else {
+                            return (
+                              <Button
+                                key={button.title}
+                                size="small"
+                                disabled={false}
+                                onClick={() => {handleNewPosition(button.title)}}
+                              >
+                                {button.title}
+                              </Button>
+                            )
+                          }
+                      }
+                    }
                   )}
               </Box>
             </Stack>
