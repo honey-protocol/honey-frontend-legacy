@@ -36,8 +36,6 @@ const BorrowNFTsModule = (props: BorrowNFTsModule) => {
   const sdkConfig = ConfigureSDK();
   const { NFT, buttons } = props;
 
-  console.log('this are the buttons', buttons);
-
   /**
     * @description calls upon the honey sdk - market 
     * @params solanas useConnection func. && useConnectedWallet func. && JET ID
@@ -61,7 +59,6 @@ const BorrowNFTsModule = (props: BorrowNFTsModule) => {
   async function executeBorrow() {
     const borrowTokenMint = new PublicKey('So11111111111111111111111111111111111111112');
     const tx = await borrow(honeyUser, 1 * LAMPORTS_PER_SOL, borrowTokenMint, honeyReserves);
-    console.log(tx);
   }
 
   async function executeRepay() {
@@ -69,6 +66,8 @@ const BorrowNFTsModule = (props: BorrowNFTsModule) => {
     const tx = await repay(honeyUser, 1 * LAMPORTS_PER_SOL, repayTokenMint, honeyReserves)
     console.log(tx);
   }
+
+  // executeBorrow()
 
   return (
     <Box className={styles.cardContainer}>

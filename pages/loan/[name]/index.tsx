@@ -84,7 +84,6 @@ const Loan: NextPage = (props) => {
   useEffect(() => {
     console.log("----collateral nft positions ", collateralNFTPositions);
     console.log("loan positions: ", loanPositions);
-    console.log('@@@availableNFTs', availableNFTs)
   }, [collateralNFTPositions, loanPositions, availableNFTs, loading, selectedNFT])
   /**
    * @description this logic regards the selection of NFTs
@@ -94,26 +93,12 @@ const Loan: NextPage = (props) => {
   const [selectedId, setSelectedId] = useState(1);
 
   function selectNFT(key: number) {
-    console.log('----@@@-- this is the selected key', key)
     setSelection(key)
   };
 
   collateralNFTPositions?.map(async (item) => {
-    console.log('-----------XXXXXX', item)
     let x = await Metadata.findByMint(sdkConfig.saberHqConnection, item.mint)
-    console.log('!!!!',x)
   })
-
-	// async function executeDepositNFT() {
-  //   // mint of the NFT can be find on solscan
-  //   const metadata = await Metadata.findByMint(sdkConfig.saberHqConnection, "8Sfcn3XwQGA5phFMTmp71K3akzv9FS5bAAcoxredaa6y")
-  //   depositNFT(sdkConfig.saberHqConnection, honeyUser, metadata.pubkey);
-  // }
-
-  // async function executeWithdrawNFT() {
-  //   const metadata = await Metadata.findByMint(sdkConfig.saberHqConnection, "3W3BUk69PBSDj1tqinjfjtmEAZL9oFyVzcYiS6JjPJYV");
-  //   withdrawNFT(sdkConfig.saberHqConnection, honeyUser, metadata.pubkey);
-  // }
 
   return (
     <Layout>

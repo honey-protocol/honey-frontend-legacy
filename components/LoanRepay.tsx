@@ -140,7 +140,7 @@ const LoanRepay = (props: LoanRepayProps) => {
                             align="left"
                             color="foreground"
                             >
-                            {NFT.assetsBorrowed} USDC
+                            {NFT.assetsBorrowed} SOL
                         </Text>
                         <Text
                             align="right"

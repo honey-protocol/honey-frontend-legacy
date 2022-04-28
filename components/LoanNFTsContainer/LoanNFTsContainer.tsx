@@ -68,11 +68,8 @@ const LoanNFTsContainer = (props: LoanNFTsContainerProps) => {
       depositNFT(sdkConfig.saberHqConnection, honeyUser, selectedId.tokenMetaPublicKey)
     }
   }
-  
-  // console.log('this is selectedId', selectedId.mint)
-  // executeWithdrawNFT()
 
-  useEffect(() => {console.log('use effect running', renderState, selectedId)}, [renderState, selectedId])
+  useEffect(() => {}, [renderState, selectedId])
 
   return (
     <Box className={styles.cardContainer}>

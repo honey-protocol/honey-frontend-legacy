@@ -1,15 +1,24 @@
-import React from "react";
+import React, {useState, useEffect} from "react";
 import { Box, Button, Card, Stack, Text, Tag } from 'degen';
 import { Avatar } from 'degen';
 import { Input } from 'degen';
 import * as styles from '../components/Slider/Slider.css';
 import * as loanStyles from '../styles/loan.css';
+import ToggleSwitchLoan from '../components/ToggleSwitchLoan';  
 
+type TButton = {
+    title: string;
+    hidden?: boolean;
+    onClick?: void;
+};
 interface LoanDepositProps {
     borrowApy: number,
     estValue: number,
     assetsBorrowed: number,
     netBorrowBalance: number,
+    buttons: TButton[],
+    solAmount: number,
+    handleDeposit: () => void
 }
 
 const LoanDeposit = (props: LoanDepositProps) => {
@@ -17,9 +26,12 @@ const LoanDeposit = (props: LoanDepositProps) => {
         borrowApy,
         estValue,
         assetsBorrowed,
-        netBorrowBalance
+        netBorrowBalance,
+        buttons,
+        solAmount,
+        handleDeposit
     } = props;
-
+    
     return (
         <Box gap="3" className={loanStyles.mainComponentWrapper} paddingBottom="min">
             <Stack align="center">
@@ -31,7 +43,7 @@ const LoanDeposit = (props: LoanDepositProps) => {
                         color="foreground"
                         variant="large"
                     >
-                        Solana Monkey Business
+                        Cofre
                     </Text>
                 </Box>
             </Stack>
@@ -98,10 +110,10 @@ const LoanDeposit = (props: LoanDepositProps) => {
                     <Button size="small" variant="secondary">Max</Button>
                 </Box>
                 <Box className={styles.selectionDetails}>
-                    <div className={styles.currencyStyles}>0.00</div>
-                    <Avatar label="TetranodeNFT" size="10" shape="square" src={'https://assets.coingecko.com/coins/images/6319/small/USD_Coin_icon.png?1547042389'} />
+                    <div className={styles.currencyStyles}>{solAmount}</div>
+                    <Avatar label="TetranodeNFT" size="10" shape="square" src={'https://assets.coingecko.com/coins/images/4128/small/solana.png?1640133422'} />
                     <select name="currencySelector" id="currencySelector" className={styles.currencySelector}>
-                        <option value="USDC">USDC</option>
+                        <option value="SOL">SOL</option>
                         {/* <option value="SOL">SOL</option>
                         <option value="ETH">ETH</option> */}
                     </select>
@@ -111,7 +123,15 @@ const LoanDeposit = (props: LoanDepositProps) => {
                 height="16"
                 paddingTop="4"
             >
-                <Button width="full">Deposit</Button>
+                <ToggleSwitchLoan
+                  buttons={[
+                    {
+                      title: 'Deposit',
+                      onClick: () => handleDeposit()
+                    }
+                  ]}
+                  activeIndex={0}
+                />
             </Box>
         </Box>
     )

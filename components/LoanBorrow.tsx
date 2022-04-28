@@ -4,6 +4,14 @@ import { Avatar } from 'degen';
 import { Input } from 'degen';
 import Slider from '../components/Slider/Slider';
 import * as styles from './Slider/Slider.css';
+import ToggleSwitchLoan from '../components/ToggleSwitchLoan';
+
+type TButton = {
+    title: string;
+    hidden?: boolean;
+    onClick?: void;
+};
+
 
 interface LoanBorrowProps {
     NFT: {
@@ -14,11 +22,16 @@ interface LoanBorrowProps {
         assetsBorrowed: number,
         netBorrowBalance: number,
         key: number
-    }
+    },
+    buttons: TButton[]
 }
 
 const LoanBorrow = (props: LoanBorrowProps) => {
-    const { NFT } = props;
+    const { NFT, buttons } = props;
+
+    function handleWithdraw() {
+        console.log('handle withdraw function')
+    }
 
     return (
         <Box gap="3">
@@ -177,7 +190,15 @@ const LoanBorrow = (props: LoanBorrowProps) => {
             <Box>
                 <Slider />
             </Box>
-            <Button width="full">Borrow</Button>
+            <ToggleSwitchLoan
+                  buttons={[
+                    {
+                      title: 'Deposit',
+                      onClick: () => handleWithdraw()
+                    }
+                  ]}
+                  activeIndex={0}
+            />
         </Box>
     )
 }

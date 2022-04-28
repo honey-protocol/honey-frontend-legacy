@@ -6,6 +6,21 @@ import LoanDeposit from '../LoanDeposit';
 import LoanWithdraw from '../LoanWithdraw';
 import * as styles from './DepositWithdrawModule.css';
 import ToggleSwitchLoan from '../ToggleSwitchLoan';
+import ConfigureSDK from '../../helpers/config';
+import {
+    deposit,
+    HoneyUser,
+    depositNFT,
+    withdrawNFT,
+    useBorrowPositions,
+    useMarket,
+    usePools,
+    useHoney,
+    withdraw,
+    borrow,
+    repay,
+  } from '@honey-finance/sdk';
+  import { LAMPORTS_PER_SOL, PublicKey } from '@solana/web3.js';
 
 type TButton = {
   title: string;
@@ -35,6 +50,35 @@ const DepositWithdrawModule = (props: DepositWithdrawModuleProps) => {
   } = props;
 
   const [depositOrWithdraw, setDepositOrWithdraw] = useState(0);
+  const sdkConfig = ConfigureSDK();
+  const [solAmount, updateSolAMout] = useState(1);
+  const {honeyUser, honeyReserves } = useMarket(sdkConfig.saberHqConnection, sdkConfig.sdkWallet!, sdkConfig.honeyId, sdkConfig.marketID);
+
+
+  async function executeDeposit() {
+      const tokenAmount = 1 * LAMPORTS_PER_SOL;
+      const depositTokenMint = new PublicKey('So11111111111111111111111111111111111111112');
+      await deposit(honeyUser, tokenAmount, depositTokenMint, honeyReserves);
+  }
+  
+  async function executeWithdraw() {
+    const tokenAmount = 1 * LAMPORTS_PER_SOL;
+    const depositTokenMint = new PublicKey('So11111111111111111111111111111111111111112');
+    await withdraw(honeyUser, tokenAmount, depositTokenMint, honeyReserves);
+  }
+    
+  function handleWithdraw() {
+      if (solAmount < 1) {
+          return
+      } else {
+          executeWithdraw()
+      }
+  }
+
+  function handleDeposit() {
+    executeDeposit()
+  }
+
 
   return (
     <Box className={styles.cardContainer}>
@@ -56,7 +100,8 @@ const DepositWithdrawModule = (props: DepositWithdrawModuleProps) => {
               estValue={1}
               assetsBorrowed={1}
               netBorrowBalance={1}
-
+              solAmount={solAmount}
+              handleDeposit={handleDeposit}
             />
             ) : (
               <LoanWithdraw
@@ -66,6 +111,8 @@ const DepositWithdrawModule = (props: DepositWithdrawModuleProps) => {
                 assetsBorrowed={1}
                 totalInterest={1}
                 totalPayback={1}
+                solAmount={solAmount}
+                handleWithdraw={handleWithdraw}
               />
             )
         };

@@ -1,10 +1,31 @@
-import React from "react";
+import React, { useState } from "react";
 import { Box, Button, Card, Stack, Text, Tag } from 'degen';
 import { Avatar } from 'degen';
 import { Input } from 'degen';
 import * as styles from '../components/Slider/Slider.css';
 import * as loanStyles from '../styles/loan.css';
+import ToggleSwitchLoan from '../components/ToggleSwitchLoan';
+import ConfigureSDK from '../helpers/config';
+import {
+    deposit,
+    HoneyUser,
+    depositNFT,
+    withdrawNFT,
+    useBorrowPositions,
+    useMarket,
+    usePools,
+    useHoney,
+    withdraw,
+    borrow,
+    repay,
+  } from '@honey-finance/sdk';
+  import { LAMPORTS_PER_SOL, PublicKey } from '@solana/web3.js';
 
+type TButton = {
+    title: string;
+    hidden?: boolean;
+    onClick?: void;
+};
 interface LoanWithdrawProps {
     nftName: string,
     evaluation: number,
@@ -12,7 +33,11 @@ interface LoanWithdrawProps {
     assetsBorrowed: number,
     totalInterest: number,
     totalPayback: number,
+    buttons: TButton[],
+    solAmount: number,
+    handleWithdraw:() => void
 }
+
 
 const LoanWithdraw = (props: LoanWithdrawProps) => {
     const {
@@ -21,8 +46,14 @@ const LoanWithdraw = (props: LoanWithdrawProps) => {
         interestRate,
         assetsBorrowed,
         totalInterest,
-        totalPayback
+        totalPayback,
+        buttons,
+        solAmount,
+        handleWithdraw
     } = props;
+
+    
+
 
     return (
         <Box gap="3" className={loanStyles.mainComponentWrapper}>
@@ -43,7 +74,7 @@ const LoanWithdraw = (props: LoanWithdrawProps) => {
                         color="foreground"
                         variant="large"
                     >
-                        Solana Monkey Business
+                        Cofre
                     </Text>
                 </Box>
             </Stack>
@@ -80,7 +111,7 @@ const LoanWithdraw = (props: LoanWithdrawProps) => {
                             align="left"
                             color="foreground"
                             >
-                            0 USDC
+                            {solAmount} SOL
                         </Text>
                         <Text
                             align="right"
@@ -138,10 +169,10 @@ const LoanWithdraw = (props: LoanWithdrawProps) => {
                     <Button size="small" variant="secondary">Max</Button>
                 </Box>
                 <Box className={styles.selectionDetails}>
-                    <div className={styles.currencyStyles}>0.00</div>
-                    <Avatar label="TetranodeNFT" size="10" shape="square" src={'https://assets.coingecko.com/coins/images/6319/small/USD_Coin_icon.png?1547042389'} />
+                    <div className={styles.currencyStyles}>{solAmount}</div>
+                    <Avatar label="TetranodeNFT" size="10" shape="square" src={'https://assets.coingecko.com/coins/images/4128/small/solana.png?1640133422'} />
                     <select name="currencySelector" id="currencySelector" className={styles.currencySelector}>
-                        <option value="USDC">USDC</option>
+                        <option value="SOL">SOL</option>
                         {/* <option value="SOL">SOL</option>
                         <option value="ETH">ETH</option> */}
                     </select>
@@ -151,7 +182,15 @@ const LoanWithdraw = (props: LoanWithdrawProps) => {
                 height="16"
                 paddingTop="4"
             >
-                <Button width="full">Withdraw</Button>
+                <ToggleSwitchLoan
+                  buttons={[
+                    {
+                      title: 'Withdraw',
+                      onClick: () => handleWithdraw()
+                    }
+                  ]}
+                  activeIndex={0}
+                />
             </Box>
         </Box>
     )
