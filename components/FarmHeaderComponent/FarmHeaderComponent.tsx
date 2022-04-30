@@ -118,6 +118,7 @@ const FarmHeaderComponent = () => {
         </Stack>
         <Stack space="3" justify="center" direction="horizontal">
           <Button
+            
             onClick={handleRefreshRewardsButtonClick}
             variant="secondary"
             shape="square"
