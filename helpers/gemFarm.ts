@@ -11,6 +11,7 @@ import { programs } from '@metaplex/js';
 import { BN } from '@project-serum/anchor';
 import { TOKEN_PROGRAM_ID } from '@solana/spl-token';
 import { extractMetaData } from './utils';
+import { TGFarm } from 'constants/new-farms';
 
 const SPL_ASSOCIATED_TOKEN_ACCOUNT_PROGRAM_ID: PublicKey = new PublicKey(
   'ATokenGPvbdGVxr1b2hvZbsiqW5xWH25efTNsLJA8knL'
@@ -135,6 +136,8 @@ export const getGemStakedInFarm = async (
     new PublicKey(farmerVaultAddress!)
   );
 
+  if (!foundGDRs || !foundGDRs.length) return [];
+
   if (foundGDRs && foundGDRs.length) {
     const mints = foundGDRs.map((gdr: any) => {
       return { mint: gdr.account.gemMint };
@@ -148,5 +151,48 @@ export const getGemStakedInFarm = async (
     return await Promise.all(promises);
   } else {
     return [];
+  }
+};
+
+export const getFarmsStakedIn = async (
+  farms: TGFarm[],
+  connection: Connection,
+  wallet: any
+) => {
+  if (!wallet) return;
+  try {
+    const gemFarm = await initGemFarm(connection, wallet);
+
+    //check farms for farmer's account
+    const promises = farms.map(async farm => {
+      const [farmerPDA] = await findFarmerPDA(
+        new PublicKey(farm.farmAddress),
+        wallet.publicKey
+      );
+      try {
+        return await gemFarm.fetchFarmerAcc(farmerPDA);
+      } catch (error) {
+        return Promise.resolve('No farmer account');
+      }
+    });
+
+    const farmersAccounts = await Promise.all(promises);
+
+    const stakedInFarms = farms.filter((farm, i) => {
+      const farmersAccount = farmersAccounts[i];
+      if (
+        typeof farmersAccount === 'string' ||
+        farmersAccount instanceof String
+      ) {
+        return false;
+      }
+      if (farmersAccount.gemsStaked.toNumber() > 0) {
+        return true;
+      }
+    });
+
+    return stakedInFarms;
+  } catch (error) {
+    console.log(error);
   }
 };

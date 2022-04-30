@@ -21,7 +21,10 @@ const networkConfiguration = () => {
 };
 
 const defaultAccent: ThemeAccent = accentSequence[0];
-const storedAccent = typeof window !== "undefined" ? localStorage.getItem('accent') as ThemeAccent : undefined;
+const storedAccent =
+  typeof window !== 'undefined'
+    ? (localStorage.getItem('accent') as ThemeAccent)
+    : undefined;
 
 function MyApp({ Component, pageProps }: AppProps) {
   const [showPopup, setShowPopup] = useState(true);
@@ -36,7 +39,10 @@ function MyApp({ Component, pageProps }: AppProps) {
   if (!shouldRender) return null;
 
   return (
-    <ThemeProvider defaultMode="dark" defaultAccent={storedAccent || defaultAccent}>
+    <ThemeProvider
+      defaultMode="dark"
+      defaultAccent={storedAccent || defaultAccent}
+    >
       <WalletKitProvider
         defaultNetwork={network}
         app={{

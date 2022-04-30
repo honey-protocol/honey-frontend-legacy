@@ -1,7 +1,4 @@
-import {
-  useConnectedWallet,
-  useConnection,
-} from '@saberhq/use-solana';
+import { useConnectedWallet, useConnection } from '@saberhq/use-solana';
 import { PublicKey, Transaction } from '@solana/web3.js';
 import { GemBank, initGemBank } from 'gem-bank';
 import { GemFarm, initGemFarm } from 'gem-farm';
@@ -12,7 +9,6 @@ import {
   tokenAccountResult
 } from 'helpers/gemFarm';
 import { BN } from '@project-serum/anchor';
-
 import { convertArrayToObject } from 'helpers/utils';
 import useFetchNFTByUser from './useNFTV2';
 import { useRouter } from 'next/router';
@@ -106,12 +102,17 @@ const useGemFarm = () => {
           farmAddress,
           wallet?.publicKey
         );
+        console.log({ farmer });
         setFarmerAcc(farmer.farmerAcc);
         setVaultAcc(farmer.vaultAcc);
         setAvailableA(farmer.rewards.availableA);
         setAvailableB(farmer.rewards.availableB);
         setFarmerIdentity(farmer.farmerIdentity);
         setFarmerState(farmer.farmerState);
+        console.log({
+          rewardA: farmer.rewards.availableA,
+          rewardB: farmer.rewards.availableA
+        });
       } catch (error) {
         checkErrorAndShowToast(error, 'Farmer account not found');
       }
@@ -285,7 +286,6 @@ const useGemFarm = () => {
     }
   };
 
-
   const handleStakeButtonClick = async () => {
     if (!gf || !gb) throw new Error('No Gem Bank client has been initialized.');
 
@@ -323,7 +323,7 @@ const useGemFarm = () => {
 
     tx.add(await gf.stakeWalletIx(new PublicKey(farmAddress!)));
 
-    const txSig = await gf.provider.send(tx);
+    const txSig = await gf.provider.sendAndConfirm!(tx);
     await connection.confirmTransaction(txSig);
 
     await fetchFarmerDetails(gf, gb);
@@ -362,7 +362,7 @@ const useGemFarm = () => {
       tx.add(await gf.stakeWalletIx(new PublicKey(farmAddress!)));
     }
 
-    const txSig = await gf.provider.send(tx);
+  const txSig = await gf.provider.sendAndConfirm!(tx);
     await connection.confirmTransaction(txSig);
 
     await fetchFarmerDetails(gf, gb);
@@ -374,7 +374,10 @@ const useGemFarm = () => {
     setSelectedWalletNFTs([]);
   };
 
+  console.log({ availableA });
+
   const claimRewards = async () => {
+    console.log({ availableA });
     if (!gf) return;
     try {
       await gf.claimWallet(
@@ -382,7 +385,14 @@ const useGemFarm = () => {
         new PublicKey(farmAcc.rewardA.rewardMint!),
         new PublicKey(farmAcc.rewardB.rewardMint!)
       );
-      toast.success('Rewards claimed!');
+      toast.success(
+        // `${Number(availableA).toFixed(1)} $${
+        //   collection?.rewardTokenName
+        // } claimed!`
+        'Rewards claimed!'
+      );
+      setAvailableA('0');
+      setAvailableB('0');
     } catch (error) {
       console.log(error);
       checkErrorAndShowToast(error, 'Failed to claim rewards');
