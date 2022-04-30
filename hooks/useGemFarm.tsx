@@ -9,7 +9,6 @@ import {
   tokenAccountResult
 } from 'helpers/gemFarm';
 import { BN } from '@project-serum/anchor';
-
 import { convertArrayToObject } from 'helpers/utils';
 import useFetchNFTByUser from './useNFTV2';
 import { useRouter } from 'next/router';
@@ -321,7 +320,7 @@ const useGemFarm = () => {
 
     tx.add(await gf.stakeWalletIx(new PublicKey(farmAddress!)));
 
-    const txSig = await gf.provider.send(tx);
+    const txSig = await gf.provider.sendAndConfirm!(tx);
     await connection.confirmTransaction(txSig);
 
     await fetchFarmerDetails(gf, gb);
@@ -360,7 +359,7 @@ const useGemFarm = () => {
       tx.add(await gf.stakeWalletIx(new PublicKey(farmAddress!)));
     }
 
-    const txSig = await gf.provider.send(tx);
+  const txSig = await gf.provider.sendAndConfirm!(tx);
     await connection.confirmTransaction(txSig);
 
     await fetchFarmerDetails(gf, gb);
