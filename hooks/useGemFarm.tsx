@@ -69,7 +69,7 @@ const useGemFarm = () => {
   const [selectedWalletNFTs, setSelectedWalletNFTs] = useState<NFT[]>([]);
   const [selectedVaultNFTs, setSelectedVaultNFTs] = useState<NFT[]>([]);
 
-  console.log(wallet?.connected)
+  console.log(wallet?.connected);
 
   // Get farm and bank addresses from router
   const router = useRouter();
@@ -218,7 +218,6 @@ const useGemFarm = () => {
       setNFTs();
     }
   }, [isStartingGemFarm, setNFTs]);
-
 
   const onRefreshNFTs = async () => {
     if (!gb) return;
