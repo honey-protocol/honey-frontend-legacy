@@ -3,18 +3,22 @@ import React, { useMemo, useState } from 'react';
 import { LAMPORTS_PER_SOL } from '@solana/web3.js';
 import useGemFarm from 'hooks/useGemFarm';
 
-const FarmHeaderComponent = () => {
+interface FarmHeaderComponentProps {
+  farmerState: string;
+  stakedNFTsInFarm: { [tokenId: string]: NFT };
+  farmerVaultLocked: boolean;
+  lockVault: () => Promise<void>;
+}
+
+const FarmHeaderComponent = (props: FarmHeaderComponentProps) => {
+  const { farmerState, stakedNFTsInFarm, farmerVaultLocked, lockVault } = props;
   const {
     farmerAcc,
     farmAcc,
     collectionTotalNumber,
     rewardTokenName,
     handleRefreshRewardsButtonClick,
-    claimRewards,
-    farmerState,
-    stakedNFTsInFarm,
-    farmerVaultLocked,
-    lockVault
+    claimRewards
   } = useGemFarm();
 
   const [txLoading, setTxLoading] = useState({
@@ -145,8 +149,7 @@ const FarmHeaderComponent = () => {
           >
             {`Claim $${rewardTokenName}`}
           </Button>
-          {(Object.values(stakedNFTsInFarm).length > 0 &&
-            !farmerVaultLocked) && (
+          {Object.values(stakedNFTsInFarm).length > 0 && !farmerVaultLocked && (
             <Button
               onClick={() => withTxLoading(lockVault, 'stake')}
               loading={txLoading.value && txLoading.txName === 'stake'}
