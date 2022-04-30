@@ -18,10 +18,10 @@ export class ClientBase<T extends anchor.Idl> {
   }
 
   setProvider() {
-    this.provider = new anchor.Provider(
+    this.provider = new anchor.AnchorProvider(
       this.connection,
       this.wallet,
-      anchor.Provider.defaultOptions()
+      anchor.AnchorProvider.defaultOptions()
     );
     anchor.setProvider(this.provider);
   }
