@@ -63,6 +63,7 @@ const Loan: NextPage = () => {
 
   const wallet = useConnectedWallet();
   const { connect } = useWalletKit();
+
   const [borrowOrLend, setBorrowOrLend] = useState(0);
 
   const [modalIsVisible, setModalIsVisible] = useState(false);
@@ -73,6 +74,7 @@ const Loan: NextPage = () => {
   function showLoanModal() {
     setModalIsVisible(true);
   }
+
 
   return (
     <Layout>
