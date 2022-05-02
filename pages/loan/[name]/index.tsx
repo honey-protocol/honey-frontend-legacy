@@ -1,11 +1,27 @@
 import type { NextPage } from 'next';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Box, Stack, Button, IconChevronLeft, Text } from 'degen';
+import { useConnectedWallet } from '@saberhq/use-solana';
 import Layout from '../../../components/Layout/Layout';
 import LoanNFTsContainer from 'components/LoanNFTsContainer/LoanNFTsContainer';
 import BorrowNFTsModule from 'components/BorrowNFTsModule/BorrowNFTsModule';
 import Link from 'next/link';
 import * as styles from '../../../styles/name.css';
+import { ConfigureSDK } from '../../../helpers/loanHelpers/index';
+import useFetchNFTByUser from '../../../hooks/useNFT';
+import {
+  deposit,
+  HoneyUser,
+  depositNFT,
+  withdrawNFT,
+  useBorrowPositions,
+  useMarket,
+  usePools,
+  useHoney,
+  withdraw,
+  borrow,
+  repay,
+} from '@honey-finance/sdk';
 
 const marketNFTs = [
   {
@@ -56,7 +72,55 @@ const marketNFTs = [
 ]
 
 const Loan: NextPage = () => {
+  /**
+   * @description calls upon sdk config object
+   * @params none
+   * @returns connection | wallet | honeyID | marketID
+  */
+  const sdkConfig = ConfigureSDK();
+  
+  /**
+  * @description calls upon the honey sdk 
+  * @params  useConnection func. | useConnectedWallet func. | honeyID | marketID
+  * @returns honeyUser | honeyReserves - used for interaction regarding the SDK
+  */
+  const { honeyClient, honeyUser, honeyReserves } = useMarket(sdkConfig.saberHqConnection, sdkConfig.sdkWallet!, sdkConfig.honeyId, sdkConfig.marketId);
+  /**
+   * @description calls upon markets which 
+   * @params none
+   * @returns market | market reserve information | parsed reserves |
+  */
+  const { market, marketReserveInfo, parsedReserves }  = useHoney();
+     
+  useEffect(() => {
+  }, [honeyUser, honeyReserves]);
+  
+  /**
+   * @description fetches open positions and the amount regarding loan positions / token account
+   * @params
+   * @returns
+   */  
+  let { loading, collateralNFTPositions, loanPositions, error } = useBorrowPositions(sdkConfig.saberHqConnection, sdkConfig.sdkWallet!, sdkConfig.honeyId, sdkConfig.marketId)
+       
+  useEffect(() => {
+  }, [collateralNFTPositions, loanPositions]);
+     
+  /**
+   * @description fetched available nfts in the users wallet
+   * @params wallet 
+   * @returns array of available nfts
+  */
+  const wallet = useConnectedWallet();
+  let availableNFTs = useFetchNFTByUser(wallet);
+     
+  useEffect(() => {
+  }, [availableNFTs])
 
+  /**
+   * @description logic regarding selected nft for borrow module 
+   * @params key of nft
+   * @returns sets state
+  */
   const [selectedId, setSelectedId] = useState(1);
 
   function selectNFT(key: number) {
@@ -96,7 +160,8 @@ const Loan: NextPage = () => {
               title: 'New position',
             }
           ]}
-          NFTs={marketNFTs}
+          openPositions={collateralNFTPositions}
+          availableNFTs={availableNFTs[0]}
 
         />
         <BorrowNFTsModule NFT={marketNFTs.find(
