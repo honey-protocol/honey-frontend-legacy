@@ -22,52 +22,26 @@ import {
   borrow,
   repay,
 } from '@honey-finance/sdk';
+import Nft from 'pages/farm/[name]';
 
 const marketNFTs = [
   {
-    name: 'SMB #2721',
-    image:'/nfts/2721.png',
-    borrowApy: '4.2%',
-    estValue: '$25,800',
-    assetsBorrowed: 0,
-    netBorrowBalance: 0,
-    key: 1
-  },
-  {
-    name: 'SMB #273',
-    image:'/nfts/273.png',
-    borrowApy: '4.2%',
-    estValue: '$23,500',
+    name: 'COFRE #574',
+    image:'https://www.arweave.net/2XSva0NaalwsGBtxw-puVT_j1NDXecrMAGRxxvRjMK0?ext=png',
+    borrowApy: '6.2%',
+    estValue: '$33,500',
     assetsBorrowed: 0,
     netBorrowBalance: 0,
     key: 2
   },
   {
-    name: 'SMB #1912',
-    image:'/nfts/1912.png',
+    name: 'COFRE #573',
+    image:'https://www.arweave.net/sHPeuSwbrN3SNBwcn8OZjV_VYVp3TlONXduzyqpoXb8?ext=png',
     borrowApy: '4.2%',
-    estValue: '$55,000',
+    estValue: '$25,800',
     assetsBorrowed: 0,
     netBorrowBalance: 0,
-    key: 3
-  },
-  {
-    name: 'SMB #2738',
-    image:'/nfts/2738.png',
-    borrowApy: '4.2%',
-    estValue: '$33,300',
-    assetsBorrowed: 0,
-    netBorrowBalance: 0,
-    key: 4
-  },
-  {
-    name: 'SMB #3956',
-    image:'/nfts/3956.png',
-    borrowApy: '4.2%',
-    estValue: '$39,500',
-    assetsBorrowed: 0,
-    netBorrowBalance: 0,
-    key: 5
+    key: 1
   }
 ]
 
@@ -103,6 +77,7 @@ const Loan: NextPage = () => {
   let { loading, collateralNFTPositions, loanPositions, error } = useBorrowPositions(sdkConfig.saberHqConnection, sdkConfig.sdkWallet!, sdkConfig.honeyId, sdkConfig.marketId)
        
   useEffect(() => {
+    console.log(collateralNFTPositions)
   }, [collateralNFTPositions, loanPositions]);
      
   /**
@@ -121,9 +96,10 @@ const Loan: NextPage = () => {
    * @params key of nft
    * @returns sets state
   */
-  const [selectedId, setSelectedId] = useState(1);
+  const [selectedId, setSelectedId] = useState();
 
   function selectNFT(key: number) {
+    console.log('the selected nft', key)
     setSelectedId(key);
   };
 
@@ -152,20 +128,24 @@ const Loan: NextPage = () => {
       </Box>
       <Box display="flex" height="full" className={styles.loanCardsContainer}>
         <LoanNFTsContainer
-          title="Open positions"
           selectedId={selectedId}
           onSelectNFT={selectNFT}
           buttons={[
             {
+              title: 'Open positions',
+              active: true,
+            },
+            {
               title: 'New position',
+              active: false,
             }
           ]}
           openPositions={collateralNFTPositions}
           availableNFTs={availableNFTs[0]}
-
+          // set key equal to name since open positions doesnt contain id but name is with unique number
         />
-        <BorrowNFTsModule NFT={marketNFTs.find(
-          (NFT) => NFT.key === selectedId) || marketNFTs[0]} />
+        <BorrowNFTsModule 
+          NFT={collateralNFTPositions && collateralNFTPositions.find((NFT) => NFT.name == selectedId) || marketNFTs[0]} />
       </Box>
     </Layout>
   );

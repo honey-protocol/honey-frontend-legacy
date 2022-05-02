@@ -1,11 +1,11 @@
 import LoanNFTCard from '../LoanNftCard';
 import { Box, Button, Card, Spinner, Stack, Text } from 'degen';
-import React from 'react';
+import React, {useState} from 'react';
 import * as styles from './LoanNFTsContainer.css';
 
 type TButton = {
   title: string;
-  hidden?: boolean;
+  active?: boolean;
 };
 interface LoanNFTsContainerProps {
   NFTs: any[];
@@ -27,9 +27,6 @@ const LoanNFTsContainer = (props: LoanNFTsContainerProps) => {
     availableNFTs
   } = props;
 
-  console.log('this is available NFTS', availableNFTs)
-  console.log('this is openpoisitions', openPositions)
-
   return (
     <Box className={styles.cardContainer}>
       <Card level="2" width="full" padding="8" shadow>
@@ -39,21 +36,27 @@ const LoanNFTsContainer = (props: LoanNFTsContainerProps) => {
               <Text weight="semiBold" variant="large">
                 {title}
               </Text>
-              <Stack direction="horizontal" space="2">
+              <Box className={styles.buttonSelectionWrapper}>
                 {buttons.map(button =>
-                  button.hidden ? (
-                    <></>
+                  !button.active ? (
+                    <Button
+                      key={button.title}
+                      size="small"
+                      disabled={false}
+                    >
+                      {button.title}
+                    </Button>
                   ) : (
                     <Button
                       key={button.title}
                       size="small"
-                      disabled={true}
+                      disabled={false}
                     >
                       {button.title}
                     </Button>
                   )
                 )}
-              </Stack>
+              </Box>
             </Stack>
               <Box className={styles.nftContainer}>
                 {openPositions && openPositions.map((nft, i) => (
