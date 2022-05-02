@@ -15,6 +15,7 @@ import React, { FC, ReactNode, useEffect, useState } from "react";
 import Script from 'next/script';
 
 const network = process.env.NETWORK as Network;
+
 const networkConfiguration = () => {
   if (process.env.NETWORK_CONFIGURATION) {
     return process.env.NETWORK_CONFIGURATION as PartialNetworkConfigMap;
@@ -99,8 +100,10 @@ function MyApp({ Component, pageProps }: AppProps) {
           <SecPopup setShowPopup={setShowPopup} />
         ) : (
           <>
-            <Component {...pageProps} />
-            <ToastContainer theme="dark" position="bottom-right" />
+            <OnChainProvider>
+              <Component {...pageProps} />
+              <ToastContainer theme="dark" position="bottom-right" />
+            </OnChainProvider>
           </>
         )}
       </WalletKitProvider>
