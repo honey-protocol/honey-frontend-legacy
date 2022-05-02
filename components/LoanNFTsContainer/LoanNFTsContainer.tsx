@@ -13,16 +13,22 @@ interface LoanNFTsContainerProps {
   onSelectNFT: (key: number) => void,
   title: string;
   buttons: TButton[];
+  openPositions: any[];
+  availableNFTs: any[]
 }
 
 const LoanNFTsContainer = (props: LoanNFTsContainerProps) => {
   const {
-    NFTs,
     title,
     buttons,
     selectedId,
     onSelectNFT,
+    openPositions,
+    availableNFTs
   } = props;
+
+  console.log('this is available NFTS', availableNFTs)
+  console.log('this is openpoisitions', openPositions)
 
   return (
     <Box className={styles.cardContainer}>
@@ -50,7 +56,7 @@ const LoanNFTsContainer = (props: LoanNFTsContainerProps) => {
               </Stack>
             </Stack>
               <Box className={styles.nftContainer}>
-                {NFTs.map((nft, i) => (
+                {openPositions && openPositions.map((nft, i) => (
                   <LoanNFTCard
                     selected={nft.key === selectedId}
                     key={nft.key}
