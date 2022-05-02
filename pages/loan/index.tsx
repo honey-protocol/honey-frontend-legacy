@@ -28,7 +28,9 @@ import {
   repay,
 } from '@honey-finance/sdk';
 import { LAMPORTS_PER_SOL, PublicKey } from '@solana/web3.js';
+import useFetchNFTByUser from 'hooks/useNFT';
 
+// TODO: should be fetched by SDK
 const assetData: Array<AssetRowType> = [
   {
     vaultName: 'Cofre',
@@ -36,39 +38,15 @@ const assetData: Array<AssetRowType> = [
     totalBorrowed: 14000,
     interest: 4,
     available: 11000,
-    // make dynamic based off open positions
     positions: 0
   }
 ];
 
+
+
 const Loan: NextPage = () => {
-  /**
-   * @description calls upon sdk config object
-   * @params none
-   * @returns connection | wallet | honeyID | marketID
-  */
-  const sdkConfig = ConfigureSDK();
-  
-  /**
-   * @description calls upon the honey sdk 
-   * @params  useConnection func. | useConnectedWallet func. | honeyID | marketID
-   * @returns honeyUser | honeyReserves - used for interaction regarding the SDK
-  */
-  const { honeyClient, honeyUser, honeyReserves } = useMarket(sdkConfig.saberHqConnection, sdkConfig.sdkWallet!, sdkConfig.honeyId, sdkConfig.marketId);
-  const { market, marketReserveInfo, parsedReserves }  = useHoney();
-
-  useEffect(() => {
-  }, [honeyUser, honeyReserves]);
-
-  const { loading, collateralNFTPositions, loanPositions, error } = useBorrowPositions(sdkConfig.saberHqConnection, sdkConfig.sdkWallet!, sdkConfig.honeyId, sdkConfig.marketId)
-  
-  useEffect(() => {
-    console.log('CollateralNFTPositions, loanPositions', collateralNFTPositions, loanPositions);
-  }, [collateralNFTPositions, loanPositions]);
-
   const wallet = useConnectedWallet();
   const { connect } = useWalletKit();
-
   const [borrowOrLend, setBorrowOrLend] = useState(0);
 
   const [modalIsVisible, setModalIsVisible] = useState(false);
@@ -142,7 +120,9 @@ const Loan: NextPage = () => {
                     {loadBorrowPage && (
                       <Link href="/loan/[name]" as={`/loan/${item.vaultName}`}>
                         <a>
-                          <AssetRow data={item} />
+                          <AssetRow
+                            data={item}
+                          />
                         </a>
                       </Link>
                     )}
