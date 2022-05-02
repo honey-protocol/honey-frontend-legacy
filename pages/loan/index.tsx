@@ -58,8 +58,13 @@ const Loan: NextPage = () => {
   const { market, marketReserveInfo, parsedReserves }  = useHoney();
 
   useEffect(() => {
-    console.log('the honeyUser and reserves', honeyUser, honeyReserves)
   }, [honeyUser, honeyReserves]);
+
+  const { loading, collateralNFTPositions, loanPositions, error } = useBorrowPositions(sdkConfig.saberHqConnection, sdkConfig.sdkWallet!, sdkConfig.honeyId, sdkConfig.marketId)
+  
+  useEffect(() => {
+    console.log('CollateralNFTPositions, loanPositions', collateralNFTPositions, loanPositions);
+  }, [collateralNFTPositions, loanPositions]);
 
   const wallet = useConnectedWallet();
   const { connect } = useWalletKit();
@@ -74,7 +79,6 @@ const Loan: NextPage = () => {
   function showLoanModal() {
     setModalIsVisible(true);
   }
-
 
   return (
     <Layout>
