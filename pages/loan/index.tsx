@@ -18,11 +18,12 @@ import LoanHeaderComponent from 'components/LoanHeaderComponent/LoanHeaderCompon
 
 const assetData: Array<AssetRowType> = [
   {
-    vaultName: 'Solana Monkey Business',
-    vaultImageUrl: '/nfts/2738.png',
-    totalBorrowed: 0,
-    interest: 0,
-    available: 0,
+    vaultName: 'Cofre',
+    vaultImageUrl: 'https://www.arweave.net/5zeisOPbDekgyqYHd0okraQKaWwlVxvIIiXLH4Sr2M8?ext=png',
+    totalBorrowed: 14000,
+    interest: 4,
+    available: 11000,
+    // make dynamic based off open positions
     positions: 0
   }
 ];
