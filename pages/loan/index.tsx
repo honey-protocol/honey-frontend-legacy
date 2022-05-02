@@ -54,14 +54,12 @@ const Loan: NextPage = () => {
    * @params  useConnection func. | useConnectedWallet func. | honeyID | marketID
    * @returns honeyUser | honeyReserves - used for interaction regarding the SDK
   */
-  const { honeyUser, honeyReserves } = useMarket(sdkConfig.saberHqConnection, sdkConfig.sdkWallet!, sdkConfig.honeyId, sdkConfig.marketId);
+  const { honeyClient, honeyUser, honeyReserves } = useMarket(sdkConfig.saberHqConnection, sdkConfig.sdkWallet!, sdkConfig.honeyId, sdkConfig.marketId);
   const { market, marketReserveInfo, parsedReserves }  = useHoney();
 
   useEffect(() => {
     console.log('the honeyUser and reserves', honeyUser, honeyReserves)
   }, [honeyUser, honeyReserves]);
-  
-
 
   const wallet = useConnectedWallet();
   const { connect } = useWalletKit();
