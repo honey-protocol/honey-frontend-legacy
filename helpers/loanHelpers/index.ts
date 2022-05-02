@@ -5,12 +5,12 @@ import { useConnection, useConnectedWallet } from '@saberhq/use-solana';
  * @params none
  * @returns connection | wallet | honeyID | marketID
 */
-export async function ConfigureSDK() {
+export function ConfigureSDK() {
     return {
         saberHqConnection: useConnection(),
         sdkWallet: useConnectedWallet(),
-        honeyId: process.env.HONEY_ID,
-        marketID: process.env.MARKET_ID
+        honeyId: '6ujVJiHnyqaTBHzwwfySzTDX5EPFgmXqnibuMp3Hun1w',
+        marketId: 'HB82woFm5MrTx3X4gsRpVcUxtWJJyDBeT5xNGCUUrLLe'
     }
 }
 
