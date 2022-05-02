@@ -4,10 +4,7 @@ import Link from 'next/link';
 import { useWalletKit } from '@gokiprotocol/walletkit';
 import { useConnectedWallet } from '@saberhq/use-solana';
 import { Box, Text, Card, IconPlus } from 'degen';
-import { Stack } from 'degen';
-import { Button } from 'degen';
-import { IconPlusSmall, IconSearch } from 'degen';
-import { Input } from 'degen';
+import { Stack, IconSearch, Input } from 'degen';
 import ToggleSwitch from '../../components/ToggleSwitch';
 import AssetRow, { AssetRowType } from '../../components/AssetRow';
 import ModalContainer from '../../components/ModalContainer/ModalContainer';
@@ -15,6 +12,22 @@ import DepositWithdrawModule from '../../components/DepositWithdrawModule/Deposi
 import Layout from '../../components/Layout/Layout';
 import * as styles from '../../styles/loan.css';
 import LoanHeaderComponent from 'components/LoanHeaderComponent/LoanHeaderComponent';
+import { ConfigureSDK } from 'helpers/loanHelpers';
+import { Metadata } from '@metaplex-foundation/mpl-token-metadata';
+import {
+  deposit,
+  HoneyUser,
+  depositNFT,
+  withdrawNFT,
+  useBorrowPositions,
+  useMarket,
+  usePools,
+  useHoney,
+  withdraw,
+  borrow,
+  repay,
+} from '@honey-finance/sdk';
+import { LAMPORTS_PER_SOL, PublicKey } from '@solana/web3.js';
 
 const assetData: Array<AssetRowType> = [
   {
@@ -29,6 +42,27 @@ const assetData: Array<AssetRowType> = [
 ];
 
 const Loan: NextPage = () => {
+  /**
+   * @description calls upon sdk config object
+   * @params none
+   * @returns connection | wallet | honeyID | marketID
+  */
+  const sdkConfig = ConfigureSDK();
+  
+  /**
+   * @description calls upon the honey sdk 
+   * @params  useConnection func. | useConnectedWallet func. | honeyID | marketID
+   * @returns honeyUser | honeyReserves - used for interaction regarding the SDK
+  */
+  const { honeyUser, honeyReserves } = useMarket(sdkConfig.saberHqConnection, sdkConfig.sdkWallet!, sdkConfig.honeyId, sdkConfig.marketId);
+  const { market, marketReserveInfo, parsedReserves }  = useHoney();
+
+  useEffect(() => {
+    console.log('the honeyUser and reserves', honeyUser, honeyReserves)
+  }, [honeyUser, honeyReserves]);
+  
+
+
   const wallet = useConnectedWallet();
   const { connect } = useWalletKit();
   const [borrowOrLend, setBorrowOrLend] = useState(0);
