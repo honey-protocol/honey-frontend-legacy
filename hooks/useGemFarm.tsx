@@ -244,7 +244,6 @@ const useGemFarm = () => {
 
   // on nfts select and unselect fns
   const onWalletNFTSelect = (NFT: NFT) => {
-    if (selectedWalletNFTs.length >= 2) return;
     setSelectedWalletNFTs([...selectedWalletNFTs, NFT]);
   };
 
@@ -256,7 +255,6 @@ const useGemFarm = () => {
   };
 
   const onStakedNFTSelect = (NFT: NFT) => {
-    if (selectedVaultNFTs.length >= 3) return;
     setSelectedVaultNFTs([...selectedVaultNFTs, NFT]);
   };
 
@@ -286,11 +284,30 @@ const useGemFarm = () => {
     }
   };
 
+  const MAX_SINGLE_TX_STAKE = 2;
+
   const handleStakeButtonClick = async () => {
+    setFeedbackStatus('Staking...');
+
+    if (selectedWalletNFTs.length <= MAX_SINGLE_TX_STAKE) {
+      await stakeSingleTx();
+    } else {
+      await stakeSendAll();
+    }
+
+    await fetchFarmerDetails(gf, gb);
+    await refreshNFTsWithLoadingIcon();
+
+    setFeedbackStatus('');
+
+    setSelectedWalletNFTs([]);
+    setSelectedVaultNFTs([]);
+  };
+
+  async function stakeSingleTx() {
     if (!gf || !gb) throw new Error('No Gem Bank client has been initialized.');
 
     const tx = new Transaction();
-    setFeedbackStatus('Staking...');
     if (vaultAcc?.locked) {
       // Unlock vault
       tx.add(await gf.unstakeWalletIx(new PublicKey(farmAddress!)));
@@ -325,21 +342,70 @@ const useGemFarm = () => {
 
     const txSig = await gf.provider.sendAndConfirm!(tx);
     await connection.confirmTransaction(txSig);
+  }
 
+  async function stakeSendAll() {
+    if (!gf || !gb) throw new Error('No Gem Bank client has been initialized.');
+
+    await unlockVault();
+
+    const txs: Transaction[] = [];
+    for (let i = 0; i < selectedWalletNFTs.length; i++) {
+      const depositTx = new Transaction();
+      const creator = new PublicKey(
+        selectedWalletNFTs[i].creators[0].address || ''
+      );
+      const tokenAccResult = await tokenAccountResult(
+        gf,
+        gb,
+        wallet!.publicKey,
+        new PublicKey(selectedWalletNFTs[i].mint)
+      );
+
+      depositTx.add(
+        await gb.depositGemWalletIx(
+          new PublicKey(bankAddress),
+          new PublicKey(farmerAcc.vault),
+          new BN(1),
+          new PublicKey(selectedWalletNFTs[i].mint),
+          new PublicKey(tokenAccResult[0]),
+          creator
+        )
+      );
+      txs.push(depositTx);
+    }
+    await gf.provider.sendAll!(
+      txs.map(tx => {
+        return { tx, signers: [] };
+      })
+    );
+
+    await lockVault();
+  }
+
+  const MAX_SINGLE_TX_UNSTAKE = 3;
+
+  const handleUnstakeButtonClick = async () => {
+    setFeedbackStatus('Unstaking wallet...');
+
+    if (selectedVaultNFTs.length <= MAX_SINGLE_TX_UNSTAKE) {
+      await unstakeSingleTx();
+    } else {
+      await unstakeSendAll();
+    }
     await fetchFarmerDetails(gf, gb);
     await refreshNFTsWithLoadingIcon();
 
     setFeedbackStatus('');
 
-    setSelectedWalletNFTs([]);
     setSelectedVaultNFTs([]);
+    setSelectedWalletNFTs([]);
   };
 
-  const handleUnstakeButtonClick = async () => {
+  async function unstakeSingleTx() {
     if (!gf || !gb) throw new Error('No Gem Bank client has been initialized.');
 
     const tx = new Transaction();
-    setFeedbackStatus('Unstaking wallet...');
     // Unlock vault
     tx.add(await gf.unstakeWalletIx(new PublicKey(farmAddress!)));
     // End cooldown
@@ -362,16 +428,60 @@ const useGemFarm = () => {
       tx.add(await gf.stakeWalletIx(new PublicKey(farmAddress!)));
     }
 
-  const txSig = await gf.provider.sendAndConfirm!(tx);
+    const txSig = await gf.provider.sendAndConfirm!(tx);
     await connection.confirmTransaction(txSig);
+  }
 
-    await fetchFarmerDetails(gf, gb);
-    await refreshNFTsWithLoadingIcon();
+  async function unstakeSendAll() {
+    if (!gf || !gb) throw new Error('No Gem Bank client has been initialized.');
 
-    setFeedbackStatus('');
+    await unlockVault();
 
-    setSelectedVaultNFTs([]);
-    setSelectedWalletNFTs([]);
+    const txs: Transaction[] = [];
+    for (let i = 0; i < selectedVaultNFTs.length; i++) {
+      const withdrawTx = new Transaction();
+
+      withdrawTx.add(
+        await gb.withdrawGemWalletIx(
+          new PublicKey(bankAddress),
+          new PublicKey(farmerAcc.vault),
+          new BN(1),
+          new PublicKey(selectedVaultNFTs[i].mint)
+        )
+      );
+      txs.push(withdrawTx);
+    }
+    await gf.provider.sendAll!(
+      txs.map(tx => {
+        return { tx, signers: [] };
+      })
+    );
+
+    if (selectedVaultNFTs.length < farmerAcc.gemsStaked.toNumber()) {
+      // Re-stake remaining
+      await lockVault();
+    }
+  }
+
+  const lockVault = async () => {
+    if (!vaultAcc?.locked) {
+      const tx = new Transaction();
+      tx.add(await gf!.stakeWalletIx(new PublicKey(farmAddress!)));
+      await gf!.provider.sendAndConfirm!(tx);
+    }
+  };
+
+  const unlockVault = async () => {
+    if (vaultAcc?.locked) {
+      setFeedbackStatus('Unlocking vault...');
+
+      const tx = new Transaction();
+      // Unlock vault
+      tx.add(await gf!.unstakeWalletIx(new PublicKey(farmAddress!)));
+      // End cooldown
+      tx.add(await gf!.unstakeWalletIx(new PublicKey(farmAddress!)));
+      await gf!.provider.sendAndConfirm!(tx);
+    }
   };
 
   console.log({ availableA });
