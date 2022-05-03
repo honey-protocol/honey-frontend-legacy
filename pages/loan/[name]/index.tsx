@@ -23,6 +23,7 @@ import {
   repay,
 } from '@honey-finance/sdk';
 import Nft from 'pages/farm/[name]';
+import LoanNewBorrow from 'components/NewPosition';
 /**
  * @description 
  *  static nft object based off current posted as collateral and available nfts
@@ -57,6 +58,15 @@ const marketNFTs = [
     assetsBorrowed: 0,
     netBorrowBalance: 0,
     key: 3
+  },
+  {
+    name: 'Please select an NFT',
+    image: 'https://assets.coingecko.com/coins/images/24781/small/honey.png?1648902423',
+    borrowAPY: '0',
+    estValue: '$0',
+    assetsBorrowed: 0,
+    netBorrowBalance: 0,
+    key: 4
   }
 ]
 
@@ -92,7 +102,6 @@ const Loan: NextPage = () => {
   let { loading, collateralNFTPositions, loanPositions, error } = useBorrowPositions(sdkConfig.saberHqConnection, sdkConfig.sdkWallet!, sdkConfig.honeyId, sdkConfig.marketId)
        
   useEffect(() => {
-    console.log('this is collateralNFTs', collateralNFTPositions)
   }, [collateralNFTPositions, loanPositions]);
      
   /**
@@ -104,7 +113,6 @@ const Loan: NextPage = () => {
   let availableNFTs = useFetchNFTByUser(wallet);
      
   useEffect(() => {
-    console.log('this is available NFTs', availableNFTs)
   }, [availableNFTs])
 
   /**
@@ -116,10 +124,17 @@ const Loan: NextPage = () => {
   const [nftArrayType, setNftArrayType] = useState(false);
   // state handler based off nft key
   function selectNFT(key: any, type: boolean) {
-    console.log('this is the key', key)
+    console.log('this is selectedId', key)
+    console.log('this is func.', availableNFTs)
     setSelectedId(key);
     setNftArrayType(type);
   };
+
+  const [borrowModal, setBorrowModal] = useState(1);
+
+  function handleBorrowModal(value: any) {
+    value == 1 ? setBorrowModal(1) : setBorrowModal(0)
+  }
 
   return (
     <Layout>
@@ -148,6 +163,7 @@ const Loan: NextPage = () => {
         <LoanNFTsContainer
           selectedId={selectedId}
           onSelectNFT={selectNFT}
+          handleBorrow={handleBorrowModal}
           buttons={[
             {
               title: 'Open positions',
@@ -162,8 +178,23 @@ const Loan: NextPage = () => {
           availableNFTs={availableNFTs[0]}
           // set key equal to name since open positions doesnt contain id but name is with unique number
         />
-        <BorrowNFTsModule 
-          NFT={collateralNFTPositions && collateralNFTPositions.find((NFT) => NFT.name == selectedId) || marketNFTs[0]} />
+        
+        <Box>      
+          {
+            borrowModal == 1 ? 
+              <BorrowNFTsModule 
+                NFT={
+                  collateralNFTPositions 
+                  && 
+                  collateralNFTPositions.find((NFT) => NFT.name == selectedId) || marketNFTs[0]} />
+            : 
+              <LoanNewBorrow 
+                NFT={
+                  availableNFTs 
+                  && 
+                  availableNFTs[0].find((NFT) => NFT.name == selectedId) || marketNFTs[3]} />
+          }
+        </Box>
       </Box>
     </Layout>
   );
