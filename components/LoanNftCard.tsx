@@ -18,8 +18,6 @@ const LoanNFTCard = (props: LoanNFTCardProps) => {
     onSelect, available
   } = props;
 
-  console.log('selected nfts', props.NFT)
-
   return (
     <Box
       backgroundColor={'backgroundSecondary'}
