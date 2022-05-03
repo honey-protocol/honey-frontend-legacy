@@ -2,6 +2,7 @@ import type { NextPage } from 'next';
 import React, { useState, useEffect } from 'react';
 import { Box, Stack, Button, IconChevronLeft, Text } from 'degen';
 import { useConnectedWallet } from '@saberhq/use-solana';
+import { Metadata } from '@metaplex-foundation/mpl-token-metadata';
 import Layout from '../../../components/Layout/Layout';
 import LoanNFTsContainer from 'components/LoanNFTsContainer/LoanNFTsContainer';
 import BorrowNFTsModule from 'components/BorrowNFTsModule/BorrowNFTsModule';
@@ -24,6 +25,7 @@ import {
 } from '@honey-finance/sdk';
 import Nft from 'pages/farm/[name]';
 import LoanNewBorrow from 'components/NewPosition';
+
 /**
  * @description 
  *  static nft object based off current posted as collateral and available nfts
@@ -129,11 +131,35 @@ const Loan: NextPage = () => {
     setSelectedId(key);
     setNftArrayType(type);
   };
-
+  /**
+   * @description logic regarding borrow modal or lendmodal
+   * @params 0 or 1
+   * @returns sets state and renders appropriate modal
+  */
   const [borrowModal, setBorrowModal] = useState(1);
 
   function handleBorrowModal(value: any) {
     value == 1 ? setBorrowModal(1) : setBorrowModal(0)
+  }
+
+  /**
+   * @description executes the deposit NFT func. from SDK
+   * @params mint of the NFT
+   * @returns succes | failure
+  */
+  async function executeDepositNFT(mintID) {
+    const metadata = await Metadata.findByMint(sdkConfig.saberHqConnection, mintID)
+    depositNFT(sdkConfig.saberHqConnection, honeyUser, metadata.pubkey);
+  }
+  
+  /**
+   * @description executes the withdraw NFT func. from SDK
+   * @params mint of the NFT
+   * @returns succes | failure
+  */
+  async function executeWithdrawNFT(mintID) {
+    const metadata = await Metadata.findByMint(sdkConfig.saberHqConnection, mintID);
+    withdrawNFT(sdkConfig.saberHqConnection, honeyUser, metadata.pubkey);
   }
 
   return (
