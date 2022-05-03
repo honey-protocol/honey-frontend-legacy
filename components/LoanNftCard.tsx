@@ -11,6 +11,8 @@ interface LoanNFTCardProps {
   selected: boolean;
   onSelect: (key: number) => void;
   available: boolean;
+  executeWithdrawNFT: (nft: any) => void;
+  executeDepositNFT: (nft: any) => void;
 }
 
 const LoanNFTCard = (props: LoanNFTCardProps) => {
@@ -25,7 +27,7 @@ const LoanNFTCard = (props: LoanNFTCardProps) => {
       borderWidth={props.selected ? '0.5' : '0'}
       padding="1.5"
       overflow="hidden"
-      onClick={() => onSelect(props.NFT.name, available)}
+      onClick={() => onSelect(props.NFT, available)}
     >
       <Avatar
         label={props.NFT.name}

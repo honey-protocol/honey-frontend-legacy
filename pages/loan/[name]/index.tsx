@@ -86,6 +86,7 @@ const Loan: NextPage = () => {
   * @returns honeyUser | honeyReserves - used for interaction regarding the SDK
   */
   const { honeyClient, honeyUser, honeyReserves } = useMarket(sdkConfig.saberHqConnection, sdkConfig.sdkWallet!, sdkConfig.honeyId, sdkConfig.marketId);
+  
   /**
    * @description calls upon markets which 
    * @params none
@@ -115,7 +116,12 @@ const Loan: NextPage = () => {
   let availableNFTs = useFetchNFTByUser(wallet);
      
   useEffect(() => {
-  }, [availableNFTs])
+  }, [availableNFTs]);
+
+  const [withDrawDepositNFT, updateWithdrawDepositNFT] = useState();
+
+  useEffect(() => {
+  }, [withDrawDepositNFT]);
 
   /**
    * @description logic regarding selected nft for borrow module 
@@ -126,10 +132,9 @@ const Loan: NextPage = () => {
   const [nftArrayType, setNftArrayType] = useState(false);
   // state handler based off nft key
   function selectNFT(key: any, type: boolean) {
-    console.log('this is selectedId', key)
-    console.log('this is func.', availableNFTs)
-    setSelectedId(key);
+    setSelectedId(key.name);
     setNftArrayType(type);
+    updateWithdrawDepositNFT(key.mint)
   };
   /**
    * @description logic regarding borrow modal or lendmodal
@@ -202,6 +207,8 @@ const Loan: NextPage = () => {
           ]}
           openPositions={collateralNFTPositions}
           availableNFTs={availableNFTs[0]}
+          executeWithdrawNFT={executeWithdrawNFT}
+          executeDepositNFT={executeDepositNFT}
           // set key equal to name since open positions doesnt contain id but name is with unique number
         />
         
@@ -212,13 +219,21 @@ const Loan: NextPage = () => {
                 NFT={
                   collateralNFTPositions 
                   && 
-                  collateralNFTPositions.find((NFT) => NFT.name == selectedId) || marketNFTs[0]} />
+                  collateralNFTPositions.find((NFT) => NFT.name == selectedId) || marketNFTs[0]
+                } 
+                mint={withDrawDepositNFT}
+                executeWithdrawNFT={executeWithdrawNFT}
+              />
             : 
               <LoanNewBorrow 
                 NFT={
                   availableNFTs 
                   && 
-                  availableNFTs[0].find((NFT) => NFT.name == selectedId) || marketNFTs[3]} />
+                  availableNFTs[0].find((NFT) => NFT.name == selectedId) || marketNFTs[3]
+                }
+                mint={withDrawDepositNFT}
+                executeDepositNFT={executeDepositNFT}
+              />
           }
         </Box>
       </Box>
