@@ -4,10 +4,7 @@ import Link from 'next/link';
 import { useWalletKit } from '@gokiprotocol/walletkit';
 import { useConnectedWallet } from '@saberhq/use-solana';
 import { Box, Text, Card, IconPlus } from 'degen';
-import { Stack } from 'degen';
-import { Button } from 'degen';
-import { IconPlusSmall, IconSearch } from 'degen';
-import { Input } from 'degen';
+import { Stack, IconSearch, Input } from 'degen';
 import ToggleSwitch from '../../components/ToggleSwitch';
 import AssetRow, { AssetRowType } from '../../components/AssetRow';
 import ModalContainer from '../../components/ModalContainer/ModalContainer';
@@ -15,17 +12,37 @@ import DepositWithdrawModule from '../../components/DepositWithdrawModule/Deposi
 import Layout from '../../components/Layout/Layout';
 import * as styles from '../../styles/loan.css';
 import LoanHeaderComponent from 'components/LoanHeaderComponent/LoanHeaderComponent';
+import { ConfigureSDK } from 'helpers/loanHelpers';
+import { Metadata } from '@metaplex-foundation/mpl-token-metadata';
+import {
+  deposit,
+  HoneyUser,
+  depositNFT,
+  withdrawNFT,
+  useBorrowPositions,
+  useMarket,
+  usePools,
+  useHoney,
+  withdraw,
+  borrow,
+  repay,
+} from '@honey-finance/sdk';
+import { LAMPORTS_PER_SOL, PublicKey } from '@solana/web3.js';
+import useFetchNFTByUser from 'hooks/useNFT';
 
+// TODO: should be fetched by SDK
 const assetData: Array<AssetRowType> = [
   {
-    vaultName: 'Solana Monkey Business',
-    vaultImageUrl: '/nfts/2738.png',
-    totalBorrowed: 0,
-    interest: 0,
-    available: 0,
+    vaultName: 'Cofre',
+    vaultImageUrl: 'https://www.arweave.net/5zeisOPbDekgyqYHd0okraQKaWwlVxvIIiXLH4Sr2M8?ext=png',
+    totalBorrowed: 14000,
+    interest: 4,
+    available: 11000,
     positions: 0
   }
 ];
+
+
 
 const Loan: NextPage = () => {
   const wallet = useConnectedWallet();
@@ -103,7 +120,9 @@ const Loan: NextPage = () => {
                     {loadBorrowPage && (
                       <Link href="/loan/[name]" as={`/loan/${item.vaultName}`}>
                         <a>
-                          <AssetRow data={item} />
+                          <AssetRow
+                            data={item}
+                          />
                         </a>
                       </Link>
                     )}

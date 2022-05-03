@@ -10,22 +10,24 @@ interface LoanNFTCardProps {
   };
   selected: boolean;
   onSelect: (key: number) => void;
+  available: boolean;
 }
 
 const LoanNFTCard = (props: LoanNFTCardProps) => {
   const {
-    onSelect
+    onSelect, available
   } = props;
+
+  console.log('selected nfts', props.NFT)
 
   return (
     <Box
       backgroundColor={'backgroundSecondary'}
       borderRadius="3xLarge"
       borderWidth={props.selected ? '0.5' : '0'}
-      borderColor="accent"
       padding="1.5"
       overflow="hidden"
-      onClick={() => onSelect(props.NFT.key)}
+      onClick={() => onSelect(props.NFT.name, available)}
     >
       <Avatar
         label={props.NFT.name}

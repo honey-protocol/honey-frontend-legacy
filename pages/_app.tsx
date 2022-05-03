@@ -8,10 +8,13 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { accentSequence, ThemeAccent } from 'helpers/theme-utils';
 import { PartialNetworkConfigMap } from '@saberhq/use-solana/src/utils/useConnectionInternal';
-import { useEffect, useState } from 'react';
 import SecPopup from 'components/SecPopup';
+import { AnchorProvider, HoneyProvider } from '@honey-finance/sdk';
+import { useConnectedWallet, useConnection } from '@saberhq/use-solana';
+import React, { FC, ReactNode, useEffect, useState } from "react";
 
 const network = process.env.NETWORK as Network;
+
 const networkConfiguration = () => {
   if (process.env.NETWORK_CONFIGURATION) {
     return process.env.NETWORK_CONFIGURATION as PartialNetworkConfigMap;
@@ -25,6 +28,32 @@ const storedAccent =
   typeof window !== 'undefined'
     ? (localStorage.getItem('accent') as ThemeAccent)
     : undefined;
+
+const OnChainProvider: FC<{ children: ReactNode }> = ({ children }) => {
+  const wallet = useConnectedWallet();
+  const connection = useConnection();
+  const network = 'devnet';
+
+  return (
+    <AnchorProvider 
+    wallet={wallet} 
+    connection={connection} 
+    network={network} 
+    honeyProgram={"6ujVJiHnyqaTBHzwwfySzTDX5EPFgmXqnibuMp3Hun1w"}>
+      <HoneyProvider 
+        wallet={wallet} 
+        connection={connection}
+        honeyProgramId={"6ujVJiHnyqaTBHzwwfySzTDX5EPFgmXqnibuMp3Hun1w"} 
+        honeyMarketId={"HB82woFm5MrTx3X4gsRpVcUxtWJJyDBeT5xNGCUUrLLe"}
+      > 
+        {/* HB82woFm5MrTx3X4gsRpVcUxtWJJyDBeT5xNGCUUrLLe */}
+        {/* GLBPMnxYr5QkkF4o5SMug7B5DmPSDDdAw7W46RgZdRyf */}
+        {children}
+      </HoneyProvider>
+    </AnchorProvider>
+  )
+}
+
 
 function MyApp({ Component, pageProps }: AppProps) {
   const [showPopup, setShowPopup] = useState(true);
@@ -55,8 +84,10 @@ function MyApp({ Component, pageProps }: AppProps) {
           <SecPopup setShowPopup={setShowPopup} />
         ) : (
           <>
-            <Component {...pageProps} />
-            <ToastContainer theme="dark" position="bottom-right" />
+            <OnChainProvider>
+              <Component {...pageProps} />
+              <ToastContainer theme="dark" position="bottom-right" />
+            </OnChainProvider>
           </>
         )}
       </WalletKitProvider>
