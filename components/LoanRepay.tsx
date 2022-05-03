@@ -193,7 +193,7 @@ const LoanRepay = (props: LoanRepayProps) => {
                 </Stack>
             </Box>
             <Slider />
-            <Button width="full">Repay</Button>
+            <Button width="full">Claim NFT</Button>
         </Box>
     )
 }
