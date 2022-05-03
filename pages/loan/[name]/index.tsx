@@ -23,8 +23,23 @@ import {
   repay,
 } from '@honey-finance/sdk';
 import Nft from 'pages/farm/[name]';
-
+/**
+ * @description 
+ *  static nft object based off current posted as collateral and available nfts
+ *  logic based on key to render out selected nft inside borrow module
+ * @params none
+ * @returns 3 nfts
+*/
 const marketNFTs = [
+  {
+    name: 'COFRE #573',
+    image:'https://www.arweave.net/sHPeuSwbrN3SNBwcn8OZjV_VYVp3TlONXduzyqpoXb8?ext=png',
+    borrowApy: '4.2%',
+    estValue: '$25,800',
+    assetsBorrowed: 0,
+    netBorrowBalance: 0,
+    key: 1
+  },
   {
     name: 'COFRE #574',
     image:'https://www.arweave.net/2XSva0NaalwsGBtxw-puVT_j1NDXecrMAGRxxvRjMK0?ext=png',
@@ -35,13 +50,13 @@ const marketNFTs = [
     key: 2
   },
   {
-    name: 'COFRE #573',
-    image:'https://www.arweave.net/sHPeuSwbrN3SNBwcn8OZjV_VYVp3TlONXduzyqpoXb8?ext=png',
-    borrowApy: '4.2%',
-    estValue: '$25,800',
+    name: 'Cofre #529',
+    image: 'https://www.arweave.net/5zeisOPbDekgyqYHd0okraQKaWwlVxvIIiXLH4Sr2M8?ext=png',
+    borrowAPY: '3.1',
+    estValue: '$21.991',
     assetsBorrowed: 0,
     netBorrowBalance: 0,
-    key: 1
+    key: 3
   }
 ]
 
@@ -77,7 +92,7 @@ const Loan: NextPage = () => {
   let { loading, collateralNFTPositions, loanPositions, error } = useBorrowPositions(sdkConfig.saberHqConnection, sdkConfig.sdkWallet!, sdkConfig.honeyId, sdkConfig.marketId)
        
   useEffect(() => {
-    console.log(collateralNFTPositions)
+    console.log('this is collateralNFTs', collateralNFTPositions)
   }, [collateralNFTPositions, loanPositions]);
      
   /**
@@ -89,6 +104,7 @@ const Loan: NextPage = () => {
   let availableNFTs = useFetchNFTByUser(wallet);
      
   useEffect(() => {
+    console.log('this is available NFTs', availableNFTs)
   }, [availableNFTs])
 
   /**
@@ -96,11 +112,13 @@ const Loan: NextPage = () => {
    * @params key of nft
    * @returns sets state
   */
-  const [selectedId, setSelectedId] = useState();
-
-  function selectNFT(key: number) {
-    console.log('the selected nft', key)
+  const [selectedId, setSelectedId] = useState(1);
+  const [nftArrayType, setNftArrayType] = useState(false);
+  // state handler based off nft key
+  function selectNFT(key: any, type: boolean) {
+    console.log('this is the key', key)
     setSelectedId(key);
+    setNftArrayType(type);
   };
 
   return (
@@ -150,5 +168,13 @@ const Loan: NextPage = () => {
     </Layout>
   );
 };
+
+// NFT={collateralNFTPositions && availableNFTs ? 
+//   if (nftArrayType == false) {
+//     collateralNFTPositions.find((NFT) => NFT.name == selectedId)
+//   } else {
+//     availableNFTs.find((NFT) => NFT.name == selectedId)
+//   } : marketNFTs[0]
+// }
 
 export default Loan;
