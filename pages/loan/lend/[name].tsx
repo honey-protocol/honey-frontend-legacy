@@ -1,6 +1,13 @@
 import type { NextPage } from 'next';
 import { Box, Button, Card, IconChevronLeft, Text, vars } from 'degen';
 import { Stack } from 'degen';
+import {
+  deposit,
+  withdraw,
+  useMarket
+} from '@honey-finance/sdk';
+import { ConfigureSDK } from 'helpers/loanHelpers';
+import { LAMPORTS_PER_SOL, PublicKey } from '@solana/web3.js';
 import Layout from '../../../components/Layout/Layout';
 import DepositWithdrawModule from 'components/DepositWithdrawModule/DepositWIthdrawModule';
 import {
@@ -63,7 +70,40 @@ const cardsDetails = [
     value: '20%'
   }
 ];
+
 const Borrow: NextPage = () => {
+
+const sdkConfig = ConfigureSDK();
+
+  /**
+     * @description calls upon the honey sdk - market 
+     * @params solanas useConnection func. && useConnectedWallet func. && JET ID
+     * @returns honeyUser which is the main object - honeyMarket, honeyReserves are for testing purposes
+    */
+  const { honeyClient, honeyUser, honeyReserves } = useMarket(sdkConfig.saberHqConnection, sdkConfig.sdkWallet!, sdkConfig.honeyId, sdkConfig.marketId);
+
+  /**
+   * @description deposits 1 sol
+   * @params none
+   * @returns succes | failure
+  */
+  async function executeDeposit() {
+    const tokenAmount = 1 * LAMPORTS_PER_SOL;
+    const depositTokenMint = new PublicKey('So11111111111111111111111111111111111111112');
+    await deposit(honeyUser, tokenAmount, depositTokenMint, honeyReserves);
+  }
+
+  /**
+   * @description withdraws 1 sol
+   * @params none
+   * @returns succes | failure
+  */
+  async function executeWithdraw() {
+    const tokenAmount = 1 * LAMPORTS_PER_SOL;
+    const depositTokenMint = new PublicKey('So11111111111111111111111111111111111111112');
+    await withdraw(honeyUser, tokenAmount, depositTokenMint, honeyReserves);
+  }
+
   return (
     <Layout>
       <Box marginY="4">
@@ -199,7 +239,10 @@ const Borrow: NextPage = () => {
           alignItems="center"
           justifyContent="center"
         >
-          <DepositWithdrawModule />
+          <DepositWithdrawModule
+            executeDeposit={executeDeposit}
+            executeWithdraw={executeWithdraw}
+          />
         </Box>
       </Stack>
     </Layout>

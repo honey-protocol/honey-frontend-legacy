@@ -10,10 +10,11 @@ interface LoanDepositProps {
   estValue: number;
   assetsBorrowed: number;
   netBorrowBalance: number;
+  handleDeposit: () => void;
 }
 
 const LoanDeposit = (props: LoanDepositProps) => {
-  const { borrowApy, estValue, assetsBorrowed, netBorrowBalance } = props;
+  const { borrowApy, estValue, assetsBorrowed, netBorrowBalance, handleDeposit } = props;
 
   return (
     <Box
@@ -111,7 +112,7 @@ const LoanDeposit = (props: LoanDepositProps) => {
           </Box>
         </Box>
         <Box height="16">
-          <Button width="full">Deposit</Button>
+          <Button width="full" onClick={handleDeposit}>Deposit</Button>
         </Box>
       </Stack>
     </Box>
