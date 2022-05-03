@@ -15,11 +15,13 @@ interface BorrowNFTsModule {
     assetsBorrowed: number;
     netBorrowBalance: number;
     key: number;
-  };
+  },
+  executeWithdrawNFT: (key: any) => void;
+  mint: any;
 }
 
 const BorrowNFTsModule = (props: BorrowNFTsModule) => {
-  const { NFT } = props;
+  const { NFT, executeWithdrawNFT, mint } = props;
 
   const [borrowOrRepay, setBorrowOrRepay] = useState(0);
 
@@ -40,7 +42,7 @@ const BorrowNFTsModule = (props: BorrowNFTsModule) => {
           {borrowOrRepay == 0 ? (
             <LoanBorrow NFT={NFT} />
           ) : (
-            <LoanRepay NFT={NFT} />
+            <LoanRepay NFT={NFT} executeWithdrawNFT={executeWithdrawNFT} mint={mint} />
           )}
         </Stack>
       </Card>
