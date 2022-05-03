@@ -16,6 +16,8 @@ interface LoanNFTsContainerProps {
   openPositions: any[];
   availableNFTs: any[];
   handleBorrow: (key: number) => void;
+  executeWithdrawNFT: (nft: any) => void;
+  executeDepositNFT: (nft: any) => void;
 }
 
 const LoanNFTsContainer = (props: LoanNFTsContainerProps) => {
@@ -26,7 +28,9 @@ const LoanNFTsContainer = (props: LoanNFTsContainerProps) => {
     onSelectNFT,
     openPositions,
     availableNFTs,
-    handleBorrow
+    handleBorrow,
+    executeWithdrawNFT,
+    executeDepositNFT,
   } = props;
   /**
    * @description based off renderNFTs either open positions (0) gets rendered or available nfts (1)
@@ -83,6 +87,7 @@ const LoanNFTsContainer = (props: LoanNFTsContainerProps) => {
                     NFT={nft}
                     onSelect={onSelectNFT}
                     available={false}
+                    executeWithdrawNFT={executeWithdrawNFT}
                   />
                 )) : availableNFTs && availableNFTs.map((nft, i) => (
                   <LoanNFTCard
@@ -91,6 +96,7 @@ const LoanNFTsContainer = (props: LoanNFTsContainerProps) => {
                     NFT={nft}
                     onSelect={onSelectNFT}
                     available={true}
+                    executeDepositNFT={executeDepositNFT}
                   />
                 ))}
               </Box>
