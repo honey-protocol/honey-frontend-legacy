@@ -67,7 +67,11 @@ export const selectionDetails = style({
 globalStyle(`${selectionDetails} > *`, {
   margin: '.75em',
   color: 'gray',
-  fontSize: '1em'
+  fontSize: '1em',
+  background: 'none',
+  border: 'none',
+  textAlign: 'end'
+
 });
 
 export const currencyStyles = style({
