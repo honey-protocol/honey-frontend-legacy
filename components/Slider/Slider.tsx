@@ -18,15 +18,19 @@ const Slider = () => {
   function handleChange(value: any) {
     setSlideCount(value.target.value);
   }
+
+  function handleMaxButton() {
+    setSlideCount(10)
+  }
   return (
     <Stack space="0">
       <Box className={styles.selectionWrapper}>
         <Box>
-          <Button size="small" variant="secondary">Max</Button>
+          <Button size="small" variant="secondary" onClick={handleMaxButton}>Max</Button>
         </Box>
         <Box className={styles.selectionDetails}>
           <div className={styles.currencyStyles}>
-            <input type="number" placeholder='0' onChange={(value) => handleChange(value)} className={styles.currencyStyles} value={slideCount} min="0" max="100" />
+            <input type="number" placeholder='0' onChange={(value) => handleChange(value)} className={styles.currencyStyles} value={slideCount} min="0" max="10" />
           </div>
           <Avatar label="TetranodeNFT" size="10" shape="square" src={'https://assets.coingecko.com/coins/images/4128/small/solana.png?1640133422'} />
           <select name="currencySelector" id="currencySelector" className={styles.currencySelector}>
@@ -38,7 +42,7 @@ const Slider = () => {
       </Box>
       <Box>
         <div className={styles.rangeSlider}>
-          <input className={styles.rangeSliderRange} type="range" value={slideCount} min="0" max="100" onChange={handleOnChange} />
+          <input className={styles.rangeSliderRange} type="range" value={slideCount} min="0" max="10" onChange={handleOnChange} />
         </div>
         <div className={styles.percentageWrapper}>
             <span>0%</span>
