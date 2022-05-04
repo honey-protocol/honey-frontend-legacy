@@ -70,9 +70,14 @@ globalStyle(`${selectionDetails} > *`, {
   fontSize: '1em',
   background: 'none',
   border: 'none',
-  textAlign: 'end'
-
+  textAlign: 'end',
 });
+
+globalStyle(`${selectionDetails}, input::-webkit-outer-spin-button, input::-webkit-inner-spin-button `, {
+  WebkitAppearance: 'none',
+  MozAppearance: 'textfield',
+  margin: 0
+}); 
 
 export const currencyStyles = style({
   fontSize: '2em'
@@ -83,3 +88,10 @@ export const currencySelector = style({
   border: 'none',
   marginLeft: '.1em'
 });
+
+export const errorMessage = style({
+  color: 'white',
+  textDecoration: 'underline',
+  fontWeight: '600',
+  fontSize: '1.2em'
+})

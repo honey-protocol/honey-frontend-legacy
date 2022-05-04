@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Box, Button, Card, Stack, Text, Tag } from 'degen';
 import { Avatar } from 'degen';
 import { Input } from 'degen';
@@ -26,11 +26,20 @@ const LoanWithdraw = (props: LoanWithdrawProps) => {
     handleWithdraw
   } = props;
 
-  // state handler for user input
+  const [userMessage, setUserMessage] = useState('');
+
+  function handleMaxMessage() {
+    setUserMessage('Max input is 10');
+  }
+
   const [userInput, setUserInput] = useState(0);
 
-  function handleState(val: any) {
-    setUserInput(val);
+  function handleChange(value: any) {
+    value.target.value <= 10 ? setUserInput(value.target.value) : handleMaxMessage();
+  }
+
+  function handleMaxValue() {
+    setUserInput(10)
   }
 
   return (
@@ -121,15 +130,18 @@ const LoanWithdraw = (props: LoanWithdrawProps) => {
         </Stack>
       </Stack>
       <Stack direction="vertical" space="4">
+        <Box className={styles.errorMessage}>
+          {userMessage && userMessage}
+        </Box> 
         {/* Borrowed amount and currency */}
         <Box className={styles.selectionWrapper}>
           <Box>
-            <Button size="small" variant="secondary">
+            <Button size="small" variant="secondary" onClick={handleMaxValue}>
               Max
             </Button>
           </Box>
           <Box className={styles.selectionDetails}>
-            <input type="number" placeholder='0' onChange={(value) => handleState(value)} className={styles.currencyStyles} />
+          <input type="number" placeholder='0' onChange={(value) => handleChange(value)} className={styles.currencyStyles} value={userInput} min="1" max="100" />
             <Avatar
               label="TetranodeNFT"
               size="7"
