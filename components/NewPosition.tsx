@@ -94,7 +94,7 @@ const LoanNewBorrow = (props: LoanNewBorrowProps) => {
             loading={isLoading}
             width="full"
           >
-            Approve
+            Deposit
           </Button>
         </Box>
       </Stack>

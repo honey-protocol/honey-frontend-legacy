@@ -1,6 +1,7 @@
 import React, { useState, FC, ReactNode } from 'react';
 import Image from 'next/image';
 import { Avatar, Box } from 'degen';
+import * as styles from '../components/LoanNFTsContainer/LoanNFTsContainer.css';
 
 interface LoanNFTCardProps {
   NFT: {
