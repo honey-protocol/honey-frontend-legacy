@@ -80,7 +80,15 @@ globalStyle(`${selectionDetails}, input::-webkit-outer-spin-button, input::-webk
 }); 
 
 export const currencyStyles = style({
-  fontSize: '2em'
+  fontSize: '1.8em',
+  background: 'none',
+  border: 'none',
+  color: 'rgb(102, 102, 102)',
+  textAlign: 'end'
+});
+
+globalStyle(`${currencyStyles}, > *`, {
+  display: 'none'
 });
 
 export const currencySelector = style({
