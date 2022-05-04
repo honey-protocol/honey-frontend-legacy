@@ -16,11 +16,20 @@ interface LoanDepositProps {
 const LoanDeposit = (props: LoanDepositProps) => {
   const { borrowApy, estValue, assetsBorrowed, netBorrowBalance, handleDeposit } = props;
 
+  const [userMessage, setUserMessage] = useState('');
+
+  function handleMaxMessage() {
+    setUserMessage('Max input is 10');
+  }
+
   const [userInput, setUserInput] = useState(0);
 
   function handleChange(value: any) {
-    console.log('the event', value.target.value)
-    setUserInput(value.target.value)
+    value.target.value <= 10 ? setUserInput(value.target.value) : handleMaxMessage();
+  }
+
+  function handleMaxValue() {
+    setUserInput(10)
   }
 
   return (
@@ -90,15 +99,18 @@ const LoanDeposit = (props: LoanDepositProps) => {
         </Stack>
       </Box>
       <Stack direction="vertical" space="6">
+        <Box className={styles.errorMessage}>
+          {userMessage && userMessage}
+        </Box>  
         {/* Borrowed amount and currency */}
         <Box className={styles.selectionWrapper}>
           <Box>
-            <Button size="small" variant="secondary">
+            <Button size="small" variant="secondary" onClick={handleMaxValue}>
               Max
             </Button>
           </Box>
           <Box className={styles.selectionDetails}>
-            <input type="number" placeholder='0' onChange={(value) => handleChange(value)} className={styles.currencyStyles} />
+            <input type="number" onChange={(value) => handleChange(value)} className={styles.currencyStyles} value={userInput} min="1" max="100" />
             <Avatar
               label="TetranodeNFT"
               size="7"
