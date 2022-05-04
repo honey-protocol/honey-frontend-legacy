@@ -2,6 +2,7 @@ import type { NextPage } from 'next';
 import React, { useState, useEffect } from 'react';
 import { Box, Stack, Button, IconChevronLeft, Text } from 'degen';
 import { useConnectedWallet } from '@saberhq/use-solana';
+import { Metadata } from '@metaplex-foundation/mpl-token-metadata';
 import Layout from '../../../components/Layout/Layout';
 import LoanNFTsContainer from 'components/LoanNFTsContainer/LoanNFTsContainer';
 import BorrowNFTsModule from 'components/BorrowNFTsModule/BorrowNFTsModule';
@@ -23,6 +24,8 @@ import {
   repay,
 } from '@honey-finance/sdk';
 import Nft from 'pages/farm/[name]';
+import LoanNewBorrow from 'components/NewPosition';
+
 /**
  * @description 
  *  static nft object based off current posted as collateral and available nfts
@@ -57,6 +60,15 @@ const marketNFTs = [
     assetsBorrowed: 0,
     netBorrowBalance: 0,
     key: 3
+  },
+  {
+    name: 'Please select an NFT',
+    image: 'https://assets.coingecko.com/coins/images/24781/small/honey.png?1648902423',
+    borrowAPY: '0',
+    estValue: '$0',
+    assetsBorrowed: 0,
+    netBorrowBalance: 0,
+    key: 4
   }
 ]
 
@@ -74,6 +86,7 @@ const Loan: NextPage = () => {
   * @returns honeyUser | honeyReserves - used for interaction regarding the SDK
   */
   const { honeyClient, honeyUser, honeyReserves } = useMarket(sdkConfig.saberHqConnection, sdkConfig.sdkWallet!, sdkConfig.honeyId, sdkConfig.marketId);
+  
   /**
    * @description calls upon markets which 
    * @params none
@@ -92,7 +105,6 @@ const Loan: NextPage = () => {
   let { loading, collateralNFTPositions, loanPositions, error } = useBorrowPositions(sdkConfig.saberHqConnection, sdkConfig.sdkWallet!, sdkConfig.honeyId, sdkConfig.marketId)
        
   useEffect(() => {
-    console.log('this is collateralNFTs', collateralNFTPositions)
   }, [collateralNFTPositions, loanPositions]);
      
   /**
@@ -104,8 +116,12 @@ const Loan: NextPage = () => {
   let availableNFTs = useFetchNFTByUser(wallet);
      
   useEffect(() => {
-    console.log('this is available NFTs', availableNFTs)
-  }, [availableNFTs])
+  }, [availableNFTs]);
+
+  const [withDrawDepositNFT, updateWithdrawDepositNFT] = useState();
+
+  useEffect(() => {
+  }, [withDrawDepositNFT]);
 
   /**
    * @description logic regarding selected nft for borrow module 
@@ -116,10 +132,40 @@ const Loan: NextPage = () => {
   const [nftArrayType, setNftArrayType] = useState(false);
   // state handler based off nft key
   function selectNFT(key: any, type: boolean) {
-    console.log('this is the key', key)
-    setSelectedId(key);
+    setSelectedId(key.name);
     setNftArrayType(type);
+    updateWithdrawDepositNFT(key.mint)
   };
+  /**
+   * @description logic regarding borrow modal or lendmodal
+   * @params 0 or 1
+   * @returns sets state and renders appropriate modal
+  */
+  const [borrowModal, setBorrowModal] = useState(1);
+
+  function handleBorrowModal(value: any) {
+    value == 1 ? setBorrowModal(1) : setBorrowModal(0)
+  }
+
+  /**
+   * @description executes the deposit NFT func. from SDK
+   * @params mint of the NFT
+   * @returns succes | failure
+  */
+  async function executeDepositNFT(mintID) {
+    const metadata = await Metadata.findByMint(sdkConfig.saberHqConnection, mintID)
+    depositNFT(sdkConfig.saberHqConnection, honeyUser, metadata.pubkey);
+  }
+  
+  /**
+   * @description executes the withdraw NFT func. from SDK
+   * @params mint of the NFT
+   * @returns succes | failure
+  */
+  async function executeWithdrawNFT(mintID) {
+    const metadata = await Metadata.findByMint(sdkConfig.saberHqConnection, mintID);
+    withdrawNFT(sdkConfig.saberHqConnection, honeyUser, metadata.pubkey);
+  }
 
   return (
     <Layout>
@@ -148,6 +194,7 @@ const Loan: NextPage = () => {
         <LoanNFTsContainer
           selectedId={selectedId}
           onSelectNFT={selectNFT}
+          handleBorrow={handleBorrowModal}
           buttons={[
             {
               title: 'Open positions',
@@ -160,10 +207,35 @@ const Loan: NextPage = () => {
           ]}
           openPositions={collateralNFTPositions}
           availableNFTs={availableNFTs[0]}
+          executeWithdrawNFT={executeWithdrawNFT}
+          executeDepositNFT={executeDepositNFT}
           // set key equal to name since open positions doesnt contain id but name is with unique number
         />
-        <BorrowNFTsModule 
-          NFT={collateralNFTPositions && collateralNFTPositions.find((NFT) => NFT.name == selectedId) || marketNFTs[0]} />
+        
+        <Box>      
+          {
+            borrowModal == 1 ? 
+              <BorrowNFTsModule 
+                NFT={
+                  collateralNFTPositions 
+                  && 
+                  collateralNFTPositions.find((NFT) => NFT.name == selectedId) || marketNFTs[0]
+                } 
+                mint={withDrawDepositNFT}
+                executeWithdrawNFT={executeWithdrawNFT}
+              />
+            : 
+              <LoanNewBorrow 
+                NFT={
+                  availableNFTs 
+                  && 
+                  availableNFTs[0].find((NFT) => NFT.name == selectedId) || marketNFTs[3]
+                }
+                mint={withDrawDepositNFT}
+                executeDepositNFT={executeDepositNFT}
+              />
+          }
+        </Box>
       </Box>
     </Layout>
   );

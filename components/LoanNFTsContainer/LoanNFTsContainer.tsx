@@ -9,12 +9,15 @@ type TButton = {
 };
 interface LoanNFTsContainerProps {
   NFTs: any[];
-  selectedId: number,
-  onSelectNFT: (key: number) => void,
+  selectedId: number;
+  onSelectNFT: (key: number) => void;
   title: string;
   buttons: TButton[];
   openPositions: any[];
-  availableNFTs: any[]
+  availableNFTs: any[];
+  handleBorrow: (key: number) => void;
+  executeWithdrawNFT: (nft: any) => void;
+  executeDepositNFT: (nft: any) => void;
 }
 
 const LoanNFTsContainer = (props: LoanNFTsContainerProps) => {
@@ -24,7 +27,10 @@ const LoanNFTsContainer = (props: LoanNFTsContainerProps) => {
     selectedId,
     onSelectNFT,
     openPositions,
-    availableNFTs
+    availableNFTs,
+    handleBorrow,
+    executeWithdrawNFT,
+    executeDepositNFT,
   } = props;
   /**
    * @description based off renderNFTs either open positions (0) gets rendered or available nfts (1)
@@ -38,7 +44,13 @@ const LoanNFTsContainer = (props: LoanNFTsContainerProps) => {
    * @returns nothing - sets state of to be rendered nft array
   */
   function handleNFTModal(nftType: string) {
-    nftType == 'Open positions' ? setRenderNFTs(0) : setRenderNFTs(1);
+    if (nftType == 'Open positions') {
+      setRenderNFTs(0)
+      handleBorrow(1)
+    } else {
+      setRenderNFTs(1)
+      handleBorrow(0)
+    }
   }
   // re-render after update
   useEffect(() => {
@@ -55,17 +67,7 @@ const LoanNFTsContainer = (props: LoanNFTsContainerProps) => {
               </Text>
               <Box className={styles.buttonSelectionWrapper}>
                 {buttons.map(button =>
-                  !button.active ? (
-                    <Button
-                      key={button.title}
-                      size="small"
-                      disabled={false}
-                      className={styles.buttonActive}
-                      onClick={() => handleNFTModal(button.title)}
-                    >
-                      {button.title}
-                    </Button>
-                  ) : (
+                   (
                     <Button
                       key={button.title}
                       size="small"
@@ -74,8 +76,7 @@ const LoanNFTsContainer = (props: LoanNFTsContainerProps) => {
                     >
                       {button.title}
                     </Button>
-                  )
-                )}
+                ))}
               </Box>
             </Stack>
               <Box className={styles.nftContainer}>
@@ -86,6 +87,7 @@ const LoanNFTsContainer = (props: LoanNFTsContainerProps) => {
                     NFT={nft}
                     onSelect={onSelectNFT}
                     available={false}
+                    executeWithdrawNFT={executeWithdrawNFT}
                   />
                 )) : availableNFTs && availableNFTs.map((nft, i) => (
                   <LoanNFTCard
@@ -94,6 +96,7 @@ const LoanNFTsContainer = (props: LoanNFTsContainerProps) => {
                     NFT={nft}
                     onSelect={onSelectNFT}
                     available={true}
+                    executeDepositNFT={executeDepositNFT}
                   />
                 ))}
               </Box>

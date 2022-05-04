@@ -12,6 +12,7 @@ interface LoanWithdrawProps {
   assetsBorrowed: number;
   totalInterest: number;
   totalPayback: number;
+  handleWithdraw: () => void;
 }
 
 const LoanWithdraw = (props: LoanWithdrawProps) => {
@@ -21,8 +22,14 @@ const LoanWithdraw = (props: LoanWithdrawProps) => {
     interestRate,
     assetsBorrowed,
     totalInterest,
-    totalPayback
+    totalPayback,
+    handleWithdraw
   } = props;
+
+  function handleClick() {
+    console.log('hui')
+    handleWithdraw();
+  }
 
   return (
     <Box
@@ -141,7 +148,7 @@ const LoanWithdraw = (props: LoanWithdrawProps) => {
           </Box>
         </Box>
         <Box height="16">
-          <Button width="full">Withdraw</Button>
+          <Button width="full" onClick={handleClick}>Withdraw</Button>
         </Box>
       </Stack>
     </Box>
