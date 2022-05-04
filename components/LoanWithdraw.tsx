@@ -26,11 +26,8 @@ const LoanWithdraw = (props: LoanWithdrawProps) => {
     handleWithdraw
   } = props;
 
+  // state handler for user input
   const [userInput, setUserInput] = useState(0);
-
-  function handleClick(val: any) {
-    handleWithdraw(val);
-  }
 
   function handleState(val: any) {
     setUserInput(val);
@@ -151,7 +148,7 @@ const LoanWithdraw = (props: LoanWithdrawProps) => {
           </Box>
         </Box>
         <Box height="16">
-          <Button width="full" onClick={() => handleClick(userInput)}>Withdraw</Button>
+          <Button width="full" onClick={() => handleWithdraw(userInput)}>Withdraw</Button>
         </Box>
       </Stack>
     </Box>
