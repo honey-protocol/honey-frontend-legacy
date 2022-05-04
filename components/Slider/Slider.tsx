@@ -12,9 +12,12 @@ const Slider = () => {
 
   const handleOnChange = (event: any) => {
     // ideally we want to implement a debaunce here and not fire the function every second the user interacts with it
-    setSlideCount(event.target.value)
-    console.log(slideCount)
-}
+    setSlideCount(event.target.value);
+  }
+
+  function handleChange(value: any) {
+    setSlideCount(value.target.value);
+  }
   return (
     <Stack space="0">
       <Box className={styles.selectionWrapper}>
@@ -22,7 +25,9 @@ const Slider = () => {
           <Button size="small" variant="secondary">Max</Button>
         </Box>
         <Box className={styles.selectionDetails}>
-          <div className={styles.currencyStyles}>0.00</div>
+          <div className={styles.currencyStyles}>
+            <input type="number" placeholder='0' onChange={(value) => handleChange(value)} className={styles.currencyStyles} value={slideCount} min="0" max="100" />
+          </div>
           <Avatar label="TetranodeNFT" size="10" shape="square" src={'https://assets.coingecko.com/coins/images/4128/small/solana.png?1640133422'} />
           <select name="currencySelector" id="currencySelector" className={styles.currencySelector}>
             <option value="SOL">SOL</option>
