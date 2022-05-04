@@ -87,8 +87,9 @@ const sdkConfig = ConfigureSDK();
    * @params none
    * @returns succes | failure
   */
-  async function executeDeposit() {
-    const tokenAmount = 1 * LAMPORTS_PER_SOL;
+  async function executeDeposit(value: number) {
+    const tokenAmount = value * LAMPORTS_PER_SOL;
+    console.log('this is tokenamount', tokenAmount)
     const depositTokenMint = new PublicKey('So11111111111111111111111111111111111111112');
     await deposit(honeyUser, tokenAmount, depositTokenMint, honeyReserves);
   }
@@ -98,8 +99,8 @@ const sdkConfig = ConfigureSDK();
    * @params none
    * @returns succes | failure
   */
-  async function executeWithdraw() {
-    const tokenAmount = 1 * LAMPORTS_PER_SOL;
+  async function executeWithdraw(value: number) {
+    const tokenAmount = value * LAMPORTS_PER_SOL;
     const depositTokenMint = new PublicKey('So11111111111111111111111111111111111111112');
     await withdraw(honeyUser, tokenAmount, depositTokenMint, honeyReserves);
   }

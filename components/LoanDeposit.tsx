@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Box, Button, Card, Stack, Text, Tag } from 'degen';
 import { Avatar } from 'degen';
 import { Input } from 'degen';
@@ -10,11 +10,18 @@ interface LoanDepositProps {
   estValue: number;
   assetsBorrowed: number;
   netBorrowBalance: number;
-  handleDeposit: () => void;
+  handleDeposit: (value: number) => void;
 }
 
 const LoanDeposit = (props: LoanDepositProps) => {
   const { borrowApy, estValue, assetsBorrowed, netBorrowBalance, handleDeposit } = props;
+
+  const [userInput, setUserInput] = useState(0);
+
+  function handleChange(value: any) {
+    console.log('the event', value.target.value)
+    setUserInput(value.target.value)
+  }
 
   return (
     <Box
@@ -91,13 +98,13 @@ const LoanDeposit = (props: LoanDepositProps) => {
             </Button>
           </Box>
           <Box className={styles.selectionDetails}>
-            <div className={styles.currencyStyles}>0.00</div>
+            <input type="number" placeholder='0' onChange={(value) => handleChange(value)} className={styles.currencyStyles} />
             <Avatar
               label="TetranodeNFT"
               size="7"
               shape="square"
               src={
-                'https://assets.coingecko.com/coins/images/6319/small/USD_Coin_icon.png?1547042389'
+                'https://assets.coingecko.com/coins/images/4128/small/solana.png?1640133422'
               }
             />
             <select
@@ -105,14 +112,14 @@ const LoanDeposit = (props: LoanDepositProps) => {
               id="currencySelector"
               className={styles.currencySelector}
             >
-              <option value="USDC">USDC</option>
+              <option value="SOL">SOL</option>
               {/* <option value="SOL">SOL</option>
                         <option value="ETH">ETH</option> */}
             </select>
           </Box>
         </Box>
         <Box height="16">
-          <Button width="full" onClick={handleDeposit}>Deposit</Button>
+          <Button width="full" onClick={() => handleDeposit(userInput)}>Deposit</Button>
         </Box>
       </Stack>
     </Box>

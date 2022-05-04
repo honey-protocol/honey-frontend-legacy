@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Box, Button, Card, Stack, Text, Tag } from 'degen';
 import { Avatar } from 'degen';
 import { Input } from 'degen';
@@ -12,7 +12,7 @@ interface LoanWithdrawProps {
   assetsBorrowed: number;
   totalInterest: number;
   totalPayback: number;
-  handleWithdraw: () => void;
+  handleWithdraw: (value: number) => void;
 }
 
 const LoanWithdraw = (props: LoanWithdrawProps) => {
@@ -26,9 +26,14 @@ const LoanWithdraw = (props: LoanWithdrawProps) => {
     handleWithdraw
   } = props;
 
-  function handleClick() {
-    console.log('hui')
-    handleWithdraw();
+  const [userInput, setUserInput] = useState(0);
+
+  function handleClick(val: any) {
+    handleWithdraw(val);
+  }
+
+  function handleState(val: any) {
+    setUserInput(val);
   }
 
   return (
@@ -77,7 +82,7 @@ const LoanWithdraw = (props: LoanWithdrawProps) => {
             space="2"
           >
             <Text align="left" color="foreground">
-              0 USDC
+              0 SOL
             </Text>
             <Text align="right" color="foreground">
               $0
@@ -127,13 +132,13 @@ const LoanWithdraw = (props: LoanWithdrawProps) => {
             </Button>
           </Box>
           <Box className={styles.selectionDetails}>
-            <div className={styles.currencyStyles}>0.00</div>
+            <input type="number" placeholder='0' onChange={(value) => handleState(value)} className={styles.currencyStyles} />
             <Avatar
               label="TetranodeNFT"
               size="7"
               shape="square"
               src={
-                'https://assets.coingecko.com/coins/images/6319/small/USD_Coin_icon.png?1547042389'
+                'https://assets.coingecko.com/coins/images/4128/small/solana.png?1640133422'
               }
             />
             <select
@@ -141,14 +146,12 @@ const LoanWithdraw = (props: LoanWithdrawProps) => {
               id="currencySelector"
               className={styles.currencySelector}
             >
-              <option value="USDC">USDC</option>
-              {/* <option value="SOL">SOL</option>
-                        <option value="ETH">ETH</option> */}
+              <option value="SOL">SOL</option>
             </select>
           </Box>
         </Box>
         <Box height="16">
-          <Button width="full" onClick={handleClick}>Withdraw</Button>
+          <Button width="full" onClick={() => handleClick(userInput)}>Withdraw</Button>
         </Box>
       </Stack>
     </Box>
