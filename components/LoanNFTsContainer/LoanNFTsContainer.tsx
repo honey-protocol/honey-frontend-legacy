@@ -39,12 +39,16 @@ const LoanNFTsContainer = (props: LoanNFTsContainerProps) => {
   */
   const [renderNFTs, setRenderNFTs] = useState(0);
   const [activeIndex, setActiveIndex] = useState(0);
+  /**
+   * @description
+   * this logic is to determine the active state of selected NFT
+   * @params nft name and positiontype being open or available
+   * @returns re-renders component nft with active state
+  */
   const [highlightNFTOpen, setHighlightNFTOpen] = useState(0);
   const [highlightNFTAvailable, setHighlightNFTAvailable] = useState(0);
 
   function handleActiveState(nft: any, positionType: string) {
-    console.log('this is the nft', nft);
-
     if (positionType == 'open') {
       setHighlightNFTOpen(nft)
     } else {
@@ -53,7 +57,6 @@ const LoanNFTsContainer = (props: LoanNFTsContainerProps) => {
   }
 
   useEffect(() => {
-    console.log('use effect runs')
   }, [highlightNFTOpen, highlightNFTAvailable]);
 
   /**

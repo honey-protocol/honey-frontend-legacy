@@ -46,7 +46,7 @@ export const buttonActive = style({
 });
 
 export const active = style({
-  border: '4px solid orange',
+  border: '2px solid orange',
 });
 
 export const notActive = style({
