@@ -1,4 +1,4 @@
-import React, { useState, FC, ReactNode } from 'react';
+import React, { useState, useEffect, FC, ReactNode } from 'react';
 import Image from 'next/image';
 import { Avatar, Box } from 'degen';
 import * as styles from '../components/LoanNFTsContainer/LoanNFTsContainer.css';
@@ -9,17 +9,28 @@ interface LoanNFTCardProps {
     image: string,
     key: number
   };
-  selected: boolean;
-  onSelect: (key: number) => void;
+  selected: string;
+  onSelect: (key: number, available: boolean) => void;
   available: boolean;
   executeWithdrawNFT: (nft: any) => void;
   executeDepositNFT: (nft: any) => void;
 }
 
 const LoanNFTCard = (props: LoanNFTCardProps) => {
-  const {
-    onSelect, available
+  let {
+    onSelect, available, selected
   } = props;
+
+  const [activeCard, setActiveCard] = useState(false);
+
+  function testing() {
+    activeCard ==  true ? setActiveCard(false) : setActiveCard(true);
+    onSelect(props.NFT, available)
+  }
+
+  useEffect(() => {
+
+  }, [activeCard])
 
   return (
     <Box
@@ -28,7 +39,8 @@ const LoanNFTCard = (props: LoanNFTCardProps) => {
       borderWidth={props.selected ? '0.5' : '0'}
       padding="1.5"
       overflow="hidden"
-      onClick={() => onSelect(props.NFT, available)}
+      onClick={testing}
+      className={activeCard == true ? styles.active : styles.notActive}
     >
       <Avatar
         label={props.NFT.name}

@@ -153,8 +153,15 @@ const Loan: NextPage = () => {
    * @returns succes | failure
   */
   async function executeDepositNFT(mintID) {
-    const metadata = await Metadata.findByMint(sdkConfig.saberHqConnection, mintID)
-    depositNFT(sdkConfig.saberHqConnection, honeyUser, metadata.pubkey);
+    try {
+      if (!mintID) return;
+      const metadata = await Metadata.findByMint(sdkConfig.saberHqConnection, mintID)
+      depositNFT(sdkConfig.saberHqConnection, honeyUser, metadata.pubkey);    
+    } catch (error) {
+      console.log('no nft was found relating to this mintID');
+      return;
+    }
+
   }
   
   /**
@@ -163,8 +170,14 @@ const Loan: NextPage = () => {
    * @returns succes | failure
   */
   async function executeWithdrawNFT(mintID) {
-    const metadata = await Metadata.findByMint(sdkConfig.saberHqConnection, mintID);
-    withdrawNFT(sdkConfig.saberHqConnection, honeyUser, metadata.pubkey);
+    try {
+      if (!mintID) return;
+      const metadata = await Metadata.findByMint(sdkConfig.saberHqConnection, mintID);
+      withdrawNFT(sdkConfig.saberHqConnection, honeyUser, metadata.pubkey); 
+    } catch (error) {
+      console.log('no nft was found relating to this mintID')
+      return;
+    }
   }
 
   return (
