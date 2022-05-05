@@ -16,10 +16,12 @@ interface LoanRepayProps {
     },
     executeWithdrawNFT: (key: any) => void,
     mint: any;
+    executeRepay: () => void;
+    loanPositions: any;
 }
 
 const LoanRepay = (props: LoanRepayProps) => {
-    const { NFT, executeWithdrawNFT, mint } = props;
+    const { NFT, executeWithdrawNFT, mint, executeRepay, loanPositions } = props;
 
     return (
         <Box gap="3">
@@ -195,7 +197,18 @@ const LoanRepay = (props: LoanRepayProps) => {
                 </Stack>
             </Box>
             <Slider />
-            <Button width="full" onClick={() => executeWithdrawNFT(mint)}>Claim NFT</Button>
+            {/* if no more outstanding amount - render claim nft, is there is, render repay;  */}
+            {
+                loanPositions[0].amount == 0 
+                ?
+                (
+                    <Button width="full" onClick={() => executeWithdrawNFT(mint)}>Claim NFT</Button>
+                )
+                :
+                (
+                    <Button width="full" onClick={executeRepay}>Repay</Button>
+                )
+            }
         </Box>
     )
 }
