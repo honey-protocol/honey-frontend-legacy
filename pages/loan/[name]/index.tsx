@@ -10,6 +10,8 @@ import Link from 'next/link';
 import * as styles from '../../../styles/name.css';
 import { ConfigureSDK } from '../../../helpers/loanHelpers/index';
 import useFetchNFTByUser from '../../../hooks/useNFT';
+import LoanNewBorrow from 'components/NewPosition';
+import { LAMPORTS_PER_SOL, PublicKey } from '@solana/web3.js';
 import {
   deposit,
   HoneyUser,
@@ -24,7 +26,6 @@ import {
   repay,
 } from '@honey-finance/sdk';
 import Nft from 'pages/farm/[name]';
-import LoanNewBorrow from 'components/NewPosition';
 
 /**
  * @description 
@@ -68,7 +69,7 @@ const marketNFTs = [
     estValue: '$0',
     assetsBorrowed: 0,
     netBorrowBalance: 0,
-    key: 4
+    key: 4,
   }
 ]
 
@@ -95,8 +96,7 @@ const Loan: NextPage = () => {
   const { market, marketReserveInfo, parsedReserves }  = useHoney();
      
   useEffect(() => {
-  }, [honeyUser, honeyReserves]);
-  
+  }, [honeyUser, honeyReserves, honeyClient]);
   /**
    * @description fetches open positions and the amount regarding loan positions / token account
    * @params
@@ -105,6 +105,7 @@ const Loan: NextPage = () => {
   let { loading, collateralNFTPositions, loanPositions, error } = useBorrowPositions(sdkConfig.saberHqConnection, sdkConfig.sdkWallet!, sdkConfig.honeyId, sdkConfig.marketId)
        
   useEffect(() => {
+    console.log('this is loan positions', loanPositions)
   }, [collateralNFTPositions, loanPositions]);
      
   /**
@@ -179,6 +180,32 @@ const Loan: NextPage = () => {
       return;
     }
   }
+  
+  /**
+   * @description 
+   * executes the borrow function which allows user to borrow against NFT
+   * base value of NFT is 2 SOL - liquidation trashold is 50%, so max 1 SOL available
+   * @params borrow amount
+   * @returns borrowTx
+  */
+  async function executeBorrow() {
+    const borrowTokenMint = new PublicKey('So11111111111111111111111111111111111111112');
+    const tx = await borrow(honeyUser, 1 * LAMPORTS_PER_SOL, borrowTokenMint, honeyReserves);
+    console.log('this is borrowTx', tx);
+  }
+  
+  /**
+   * @description
+   * executes the repay function which allows user to repay their borrowed amount
+   * against the NFT
+   * @params amount of repay
+   * @returns repayTx
+  */
+  async function executeRepay() {
+    const repayTokenMint = new PublicKey('So11111111111111111111111111111111111111112');
+    const tx = await repay(honeyUser, 1 * LAMPORTS_PER_SOL, repayTokenMint, honeyReserves)
+    console.log('this is repayTx', tx);
+  }
 
   return (
     <Layout>
@@ -235,7 +262,11 @@ const Loan: NextPage = () => {
                   collateralNFTPositions.find((NFT) => NFT.name == selectedId) || marketNFTs[0]
                 } 
                 mint={withDrawDepositNFT}
+                loanPositions={loanPositions}
                 executeWithdrawNFT={executeWithdrawNFT}
+                executeBorrow={executeBorrow}
+                executeRepay={executeRepay}
+                honeyUser={honeyUser}
               />
             : 
               <LoanNewBorrow 
@@ -245,7 +276,7 @@ const Loan: NextPage = () => {
                   availableNFTs[0].find((NFT) => NFT.name == selectedId) || marketNFTs[3]
                 }
                 mint={withDrawDepositNFT}
-                executeDepositNFT={executeDepositNFT}
+                loanPositions={loanPositions}
               />
           }
         </Box>
@@ -253,13 +284,5 @@ const Loan: NextPage = () => {
     </Layout>
   );
 };
-
-// NFT={collateralNFTPositions && availableNFTs ? 
-//   if (nftArrayType == false) {
-//     collateralNFTPositions.find((NFT) => NFT.name == selectedId)
-//   } else {
-//     availableNFTs.find((NFT) => NFT.name == selectedId)
-//   } : marketNFTs[0]
-// }
 
 export default Loan;

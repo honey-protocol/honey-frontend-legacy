@@ -14,11 +14,12 @@ interface LoanBorrowProps {
         assetsBorrowed: number,
         netBorrowBalance: number,
         key: number
-    }
+    },
+    executeBorrow: () => void;
 }
 
 const LoanBorrow = (props: LoanBorrowProps) => {
-    const { NFT } = props;
+    const { NFT, executeBorrow } = props;
 
     return (
         <Box gap="3">
@@ -177,7 +178,7 @@ const LoanBorrow = (props: LoanBorrowProps) => {
             <Box>
                 <Slider />
             </Box>
-            <Button width="full">Borrow</Button>
+            <Button width="full" onClick={executeBorrow}>Borrow</Button>
         </Box>
     )
 }
