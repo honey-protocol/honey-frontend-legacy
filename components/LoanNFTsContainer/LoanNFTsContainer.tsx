@@ -39,6 +39,22 @@ const LoanNFTsContainer = (props: LoanNFTsContainerProps) => {
   */
   const [renderNFTs, setRenderNFTs] = useState(0);
   const [activeIndex, setActiveIndex] = useState(0);
+  const [highlightNFTOpen, setHighlightNFTOpen] = useState(0);
+  const [highlightNFTAvailable, setHighlightNFTAvailable] = useState(0);
+
+  function handleActiveState(nft: any, positionType: string) {
+    console.log('this is the nft', nft);
+
+    if (positionType == 'open') {
+      setHighlightNFTOpen(nft)
+    } else {
+      setHighlightNFTAvailable(nft)
+    }
+  }
+
+  useEffect(() => {
+    console.log('use effect runs')
+  }, [highlightNFTOpen, highlightNFTAvailable]);
 
   /**
    * @description handler for above declared logic
@@ -93,6 +109,8 @@ const LoanNFTsContainer = (props: LoanNFTsContainerProps) => {
                     onSelect={onSelectNFT}
                     available={false}
                     executeWithdrawNFT={executeWithdrawNFT}
+                    handleActiveState={handleActiveState}
+                    activeNFT={highlightNFTOpen}
                   />
                 )) : availableNFTs && availableNFTs.map((nft, i) => (
                   <LoanNFTCard
@@ -102,6 +120,8 @@ const LoanNFTsContainer = (props: LoanNFTsContainerProps) => {
                     onSelect={onSelectNFT}
                     available={true}
                     executeDepositNFT={executeDepositNFT}
+                    handleActiveState={() => handleActiveState}
+                    activeNFT={highlightNFTAvailable}
                   />
                 ))}
               </Box>
