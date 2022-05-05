@@ -60,8 +60,6 @@ const LoanNFTsContainer = (props: LoanNFTsContainerProps) => {
   useEffect(() => {
   }, [renderNFTs]);
 
-  
-
   return (
     <Box className={styles.cardContainer}>
       <Card level="2" width="full" padding="8" shadow>
@@ -89,7 +87,7 @@ const LoanNFTsContainer = (props: LoanNFTsContainerProps) => {
               <Box className={styles.nftContainer}>
                 {openPositions && renderNFTs == 0 ? openPositions.map((nft, i) => (
                   <LoanNFTCard
-                    selected={nft.key === selectedId}
+                    selected={selectedId}
                     key={nft.key}
                     NFT={nft}
                     onSelect={onSelectNFT}
@@ -98,7 +96,7 @@ const LoanNFTsContainer = (props: LoanNFTsContainerProps) => {
                   />
                 )) : availableNFTs && availableNFTs.map((nft, i) => (
                   <LoanNFTCard
-                    selected={nft.key === selectedId}
+                    selected={selectedId}
                     key={nft.key}
                     NFT={nft}
                     onSelect={onSelectNFT}
