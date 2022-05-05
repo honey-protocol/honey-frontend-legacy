@@ -12,16 +12,16 @@ const Slider = () => {
 
   const handleOnChange = (event: any) => {
     // ideally we want to implement a debaunce here and not fire the function every second the user interacts with it
-    if (event.target.value >= 0 && event.target.value <= 100) setSlideCount(event.target.value);
+    if (event.target.value >= 0 && event.target.value <= 5) setSlideCount(event.target.value);
   }
 
   function handleChange(value: any) {
     console.log('the value', value.target.value)
-    if (value.target.value >= 0 && value.target.value <= 100) setSlideCount(value.target.value);
+    if (value.target.value >= 0 && value.target.value <= 5) setSlideCount(value.target.value);
   }
 
   function handleMaxButton() {
-    setSlideCount(10)
+    setSlideCount(5)
   }
   return (
     <Stack space="0">
@@ -43,7 +43,7 @@ const Slider = () => {
       </Box>
       <Box>
         <div className={styles.rangeSlider}>
-          <input className={styles.rangeSliderRange} type="range" value={slideCount} min="0" max="100" onChange={handleOnChange} />
+          <input className={styles.rangeSliderRange} type="range" value={slideCount} min="0" max="5" onChange={handleOnChange} />
         </div>
         <div className={styles.percentageWrapper}>
             <span>0%</span>

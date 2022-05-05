@@ -19,17 +19,19 @@ const LoanDeposit = (props: LoanDepositProps) => {
   const [userMessage, setUserMessage] = useState('');
 
   function handleMaxMessage() {
-    setUserMessage('Max input is 10');
+    setUserMessage('Max input is 5');
   }
 
   const [userInput, setUserInput] = useState(0);
 
   function handleChange(value: any) {
-    value.target.value > 0 && value.target.value <= 10 ? setUserInput(value.target.value) : handleMaxMessage();
+    if (value.target.value < 0) return;
+    
+     value.target.value <= 5 ? setUserInput(value.target.value) : handleMaxMessage();
   }
 
   function handleMaxValue() {
-    setUserInput(10)
+    setUserInput(5)
   }
 
   return (
@@ -110,7 +112,7 @@ const LoanDeposit = (props: LoanDepositProps) => {
             </Button>
           </Box>
           <Box className={styles.selectionDetails}>
-            <input type="number" onChange={(value) => handleChange(value)} className={styles.currencyStyles} value={userInput} min="1" max="100" />
+            <input type="number" placeholder='0' onChange={(value) => handleChange(value)} className={styles.currencyStyles} value={userInput} min="1" max="5" />
             <Avatar
               label="TetranodeNFT"
               size="7"
@@ -125,8 +127,6 @@ const LoanDeposit = (props: LoanDepositProps) => {
               className={styles.currencySelector}
             >
               <option value="SOL">SOL</option>
-              {/* <option value="SOL">SOL</option>
-                        <option value="ETH">ETH</option> */}
             </select>
           </Box>
         </Box>

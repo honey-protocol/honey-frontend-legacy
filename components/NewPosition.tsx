@@ -55,7 +55,7 @@ const LoanNewBorrow = (props: LoanNewBorrowProps) => {
                   Estimated value
                 </Text>
                 <Text align="right" color="foreground">
-                  1.0000
+                  5 SOL
                 </Text>
               </Stack>
               <Stack
@@ -68,7 +68,7 @@ const LoanNewBorrow = (props: LoanNewBorrowProps) => {
                   Loan to value ratio
                 </Text>
                 <Text align="right" color="foreground">
-                  60%
+                  50%
                 </Text>
               </Stack>
               <Stack
@@ -81,7 +81,7 @@ const LoanNewBorrow = (props: LoanNewBorrowProps) => {
                   Liquidation threshold
                 </Text>
                 <Text align="right" color="foreground">
-                  0.6000
+                  50%
                 </Text>
               </Stack>
             </Stack>

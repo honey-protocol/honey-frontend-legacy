@@ -14,18 +14,21 @@ interface LoanNFTCardProps {
   available: boolean;
   executeWithdrawNFT: (nft: any) => void;
   executeDepositNFT: (nft: any) => void;
+  handleActiveState: (nft: any, type: string) => void;
+  activeNFT: string;
 }
 
 const LoanNFTCard = (props: LoanNFTCardProps) => {
   let {
-    onSelect, available, selected
+    onSelect, available, selected, handleActiveState, activeNFT, NFT
   } = props;
 
   const [activeCard, setActiveCard] = useState(false);
 
-  function testing() {
+  function testing(name: string , type: string) {
+    handleActiveState(name, type);
+    onSelect(NFT, available)
     activeCard ==  true ? setActiveCard(false) : setActiveCard(true);
-    onSelect(props.NFT, available)
   }
 
   useEffect(() => {
@@ -39,8 +42,8 @@ const LoanNFTCard = (props: LoanNFTCardProps) => {
       borderWidth={props.selected ? '0.5' : '0'}
       padding="1.5"
       overflow="hidden"
-      onClick={testing}
-      className={activeCard == true ? styles.active : styles.notActive}
+      onClick={() => testing(props.NFT.name, 'open')}
+      className={activeNFT == props.NFT.name ? styles.active : styles.notActive}
     >
       <Avatar
         label={props.NFT.name}
