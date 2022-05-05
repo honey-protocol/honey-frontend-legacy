@@ -44,3 +44,11 @@ export const buttonActive = style({
   padding: '0 20px',
   borderRadius: '.5rem'
 });
+
+export const active = style({
+  border: '4px solid orange',
+});
+
+export const notActive = style({
+  border: 'none',
+});

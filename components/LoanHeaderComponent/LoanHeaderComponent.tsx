@@ -32,8 +32,8 @@ const LoanHeaderComponent = () => {
           0
         </Text>
       </Box>
-      <Button prefix={<IconPlus />} size="small">
-        New Vault
+      <Button size="small">
+        <a href="https://cofre.so/#/" target="_blank" rel="noreferrer">Mint Cofre NFT</a>
       </Button>
     </Box>
   );

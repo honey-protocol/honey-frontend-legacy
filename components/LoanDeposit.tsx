@@ -25,7 +25,7 @@ const LoanDeposit = (props: LoanDepositProps) => {
   const [userInput, setUserInput] = useState(0);
 
   function handleChange(value: any) {
-    value.target.value <= 10 ? setUserInput(value.target.value) : handleMaxMessage();
+    value.target.value > 0 && value.target.value <= 10 ? setUserInput(value.target.value) : handleMaxMessage();
   }
 
   function handleMaxValue() {
