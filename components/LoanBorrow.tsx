@@ -37,6 +37,8 @@ const LoanBorrow = (props: LoanBorrowProps) => {
         } 
         setNoPositions('Please select an NFT to borrow against')
         return;
+
+        // executeBorrow()
     }
 
     return (
