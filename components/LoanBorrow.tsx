@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Box, Button, Card, Stack, Text, Tag } from 'degen';
 import { Avatar } from 'degen';
 import { Input } from 'degen';
@@ -16,10 +16,28 @@ interface LoanBorrowProps {
         key: number
     },
     executeBorrow: () => void;
+    openPositions?:[];
+    loanPositions: any;
 }
 
 const LoanBorrow = (props: LoanBorrowProps) => {
-    const { NFT, executeBorrow } = props;
+    const { NFT, executeBorrow, openPositions, loanPositions } = props;
+    const [noPositions, setNoPositions] = useState('');
+    const [currentLoanPosition, updateCurrentLoanPosition] = useState(0);
+
+    useEffect(() => {
+        if (loanPositions) {
+            updateCurrentLoanPosition(loanPositions[0].amount)
+        }
+    }, [loanPositions]);
+
+    function handleExecuteBorrow() {
+        if (openPositions && openPositions.length > 0) {
+            executeBorrow();
+        } 
+        setNoPositions('Please select an NFT to borrow against')
+        return;
+    }
 
     return (
         <Box gap="3">
@@ -124,7 +142,7 @@ const LoanBorrow = (props: LoanBorrowProps) => {
                             align="right"
                             color="foreground"
                         >
-                            {NFT.assetsBorrowed}
+                            {currentLoanPosition} Lamparts
                         </Text>
                     </Stack>
                     <Stack
@@ -178,7 +196,12 @@ const LoanBorrow = (props: LoanBorrowProps) => {
             <Box>
                 <Slider />
             </Box>
-            <Button width="full" onClick={executeBorrow}>Borrow</Button>
+            {noPositions && 
+                <Box className={styles.noPositions}>
+                    Please select an NFT to borrow against
+                </Box>
+            }
+            <Button width="full" onClick={handleExecuteBorrow}>Borrow</Button>
         </Box>
     )
 }

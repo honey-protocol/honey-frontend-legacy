@@ -1,8 +1,9 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import { Box, Button, Card, Stack, Text, Tag } from 'degen';
 import { Avatar } from 'degen';
 import { Input } from 'degen';
 import Slider from '../components/Slider/Slider';
+import { LAMPORTS_PER_SOL } from '@solana/web3.js';
 
 interface LoanRepayProps {
     NFT: {
@@ -22,6 +23,15 @@ interface LoanRepayProps {
 
 const LoanRepay = (props: LoanRepayProps) => {
     const { NFT, executeWithdrawNFT, mint, executeRepay, loanPositions } = props;
+
+    const [currentLoanPosition, updateCurrentLoanPosition] = useState();
+    console.log('loanpos', loanPositions)
+
+    useEffect(() => {
+        if (loanPositions) {
+            updateCurrentLoanPosition(loanPositions[0].amount)
+        }
+    }, [loanPositions]);
 
     return (
         <Box gap="3">
@@ -132,7 +142,7 @@ const LoanRepay = (props: LoanRepayProps) => {
                         align="right"
                         color="foreground"
                     >
-                        {NFT.assetsBorrowed}</Text>
+                        {currentLoanPosition} Lamparts</Text>
                     </Stack>
                     <Stack
                     direction="horizontal"

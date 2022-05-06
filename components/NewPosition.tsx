@@ -89,7 +89,7 @@ const LoanNewBorrow = (props: LoanNewBorrowProps) => {
         </Stack>
         <Box marginBottom="10">
           <Button
-            onClick={() => executeDepositNFT(mint)}
+            onClick={() => executeDepositNFT(NFT.mint)}
             disabled={isLoading}
             loading={isLoading}
             width="full"

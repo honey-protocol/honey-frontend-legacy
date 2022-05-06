@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Box, Card, Stack } from 'degen';
 import LoanBorrow from '../../components/LoanBorrow';
 import LoanRepay from '../../components/LoanRepay';
@@ -18,16 +18,19 @@ interface BorrowNFTsModule {
   },
   executeWithdrawNFT: (key: any) => void;
   mint: any;
-  loanPositions: (key: number) => void;
+  loanPositions: [];
   executeBorrow:() => void;
   executeRepay: () => void;
   honeyUser: any;
+  openPositions?: [];
 }
 
 const BorrowNFTsModule = (props: BorrowNFTsModule) => {
-  const { NFT, executeWithdrawNFT, mint, loanPositions, executeBorrow, executeRepay } = props;
+  const { NFT, executeWithdrawNFT, mint, loanPositions, executeBorrow, executeRepay, openPositions } = props;
 
   const [borrowOrRepay, setBorrowOrRepay] = useState(0);
+
+  useEffect(() => {}, [loanPositions])
 
   return (
     <Box className={styles.cardContainer}>
@@ -44,7 +47,7 @@ const BorrowNFTsModule = (props: BorrowNFTsModule) => {
             activeIndex={borrowOrRepay}
           />
           {borrowOrRepay == 0 ? (
-            <LoanBorrow NFT={NFT} executeBorrow={executeBorrow} />
+            <LoanBorrow NFT={NFT} executeBorrow={executeBorrow} openPositions={openPositions} loanPositions={loanPositions} />
           ) : (
             <LoanRepay NFT={NFT} executeWithdrawNFT={executeWithdrawNFT} mint={mint} executeRepay={executeRepay} loanPositions={loanPositions} />
           )}
