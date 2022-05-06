@@ -99,10 +99,10 @@ const Loan: NextPage = () => {
   const { market, marketReserveInfo, parsedReserves }  = useHoney();
 
   useEffect(() => {
-    console.log('market', market);
-    console.log('marketreserve', marketReserveInfo);
-    console.log('parsedreserves', parsedReserves ? parsedReserves[0].reserveState.totalDeposits : parsedReserves);
-  }, [market, marketReserveInfo, parsedReserves])
+    // console.log('market', market);
+    // console.log('marketreserve', marketReserveInfo);
+    // console.log('parsedreserves', parsedReserves );
+  }, [market, marketReserveInfo, parsedReserves]);
 
   /**
    * @description fetches open positions and the amount regarding loan positions / token account
@@ -112,8 +112,9 @@ const Loan: NextPage = () => {
   let { loading, collateralNFTPositions, loanPositions, fungibleCollateralPosition, error } = useBorrowPositions(sdkConfig.saberHqConnection, sdkConfig.sdkWallet!, sdkConfig.honeyId, sdkConfig.marketId)
        
   useEffect(() => {
-    console.log('this is loan positions', loanPositions)
-    console.log('this is fungibleCollateralPosition', fungibleCollateralPosition);
+    // console.log('this is loan positions', loanPositions);
+    // console.log('this is fungibleCollateralPosition', fungibleCollateralPosition);
+    // console.log('loan collateralNFTpositions', collateralNFTPositions);
   }, [collateralNFTPositions, loanPositions, fungibleCollateralPosition]);
      
   /**
@@ -167,7 +168,7 @@ const Loan: NextPage = () => {
       const metadata = await Metadata.findByMint(sdkConfig.saberHqConnection, mintID)
       depositNFT(sdkConfig.saberHqConnection, honeyUser, metadata.pubkey);    
     } catch (error) {
-      console.log('no nft was found relating to this mintID');
+      console.log('error depositing nft', error);
       return;
     }
 
@@ -184,7 +185,7 @@ const Loan: NextPage = () => {
       const metadata = await Metadata.findByMint(sdkConfig.saberHqConnection, mintID);
       withdrawNFT(sdkConfig.saberHqConnection, honeyUser, metadata.pubkey); 
     } catch (error) {
-      console.log('no nft was found relating to this mintID')
+      console.log('error depositing nft', error);
       return;
     }
   }
@@ -275,6 +276,7 @@ const Loan: NextPage = () => {
                 executeBorrow={executeBorrow}
                 executeRepay={executeRepay}
                 honeyUser={honeyUser}
+                openPositions={collateralNFTPositions}
               />
             : 
               <LoanNewBorrow 
