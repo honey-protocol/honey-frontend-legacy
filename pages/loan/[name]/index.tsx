@@ -26,6 +26,7 @@ import {
   repay,
 } from '@honey-finance/sdk';
 import Nft from 'pages/farm/[name]';
+import { parse } from 'path';
 
 /**
  * @description 
@@ -88,25 +89,32 @@ const Loan: NextPage = () => {
   */
   const { honeyClient, honeyUser, honeyReserves } = useMarket(sdkConfig.saberHqConnection, sdkConfig.sdkWallet!, sdkConfig.honeyId, sdkConfig.marketId);
   
+  useEffect(() => {
+  }, [honeyUser, honeyReserves, honeyClient]);  
   /**
    * @description calls upon markets which 
    * @params none
    * @returns market | market reserve information | parsed reserves |
   */
   const { market, marketReserveInfo, parsedReserves }  = useHoney();
-     
+
   useEffect(() => {
-  }, [honeyUser, honeyReserves, honeyClient]);
+    console.log('market', market);
+    console.log('marketreserve', marketReserveInfo);
+    console.log('parsedreserves', parsedReserves ? parsedReserves[0].reserveState.totalDeposits : parsedReserves);
+  }, [market, marketReserveInfo, parsedReserves])
+
   /**
    * @description fetches open positions and the amount regarding loan positions / token account
    * @params
    * @returns
    */  
-  let { loading, collateralNFTPositions, loanPositions, error } = useBorrowPositions(sdkConfig.saberHqConnection, sdkConfig.sdkWallet!, sdkConfig.honeyId, sdkConfig.marketId)
+  let { loading, collateralNFTPositions, loanPositions, fungibleCollateralPosition, error } = useBorrowPositions(sdkConfig.saberHqConnection, sdkConfig.sdkWallet!, sdkConfig.honeyId, sdkConfig.marketId)
        
   useEffect(() => {
     console.log('this is loan positions', loanPositions)
-  }, [collateralNFTPositions, loanPositions]);
+    console.log('this is fungibleCollateralPosition', fungibleCollateralPosition);
+  }, [collateralNFTPositions, loanPositions, fungibleCollateralPosition]);
      
   /**
    * @description fetched available nfts in the users wallet
@@ -276,6 +284,7 @@ const Loan: NextPage = () => {
                   availableNFTs[0].find((NFT) => NFT.name == selectedId) || marketNFTs[3]
                 }
                 mint={withDrawDepositNFT}
+                executeDepositNFT={executeDepositNFT}
                 loanPositions={loanPositions}
               />
           }
