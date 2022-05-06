@@ -27,7 +27,7 @@ const LoanBorrow = (props: LoanBorrowProps) => {
 
     useEffect(() => {
         if (loanPositions) {
-            updateCurrentLoanPosition(loanPositions[0].amount)
+            updateCurrentLoanPosition(loanPositions[0]?.amount)
         }
     }, [loanPositions]);
 
@@ -144,7 +144,7 @@ const LoanBorrow = (props: LoanBorrowProps) => {
                             align="right"
                             color="foreground"
                         >
-                            {currentLoanPosition} Lamparts
+                            {currentLoanPosition} Lamports
                         </Text>
                     </Stack>
                     <Stack
