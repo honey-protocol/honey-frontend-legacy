@@ -102,4 +102,12 @@ export const errorMessage = style({
   textDecoration: 'underline',
   fontWeight: '600',
   fontSize: '1.2em'
-})
+});
+
+export const noPositions = style({
+  color: '#e74c3c',
+  display: 'block',
+  fontSize: '1.2em',
+  padding: '.5em 0',
+  fontWeight: 600
+});
