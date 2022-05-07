@@ -9,32 +9,18 @@ import ToggleSwitchLoan from '../ToggleSwitchLoan';
 import ToggleSwitch from 'components/ToggleSwitch';
 
 type TButton = {
-  title: string;
-  disabled: boolean;
+  title?: string;
+  disabled?: boolean;
   hidden?: boolean;
-  onClick: () => void;
+  onClick?: (key?: any) => void;
 };
 interface DepositWithdrawModuleProps {
-  // isFetching: boolean;
-  // NFTs: NFT[];
-  // selectedNFTs: NFT[];
-  // title: string;
-  // buttons: TButton[];
-  // onNFTSelect: Function | null;
-  // onNFTUnselect: (NFT: NFT) => void;
-  executeDeposit: () => void;
-  executeWithdraw: () => void;
+  executeDeposit?: (value: number) => void;
+  executeWithdraw?: (value: number) => void;
 }
 
 const DepositWithdrawModule = (props: DepositWithdrawModuleProps) => {
   const {
-    // NFTs,
-    // selectedNFTs,
-    // title,
-    // buttons,
-    // onNFTSelect,
-    // onNFTUnselect,
-    // isFetching
     executeDeposit,
     executeWithdraw
   } = props;
@@ -66,7 +52,7 @@ const DepositWithdrawModule = (props: DepositWithdrawModuleProps) => {
               estValue={1}
               assetsBorrowed={1}
               netBorrowBalance={1}
-              handleDeposit={executeDeposit}
+              handleDeposit={(value: number) => executeDeposit}
             />
           ) : (
             <LoanWithdraw
@@ -76,7 +62,7 @@ const DepositWithdrawModule = (props: DepositWithdrawModuleProps) => {
               assetsBorrowed={1}
               totalInterest={1}
               totalPayback={1}
-              handleWithdraw={executeWithdraw}
+              handleWithdraw={(value: number) => executeWithdraw}
             />
           )}
         </Box>
