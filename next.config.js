@@ -30,8 +30,13 @@ module.exports = (phase, {defaultConfig}) => {
     return withVanillaExtract(devNextConfig)
   } else {
     const env = {
-      NETWORK: 'devnet',
-      NETWORK_CONFIGURATION: undefined
+      NETWORK: 'mainnet-beta',
+      NETWORK_CONFIGURATION: {
+        'mainnet-beta': {
+          name: 'mainnet-beta',
+          endpoint: mainNetEndpoint
+        }
+      }
     }
     const ProdNextConfig = {
       reactStrictMode: true,
