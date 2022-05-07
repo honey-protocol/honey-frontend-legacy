@@ -142,7 +142,6 @@ const LoanRepay = (props: LoanRepayProps) => {
                         align="right"
                         color="foreground"
                     >
-                        Lamports
                     </Text>
                     </Stack>
                     <Stack

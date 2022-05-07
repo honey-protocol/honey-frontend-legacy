@@ -144,7 +144,6 @@ const LoanBorrow = (props: LoanBorrowProps) => {
                             align="right"
                             color="foreground"
                         >
-                             Lamports
                         </Text>
                     </Stack>
                     <Stack
