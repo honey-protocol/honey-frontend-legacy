@@ -1,10 +1,9 @@
 const {createVanillaExtractPlugin} = require('@vanilla-extract/next-plugin');
 const withVanillaExtract = createVanillaExtractPlugin();
-const {PHASE_DEVELOPMENT_SERVER, PHASE_PRODUCTION_SERVER} = require('next/constants')
+const {PHASE_DEVELOPMENT_SERVER} = require('next/constants')
 
 /** @type {import('next').NextConfig} */
 const mainNetEndpoint = process.env.NEXT_PUBLIC_RPC_NODE;
-
 
 /** We should put all environment dependent variables into this file. However, Prod RPC NODE should still reside in
  * .env file for security reason. API Keys and secrets should also reside in .env file
@@ -36,6 +35,17 @@ const securityHeaders = [
 module.exports = (phase, {defaultConfig}) => {
   if (phase === PHASE_DEVELOPMENT_SERVER) {
     const env = {
+      NETWORK: 'devnet',
+      NETWORK_CONFIGURATION: undefined
+    }
+
+    const devNextConfig = {
+      reactStrictMode: true,
+      env: env,
+    };
+    return withVanillaExtract(devNextConfig)
+  } else {
+    const env = {
       NETWORK: "mainnet-beta",
       NETWORK_CONFIGURATION: {
         'mainnet-beta': {
@@ -49,23 +59,5 @@ module.exports = (phase, {defaultConfig}) => {
       env: env,
     };
     return withVanillaExtract(ProdNextConfig)
-  } else {
-    const env = {
-      NETWORK: 'devnet',
-      NETWORK_CONFIGURATION: {
-        'mainnet-beta': {
-          name: 'mainnet-beta',
-          endpoint: mainNetEndpoint
-        }
-      }
-    }
-
-    const devNextConfig = {
-      reactStrictMode: true,
-      env: env,
-    };
-    return withVanillaExtract(devNextConfig)
   }
 }
-
-
