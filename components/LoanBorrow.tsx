@@ -144,7 +144,7 @@ const LoanBorrow = (props: LoanBorrowProps) => {
                             align="right"
                             color="foreground"
                         >
-                            {currentLoanPosition} Lamparts
+                             Lamports
                         </Text>
                     </Stack>
                     <Stack
@@ -158,14 +158,14 @@ const LoanBorrow = (props: LoanBorrowProps) => {
                                 align="left"
                                 color="foreground"
                             >
-                            {NFT.assetsBorrowed} SOL
+                            Lamports
                             </Text>
                         </Stack>
                     <Text
                         align="right"
                         color="foreground"
                     >
-                        {NFT.assetsBorrowed}
+                        {currentLoanPosition}
                     </Text>
                     </Stack>
                 </Stack>
