@@ -8,12 +8,12 @@ type TButton = {
   active?: boolean;
 };
 interface LoanNFTsContainerProps {
-  NFTs: any[];
-  selectedId: number;
-  onSelectNFT: (key: number) => void;
-  title: string;
+  NFTs?: any[];
+  selectedId: any;
+  onSelectNFT: (key: any, available: boolean) => void;
+  title?: string;
   buttons: TButton[];
-  openPositions: any[];
+  openPositions: any;
   availableNFTs: any[];
   handleBorrow: (key: number) => void;
   executeWithdrawNFT: (nft: any) => void;
@@ -104,12 +104,12 @@ const LoanNFTsContainer = (props: LoanNFTsContainerProps) => {
               </Box>
             </Stack>
               <Box className={styles.nftContainer}>
-                {openPositions && renderNFTs == 0 ? openPositions.map((nft, i) => (
+                {openPositions && renderNFTs == 0 ? openPositions.map((nft: any, i: any) => (
                   <LoanNFTCard
                     selected={selectedId}
                     key={nft.key}
                     NFT={nft}
-                    onSelect={onSelectNFT}
+                    onSelectNFT={onSelectNFT}
                     available={false}
                     executeWithdrawNFT={executeWithdrawNFT}
                     handleActiveState={handleActiveState}
@@ -120,7 +120,7 @@ const LoanNFTsContainer = (props: LoanNFTsContainerProps) => {
                     selected={selectedId}
                     key={nft.key}
                     NFT={nft}
-                    onSelect={onSelectNFT}
+                    onSelectNFT={onSelectNFT}
                     available={true}
                     executeDepositNFT={executeDepositNFT}
                     handleActiveState={() => handleActiveState}

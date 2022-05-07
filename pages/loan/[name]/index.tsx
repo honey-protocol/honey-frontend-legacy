@@ -138,7 +138,7 @@ const Loan: NextPage = () => {
    * @params key of nft
    * @returns sets state
   */
-  const [selectedId, setSelectedId] = useState(1);
+  const [selectedId, setSelectedId] = useState('1');
   const [nftArrayType, setNftArrayType] = useState(false);
   // state handler based off nft key
   function selectNFT(key: any, type: boolean) {
@@ -162,7 +162,7 @@ const Loan: NextPage = () => {
    * @params mint of the NFT
    * @returns succes | failure
   */
-  async function executeDepositNFT(mintID) {
+  async function executeDepositNFT(mintID: any) {
     try {
       if (!mintID) return;
       const metadata = await Metadata.findByMint(sdkConfig.saberHqConnection, mintID)
@@ -179,7 +179,7 @@ const Loan: NextPage = () => {
    * @params mint of the NFT
    * @returns succes | failure
   */
-  async function executeWithdrawNFT(mintID) {
+  async function executeWithdrawNFT(mintID: any) {
     try {
       if (!mintID) return;
       const metadata = await Metadata.findByMint(sdkConfig.saberHqConnection, mintID);
@@ -242,7 +242,6 @@ const Loan: NextPage = () => {
       <Box display="flex" height="full" className={styles.loanCardsContainer}>
         <LoanNFTsContainer
           selectedId={selectedId}
-          onSelectNFT={selectNFT}
           handleBorrow={handleBorrowModal}
           buttons={[
             {
@@ -255,6 +254,7 @@ const Loan: NextPage = () => {
             }
           ]}
           openPositions={collateralNFTPositions}
+          onSelectNFT={selectNFT}
           availableNFTs={availableNFTs[0]}
           executeWithdrawNFT={executeWithdrawNFT}
           executeDepositNFT={executeDepositNFT}

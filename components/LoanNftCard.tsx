@@ -9,25 +9,27 @@ interface LoanNFTCardProps {
     image: string,
     key: number
   };
-  selected: string;
-  onSelect: (key: number, available: boolean) => void;
+  selected: any;
+  onSelectNFT: (key: any, available: boolean) => void;
   available: boolean;
-  executeWithdrawNFT: (nft: any) => void;
-  executeDepositNFT: (nft: any) => void;
+  executeWithdrawNFT?: (nft: any) => void;
+  executeDepositNFT?: (nft: any) => void;
   handleActiveState: (nft: any, type: string) => void;
-  activeNFT: string;
+  activeNFT: any;
 }
 
 const LoanNFTCard = (props: LoanNFTCardProps) => {
   let {
-    onSelect, available, selected, handleActiveState, activeNFT, NFT
+    onSelectNFT, available, handleActiveState, activeNFT, NFT
   } = props;
 
+  console.log('onselectnft', onSelectNFT)
   const [activeCard, setActiveCard] = useState(false);
 
   function testing(name: string , type: string) {
     handleActiveState(name, type);
-    onSelect(NFT, available)
+
+    onSelectNFT(NFT, available);
     activeCard ==  true ? setActiveCard(false) : setActiveCard(true);
   }
 
