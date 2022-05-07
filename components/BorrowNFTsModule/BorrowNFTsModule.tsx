@@ -7,22 +7,14 @@ import ToggleSwitchLoan from '../../components/ToggleSwitchLoan';
 import ToggleSwitch from 'components/ToggleSwitch';
 
 interface BorrowNFTsModule {
-  NFT: {
-    name: string;
-    image: string;
-    borrowApy: string;
-    estValue: string;
-    assetsBorrowed: number;
-    netBorrowBalance: number;
-    key: number;
-  },
+  NFT?: any,
   executeWithdrawNFT: (key: any) => void;
   mint: any;
-  loanPositions: [];
   executeBorrow:() => void;
   executeRepay: () => void;
   honeyUser: any;
-  openPositions?: [];
+  openPositions?: any;
+  loanPositions: any;
 }
 
 const BorrowNFTsModule = (props: BorrowNFTsModule) => {

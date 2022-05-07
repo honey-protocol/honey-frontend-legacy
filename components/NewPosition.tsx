@@ -4,15 +4,15 @@ import { Avatar } from 'degen';
 import * as loanStyles from '../styles/loan.css';
 
 interface LoanNewBorrowProps {
-  NFT: NFT;
-  isLoading: boolean;
-  buttonTitle: Function;
-  mint: any;
+  NFT: any;
+  buttonTitle?: Function;
+  mint?: any;
   executeDepositNFT: (key: any) => void;
+  loanPositions: any;
 }
 
 const LoanNewBorrow = (props: LoanNewBorrowProps) => {
-  const { NFT, isLoading, buttonTitle, mint, executeDepositNFT } = props;
+  const { NFT, mint, executeDepositNFT, loanPositions } = props;
   console.log('inside borrow new component', NFT)
 
   if (!NFT) return null;
@@ -90,8 +90,6 @@ const LoanNewBorrow = (props: LoanNewBorrowProps) => {
         <Box marginBottom="10">
           <Button
             onClick={() => executeDepositNFT(NFT.mint)}
-            disabled={isLoading}
-            loading={isLoading}
             width="full"
           >
             Deposit
