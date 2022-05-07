@@ -142,7 +142,8 @@ const LoanRepay = (props: LoanRepayProps) => {
                         align="right"
                         color="foreground"
                     >
-                        {currentLoanPosition} Lamports</Text>
+                        {currentLoanPosition} Lamparts
+                    </Text>
                     </Stack>
                     <Stack
                     direction="horizontal"

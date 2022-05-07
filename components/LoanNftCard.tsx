@@ -23,7 +23,6 @@ const LoanNFTCard = (props: LoanNFTCardProps) => {
     onSelectNFT, available, handleActiveState, activeNFT, NFT
   } = props;
 
-  console.log('onselectnft', onSelectNFT)
   const [activeCard, setActiveCard] = useState(false);
 
   function testing(name: string , type: string) {

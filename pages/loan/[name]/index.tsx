@@ -99,7 +99,7 @@ const Loan: NextPage = () => {
   const { market, marketReserveInfo, parsedReserves }  = useHoney();
 
   useEffect(() => {
-    // console.log('market', market);
+    console.log('market', market);
     // console.log('marketreserve', marketReserveInfo);
     // console.log('parsedreserves', parsedReserves );
   }, [market, marketReserveInfo, parsedReserves]);
