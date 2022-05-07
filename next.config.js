@@ -61,23 +61,8 @@ module.exports = (phase, {defaultConfig}) => {
     return withVanillaExtract(devNextConfig)
   } else {
     const env = {
-      NETWORK: "mainnet-beta",
-      NETWORK_CONFIGURATION: {
-        'mainnet-beta': {
-          name: 'mainnet-beta',
-          endpoint: mainNetEndpoint,
-          confirmTransactionInitialTimeout: 180000,
-        }
-      },
-      async headers() {
-        return [
-          {
-            // Apply these headers to all routes in your application.
-            source: '/(.*)',
-            headers: securityHeaders,
-          },
-        ]
-      }
+      NETWORK: 'devnet',
+      NETWORK_CONFIGURATION: undefined
     }
     const ProdNextConfig = {
       reactStrictMode: true,
