@@ -242,8 +242,8 @@ const sdkConfig = ConfigureSDK();
           justifyContent="center"
         >
           <DepositWithdrawModule
-            executeDeposit={executeDeposit}
-            executeWithdraw={executeWithdraw}
+            executeDeposit={(value: number) => executeDeposit}
+            executeWithdraw={(value: number) => executeWithdraw}
           />
         </Box>
       </Stack>
