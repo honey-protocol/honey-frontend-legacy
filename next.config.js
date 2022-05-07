@@ -1,6 +1,6 @@
 const {createVanillaExtractPlugin} = require('@vanilla-extract/next-plugin');
 const withVanillaExtract = createVanillaExtractPlugin();
-const {PHASE_DEVELOPMENT_SERVER} = require('next/constants')
+const {PHASE_DEVELOPMENT_SERVER, PHASE_PRODUCTION_SERVER} = require('next/constants')
 
 /** @type {import('next').NextConfig} */
 const mainNetEndpoint = process.env.NEXT_PUBLIC_RPC_NODE;
@@ -14,8 +14,13 @@ const mainNetEndpoint = process.env.NEXT_PUBLIC_RPC_NODE;
 module.exports = (phase, {defaultConfig}) => {
   if (phase === PHASE_DEVELOPMENT_SERVER) {
     const env = {
-      NETWORK: 'devnet',
-      NETWORK_CONFIGURATION: undefined
+      NETWORK: 'mainnet-beta',
+      NETWORK_CONFIGURATION: {
+        'mainnet-beta': {
+          name: 'mainnet-beta',
+          endpoint: mainNetEndpoint
+        }
+      }
     }
 
     const devNextConfig = {
