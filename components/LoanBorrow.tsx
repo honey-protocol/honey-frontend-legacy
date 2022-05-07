@@ -27,7 +27,7 @@ const LoanBorrow = (props: LoanBorrowProps) => {
 
     useEffect(() => {
         if (loanPositions) {
-            updateCurrentLoanPosition(loanPositions[0].amount)
+            updateCurrentLoanPosition(loanPositions[0]?.amount)
         }
     }, [loanPositions]);
 
