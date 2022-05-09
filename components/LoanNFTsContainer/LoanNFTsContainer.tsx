@@ -123,7 +123,7 @@ const LoanNFTsContainer = (props: LoanNFTsContainerProps) => {
                     onSelectNFT={onSelectNFT}
                     available={true}
                     executeDepositNFT={executeDepositNFT}
-                    handleActiveState={() => handleActiveState}
+                    handleActiveState={handleActiveState}
                     activeNFT={highlightNFTAvailable}
                   />
                 ))}

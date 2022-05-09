@@ -13,7 +13,6 @@ interface LoanNewBorrowProps {
 
 const LoanNewBorrow = (props: LoanNewBorrowProps) => {
   const { NFT, mint, executeDepositNFT, loanPositions } = props;
-  console.log('inside borrow new component', NFT)
 
   if (!NFT) return null;
 

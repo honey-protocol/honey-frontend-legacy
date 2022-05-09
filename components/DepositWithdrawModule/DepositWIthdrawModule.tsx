@@ -15,8 +15,8 @@ type TButton = {
   onClick?: (key?: any) => void;
 };
 interface DepositWithdrawModuleProps {
-  executeDeposit?: (value: number) => void;
-  executeWithdraw?: (value: number) => void;
+  executeDeposit: (value: number) => void;
+  executeWithdraw: (value: number) => void;
 }
 
 const DepositWithdrawModule = (props: DepositWithdrawModuleProps) => {

@@ -88,6 +88,7 @@ const sdkConfig = ConfigureSDK();
    * @returns succes | failure
   */
   async function executeDeposit(value: number) {
+    console.log('test executeDeposit', value)
     if (!value) return;
     const tokenAmount = value * LAMPORTS_PER_SOL;
     const depositTokenMint = new PublicKey('So11111111111111111111111111111111111111112');
@@ -100,6 +101,7 @@ const sdkConfig = ConfigureSDK();
    * @returns succes | failure
   */
   async function executeWithdraw(value: number) {
+    console.log('test executewithdraw', value)
     if (!value) return;
     const tokenAmount = value * LAMPORTS_PER_SOL;
     const depositTokenMint = new PublicKey('So11111111111111111111111111111111111111112');
