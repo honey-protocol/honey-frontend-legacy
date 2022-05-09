@@ -5,6 +5,7 @@ import {
   GemBankClient,
   WhitelistType,
 } from '@gemworks/gem-farm-ts';
+import { IDL } from "@gemworks/gem-farm-ts/dist/types/gem_bank"
 import { Connection, Keypair, PublicKey } from '@solana/web3.js';
 import { SignerWalletAdapter } from "@solana/wallet-adapter-base"
 import { NodeWallet, programs } from '@metaplex/js';
@@ -28,8 +29,7 @@ export async function initGemBank(
   wallet?: any
 ) {
   const walletToUse = wallet ?? createFakeWallet();
-  const idl = await (await fetch("/idl/gem_bank.json")).json()
-  return new GemBank(conn, walletToUse as any, idl);
+  return new GemBank(conn, walletToUse as any, IDL);
 }
 
 export class GemBank extends GemBankClient {
