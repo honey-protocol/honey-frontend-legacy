@@ -27,12 +27,12 @@ const LoanWithdraw = (props: LoanWithdrawProps) => {
   } = props;
 
   const [userMessage, setUserMessage] = useState('');
+  const [userInput, setUserInput] = useState(0);
 
   function handleMaxMessage() {
     setUserMessage('Max input is 5');
   }
 
-  const [userInput, setUserInput] = useState(0);
 
   function handleChange(value: any) {
     if (value.target.value < 0) return;

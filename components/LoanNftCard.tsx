@@ -24,16 +24,19 @@ const LoanNFTCard = (props: LoanNFTCardProps) => {
   } = props;
 
   const [activeCard, setActiveCard] = useState(false);
-
-  function testing(name: string , type: string) {
+   /**
+   * @description handler that calls upon active state for modal and nft selection
+   * @params nft name and type: open || closed
+   * @returns sets state of highlighted NFT
+  */
+  function setActiveNFTState(name: string , type: string) {
     handleActiveState(name, type);
-
     onSelectNFT(NFT, available);
-    activeCard ==  true ? setActiveCard(false) : setActiveCard(true);
+    
+    activeCard ==  false ? setActiveCard(false) : setActiveCard(true);
   }
 
   useEffect(() => {
-
   }, [activeCard])
 
   return (
@@ -43,7 +46,7 @@ const LoanNFTCard = (props: LoanNFTCardProps) => {
       borderWidth={props.selected ? '0.5' : '0'}
       padding="1.5"
       overflow="hidden"
-      onClick={() => testing(props.NFT.name, 'open')}
+      onClick={() => setActiveNFTState(props.NFT.name, (available == false ? 'open' : 'closed'))}
       className={activeNFT == props.NFT.name ? styles.active : styles.notActive}
     >
       <Avatar
