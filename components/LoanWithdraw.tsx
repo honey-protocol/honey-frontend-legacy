@@ -6,18 +6,16 @@ import * as styles from '../components/Slider/Slider.css';
 import * as loanStyles from '../styles/loan.css';
 
 interface LoanWithdrawProps {
-  nftName: string;
   evaluation: number;
   interestRate: number;
   assetsBorrowed: number;
   totalInterest: number;
   totalPayback: number;
-  handleWithdraw: (value: number) => void;
+  handleWithdraw: () => void;
 }
 
 const LoanWithdraw = (props: LoanWithdrawProps) => {
   const {
-    nftName,
     evaluation,
     interestRate,
     assetsBorrowed,
@@ -30,17 +28,17 @@ const LoanWithdraw = (props: LoanWithdrawProps) => {
   const [userInput, setUserInput] = useState(0);
 
   function handleMaxMessage() {
-    setUserMessage('Max input is 5');
+    setUserMessage('Max input is 1');
   }
 
 
   function handleChange(value: any) {
     if (value.target.value < 0) return;
-    value.target.value <= 5 ? setUserInput(value.target.value) : handleMaxMessage();
+    value.target.value <= 1 ? setUserInput(value.target.value) : handleMaxMessage();
   }
 
   function handleMaxValue() {
-    setUserInput(5)
+    setUserInput(1)
   }
 
   return (
@@ -142,7 +140,7 @@ const LoanWithdraw = (props: LoanWithdrawProps) => {
             </Button>
           </Box>
           <Box className={styles.selectionDetails}>
-          <input type="number" placeholder='0' onChange={(value) => handleChange(value)} className={styles.currencyStyles} value={userInput} min="1" max="5" />
+          <input type="number" placeholder='0' onChange={(value) => handleChange(value)} className={styles.currencyStyles} value={userInput} min="1" max="1" />
             <Avatar
               label="TetranodeNFT"
               size="7"
@@ -161,7 +159,7 @@ const LoanWithdraw = (props: LoanWithdrawProps) => {
           </Box>
         </Box>
         <Box height="16">
-          <Button width="full" onClick={() => handleWithdraw(userInput)}>Withdraw</Button>
+          <Button width="full" onClick={handleWithdraw}>Withdraw</Button>
         </Box>
       </Stack>
     </Box>
