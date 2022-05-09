@@ -6,7 +6,7 @@ import * as styles from '../components/LoanNFTsContainer/LoanNFTsContainer.css';
 interface LoanNFTCardProps {
   NFT: {
     name: string,
-    image: string,
+    image: any,
     key: number
   };
   selected: any;
@@ -37,7 +37,7 @@ const LoanNFTCard = (props: LoanNFTCardProps) => {
   }
 
   useEffect(() => {
-  }, [activeCard])
+  }, [activeCard]);
 
   return (
     <Box
