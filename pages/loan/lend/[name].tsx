@@ -87,10 +87,8 @@ const sdkConfig = ConfigureSDK();
    * @params none
    * @returns succes | failure
   */
-  async function executeDeposit(value: number) {
-    console.log('test executeDeposit', value)
-    if (!value) return;
-    const tokenAmount = value * LAMPORTS_PER_SOL;
+  async function executeDeposit() {
+    const tokenAmount = 1 * LAMPORTS_PER_SOL;
     const depositTokenMint = new PublicKey('So11111111111111111111111111111111111111112');
     await deposit(honeyUser, tokenAmount, depositTokenMint, honeyReserves);
   }
@@ -100,10 +98,8 @@ const sdkConfig = ConfigureSDK();
    * @params none
    * @returns succes | failure
   */
-  async function executeWithdraw(value: number) {
-    console.log('test executewithdraw', value)
-    if (!value) return;
-    const tokenAmount = value * LAMPORTS_PER_SOL;
+  async function executeWithdraw() {
+    const tokenAmount = 1 * LAMPORTS_PER_SOL;
     const depositTokenMint = new PublicKey('So11111111111111111111111111111111111111112');
     await withdraw(honeyUser, tokenAmount, depositTokenMint, honeyReserves);
   }
@@ -244,8 +240,8 @@ const sdkConfig = ConfigureSDK();
           justifyContent="center"
         >
           <DepositWithdrawModule
-            executeDeposit={(value: number) => executeDeposit}
-            executeWithdraw={(value: number) => executeWithdraw}
+            executeDeposit={executeDeposit}
+            executeWithdraw={executeWithdraw}
           />
         </Box>
       </Stack>

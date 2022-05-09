@@ -8,15 +8,9 @@ import * as styles from './DepositWithdrawModule.css';
 import ToggleSwitchLoan from '../ToggleSwitchLoan';
 import ToggleSwitch from 'components/ToggleSwitch';
 
-type TButton = {
-  title?: string;
-  disabled?: boolean;
-  hidden?: boolean;
-  onClick?: (key?: any) => void;
-};
 interface DepositWithdrawModuleProps {
-  executeDeposit: (value: number) => void;
-  executeWithdraw: (value: number) => void;
+  executeDeposit: () => void;
+  executeWithdraw: () => void;
 }
 
 const DepositWithdrawModule = (props: DepositWithdrawModuleProps) => {
@@ -52,17 +46,16 @@ const DepositWithdrawModule = (props: DepositWithdrawModuleProps) => {
               estValue={1}
               assetsBorrowed={1}
               netBorrowBalance={1}
-              handleDeposit={(value: number) => executeDeposit}
+              handleDeposit={executeDeposit}
             />
           ) : (
             <LoanWithdraw
-              nftName={'test'}
               evaluation={1}
               interestRate={1}
               assetsBorrowed={1}
               totalInterest={1}
               totalPayback={1}
-              handleWithdraw={(value: number) => executeWithdraw}
+              handleWithdraw={executeWithdraw}
             />
           )}
         </Box>
