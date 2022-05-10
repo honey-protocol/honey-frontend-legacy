@@ -13,6 +13,7 @@ import LoanHeaderComponent from 'components/LoanHeaderComponent/LoanHeaderCompon
 import CreateMarket from 'pages/createmarket';
 import  { ConfigureSDK } from '../../helpers/loanHelpers';
 import { useMarket } from '@honey-finance/sdk';
+import { PublicKey } from '@solana/web3.js';
 
 // TODO: should be fetched by SDK
 const assetData: Array<AssetRowType> = [
@@ -41,15 +42,22 @@ const Loan: NextPage = () => {
 
   }, [honeyClient]);
 
-  if (honeyClient && wallet?.publicKey) {
-    // honeyClient.createMarket({
-    //   owner: wallet.publicKey,
-    //   quoteCurrencyMint: wallet.publicKey,
-    //   quoteCurrencyName: 'USDC',
-    //   nftCollectionCreator: wallet.publicKey,
-    //   nftOraclePrice: wallet.publicKey,
-    //   nftOracleProduct: wallet.publicKey
-    // })
+  /**
+     * @description **dont call - actually creates a market
+     * @params **dont call - actually creates a market
+     * @returns **dont call - actually creates a market
+    */
+  function createMarket() {
+    if (honeyClient && wallet?.publicKey) {
+      honeyClient.createMarket({
+        owner: wallet.publicKey,
+        quoteCurrencyMint: new PublicKey('So11111111111111111111111111111111111111112'),
+        quoteCurrencyName: 'wSOL',
+        nftCollectionCreator: new PublicKey('F69tu2rGcBrTtUT2ZsevujKRP4efVs9VfZPK2hYbYhvi'),
+        nftOraclePrice: new PublicKey('FNu14oQiSkLFw5iR5Nhc4dTkHqJH5thg1CRVQkwx66LZ'),
+        nftOracleProduct: new PublicKey('FNu14oQiSkLFw5iR5Nhc4dTkHqJH5thg1CRVQkwx66LZ')
+      });
+    }
   }
 
   /**
@@ -112,13 +120,12 @@ const Loan: NextPage = () => {
             width="full"
           >
             <Stack>
-              
-            
         {
           renderCreateMarket == 1 
           ?
             <CreateMarket
               setRenderCreateMarket={setRenderCreateMarket}
+              createMarket={createMarket}
             />
           :
 

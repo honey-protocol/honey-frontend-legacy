@@ -3,6 +3,7 @@ import { sprinkles, vars } from './theme.css';
 
 export const createMarketContainer = style({
   display: 'flex',
+  flexDirection: 'column',
   color: 'white',
   margin: '1em -1em',
   borderRadius: '18px',
@@ -17,5 +18,6 @@ export const poolsWrapper = style({
   color: 'red'
 });
 
-globalStyle(`${poolsWrapper} > * `, {
+globalStyle(`${createMarketContainer} > button `, {
+  marginTop: '2em'
 });

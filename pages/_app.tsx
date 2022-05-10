@@ -45,10 +45,10 @@ const OnChainProvider: FC<{ children: ReactNode }> = ({ children }) => {
         wallet={wallet} 
         connection={connection}
         honeyProgramId={"6ujVJiHnyqaTBHzwwfySzTDX5EPFgmXqnibuMp3Hun1w"} 
-        honeyMarketId={"HB82woFm5MrTx3X4gsRpVcUxtWJJyDBeT5xNGCUUrLLe"}
+        honeyMarketId={"47RbcdWKUJJKNwtX7JAtt8KarzA1APztHaDo8Dd4cZAt"}
       > 
         {/* HB82woFm5MrTx3X4gsRpVcUxtWJJyDBeT5xNGCUUrLLe */}
-        {/* GLBPMnxYr5QkkF4o5SMug7B5DmPSDDdAw7W46RgZdRyf */}
+        {/* 47RbcdWKUJJKNwtX7JAtt8KarzA1APztHaDo8Dd4cZAt */}
         {children}
       </HoneyProvider>
     </AnchorProvider>
