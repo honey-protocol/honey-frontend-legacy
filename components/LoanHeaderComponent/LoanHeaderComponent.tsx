@@ -33,6 +33,9 @@ const LoanHeaderComponent = () => {
         </Text>
       </Box>
       <Button size="small">
+        Create market
+      </Button>
+      <Button size="small">
         <a href="https://cofre.so/#/" target="_blank" rel="noreferrer">Mint Cofre NFT</a>
       </Button>
     </Box>
