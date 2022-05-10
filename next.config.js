@@ -12,11 +12,41 @@ console.log('hello its me', mainNetEndpoint)
  * "yarn build/yarn start" is prod build so by default should use settings related to Mainnet
  * */
 
+const ContentSecurityPolicy = `
+  default-src 'self';
+  script-src 'self';
+  child-src honey.finance;
+  style-src 'self' honey.finance;
+  font-src 'self';
+  frame-ancestors 'none';
+`
+// Add security headers configuration
+const securityHeaders = [
+  // Not supported on newest browser versions
+  {
+    key: 'X-Frame-Options',
+    value: 'DENY'
+  },
+  {
+    key: 'Content-Security-Policy',
+    value: ContentSecurityPolicy.replace(/\s{2,}/g, ' ').trim()
+  }
+]
+
 module.exports = (phase, {defaultConfig}) => {
   if (phase === PHASE_DEVELOPMENT_SERVER) {
     const env = {
       NETWORK: 'devnet',
-      NETWORK_CONFIGURATION: undefined
+      NETWORK_CONFIGURATION: undefined,
+      async headers() {
+        return [
+          {
+            // Apply these headers to all routes in your application.
+            source: '/(.*)',
+            headers: securityHeaders,
+          },
+        ]
+      }
     }
 
     const devNextConfig = {
@@ -32,6 +62,15 @@ module.exports = (phase, {defaultConfig}) => {
           name: 'mainnet-beta',
           endpoint: mainNetEndpoint,
         }
+      },
+      async headers() {
+        return [
+          {
+            // Apply these headers to all routes in your application.
+            source: '/(.*)',
+            headers: securityHeaders,
+          },
+        ]
       }
     }
     const ProdNextConfig = {
