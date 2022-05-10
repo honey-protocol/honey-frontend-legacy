@@ -7,28 +7,9 @@ import { Box, Text, Card, IconPlus } from 'degen';
 import { Stack, IconSearch, Input } from 'degen';
 import ToggleSwitch from '../../components/ToggleSwitch';
 import AssetRow, { AssetRowType } from '../../components/AssetRow';
-import ModalContainer from '../../components/ModalContainer/ModalContainer';
-import DepositWithdrawModule from '../../components/DepositWithdrawModule/DepositWIthdrawModule';
 import Layout from '../../components/Layout/Layout';
 import * as styles from '../../styles/loan.css';
 import LoanHeaderComponent from 'components/LoanHeaderComponent/LoanHeaderComponent';
-import { ConfigureSDK } from 'helpers/loanHelpers';
-import { Metadata } from '@metaplex-foundation/mpl-token-metadata';
-import {
-  deposit,
-  HoneyUser,
-  depositNFT,
-  withdrawNFT,
-  useBorrowPositions,
-  useMarket,
-  usePools,
-  useHoney,
-  withdraw,
-  borrow,
-  repay,
-} from '@honey-finance/sdk';
-import { LAMPORTS_PER_SOL, PublicKey } from '@solana/web3.js';
-import useFetchNFTByUser from 'hooks/useNFT';
 
 // TODO: should be fetched by SDK
 const assetData: Array<AssetRowType> = [
@@ -42,31 +23,21 @@ const assetData: Array<AssetRowType> = [
   }
 ];
 
-
-
 const Loan: NextPage = () => {
   const wallet = useConnectedWallet();
   const { connect } = useWalletKit();
+  /**
+   * @description logic for rendering borrow or lend page 
+   * @params 0 | 1
+   * @returns state for rendering correct modal
+  */
   const [borrowOrLend, setBorrowOrLend] = useState(0);
-
-  const [modalIsVisible, setModalIsVisible] = useState(false);
-
   const loadBorrowPage = wallet && borrowOrLend === 0;
   const loadLendPage = wallet && borrowOrLend === 1;
-
-  function showLoanModal() {
-    setModalIsVisible(true);
-  }
 
   return (
     <Layout>
       <Stack>
-        <ModalContainer
-          onClose={() => setModalIsVisible(false)}
-          isVisible={modalIsVisible}
-        >
-          <DepositWithdrawModule />
-        </ModalContainer>
         <Box marginY="4">
           <Stack direction="vertical" space="5">
             <Stack
