@@ -247,6 +247,10 @@ const useGemFarm = () => {
     setSelectedWalletNFTs([...selectedWalletNFTs, NFT]);
   };
 
+  const onWalletNFTSelectAll = async () => {
+    setSelectedWalletNFTs(Object.values(walletNFTsInFarm));
+  };
+
   const onWalletNFTUnselect = (NFT: NFT) => {
     const newSelected = selectedWalletNFTs.filter(
       nft => !(nft.tokenId.toString() === NFT.tokenId.toString())
@@ -256,6 +260,10 @@ const useGemFarm = () => {
 
   const onStakedNFTSelect = (NFT: NFT) => {
     setSelectedVaultNFTs([...selectedVaultNFTs, NFT]);
+  };
+
+  const onStakedNFTSelectAll = async () => {
+    setSelectedVaultNFTs(Object.values(stakedNFTsInFarm));
   };
 
   const onStakedNFTUnselect = (unselectedNFT: NFT) => {
@@ -545,8 +553,10 @@ const useGemFarm = () => {
     initializeFarmerAcc,
     refreshNFTsWithLoadingIcon,
     onWalletNFTSelect,
+    onWalletNFTSelectAll,
     onWalletNFTUnselect,
     onStakedNFTSelect,
+    onStakedNFTSelectAll,
     onStakedNFTUnselect,
     handleRefreshRewardsButtonClick,
     handleStakeButtonClick,
