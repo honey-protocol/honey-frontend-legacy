@@ -1,9 +1,16 @@
 import LoanNFTCard from '../LoanNftCard';
-import { Box, Button, Card, Spinner, Stack, Text, IconPlus } from 'degen';
+import { Box, Button, Text } from 'degen';
+import Link from 'next/link';
 import React from 'react';
 import * as styles from './LoanHeaderComponent.css';
-// Styles for the header component on the load page: WIP - should become dynamic
-const LoanHeaderComponent = () => {
+
+interface LoanHeaderComponentProps {
+  handleCreateMarket: () => void;
+}
+
+const LoanHeaderComponent = (props: LoanHeaderComponentProps) => {
+  const { handleCreateMarket } = props;
+
   return (
     <Box className={styles.headerWrapper}>
       <Box>
@@ -32,9 +39,10 @@ const LoanHeaderComponent = () => {
           0
         </Text>
       </Box>
-      <Button size="small">
+      <Button size="small" onClick={handleCreateMarket}>
         Create market
       </Button>
+
       <Button size="small">
         <a href="https://cofre.so/#/" target="_blank" rel="noreferrer">Mint Cofre NFT</a>
       </Button>

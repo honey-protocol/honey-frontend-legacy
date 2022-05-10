@@ -10,6 +10,9 @@ import AssetRow, { AssetRowType } from '../../components/AssetRow';
 import Layout from '../../components/Layout/Layout';
 import * as styles from '../../styles/loan.css';
 import LoanHeaderComponent from 'components/LoanHeaderComponent/LoanHeaderComponent';
+import CreateMarket from 'pages/createmarket';
+import  { ConfigureSDK } from '../../helpers/loanHelpers';
+import { useMarket } from '@honey-finance/sdk';
 
 // TODO: should be fetched by SDK
 const assetData: Array<AssetRowType> = [
@@ -26,6 +29,29 @@ const assetData: Array<AssetRowType> = [
 const Loan: NextPage = () => {
   const wallet = useConnectedWallet();
   const { connect } = useWalletKit();
+
+  const sdkConfig = ConfigureSDK();
+  /**
+     * @description calls upon the honey sdk - market 
+     * @params solanas useConnection func. && useConnectedWallet func. && JET ID
+     * @returns honeyUser which is the main object - honeyMarket, honeyReserves are for testing purposes
+    */
+  const { honeyClient } = useMarket(sdkConfig.saberHqConnection, sdkConfig.sdkWallet!, sdkConfig.honeyId, sdkConfig.marketId);
+  useEffect(() => {
+
+  }, [honeyClient]);
+
+  if (honeyClient && wallet?.publicKey) {
+    // honeyClient.createMarket({
+    //   owner: wallet.publicKey,
+    //   quoteCurrencyMint: wallet.publicKey,
+    //   quoteCurrencyName: 'USDC',
+    //   nftCollectionCreator: wallet.publicKey,
+    //   nftOraclePrice: wallet.publicKey,
+    //   nftOracleProduct: wallet.publicKey
+    // })
+  }
+
   /**
    * @description logic for rendering borrow or lend page 
    * @params 0 | 1
@@ -34,6 +60,22 @@ const Loan: NextPage = () => {
   const [borrowOrLend, setBorrowOrLend] = useState(0);
   const loadBorrowPage = wallet && borrowOrLend === 0;
   const loadLendPage = wallet && borrowOrLend === 1;
+  
+  /**
+   * @description logic for rendering out create market page
+   * @params 0 | 1
+   * @returns create market modal or Pool modal in return of Loan component
+  */
+  const [renderCreateMarket, setRenderCreateMarket] = useState(0);
+  
+  useEffect(() => {
+  }, [renderCreateMarket]);
+  
+  function handleCreateMarket() {
+    setRenderCreateMarket(1);
+  }
+
+  console.log('this is wallet', wallet?.publicKey)
 
   return (
     <Layout>
@@ -55,67 +97,82 @@ const Loan: NextPage = () => {
                 ]}
                 activeIndex={borrowOrLend}
               />
-              <LoanHeaderComponent />
+              <LoanHeaderComponent
+                handleCreateMarket={handleCreateMarket}
+              />
             </Stack>
           </Stack>
         </Box>
         <Box
-          backgroundColor="backgroundTertiary"
-          minWidth="full"
-          gap="3"
-          borderRadius="2xLarge"
-          padding="5"
-          width="full"
-        >
-          <Stack>
-            <Box className={styles.cardMenuContainer}>
-              <Box padding="1">
-                <Input
-                  label=""
-                  placeholder="Search by name"
-                  prefix={<IconSearch />}
-                />
-              </Box>
-              <Text>Total borrowed</Text>
-              <Text>Interest</Text>
-              <Text>Available</Text>
-              <Text>Your positions</Text>
-            </Box>
-            <Box>
-              <hr className={styles.lineDivider}></hr>
-            </Box>
+            backgroundColor="backgroundTertiary"
+            minWidth="full"
+            gap="3"
+            borderRadius="2xLarge"
+            padding="5"
+            width="full"
+          >
             <Stack>
-              <Box>
-                {assetData.map(item => (
-                  <Box key={item.vaultName}>
-                    {loadBorrowPage && (
-                      <Link href="/loan/[name]" as={`/loan/${item.vaultName}`}>
-                        <a>
-                          <AssetRow
-                            data={item}
-                          />
-                        </a>
-                      </Link>
-                    )}
-                    {loadLendPage && (
-                      <Link
-                        href="/loan/lend/[name]"
-                        as={`/loan/lend/${item.vaultName}`}
-                      >
-                        <a>
-                          <AssetRow data={item} />
-                        </a>
-                      </Link>
-                    )}
-                    {!wallet && (
-                      <Box onClick={connect} cursor="pointer">
-                        <AssetRow data={item} />
-                      </Box>
-                    )}
-                  </Box>
-                ))}
+              
+            
+        {
+          renderCreateMarket == 1 
+          ?
+            <CreateMarket
+              setRenderCreateMarket={setRenderCreateMarket}
+            />
+          :
+
+            <Stack>
+              <Box className={styles.cardMenuContainer}>
+                <Box padding="1">
+                  <Input
+                    label=""
+                    placeholder="Search by name"
+                    prefix={<IconSearch />}
+                  />
+                </Box>
+                <Text>Total borrowed</Text>
+                <Text>Interest</Text>
+                <Text>Available</Text>
+                <Text>Your positions</Text>
               </Box>
+              <Box>
+                <hr className={styles.lineDivider}></hr>
+              </Box>
+              <Stack>
+                <Box>
+                  {assetData.map(item => (
+                    <Box key={item.vaultName}>
+                      {loadBorrowPage && (
+                        <Link href="/loan/[name]" as={`/loan/${item.vaultName}`}>
+                          <a>
+                            <AssetRow
+                              data={item}
+                            />
+                          </a>
+                        </Link>
+                      )}
+                      {loadLendPage && (
+                        <Link
+                          href="/loan/lend/[name]"
+                          as={`/loan/lend/${item.vaultName}`}
+                        >
+                          <a>
+                            <AssetRow data={item} />
+                          </a>
+                        </Link>
+                      )}
+                      {!wallet && (
+                        <Box onClick={connect} cursor="pointer">
+                          <AssetRow data={item} />
+                        </Box>
+                      )}
+                    </Box>
+                  ))}
+                </Box>
+              </Stack>
             </Stack>
+          }
           </Stack>
         </Box>
       </Stack>
