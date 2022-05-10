@@ -209,7 +209,7 @@ const LoanRepay = (props: LoanRepayProps) => {
             <Slider />
             {/* if no more outstanding amount - render claim nft, is there is, render repay;  */}
             {
-                loanPositions && loanPositions[0].amount == 0 
+                loanPositions && loanPositions[0]?.amount == 0 
                 ?
                 (
                     <Button width="full" onClick={() => executeWithdrawNFT(mint)}>Claim NFT</Button>

@@ -104,7 +104,7 @@ const LoanNFTsContainer = (props: LoanNFTsContainerProps) => {
               </Box>
             </Stack>
               <Box className={styles.nftContainer}>
-                {openPositions && renderNFTs == 0 ? openPositions.map((nft: any, i: any) => (
+                {openPositions && openPositions.length > 0 && renderNFTs == 0 ? openPositions.map((nft: any, i: any) => (
                   <LoanNFTCard
                     selected={selectedId}
                     key={nft.key}
