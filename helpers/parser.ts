@@ -16,8 +16,8 @@ export const {
     useData: useParsedProposalMetas,
     useSingleData: useParsedProposalMeta
   },
-  locker: { useData: useParsedLockers, useSingleData: useParsedLocker },
-  escrow: { useData: useParsedEscrows, useSingleData: useParsedEscrow },
+  lockerV2: { useData: useParsedLockers, useSingleData: useParsedLocker },
+  escrowV2: { useData: useParsedEscrows, useSingleData: useParsedEscrow },
   governor: { useData: useParsedGovernors, useSingleData: useParsedGovernor },
   vote: { useData: useParsedVotes, useSingleData: useParsedVote },
   transaction: { useData: useParsedTXByKeys, useSingleData: useParsedTXByKey }
@@ -48,8 +48,8 @@ export const {
 } = makeProgramParserHooks(GOKI_CODERS.SmartWallet);
 
 export const {
-  escrow: { useSingleData: useEscrowData },
-  locker: { useSingleData: useLockerData }
+  escrowV2: { useSingleData: useEscrowData },
+  lockerV2: { useSingleData: useLockerData }
 } = makeProgramParserHooks(HONEY_DAO_CODERS.LockedVoter);
 
 export const {

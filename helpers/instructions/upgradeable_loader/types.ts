@@ -176,7 +176,6 @@ export const UpgradeableLoaderAccount = coerce(
       case 'uninitialized': {
         return {
           type: value.type,
-          // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
           info: create(value.info, ProgramUninitializedAccountInfo)
         };
       }

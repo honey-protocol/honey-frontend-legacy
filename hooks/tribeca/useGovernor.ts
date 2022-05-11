@@ -99,7 +99,6 @@ const useGovernorInner = (props: GovernorProps | undefined) => {
   const { data: lockerData } = useLockerData(
     governorData ? governorData.account.electorate : governorData
   );
-  console.log(lockerData);
   const { data: backupGovToken } = useToken(
     lockerData ? lockerData.account.tokenMint : lockerData
   );

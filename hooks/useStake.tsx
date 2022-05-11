@@ -20,9 +20,12 @@ const checkErrorAndShowToast = (error: any, defaultToastMsg: string) => {
   if (errorMsg.includes('0x1')) {
     toastMsg = 'Insufficient balance';
   } else if (
-    errorMsg.includes('A voting escrow refresh cannot shorten the escrow time remaining.')
+    errorMsg.includes(
+      'A voting escrow refresh cannot shorten the escrow time remaining.'
+    )
   ) {
-    toastMsg = 'Selected vesting period cannot be shorter than the previously selected vesting period.';
+    toastMsg =
+      'Selected vesting period cannot be shorter than the previously selected vesting period.';
   } else {
     toastMsg = error.message;
   }
@@ -188,28 +191,21 @@ export const useStake = (stakePool: PublicKey, locker: PublicKey) => {
     },
     [sc, vc, userKey, pHoneyToken]
   );
-  
+
   const lock = useCallback(
-    async(amount: BN, duration: BN, hasEscrow: boolean = true) => {
+    async (amount: BN, duration: BN, hasEscrow: boolean = true) => {
       if (sc && vc && userKey && honeyToken) {
         setIsLoading(true);
         try {
-          await vc.lock(
-            locker,
-            honeyToken.pubkey,
-            amount,
-            duration,
-            hasEscrow
-          );
+          await vc.lock(locker, honeyToken.pubkey, amount, duration, hasEscrow);
           toast.success('HONEY successfully vested');
           setIsLoading(false);
         } catch (e) {
           console.log(e);
-          checkErrorAndShowToast(e, "HONEY failed vesting")
+          checkErrorAndShowToast(e, 'HONEY failed vesting');
           // toast.error(`${e}`);
           setIsLoading(false);
         }
-
       }
     },
     [sc, vc, userKey, honeyToken]
@@ -223,7 +219,7 @@ export const useStake = (stakePool: PublicKey, locker: PublicKey) => {
         setIsLoading(false);
       } catch (e) {
         console.log(e);
-        checkErrorAndShowToast(e, "Error unlocking")
+        checkErrorAndShowToast(e, 'Error unlocking');
         setIsLoading(false);
       }
     }

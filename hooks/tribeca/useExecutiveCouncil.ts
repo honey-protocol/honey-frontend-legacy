@@ -34,7 +34,6 @@ export const useExecutiveCouncil = () => {
       enabled: !!smartWalletData
     }
   );
-
   const { data: subaccountInfos } =
     useBatchedSubaccountInfos(subaccountInfoKeys);
 
