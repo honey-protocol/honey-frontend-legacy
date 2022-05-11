@@ -18,7 +18,7 @@ export const PHONEY_MINT = new PublicKey(
 );
 
 export const WHITELIST_ENTRY = new PublicKey(
-  'EAc9qa3DXCgBwSEjRkXGZxPUmvuNTV56zfYzbjihbiYv'
+  'G62oYbYUbchjHMRddcFaDqRQ5CuNV9KE36kfzyYvFuDy'
 );
 
 export const PHONEY_DECIMALS = 6;
@@ -26,7 +26,7 @@ export const PHONEY_DECIMALS = 6;
 // See `Anchor.toml` for all addresses.
 export const HONEY_DAO_ADDRESSES = {
   Govern: new PublicKey('Govz1VyoyLD5BL6CSCxUJLVLsQHRwjfFj1prNsdNg5Jw'),
-  LockedVoter: new PublicKey('5i6s4zbxYGDhY1UGNZwrtBUAp7u2fnJ8ZSXu39eZWjNT')
+  LockedVoter: new PublicKey(process.env.NEXT_PUBLIC_VOTE_PROGRAM_ID!)
 };
 
 /**
@@ -46,5 +46,5 @@ export const PROPOSAL_TITLE_MAX_LEN = 140;
 
 export const GOVERNOR_ADDRESS = new PublicKey(
   process.env.NEXT_PUBLIC_GOVERNOR_ADDRESS ||
-    'H8Vs8jXXXRW2JTcxhXb2bnngxvmHWdbmExVNjrj5YXvr'
+    'CSFk5VQwpQVs5tVXRLi5jtqJVkySAPxBxAQPD4W2mePa'
 );

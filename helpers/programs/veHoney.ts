@@ -5,18 +5,18 @@ import type { VeHoney as VoterIDL } from '../types/ve_honey';
 export type LockedVoterTypes = AnchorTypes<
   VoterIDL,
   {
-    locker: LockerData;
-    escrow: EscrowData;
+    lockerV2: LockerV2Data;
+    escrowV2: EscrowV2Data;
     lockerWhitelistEntry: LockerWhitelistEntryData;
   }
 >;
 
 type Accounts = LockedVoterTypes['Accounts'];
-export type LockerData = Accounts['lockerV2'];
-export type EscrowData = Accounts['escrowV2'];
+export type LockerV2Data = Accounts['lockerV2'];
+export type EscrowV2Data = Accounts['escrowV2'];
 export type LockerWhitelistEntryData = Accounts['whitelistEntry'];
 
-export type LockerParams = LockedVoterTypes['Defined']['LockerParamsV2'];
+export type LockerParamsV2 = LockedVoterTypes['Defined']['LockerParamsV2'];
 
 export type LockedVoterError = LockedVoterTypes['Error'];
 export type LockedVoterProgram = LockedVoterTypes['Program'];
