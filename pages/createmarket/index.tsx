@@ -8,18 +8,14 @@ import * as styles from '../../styles/createMarket.css';
 import { useConnectedWallet } from '@saberhq/use-solana';
 import { PublicKey } from '@solana/web3.js';
 
-
 interface CreateMarketProps {
   setRenderCreateMarket: (value: number) => void;
   createMarket: () => void;
 }
-
-
-
+// for custom form handling
 function handleSubmit(event: any) {
   event.preventDefault();
 }
-
 
 const CreateMarket = (props: CreateMarketProps) => {
   const {setRenderCreateMarket, createMarket } = props;
@@ -58,7 +54,6 @@ const CreateMarket = (props: CreateMarketProps) => {
     }
   }
 
-
   return (
     <Stack>
       <Box className={styles.poolsWrapper}>
@@ -91,8 +86,14 @@ const CreateMarket = (props: CreateMarketProps) => {
               <option value="wSOL">wSOL</option>
               <option value="USDC">USDC</option>
             </select>
+            <label>Verified Creator Address</label>
+            <input type="text"></input>
+            <label>Oracle Price</label>
+            <input type="text" />
+            <label htmlFor="">Orable Product</label>
+            <input type="text" />
           </form>
-          {/* Actually creates the market - <Button onClick={createMarket}> */}
+          {/* Actually creates the market:  <Button onClick={createMarket}> */}
           <Button>
             Create Market
           </Button>

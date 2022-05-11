@@ -25,8 +25,8 @@ const LoanRepay = (props: LoanRepayProps) => {
     const { NFT, executeWithdrawNFT, mint, executeRepay, loanPositions } = props;
 
     const [currentLoanPosition, updateCurrentLoanPosition] = useState();
-    console.log('loanpos', loanPositions)
-
+    // loanpositions refers to the amount that has been borrowed as collateral
+    // if loanpositions amount is zero - the repay button becomes claim NFT - line 212
     useEffect(() => {
         if (loanPositions) {
             updateCurrentLoanPosition(loanPositions[0]?.amount)
@@ -209,14 +209,14 @@ const LoanRepay = (props: LoanRepayProps) => {
             <Slider />
             {/* if no more outstanding amount - render claim nft, is there is, render repay;  */}
             {
-                loanPositions && loanPositions[0]?.amount == 0 
+                loanPositions.length > 0 && loanPositions[0]?.amount != 0 
                 ?
                 (
-                    <Button width="full" onClick={() => executeWithdrawNFT(mint)}>Claim NFT</Button>
+                    <Button width="full" onClick={executeRepay}>Repay</Button>
                 )
                 :
                 (
-                    <Button width="full" onClick={executeRepay}>Repay</Button>
+                    <Button width="full" onClick={() => executeWithdrawNFT(mint)}>Claim NFT</Button>
                 )
             }
         </Box>
