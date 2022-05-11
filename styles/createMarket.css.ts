@@ -21,3 +21,8 @@ export const poolsWrapper = style({
 globalStyle(`${createMarketContainer} > button `, {
   marginTop: '2em'
 });
+
+globalStyle(`${createMarketContainer} > form `, {
+  display: 'flex',
+  flexDirection: 'column'
+});
