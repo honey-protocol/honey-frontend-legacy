@@ -3,9 +3,11 @@ import {
   Box,
   Button,
   Card,
+  Heading,
   IconChevronRight,
   IconExclamation,
   Input,
+  Stat,
   Tag,
   Text
 } from 'degen';
@@ -19,6 +21,7 @@ import HoneyModal from 'components/HoneyModal/HoneyModal';
 import { PublicKey } from '@solana/web3.js';
 import { useConnectedWallet } from '@saberhq/use-solana';
 import { useWalletKit } from '@gokiprotocol/walletkit';
+import NumberFormat from 'react-number-format';
 import { useStake } from 'hooks/useStake';
 import { useAccounts } from 'hooks/useAccounts';
 import {
@@ -50,7 +53,7 @@ const Governance: NextPage = () => {
 
   const STAKE_POOL_ADDRESS = new PublicKey(
     process.env.NEXT_STAKE_POOL_ADDR ||
-      '4v62DWSwrUVEHe2g88MeyJ7g32vVzQsCnADZF8yUy8iU'
+      'Cv9Hx3VRvqkz5JRPiZM8A2BH31yvpcT4qiUJLdtgu7TE'
   );
   const LOCKER_ADDRESS = new PublicKey(
     process.env.NEXT_LOCKER_ADDR ||
@@ -148,6 +151,45 @@ const Governance: NextPage = () => {
           </Text>
         </Box> */}
         {/* Cards row */}
+        <Box display="flex" width="full">
+          <Card level="2" padding="6" width="full">
+            <Box
+              display="flex"
+              alignItems="center"
+              flexDirection={{ xs: 'column', md: 'row' }}
+              justifyContent="space-between"
+            >
+              <Box
+                display="flex"
+                flexDirection={{ xs: 'column', md: 'row' }}
+                alignItems="center"
+              >
+                <IconExclamation color="accent" />
+                <Text variant="small" align="center">
+                  Pre-IDO HONEY (pHONEY) can be converted to HONEY at a 1:1
+                  ratio.{' '}
+                  <Text as="span" color="accent">
+                    You can increase this ratio by locking your tokens
+                  </Text>{' '}
+                  (and receive veHONEY). To participate in governance, you can
+                  lock your HONEY for veHONEY.
+                </Text>
+              </Box>
+              <Stack direction="horizontal" justify="center" align="center">
+                <Button
+                  as="a"
+                  href="https://docs.honey.finance/tokenomics/vehoney"
+                  target="_blank"
+                  size="small"
+                  variant="tertiary"
+                >
+                  Learn more
+                </Button>
+              </Stack>
+            </Box>
+          </Card>
+        </Box>
+
         <Stack
           direction={{
             lg: 'horizontal',
@@ -163,30 +205,42 @@ const Governance: NextPage = () => {
             alignItems="stretch"
             width={{ sm: 'full', md: '1/2' }}
           >
-            <Card level="2" padding="6">
-              <Box display="flex" height="full">
-                <Stack flex={1} justify="center" align="center" space="3">
-                  <IconExclamation color="accent" />
-                  <Text variant="small" align="center">
-                    Pre-IDO HONEY (pHONEY) can be converted to HONEY at a 1:1
-                    ratio.{' '}
-                    <Text as="span" color="accent">
-                      You can increase this ratio by locking your tokens
-                    </Text>{' '}
-                    (and receive veHONEY). To participate in governance, you can
-                    lock your HONEY for veHONEY.
-                  </Text>
-                  <Stack direction="horizontal" justify="center" align="center">
-                    <Button
-                      as="a"
-                      href="https://docs.honey.finance/tokenomics/vehoney"
-                      target="_blank"
-                      size="small"
-                      variant="tertiary"
-                    >
-                      Learn more
-                    </Button>
-                  </Stack>
+            <Card level="2" padding="6" width="full">
+              <Box display="flex" height="full" width="full">
+                <Stack flex={1} justify="space-around">
+                  <Stat
+                    label="Locked"
+                    value={
+                      <NumberFormat
+                        thousandSeparator
+                        value={1000000000}
+                        displayType={'text'}
+                      />
+                    }
+                    size="small"
+                  />
+                  <Stat
+                    label="Total Supply of veHONEY"
+                    value={
+                      <NumberFormat
+                        thousandSeparator
+                        value={1000000000}
+                        displayType={'text'}
+                      />
+                    }
+                    size="small"
+                  />
+                  <Stat
+                    label="Total Supply of HONEY"
+                    value={
+                      <NumberFormat
+                        thousandSeparator
+                        value={1000000000}
+                        displayType={'text'}
+                      />
+                    }
+                    size="small"
+                  />
                 </Stack>
               </Box>
             </Card>
@@ -251,7 +305,7 @@ const Governance: NextPage = () => {
                             <Text size="small">{pHoneyAmount}</Text>
                           </Stack>
                           <Stack justify="space-between" direction="horizontal">
-                            <Text size="small">$HONEY balance</Text>
+                            <Text size="small">HONEY balance</Text>
                             <Text size="small">{honeyAmount}</Text>
                           </Stack>
                         </Stack>
@@ -300,6 +354,15 @@ const Governance: NextPage = () => {
           borderRadius="2xLarge"
           backgroundColor="backgroundTertiary"
         >
+          <Text
+            weight="semiBold"
+            variant="large"
+            ellipsis
+            lineHeight="none"
+            whiteSpace="pre-wrap"
+          >
+            Recent Proposals
+          </Text>
           <Stack>
             {HIPS.map(hip => (
               <Box
