@@ -12,6 +12,12 @@ import { accentSequence, ThemeAccent } from 'helpers/theme-utils';
 import SecPopup from 'components/SecPopup';
 import { GOVERNOR_ADDRESS, HONEY_MINT, SDKProvider } from 'helpers/sdk';
 import Script from 'next/script';
+import { GOVERNOR_ADDRESS, SDKProvider } from 'helpers/sdk';
+
+import 'degen/styles';
+import '../styles/globals.css';
+import 'react-toastify/dist/ReactToastify.css';
+import { GovernorProvider } from 'hooks/tribeca/useGovernor';
 
 import 'degen/styles';
 import '../styles/globals.css';
