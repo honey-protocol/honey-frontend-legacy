@@ -353,43 +353,49 @@ const useGemFarm = () => {
   }
 
   const MAX_DEPOSIT_IX_PER_BATCH = 3;
+  const MAX_IX_PER_SEND_ALL = 50;
 
   async function stakeSendAll() {
     if (!gf || !gb) throw new Error('No Gem Bank client has been initialized.');
 
     await unlockVault();
 
-    const txs: Transaction[] = [];
+    for (let i = 0; i < selectedWalletNFTs.length; i += MAX_IX_PER_SEND_ALL) {
+      const txs: Transaction[] = [];
+      const sendAllBatch = selectedWalletNFTs.slice(i, i + MAX_IX_PER_SEND_ALL);
 
-    for (let i = 0; i < selectedWalletNFTs.length; i += MAX_DEPOSIT_IX_PER_BATCH) {
-      const depositTx = new Transaction();
-      const batch = selectedWalletNFTs.slice(i, i + MAX_DEPOSIT_IX_PER_BATCH);
-      const instructions = await Promise.all(batch.map(async nft => {
-        const creator = new PublicKey(nft.creators[0].address || '');
-        const tokenAccResult = await tokenAccountResult(
-          gf,
-          gb,
-          wallet!.publicKey,
-          new PublicKey(nft.mint)
+      for (let j = 0; j < sendAllBatch.length; j += MAX_DEPOSIT_IX_PER_BATCH) {
+        const depositTx = new Transaction();
+        const batch = sendAllBatch.slice(j, j + MAX_DEPOSIT_IX_PER_BATCH);
+        const instructions = await Promise.all(
+          batch.map(async nft => {
+            const creator = new PublicKey(nft.creators[0].address || '');
+            const tokenAccResult = await tokenAccountResult(
+              gf,
+              gb,
+              wallet!.publicKey,
+              new PublicKey(nft.mint)
+            );
+
+            return await gb.depositGemWalletIx(
+              new PublicKey(bankAddress),
+              new PublicKey(farmerAcc.vault),
+              new BN(1),
+              new PublicKey(nft.mint),
+              new PublicKey(tokenAccResult[0]),
+              creator
+            );
+          })
         );
-
-          return await gb.depositGemWalletIx(
-            new PublicKey(bankAddress),
-            new PublicKey(farmerAcc.vault),
-            new BN(1),
-            new PublicKey(nft.mint),
-            new PublicKey(tokenAccResult[0]),
-            creator
-          );
-      }));
-      instructions.forEach(i => depositTx.add(i))
-      txs.push(depositTx);
+        instructions.forEach(ix => depositTx.add(ix));
+        txs.push(depositTx);
+      }
+      await gf.provider.sendAll!(
+        txs.map(tx => {
+          return { tx, signers: [] };
+        })
+      );
     }
-    await gf.provider.sendAll!(
-      txs.map(tx => {
-        return { tx, signers: [] };
-      })
-    );
 
     await lockVault();
   }
@@ -450,30 +456,33 @@ const useGemFarm = () => {
 
     await unlockVault();
 
-    const txs: Transaction[] = [];
+    for (let i = 0; i < selectedVaultNFTs.length; i += MAX_IX_PER_SEND_ALL) {
+      const txs: Transaction[] = [];
+      const sendAllBatch = selectedVaultNFTs.slice(i, i + MAX_IX_PER_SEND_ALL);
 
-    for (let i = 0; i < selectedVaultNFTs.length; i += MAX_WITHDRAW_IX_PER_BATCH) {
-      const withdrawTx = new Transaction();
-      const batch = selectedVaultNFTs.slice(i, i + MAX_WITHDRAW_IX_PER_BATCH);
-      const instructions = await Promise.all(
-        batch.map(
-          async nft =>
-            await gb.withdrawGemWalletIx(
-              new PublicKey(bankAddress),
-              new PublicKey(farmerAcc.vault),
-              new BN(1),
-              new PublicKey(nft.mint)
-            )
-        )
+      for (let j = 0; j < sendAllBatch.length; j += MAX_WITHDRAW_IX_PER_BATCH) {
+        const withdrawTx = new Transaction();
+        const batch = sendAllBatch.slice(j, j + MAX_WITHDRAW_IX_PER_BATCH);
+        const instructions = await Promise.all(
+          batch.map(
+            async nft =>
+              await gb.withdrawGemWalletIx(
+                new PublicKey(bankAddress),
+                new PublicKey(farmerAcc.vault),
+                new BN(1),
+                new PublicKey(nft.mint)
+              )
+          )
+        );
+        instructions.forEach(ix => withdrawTx.add(ix));
+        txs.push(withdrawTx);
+      }
+      await gf.provider.sendAll!(
+        txs.map(tx => {
+          return { tx, signers: [] };
+        })
       );
-      instructions.forEach(i => withdrawTx.add(i))
-      txs.push(withdrawTx);
     }
-    await gf.provider.sendAll!(
-      txs.map(tx => {
-        return { tx, signers: [] };
-      })
-    );
 
     if (selectedVaultNFTs.length < farmerAcc.gemsStaked.toNumber()) {
       // Re-stake remaining
