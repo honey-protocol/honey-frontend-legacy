@@ -352,34 +352,37 @@ const useGemFarm = () => {
     await connection.confirmTransaction(txSig);
   }
 
+  const MAX_DEPOSIT_IX_PER_BATCH = 3;
+
   async function stakeSendAll() {
     if (!gf || !gb) throw new Error('No Gem Bank client has been initialized.');
 
     await unlockVault();
 
     const txs: Transaction[] = [];
-    for (let i = 0; i < selectedWalletNFTs.length; i++) {
-      const depositTx = new Transaction();
-      const creator = new PublicKey(
-        selectedWalletNFTs[i].creators[0].address || ''
-      );
-      const tokenAccResult = await tokenAccountResult(
-        gf,
-        gb,
-        wallet!.publicKey,
-        new PublicKey(selectedWalletNFTs[i].mint)
-      );
 
-      depositTx.add(
-        await gb.depositGemWalletIx(
-          new PublicKey(bankAddress),
-          new PublicKey(farmerAcc.vault),
-          new BN(1),
-          new PublicKey(selectedWalletNFTs[i].mint),
-          new PublicKey(tokenAccResult[0]),
-          creator
-        )
-      );
+    for (let i = 0; i < selectedWalletNFTs.length; i += MAX_DEPOSIT_IX_PER_BATCH) {
+      const depositTx = new Transaction();
+      const batch = selectedWalletNFTs.slice(i, i + MAX_DEPOSIT_IX_PER_BATCH);
+      const instructions = await Promise.all(batch.map(async nft => {
+        const creator = new PublicKey(nft.creators[0].address || '');
+        const tokenAccResult = await tokenAccountResult(
+          gf,
+          gb,
+          wallet!.publicKey,
+          new PublicKey(nft.mint)
+        );
+
+          return await gb.depositGemWalletIx(
+            new PublicKey(bankAddress),
+            new PublicKey(farmerAcc.vault),
+            new BN(1),
+            new PublicKey(nft.mint),
+            new PublicKey(tokenAccResult[0]),
+            creator
+          );
+      }));
+      instructions.forEach(i => depositTx.add(i))
       txs.push(depositTx);
     }
     await gf.provider.sendAll!(
@@ -440,23 +443,30 @@ const useGemFarm = () => {
     await connection.confirmTransaction(txSig);
   }
 
+  const MAX_WITHDRAW_IX_PER_BATCH = 4;
+
   async function unstakeSendAll() {
     if (!gf || !gb) throw new Error('No Gem Bank client has been initialized.');
 
     await unlockVault();
 
     const txs: Transaction[] = [];
-    for (let i = 0; i < selectedVaultNFTs.length; i++) {
-      const withdrawTx = new Transaction();
 
-      withdrawTx.add(
-        await gb.withdrawGemWalletIx(
-          new PublicKey(bankAddress),
-          new PublicKey(farmerAcc.vault),
-          new BN(1),
-          new PublicKey(selectedVaultNFTs[i].mint)
+    for (let i = 0; i < selectedVaultNFTs.length; i += MAX_WITHDRAW_IX_PER_BATCH) {
+      const withdrawTx = new Transaction();
+      const batch = selectedVaultNFTs.slice(i, i + MAX_WITHDRAW_IX_PER_BATCH);
+      const instructions = await Promise.all(
+        batch.map(
+          async nft =>
+            await gb.withdrawGemWalletIx(
+              new PublicKey(bankAddress),
+              new PublicKey(farmerAcc.vault),
+              new BN(1),
+              new PublicKey(nft.mint)
+            )
         )
       );
+      instructions.forEach(i => withdrawTx.add(i))
       txs.push(withdrawTx);
     }
     await gf.provider.sendAll!(
