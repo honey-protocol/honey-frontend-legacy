@@ -12,7 +12,7 @@ import * as styles from '../../styles/loan.css';
 import LoanHeaderComponent from 'components/LoanHeaderComponent/LoanHeaderComponent';
 import CreateMarket from 'pages/createmarket';
 import  { ConfigureSDK } from '../../helpers/loanHelpers';
-import { useMarket } from '@honey-finance/sdk';
+import { useMarket } from '../../helpers/honey-sdk';
 import { PublicKey } from '@solana/web3.js';
 
 // TODO: should be fetched by SDK
@@ -33,7 +33,7 @@ const Loan: NextPage = () => {
 
   const sdkConfig = ConfigureSDK();
   /**
-     * @description calls upon the honey sdk - market 
+     * @description calls upon the honey sdk - market
      * @params solanas useConnection func. && useConnectedWallet func. && JET ID
      * @returns honeyUser which is the main object - honeyMarket, honeyReserves are for testing purposes
     */
@@ -48,6 +48,7 @@ const Loan: NextPage = () => {
      * @returns **dont call - actually creates a market
     */
   function createMarket() {
+    console.log('creating market');
     if (honeyClient && wallet?.publicKey) {
       honeyClient.createMarket({
         owner: wallet.publicKey,
@@ -61,24 +62,24 @@ const Loan: NextPage = () => {
   }
 
   /**
-   * @description logic for rendering borrow or lend page 
+   * @description logic for rendering borrow or lend page
    * @params 0 | 1
    * @returns state for rendering correct modal
   */
   const [borrowOrLend, setBorrowOrLend] = useState(0);
   const loadBorrowPage = wallet && borrowOrLend === 0;
   const loadLendPage = wallet && borrowOrLend === 1;
-  
+
   /**
    * @description logic for rendering out create market page
    * @params 0 | 1
    * @returns create market modal or Pool modal in return of Loan component
   */
   const [renderCreateMarket, setRenderCreateMarket] = useState(0);
-  
+
   useEffect(() => {
   }, [renderCreateMarket]);
-  
+
   function handleCreateMarket() {
     setRenderCreateMarket(1);
   }
@@ -121,7 +122,7 @@ const Loan: NextPage = () => {
           >
             <Stack>
         {
-          renderCreateMarket == 1 
+          renderCreateMarket == 1
           ?
             <CreateMarket
               setRenderCreateMarket={setRenderCreateMarket}

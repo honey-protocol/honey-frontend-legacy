@@ -5,7 +5,7 @@ import {
   deposit,
   withdraw,
   useMarket
-} from '@honey-finance/sdk';
+} from '../../../helpers/honey-sdk';
 import { ConfigureSDK } from 'helpers/loanHelpers';
 import { LAMPORTS_PER_SOL, PublicKey } from '@solana/web3.js';
 import Layout from '../../../components/Layout/Layout';
@@ -76,7 +76,7 @@ const Borrow: NextPage = () => {
 const sdkConfig = ConfigureSDK();
 
   /**
-     * @description calls upon the honey sdk - market 
+     * @description calls upon the honey sdk - market
      * @params solanas useConnection func. && useConnectedWallet func. && JET ID
      * @returns honeyUser which is the main object - honeyMarket, honeyReserves are for testing purposes
     */

@@ -9,7 +9,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { accentSequence, ThemeAccent } from 'helpers/theme-utils';
 import { PartialNetworkConfigMap } from '@saberhq/use-solana/src/utils/useConnectionInternal';
 import SecPopup from 'components/SecPopup';
-import { AnchorProvider, HoneyProvider } from '@honey-finance/sdk';
+import { AnchorProvider, HoneyProvider } from 'helpers/honey-sdk';
 import { useConnectedWallet, useConnection } from '@saberhq/use-solana';
 import React, { FC, ReactNode, useEffect, useState } from "react";
 
@@ -35,17 +35,17 @@ const OnChainProvider: FC<{ children: ReactNode }> = ({ children }) => {
   const network = 'devnet';
 
   return (
-    <AnchorProvider 
-    wallet={wallet} 
-    connection={connection} 
-    network={network} 
+    <AnchorProvider
+    wallet={wallet}
+    connection={connection}
+    network={network}
     honeyProgram={"6ujVJiHnyqaTBHzwwfySzTDX5EPFgmXqnibuMp3Hun1w"}>
-      <HoneyProvider 
-        wallet={wallet} 
+      <HoneyProvider
+        wallet={wallet}
         connection={connection}
-        honeyProgramId={"6ujVJiHnyqaTBHzwwfySzTDX5EPFgmXqnibuMp3Hun1w"} 
+        honeyProgramId={"6ujVJiHnyqaTBHzwwfySzTDX5EPFgmXqnibuMp3Hun1w"}
         honeyMarketId={"47RbcdWKUJJKNwtX7JAtt8KarzA1APztHaDo8Dd4cZAt"}
-      > 
+      >
         {/* HB82woFm5MrTx3X4gsRpVcUxtWJJyDBeT5xNGCUUrLLe */}
         {/* 47RbcdWKUJJKNwtX7JAtt8KarzA1APztHaDo8Dd4cZAt */}
         {children}

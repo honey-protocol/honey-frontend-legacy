@@ -40,7 +40,7 @@ const CreateMarket = (props: CreateMarketProps) => {
     nftOracleProduct: oracleProduct
   };
   /**
-   * @description sets the customMarketObject for Cofre - for now fixed on wSOL with hardcoded price / product. 
+   * @description sets the customMarketObject for Cofre - for now fixed on wSOL with hardcoded price / product.
    * @params wSOL from select/option
    * @returns sets object
   */
