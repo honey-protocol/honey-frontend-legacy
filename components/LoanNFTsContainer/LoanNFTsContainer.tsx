@@ -18,6 +18,7 @@ interface LoanNFTsContainerProps {
   handleBorrow: (key: number) => void;
   executeWithdrawNFT: (nft: any) => void;
   executeDepositNFT: (nft: any) => void;
+  nftArrayType: any;
 }
 
 const LoanNFTsContainer = (props: LoanNFTsContainerProps) => {
@@ -26,12 +27,25 @@ const LoanNFTsContainer = (props: LoanNFTsContainerProps) => {
     buttons,
     selectedId,
     onSelectNFT,
-    openPositions,
     availableNFTs,
     handleBorrow,
     executeWithdrawNFT,
     executeDepositNFT,
+    openPositions,
+    nftArrayType
   } = props;
+
+  const placeholderNFTObject = {
+    selected: '',
+    key: '',
+    NFT: '',
+    onSelectNFT: '',
+    available: false,
+    executeDepositNFT: () => {},
+    handleActiveState: () => {},
+    activeNFT: ''
+  }
+
   /**
    * @description based off renderNFTs either open positions (0) gets rendered or available nfts (1)
    * @params 0 or 1
@@ -104,29 +118,33 @@ const LoanNFTsContainer = (props: LoanNFTsContainerProps) => {
               </Box>
             </Stack>
               <Box className={styles.nftContainer}>
-                {openPositions && openPositions.length > 0 && renderNFTs == 0 ? openPositions.map((nft: any, i: any) => (
-                  <LoanNFTCard
-                    selected={selectedId}
-                    key={nft.key}
-                    NFT={nft}
-                    onSelectNFT={onSelectNFT}
-                    available={false}
-                    executeWithdrawNFT={executeWithdrawNFT}
-                    handleActiveState={handleActiveState}
-                    activeNFT={highlightNFTOpen}
-                  />
-                )) : availableNFTs && availableNFTs.map((nft, i) => (
-                  <LoanNFTCard
-                    selected={selectedId}
-                    key={nft.key}
-                    NFT={nft}
-                    onSelectNFT={onSelectNFT}
-                    available={true}
-                    executeDepositNFT={executeDepositNFT}
-                    handleActiveState={handleActiveState}
-                    activeNFT={highlightNFTAvailable}
-                  />
-                ))}
+                {
+                  openPositions && openPositions.length > 0 && renderNFTs == 0 ? openPositions.map((nft: any, i: any) => (
+                    <LoanNFTCard
+                      selected={selectedId}
+                      key={nft.key}
+                      NFT={nft}
+                      onSelectNFT={onSelectNFT}
+                      available={false}
+                      executeWithdrawNFT={executeWithdrawNFT}
+                      handleActiveState={handleActiveState}
+                      activeNFT={highlightNFTOpen}
+                      nftArrayType={nftArrayType}
+                    />
+                  )) : availableNFTs && availableNFTs.map((nft, i) => (
+                    <LoanNFTCard
+                      selected={selectedId}
+                      key={nft.key}
+                      NFT={nft}
+                      onSelectNFT={onSelectNFT}
+                      available={true}
+                      executeDepositNFT={executeDepositNFT}
+                      handleActiveState={handleActiveState}
+                      activeNFT={highlightNFTAvailable}
+                      nftArrayType={nftArrayType}
+                    />
+                  ))
+                }
               </Box>
           </Stack>
         </Box>

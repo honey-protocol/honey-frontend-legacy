@@ -16,11 +16,12 @@ interface LoanNFTCardProps {
   executeDepositNFT?: (nft: any) => void;
   handleActiveState: (nft: any, type: string) => void;
   activeNFT: any;
+  nftArrayType: any;
 }
 
 const LoanNFTCard = (props: LoanNFTCardProps) => {
   let {
-    onSelectNFT, available, handleActiveState, activeNFT, NFT
+    onSelectNFT, available, handleActiveState, activeNFT, NFT, nftArrayType
   } = props;
 
   const [activeCard, setActiveCard] = useState(false);
@@ -32,8 +33,7 @@ const LoanNFTCard = (props: LoanNFTCardProps) => {
   function setActiveNFTState(name: string , type: string) {
     handleActiveState(name, type);
     onSelectNFT(NFT, available);
-    
-    activeCard ==  false ? setActiveCard(false) : setActiveCard(true);
+    activeCard ==  true ? setActiveCard(true) : setActiveCard(false);
   }
 
   useEffect(() => {

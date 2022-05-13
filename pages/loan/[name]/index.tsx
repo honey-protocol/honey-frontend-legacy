@@ -39,8 +39,8 @@ const marketNFTs = [
   {
     name: 'COFRE #573',
     image:'https://www.arweave.net/sHPeuSwbrN3SNBwcn8OZjV_VYVp3TlONXduzyqpoXb8?ext=png',
-    borrowApy: '4.2%',
-    estValue: '$25,800',
+    borrowApy: '4%',
+    estValue: '$1000',
     assetsBorrowed: 0,
     netBorrowBalance: 0,
     key: 1
@@ -90,6 +90,9 @@ const Loan: NextPage = () => {
   const { honeyClient, honeyUser, honeyReserves } = useMarket(sdkConfig.saberHqConnection, sdkConfig.sdkWallet!, sdkConfig.honeyId, sdkConfig.marketId);
   
   useEffect(() => {
+    if (honeyReserves) {
+      console.log('these are honeyreserves', honeyReserves);
+    }
   }, [honeyUser, honeyReserves, honeyClient]);  
   /**
    * @description calls upon markets which 
@@ -99,9 +102,9 @@ const Loan: NextPage = () => {
   const { market, marketReserveInfo, parsedReserves }  = useHoney();
 
   useEffect(() => {
-    console.log('market', market);
-    // console.log('marketreserve', marketReserveInfo);
-    // console.log('parsedreserves', parsedReserves );
+    console.log('marketreserve', marketReserveInfo);
+    console.log('parsedreserves', parsedReserves );
+    console.log('market', market)
   }, [market, marketReserveInfo, parsedReserves]);
 
   /**
@@ -112,9 +115,7 @@ const Loan: NextPage = () => {
   let { loading, collateralNFTPositions, loanPositions, fungibleCollateralPosition, error } = useBorrowPositions(sdkConfig.saberHqConnection, sdkConfig.sdkWallet!, sdkConfig.honeyId, sdkConfig.marketId)
        
   useEffect(() => {
-    // console.log('this is loan positions', loanPositions);
-    // console.log('this is fungibleCollateralPosition', fungibleCollateralPosition);
-    // console.log('loan collateralNFTpositions', collateralNFTPositions);
+    console.log('this is loan positions', loanPositions);
   }, [collateralNFTPositions, loanPositions, fungibleCollateralPosition]);
      
   /**
@@ -142,6 +143,7 @@ const Loan: NextPage = () => {
   const [nftArrayType, setNftArrayType] = useState(false);
   // state handler based off nft key
   function selectNFT(key: any, type: boolean) {
+    console.log('this is the selected NFT', key, nftArrayType)
     setSelectedId(key.name);
     setNftArrayType(type);
     updateWithdrawDepositNFT(key.mint)
@@ -255,6 +257,7 @@ const Loan: NextPage = () => {
           ]}
           openPositions={collateralNFTPositions}
           onSelectNFT={selectNFT}
+          nftArrayType={nftArrayType}
           availableNFTs={availableNFTs[0]}
           executeWithdrawNFT={executeWithdrawNFT}
           executeDepositNFT={executeDepositNFT}
