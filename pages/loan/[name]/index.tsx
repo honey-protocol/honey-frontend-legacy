@@ -27,6 +27,7 @@ import {
 } from '@honey-finance/sdk';
 import Nft from 'pages/farm/[name]';
 import { parse } from 'path';
+import BN from 'bn.js';
 
 /**
  * @description 
@@ -91,7 +92,6 @@ const Loan: NextPage = () => {
   
   useEffect(() => {
     if (honeyReserves) {
-      console.log('these are honeyreserves', honeyReserves);
     }
   }, [honeyUser, honeyReserves, honeyClient]);  
   /**
@@ -103,7 +103,12 @@ const Loan: NextPage = () => {
 
   useEffect(() => {
     console.log('marketreserve', marketReserveInfo);
-    console.log('parsedreserves', parsedReserves );
+    if (parsedReserves) {
+      console.log('@@@@@@@@@-', (new BN(parsedReserves[0].reserveState.outstandingDebt).div(new BN(10**9)).toNumber()));
+      console.log('@@@@ outstandingDebt @@@@', (parsedReserves[0].reserveState.outstandingDebt));
+      console.log('@@@@ totalDeposits @@@@', (parsedReserves[0].reserveState.totalDeposits));
+      console.log('@@@@ the sum @@@@', (parsedReserves[0].reserveState.totalDeposits - parsedReserves[0].reserveState.outstandingDebt));
+    }
     console.log('market', market)
   }, [market, marketReserveInfo, parsedReserves]);
 
@@ -280,6 +285,7 @@ const Loan: NextPage = () => {
                 executeRepay={executeRepay}
                 honeyUser={honeyUser}
                 openPositions={collateralNFTPositions}
+                parsedReserves={parsedReserves}
               />
             : 
               <LoanNewBorrow 

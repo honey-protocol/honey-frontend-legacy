@@ -81,7 +81,12 @@ const sdkConfig = ConfigureSDK();
      * @returns honeyUser which is the main object - honeyMarket, honeyReserves are for testing purposes
     */
   const { honeyClient, honeyUser, honeyReserves } = useMarket(sdkConfig.saberHqConnection, sdkConfig.sdkWallet!, sdkConfig.honeyId, sdkConfig.marketId);
+  console.log('honeyUser', honeyUser)
+  console.log('withdrawReserves', honeyReserves)
 
+  function filterReserves() {
+
+  }
   /**
    * @description deposits 1 sol
    * @params none

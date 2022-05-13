@@ -24,7 +24,7 @@ interface LoanRepayProps {
 const LoanRepay = (props: LoanRepayProps) => {
     const { NFT, executeWithdrawNFT, mint, executeRepay, loanPositions } = props;
 
-    const [currentLoanPosition, updateCurrentLoanPosition] = useState();
+    const [currentLoanPosition, updateCurrentLoanPosition] = useState(0);
     // loanpositions refers to the amount that has been borrowed as collateral
     // if loanpositions amount is zero - the repay button becomes claim NFT - line 212
     useEffect(() => {
@@ -114,7 +114,7 @@ const LoanRepay = (props: LoanRepayProps) => {
                 space="2"
                 >
                 <Text align="left"
-                color="textSecondary">Interest rate</Text>
+                color="textSecondary">Borrow APR</Text>
                 <Text
                     align="right"
                     color="foreground"
@@ -156,13 +156,13 @@ const LoanRepay = (props: LoanRepayProps) => {
                             align="left"
                             color="foreground"
                             >
-                            Lamports
+                            SOL
                         </Text>
                         <Text
                             align="right"
                             color="foreground"
                         >
-                            {currentLoanPosition}
+                            {parseFloat((currentLoanPosition / 893004).toFixed(2))}
                         </Text>
                     </Stack>
                 </Stack>
@@ -204,9 +204,9 @@ const LoanRepay = (props: LoanRepayProps) => {
                             color="foreground"
                         >
                         	{
-                            loanPositions[0]?.amount 
+                            loanPositions
 														?  
-                            (loanPositions[0]?.amount * 0.000000001) 
+														 `${parseFloat((currentLoanPosition / 893004).toFixed(2))} SOL`
 														:
 														0
 													}
