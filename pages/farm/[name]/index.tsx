@@ -11,8 +11,10 @@ import { useState } from 'react';
 const Nft: NextPage = () => {
   const {
     onWalletNFTSelect,
+    onWalletNFTSelectAll,
     onWalletNFTUnselect,
     onStakedNFTSelect,
+    onStakedNFTSelectAll,
     onStakedNFTUnselect,
     initializeFarmerAcc,
     handleStakeButtonClick,
@@ -76,6 +78,15 @@ const Nft: NextPage = () => {
           title="Select your NFTs"
           buttons={[
             {
+              title: `Select All`,
+              disabled: !farmerAcc
+                ? false
+                : Object.values(walletNFTsInFarm).length > 0
+                ? false
+                : true,
+              onClick: () => onWalletNFTSelectAll()
+            },
+            {
               title: !farmerAcc
                 ? 'Initialize'
                 : `Stake ( ${selectedWalletNFTs.length} )`,
@@ -100,6 +111,11 @@ const Nft: NextPage = () => {
           isFetching={isFetching}
           title="Your vault"
           buttons={[
+            {
+              title: `Select All`,
+              disabled: Object.values(stakedNFTsInFarm).length < 1,
+              onClick: () => onStakedNFTSelectAll()
+            },
             {
               title: `Unstake (${selectedVaultNFTs.length})`,
               disabled: !selectedVaultNFTs.length,
