@@ -5,7 +5,6 @@ import * as styles from './Slider.css';
  * @params None
  * @description Range slider regarding borrow and repay feature
  * @returns Returns the slider
- * @todo Still need to implement logic / actual data && ball is not moving atm
  **/
 const Slider = () => {
   const [slideCount, setSlideCount] = useState(0)

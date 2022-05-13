@@ -18,10 +18,11 @@ interface LoanBorrowProps {
     executeBorrow: () => void;
     openPositions?:[];
     loanPositions: any;
+    parsedReserves: any;
 }
 
 const LoanBorrow = (props: LoanBorrowProps) => {
-    const { NFT, executeBorrow, openPositions, loanPositions } = props;
+    const { NFT, executeBorrow, openPositions, loanPositions, parsedReserves } = props;
     const [noPositions, setNoPositions] = useState('');
     const [currentLoanPosition, updateCurrentLoanPosition] = useState(0);
 
@@ -31,11 +32,19 @@ const LoanBorrow = (props: LoanBorrowProps) => {
         }
     }, [loanPositions]);
 
+    useEffect(() => {
+        console.log('running', noPositions)
+    }, [noPositions])
+
     function handleExecuteBorrow() {
         if (!openPositions) {
-            setNoPositions('Please select an NFT to borrow against')
+            setNoPositions('Please select an NFT to borrow against');
         } else if (openPositions && openPositions.length > 0) {
-            executeBorrow();
+            if (parseFloat((currentLoanPosition / 893004).toFixed(2)) < 1) {
+                setNoPositions('There is not enough liquidity in the Pool');
+            } else {
+                executeBorrow();
+            }
         }
         return;
     }
@@ -93,13 +102,13 @@ const LoanBorrow = (props: LoanBorrowProps) => {
                         <Text
                             align="left"
                             color="textSecondary">
-                            Borrow APY
+                            Borrow APR
                         </Text>
                         <Text
                             align="right"
                             color="foreground"
                         >
-                            0%
+                            4.2%
                         </Text>
                     </Stack>
                     <Stack
@@ -156,14 +165,14 @@ const LoanBorrow = (props: LoanBorrowProps) => {
                                 align="left"
                                 color="foreground"
                             >
-                            Lamports
+                            SOL
                             </Text>
                         </Stack>
                     <Text
                         align="right"
                         color="foreground"
                     >
-                        {currentLoanPosition}
+                        {parseFloat((currentLoanPosition / 893004).toFixed(2))}
                     </Text>
                     </Stack>
                 </Stack>
@@ -198,7 +207,7 @@ const LoanBorrow = (props: LoanBorrowProps) => {
             </Box>
             {noPositions && 
                 <Box className={styles.noPositions}>
-                    Please select an NFT to borrow against
+                    {noPositions}
                 </Box>
             }
             <Button width="full" onClick={handleExecuteBorrow}>Borrow</Button>

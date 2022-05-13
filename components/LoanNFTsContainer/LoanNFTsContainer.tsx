@@ -70,6 +70,8 @@ const LoanNFTsContainer = (props: LoanNFTsContainerProps) => {
     }
   }
 
+  console.log('this is open positions', openPositions)
+
   useEffect(() => {
   }, [highlightNFTOpen, highlightNFTAvailable]);
 
@@ -108,7 +110,7 @@ const LoanNFTsContainer = (props: LoanNFTsContainerProps) => {
                     <Button
                       key={button.title}
                       size="small"
-                      disabled={false}
+                      disabled={button.title == 'Open positions' && openPositions?.length < 1 ? true : false}
                       onClick={() => handleNFTModal(button.title)}
                       variant={i === activeIndex ? 'primary' : 'secondary'}
                     >
