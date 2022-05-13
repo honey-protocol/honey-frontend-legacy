@@ -101,6 +101,8 @@ const Loan: NextPage = () => {
   */
   const { market, marketReserveInfo, parsedReserves }  = useHoney();
 
+  console.log('this is market@@@@', market)
+
   useEffect(() => {
     console.log('marketreserve', marketReserveInfo);
     if (parsedReserves) {
