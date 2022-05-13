@@ -4,13 +4,7 @@ import Link from 'next/link';
 import React from 'react';
 import * as styles from './LoanHeaderComponent.css';
 
-interface LoanHeaderComponentProps {
-  handleCreateMarket: () => void;
-}
-
-const LoanHeaderComponent = (props: LoanHeaderComponentProps) => {
-  const { handleCreateMarket } = props;
-
+const LoanHeaderComponent = () => {
   return (
     <Box className={styles.headerWrapper}>
       <Box>
@@ -39,12 +33,14 @@ const LoanHeaderComponent = (props: LoanHeaderComponentProps) => {
           0
         </Text>
       </Box>
-      <Button size="small" onClick={handleCreateMarket}>
-        Create market
-      </Button>
+      <Link href="/loan/createmarket" passHref>
+        <Button size="small">Create market</Button>
+      </Link>
 
       <Button size="small">
-        <a href="https://cofre.so/#/" target="_blank" rel="noreferrer">Mint Cofre NFT</a>
+        <a href="https://cofre.so/#/" target="_blank" rel="noreferrer">
+          Mint Cofre NFT
+        </a>
       </Button>
     </Box>
   );

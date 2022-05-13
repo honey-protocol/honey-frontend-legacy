@@ -7,7 +7,7 @@ export const chartArea = style({
   color: vars.colors.text,
   fontFamily: vars.fonts.sans,
   width: '96%', //100% will cause the chart to act up. An issue with recharts
-  height: 330,
+  height: 280,
   marginLeft: '2.5%'
 });
 
