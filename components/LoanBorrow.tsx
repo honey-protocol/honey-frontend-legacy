@@ -172,6 +172,7 @@ const LoanBorrow = (props: LoanBorrowProps) => {
                         align="right"
                         color="foreground"
                     >
+                        {/* temp lamport fix */}
                         {parseFloat((currentLoanPosition / 893004).toFixed(2))}
                     </Text>
                     </Stack>
