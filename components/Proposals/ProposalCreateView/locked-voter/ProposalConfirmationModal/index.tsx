@@ -69,7 +69,11 @@ export const ProposalConfirmModal: React.FC<Props> = ({
       {...modalProps}
     >
       <ModalInner
-        title={`Proposal: ${proposal.title}`}
+        title={
+          <Text variant="large" ellipsis>
+            Proposal: {proposal.title}
+          </Text>
+        }
         buttonProps={{
           disabled: !tribecaMut,
           variant: 'primary',
@@ -79,9 +83,11 @@ export const ProposalConfirmModal: React.FC<Props> = ({
       >
         <Box display="grid" paddingY="4" gap="4">
           <HelperCard>
-            <Box as="p" marginBottom="1">
-              Tip: The proposal cannot be modified after submission, so please
-              verify all information before submitting.
+            <Box marginBottom="1">
+              <Text as="p">
+                Tip: The proposal cannot be modified after submission, so please
+                verify all information before submitting.
+              </Text>
             </Box>
             <Text as="p">
               Once submitted, anyone with at least{' '}
@@ -90,11 +96,11 @@ export const ProposalConfirmModal: React.FC<Props> = ({
               immediately begin and last for {votingPeriodFmt}.
             </Text>
           </HelperCard>
-          <Text>
-            <div>
+          <Box>
+            <Text>
               <ReactMarkdown>{proposal.description}</ReactMarkdown>
-            </div>
-          </Text>
+            </Text>
+          </Box>
           <Box display="flex" flexDirection="column" gap="1.5">
             {proposal.instructions.map((ix, i) => (
               <ProposalIX key={i} ix={ix} />
@@ -113,8 +119,16 @@ export const ProposalConfirmModal: React.FC<Props> = ({
               target="_blank"
               rel="noreferrer"
             >
-              <span>Preview on Anchor.so</span>
-              <IconLink />
+              <Box
+                display="flex"
+                alignItems="center"
+                gap="2"
+                color={{ base: 'green', hover: 'white' }}
+                fontSize="small"
+              >
+                <span>Preview on Anchor.so</span>
+                <IconLink size="5" />
+              </Box>
             </a>
           )}
         </Box>

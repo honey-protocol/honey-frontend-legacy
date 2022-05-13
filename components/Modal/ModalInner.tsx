@@ -2,7 +2,7 @@ import { Box, Button, IconClose } from 'degen';
 import { useModal } from './context';
 
 interface Props {
-  title: string;
+  title: React.ReactNode;
   children?: React.ReactNode;
   buttonProps?: React.ComponentProps<typeof Button>;
   className?: string;
@@ -19,25 +19,17 @@ export const ModalInner: React.FC<Props> = ({
     <>
       <Box
         position="relative"
-        fontWeight="bold"
         textAlign="center"
-        paddingY="4"
-        // tw="relative border-b dark:border-b-warmGray-800 dark:text-white font-bold text-base text-center py-4"
+        paddingY="5"
+        borderBottomWidth="px"
+        borderColor="groupBackground"
       >
-        <Box
-          paddingX="8"
-          overflow="hidden"
-          whiteSpace="nowrap"
-          // tw="px-8 overflow-ellipsis overflow-hidden whitespace-nowrap"
-        >
+        <Box paddingX="8" overflow="hidden" whiteSpace="nowrap">
           {title}
         </Box>
-        <Box position="absolute" display="flex" right="4" top="0">
-          <Button
-            onClick={() => close()}
-            // tw="absolute right-4 h-full flex items-center top-0 text-warmGray-600 hover:text-warmGray-200 transition-colors"
-          >
-            <IconClose />
+        <Box position="absolute" display="flex" right="4" top="2">
+          <Button variant="transparent" onClick={close}>
+            <IconClose color="accent" />
           </Button>
         </Box>
       </Box>
