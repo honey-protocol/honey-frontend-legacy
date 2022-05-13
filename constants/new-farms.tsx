@@ -166,4 +166,19 @@ export const newFarmCollections: TGFarm[] = [
     farmAddress: "EiqwoUUgDxpUK481wadNaQVR6Rr1W6365rshRPwr5tiW",
     bankAddress: "GWmC7H7xBL93eWgiiVcCZU5eBprzKzTCyfbG7f3st56f",
   },
+  {
+    id: "KZKL", // manager Kozym71mL4rhfzUn9N7cTvrmuurqV45UEfBGYem41UK
+    imageUrl: "https://dl.airtable.com/.attachments/4449a2f4ad8db444325ef09ae8335dcb/a963280e/500.jpg",
+    name: "Kozy Koalas",
+    totalStaked: "???",
+    totalNumber:3333, 
+    allocation: "-",
+    totalStakedByUser: "-",
+    eventStartDate: "2022-03-04T14:50Z",
+    eventDuration: "∞",
+    updateAuthority: "J2zmST5Gkgpm4H6AWj6DCnA8ubiBRs6yftCe3MkVXem5",
+    rewardTokenName: "KOZY",
+    farmAddress: "6ktAbBBPHVyfMMpxhBoDraKMsjbXiJeWshGKXP76VJZQ",
+    bankAddress: "7zeVRxx3jJWRmbxgy8Ap86Wwbw6JvdjBqFXaojoJXo5y",
+  },
 ];
