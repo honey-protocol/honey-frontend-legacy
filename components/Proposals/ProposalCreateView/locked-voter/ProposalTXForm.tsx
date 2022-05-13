@@ -80,7 +80,9 @@ export const ProposalTXForm: React.FC<Props> = ({
       {currentAction && (
         <>
           {currentAction.description && (
-            <HelperCard>{currentAction.description}</HelperCard>
+            <HelperCard>
+              <Text>{currentAction.description}</Text>
+            </HelperCard>
           )}
           <currentAction.Renderer
             actor={actor}

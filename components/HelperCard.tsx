@@ -24,6 +24,14 @@ export const HelperCard: React.FC<Props> = ({
       paddingY="2"
       borderWidth="1"
       fontSize="small"
+      // backgroundColor="accent"
+      borderRadius="medium"
+      borderColor="green"
+      borderTopWidth="px"
+      borderLeftWidth="px"
+      borderRightWidth="px"
+      borderBottomWidth="px"
+      opacity="50"
       className={className}
     >
       {children}

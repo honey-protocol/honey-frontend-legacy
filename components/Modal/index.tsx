@@ -1,5 +1,3 @@
-import '@reach/dialog/styles.css';
-
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { DialogContent, DialogOverlay } from '@reach/dialog';
@@ -7,8 +5,9 @@ import { animated, useSpring, useTransition } from '@react-spring/web';
 import React from 'react';
 import { isMobile } from 'react-device-detect';
 import { useGesture } from 'react-use-gesture';
-
 import { ModalProvider } from './context';
+
+import '@reach/dialog/styles.css';
 
 export interface ModalProps {
   children: React.ReactNode;
@@ -84,7 +83,10 @@ export const Modal: React.FC<ModalProps> = ({
   );
 };
 
-const ModalWrapper = styled(animated(DialogContent))``;
+const ModalWrapper = styled(animated(DialogContent))`
+  background: rgb(24, 24, 24);
+  border-radius: 0.5rem;
+`;
 
 // const ModalWrapper = styled(animated(DialogContent))`
 //   ${tw`shadow-2xl w-full max-w-lg p-6 rounded-lg relative`}

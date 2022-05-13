@@ -1,5 +1,5 @@
 import type { TransactionInstruction } from '@solana/web3.js';
-import { Box } from 'degen';
+import { Box, Text } from 'degen';
 
 import { useParsedInstruction } from 'hooks/useParsedInstruction';
 
@@ -16,8 +16,11 @@ export const ProposalIX: React.FC<Props> = ({ ix }: Props) => {
       paddingY="2"
       fontSize="small"
       fontWeight="semiBold"
+      width="fit"
     >
-      {parsedIX.title}
+      <Text as="span" color="orange">
+        {parsedIX.title}
+      </Text>
     </Box>
   );
 };
