@@ -59,6 +59,7 @@ const Loan: NextPage = () => {
       });
     }
   }
+  // createMarket();
 
   /**
    * @description logic for rendering borrow or lend page 
@@ -82,8 +83,6 @@ const Loan: NextPage = () => {
   function handleCreateMarket() {
     setRenderCreateMarket(1);
   }
-
-  console.log('this is wallet', wallet?.publicKey)
 
   return (
     <Layout>

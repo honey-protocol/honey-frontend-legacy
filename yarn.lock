@@ -400,11 +400,12 @@
     tslib "^2.3.1"
     unstated-next "^1.1.0"
 
-"@honey-finance/sdk@^1.0.50":
-  version "1.0.50"
-  resolved "https://registry.yarnpkg.com/@honey-finance/sdk/-/sdk-1.0.50.tgz#d436e86e78b841001787a86962f1720252eda053"
-  integrity sha512-fMFnwdCmOpPxa/q3/vIQapJgHiSjiVkDgjEQA+7iNxcVu8la+6KWJbXb7VSZXd6p0XUEZcJL7fIB16EWHNcL7g==
+"@honey-finance/sdk@^1.0.59", "@honey-finance/sdk@^1.0.62":
+  version "1.0.62"
+  resolved "https://registry.yarnpkg.com/@honey-finance/sdk/-/sdk-1.0.62.tgz#ca92b1a6cf0ca384273419cce71d41db2955f779"
+  integrity sha512-J02vLpZCa80o+rtpdYlqNyqSJp+JCPAN6TKpyv9haulaobcPTL55dWYPZfiMir/RgH7xCJAgvsdtZs60D6FKWQ==
   dependencies:
+    "@honey-finance/sdk" "^1.0.59"
     "@metaplex-foundation/mpl-token-metadata" "^1.2.0"
     "@project-serum/anchor" "^0.20.1"
     "@project-serum/serum" "^0.13.61"

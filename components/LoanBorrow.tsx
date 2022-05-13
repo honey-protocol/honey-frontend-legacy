@@ -32,10 +32,11 @@ const LoanBorrow = (props: LoanBorrowProps) => {
     }, [loanPositions]);
 
     function handleExecuteBorrow() {
-        if (openPositions && openPositions.length > 0) {
+        if (!openPositions) {
+            setNoPositions('Please select an NFT to borrow against')
+        } else if (openPositions && openPositions.length > 0) {
             executeBorrow();
-        } 
-        setNoPositions('Please select an NFT to borrow against')
+        }
         return;
     }
 

@@ -33,6 +33,8 @@ const LoanRepay = (props: LoanRepayProps) => {
         }
     }, [loanPositions]);
 
+    console.log('loan positions', loanPositions)
+
     return (
         <Box gap="3">
             {/* Vault data row */}
@@ -201,7 +203,13 @@ const LoanRepay = (props: LoanRepayProps) => {
                             align="right"
                             color="foreground"
                         >
-                            $0
+                        	{
+                            loanPositions[0]?.amount 
+														?  
+                            (loanPositions[0]?.amount * 0.000000001) 
+														:
+														0
+													}
                         </Text>
                     </Stack>
                 </Stack>
@@ -209,7 +217,7 @@ const LoanRepay = (props: LoanRepayProps) => {
             <Slider />
             {/* if no more outstanding amount - render claim nft, is there is, render repay;  */}
             {
-                loanPositions.length > 0 && loanPositions[0]?.amount != 0 
+                loanPositions?.length > 0 && loanPositions[0]?.amount != 0 
                 ?
                 (
                     <Button width="full" onClick={executeRepay}>Repay</Button>
