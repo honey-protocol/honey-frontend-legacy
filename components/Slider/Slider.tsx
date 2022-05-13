@@ -35,8 +35,6 @@ const Slider = () => {
           <Avatar label="TetranodeNFT" size="10" shape="square" src={'https://assets.coingecko.com/coins/images/4128/small/solana.png?1640133422'} />
           <select name="currencySelector" id="currencySelector" className={styles.currencySelector}>
             <option value="SOL">SOL</option>
-            {/* <option value="SOL">SOL</option>
-            <option value="ETH">ETH</option> */}
           </select>
         </Box>
       </Box>
