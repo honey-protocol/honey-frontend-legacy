@@ -55,7 +55,6 @@ const OnChainProvider: FC<{ children: ReactNode }> = ({ children }) => {
   )
 }
 
-
 function MyApp({ Component, pageProps }: AppProps) {
   const [showPopup, setShowPopup] = useState(true);
   const [shouldRender, setShouldRender] = useState(false);
