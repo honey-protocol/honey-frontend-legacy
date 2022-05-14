@@ -48,7 +48,7 @@ export const useEscrow = (owner?: PublicKey) => {
       const escrowW = new VoteEscrow(
         tribecaMut,
         lockerKey,
-        governor,
+        governor!,
         escrow.publicKey,
         owner
       );
