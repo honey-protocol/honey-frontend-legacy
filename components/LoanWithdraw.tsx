@@ -87,10 +87,10 @@ const LoanWithdraw = (props: LoanWithdrawProps) => {
             space="2"
           >
             <Text align="left" color="foreground">
-              Lamports
+              SOL
             </Text>
             <Text align="right" color="foreground">
-              $0
+              0
             </Text>
           </Stack>
         </Stack>
