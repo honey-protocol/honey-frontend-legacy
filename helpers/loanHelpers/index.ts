@@ -13,5 +13,3 @@ export function ConfigureSDK() {
         marketId: '3dGcrf6GcvocfkgwS2i7YpJeWvVZdiMELc69UFVGZ4TR'
     }
 }
-
-

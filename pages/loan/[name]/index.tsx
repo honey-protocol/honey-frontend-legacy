@@ -91,8 +91,6 @@ const Loan: NextPage = () => {
   const { honeyClient, honeyUser, honeyReserves } = useMarket(sdkConfig.saberHqConnection, sdkConfig.sdkWallet!, sdkConfig.honeyId, sdkConfig.marketId);
   
   useEffect(() => {
-    if (honeyReserves) {
-    }
   }, [honeyUser, honeyReserves, honeyClient]);  
   /**
    * @description calls upon markets which 
