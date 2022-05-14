@@ -18,6 +18,9 @@ import * as anchor from '@project-serum/anchor';
 import type { Network } from '@saberhq/solana-contrib';
 import type { Cluster, TransactionInstruction } from '@solana/web3.js';
 import { TokenInfo } from '@saberhq/token-utils';
+import { VoteSide } from '@tribecahq/tribeca-sdk';
+import { SmartWalletTransactionData } from '@gokiprotocol/client';
+import BN from 'bn.js';
 
 export const convertArrayToObject = (array: any[], key: string) => {
   const initialValue = {};
@@ -356,6 +359,17 @@ export function shortenAddress(address: string, chars = 5): string {
   )}`;
 }
 
+/**
+ * Converts a Solana timestamp to a Date.
+ *
+ * @param num
+ * @returns
+ */
+export const tsToDate = (num: BN): Date => new Date(num.toNumber() * 1_000);
+
+export const gokiTXLink = (tx: SmartWalletTransactionData) =>
+  `https://goki.so/#/wallets/${tx.smartWallet.toString()}/tx/${tx.index.toString()}`;
+
 export function addressLabel(
   address: string,
   tokenRegistry?: Map<string, TokenInfo>
@@ -371,3 +385,12 @@ export function addressLabel(
 export function displayAddress(address: string, shorten = true): string {
   return addressLabel(address) ?? (shorten ? shortenAddress(address) : address);
 }
+
+export const sideColor = (side: VoteSide) =>
+  side === VoteSide.For
+    ? `colors.primary`
+    : side === VoteSide.Against
+    ? `colors.red.500`
+    : side === VoteSide.Abstain
+    ? `colors.yellow.500`
+    : `colors.transparent`;

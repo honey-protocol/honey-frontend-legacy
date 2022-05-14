@@ -4,7 +4,7 @@ import { ProposalsList } from 'components/Proposals/ProposalsList';
 import Layout from 'components/Layout/Layout';
 
 const Proposals: NextPage = () => {
-  const [showDrafts, setShowDrafts] = useState(false);
+  const [showDrafts, setShowDrafts] = useState(true);
 
   return (
     <Layout>

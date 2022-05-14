@@ -2,7 +2,7 @@ import { extractErrorMessage } from '@saberhq/sail';
 import { Transaction } from '@solana/web3.js';
 import { Box, Text, Textarea } from 'degen';
 
-import { HelperCard } from 'components/HelperCard';
+import { HelperCard } from 'components/common/HelperCard';
 import type { ActionFormProps } from './types';
 
 export const RawTX: React.FC<ActionFormProps> = ({
@@ -13,7 +13,7 @@ export const RawTX: React.FC<ActionFormProps> = ({
   return (
     <>
       <HelperCard variant="warn">
-        <Text size="headingTwo">
+        <Text as="p" size="base" color="yellow">
           Warning: this page is for advanced users only. Invalid transaction
           data may cause this page to freeze. Documentation will be coming soon.
         </Text>
@@ -22,10 +22,10 @@ export const RawTX: React.FC<ActionFormProps> = ({
         <Box
         // tw="prose prose-sm prose-light"
         >
-          <p>
+          <Text as="p">
             This page allows proposing any arbitrary transaction for execution
             by the DAO. The fee payer and recent blockhash will not be used.
-          </p>
+          </Text>
         </Box>
       </HelperCard>
       <Textarea

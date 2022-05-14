@@ -17,7 +17,7 @@ import { useGovernor } from 'hooks/tribeca/useGovernor';
 // import { LabeledInput } from '../../../../../common/inputs/LabeledInput';
 import { ProposalConfirmModal } from './ProposalConfirmationModal';
 import { ProposalTXForm } from './ProposalTXForm';
-import { HelperCard } from 'components/HelperCard';
+import { HelperCard } from 'components/common/HelperCard';
 import { Box, Button, Card, Heading, Input, Textarea, Text } from 'degen';
 import { AsyncButton } from 'components/AsyncButton';
 

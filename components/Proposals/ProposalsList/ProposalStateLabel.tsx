@@ -1,5 +1,5 @@
 import { ProposalState } from '@tribecahq/tribeca-sdk';
-import { Text } from 'degen';
+import { Box, BoxProps, Text } from 'degen';
 import { startCase } from 'lodash';
 
 interface Props {
@@ -20,24 +20,35 @@ export const ProposalStateLabel: React.FC<Props> = ({
   state,
   executed
 }: Props) => {
+  let borderColor: BoxProps['color'] = 'inherit';
+  let textColor: BoxProps['color'] = 'inherit';
+  if (
+    state === ProposalState.Canceled ||
+    state === ProposalState.Defeated ||
+    state === ProposalState.Draft
+  ) {
+    borderColor = 'text';
+    textColor = 'text';
+  }
+  if (
+    executed ||
+    state === ProposalState.Succeeded ||
+    state === ProposalState.Queued
+  ) {
+    borderColor = 'green';
+    textColor = 'green';
+  }
   return (
-    <Text
-      size="small"
-      align="center"
-      // css={[
-      //   tw`text-xs border rounded py-0.5 w-16 flex items-center justify-center`,
-      //   (state === ProposalState.Canceled ||
-      //     state === ProposalState.Defeated ||
-      //     state === ProposalState.Draft) &&
-      //     tw`border-gray-500 text-gray-500`,
-      //   (executed ||
-      //     state === ProposalState.Succeeded ||
-      //     state === ProposalState.Queued) &&
-      //     tw`border-primary text-primary`,
-      //   state === ProposalState.Active && tw`border-accent text-accent`
-      // ]}
+    <Box
+      borderWidth="px"
+      borderRadius="medium"
+      paddingY="0.5"
+      width="16"
+      borderColor={borderColor}
     >
-      {startCase(executed ? 'executed' : STATE_LABELS[state])}
-    </Text>
+      <Text size="small" align="center" color={textColor}>
+        {startCase(executed ? 'executed' : STATE_LABELS[state])}
+      </Text>
+    </Box>
   );
 };

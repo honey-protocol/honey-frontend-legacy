@@ -4,7 +4,7 @@ import type { ActionType } from 'actions/types';
 import { ACTIONS } from 'actions/types';
 import { useExecutiveCouncil } from 'hooks/tribeca/useExecutiveCouncil';
 import { useGovernor } from 'hooks/tribeca/useGovernor';
-import { HelperCard } from 'components/HelperCard';
+import { HelperCard } from 'components/common/HelperCard';
 import { Box, Field, Spinner, Text } from 'degen';
 // import { Select } from '../../../../../common/inputs/InputText';
 // import { LoadingPage } from '../../../../../common/LoadingPage';

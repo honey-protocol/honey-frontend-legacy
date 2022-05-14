@@ -16,71 +16,79 @@ interface Props {
 }
 
 export const ProposalCard: React.FC<Props> = ({ proposalInfo }: Props) => {
-  const { path } = useGovernor();
+  // const { path } = useGovernor();
   const { state, executed } = proposalInfo.status;
   return (
     <Link
-      href={`${path}/proposals/${proposalInfo.index}`}
       passHref
+      href={`proposals/${proposalInfo.index}`}
       // tw="flex items-center justify-between py-5 px-6 border-l-2 border-l-transparent border-b border-b-warmGray-800 cursor-pointer hover:border-l-primary"
     >
       <Box
         display="flex"
         alignItems="center"
-        gap="5"
-        width={{ md: '192', xs: '3/4' }}
-        // tw="flex items-center gap-5 w-3/4 md:w-[500px]"
+        justifyContent="space-between"
+        paddingX="6"
+        paddingY="5"
+        // as={Link}
       >
-        {state === ProposalState.Active && <PulsingDot color="decendent" />}
-        <div>
-          <Box display="flex" alignItems="center">
-            <Text
-              color="white"
-              lineHeight="1.375"
-              // tw="text-white leading-snug break-words hyphens[auto]"
-            >
-              {proposalInfo.proposalMetaData?.title.slice(
-                0,
-                PROPOSAL_TITLE_MAX_LEN
-              )}
-            </Text>
-          </Box>
-          {proposalInfo.proposalData && state !== null && (
-            <Box
-              display="flex"
-              flexDirection={{ md: 'row', xs: 'column' }}
-              alignItems={{ md: 'center' }}
-              marginTop={{ md: '4', xs: '2' }}
-              gap="2"
-              // tw="flex flex-col mt-4 gap-2 md:(flex-row items-center mt-2)"
-            >
-              <ProposalStateLabel state={state} executed={executed} />
+        <Box
+          display="flex"
+          alignItems="center"
+          gap="5"
+          width={{ md: '192', xs: '3/4' }}
+          // tw="flex items-center gap-5 w-3/4 md:w-[500px]"
+        >
+          {state === ProposalState.Active && <PulsingDot color="decendent" />}
+          <div>
+            <Box display="flex" alignItems="center">
+              <Text
+                color="white"
+                lineHeight="1.375"
+                // tw="text-white leading-snug break-words hyphens[auto]"
+              >
+                {proposalInfo.proposalMetaData?.title.slice(
+                  0,
+                  PROPOSAL_TITLE_MAX_LEN
+                )}
+              </Text>
+            </Box>
+            {proposalInfo.proposalData && state !== null && (
               <Box
                 display="flex"
-                gap="1"
-                fontSize="small"
-                fontWeight="semiBold"
+                flexDirection={{ md: 'row', xs: 'column' }}
+                alignItems={{ md: 'center' }}
+                marginTop={{ md: '4', xs: '2' }}
+                gap="2"
               >
-                <span>{`000${proposalInfo.index}`.slice(-4)}</span>
-                <span>&middot;</span>
-                <ProposalStateDate proposalInfo={proposalInfo} />
+                <ProposalStateLabel state={state} executed={executed} />
+                <Box
+                  display="flex"
+                  gap="1"
+                  fontSize="small"
+                  fontWeight="semiBold"
+                >
+                  <Text as="span">{`000${proposalInfo.index}`.slice(-4)}</Text>
+                  <Text as="span">&middot;</Text>
+                  <ProposalStateDate proposalInfo={proposalInfo} />
+                </Box>
               </Box>
-            </Box>
-          )}
-        </div>
-      </Box>
-      {state === ProposalState.Active && (
-        <Box width="192">
-          <ActiveProposalVotingBars proposal={proposalInfo} />
+            )}
+          </div>
         </Box>
-      )}
-      {state !== null &&
-        state !== ProposalState.Draft &&
-        state !== ProposalState.Active && (
-          <Box width={{ sm: '16', md: '20', lg: '40' }}>
-            <ProposalStateBadge status={proposalInfo.status} />
+        {state === ProposalState.Active && (
+          <Box width="192">
+            <ActiveProposalVotingBars proposal={proposalInfo} />
           </Box>
         )}
+        {state !== null &&
+          state !== ProposalState.Draft &&
+          state !== ProposalState.Active && (
+            <Box width={{ sm: '16', md: '20', lg: '40' }}>
+              <ProposalStateBadge status={proposalInfo.status} />
+            </Box>
+          )}
+      </Box>
     </Link>
   );
 };

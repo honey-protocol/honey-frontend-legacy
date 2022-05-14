@@ -5,17 +5,17 @@ import type { TransactionInstruction } from '@solana/web3.js';
 import { GovernorWrapper } from '@tribecahq/tribeca-sdk';
 import ReactMarkdown from 'react-markdown';
 import invariant from 'tiny-invariant';
+import { useRouter } from 'next/router';
+import { Box, IconLink, Text } from 'degen';
 
 import { useSDK } from 'helpers/sdk';
 import { useGovernor, useGovernorParams } from 'hooks/tribeca/useGovernor';
 // import { notify } from '../../../../../../../utils/notifications';
-import { HelperCard } from 'components/HelperCard';
+import { HelperCard } from 'components/common/HelperCard';
 import type { ModalProps } from 'components/Modal';
 import { Modal } from 'components/Modal';
 import { ModalInner } from 'components/Modal/ModalInner';
 import { ProposalIX } from './ProposalIX';
-import { useRouter } from 'next/router';
-import { Box, IconLink, Text } from 'degen';
 
 type Props = Omit<ModalProps, 'children'> & {
   proposal: {

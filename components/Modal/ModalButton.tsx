@@ -1,7 +1,6 @@
-import { useState } from "react";
-
-import { Button } from "../Button";
-import { Modal } from ".";
+import { Button } from 'degen';
+import { useState } from 'react';
+import { Modal } from '.';
 
 type Props = {
   buttonLabel: string;
@@ -16,13 +15,13 @@ export const ModalButton: React.FC<Props> = ({
   buttonProps,
   children,
   className,
-  onDismiss,
+  onDismiss
 }: Props) => {
   const [showModal, setShowModal] = useState<boolean>(false);
   return (
     <>
       <Modal
-        tw="p-0"
+        // tw="p-0"
         isOpen={showModal}
         onDismiss={() => {
           onDismiss?.();
