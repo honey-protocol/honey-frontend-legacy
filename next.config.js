@@ -60,7 +60,7 @@ module.exports = (phase, {defaultConfig}) => {
         'mainnet-beta': {
           name: 'mainnet-beta',
           endpoint: mainNetEndpoint,
-          confirmTransactionInitialTimeout: 120000,
+          confirmTransactionInitialTimeout: 180000,
         }
       },
       async headers() {
