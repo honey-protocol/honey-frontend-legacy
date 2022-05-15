@@ -10,6 +10,6 @@ export function ConfigureSDK() {
         saberHqConnection: useConnection(),
         sdkWallet: useConnectedWallet(),
         honeyId: '6ujVJiHnyqaTBHzwwfySzTDX5EPFgmXqnibuMp3Hun1w',
-        marketId: '3dGcrf6GcvocfkgwS2i7YpJeWvVZdiMELc69UFVGZ4TR'
+        marketId: 'FVf6CqehhUAvoqduWAijRSTuBteYDWrnYB9cQC76t7Kc'
     }
 }

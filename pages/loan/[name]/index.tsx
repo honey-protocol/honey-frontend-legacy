@@ -107,10 +107,20 @@ const Loan: NextPage = () => {
       console.log('@@@@@@@@@-', (new BN(parsedReserves[0].reserveState.outstandingDebt).div(new BN(10**9)).toNumber()));
       console.log('@@@@ outstandingDebt @@@@', (parsedReserves[0].reserveState.outstandingDebt));
       console.log('@@@@ totalDeposits @@@@', (parsedReserves[0].reserveState.totalDeposits));
-      console.log('@@@@ the sum @@@@', (parsedReserves[0].reserveState.totalDeposits - parsedReserves[0].reserveState.outstandingDebt));
     }
     console.log('market', market)
   }, [market, marketReserveInfo, parsedReserves]);
+
+    /**
+   * @description logic regarding borrow modal or lendmodal
+   * @params 0 or 1
+   * @returns sets state and renders appropriate modal
+  */
+     const [borrowModal, setBorrowModal] = useState(0);
+
+     function handleBorrowModal(value: any) {
+       value == 1 ? setBorrowModal(1) : setBorrowModal(0)
+     }
 
   /**
    * @description fetches open positions and the amount regarding loan positions / token account
@@ -121,6 +131,7 @@ const Loan: NextPage = () => {
        
   useEffect(() => {
     console.log('this is loan positions', loanPositions);
+    if (collateralNFTPositions && collateralNFTPositions.length > 0) setBorrowModal(1)
   }, [collateralNFTPositions, loanPositions, fungibleCollateralPosition]);
      
   /**
@@ -153,16 +164,6 @@ const Loan: NextPage = () => {
     setNftArrayType(type);
     updateWithdrawDepositNFT(key.mint)
   };
-  /**
-   * @description logic regarding borrow modal or lendmodal
-   * @params 0 or 1
-   * @returns sets state and renders appropriate modal
-  */
-  const [borrowModal, setBorrowModal] = useState(1);
-
-  function handleBorrowModal(value: any) {
-    value == 1 ? setBorrowModal(1) : setBorrowModal(0)
-  }
 
   /**
    * @description executes the deposit NFT func. from SDK
