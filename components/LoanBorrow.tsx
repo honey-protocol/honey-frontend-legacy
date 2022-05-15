@@ -37,16 +37,17 @@ const LoanBorrow = (props: LoanBorrowProps) => {
     }, [noPositions])
 
     function handleExecuteBorrow() {
-        if (!openPositions) {
-            setNoPositions('Please select an NFT to borrow against');
-        } else if (openPositions && openPositions.length > 0) {
-            if (parseFloat((currentLoanPosition / 893004).toFixed(2)) < 1) {
-                setNoPositions('There is not enough liquidity in the Pool');
-            } else {
-                executeBorrow();
-            }
-        }
-        return;
+        // if (!openPositions) {
+        //     setNoPositions('Please select an NFT to borrow against');
+        // } else if (openPositions && openPositions.length > 0) {
+        //     if (parseFloat((currentLoanPosition / 893004).toFixed(2)) < 1) {
+        //         setNoPositions('There is not enough liquidity in the Pool');
+        //     } else {
+        //         executeBorrow();
+        //     }
+        // }
+        // return;
+        executeBorrow();
     }
 
     return (
