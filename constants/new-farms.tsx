@@ -66,7 +66,7 @@ export const newFarmCollections: TGFarm[] = [
     allocation: "0",
     totalStakedByUser: "-",
     eventStartDate: "2022-03-04T14:50Z",
-    eventDuration: "∞",
+    eventDuration: "1",
     updateAuthority: "7FZDdgbyUv1gWQ89uV4NpnfpRBgr4S7zhKLC1BKdttZP",
     rewardTokenName: "ATA",
     farmAddress: "3yR4hroSjQqvCePRry2yJMPynLTfhK252yuCZBTk3Hvr",
