@@ -495,6 +495,7 @@ const useGemFarm = () => {
       const tx = new Transaction();
       tx.add(await gf!.stakeWalletIx(new PublicKey(farmAddress!)));
       await gf!.provider.sendAndConfirm!(tx);
+      await fetchFarmerDetails(gf, gb);
     }
   };
 
@@ -569,6 +570,7 @@ const useGemFarm = () => {
 
   return {
     claimRewards,
+    lockVault,
     initializeFarmerAcc,
     refreshNFTsWithLoadingIcon,
     onWalletNFTSelect,

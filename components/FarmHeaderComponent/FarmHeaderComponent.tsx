@@ -10,7 +10,11 @@ const FarmHeaderComponent = () => {
     collectionTotalNumber,
     rewardTokenName,
     handleRefreshRewardsButtonClick,
-    claimRewards
+    claimRewards,
+    farmerState,
+    stakedNFTsInFarm,
+    farmerVaultLocked,
+    lockVault
   } = useGemFarm();
 
   const [txLoading, setTxLoading] = useState({
@@ -105,6 +109,14 @@ const FarmHeaderComponent = () => {
               {farmerCount}
             </Text>
           </Stack>
+          <Stack direction="vertical" space="1" align="center">
+            <Text size="small" align="center" variant="label">
+              Your vault
+            </Text>
+            <Text size="small" variant="small">
+              {farmerState}
+            </Text>
+          </Stack>
           {Boolean(unstakingFee) && (
             <Stack direction="vertical" space="1" align="center">
               <Text align="center" variant="label">
@@ -118,7 +130,6 @@ const FarmHeaderComponent = () => {
         </Stack>
         <Stack space="3" justify="center" direction="horizontal">
           <Button
-            
             onClick={handleRefreshRewardsButtonClick}
             variant="secondary"
             shape="square"
@@ -134,6 +145,18 @@ const FarmHeaderComponent = () => {
           >
             {`Claim $${rewardTokenName}`}
           </Button>
+          {(Object.values(stakedNFTsInFarm).length > 0 &&
+            !farmerVaultLocked) && (
+            <Button
+              onClick={() => withTxLoading(lockVault, 'stake')}
+              loading={txLoading.value && txLoading.txName === 'stake'}
+              size="small"
+              tone="green"
+              variant="primary"
+            >
+              {`Stake Vault`}
+            </Button>
+          )}
         </Stack>
       </Stack>
     </Box>
