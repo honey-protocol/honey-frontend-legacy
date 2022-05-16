@@ -6,10 +6,11 @@ import * as styles from './LoanHeaderComponent.css';
 
 interface LoanHeaderComponentProps {
   handleCreateMarket: () => void;
+  openPositions: number;
 }
 
 const LoanHeaderComponent = (props: LoanHeaderComponentProps) => {
-  const { handleCreateMarket } = props;
+  const { handleCreateMarket, openPositions } = props;
 
   return (
     <Box className={styles.headerWrapper}>
@@ -36,7 +37,7 @@ const LoanHeaderComponent = (props: LoanHeaderComponentProps) => {
       <Box>
         <Text>Your positions</Text>
         <Text weight="medium" color="textSecondary">
-          0
+          {openPositions}
         </Text>
       </Box>
       <Button size="small" onClick={handleCreateMarket}>

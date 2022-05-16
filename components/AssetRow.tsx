@@ -3,8 +3,6 @@ import { Box } from 'degen'
 import { Stack } from 'degen'
 import { Text } from 'degen'
 import { Avatar } from 'degen'
-import { Card } from 'degen'
-import NumberFormat from 'react-number-format';
 import * as styles from '../styles/loan.css';
 import { style } from '@vanilla-extract/css';
 
@@ -15,13 +13,14 @@ export interface AssetRowType {
     totalBorrowed: number,
     interest: number,
     available: number,
-    positions: number
+    positions: number,
 }
 interface AssetRowProps {
-    data: AssetRowType
+    data: AssetRowType,
+    openPositions?: number
 }
 
-const AssetRow = ({ data }: AssetRowProps) => {
+const AssetRow = ({ data, openPositions }: AssetRowProps) => {
  return (
   <Box
     backgroundColor="foregroundSecondary"
@@ -51,40 +50,25 @@ const AssetRow = ({ data }: AssetRowProps) => {
                 </Box>
                 <Box
                 >
-                    <Text align="left" >
-                        <NumberFormat
-                            value={data.totalBorrowed}
-                            displayType={'text'}
-                            thousandSeparator={true}
-                            prefix={'$'}
-                        />
-                    </Text>
-                </Box>
-                <Box
-                >
-                    <Text align="left" >
-                        <NumberFormat
-                            value={data.interest}
-                            displayType={'text'}
-                            thousandSeparator={true}
-                            suffix={'%'}
-                        />
+                    <Text align="center">
+                        {data.totalBorrowed}
                     </Text>
                 </Box>
                 <Box
                 >
                     <Text align="center" >
-                        <NumberFormat
-                            value={data.available}
-                            displayType={'text'}
-                            thousandSeparator={true}
-                            prefix={'$'}
-                        />
+                        {data.interest}
                     </Text>
                 </Box>
                 <Box
                 >
-                    <Text align="center" >{data.positions}</Text>
+                    <Text align="center" >
+                        {data.available}
+                    </Text>
+                </Box>
+                <Box
+                >
+                    <Text align="center" >{openPositions}</Text>
                 </Box>
             </Stack>
         </Box>

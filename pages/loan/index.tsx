@@ -12,7 +12,7 @@ import * as styles from '../../styles/loan.css';
 import LoanHeaderComponent from 'components/LoanHeaderComponent/LoanHeaderComponent';
 import CreateMarket from 'pages/createmarket';
 import  { ConfigureSDK } from '../../helpers/loanHelpers';
-import { useMarket } from '@honey-finance/sdk';
+import { useMarket, useBorrowPositions } from '@honey-finance/sdk';
 import { PublicKey } from '@solana/web3.js';
 
 // TODO: should be fetched by SDK
@@ -41,6 +41,20 @@ const Loan: NextPage = () => {
   useEffect(() => {
 
   }, [honeyClient]);
+
+
+  const [currentOpenPositions, setCurrentOpenPositions] = useState(0);
+  /**
+   * @description fetches open positions and the amount regarding loan positions / token account
+   * @params
+   * @returns
+  */  
+     let { loading, collateralNFTPositions, error } = useBorrowPositions(sdkConfig.saberHqConnection, sdkConfig.sdkWallet!, sdkConfig.honeyId, sdkConfig.marketId)
+       
+     useEffect(() => {
+       console.log('-------this is collateralpositions', collateralNFTPositions?.length)
+       if (collateralNFTPositions) setCurrentOpenPositions(collateralNFTPositions.length);
+     }, [collateralNFTPositions]);
 
   /**
      * @description **dont call - actually creates a market
@@ -107,6 +121,7 @@ const Loan: NextPage = () => {
               />
               <LoanHeaderComponent
                 handleCreateMarket={handleCreateMarket}
+                openPositions={currentOpenPositions}
               />
             </Stack>
           </Stack>
@@ -155,6 +170,7 @@ const Loan: NextPage = () => {
                           <a>
                             <AssetRow
                               data={item}
+                              openPositions={currentOpenPositions}
                             />
                           </a>
                         </Link>
@@ -165,13 +181,19 @@ const Loan: NextPage = () => {
                           as={`/loan/lend/${item.vaultName}`}
                         >
                           <a>
-                            <AssetRow data={item} />
+                            <AssetRow 
+                              data={item}
+                              openPositions={currentOpenPositions}
+                            />
                           </a>
                         </Link>
                       )}
                       {!wallet && (
                         <Box onClick={connect} cursor="pointer">
-                          <AssetRow data={item} />
+                          <AssetRow 
+                            data={item} 
+                            openPositions={currentOpenPositions}
+                          />
                         </Box>
                       )}
                     </Box>
