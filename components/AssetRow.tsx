@@ -3,8 +3,6 @@ import { Box } from 'degen'
 import { Stack } from 'degen'
 import { Text } from 'degen'
 import { Avatar } from 'degen'
-import { Card } from 'degen'
-import NumberFormat from 'react-number-format';
 import * as styles from '../styles/loan.css';
 import { style } from '@vanilla-extract/css';
 
@@ -52,35 +50,20 @@ const AssetRow = ({ data, openPositions }: AssetRowProps) => {
                 </Box>
                 <Box
                 >
-                    <Text align="left" >
-                        <NumberFormat
-                            value={data.totalBorrowed}
-                            displayType={'text'}
-                            thousandSeparator={true}
-                            prefix={'$'}
-                        />
-                    </Text>
-                </Box>
-                <Box
-                >
-                    <Text align="left" >
-                        <NumberFormat
-                            value={data.interest}
-                            displayType={'text'}
-                            thousandSeparator={true}
-                            suffix={'%'}
-                        />
+                    <Text align="center">
+                        {data.totalBorrowed}
                     </Text>
                 </Box>
                 <Box
                 >
                     <Text align="center" >
-                        <NumberFormat
-                            value={data.available}
-                            displayType={'text'}
-                            thousandSeparator={true}
-                            prefix={'$'}
-                        />
+                        {data.interest}
+                    </Text>
+                </Box>
+                <Box
+                >
+                    <Text align="center" >
+                        {data.available}
                     </Text>
                 </Box>
                 <Box
