@@ -44,7 +44,7 @@ const OnChainProvider: FC<{ children: ReactNode }> = ({ children }) => {
       <HoneyProvider
         wallet={wallet}
         connection={connection}
-        honeyProgramId={"6ujVJiHnyqaTBHzwwfySzTDX5EPFgmXqnibuMp3Hun1w"}
+        honeyProgramId={"BmdNpm85xLcZCY9nAT6YB9reeFYRDaAUQorr4hEXh8ZL"}
         honeyMarketId={"FVf6CqehhUAvoqduWAijRSTuBteYDWrnYB9cQC76t7Kc"}
       >
         {children}
