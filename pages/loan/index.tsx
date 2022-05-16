@@ -23,7 +23,7 @@ const assetData: Array<AssetRowType> = [
     totalBorrowed: 14000,
     interest: 4,
     available: 11000,
-    positions: 1
+    positions: 0
   }
 ];
 
@@ -181,13 +181,19 @@ const Loan: NextPage = () => {
                           as={`/loan/lend/${item.vaultName}`}
                         >
                           <a>
-                            <AssetRow data={item} />
+                            <AssetRow 
+                              data={item}
+                              openPositions={currentOpenPositions}
+                            />
                           </a>
                         </Link>
                       )}
                       {!wallet && (
                         <Box onClick={connect} cursor="pointer">
-                          <AssetRow data={item} />
+                          <AssetRow 
+                            data={item} 
+                            openPositions={currentOpenPositions}
+                          />
                         </Box>
                       )}
                     </Box>

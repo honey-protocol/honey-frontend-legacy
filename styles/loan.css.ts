@@ -42,7 +42,8 @@ export const avatarContainer = style({
 
 globalStyle(`${avatarContainer} > div`, {
   width: 'auto',
-  marginRight: '.5em'
+  marginRight: '.5em',
+  textAlign: 'center'
 });
 
 export const cardMenuContainer = style({
