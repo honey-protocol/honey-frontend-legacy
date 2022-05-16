@@ -30,7 +30,7 @@ import { parse } from 'path';
 import BN from 'bn.js';
 
 /**
- * @description 
+ * @description
  *  static nft object based off current posted as collateral and available nfts
  *  logic based on key to render out selected nft inside borrow module
  * @params none
@@ -82,18 +82,18 @@ const Loan: NextPage = () => {
    * @returns connection | wallet | honeyID | marketID
   */
   const sdkConfig = ConfigureSDK();
-  
+
   /**
-  * @description calls upon the honey sdk 
+  * @description calls upon the honey sdk
   * @params  useConnection func. | useConnectedWallet func. | honeyID | marketID
   * @returns honeyUser | honeyReserves - used for interaction regarding the SDK
   */
   const { honeyClient, honeyUser, honeyReserves } = useMarket(sdkConfig.saberHqConnection, sdkConfig.sdkWallet!, sdkConfig.honeyId, sdkConfig.marketId);
-  
+
   useEffect(() => {
-  }, [honeyUser, honeyReserves, honeyClient]);  
+  }, [honeyUser, honeyReserves, honeyClient]);
   /**
-   * @description calls upon markets which 
+   * @description calls upon markets which
    * @params none
    * @returns market | market reserve information | parsed reserves |
   */
@@ -104,9 +104,8 @@ const Loan: NextPage = () => {
   useEffect(() => {
     console.log('marketreserve', marketReserveInfo);
     if (parsedReserves) {
-      console.log('@@@@@@@@@-', (new BN(parsedReserves[0].reserveState.outstandingDebt).div(new BN(10**9)).toNumber()));
-      console.log('@@@@ outstandingDebt @@@@', (parsedReserves[0].reserveState.outstandingDebt));
-      console.log('@@@@ totalDeposits @@@@', (parsedReserves[0].reserveState.totalDeposits));
+      console.log('@@@@@@@@@ outstandingDebt-', (new BN(parsedReserves[0].reserveState.outstandingDebt).div(new BN(10**9)).toNumber()));
+      console.log('@@@@ totalDeposits @@@@', (parsedReserves[0].reserveState.totalDeposits.toString()));
     }
     console.log('market', market)
   }, [market, marketReserveInfo, parsedReserves]);
@@ -126,22 +125,22 @@ const Loan: NextPage = () => {
    * @description fetches open positions and the amount regarding loan positions / token account
    * @params
    * @returns
-   */  
+   */
   let { loading, collateralNFTPositions, loanPositions, fungibleCollateralPosition, error } = useBorrowPositions(sdkConfig.saberHqConnection, sdkConfig.sdkWallet!, sdkConfig.honeyId, sdkConfig.marketId)
-       
+
   useEffect(() => {
     console.log('this is loan positions', loanPositions);
     if (collateralNFTPositions && collateralNFTPositions.length > 0) setBorrowModal(1)
   }, [collateralNFTPositions, loanPositions, fungibleCollateralPosition]);
-     
+
   /**
    * @description fetched available nfts in the users wallet
-   * @params wallet 
+   * @params wallet
    * @returns array of available nfts
   */
   const wallet = useConnectedWallet();
   let availableNFTs = useFetchNFTByUser(wallet);
-     
+
   useEffect(() => {
   }, [availableNFTs]);
 
@@ -151,7 +150,7 @@ const Loan: NextPage = () => {
   }, [withDrawDepositNFT]);
 
   /**
-   * @description logic regarding selected nft for borrow module 
+   * @description logic regarding selected nft for borrow module
    * @params key of nft
    * @returns sets state
   */
@@ -173,15 +172,16 @@ const Loan: NextPage = () => {
   async function executeDepositNFT(mintID: any) {
     try {
       if (!mintID) return;
-      const metadata = await Metadata.findByMint(sdkConfig.saberHqConnection, mintID)
-      depositNFT(sdkConfig.saberHqConnection, honeyUser, metadata.pubkey);    
+      const metadata = await Metadata.findByMint(sdkConfig.saberHqConnection, mintID);
+      console.log('updateAuthority', metadata.pubkey.toString());
+      depositNFT(sdkConfig.saberHqConnection, honeyUser, metadata.pubkey);
     } catch (error) {
       console.log('error depositing nft', error);
       return;
     }
 
   }
-  
+
   /**
    * @description executes the withdraw NFT func. from SDK
    * @params mint of the NFT
@@ -191,15 +191,15 @@ const Loan: NextPage = () => {
     try {
       if (!mintID) return;
       const metadata = await Metadata.findByMint(sdkConfig.saberHqConnection, mintID);
-      withdrawNFT(sdkConfig.saberHqConnection, honeyUser, metadata.pubkey); 
+      withdrawNFT(sdkConfig.saberHqConnection, honeyUser, metadata.pubkey);
     } catch (error) {
       console.log('error depositing nft', error);
       return;
     }
   }
-  
+
   /**
-   * @description 
+   * @description
    * executes the borrow function which allows user to borrow against NFT
    * base value of NFT is 2 SOL - liquidation trashold is 50%, so max 1 SOL available
    * @params borrow amount
@@ -210,7 +210,7 @@ const Loan: NextPage = () => {
     const tx = await borrow(honeyUser, 1 * LAMPORTS_PER_SOL, borrowTokenMint, honeyReserves);
     console.log('this is borrowTx', tx);
   }
-  
+
   /**
    * @description
    * executes the repay function which allows user to repay their borrowed amount
@@ -269,16 +269,16 @@ const Loan: NextPage = () => {
           executeDepositNFT={executeDepositNFT}
           // set key equal to name since open positions doesnt contain id but name is with unique number
         />
-        
-        <Box>      
+
+        <Box>
           {
-            borrowModal == 1 ? 
-              <BorrowNFTsModule 
+            borrowModal == 1 ?
+              <BorrowNFTsModule
                 NFT={
-                  collateralNFTPositions 
-                  && 
+                  collateralNFTPositions
+                  &&
                   collateralNFTPositions.find((NFT) => NFT.name == selectedId) || marketNFTs[0]
-                } 
+                }
                 mint={withDrawDepositNFT}
                 loanPositions={loanPositions}
                 executeWithdrawNFT={executeWithdrawNFT}
@@ -288,11 +288,11 @@ const Loan: NextPage = () => {
                 openPositions={collateralNFTPositions}
                 parsedReserves={parsedReserves}
               />
-            : 
-              <LoanNewBorrow 
+            :
+              <LoanNewBorrow
                 NFT={
-                  availableNFTs 
-                  && 
+                  availableNFTs
+                  &&
                   availableNFTs[0].find((NFT) => NFT.name == selectedId) || marketNFTs[3]
                 }
                 mint={withDrawDepositNFT}

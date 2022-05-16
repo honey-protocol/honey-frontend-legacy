@@ -76,7 +76,7 @@ const Borrow: NextPage = () => {
 const sdkConfig = ConfigureSDK();
 
   /**
-     * @description calls upon the honey sdk - market 
+     * @description calls upon the honey sdk - market
      * @params solanas useConnection func. && useConnectedWallet func. && JET ID
      * @returns honeyUser which is the main object - honeyMarket, honeyReserves are for testing purposes
     */
@@ -96,6 +96,15 @@ const sdkConfig = ConfigureSDK();
     const tokenAmount = 1 * LAMPORTS_PER_SOL;
     const depositTokenMint = new PublicKey('So11111111111111111111111111111111111111112');
     await deposit(honeyUser, tokenAmount, depositTokenMint, honeyReserves);
+
+    const depositReserve = honeyReserves.filter((reserve) =>
+      reserve?.data?.tokenMint?.equals(depositTokenMint),
+    )[0];
+    const reserveState = depositReserve.data?.reserveState;
+    console.log('outstandingDebt', reserveState?.outstandingDebt.toString());
+    console.log('totalDepositNotes', reserveState?.totalDepositNotes.toString());
+    console.log('totalDeposits', reserveState?.totalDeposits.toString());
+    console.log('totalLoanNotes', reserveState?.totalLoanNotes.toString());
   }
 
   /**

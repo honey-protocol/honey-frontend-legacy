@@ -35,18 +35,22 @@ const OnChainProvider: FC<{ children: ReactNode }> = ({ children }) => {
   const network = 'devnet';
 
   return (
-    <AnchorProvider 
-    wallet={wallet} 
-    connection={connection} 
-    network={network} 
-    honeyProgram={"6ujVJiHnyqaTBHzwwfySzTDX5EPFgmXqnibuMp3Hun1w"}>
-      <HoneyProvider 
-        wallet={wallet} 
+    <AnchorProvider
+    wallet={wallet}
+    connection={connection}
+    network={network}
+    // honeyProgram={"6ujVJiHnyqaTBHzwwfySzTDX5EPFgmXqnibuMp3Hun1w"}>
+    honeyProgram={"BmdNpm85xLcZCY9nAT6YB9reeFYRDaAUQorr4hEXh8ZL"}>
+      <HoneyProvider
+        wallet={wallet}
         connection={connection}
-        honeyProgramId={"6ujVJiHnyqaTBHzwwfySzTDX5EPFgmXqnibuMp3Hun1w"} 
-        honeyMarketId={"FVf6CqehhUAvoqduWAijRSTuBteYDWrnYB9cQC76t7Kc"}
+        // honeyProgramId={"6ujVJiHnyqaTBHzwwfySzTDX5EPFgmXqnibuMp3Hun1w"}
+        // honeyMarketId={"FVf6CqehhUAvoqduWAijRSTuBteYDWrnYB9cQC76t7Kc"}
+
+        honeyProgramId={"BmdNpm85xLcZCY9nAT6YB9reeFYRDaAUQorr4hEXh8ZL"}
+        honeyMarketId={"DpjUEYXqgMRrM7gf9x3W96ZjZAq9dAzzmLPkJm8X4Lo4"}
         // 2ZDdaFgHzSrjHgudxwfYFA5mx9QK8baJmGgTTrP44qbp
-      > 
+      >
         {/* HB82woFm5MrTx3X4gsRpVcUxtWJJyDBeT5xNGCUUrLLe */}
         {/* 47RbcdWKUJJKNwtX7JAtt8KarzA1APztHaDo8Dd4cZAt */}
         {children}
