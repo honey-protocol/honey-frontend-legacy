@@ -14,6 +14,7 @@ import CreateMarket from 'pages/createmarket';
 import  { ConfigureSDK } from '../../helpers/loanHelpers';
 import { useMarket, useBorrowPositions } from '@honey-finance/sdk';
 import { PublicKey } from '@solana/web3.js';
+import {TYPE_ZERO, TYPE_ONE} from '../../constants/loan';
 
 // TODO: should be fetched by SDK
 const assetData: Array<AssetRowType> = [
@@ -43,7 +44,7 @@ const Loan: NextPage = () => {
   }, [honeyClient]);
 
 
-  const [currentOpenPositions, setCurrentOpenPositions] = useState(0);
+  const [currentOpenPositions, setCurrentOpenPositions] = useState(TYPE_ZERO);
   /**
    * @description fetches open positions and the amount regarding loan positions / token account
    * @params
@@ -81,22 +82,22 @@ const Loan: NextPage = () => {
    * @params 0 | 1
    * @returns state for rendering correct modal
   */
-  const [borrowOrLend, setBorrowOrLend] = useState(0);
-  const loadBorrowPage = wallet && borrowOrLend === 0;
-  const loadLendPage = wallet && borrowOrLend === 1;
+  const [borrowOrLend, setBorrowOrLend] = useState(TYPE_ZERO);
+  const loadBorrowPage = wallet && borrowOrLend === TYPE_ZERO;
+  const loadLendPage = wallet && borrowOrLend === TYPE_ONE;
   
   /**
    * @description logic for rendering out create market page
    * @params 0 | 1
    * @returns create market modal or Pool modal in return of Loan component
   */
-  const [renderCreateMarket, setRenderCreateMarket] = useState(0);
+  const [renderCreateMarket, setRenderCreateMarket] = useState(TYPE_ZERO);
   
   useEffect(() => {
   }, [renderCreateMarket]);
   
   function handleCreateMarket() {
-    setRenderCreateMarket(1);
+    setRenderCreateMarket(TYPE_ONE);
   }
 
   return (
@@ -113,9 +114,9 @@ const Loan: NextPage = () => {
                 buttons={[
                   {
                     title: 'Borrow',
-                    onClick: () => setBorrowOrLend(0)
+                    onClick: () => setBorrowOrLend(TYPE_ZERO)
                   },
-                  { title: 'Lend', onClick: () => setBorrowOrLend(1) }
+                  { title: 'Lend', onClick: () => setBorrowOrLend(TYPE_ONE) }
                 ]}
                 activeIndex={borrowOrLend}
               />

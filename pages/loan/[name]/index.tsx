@@ -12,6 +12,7 @@ import { ConfigureSDK } from '../../../helpers/loanHelpers/index';
 import useFetchNFTByUser from '../../../hooks/useNFT';
 import LoanNewBorrow from 'components/NewPosition';
 import { LAMPORTS_PER_SOL, PublicKey } from '@solana/web3.js';
+import {TYPE_ZERO, TYPE_ONE} from '../../../constants/loan';
 import {
   deposit,
   HoneyUser,
@@ -116,10 +117,10 @@ const Loan: NextPage = () => {
    * @params 0 or 1
    * @returns sets state and renders appropriate modal
   */
-     const [borrowModal, setBorrowModal] = useState(0);
+     const [borrowModal, setBorrowModal] = useState(TYPE_ZERO);
 
      function handleBorrowModal(value: any) {
-       value == 1 ? setBorrowModal(1) : setBorrowModal(0)
+       value == TYPE_ONE ? setBorrowModal(TYPE_ONE) : setBorrowModal(TYPE_ZERO)
      }
 
   /**
@@ -131,7 +132,7 @@ const Loan: NextPage = () => {
        
   useEffect(() => {
     console.log('this is loan positions', loanPositions);
-    if (collateralNFTPositions && collateralNFTPositions.length > 0) setBorrowModal(1)
+    if (collateralNFTPositions && collateralNFTPositions.length > TYPE_ZERO) setBorrowModal(TYPE_ONE)
   }, [collateralNFTPositions, loanPositions, fungibleCollateralPosition]);
      
   /**
