@@ -25,9 +25,7 @@ const Nft: NextPage = () => {
     farmerAcc,
     selectedVaultNFTs,
     selectedWalletNFTs,
-    farmerState,
-    farmerVaultLocked,
-    lockVault
+    farmerState
   } = useGemFarm();
 
   const [txLoading, setTxLoading] = useState({
@@ -71,12 +69,7 @@ const Nft: NextPage = () => {
               </Button>
             </Link>
           </Box>
-          <FarmHeaderComponent
-            farmerState={farmerState}
-            stakedNFTsInFarm={stakedNFTsInFarm}
-            farmerVaultLocked={farmerVaultLocked}
-            lockVault={lockVault}
-          />
+          <FarmHeaderComponent farmerState={farmerState} />
         </Stack>
       </Box>
       <Box display="flex" height="full" className={styles.cardsContainer}>
