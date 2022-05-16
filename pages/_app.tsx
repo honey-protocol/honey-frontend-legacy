@@ -45,10 +45,7 @@ const OnChainProvider: FC<{ children: ReactNode }> = ({ children }) => {
         connection={connection}
         honeyProgramId={"6ujVJiHnyqaTBHzwwfySzTDX5EPFgmXqnibuMp3Hun1w"} 
         honeyMarketId={"FVf6CqehhUAvoqduWAijRSTuBteYDWrnYB9cQC76t7Kc"}
-        // 2ZDdaFgHzSrjHgudxwfYFA5mx9QK8baJmGgTTrP44qbp
       > 
-        {/* HB82woFm5MrTx3X4gsRpVcUxtWJJyDBeT5xNGCUUrLLe */}
-        {/* 47RbcdWKUJJKNwtX7JAtt8KarzA1APztHaDo8Dd4cZAt */}
         {children}
       </HoneyProvider>
     </AnchorProvider>
