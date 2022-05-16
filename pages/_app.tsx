@@ -35,17 +35,18 @@ const OnChainProvider: FC<{ children: ReactNode }> = ({ children }) => {
   const network = 'devnet';
 
   return (
-    <AnchorProvider 
-    wallet={wallet} 
-    connection={connection} 
-    network={network} 
-    honeyProgram={"6ujVJiHnyqaTBHzwwfySzTDX5EPFgmXqnibuMp3Hun1w"}>
-      <HoneyProvider 
-        wallet={wallet} 
+    <AnchorProvider
+    wallet={wallet}
+    connection={connection}
+    network={network}
+    // honeyProgram={"6ujVJiHnyqaTBHzwwfySzTDX5EPFgmXqnibuMp3Hun1w"}>
+    honeyProgram={"BmdNpm85xLcZCY9nAT6YB9reeFYRDaAUQorr4hEXh8ZL"}>
+      <HoneyProvider
+        wallet={wallet}
         connection={connection}
-        honeyProgramId={"6ujVJiHnyqaTBHzwwfySzTDX5EPFgmXqnibuMp3Hun1w"} 
+        honeyProgramId={"6ujVJiHnyqaTBHzwwfySzTDX5EPFgmXqnibuMp3Hun1w"}
         honeyMarketId={"FVf6CqehhUAvoqduWAijRSTuBteYDWrnYB9cQC76t7Kc"}
-      > 
+      >
         {children}
       </HoneyProvider>
     </AnchorProvider>
