@@ -16,6 +16,7 @@ import 'degen/styles';
 import '../styles/globals.css';
 import 'react-toastify/dist/ReactToastify.css';
 import { GovernorProvider } from 'hooks/tribeca/useGovernor';
+import Script from 'next/script';
 
 const queryClient = new QueryClient();
 const network = process.env.NETWORK as Network;
