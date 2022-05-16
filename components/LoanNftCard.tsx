@@ -2,6 +2,7 @@ import React, { useState, useEffect, FC, ReactNode } from 'react';
 import Image from 'next/image';
 import { Avatar, Box } from 'degen';
 import * as styles from '../components/LoanNFTsContainer/LoanNFTsContainer.css';
+import {TYPE_OPEN, TYPE_CLOSED} from '../constants/loan';
 
 interface LoanNFTCardProps {
   NFT: {
@@ -46,7 +47,7 @@ const LoanNFTCard = (props: LoanNFTCardProps) => {
       borderWidth={props.selected ? '0.5' : '0'}
       padding="1.5"
       overflow="hidden"
-      onClick={() => setActiveNFTState(props.NFT.name, (available == false ? 'open' : 'closed'))}
+      onClick={() => setActiveNFTState(props.NFT.name, (available == false ? TYPE_OPEN : TYPE_CLOSED))}
       className={activeNFT == props.NFT.name ? styles.active : styles.notActive}
     >
       <Avatar

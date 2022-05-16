@@ -21,7 +21,7 @@ const assetData: Array<AssetRowType> = [
     vaultName: 'Cofre',
     vaultImageUrl: 'https://www.arweave.net/5zeisOPbDekgyqYHd0okraQKaWwlVxvIIiXLH4Sr2M8?ext=png',
     totalBorrowed: 14000,
-    interest: 4,
+    interest: 4.2,
     available: 11000,
     positions: 0
   }
