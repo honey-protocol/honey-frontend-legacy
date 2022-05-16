@@ -1,15 +1,17 @@
 import type { NextPage } from 'next';
+import React, { useState, useEffect } from 'react';
 import { Box, Button, Card, IconChevronLeft, Text, vars } from 'degen';
 import { Stack } from 'degen';
 import {
   deposit,
   withdraw,
-  useMarket
+  useMarket,
+  useHoney,
 } from '@honey-finance/sdk';
-import { ConfigureSDK } from 'helpers/loanHelpers';
 import { LAMPORTS_PER_SOL, PublicKey } from '@solana/web3.js';
 import Layout from '../../../components/Layout/Layout';
 import DepositWithdrawModule from 'components/DepositWithdrawModule/DepositWIthdrawModule';
+import {toastResponse, BnToDecimal, BnDivided, ConfigureSDK} from '../../../helpers/loanHelpers/index';
 import {
   Area,
   AreaChart,
@@ -72,41 +74,134 @@ const cardsDetails = [
 ];
 
 const Borrow: NextPage = () => {
-
 const sdkConfig = ConfigureSDK();
 
   /**
-     * @description calls upon the honey sdk - market 
-     * @params solanas useConnection func. && useConnectedWallet func. && JET ID
-     * @returns honeyUser which is the main object - honeyMarket, honeyReserves are for testing purposes
-    */
-  const { honeyClient, honeyUser, honeyReserves } = useMarket(sdkConfig.saberHqConnection, sdkConfig.sdkWallet!, sdkConfig.honeyId, sdkConfig.marketId);
-  console.log('honeyUser', honeyUser)
-  console.log('withdrawReserves', honeyReserves)
+   * @description calls upon markets which
+   * @params none
+   * @returns market | market reserve information | parsed reserves |
+  */
+   const { market, marketReserveInfo, parsedReserves, fetchMarket }  = useHoney();
+  
+   /**
+   * @description calls upon the honey sdk - market
+   * @params solanas useConnection func. && useConnectedWallet func. && JET ID
+   * @returns honeyUser which is the main object - honeyMarket, honeyReserves are for testing purposes
+  */
+  const { honeyUser, honeyReserves } = useMarket(sdkConfig.saberHqConnection, sdkConfig.sdkWallet!, sdkConfig.honeyId, sdkConfig.marketId);
+  const [totalMarkDeposits, setTotalMarketDeposits] = useState(0);
+  const [userTotalDeposits, setUserTotalDeposits] = useState(0);
+  const [reserveHoneyState, setReserveHoneyState] = useState(0);
 
-  function filterReserves() {
+  /**
+   * @description updates honeyUser | marketReserveInfo | - timeout required
+   * @params none
+   * @returns honeyUser | marketReserveInfo |
+  */
+   useEffect(() => {
+    setTimeout(() => {
+      let depositNoteExchangeRate = 0, loanNoteExchangeRate = 0, nftPrice = 0, cRatio = 1;
+      
+      if(marketReserveInfo) {
+        nftPrice = 2;
+        depositNoteExchangeRate = BnToDecimal(marketReserveInfo[0].depositNoteExchangeRate, 15, 5);
+      }
 
-  }
+      if(honeyUser?.deposits().length > 0) {
+        let totalDeposit = BnDivided(honeyUser.deposits()[0].amount, 10, 5) * depositNoteExchangeRate / (10 ** 4)
+        // let totalDeposit = honeyUser.deposits()[0].amount.div(new BN(10 ** 5)).toNumber() * depositNoteExchangeRate / (10 ** 4);
+        setUserTotalDeposits(totalDeposit);
+      }
+    }, 3000);
+  }, [marketReserveInfo, honeyUser]);
+
+  /**
+   * @description sets state of marketValue by parsing lamports outstanding debt amount to SOL
+   * @params none, requires parsedReserves
+   * @returns updates marketValue 
+  */
+  useEffect(() => {
+    if (parsedReserves && parsedReserves[0].reserveState.totalDeposits) {
+      let totalMarketDeposits = BnDivided(parsedReserves[0].reserveState.totalDeposits, 10, 9);
+      setTotalMarketDeposits(totalMarketDeposits);
+      // setTotalMarketDeposits(parsedReserves[0].reserveState.totalDeposits.div(new BN(10 ** 9)).toNumber());
+    }
+  }, [parsedReserves]);
+
+  useEffect(() => {
+  }, [reserveHoneyState]);
+
   /**
    * @description deposits 1 sol
-   * @params none
+   * @params optional value from user input; amount of SOL
    * @returns succes | failure
   */
-  async function executeDeposit() {
-    const tokenAmount = 1 * LAMPORTS_PER_SOL;
-    const depositTokenMint = new PublicKey('So11111111111111111111111111111111111111112');
-    await deposit(honeyUser, tokenAmount, depositTokenMint, honeyReserves);
+  async function executeDeposit(value?: number) {
+    try {
+      if (!value) return toastResponse('ERROR', 'Deposit failed', 'ERROR');
+
+      const tokenAmount =  value * LAMPORTS_PER_SOL;
+      const depositTokenMint = new PublicKey('So11111111111111111111111111111111111111112');
+      const tx = await deposit(honeyUser, tokenAmount, depositTokenMint, honeyReserves);
+      
+      if (tx[0] == 'SUCCESS') {
+        toastResponse('SUCCESS', 'Deposit success', 'SUCCESS', 'DEPOSIT');
+        
+        let refreshedHoneyReserves = await honeyReserves[0].sendRefreshTx();
+        const latestBlockHash = await sdkConfig.saberHqConnection.getLatestBlockhash()
+
+        await sdkConfig.saberHqConnection.confirmTransaction({
+          blockhash: latestBlockHash.blockhash,
+          lastValidBlockHeight: latestBlockHash.lastValidBlockHeight,
+          signature: refreshedHoneyReserves,
+        });
+
+        await fetchMarket()
+        await honeyUser.refresh().then((val: any) => {
+          reserveHoneyState ==  0 ? setReserveHoneyState(1) : setReserveHoneyState(0);
+        });
+      } else {
+        return toastResponse('ERROR', 'Deposit failed', 'ERROR');
+      }
+    } catch (error) {
+      return toastResponse('ERROR', 'Deposit failed', 'ERROR');
+    }
   }
 
   /**
    * @description withdraws 1 sol
-   * @params none
+   * @params optional value from user input; amount of SOL
    * @returns succes | failure
   */
-  async function executeWithdraw() {
-    const tokenAmount = 1 * LAMPORTS_PER_SOL;
-    const depositTokenMint = new PublicKey('So11111111111111111111111111111111111111112');
-    await withdraw(honeyUser, tokenAmount, depositTokenMint, honeyReserves);
+  async function executeWithdraw(value?: number) {
+    try {
+      if (!value) return toastResponse('ERROR', 'Withdraw failed', 'ERROR');
+
+      const tokenAmount =  value * LAMPORTS_PER_SOL;
+      const depositTokenMint = new PublicKey('So11111111111111111111111111111111111111112');
+      const tx = await withdraw(honeyUser, tokenAmount, depositTokenMint, honeyReserves);
+      
+      if (tx[0] == 'SUCCESS') {
+        toastResponse('SUCCESS', 'Withdraw success', 'SUCCESS', 'WITHDRAW');
+        let refreshedHoneyReserves = await honeyReserves[0].sendRefreshTx();
+        const latestBlockHash = await sdkConfig.saberHqConnection.getLatestBlockhash()
+
+        await sdkConfig.saberHqConnection.confirmTransaction({
+          blockhash: latestBlockHash.blockhash,
+          lastValidBlockHeight: latestBlockHash.lastValidBlockHeight,
+          signature: refreshedHoneyReserves,
+        });
+
+        await fetchMarket()
+        await honeyUser.refresh().then((val: any) => {
+          reserveHoneyState ==  0 ? setReserveHoneyState(1) : setReserveHoneyState(0);
+        });
+      } else {
+        return toastResponse('ERROR', 'Withdraw failed ', 'ERROR');
+      }
+    } catch (error) {
+      return toastResponse('ERROR', 'Withdraw failed ', 'ERROR');
+    }
   }
 
   return (
@@ -247,6 +342,9 @@ const sdkConfig = ConfigureSDK();
           <DepositWithdrawModule
             executeDeposit={executeDeposit}
             executeWithdraw={executeWithdraw}
+            honeyReserves={honeyReserves}
+            userTotalDeposits={userTotalDeposits}
+            totalMarkDeposits={totalMarkDeposits}
           />
         </Box>
       </Stack>

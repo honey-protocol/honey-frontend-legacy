@@ -20,8 +20,10 @@ export const rangeSliderRange = style({
 globalStyle(`${rangeSlider} > input`, {
   WebkitAppearance: 'none',
   width: '100%',
-  outline: 'none'
+  outline: 'none',
+  color: 'white',
 });
+
 // style based off of pseudo - also for the input; should define this for moz and other browsers
 globalStyle(`${rangeSlider} > input::-webkit-slider-thumb`, {
   WebkitAppearance: 'none',
@@ -67,10 +69,12 @@ export const selectionDetails = style({
 globalStyle(`${selectionDetails} > *`, {
   margin: '.75em',
   color: 'gray',
-  fontSize: '1em',
+  fontSize: '1.1em',
   background: 'none',
   border: 'none',
   textAlign: 'end',
+  width: '4em',
+  outline: 'none',
 });
 
 globalStyle(`${selectionDetails}, input::-webkit-outer-spin-button, input::-webkit-inner-spin-button `, {
@@ -79,16 +83,22 @@ globalStyle(`${selectionDetails}, input::-webkit-outer-spin-button, input::-webk
   margin: 0
 }); 
 
-export const currencyStyles = style({
+globalStyle(`${selectionDetails}, input[type="number"]`, {
+  MozAppearance: 'textfield'
+});
+
+export const currencyStylesWrapper = style({
+  textAlign: 'start',
+  width: '100%'
+});
+
+export const currencyStylesChild = style({
   fontSize: '1.8em',
   background: 'none',
   border: 'none',
-  color: 'rgb(102, 102, 102)',
-  textAlign: 'end'
-});
-
-globalStyle(`${currencyStyles}, > *`, {
-  display: 'none'
+  width: '10em',
+  color: 'white',
+  outline: 'none'
 });
 
 export const currencySelector = style({
@@ -110,4 +120,8 @@ export const noPositions = style({
   fontSize: '1.2em',
   padding: '.5em 0',
   fontWeight: 600
+});
+
+export const currencyStyles = style({
+  fontSize: '2em'
 });

@@ -13,6 +13,7 @@ import { AnchorProvider, HoneyProvider } from '@honey-finance/sdk';
 import { useConnectedWallet, useConnection } from '@saberhq/use-solana';
 import React, { FC, ReactNode, useEffect, useState } from "react";
 import Script from 'next/script';
+import { HONEY_MARKET_ID, HONEY_PROGRAM_ID } from '../constants/loan';
 
 const network = process.env.NETWORK as Network;
 
@@ -36,17 +37,17 @@ const OnChainProvider: FC<{ children: ReactNode }> = ({ children }) => {
   const network = 'devnet';
 
   return (
-    <AnchorProvider 
-    wallet={wallet} 
-    connection={connection} 
-    network={network} 
-    honeyProgram={"6ujVJiHnyqaTBHzwwfySzTDX5EPFgmXqnibuMp3Hun1w"}>
-      <HoneyProvider 
-        wallet={wallet} 
+    <AnchorProvider
+    wallet={wallet}
+    connection={connection}
+    network={network}
+    honeyProgram={HONEY_PROGRAM_ID}>
+      <HoneyProvider
+        wallet={wallet}
         connection={connection}
-        honeyProgramId={"6ujVJiHnyqaTBHzwwfySzTDX5EPFgmXqnibuMp3Hun1w"} 
-        honeyMarketId={"FVf6CqehhUAvoqduWAijRSTuBteYDWrnYB9cQC76t7Kc"}
-      > 
+        honeyProgramId={HONEY_PROGRAM_ID}
+        honeyMarketId={HONEY_MARKET_ID}
+      >
         {children}
       </HoneyProvider>
     </AnchorProvider>

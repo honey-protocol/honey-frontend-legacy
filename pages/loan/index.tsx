@@ -12,50 +12,116 @@ import * as styles from '../../styles/loan.css';
 import LoanHeaderComponent from 'components/LoanHeaderComponent/LoanHeaderComponent';
 import CreateMarket from 'pages/createmarket';
 import  { ConfigureSDK } from '../../helpers/loanHelpers';
-import { useMarket, useBorrowPositions } from '@honey-finance/sdk';
-import { PublicKey } from '@solana/web3.js';
+import { useMarket, useBorrowPositions, useHoney, useAnchor }
+  from '@honey-finance/sdk';
 import {TYPE_ZERO, TYPE_ONE} from '../../constants/loan';
-
-// TODO: should be fetched by SDK
-const assetData: Array<AssetRowType> = [
-  {
-    vaultName: 'Cofre',
-    vaultImageUrl: 'https://www.arweave.net/5zeisOPbDekgyqYHd0okraQKaWwlVxvIIiXLH4Sr2M8?ext=png',
-    totalBorrowed: 14000,
-    interest: 4.2,
-    available: 11000,
-    positions: 0
-  }
-];
+import { BnDivided } from '../../helpers/loanHelpers';
+import { LAMPORTS_PER_SOL, PublicKey } from '@solana/web3.js';
+import {RoundHalfDown} from '../../helpers/utils';
 
 const Loan: NextPage = () => {
   const wallet = useConnectedWallet();
   const { connect } = useWalletKit();
-
   const sdkConfig = ConfigureSDK();
+  const {program} = useAnchor();
+
   /**
-     * @description calls upon the honey sdk - market 
-     * @params solanas useConnection func. && useConnectedWallet func. && JET ID
-     * @returns honeyUser which is the main object - honeyMarket, honeyReserves are for testing purposes
-    */
-  const { honeyClient } = useMarket(sdkConfig.saberHqConnection, sdkConfig.sdkWallet!, sdkConfig.honeyId, sdkConfig.marketId);
+    * @description calls upon markets which
+    * @params none
+    * @returns market | market reserve information | parsed reserves |
+  */
+  const { market, marketReserveInfo, parsedReserves }  = useHoney();
+  const { honeyUser, honeyReserves, honeyMarket } = useMarket(sdkConfig.saberHqConnection, sdkConfig.sdkWallet!, sdkConfig.honeyId, sdkConfig.marketId);
+
+  /**
+   *
+  */
+  const [totalMarkDeposits, setTotalMarketDeposits] = useState(0);
+  const [totalMarketDebt, setTotalMarketDebt] = useState(0);
+  const [totalMarketPositions, setTotalMarketPositions] = useState(0);
+  const [totAll, setTotalAll] = useState(0);
+
+  // TODO: should be fetched by SDK
+  const assetData: Array<AssetRowType> = [
+    {
+      vaultName: 'Honey Eyes',
+      vaultImageUrl: 'https://mint-site-ten.vercel.app/when-loans.gif',
+      totalBorrowed: RoundHalfDown(totalMarketDebt),
+      interest: 10,
+      available: totalMarkDeposits,
+      positions: totalMarketPositions
+    }
+  ];
+
+  async function fetchObligations() {
+    console.log('fethching obligations')
+    let obligations = await honeyMarket.fetchObligations();
+    console.log('obligations', obligations)
+    setTotalMarketPositions(obligations.length);
+  }
+
   useEffect(() => {
+    if(honeyMarket) {
+      fetchObligations();
+    }
+  }, [honeyMarket]);
 
-  }, [honeyClient]);
+  /**
+   * @description sets state of marketValue by parsing lamports outstanding debt amount to SOL
+   * @params none, requires parsedReserves
+   * @returns updates marketValue
+  */
+  useEffect(() => {
+    if (parsedReserves && parsedReserves[0].reserveState.totalDeposits) {
+      let totMarketDeposits = BnDivided(parsedReserves[0].reserveState.totalDeposits, 10, 9);
+      setTotalMarketDeposits(totMarketDeposits);
+      // setTotalMarketDeposits(parsedReserves[0].reserveState.totalDeposits.div(new BN(10 ** 9)).toNumber());
+    }
+  }, [parsedReserves]);
 
+  useEffect(() => {
+    const depositTokenMint = new PublicKey('So11111111111111111111111111111111111111112');
 
+    if (honeyReserves) {
+      const depositReserve = honeyReserves.filter((reserve) =>
+        reserve?.data?.tokenMint?.equals(depositTokenMint),
+      )[0];
+
+      const reserveState = depositReserve.data?.reserveState;
+
+      if (reserveState?.outstandingDebt) {
+        let marketDebt = BnDivided(reserveState?.outstandingDebt, 10, 15);
+        // let marketDebt = reserveState?.outstandingDebt.div(new BN(10 ** 15)).toNumber();
+        if (marketDebt) {
+          let sum = Number((marketDebt / LAMPORTS_PER_SOL));
+          setTotalMarketDebt(sum);
+        }
+      }
+    }
+
+  }, [honeyReserves]);
+
+  /**
+   * @description state to update open positions
+   * @params none
+   * @returns currentOpenPositions
+  */
   const [currentOpenPositions, setCurrentOpenPositions] = useState(TYPE_ZERO);
+
   /**
    * @description fetches open positions and the amount regarding loan positions / token account
-   * @params
-   * @returns
-  */  
-     let { loading, collateralNFTPositions, error } = useBorrowPositions(sdkConfig.saberHqConnection, sdkConfig.sdkWallet!, sdkConfig.honeyId, sdkConfig.marketId)
-       
-     useEffect(() => {
-       console.log('-------this is collateralpositions', collateralNFTPositions?.length)
-       if (collateralNFTPositions) setCurrentOpenPositions(collateralNFTPositions.length);
-     }, [collateralNFTPositions]);
+   * @params none
+   * @returns collateralNFTPositions | loading | error
+  */
+  let { loading, collateralNFTPositions, error } = useBorrowPositions(sdkConfig.saberHqConnection, sdkConfig.sdkWallet!, sdkConfig.honeyId, sdkConfig.marketId)
+  /**
+   * @description sets open positions
+   * @params none
+   * @returns collateralNFTPositions
+  */
+  useEffect(() => {
+    if (collateralNFTPositions) setCurrentOpenPositions(collateralNFTPositions.length);
+  }, [collateralNFTPositions]);
 
   /**
      * @description **dont call - actually creates a market
@@ -63,39 +129,38 @@ const Loan: NextPage = () => {
      * @returns **dont call - actually creates a market
     */
   function createMarket() {
-    if (honeyClient && wallet?.publicKey) {
-      honeyClient.createMarket({
-        owner: wallet.publicKey,
-        quoteCurrencyMint: new PublicKey('So11111111111111111111111111111111111111112'),
-        quoteCurrencyName: 'wSOL',
-        nftCollectionCreator: new PublicKey('F69tu2rGcBrTtUT2ZsevujKRP4efVs9VfZPK2hYbYhvi'),
-        nftOraclePrice: new PublicKey('FNu14oQiSkLFw5iR5Nhc4dTkHqJH5thg1CRVQkwx66LZ'),
-        nftOracleProduct: new PublicKey('FNu14oQiSkLFw5iR5Nhc4dTkHqJH5thg1CRVQkwx66LZ')
-      });
-    }
+    // if (honeyClient && wallet?.publicKey) {
+    //   honeyClient.createMarket({
+    //     owner: wallet.publicKey,
+    //     quoteCurrencyMint: new PublicKey('So11111111111111111111111111111111111111112'),
+    //     quoteCurrencyName: 'wSOL',
+    //     nftCollectionCreator: new PublicKey('F69tu2rGcBrTtUT2ZsevujKRP4efVs9VfZPK2hYbYhvi'),
+    //     nftOraclePrice: new PublicKey('FNu14oQiSkLFw5iR5Nhc4dTkHqJH5thg1CRVQkwx66LZ'),
+    //     nftOracleProduct: new PublicKey('FNu14oQiSkLFw5iR5Nhc4dTkHqJH5thg1CRVQkwx66LZ')
+    //   });
+    // }
+    return;
   }
-  
-  // createMarket();
 
   /**
-   * @description logic for rendering borrow or lend page 
+   * @description logic for rendering borrow or lend page
    * @params 0 | 1
    * @returns state for rendering correct modal
   */
   const [borrowOrLend, setBorrowOrLend] = useState(TYPE_ZERO);
   const loadBorrowPage = wallet && borrowOrLend === TYPE_ZERO;
   const loadLendPage = wallet && borrowOrLend === TYPE_ONE;
-  
+
   /**
    * @description logic for rendering out create market page
    * @params 0 | 1
    * @returns create market modal or Pool modal in return of Loan component
   */
   const [renderCreateMarket, setRenderCreateMarket] = useState(TYPE_ZERO);
-  
+
   useEffect(() => {
   }, [renderCreateMarket]);
-  
+
   function handleCreateMarket() {
     setRenderCreateMarket(TYPE_ONE);
   }
@@ -137,7 +202,7 @@ const Loan: NextPage = () => {
           >
             <Stack>
         {
-          renderCreateMarket == 1 
+          renderCreateMarket == 1
           ?
             <CreateMarket
               setRenderCreateMarket={setRenderCreateMarket}
@@ -157,7 +222,7 @@ const Loan: NextPage = () => {
                 <Text>Total borrowed</Text>
                 <Text>Interest</Text>
                 <Text>Available</Text>
-                <Text>Your positions</Text>
+                <Text>Total positions</Text>
               </Box>
               <Box>
                 <hr className={styles.lineDivider}></hr>
@@ -171,7 +236,6 @@ const Loan: NextPage = () => {
                           <a>
                             <AssetRow
                               data={item}
-                              openPositions={currentOpenPositions}
                             />
                           </a>
                         </Link>
@@ -182,18 +246,16 @@ const Loan: NextPage = () => {
                           as={`/loan/lend/${item.vaultName}`}
                         >
                           <a>
-                            <AssetRow 
+                            <AssetRow
                               data={item}
-                              openPositions={currentOpenPositions}
                             />
                           </a>
                         </Link>
                       )}
                       {!wallet && (
                         <Box onClick={connect} cursor="pointer">
-                          <AssetRow 
-                            data={item} 
-                            openPositions={currentOpenPositions}
+                          <AssetRow
+                            data={item}
                           />
                         </Box>
                       )}

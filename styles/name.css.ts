@@ -1,4 +1,4 @@
-import { style } from '@vanilla-extract/css';
+import { globalStyle, style } from '@vanilla-extract/css';
 
 export const cardsContainer = style({
   display: 'grid',
@@ -21,3 +21,10 @@ export const loanCardsContainer = style({
     }
   }
 });
+
+export const flexContainer = style({
+});
+
+globalStyle(`${flexContainer} > div div`, {
+  justifyContent: 'space-between'
+})

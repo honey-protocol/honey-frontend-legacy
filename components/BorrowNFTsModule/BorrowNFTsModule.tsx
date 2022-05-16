@@ -4,26 +4,61 @@ import LoanBorrow from '../../components/LoanBorrow';
 import LoanRepay from '../../components/LoanRepay';
 import * as styles from './BorrowNFTsModule.css';
 import ToggleSwitchLoan from '../../components/ToggleSwitchLoan';
-import ToggleSwitch from 'components/ToggleSwitch';
 
 interface BorrowNFTsModule {
   NFT?: any,
   executeWithdrawNFT: (key: any) => void;
   mint: any;
-  executeBorrow:() => void;
-  executeRepay: () => void;
+  executeBorrow:(val: any) => void;
+  executeRepay: (val: any) => void;
   honeyUser: any;
   openPositions?: any;
   loanPositions: any;
   parsedReserves: any;
+  userAvailableNFTs: any;
+  userDebt: number;
+  userAllowance: number;
+  loanToValue: number;
+  fetchMarket: Function;
+  liqidationThreshold: number;
 }
-
+ 
 const BorrowNFTsModule = (props: BorrowNFTsModule) => {
-  const { NFT, executeWithdrawNFT, mint, loanPositions, executeBorrow, executeRepay, openPositions, parsedReserves } = props;
+  const { 
+    NFT, 
+    executeWithdrawNFT, 
+    mint, 
+    loanPositions, 
+    executeBorrow, 
+    executeRepay, 
+    openPositions, 
+    parsedReserves, 
+    userAvailableNFTs, 
+    userDebt, 
+    userAllowance, 
+    loanToValue, 
+    fetchMarket,
+    liqidationThreshold
+  } = props;
 
+  /**
+   * @description sets default state for borrow or repay module 0 = borrow 1 = repay
+   * @params 0 || 1
+   * @returns borrow or repay module to be rendered 
+  */
   const [borrowOrRepay, setBorrowOrRepay] = useState(0);
-
-  useEffect(() => {}, [loanPositions])
+  
+  /**
+   * @description updates loanPositions
+   * @params none
+   * @returns loanPositions
+  */
+  useEffect(() => {
+  }, [loanPositions]);
+  
+  function handleExecute(key: any) {
+    executeWithdrawNFT(key);
+  }
 
   return (
     <Box className={styles.cardContainer}>
@@ -46,9 +81,26 @@ const BorrowNFTsModule = (props: BorrowNFTsModule) => {
               openPositions={openPositions} 
               loanPositions={loanPositions} 
               parsedReserves={parsedReserves}
+              userDebt={userDebt}
+              userAllowance={userAllowance}
+              loanToValue={loanToValue}
+              fetchMarket={fetchMarket}
+              liqidationThreshold={liqidationThreshold}
             />
           ) : (
-            <LoanRepay NFT={NFT} executeWithdrawNFT={executeWithdrawNFT} mint={mint} executeRepay={executeRepay} loanPositions={loanPositions} />
+            <LoanRepay 
+              NFT={NFT} 
+              executeWithdrawNFT={handleExecute} 
+              mint={mint} 
+              executeRepay={executeRepay} 
+              loanPositions={loanPositions} 
+              parsedReserves={parsedReserves}
+              userDebt={userDebt}
+              userAllowance={userAllowance}
+              loanToValue={loanToValue}
+              fetchMarket={fetchMarket}
+              liqidationThreshold={liqidationThreshold}
+            />
           )}
         </Stack>
       </Card>

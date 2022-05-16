@@ -2,6 +2,7 @@ import React, { useContext, useState } from 'react';
 import { Box, Button, Stack, Text } from 'degen';
 import { Avatar } from 'degen';
 import * as loanStyles from '../styles/loan.css';
+import CollateralPopup from '../components/CollateralPopup/CollateralPopup';
 
 interface LoanNewBorrowProps {
   NFT: any;
@@ -9,15 +10,38 @@ interface LoanNewBorrowProps {
   mint?: any;
   executeDepositNFT: (key: any) => void;
   loanPositions: any;
+  parsedReserves: any;
+  openPositions: any;
+  userAvailableNFTs: any;
+  reFetchNFTs: (val: any) => void;
+  refreshPositions: () => void;
+  liqidationThreshold: number;
 }
 
 const LoanNewBorrow = (props: LoanNewBorrowProps) => {
-  const { NFT, mint, executeDepositNFT, loanPositions } = props;
+  const { NFT, mint, executeDepositNFT, loanPositions, parsedReserves, openPositions, userAvailableNFTs, reFetchNFTs, refreshPositions, liqidationThreshold } = props;
+  const [showCollateralPopup, setShowCollateralPopup] = useState(0);
+
+  async function handleExecute(val: any) {
+    if (openPositions?.length > 0) {
+      setShowCollateralPopup(1);
+      return;
+    }
+
+    executeDepositNFT(val);
+  }
+
 
   if (!NFT) return null;
 
   return (
     <Box display="flex" paddingTop="5" gap="3" minHeight="full" className={loanStyles.loanWrapper}>
+      {
+        showCollateralPopup == 1 && 
+        <CollateralPopup 
+          setShowCollateralPopup={setShowCollateralPopup}
+        />
+      }
       <Stack flex={1} justify={'space-between'}>
         <Stack justify="space-between">
           <Stack justify="space-between" align="center">
@@ -30,8 +54,8 @@ const LoanNewBorrow = (props: LoanNewBorrowProps) => {
         <Stack>
           <hr className={loanStyles.lineDivider}></hr>
           <Box paddingTop="1" paddingBottom="1">
-            <Stack justify="space-between">
-              <Stack
+            <Stack justify="flex-start">
+              {/* <Stack
                 direction="horizontal"
                 justify="space-between"
                 align="center"
@@ -43,7 +67,7 @@ const LoanNewBorrow = (props: LoanNewBorrowProps) => {
                 <Text align="right" color="foreground">
                   10%
                 </Text>
-              </Stack>
+              </Stack> */}
               <Stack
                 direction="horizontal"
                 justify="space-between"
@@ -54,7 +78,7 @@ const LoanNewBorrow = (props: LoanNewBorrowProps) => {
                   Estimated value
                 </Text>
                 <Text align="right" color="foreground">
-                  5 SOL
+                  2 SOL
                 </Text>
               </Stack>
               <Stack
@@ -67,7 +91,7 @@ const LoanNewBorrow = (props: LoanNewBorrowProps) => {
                   Loan to value ratio
                 </Text>
                 <Text align="right" color="foreground">
-                  50%
+                  0%
                 </Text>
               </Stack>
               <Stack
@@ -80,7 +104,7 @@ const LoanNewBorrow = (props: LoanNewBorrowProps) => {
                   Liquidation threshold
                 </Text>
                 <Text align="right" color="foreground">
-                  50%
+                  {liqidationThreshold}%
                 </Text>
               </Stack>
             </Stack>
@@ -88,10 +112,9 @@ const LoanNewBorrow = (props: LoanNewBorrowProps) => {
         </Stack>
         <Box marginBottom="10">
           <Button
-            onClick={() => executeDepositNFT(NFT.mint)}
+            onClick={() => handleExecute(NFT.mint)}
             width="full"
-          >
-            Deposit
+          >Deposit
           </Button>
         </Box>
       </Stack>
