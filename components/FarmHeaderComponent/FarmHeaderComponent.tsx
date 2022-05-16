@@ -3,7 +3,12 @@ import React, { useMemo, useState } from 'react';
 import { LAMPORTS_PER_SOL } from '@solana/web3.js';
 import useGemFarm from 'hooks/useGemFarm';
 
-const FarmHeaderComponent = () => {
+interface FarmHeaderComponentProps {
+  farmerState: string;
+}
+
+const FarmHeaderComponent = (props: FarmHeaderComponentProps) => {
+  const { farmerState } = props;
   const {
     farmerAcc,
     farmAcc,
@@ -11,7 +16,6 @@ const FarmHeaderComponent = () => {
     rewardTokenName,
     handleRefreshRewardsButtonClick,
     claimRewards,
-    farmerState,
     stakedNFTsInFarm,
     farmerVaultLocked,
     lockVault
