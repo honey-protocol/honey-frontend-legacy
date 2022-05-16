@@ -16,6 +16,7 @@ import 'degen/styles';
 import '../styles/globals.css';
 import 'react-toastify/dist/ReactToastify.css';
 import { GovernorProvider } from 'hooks/tribeca/useGovernor';
+import Script from 'next/script';
 
 const queryClient = new QueryClient();
 const network = process.env.NETWORK as Network;
@@ -50,6 +51,21 @@ function MyApp({ Component, pageProps }: AppProps) {
       defaultMode="dark"
       defaultAccent={storedAccent || defaultAccent}
     >
+      <Script
+        strategy="lazyOnload"
+        src={`https://www.googletagmanager.com/gtag/js?id=${process.env.NEXT_PUBLIC_GA}`}
+      />
+
+      <Script id="gtm-script" strategy="lazyOnload">
+        {`
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', '${process.env.NEXT_PUBLIC_GA}');
+
+       `}
+      </Script>
       <QueryClientProvider client={queryClient}>
         <ReactQueryDevtools initialIsOpen={false} />
         <WalletKitProvider
