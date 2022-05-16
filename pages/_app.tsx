@@ -10,6 +10,17 @@ import { accentSequence, ThemeAccent } from 'helpers/theme-utils';
 import { PartialNetworkConfigMap } from '@saberhq/use-solana/src/utils/useConnectionInternal';
 import { useEffect, useState } from 'react';
 import SecPopup from 'components/SecPopup';
+import Script from 'next/script';
+
+// <!-- Global site tag (gtag.js) - Google Analytics -->
+// <script async src="https://www.googletagmanager.com/gtag/js?id=G-CMKR54KXXT%22%3E</script>
+// <script>
+//   window.dataLayer = window.dataLayer || [];
+//   function gtag(){dataLayer.push(arguments);}
+//   gtag('js', new Date());
+
+//   gtag('config', 'G-CMKR54KXXT');
+// </script>
 
 const network = process.env.NETWORK as Network;
 const networkConfiguration = () => {
@@ -43,6 +54,21 @@ function MyApp({ Component, pageProps }: AppProps) {
       defaultMode="dark"
       defaultAccent={storedAccent || defaultAccent}
     >
+      <Script
+        strategy="lazyOnload"
+        src={`https://www.googletagmanager.com/gtag/js?id=${process.env.NEXT_PUBLIC_GA}`}
+      />
+
+      <Script id="gtm-script" strategy="lazyOnload">
+        {`
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+
+          gtag('config', '${process.env.NEXT_PUBLIC_GA}');
+
+         `}
+      </Script>
       <WalletKitProvider
         defaultNetwork={network}
         app={{
