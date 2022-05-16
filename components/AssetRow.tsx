@@ -57,7 +57,7 @@ const AssetRow = ({ data, openPositions }: AssetRowProps) => {
                 <Box
                 >
                     <Text align="center" >
-                        {data.interest}
+                        {data.interest}%
                     </Text>
                 </Box>
                 <Box

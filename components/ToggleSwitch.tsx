@@ -1,5 +1,6 @@
 import { Box, Button, Stack } from 'degen';
 import React, { useState } from 'react';
+import {TYPE_PRIMARY, TYPE_SECONDARY} from '../constants/loan';
 
 interface ToggleSwitchProps {
   buttons: {
@@ -26,7 +27,7 @@ const ToggleSwitch = (props: ToggleSwitchProps) => {
             <Button
               width="full"
               onClick={() => button.onClick()}
-              variant={i === activeIndex ? 'primary' : 'secondary'}
+              variant={i === activeIndex ? TYPE_PRIMARY : TYPE_SECONDARY}
               key={i}
               size="small"
             >

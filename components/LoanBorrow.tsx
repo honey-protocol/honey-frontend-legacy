@@ -23,6 +23,7 @@ interface LoanBorrowProps {
 
 const LoanBorrow = (props: LoanBorrowProps) => {
     const { NFT, executeBorrow, openPositions, loanPositions, parsedReserves } = props;
+    
     const [noPositions, setNoPositions] = useState('');
     const [currentLoanPosition, updateCurrentLoanPosition] = useState(0);
 
