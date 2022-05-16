@@ -5,20 +5,20 @@ import useGemFarm from 'hooks/useGemFarm';
 
 interface FarmHeaderComponentProps {
   farmerState: string;
+  stakedNFTsInFarm: { [tokenId: string]: NFT; };
+  farmerVaultLocked: boolean;
+  lockVault: () => Promise<void>;
 }
 
 const FarmHeaderComponent = (props: FarmHeaderComponentProps) => {
-  const { farmerState } = props;
+  const { farmerState,stakedNFTsInFarm, farmerVaultLocked, lockVault } = props;
   const {
     farmerAcc,
     farmAcc,
     collectionTotalNumber,
     rewardTokenName,
     handleRefreshRewardsButtonClick,
-    claimRewards,
-    stakedNFTsInFarm,
-    farmerVaultLocked,
-    lockVault
+    claimRewards
   } = useGemFarm();
 
   const [txLoading, setTxLoading] = useState({
