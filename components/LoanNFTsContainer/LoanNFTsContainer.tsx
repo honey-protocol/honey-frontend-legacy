@@ -2,6 +2,7 @@ import LoanNFTCard from '../LoanNftCard';
 import { Box, Button, Card, Spinner, Stack, Text } from 'degen';
 import React, { useState, useEffect } from 'react';
 import * as styles from './LoanNFTsContainer.css';
+import {OPEN_POSITIONS, TYPE_OPEN, TYPE_PRIMARY, TYPE_SECONDARY} from '../../constants/loan';
 
 type TButton = {
   title: string;
@@ -35,17 +36,6 @@ const LoanNFTsContainer = (props: LoanNFTsContainerProps) => {
     nftArrayType
   } = props;
 
-  const placeholderNFTObject = {
-    selected: '',
-    key: '',
-    NFT: '',
-    onSelectNFT: '',
-    available: false,
-    executeDepositNFT: () => {},
-    handleActiveState: () => {},
-    activeNFT: ''
-  }
-
   /**
    * @description based off renderNFTs either open positions (0) gets rendered or available nfts (1)
    * @params 0 or 1
@@ -63,7 +53,7 @@ const LoanNFTsContainer = (props: LoanNFTsContainerProps) => {
   const [highlightNFTAvailable, setHighlightNFTAvailable] = useState(0);
 
   function handleActiveState(nft: any, positionType: string) {
-    if (positionType == 'open') {
+    if (positionType == TYPE_OPEN) {
       setHighlightNFTOpen(nft)
     } else {
       setHighlightNFTAvailable(nft)
@@ -81,7 +71,7 @@ const LoanNFTsContainer = (props: LoanNFTsContainerProps) => {
    * @returns nothing - sets state of to be rendered nft array
   */
   function handleNFTModal(nftType: string) {
-    if (nftType == 'Open positions') {
+    if (nftType == OPEN_POSITIONS) {
       setRenderNFTs(0);
       handleBorrow(1);
       setActiveIndex(0);
@@ -110,9 +100,9 @@ const LoanNFTsContainer = (props: LoanNFTsContainerProps) => {
                     <Button
                       key={button.title}
                       size="small"
-                      disabled={button.title == 'Open positions' && openPositions?.length < 1 ? true : false}
+                      disabled={button.title == OPEN_POSITIONS && openPositions?.length < 1 ? true : false}
                       onClick={() => handleNFTModal(button.title)}
-                      variant={i === activeIndex ? 'primary' : 'secondary'}
+                      variant={i === activeIndex ? TYPE_PRIMARY : TYPE_SECONDARY}
                     >
                       {button.title}
                     </Button>
