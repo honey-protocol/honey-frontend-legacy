@@ -12,16 +12,6 @@ import { useEffect, useState } from 'react';
 import SecPopup from 'components/SecPopup';
 import Script from 'next/script';
 
-// <!-- Global site tag (gtag.js) - Google Analytics -->
-// <script async src="https://www.googletagmanager.com/gtag/js?id=G-CMKR54KXXT%22%3E</script>
-// <script>
-//   window.dataLayer = window.dataLayer || [];
-//   function gtag(){dataLayer.push(arguments);}
-//   gtag('js', new Date());
-
-//   gtag('config', 'G-CMKR54KXXT');
-// </script>
-
 const network = process.env.NETWORK as Network;
 const networkConfiguration = () => {
   if (process.env.NETWORK_CONFIGURATION) {
