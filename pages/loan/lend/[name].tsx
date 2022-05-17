@@ -100,6 +100,7 @@ const sdkConfig = ConfigureSDK();
     const depositReserve = honeyReserves.filter((reserve) =>
       reserve?.data?.tokenMint?.equals(depositTokenMint),
     )[0];
+
     const reserveState = depositReserve.data?.reserveState;
     console.log('outstandingDebt', reserveState?.outstandingDebt.toString());
     console.log('totalDepositNotes', reserveState?.totalDepositNotes.toString());
@@ -116,6 +117,15 @@ const sdkConfig = ConfigureSDK();
     const tokenAmount = 1 * LAMPORTS_PER_SOL;
     const depositTokenMint = new PublicKey('So11111111111111111111111111111111111111112');
     await withdraw(honeyUser, tokenAmount, depositTokenMint, honeyReserves);
+    const withdrawReserve = honeyReserves.filter((reserve) =>
+      reserve?.data?.tokenMint?.equals(depositTokenMint),
+    )[0];
+
+    const reserveState = withdrawReserve.data?.reserveState;
+    console.log('outstandingDebt', reserveState?.outstandingDebt.toString());
+    console.log('totalDepositNotes', reserveState?.totalDepositNotes.toString());
+    console.log('totalDeposits', reserveState?.totalDeposits.toString());
+    console.log('totalLoanNotes', reserveState?.totalLoanNotes.toString());
   }
 
   return (

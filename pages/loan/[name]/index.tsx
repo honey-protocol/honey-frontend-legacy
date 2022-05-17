@@ -105,8 +105,9 @@ const Loan: NextPage = () => {
   useEffect(() => {
     console.log('marketreserve', marketReserveInfo);
     if (parsedReserves) {
-      console.log('@@@@@@@@@ outstandingDebt-', (new BN(parsedReserves[0].reserveState.outstandingDebt).div(new BN(10**9)).toNumber()));
-      console.log('@@@@ totalDeposits @@@@', (parsedReserves[0].reserveState.totalDeposits.toString()));
+      console.log('@@@@@@@@@ outstandingDebt-', parsedReserves);
+      console.log('@@@@@@@@@ outstandingDebt-', (new BN(parsedReserves[0].reserveState.outstandingDebt).div(new BN(10**15)).toNumber()));
+      // console.log('@@@@ totalDeposits @@@@', (parsedReserves[0].reserveState.totalDeposits.toString()));
     }
     console.log('market', market)
   }, [market, marketReserveInfo, parsedReserves]);
