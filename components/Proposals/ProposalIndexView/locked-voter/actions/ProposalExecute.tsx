@@ -1,21 +1,18 @@
 import { mapSome, useTXHandlers } from '@saberhq/sail';
-import { TransactionInstruction } from '@solana/web3.js';
 // import pluralize from 'pluralize';
 import Countdown from 'react-countdown';
-import invariant from 'tiny-invariant';
 
-import { useSDK } from 'helpers/sdk';
+// import { useSDK } from 'helpers/sdk';
 import { useExecutiveCouncil } from 'hooks/tribeca/useExecutiveCouncil';
-import { useGovernor } from 'hooks/tribeca/useGovernor';
+// import { useGovernor } from 'hooks/tribeca/useGovernor';
 import type { ProposalInfo } from 'hooks/tribeca/useProposals';
 import { useGokiTransactionData } from 'helpers/parser';
-import { gokiTXLink, tsToDate } from 'helpers/utils';
+import { tsToDate } from 'helpers/utils';
 // import { AsyncConfirmButton } from '../../../../../../common/AsyncConfirmButton';
 // import { Card } from '../../../../../../common/governance/Card';
 // import { ExternalLink } from '../../../../../../common/typography/ExternalLink';
 // import { ProseSmall } from '../../../../../../common/typography/Prose';
 // import { ExecuteProposalButton } from '../../../../GovernanceManageView/tabs/ExecutiveCouncilTab/ExecuteProposalButton';
-import { EmbedTX } from '../EmbedTX';
 import { Card } from 'components/common/governance/Card';
 import { Box, Text } from 'degen';
 import Link from 'next/link';
@@ -29,9 +26,9 @@ export const ProposalExecute: React.FC<Props> = ({
   proposal,
   onActivate
 }: Props) => {
-  const { governorW, smartWallet, manifest } = useGovernor();
-  const emergencyDAO = manifest?.addresses?.['emergency-dao']?.address;
-  const { sdkMut } = useSDK();
+  // const { governorW, smartWallet } = useGovernor();
+  // const emergencyDAO = manifest?.addresses?.['emergency-dao']?.address;
+  // const { sdkMut } = useSDK();
   const { ecWallet, isMemberOfEC } = useExecutiveCouncil();
   const { data: gokiTransactionData } = useGokiTransactionData(
     proposal.proposalData.queuedTransaction

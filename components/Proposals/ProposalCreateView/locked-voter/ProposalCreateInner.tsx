@@ -6,19 +6,13 @@ import {
 } from '@saberhq/sail';
 import { LAMPORTS_PER_SOL, SystemProgram, Transaction } from '@solana/web3.js';
 import ReactMarkdown from 'react-markdown';
+import { Box, Button, Card, Heading, Input, Textarea, Text } from 'degen';
 
 import { useExecutiveCouncil } from 'hooks/tribeca/useExecutiveCouncil';
 import { useGovernor } from 'hooks/tribeca/useGovernor';
-// import { AsyncButton } from '../../../../../common/AsyncButton';
-// import { Button } from '../../../../../common/Button';
-// import { Card } from '../../../../../common/governance/Card';
-// import { HelperCard } from '../../../../../common/HelperCard';
-// import { InputText, Textarea } from '../../../../../common/inputs/InputText';
-// import { LabeledInput } from '../../../../../common/inputs/LabeledInput';
 import { ProposalConfirmModal } from './ProposalConfirmationModal';
 import { ProposalTXForm } from './ProposalTXForm';
 import { HelperCard } from 'components/common/HelperCard';
-import { Box, Button, Card, Heading, Input, Textarea, Text } from 'degen';
 import { AsyncButton } from 'components/AsyncButton';
 
 export const ProposalCreateInner: React.FC = () => {
