@@ -55,11 +55,11 @@ const VeHoneyModal = () => {
   // ======================== Should replace with configuration ================
   const pHoneyToken = tokenAccounts.find(t => t.info.mint.equals(PHONEY_MINT));
   const STAKE_POOL_ADDRESS = new PublicKey(
-    process.env.NEXT_STAKE_POOL_ADDR ||
+    process.env.NEXT_PUBLIC_STAKE_POOL_ADDR ||
       '4v62DWSwrUVEHe2g88MeyJ7g32vVzQsCnADZF8yUy8iU'
   );
   const LOCKER_ADDRESS = new PublicKey(
-    process.env.NEXT_LOCKER_ADDR ||
+    process.env.NEXT_PUBLIC_LOCKER_ADDR ||
       '5FnK8H9kDbmPNpBYMuvSkDevkMfnVPRrPNNqmTQyBBae'
   );
   // ============================================================================

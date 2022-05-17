@@ -37,6 +37,7 @@ import {
   calcVeHoneyAmount
 } from 'helpers/utils';
 import { HIPS } from 'constants/hip-links';
+import { ProposalsList } from 'components/Proposals/ProposalsList';
 
 const Governance: NextPage = () => {
   const wallet = useConnectedWallet();
@@ -52,11 +53,11 @@ const Governance: NextPage = () => {
   const honeyToken = tokenAccounts.find(t => t.info.mint.equals(HONEY_MINT));
 
   const STAKE_POOL_ADDRESS = new PublicKey(
-    process.env.NEXT_STAKE_POOL_ADDR ||
+    process.env.NEXT_PUBLIC_STAKE_POOL_ADDR ||
       'Cv9Hx3VRvqkz5JRPiZM8A2BH31yvpcT4qiUJLdtgu7TE'
   );
   const LOCKER_ADDRESS = new PublicKey(
-    process.env.NEXT_LOCKER_ADDR ||
+    process.env.NEXT_PUBLIC_LOCKER_ADDR ||
       '5FnK8H9kDbmPNpBYMuvSkDevkMfnVPRrPNNqmTQyBBae'
   );
   // ============================================================================
@@ -363,29 +364,7 @@ const Governance: NextPage = () => {
           >
             Recent Proposals
           </Text>
-          <Stack>
-            {HIPS.map(hip => (
-              <Box
-                as="a"
-                href={hip.link}
-                target="blank"
-                cursor="pointer"
-                key={hip.link}
-              >
-                <Card hover padding="5">
-                  <Stack align="center" direction="horizontal">
-                    <Stack flex={1}>
-                      <Text weight="bold" size="large">
-                        {hip.title}
-                      </Text>
-                      <Tag hover>{hip.date}</Tag>
-                    </Stack>
-                    <IconChevronRight color="text" />
-                  </Stack>
-                </Card>
-              </Box>
-            ))}
-          </Stack>
+          <ProposalsList maxCount={3} />
         </Box>
       </Stack>
     </Layout>

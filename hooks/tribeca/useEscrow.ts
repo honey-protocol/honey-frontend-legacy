@@ -37,10 +37,15 @@ export const useEscrow = (owner?: PublicKey) => {
       enabled: !!(lockerKey && owner)
     }
   );
-  const { data: escrow, isLoading: isEscrowLoading } = useEscrowData(escrowKey);
 
+  const {
+    data: escrow,
+    isLoading: isEscrowLoading,
+    ...rest
+  } = useEscrowData(escrowKey);
   const canLoadEscrow =
     !!governorData && !!(lockerKey && owner && tribecaMut && escrow);
+  console.log(canLoadEscrow, rest);
   const result = useQuery(
     ['escrow', escrow?.publicKey.toString()],
     async () => {

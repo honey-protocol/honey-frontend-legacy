@@ -101,7 +101,7 @@ export const ProposalsList: React.FC<Props> = ({
       <div>
         <EmptyState title="There aren't any proposals yet.">
           <Text>
-            <Link href={`proposals/create`} passHref>
+            <Link href={'/governance/proposals/create'} passHref>
               Create a proposal
             </Link>
           </Text>
