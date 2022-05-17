@@ -156,7 +156,7 @@ const useGovernorInner = (props: GovernorProps | undefined) => {
         'To create a proposal, first make a post on the [GGA Discord](https://discord.gg/k3UtYYzcvu).\nOnce you have determined that there is sufficient community support,\nadd the link to the discussion thread and create a proposal.\n',
       discussion: {
         required: true,
-        prefix: 've'
+        prefix: 'https://forum.honey.finance/t'
       }
     }
   };
