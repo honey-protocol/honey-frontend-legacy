@@ -17,7 +17,7 @@ export const CastVoteButton: React.FC<Props> = ({
     <ModalButton
       // tw="max-w-md"
       buttonProps={{
-        variant: 'outline'
+        variant: 'tertiary'
         // css: tw`border-white w-2/5 hover:(border-primary bg-primary bg-opacity-20)`
       }}
       buttonLabel={

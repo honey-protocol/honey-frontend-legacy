@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import { Box, Stack, Text } from 'degen';
 import formatDistance from 'date-fns/formatDistance';
 
@@ -18,9 +19,9 @@ export const GitHubComments: React.FC<Props> = ({ issue }: Props) => {
       <Stack space="4">
         {githubComments?.map(comment => (
           <Box key={comment.id} display="flex" width="full" gap="4">
-            <img
+            <Image
               src={comment.user?.avatar_url ?? ''}
-              tw="w-8 h-8 rounded-full"
+              // tw="w-8 h-8 rounded-full"
               alt={`Profile of ${comment.user?.login ?? ''}`}
             />
             <Box
@@ -58,13 +59,15 @@ export const GitHubComments: React.FC<Props> = ({ issue }: Props) => {
           </Box>
         ))}
       </Stack>
-      <div tw="w-full text-center py-8">
-        Got something to say? Add a comment to the{' '}
-        <a href={issue.html_url} target="_blank" rel="noreferrer">
-          proposal on GitHub
-        </a>
-        .
-      </div>
+      <Box width="full" textAlign="center" paddingY="8">
+        <Text>
+          Got something to say? Add a comment to the{' '}
+          <a href={issue.html_url} target="_blank" rel="noreferrer">
+            proposal on GitHub
+          </a>
+          .
+        </Text>
+      </Box>
       {/* </ProseSmall> */}
     </Card>
   );

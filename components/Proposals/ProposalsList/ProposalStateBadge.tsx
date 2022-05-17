@@ -1,6 +1,13 @@
 import { ProposalState } from '@tribecahq/tribeca-sdk';
 import { startCase } from 'lodash';
-import { IconCheck, IconPencil, IconClose, IconRefresh } from 'degen';
+import {
+  IconCheck,
+  IconPencil,
+  IconClose,
+  IconRefresh,
+  Box,
+  Text
+} from 'degen';
 import type { ProposalStatus } from 'hooks/tribeca/useProposals';
 
 interface Props {
@@ -20,28 +27,64 @@ const getStateIcon = (state: ProposalState): React.ReactNode => {
   switch (state) {
     case ProposalState.Active:
       return (
-        <div tw="bg-accent text-white h-6 w-6 rounded-full flex items-center justify-center">
-          <IconRefresh />
-        </div>
+        <Box
+          borderRadius="full"
+          color="white"
+          display="flex"
+          alignItems="center"
+          justifyContent="center"
+          backgroundColor="accent"
+          width="6"
+          height="6"
+        >
+          <IconRefresh size="6" />
+        </Box>
       );
     case ProposalState.Canceled:
     case ProposalState.Defeated:
       return (
-        <div tw="bg-gray-500 text-white h-6 w-6 rounded-full flex items-center justify-center">
-          <IconClose />
-        </div>
+        <Box
+          borderRadius="full"
+          color="white"
+          display="flex"
+          alignItems="center"
+          justifyContent="center"
+          backgroundColor="accentSecondary"
+          width="6"
+          height="6"
+        >
+          <IconClose size="6" />
+        </Box>
       );
     case ProposalState.Draft:
       return (
-        <div tw="bg-gray-500 text-white h-6 w-6 rounded-full flex items-center justify-center">
-          <IconPencil />
-        </div>
+        <Box
+          borderRadius="full"
+          color="white"
+          display="flex"
+          alignItems="center"
+          justifyContent="center"
+          backgroundColor="accentSecondary"
+          width="6"
+          height="6"
+        >
+          <IconPencil size="6" />
+        </Box>
       );
     default:
       return (
-        <div tw="bg-primary text-white h-6 w-6 rounded-full flex items-center justify-center">
-          <IconCheck />
-        </div>
+        <Box
+          borderRadius="full"
+          color="white"
+          display="flex"
+          alignItems="center"
+          justifyContent="center"
+          backgroundColor="accent"
+          width="6"
+          height="6"
+        >
+          <IconCheck size="6" />
+        </Box>
       );
   }
 };
@@ -49,11 +92,16 @@ const getStateIcon = (state: ProposalState): React.ReactNode => {
 export const ProposalStateBadge: React.FC<Props> = ({ status }: Props) => {
   const { executed, state } = status;
   return (
-    <div tw="flex flex-col items-center gap-1 lg:(flex-row gap-5)">
+    <Box
+      display="flex"
+      flexDirection={{ lg: 'row', md: 'column' }}
+      alignItems="center"
+      gap={{ lg: '5', md: '1' }}
+    >
       {getStateIcon(state)}
-      <span tw="text-xs md:text-sm text-white">
+      <Text as="span" size="small" color="white">
         {startCase(executed ? 'executed' : STATE_LABELS[state])}
-      </span>
-    </div>
+      </Text>
+    </Box>
   );
 };

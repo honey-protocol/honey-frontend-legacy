@@ -82,9 +82,12 @@ export const useProposal = (index: number) => {
   const id = `000${index}`.slice(-4);
 
   const proposalKeys = useQuery(
-    ['proposalKeys', network, governor.toString(), index],
+    ['proposalKeys', network, governor?.toString(), index],
     async () => {
-      const [proposalKey] = await findProposalAddress(governor, new u64(index));
+      const [proposalKey] = await findProposalAddress(
+        governor!,
+        new u64(index)
+      );
       const [proposalMetaKey] = await findProposalMetaAddress(proposalKey);
       return { proposalKey, proposalMetaKey };
     }
@@ -105,7 +108,7 @@ export const useProposal = (index: number) => {
   const isLoading =
     (queued && !txData) || !proposalData || proposalMetaData === undefined;
   const proposalInfoQuery = useQuery({
-    queryKey: ['proposalInfo', network, governor.toString(), index],
+    queryKey: ['proposalInfo', network, governor?.toString(), index],
     queryFn: (): ProposalInfo => {
       invariant(proposalData);
       return buildProposalInfo({
@@ -176,7 +179,7 @@ export const useProposals = () => {
           .fill(null)
           .map((_, i) => proposalCount - i - 1)
           .map(i => ({
-            queryKey: ['proposalKeys', network, governor.toString(), i],
+            queryKey: ['proposalKeys', network, governor?.toString(), i],
             queryFn: async () => {
               invariant(governorData);
               const [proposalKey] = await findProposalAddress(
@@ -231,7 +234,7 @@ export const useProposals = () => {
           .fill(null)
           .map((_, i) => proposalCount - i - 1)
           .map(i => ({
-            queryKey: ['proposalInfo', network, governor.toString(), i],
+            queryKey: ['proposalInfo', network, governor?.toString(), i],
             queryFn: (): ProposalInfo | null => {
               const proposalData = proposalsData.find(
                 p => p?.accountInfo.data.index.toNumber() === i
