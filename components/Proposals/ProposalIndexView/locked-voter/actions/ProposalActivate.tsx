@@ -103,7 +103,7 @@ export const ProposalActivate: React.FC<Props> = ({
             </Button>
           </Box>
         ) : (
-          <Box display="flex" flexDirection="column" gap="4">
+          <Box display="flex" flexDirection="column" gap="4" width="full">
             <Text as="p">
               You must have at least{' '}
               <strong>{minActivationThreshold?.formatUnits()}</strong> to

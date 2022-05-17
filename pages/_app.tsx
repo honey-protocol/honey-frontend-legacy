@@ -10,8 +10,7 @@ import { ThemeProvider } from 'degen';
 import { ToastContainer } from 'react-toastify';
 import { accentSequence, ThemeAccent } from 'helpers/theme-utils';
 import SecPopup from 'components/SecPopup';
-import Script from 'next/script';
-import { GOVERNOR_ADDRESS, SDKProvider } from 'helpers/sdk';
+import { GOVERNOR_ADDRESS, HONEY_MINT, SDKProvider } from 'helpers/sdk';
 
 import 'degen/styles';
 import '../styles/globals.css';
@@ -77,17 +76,22 @@ function MyApp({ Component, pageProps }: AppProps) {
         >
           <SailProvider>
             <SDKProvider>
-              <GovernorProvider initialState={{ governor: GOVERNOR_ADDRESS }}>
-              {/* {children} */}
-              {showPopup ? (
-                <SecPopup setShowPopup={setShowPopup} />
-              ) : (
-                <>
-                  <Component {...pageProps} />
-                  <ToastContainer theme="dark" position="bottom-right" />
-                </>
-              )}
-             </GovernorProvider>
+              <GovernorProvider
+                initialState={{
+                  governor: GOVERNOR_ADDRESS,
+                  govToken: HONEY_MINT
+                }}
+              >
+                {/* {children} */}
+                {showPopup ? (
+                  <SecPopup setShowPopup={setShowPopup} />
+                ) : (
+                  <>
+                    <Component {...pageProps} />
+                    <ToastContainer theme="dark" position="bottom-right" />
+                  </>
+                )}
+              </GovernorProvider>
             </SDKProvider>
           </SailProvider>
         </WalletKitProvider>

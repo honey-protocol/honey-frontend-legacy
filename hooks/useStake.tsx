@@ -70,10 +70,10 @@ export const useStake = (stakePool: PublicKey, locker: PublicKey) => {
         const [userKey] = await sc.getUserPDA(stakePool);
         // console.log('user key: ', userKey.toString());
         const user = await sc.fetchPoolUser(userKey);
-        const lockerAcc = await vc.fetchLocker(locker);
+        const lockerAcc = await vc.fetchLockerV2(locker);
         const [escrowKey] = await vc.getEscrowPDA(locker);
         // console.log('escrow: ', escrowKey.toString());
-        const escrow = await vc.fetchEscrow(escrowKey);
+        const escrow = await vc.fetchEscrowV2(escrowKey);
 
         setPool(pool);
         setUserKey(userKey);
@@ -197,7 +197,13 @@ export const useStake = (stakePool: PublicKey, locker: PublicKey) => {
       if (sc && vc && userKey && honeyToken) {
         setIsLoading(true);
         try {
-          await vc.lock(locker, honeyToken.pubkey, amount, duration, hasEscrow);
+          await vc.lockV2(
+            locker,
+            honeyToken.pubkey,
+            amount,
+            duration,
+            hasEscrow
+          );
           toast.success('HONEY successfully vested');
           setIsLoading(false);
         } catch (e) {
@@ -215,7 +221,7 @@ export const useStake = (stakePool: PublicKey, locker: PublicKey) => {
     if (vc) {
       setIsLoading(true);
       try {
-        await vc.unlockEscrow(locker, escrowKey, honeyToken?.pubkey);
+        await vc.unlockEscrowV2(locker, escrowKey, honeyToken?.pubkey);
         setIsLoading(false);
       } catch (e) {
         console.log(e);
