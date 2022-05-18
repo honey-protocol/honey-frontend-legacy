@@ -12,7 +12,7 @@ import SecPopup from 'components/SecPopup';
 import { AnchorProvider, HoneyProvider } from '@honey-finance/sdk';
 import { useConnectedWallet, useConnection } from '@saberhq/use-solana';
 import React, { FC, ReactNode, useEffect, useState } from "react";
-
+import Script from 'next/script';
 const network = process.env.NETWORK as Network;
 
 const networkConfiguration = () => {
@@ -70,6 +70,21 @@ function MyApp({ Component, pageProps }: AppProps) {
       defaultMode="dark"
       defaultAccent={storedAccent || defaultAccent}
     >
+      <Script
+        strategy="lazyOnload"
+        src={`https://www.googletagmanager.com/gtag/js?id=${process.env.NEXT_PUBLIC_GA}`}
+      />
+
+      <Script id="gtm-script" strategy="lazyOnload">
+        {`
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+
+          gtag('config', '${process.env.NEXT_PUBLIC_GA}');
+
+         `}
+      </Script>
       <WalletKitProvider
         defaultNetwork={network}
         app={{

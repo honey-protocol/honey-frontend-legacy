@@ -11,8 +11,10 @@ import { useState } from 'react';
 const Nft: NextPage = () => {
   const {
     onWalletNFTSelect,
+    onWalletNFTSelectAll,
     onWalletNFTUnselect,
     onStakedNFTSelect,
+    onStakedNFTSelectAll,
     onStakedNFTUnselect,
     initializeFarmerAcc,
     handleStakeButtonClick,
@@ -22,7 +24,10 @@ const Nft: NextPage = () => {
     walletNFTsInFarm,
     farmerAcc,
     selectedVaultNFTs,
-    selectedWalletNFTs
+    selectedWalletNFTs,
+    farmerState,
+    farmerVaultLocked,
+    lockVault
   } = useGemFarm();
 
   const [txLoading, setTxLoading] = useState({
@@ -66,7 +71,12 @@ const Nft: NextPage = () => {
               </Button>
             </Link>
           </Box>
-          <FarmHeaderComponent />
+          <FarmHeaderComponent
+            farmerState={farmerState}
+            stakedNFTsInFarm={stakedNFTsInFarm}
+            farmerVaultLocked={farmerVaultLocked}
+            lockVault={lockVault}
+          />
         </Stack>
       </Box>
       <Box display="flex" height="full" className={styles.cardsContainer}>
@@ -75,6 +85,15 @@ const Nft: NextPage = () => {
           isFetching={isFetching}
           title="Select your NFTs"
           buttons={[
+            {
+              title: `Select All`,
+              disabled: !farmerAcc
+                ? false
+                : Object.values(walletNFTsInFarm).length > 0
+                ? false
+                : true,
+              onClick: () => onWalletNFTSelectAll()
+            },
             {
               title: !farmerAcc
                 ? 'Initialize'
@@ -100,6 +119,11 @@ const Nft: NextPage = () => {
           isFetching={isFetching}
           title="Your vault"
           buttons={[
+            {
+              title: `Select All`,
+              disabled: Object.values(stakedNFTsInFarm).length < 1,
+              onClick: () => onStakedNFTSelectAll()
+            },
             {
               title: `Unstake (${selectedVaultNFTs.length})`,
               disabled: !selectedVaultNFTs.length,
