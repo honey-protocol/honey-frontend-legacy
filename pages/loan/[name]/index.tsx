@@ -42,7 +42,7 @@ const marketNFTs = [
     name: 'COFRE #573',
     image:'https://www.arweave.net/sHPeuSwbrN3SNBwcn8OZjV_VYVp3TlONXduzyqpoXb8?ext=png',
     borrowApy: '4%',
-    estValue: '$1000',
+    estValue: '2 SOL',
     assetsBorrowed: 0,
     netBorrowBalance: 0,
     key: 1
@@ -51,7 +51,7 @@ const marketNFTs = [
     name: 'COFRE #574',
     image:'https://www.arweave.net/2XSva0NaalwsGBtxw-puVT_j1NDXecrMAGRxxvRjMK0?ext=png',
     borrowApy: '6.2%',
-    estValue: '$33,500',
+    estValue: '2 SOL',
     assetsBorrowed: 0,
     netBorrowBalance: 0,
     key: 2
@@ -60,7 +60,7 @@ const marketNFTs = [
     name: 'Cofre #529',
     image: 'https://www.arweave.net/5zeisOPbDekgyqYHd0okraQKaWwlVxvIIiXLH4Sr2M8?ext=png',
     borrowAPY: '3.1',
-    estValue: '$21.991',
+    estValue: '2 SOL',
     assetsBorrowed: 0,
     netBorrowBalance: 0,
     key: 3
@@ -100,14 +100,9 @@ const Loan: NextPage = () => {
   */
   const { market, marketReserveInfo, parsedReserves }  = useHoney();
 
-  console.log('this is market@@@@', market)
-
   useEffect(() => {
-    console.log('marketreserve', marketReserveInfo);
     if (parsedReserves) {
-      console.log('@@@@@@@@@ outstandingDebt-', parsedReserves);
-      console.log('@@@@@@@@@ outstandingDebt-', (new BN(parsedReserves[0].reserveState.outstandingDebt).div(new BN(10**15)).toNumber()));
-      // console.log('@@@@ totalDeposits @@@@', (parsedReserves[0].reserveState.totalDeposits.toString()));
+      console.log('@@@@@@@@@ outstandingDebt-', ((new BN(parsedReserves[0].reserveState.outstandingDebt).div(new BN(10**15)).toNumber())/ LAMPORTS_PER_SOL));
     }
     console.log('market', market)
   }, [market, marketReserveInfo, parsedReserves]);
