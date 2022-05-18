@@ -5,6 +5,7 @@ import { Input } from 'degen';
 import Slider from '../components/Slider/Slider';
 import * as styles from './Slider/Slider.css';
 import { LAMPORTS_PER_SOL } from '@solana/web3.js';
+import BN from 'bn.js';
 
 interface LoanBorrowProps {
     NFT: {
@@ -175,7 +176,7 @@ const LoanBorrow = (props: LoanBorrowProps) => {
                         align="right"
                         color="foreground"
                     >
-                        {parseFloat((currentLoanPosition / LAMPORTS_PER_SOL).toFixed(2))}
+                        {((new BN(parsedReserves[0].reserveState.outstandingDebt).div(new BN(10**15)).toNumber())) / LAMPORTS_PER_SOL}
                     </Text>
                     </Stack>
                 </Stack>

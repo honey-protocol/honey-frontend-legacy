@@ -4,7 +4,7 @@ import { Avatar } from 'degen';
 import { Input } from 'degen';
 import Slider from '../components/Slider/Slider';
 import { LAMPORTS_PER_SOL } from '@solana/web3.js';
-
+import BN from 'bn.js';
 interface LoanRepayProps {
     NFT: {
         name: string,
@@ -19,10 +19,11 @@ interface LoanRepayProps {
     mint: any;
     executeRepay: () => void;
     loanPositions: any;
+    parsedReserves: any;
 }
 
 const LoanRepay = (props: LoanRepayProps) => {
-    const { NFT, executeWithdrawNFT, mint, executeRepay, loanPositions } = props;
+    const { NFT, executeWithdrawNFT, mint, executeRepay, loanPositions, parsedReserves } = props;
 
     const [currentLoanPosition, updateCurrentLoanPosition] = useState(0);
     // loanpositions refers to the amount that has been borrowed as collateral
@@ -160,7 +161,7 @@ const LoanRepay = (props: LoanRepayProps) => {
                             align="right"
                             color="foreground"
                         >
-                            {parseFloat((currentLoanPosition / LAMPORTS_PER_SOL).toFixed(2))}
+                            {((new BN(parsedReserves[0].reserveState.outstandingDebt).div(new BN(10**15)).toNumber())) / LAMPORTS_PER_SOL}
                         </Text>
                     </Stack>
                 </Stack>
@@ -204,7 +205,7 @@ const LoanRepay = (props: LoanRepayProps) => {
                         	{
                             loanPositions
 														?  
-														 `${parseFloat((currentLoanPosition / 893004).toFixed(2))} SOL`
+														 `${((new BN(parsedReserves[0].reserveState.outstandingDebt).div(new BN(10**15)).toNumber())) / LAMPORTS_PER_SOL} SOL`
 														:
 														0
 													}

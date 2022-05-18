@@ -53,6 +53,7 @@ const BorrowNFTsModule = (props: BorrowNFTsModule) => {
               mint={mint} 
               executeRepay={executeRepay} 
               loanPositions={loanPositions} 
+              parsedReserves={parsedReserves}
             />
           )}
         </Stack>

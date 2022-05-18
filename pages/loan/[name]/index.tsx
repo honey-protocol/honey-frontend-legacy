@@ -295,6 +295,7 @@ const Loan: NextPage = () => {
                 mint={withDrawDepositNFT}
                 executeDepositNFT={executeDepositNFT}
                 loanPositions={loanPositions}
+                parsedReserves={parsedReserves}
               />
           }
         </Box>

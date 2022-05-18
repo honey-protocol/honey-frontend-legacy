@@ -9,10 +9,11 @@ interface LoanNewBorrowProps {
   mint?: any;
   executeDepositNFT: (key: any) => void;
   loanPositions: any;
+  parsedReserves: any;
 }
 
 const LoanNewBorrow = (props: LoanNewBorrowProps) => {
-  const { NFT, mint, executeDepositNFT, loanPositions } = props;
+  const { NFT, mint, executeDepositNFT, loanPositions, parsedReserves } = props;
 
   if (!NFT) return null;
 
