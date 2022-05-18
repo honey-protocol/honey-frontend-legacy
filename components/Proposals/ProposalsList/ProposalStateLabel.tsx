@@ -1,4 +1,4 @@
-import { ProposalState } from '@tribecahq/tribeca-sdk';
+import { ProposalState } from 'helpers/dao';
 import { Box, BoxProps, Text } from 'degen';
 import { startCase } from 'lodash';
 
@@ -20,8 +20,8 @@ export const ProposalStateLabel: React.FC<Props> = ({
   state,
   executed
 }: Props) => {
-  let borderColor: BoxProps['color'] = 'inherit';
-  let textColor: BoxProps['color'] = 'inherit';
+  let borderColor: BoxProps['color'] = 'accent';
+  let textColor: BoxProps['color'] = 'accent';
   if (
     state === ProposalState.Canceled ||
     state === ProposalState.Defeated ||

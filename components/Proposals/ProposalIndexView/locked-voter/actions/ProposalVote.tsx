@@ -1,7 +1,7 @@
 import { ConnectWalletButton } from '@gokiprotocol/walletkit';
 import { TokenAmount } from '@saberhq/token-utils';
-import type { VoteSide } from '@tribecahq/tribeca-sdk';
-import { VOTE_SIDE_LABELS } from '@tribecahq/tribeca-sdk';
+import type { VoteSide } from 'helpers/dao';
+import { VOTE_SIDE_LABELS } from 'helpers/dao';
 
 import { useSDK } from 'helpers/sdk';
 import { useUserEscrow } from 'hooks/tribeca/useEscrow';

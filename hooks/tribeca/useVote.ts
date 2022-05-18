@@ -1,6 +1,6 @@
 import { useSolana } from '@saberhq/use-solana';
 import type { PublicKey } from '@solana/web3.js';
-import { findVoteAddress } from '@tribecahq/tribeca-sdk';
+import { findVoteAddress } from 'helpers/dao';
 import { useQuery } from 'react-query';
 import invariant from 'tiny-invariant';
 

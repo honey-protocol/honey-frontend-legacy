@@ -1,6 +1,6 @@
 import { useSail } from '@saberhq/sail';
 import { createMemoInstruction } from '@saberhq/solana-contrib';
-import type { VoteSide } from '@tribecahq/tribeca-sdk';
+import type { VoteSide } from 'helpers/dao';
 import { useState } from 'react';
 import invariant from 'tiny-invariant';
 
@@ -12,6 +12,7 @@ import { ModalInner } from 'components/Modal/ModalInner';
 import { VOTE_SIDE_LABEL } from '../VotesCard';
 import { VoteResult } from './VoteResult';
 import { VoteSelectContents } from './VoteSelectContents';
+import { Text } from 'degen';
 
 interface Props {
   proposalInfo: ProposalInfo;
@@ -58,7 +59,11 @@ export const CastVoteModal: React.FC<Props> = ({ proposalInfo }: Props) => {
 
   return (
     <ModalInner
-      title="Cast Vote"
+      title={
+        <Text variant="large" ellipsis>
+          Cast Vote
+        </Text>
+      }
       // tw="px-6 max-w-md"
       buttonProps={{
         disabled: !(side && escrow),

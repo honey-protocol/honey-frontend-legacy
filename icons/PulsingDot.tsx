@@ -1,8 +1,8 @@
 export const PulsingDot = (props: { color: string }) => (
   <svg
-    width="200"
-    height="200"
-    viewBox="0 0 40 40"
+    width="44"
+    height="44"
+    viewBox="0 0 44 44"
     xmlns="http://www.w3.org/2000/svg"
   >
     <circle

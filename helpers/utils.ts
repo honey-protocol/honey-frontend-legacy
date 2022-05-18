@@ -18,7 +18,7 @@ import * as anchor from '@project-serum/anchor';
 import type { Network } from '@saberhq/solana-contrib';
 import type { Cluster, TransactionInstruction } from '@solana/web3.js';
 import { TokenInfo } from '@saberhq/token-utils';
-import { VoteSide } from '@tribecahq/tribeca-sdk';
+import { VoteSide } from 'helpers/dao';
 import { SmartWalletTransactionData } from '@gokiprotocol/client';
 import BN from 'bn.js';
 

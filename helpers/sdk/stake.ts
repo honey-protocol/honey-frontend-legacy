@@ -156,7 +156,7 @@ export class StakeClient extends ClientBase<Stake> {
     hasEscrow?: boolean
   ) {
     const preInstructions = !hasEscrow
-      ? [...(await veHoneyClient.createInitializeEscrowIx(locker))]
+      ? [...(await veHoneyClient.createInitializeEscrowV2Ix(locker))]
       : undefined;
 
     const remainingAccounts = whitelistEnabled
@@ -186,7 +186,7 @@ export class StakeClient extends ClientBase<Stake> {
     const lockedTokens = await veHoneyClient.getEscrowLockedTokenPDA(escrow);
     const lockerProgram = veHoneyClient.getProgramId();
 
-    const txSig = await this.program.rpc.stake(
+    const txSig = await this.program.rpc.stakeV2(
       new anchor.BN(amount),
       new anchor.BN(duration),
       {

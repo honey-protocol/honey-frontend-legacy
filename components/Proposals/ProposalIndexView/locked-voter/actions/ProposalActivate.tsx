@@ -83,11 +83,16 @@ export const ProposalActivate: React.FC<Props> = ({
           </Box>
         ) : minActivationThreshold &&
           veBalance?.greaterThan(minActivationThreshold) ? (
-          <Box display="flex" justifyContent="center" alignItems="center">
+          <Box
+            display="flex"
+            justifyContent="center"
+            alignItems="center"
+            width="full"
+          >
             <Button
               disabled={!escrow}
-              // tw="w-3/4 dark:text-white hover:dark:text-primary hover:dark:border-primary"
-              variant="tertiary"
+              size="small"
+              width="3/4"
               onClick={async () => {
                 invariant(escrow);
                 const tx = escrow.escrowW.activateProposal(

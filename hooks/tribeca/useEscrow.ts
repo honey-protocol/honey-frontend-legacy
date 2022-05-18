@@ -1,9 +1,9 @@
 import { TokenAmount } from '@saberhq/token-utils';
 import { useSolana } from '@saberhq/use-solana';
 import type { PublicKey } from '@solana/web3.js';
-import { findEscrowAddress, VoteEscrow } from '@tribecahq/tribeca-sdk';
+import { VoteEscrow } from 'helpers/dao';
 import { useEscrowData, useLockerData } from 'helpers/parser';
-import { useSDK } from 'helpers/sdk';
+import { findEscrowAddress, useSDK } from 'helpers/sdk';
 import { useEffect } from 'react';
 import { useQuery } from 'react-query';
 import invariant from 'tiny-invariant';
@@ -38,14 +38,10 @@ export const useEscrow = (owner?: PublicKey) => {
     }
   );
 
-  const {
-    data: escrow,
-    isLoading: isEscrowLoading,
-    ...rest
-  } = useEscrowData(escrowKey);
+  const { data: escrow, isLoading: isEscrowLoading } = useEscrowData(escrowKey);
   const canLoadEscrow =
     !!governorData && !!(lockerKey && owner && tribecaMut && escrow);
-  console.log(canLoadEscrow, rest);
+
   const result = useQuery(
     ['escrow', escrow?.publicKey.toString()],
     async () => {

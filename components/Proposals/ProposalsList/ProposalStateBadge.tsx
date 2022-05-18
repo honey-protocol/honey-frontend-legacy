@@ -1,4 +1,4 @@
-import { ProposalState } from '@tribecahq/tribeca-sdk';
+import { ProposalState } from 'helpers/dao';
 import { startCase } from 'lodash';
 import {
   IconCheck,

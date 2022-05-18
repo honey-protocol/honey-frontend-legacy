@@ -1,4 +1,4 @@
-import { VoteSide } from '@tribecahq/tribeca-sdk';
+import { VoteSide } from 'helpers/dao';
 
 import type { ProposalInfo } from 'hooks/tribeca/useProposals';
 import { ModalButton } from 'components/Modal/ModalButton';
@@ -17,7 +17,8 @@ export const CastVoteButton: React.FC<Props> = ({
     <ModalButton
       // tw="max-w-md"
       buttonProps={{
-        variant: 'tertiary'
+        size: 'small',
+        width: '1/2'
         // css: tw`border-white w-2/5 hover:(border-primary bg-primary bg-opacity-20)`
       }}
       buttonLabel={

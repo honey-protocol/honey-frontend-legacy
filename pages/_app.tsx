@@ -75,7 +75,13 @@ function MyApp({ Component, pageProps }: AppProps) {
           }}
           networkConfigs={networkConfiguration()}
         >
-          <SailProvider>
+          <SailProvider
+            initialState={{
+              onSailError: err => {
+                console.log(err);
+              }
+            }}
+          >
             <SDKProvider>
               <GovernorProvider
                 initialState={{

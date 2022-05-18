@@ -25,7 +25,7 @@ export const Meter: React.FC<Props> = ({
       flexGrow={1}
       backgroundColor="accent"
       height="1"
-      borderRadius="medium"
+      borderRadius="full"
     >
       <Box
         style={{
@@ -33,7 +33,7 @@ export const Meter: React.FC<Props> = ({
           backgroundColor: barColor
         }}
         height="1"
-        borderRadius="medium"
+        borderRadius="full"
         backgroundColor="backgroundSecondary"
         // tw="bg-primary h-1 rounded transition-all"
       />

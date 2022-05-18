@@ -1,5 +1,5 @@
-import type { ProposalData } from '@tribecahq/tribeca-sdk';
-import { ProposalState } from '@tribecahq/tribeca-sdk';
+import type { ProposalData } from 'helpers/dao';
+import { ProposalState } from 'helpers/dao';
 import type BN from 'bn.js';
 import Countdown from 'react-countdown';
 
