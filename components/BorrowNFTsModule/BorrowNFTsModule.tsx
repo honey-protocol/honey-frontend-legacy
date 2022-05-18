@@ -4,7 +4,6 @@ import LoanBorrow from '../../components/LoanBorrow';
 import LoanRepay from '../../components/LoanRepay';
 import * as styles from './BorrowNFTsModule.css';
 import ToggleSwitchLoan from '../../components/ToggleSwitchLoan';
-import ToggleSwitch from 'components/ToggleSwitch';
 
 interface BorrowNFTsModule {
   NFT?: any,
@@ -48,7 +47,13 @@ const BorrowNFTsModule = (props: BorrowNFTsModule) => {
               parsedReserves={parsedReserves}
             />
           ) : (
-            <LoanRepay NFT={NFT} executeWithdrawNFT={executeWithdrawNFT} mint={mint} executeRepay={executeRepay} loanPositions={loanPositions} />
+            <LoanRepay 
+              NFT={NFT} 
+              executeWithdrawNFT={executeWithdrawNFT} 
+              mint={mint} 
+              executeRepay={executeRepay} 
+              loanPositions={loanPositions} 
+            />
           )}
         </Stack>
       </Card>
