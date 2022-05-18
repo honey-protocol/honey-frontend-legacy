@@ -4,6 +4,7 @@ import { Avatar } from 'degen';
 import { Input } from 'degen';
 import Slider from '../components/Slider/Slider';
 import * as styles from './Slider/Slider.css';
+import { LAMPORTS_PER_SOL } from '@solana/web3.js';
 
 interface LoanBorrowProps {
     NFT: {
@@ -95,7 +96,7 @@ const LoanBorrow = (props: LoanBorrowProps) => {
                 <Stack
                     justify="space-between"
                 >
-                    <Stack
+                    {/* <Stack
                     direction="horizontal"
                     justify="space-between"
                     align="center"
@@ -112,7 +113,7 @@ const LoanBorrow = (props: LoanBorrowProps) => {
                         >
                             4.2%
                         </Text>
-                    </Stack>
+                    </Stack> */}
                     <Stack
                     direction="horizontal"
                     justify="space-between"
@@ -125,7 +126,7 @@ const LoanBorrow = (props: LoanBorrowProps) => {
                             align="right"
                             color="foreground"
                         >
-                            {NFT.estValue}
+                            2 SOL
                         </Text>
                     </Stack>
                 </Stack>
@@ -174,8 +175,7 @@ const LoanBorrow = (props: LoanBorrowProps) => {
                         align="right"
                         color="foreground"
                     >
-                        {/* temp lamport fix */}
-                        {parseFloat((currentLoanPosition / 893004).toFixed(2))}
+                        {parseFloat((currentLoanPosition / LAMPORTS_PER_SOL).toFixed(2))}
                     </Text>
                     </Stack>
                 </Stack>
