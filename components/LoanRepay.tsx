@@ -105,7 +105,7 @@ const LoanRepay = (props: LoanRepayProps) => {
                 >
                     50%</Text>
                 </Stack>
-                <Stack
+                {/* <Stack
                 direction="horizontal"
                 justify="space-between"
                 align="center"
@@ -118,7 +118,7 @@ const LoanRepay = (props: LoanRepayProps) => {
                     color="foreground"
                 >
                     4.2%</Text>
-                </Stack>
+                </Stack> */}
             </Stack>
             </Box>
             <hr></hr>
@@ -160,8 +160,7 @@ const LoanRepay = (props: LoanRepayProps) => {
                             align="right"
                             color="foreground"
                         >
-                            {/* temp lamport fix */}
-                            {parseFloat((currentLoanPosition / 893004).toFixed(2))}
+                            {parseFloat((currentLoanPosition / LAMPORTS_PER_SOL).toFixed(2))}
                         </Text>
                     </Stack>
                 </Stack>
