@@ -31,7 +31,7 @@ const LoanNewBorrow = (props: LoanNewBorrowProps) => {
           <hr className={loanStyles.lineDivider}></hr>
           <Box paddingTop="1" paddingBottom="1">
             <Stack justify="space-between">
-              <Stack
+              {/* <Stack
                 direction="horizontal"
                 justify="space-between"
                 align="center"
@@ -43,7 +43,7 @@ const LoanNewBorrow = (props: LoanNewBorrowProps) => {
                 <Text align="right" color="foreground">
                   10%
                 </Text>
-              </Stack>
+              </Stack> */}
               <Stack
                 direction="horizontal"
                 justify="space-between"
@@ -54,7 +54,7 @@ const LoanNewBorrow = (props: LoanNewBorrowProps) => {
                   Estimated value
                 </Text>
                 <Text align="right" color="foreground">
-                  5 SOL
+                  2 SOL
                 </Text>
               </Stack>
               <Stack
