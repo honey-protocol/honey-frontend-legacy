@@ -9,8 +9,8 @@ interface BorrowNFTsModule {
   NFT?: any,
   executeWithdrawNFT: (key: any) => void;
   mint: any;
-  executeBorrow:() => void;
-  executeRepay: () => void;
+  executeBorrow:(val: any) => void;
+  executeRepay: (val: any) => void;
   honeyUser: any;
   openPositions?: any;
   loanPositions: any;
@@ -22,7 +22,7 @@ const BorrowNFTsModule = (props: BorrowNFTsModule) => {
 
   const [borrowOrRepay, setBorrowOrRepay] = useState(0);
 
-  useEffect(() => {}, [loanPositions])
+  useEffect(() => {}, [loanPositions]);
 
   return (
     <Box className={styles.cardContainer}>

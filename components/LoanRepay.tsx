@@ -17,7 +17,7 @@ interface LoanRepayProps {
     },
     executeWithdrawNFT: (key: any) => void,
     mint: any;
-    executeRepay: () => void;
+    executeRepay: (val: any) => void;
     loanPositions: any;
     parsedReserves: any;
 }
@@ -26,6 +26,9 @@ const LoanRepay = (props: LoanRepayProps) => {
     const { NFT, executeWithdrawNFT, mint, executeRepay, loanPositions, parsedReserves } = props;
 
     const [currentLoanPosition, updateCurrentLoanPosition] = useState(0);
+    const [userInput, setUserInput] = useState(0);
+    const [userMessage, setUserMessage] = useState('')
+
     // loanpositions refers to the amount that has been borrowed as collateral
     // if loanpositions amount is zero - the repay button becomes claim NFT - line 212
     useEffect(() => {
@@ -33,6 +36,19 @@ const LoanRepay = (props: LoanRepayProps) => {
             updateCurrentLoanPosition(loanPositions[0]?.amount)
         }
     }, [loanPositions]);
+
+    function handleExecuteRepay(val: any) {
+        if (userInput < 1) {
+            setUserMessage('Please fill in an amount.');
+            return; 
+        } else if (userInput <=2) {
+            executeRepay(userInput)
+        }
+    }
+
+    function handleUserChange(val: any) {
+        setUserInput(val);
+      }
 
     return (
         <Box gap="3">
@@ -150,7 +166,7 @@ const LoanRepay = (props: LoanRepayProps) => {
                     justify="space-between"
                     align="center"
                     space="2"
-                    >
+                    >    
                         <Text
                             align="left"
                             color="foreground"
@@ -182,21 +198,6 @@ const LoanRepay = (props: LoanRepayProps) => {
                         space="2"
                     >
                         <Text align="left"
-                            color="textSecondary">Total interest</Text>
-                        <Text
-                            align="right"
-                            color="foreground"
-                        >
-                            $0
-                        </Text>
-                    </Stack>
-                    <Stack
-                        direction="horizontal"
-                        justify="space-between"
-                        align="center"
-                        space="2"
-                    >
-                        <Text align="left"
                         color="textSecondary">Total debt</Text>
                         <Text
                             align="right"
@@ -213,13 +214,15 @@ const LoanRepay = (props: LoanRepayProps) => {
                     </Stack>
                 </Stack>
             </Box>
-            <Slider />
+            <Slider 
+                handleUserChange={(val: any) => handleUserChange(val)}
+            />
             {/* if no more outstanding amount - render claim nft, is there is, render repay;  */}
             {
                 loanPositions?.length > 0 && loanPositions[0]?.amount != 0 
                 ?
                 (
-                    <Button width="full" onClick={executeRepay}>Repay</Button>
+                    <Button width="full" onClick={handleExecuteRepay}>Repay</Button>
                 )
                 :
                 (

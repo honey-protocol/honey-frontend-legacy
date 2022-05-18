@@ -202,9 +202,10 @@ const Loan: NextPage = () => {
    * @params borrow amount
    * @returns borrowTx
   */
-  async function executeBorrow() {
+  async function executeBorrow(val: any) {
+    console.log('THIS IS VAL;', val);
     const borrowTokenMint = new PublicKey('So11111111111111111111111111111111111111112');
-    const tx = await borrow(honeyUser, 1 * LAMPORTS_PER_SOL, borrowTokenMint, honeyReserves);
+    const tx = await borrow(honeyUser, val * LAMPORTS_PER_SOL, borrowTokenMint, honeyReserves);
     console.log('this is borrowTx', tx);
   }
 
@@ -215,9 +216,10 @@ const Loan: NextPage = () => {
    * @params amount of repay
    * @returns repayTx
   */
-  async function executeRepay() {
+  async function executeRepay(val: any) {
+    console.log('THIS IS VAL;', val);
     const repayTokenMint = new PublicKey('So11111111111111111111111111111111111111112');
-    const tx = await repay(honeyUser, 1 * LAMPORTS_PER_SOL, repayTokenMint, honeyReserves)
+    const tx = await repay(honeyUser, val * LAMPORTS_PER_SOL, repayTokenMint, honeyReserves)
     console.log('this is repayTx', tx);
   }
 

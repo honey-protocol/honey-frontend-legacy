@@ -17,7 +17,7 @@ interface LoanBorrowProps {
         netBorrowBalance: number,
         key: number
     },
-    executeBorrow: () => void;
+    executeBorrow: (val:any) => void;
     openPositions?:[];
     loanPositions: any;
     parsedReserves: any;
@@ -37,20 +37,22 @@ const LoanBorrow = (props: LoanBorrowProps) => {
 
     useEffect(() => {
         console.log('running', noPositions)
-    }, [noPositions])
+    }, [noPositions]);
 
-    function handleExecuteBorrow() {
-        // if (!openPositions) {
-        //     setNoPositions('Please select an NFT to borrow against');
-        // } else if (openPositions && openPositions.length > 0) {
-        //     if (parseFloat((currentLoanPosition / 893004).toFixed(2)) < 1) {
-        //         setNoPositions('There is not enough liquidity in the Pool');
-        //     } else {
-        //         executeBorrow();
-        //     }
-        // }
-        // return;
-        executeBorrow();
+    const [userInput, setUserInput] = useState(0);
+    const [userMessage, setUserMessage] = useState('');
+
+    function handleExecuteBorrow(val: any) {
+        if (userInput < 1) {
+            setUserMessage('Please fill in an amount.');
+            return; 
+        } else if (userInput <=2) {
+            executeBorrow(userInput);
+        }
+    }
+
+    function handleUserChange(val: any) {
+        setUserInput(val);
     }
 
     return (
@@ -97,24 +99,6 @@ const LoanBorrow = (props: LoanBorrowProps) => {
                 <Stack
                     justify="space-between"
                 >
-                    {/* <Stack
-                    direction="horizontal"
-                    justify="space-between"
-                    align="center"
-                    space="2"
-                    >
-                        <Text
-                            align="left"
-                            color="textSecondary">
-                            Borrow APR
-                        </Text>
-                        <Text
-                            align="right"
-                            color="foreground"
-                        >
-                            4.2%
-                        </Text>
-                    </Stack> */}
                     <Stack
                     direction="horizontal"
                     justify="space-between"
@@ -207,11 +191,19 @@ const LoanBorrow = (props: LoanBorrowProps) => {
                 </Stack>
             </Box>
             <Box>
-                <Slider />
+                <Slider 
+                    handleUserChange={(val: any) => handleUserChange(val)}
+                />
             </Box>
             {noPositions && 
                 <Box className={styles.noPositions}>
                     {noPositions}
+                </Box>
+            }
+            {
+                userMessage && 
+                <Box marginBottom="4" className={styles.errorMessage}>
+                    {userMessage}
                 </Box>
             }
             <Button width="full" onClick={handleExecuteBorrow}>Borrow</Button>
