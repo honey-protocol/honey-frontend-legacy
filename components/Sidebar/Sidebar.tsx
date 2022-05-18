@@ -13,7 +13,8 @@ import {
   vars,
   IconLink,
   IconFlag,
-  useTheme
+  useTheme,
+  IconWallet
 } from 'degen';
 import SidebarButton from '../SidebarButton';
 import * as styles from './Sidebar.css';
@@ -54,7 +55,14 @@ const mainLinks = [
     title: 'Governance',
     IconComp: IconHand,
     key: 4
-  }
+  },
+  {
+    url: '/liquidation',
+    title: 'Liquidation',
+    commingSoon: false,
+    IconComp: IconBookOpen,
+    key: 5
+  },
 ];
 
 const bottomLinks = [

@@ -16,7 +16,7 @@
     "@fontsource/inter": "^4.5.4",
     "@gemworks/gem-farm-ts": "^0.24.1",
     "@gokiprotocol/walletkit": "^1.6.5",
-    "@honey-finance/sdk": "^1.0.75",
+    "@honey-finance/sdk": "^1.0.93",
     "@metaplex-foundation/mpl-auction": "^0.0.2",
     "@metaplex-foundation/mpl-core": "^0.0.4",
     "@metaplex-foundation/mpl-metaplex": "^0.0.5",
@@ -32,7 +32,8 @@
     "@saberhq/use-solana": "^1.12.48",
     "@solana/spl-token": "0.1.8",
     "@solana/web3.js": "^1.47.3",
-    "@strata-foundation/spl-utils": "^3.5.7",
+    "@strata-foundation/spl-utils": "3.5.7",
+    "@switchboard-xyz/switchboard-v2": "^0.0.127",
     "@vanilla-extract/babel-plugin": "^1.1.4",
     "@vanilla-extract/css": "^1.6.8",
     "@vanilla-extract/next-plugin": "^2.0.1",
@@ -40,6 +41,7 @@
     "bn.js": "^5.2.0",
     "chrome-aws-lambda": "^10.1.0",
     "degen": "^0.0.69",
+    "fs": "^0.0.1-security",
     "jsbi": "^4.1.0",
     "next": "12.1.0",
     "next-api-og-image": "^4.0.1",
@@ -75,5 +77,12 @@
   "resolutions": {
     "@types/react": "<18.0.0",
     "@types/react-dom": "<18.0.0"
+  },
+  "browser": {
+    "fs": false,
+    "path": false,
+    "os": false,
+    "net": false,
+    "tls": false
   }
 }

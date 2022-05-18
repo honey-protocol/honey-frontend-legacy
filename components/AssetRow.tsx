@@ -21,6 +21,7 @@ interface AssetRowProps {
 }
 
 const AssetRow = ({ data, openPositions }: AssetRowProps) => {
+    console.log('this is data', data)
  return (
   <Box
     backgroundColor="foregroundSecondary"
@@ -68,7 +69,7 @@ const AssetRow = ({ data, openPositions }: AssetRowProps) => {
                 </Box>
                 <Box
                 >
-                    <Text align="center" >{openPositions}</Text>
+                    <Text align="center" >{data.positions}</Text>
                 </Box>
             </Stack>
         </Box>
