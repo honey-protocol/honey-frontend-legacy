@@ -60,8 +60,6 @@ const LoanNFTsContainer = (props: LoanNFTsContainerProps) => {
     }
   }
 
-  console.log('@@@@@@@-open positions', openPositions)
-
   useEffect(() => {
   }, [highlightNFTOpen, highlightNFTAvailable]);
 
