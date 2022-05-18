@@ -1,8 +1,9 @@
 import { GOKI_CODERS } from '@gokiprotocol/client';
 import { makeParserHooks, makeProgramParserHooks } from '@saberhq/sail';
 import { SNAPSHOTS_CODERS } from '@saberhq/snapshots';
+import { HONEY_DAO_CODERS } from './dao';
 
-import { HONEY_DAO_CODERS } from './sdk';
+// import { HONEY_DAO_CODERS } from './sdk';
 
 const parserHooks = makeParserHooks({
   ...HONEY_DAO_CODERS.Govern.accountParsers,

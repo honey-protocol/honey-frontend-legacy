@@ -1,5 +1,5 @@
 import { Box, Button, Text, Textarea } from 'degen';
-import { VoteSide } from '@tribecahq/tribeca-sdk';
+import { VoteSide } from 'helpers/dao';
 import { sum } from 'lodash';
 import invariant from 'tiny-invariant';
 
@@ -52,83 +52,49 @@ export const VoteSelectContents: React.FC<Props> = ({
               <Button
                 // tw="flex items-center gap-4 px-5 py-4 border rounded border-warmGray-600 transition-all"
                 key={voteSide}
-                // css={[
-                //   side === voteSide && {
-                //     borderColor: sideColor(voteSide)
-                //   }
-                // ]}
+                width="full"
                 onClick={() => setSide(voteSide)}
+                variant={side === voteSide ? 'primary' : 'tertiary'}
+                prefix={<Text>{VOTE_SIDE_LABEL[voteSide]}</Text>}
+                suffix={<Text>{percent}</Text>}
+                center
               >
-                <Box>
-                  <Box
-                    width="6"
-                    height="6"
-                    // css={[tw`border border-gray-500`, tw`w-6 h-6`]}
-                  >
-                    <svg
-                      // tw="w-full h-full"
-                      // css={[
-                      //   css`
-                      //     stroke-width: 15px;
-                      //     fill: none;
-                      //     & > path {
-                      //       stroke: ${sideColor(voteSide)};
-                      //     }
-                      //   `,
-                      //   side === voteSide &&
-                      //     css`
-                      //       & > path {
-                      //         stroke-dashoffset: 0;
-                      //         transition: stroke-dashoffset 0.1s ease-in 0s;
-                      //       }
-                      //     `
-                      // ]}
-                      viewBox="0 0 100 100"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      {voteSide === VoteSide.For ? (
-                        <path
-                          d="M 10 50 L 40 86 L 90 10"
-                          strokeDasharray="140"
-                          strokeDashoffset="140"
-                        ></path>
-                      ) : (
-                        <>
-                          <path
-                            d="M 10 10 L 90 90"
-                            strokeDasharray="113"
-                            strokeDashoffset="113"
-                          ></path>
-                          <path
-                            d="M 90 10 L 10 90"
-                            strokeDasharray="113"
-                            strokeDashoffset="113"
-                          ></path>
-                        </>
-                      )}
-                    </svg>
+                {/* <Box
+                  display="flex"
+                  alignItems="center"
+                  gap="4"
+                  paddingX="5"
+                  paddingY="4"
+                  width="full"
+                > */}
+                {/* <Box
+                  display="flex"
+                  flexDirection="column"
+                  flexGrow={1}
+                  // alignItems="center"
+                  gap="4"
+                  paddingX="5"
+                  paddingY="4"
+                  width="full"
+                > */}
+                {/* <Box
+                  width="full"
+                  display="flex"
+                  alignItems="center"
+                  justifyContent="space-between"
+                >
+                  <Box color="white" fontWeight="medium">
+                    {VOTE_SIDE_LABEL[voteSide]}
                   </Box>
-                </Box>
-                <Box display="flex" flexDirection="column" flexGrow={1}>
-                  <Box
-                    width="full"
-                    display="flex"
-                    alignItems="center"
-                    justifyContent="center"
-                  >
-                    <Box color="white" fontWeight="medium">
-                      {VOTE_SIDE_LABEL[voteSide]}
-                    </Box>
-                    <Box fontWeight="medium" color="accentText">
-                      {percent}
-                    </Box>
+                  <Box fontWeight="medium" color="accentText">
+                    {percent}
                   </Box>
-                  <Meter
-                    value={myVotes}
-                    max={totalVotes === 0 ? 1 : totalVotes}
-                    barColor={sideColor(voteSide)}
-                  />
-                </Box>
+                </Box> */}
+                <Meter
+                  value={myVotes}
+                  max={totalVotes === 0 ? 1 : totalVotes}
+                  barColor={sideColor(voteSide)}
+                />
               </Button>
             );
           }

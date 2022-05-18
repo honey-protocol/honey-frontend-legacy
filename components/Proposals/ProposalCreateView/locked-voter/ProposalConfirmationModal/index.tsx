@@ -2,7 +2,7 @@ import { useSail } from '@saberhq/sail';
 import { buildStubbedTransaction } from '@saberhq/solana-contrib';
 import { useSolana } from '@saberhq/use-solana';
 import type { TransactionInstruction } from '@solana/web3.js';
-import { GovernorWrapper } from '@tribecahq/tribeca-sdk';
+import { GovernorWrapper } from 'helpers/dao';
 import ReactMarkdown from 'react-markdown';
 import invariant from 'tiny-invariant';
 import { useRouter } from 'next/router';
@@ -59,7 +59,7 @@ export const ProposalConfirmModal: React.FC<Props> = ({
     //     -4
     //   )} created`
     // });
-    router.push(`proposals/${createProposal.index.toString()}`);
+    router.push(`${createProposal.index.toString()}`);
     modalProps.onDismiss();
   };
 

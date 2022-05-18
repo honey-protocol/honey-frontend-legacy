@@ -1,11 +1,11 @@
 import type { SmartWalletTransactionData } from '@gokiprotocol/client';
 import type { ProgramAccount } from '@saberhq/token-utils';
-import type { ProposalData } from '@tribecahq/tribeca-sdk';
+import type { ProposalData } from 'helpers/dao';
 import {
   getProposalState,
   PROPOSAL_STATE_LABELS,
   ProposalState
-} from '@tribecahq/tribeca-sdk';
+} from 'helpers/dao';
 import BN from 'bn.js';
 import { startCase } from 'lodash';
 import { Box, IconLink, Text } from 'degen';

@@ -1,6 +1,6 @@
 import { Fraction } from '@saberhq/token-utils';
-import type { ProposalData } from '@tribecahq/tribeca-sdk';
-import { VoteSide } from '@tribecahq/tribeca-sdk';
+import type { ProposalData } from 'helpers/dao';
+import { VoteSide } from 'helpers/dao';
 import { Box, Spinner } from 'degen';
 import BN from 'bn.js';
 

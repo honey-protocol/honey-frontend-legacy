@@ -1,4 +1,4 @@
-import { ProposalState } from '@tribecahq/tribeca-sdk';
+import { ProposalState } from 'helpers/dao';
 import { Box, Text } from 'degen';
 import Link from 'next/link';
 
@@ -10,18 +10,19 @@ import { ProposalStateBadge } from './ProposalStateBadge';
 import { ProposalStateDate } from './ProposalStateDate';
 import { ProposalStateLabel } from './ProposalStateLabel';
 import { PulsingDot } from 'icons/PulsingDot';
+import { useRouter } from 'next/router';
 
 interface Props {
   proposalInfo: ProposalInfo;
 }
 
 export const ProposalCard: React.FC<Props> = ({ proposalInfo }: Props) => {
-  // const { path } = useGovernor();
+  const router = useRouter();
   const { state, executed } = proposalInfo.status;
   return (
     <Link
       passHref
-      href={`proposals/${proposalInfo.index}`}
+      href={`${router.pathname}/proposals/${proposalInfo.index}`}
       // tw="flex items-center justify-between py-5 px-6 border-l-2 border-l-transparent border-b border-b-warmGray-800 cursor-pointer hover:border-l-primary"
     >
       <Box
@@ -39,7 +40,11 @@ export const ProposalCard: React.FC<Props> = ({ proposalInfo }: Props) => {
           width={{ md: '192', xs: '3/4' }}
           // tw="flex items-center gap-5 w-3/4 md:w-[500px]"
         >
-          {state === ProposalState.Active && <PulsingDot color="decendent" />}
+          {state === ProposalState.Active && (
+            <Box width="11" height="11">
+              <PulsingDot color="decendent" />
+            </Box>
+          )}
           <div>
             <Box display="flex" alignItems="center">
               <Text

@@ -1,4 +1,4 @@
-import { ProposalState, VoteSide } from '@tribecahq/tribeca-sdk';
+import { ProposalState, VoteSide } from 'helpers/dao';
 import { noop } from 'lodash';
 import { useRouter } from 'next/router';
 

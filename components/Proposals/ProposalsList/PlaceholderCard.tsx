@@ -1,4 +1,4 @@
-import { ProposalState } from '@tribecahq/tribeca-sdk';
+import { ProposalState } from 'helpers/dao';
 import { Box, Skeleton } from 'degen';
 import React from 'react';
 

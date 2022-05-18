@@ -262,7 +262,7 @@ export class VeHoneyClient extends ClientBase<VeHoney> {
   ) {
     const preInstructions = [];
     if (!hasEscrow) {
-      preInstructions.push(...(await this.createInitializeEscrowIx(locker)));
+      preInstructions.push(...(await this.createInitializeEscrowV2Ix(locker)));
     }
 
     const remainingAccounts = [

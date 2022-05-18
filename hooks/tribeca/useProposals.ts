@@ -3,13 +3,13 @@ import { getCacheKeyOfPublicKey } from '@saberhq/sail';
 import { u64 } from '@saberhq/token-utils';
 import { useSolana } from '@saberhq/use-solana';
 import type { PublicKey } from '@solana/web3.js';
-import type { ProposalData, ProposalMetaData } from '@tribecahq/tribeca-sdk';
+import type { ProposalData, ProposalMetaData } from 'helpers/dao';
 import {
   findProposalAddress,
   findProposalMetaAddress,
   getProposalState,
   ProposalState
-} from '@tribecahq/tribeca-sdk';
+} from 'helpers/dao';
 import BN from 'bn.js';
 import { useEffect, useMemo } from 'react';
 import { useQueries, useQuery } from 'react-query';

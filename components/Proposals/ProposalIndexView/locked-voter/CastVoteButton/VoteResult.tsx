@@ -1,4 +1,4 @@
-import { VoteSide } from '@tribecahq/tribeca-sdk';
+import { VoteSide } from 'helpers/dao';
 
 import { useGovernor } from 'hooks/tribeca/useGovernor';
 import type { ProposalInfo } from 'hooks/tribeca/useProposals';
@@ -47,7 +47,11 @@ export const VoteResult: React.FC<Props> = ({
 }: Props) => {
   return (
     <ModalInner
-      title="Vote Confirmed"
+      title={
+        <Text variant="large" ellipsis>
+          Vote Confirmed
+        </Text>
+      }
       // tw="px-6 max-w-md"
     >
       <Stack align="center">
@@ -57,6 +61,7 @@ export const VoteResult: React.FC<Props> = ({
           alignItems="center"
           maxWidth="screenSm"
           gap="3"
+          textAlign="center"
         >
           <Text as="h2" size="large" color="white" weight="semiBold">
             You{' '}

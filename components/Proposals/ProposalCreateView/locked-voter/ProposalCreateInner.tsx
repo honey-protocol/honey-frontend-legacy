@@ -115,21 +115,23 @@ export const ProposalCreateInner: React.FC = () => {
               {/* </HelperCard> */}
               {proposalCfg?.notice && (
                 <HelperCard variant="primary">
-                  <div
-                  // css={css`
-                  //   p {
-                  //     ${tw`mb-2`}
-                  //   }
-                  //   a {
-                  //     ${tw`text-white`}
-                  //     &:hover {
-                  //       ${tw`underline`}
-                  //     }
-                  //   }
-                  // `}
+                  <Box
+                    color="white"
+                    fontWeight="bold"
+                    // css={css`
+                    //   p {
+                    //     ${tw`mb-2`}
+                    //   }
+                    //   a {
+                    //     ${tw`text-white`}
+                    //     &:hover {
+                    //       ${tw`underline`}
+                    //     }
+                    //   }
+                    // `}
                   >
                     <ReactMarkdown>{proposalCfg.notice}</ReactMarkdown>
-                  </div>
+                  </Box>
                 </HelperCard>
               )}
               {/* <label tw="flex flex-col gap-1" htmlFor="title">

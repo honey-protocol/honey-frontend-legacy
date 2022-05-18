@@ -5,7 +5,7 @@ import type {
   IdlAccountItem
 } from '@project-serum/anchor/dist/cjs/idl';
 import type { PublicKey, TransactionInstruction } from '@solana/web3.js';
-import type { ProposalInstruction } from '@tribecahq/tribeca-sdk';
+import type { ProposalInstruction } from 'helpers/dao';
 import { startCase } from 'lodash';
 import { useMemo } from 'react';
 

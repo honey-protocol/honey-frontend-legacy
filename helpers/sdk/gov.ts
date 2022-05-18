@@ -1,3 +1,4 @@
+import { useMemo } from 'react';
 import type { GOKI_ADDRESSES } from '@gokiprotocol/client';
 import { GokiSDK } from '@gokiprotocol/client';
 import { useNativeAccount } from '@saberhq/sail';
@@ -6,9 +7,8 @@ import type { TokenAmount } from '@saberhq/token-utils';
 import { useConnectedWallet, useConnectionContext } from '@saberhq/use-solana';
 import type { PublicKey } from '@solana/web3.js';
 import { Keypair } from '@solana/web3.js';
-import { TribecaSDK } from '@tribecahq/tribeca-sdk';
-import { useMemo } from 'react';
 import { createContainer } from 'unstated-next';
+import { TribecaSDK } from 'helpers/dao';
 
 export type ProgramKey = keyof typeof GOKI_ADDRESSES;
 

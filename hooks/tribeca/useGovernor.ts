@@ -1,7 +1,7 @@
-import { useAccountData, usePubkey, useToken } from '@saberhq/sail';
+import { useAccountData, useToken } from '@saberhq/sail';
 import { Token, TokenAmount } from '@saberhq/token-utils';
 import type { PublicKey } from '@solana/web3.js';
-import { GovernorWrapper } from '@tribecahq/tribeca-sdk';
+import { GovernorWrapper } from 'helpers/dao';
 import { useMemo } from 'react';
 import { createContainer } from 'unstated-next';
 
