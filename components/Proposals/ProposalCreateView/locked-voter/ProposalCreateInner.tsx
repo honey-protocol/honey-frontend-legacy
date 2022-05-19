@@ -184,7 +184,7 @@ export const ProposalCreateInner: React.FC = () => {
         </div>
         <Box display="flex" flexDirection="column" gap="4">
           <Card padding="6">
-            <Heading>Proposal Action</Heading>
+            <Heading level="2">Proposal Action</Heading>
             <Box display="grid" gap="4" paddingX="7" paddingY="6">
               <ProposalTXForm
                 setError={setError}

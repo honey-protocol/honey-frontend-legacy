@@ -4,6 +4,7 @@ import BN from 'bn.js';
 import { useGovernor } from 'hooks/tribeca/useGovernor';
 import type { ProposalInfo } from 'hooks/tribeca/useProposals';
 import { formatNumberSI } from 'helpers/format';
+import { Meter } from 'components/common/governance/Meter';
 // import { Meter } from '../../../../../common/Meter';
 
 interface Props {
@@ -34,15 +35,10 @@ export const ActiveProposalVotingBars: React.FC<Props> = ({
         fontWeight="medium"
         color="white"
       >
-        {/* <div tw="w-full flex items-center gap-3 text-xs text-white font-medium h-6"> */}
-        {/* <Meter
-          value={forVotes}
-          max={maxVotes}
-          barColor={theme`colors.primary`}
-        /> */}
-        {/* <div tw="flex-basis[44px]"> */}
-        {formatNumberSI(forVotes)}
-        {/* </div> */}
+        <Meter value={forVotes} max={maxVotes} barColor={'primary'} />
+        <Box display="flex" flexBasis="12">
+          {formatNumberSI(forVotes)}
+        </Box>
       </Box>
       <Box
         width="full"
@@ -52,15 +48,10 @@ export const ActiveProposalVotingBars: React.FC<Props> = ({
         fontWeight="medium"
         color="white"
       >
-        {/* <div tw="w-full flex items-center gap-3 text-xs text-white font-medium h-6"> */}
-        {/* <Meter
-          value={againstVotes}
-          max={maxVotes}
-          barColor={theme`colors.red.500`}
-        /> */}
-        {/* <div tw="flex-basis[44px]"> */}
-        {formatNumberSI(againstVotes)}
-        {/* </div> */}
+        <Meter value={againstVotes} max={maxVotes} barColor={'red'} />
+        <Box display="flex" flexBasis="12">
+          {formatNumberSI(againstVotes)}
+        </Box>
       </Box>
     </Box>
   );

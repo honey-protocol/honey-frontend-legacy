@@ -20,7 +20,7 @@ export const ProposalTXForm: React.FC<Props> = ({
   txRaw,
   setTxRaw
 }: Props) => {
-  const [actionType, setActionType] = useState<ActionType>('Upgrade Program');
+  const [actionType, setActionType] = useState<ActionType>('Memo');
   const { smartWallet, lockerData, governor } = useGovernor();
   const { ownerInvokerKey } = useExecutiveCouncil();
 

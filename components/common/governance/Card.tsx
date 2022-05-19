@@ -36,7 +36,6 @@ export const Card: React.FC<Props> = ({
       display="flex"
       flexDirection="column"
       className={className}
-      // tw="rounded bg-warmGray-850 shadow-xl flex flex-col"
     >
       {title && (
         <Box
@@ -85,6 +84,7 @@ export const Card: React.FC<Props> = ({
               fontSize="small"
               fontWeight="bold"
               textTransform="uppercase"
+              color="white"
               // tw="flex items-center justify-center py-5 text-xs uppercase font-bold tracking-widest border-t border-warmGray-800"
             >
               {link.title}
@@ -98,6 +98,7 @@ export const Card: React.FC<Props> = ({
             paddingY="5"
             fontSize="small"
             fontWeight="bold"
+            color="white"
             // tw="flex items-center justify-center py-5 text-xs uppercase font-bold tracking-widest border-t border-warmGray-800 text-warmGray-600 cursor-not-allowed"
           >
             {link.title}

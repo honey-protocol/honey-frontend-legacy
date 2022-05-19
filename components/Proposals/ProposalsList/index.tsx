@@ -98,7 +98,7 @@ export const ProposalsList: React.FC<Props> = ({
 
   if (proposalCount === 0 || allProposals.length === 0) {
     return (
-      <div>
+      <Box>
         <EmptyState title="There aren't any proposals yet.">
           <Text>
             <Link href={'/governance/proposals/create'} passHref>
@@ -106,13 +106,13 @@ export const ProposalsList: React.FC<Props> = ({
             </Link>
           </Text>
         </EmptyState>
-      </div>
+      </Box>
     );
   }
 
   const pageCount = calcPageTotal(allProposals.length ?? 0);
   return (
-    <>
+    <Box>
       {allProposals
         .slice(startCursor, startCursor + PROPOSALS_PER_PAGE)
         .map((proposal, i) =>
@@ -132,7 +132,7 @@ export const ProposalsList: React.FC<Props> = ({
           numPages={pageCount}
         />
       )}
-    </>
+    </Box>
   );
 };
 
