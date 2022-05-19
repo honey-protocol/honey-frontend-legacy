@@ -27,6 +27,9 @@ import {
 } from 'helpers/utils';
 import { ProposalsList } from 'components/Proposals/ProposalsList';
 import { Card as ProposalContainer } from 'components/common/governance/Card';
+import { useTokenAmount, useTokenMint } from '@saberhq/sail';
+import { useGovernor } from 'hooks/tribeca/useGovernor';
+import { TokenAmount } from '@saberhq/token-utils';
 
 const Governance: NextPage = () => {
   const wallet = useConnectedWallet();
@@ -36,10 +39,29 @@ const Governance: NextPage = () => {
   const [showHoneyModal, setShowHoneyModal] = useState(false);
 
   const { tokenAccounts } = useAccounts();
-
   // ======================== Should replace with configuration ================
   const pHoneyToken = tokenAccounts.find(t => t.info.mint.equals(PHONEY_MINT));
   const honeyToken = tokenAccounts.find(t => t.info.mint.equals(HONEY_MINT));
+
+  const { govToken, veToken, lockedSupply } = useGovernor();
+  const totalVeTokens = useTokenAmount(veToken, '0');
+  const { data: govTokenData } = useTokenMint(govToken?.mintAccount);
+  const totalSupplyFmt =
+    govTokenData && govToken
+      ? new TokenAmount(govToken, govTokenData.account.supply).format({
+          numberFormatOptions: {
+            maximumFractionDigits: 0
+          }
+        })
+      : govTokenData;
+
+  const lockedSupplyFmt = lockedSupply
+    ? lockedSupply.format({
+        numberFormatOptions: {
+          maximumFractionDigits: 0
+        }
+      })
+    : lockedSupply;
 
   const STAKE_POOL_ADDRESS = new PublicKey(
     process.env.NEXT_PUBLIC_STAKE_POOL_ADDR ||
@@ -185,7 +207,7 @@ const Governance: NextPage = () => {
                   value={
                     <NumberFormat
                       thousandSeparator
-                      value={1000000000}
+                      value={lockedSupplyFmt}
                       displayType={'text'}
                     />
                   }
@@ -196,7 +218,9 @@ const Governance: NextPage = () => {
                   value={
                     <NumberFormat
                       thousandSeparator
-                      value={1000000000}
+                      value={totalVeTokens?.asNumber.toLocaleString(undefined, {
+                        maximumFractionDigits: 0
+                      })}
                       displayType={'text'}
                     />
                   }
@@ -207,7 +231,7 @@ const Governance: NextPage = () => {
                   value={
                     <NumberFormat
                       thousandSeparator
-                      value={1000000000}
+                      value={totalSupplyFmt?.toString()}
                       displayType={'text'}
                     />
                   }
