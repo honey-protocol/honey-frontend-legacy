@@ -214,6 +214,7 @@ const LoanRepay = (props: LoanRepayProps) => {
             </Box>
             <Slider 
                 handleUserChange={(val: any) => handleUserChange(val)}
+                parsedReserves={parsedReserves}
             />
             {/* if no more outstanding amount - render claim nft, is there is, render repay;  */}
             {

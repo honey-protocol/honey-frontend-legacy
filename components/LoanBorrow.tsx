@@ -199,6 +199,7 @@ const LoanBorrow = (props: LoanBorrowProps) => {
             <Box>
                 <Slider 
                     handleUserChange={(val: any) => handleUserChange(val)}
+                    parsedReserves={parsedReserves}
                 />
             </Box>
             {noPositions && 

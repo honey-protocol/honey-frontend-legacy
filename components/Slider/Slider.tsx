@@ -1,9 +1,12 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Box, Stack, Button, Avatar } from 'degen';
 import * as styles from './Slider.css';
+import { LAMPORTS_PER_SOL } from '@solana/web3.js';
+import BN from 'bn.js';
 
 interface SliderProps {
   handleUserChange: (val: any) => void;
+  parsedReserves: any;
 }
 
 /**
@@ -12,11 +15,22 @@ interface SliderProps {
  * @returns Returns the slider
  **/
 const Slider = (props: SliderProps) => {
-  const {handleUserChange} = props;
-
+  const {handleUserChange, parsedReserves} = props;
   const [slideCount, setSlideCount] = useState(0);
   const [userMessage, setUserMessage] = useState('');
+  const [currentDebtAmount, setCurrentDebtAmount] = useState(0);
 
+  useEffect(() => {
+    if (parsedReserves) {
+      setCurrentDebtAmount(((new BN(parsedReserves[0].reserveState.outstandingDebt).div(new BN(10**15)).toNumber())) / LAMPORTS_PER_SOL);
+    }
+  }, [parsedReserves])
+
+  /**
+   * @description
+   * @params
+   * @returns
+  */
   const handleOnChange = (event: any) => {
     // ideally we want to implement a debaunce here and not fire the function every second the user interacts with it
     if (event.target.value >= 0 && event.target.value <= 2) {
@@ -26,7 +40,11 @@ const Slider = (props: SliderProps) => {
       setUserMessage('Max value is 2');
     };
   }
-
+  /**
+   * @description
+   * @params
+   * @returns
+  */
   function handleChange(value: any) {
     console.log('hello there?', value)
     console.log('the value', value.target.value)
@@ -37,10 +55,15 @@ const Slider = (props: SliderProps) => {
       setUserMessage('Max value is 2');
     };
   }
-
+  /**
+   * @description
+   * @params
+   * @returns
+   */
   function handleMaxButton() {
-    setSlideCount(2);
-    handleUserChange(2);
+    console.log('hello max', currentDebtAmount)
+    setSlideCount(currentDebtAmount);
+    handleUserChange(currentDebtAmount);
   }
   return (
     <Stack space="0">
@@ -66,7 +89,7 @@ const Slider = (props: SliderProps) => {
       </Box>
       <Box>
         <div className={styles.rangeSlider}>
-          <input className={styles.rangeSliderRange} type="range" value={slideCount} min="0" max="2" onChange={handleOnChange} />
+          <input className={styles.rangeSliderRange} type="range" value={slideCount} min="0" max="100" onChange={handleOnChange} />
         </div>
         <div className={styles.percentageWrapper}>
             <span>0%</span>
