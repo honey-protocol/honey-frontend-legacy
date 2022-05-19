@@ -37,15 +37,15 @@ export const ProposalCard: React.FC<Props> = ({ proposalInfo }: Props) => {
           display="flex"
           alignItems="center"
           gap="5"
-          width={{ md: '192', xs: '3/4' }}
+          // width={{ md: '192', xs: '3/4' }}
           // tw="flex items-center gap-5 w-3/4 md:w-[500px]"
         >
           {state === ProposalState.Active && (
-            <Box width="11" height="11">
-              <PulsingDot color="decendent" />
+            <Box width="11" height="11" color="accent">
+              <PulsingDot />
             </Box>
           )}
-          <div>
+          <Box>
             <Box display="flex" alignItems="center">
               <Text
                 color="white"
@@ -79,10 +79,10 @@ export const ProposalCard: React.FC<Props> = ({ proposalInfo }: Props) => {
                 </Box>
               </Box>
             )}
-          </div>
+          </Box>
         </Box>
         {state === ProposalState.Active && (
-          <Box width="192">
+          <Box width="1/2">
             <ActiveProposalVotingBars proposal={proposalInfo} />
           </Box>
         )}

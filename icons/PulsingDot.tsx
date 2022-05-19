@@ -1,4 +1,4 @@
-export const PulsingDot = (props: { color: string }) => (
+export const PulsingDot = (props: { color?: string }) => (
   <svg
     width="44"
     height="44"
