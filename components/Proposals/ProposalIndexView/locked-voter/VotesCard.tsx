@@ -61,7 +61,7 @@ export const VotesCard: React.FC<Props> = ({ side, proposal }: Props) => {
           <Meter
             value={voteCount ?? new BN(0)}
             max={BN.max(totalDeterminingVotes ?? new BN(0), new BN(1))}
-            barColor="primary"
+            barColor={side === VoteSide.For ? 'primary' : 'red'}
             // barColor={
             //   side === VoteSide.For
             //     ? theme`colors.primary`
