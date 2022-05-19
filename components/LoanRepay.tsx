@@ -59,9 +59,8 @@ const LoanRepay = (props: LoanRepayProps) => {
             <Stack
                 direction="horizontal"
                 justify="space-between"
-                align="center"
             >
-                <Box alignItems="flex-start">
+                <Box alignItems="flex-end">
                     <Avatar label="" size="10" src={NFT.image} />
                 </Box>
                 <Box
@@ -69,8 +68,7 @@ const LoanRepay = (props: LoanRepayProps) => {
                 >
                 <Stack
                     direction="horizontal"
-                    justify="space-between"
-                    align="center"
+                    justify="flex-end"
                     space="2"
                 >
                     <Text
@@ -84,11 +82,10 @@ const LoanRepay = (props: LoanRepayProps) => {
                 </Stack>
                 <Stack
                     direction="horizontal"
-                    justify="space-between"
-                    align="center"
+                    justify="flex-end"
                     space="2"
                 >
-                    <Text align="right" color="textSecondary">Evaluation: </Text>
+                    <Text align="right" color="textSecondary">Estimated value</Text>
                     <Text
                     align="right"
                     color="foreground"
@@ -107,7 +104,10 @@ const LoanRepay = (props: LoanRepayProps) => {
             >
             <Stack
                 justify="space-between"
-            >
+            >   
+                <Text color="textSecondary">
+                    Total debt
+                </Text>
                 <Stack
                 direction="horizontal"
                 justify="space-between"
@@ -115,12 +115,13 @@ const LoanRepay = (props: LoanRepayProps) => {
                 space="2"
                 >
                 <Text align="left"
-                color="textSecondary">Liquidation threshold</Text>
+                    color="textPrimary">SOL</Text>
                 <Text
                     align="right"
                     color="foreground"
                 >
-                    50%</Text>
+                    {((new BN(parsedReserves[0].reserveState.outstandingDebt).div(new BN(10**15)).toNumber())) / LAMPORTS_PER_SOL}    
+                </Text>
                 </Stack>
                 {/* <Stack
                 direction="horizontal"
@@ -154,11 +155,14 @@ const LoanRepay = (props: LoanRepayProps) => {
                     space="2"
                     >
                     <Text align="left"
-                    color="textSecondary">Assets borrowed</Text>
+                    color="textSecondary">Loan to value</Text>
                     <Text
                         align="right"
                         color="foreground"
                     >
+                    </Text>
+                    <Text>
+                        30%
                     </Text>
                     </Stack>
                     <Stack
@@ -169,15 +173,15 @@ const LoanRepay = (props: LoanRepayProps) => {
                     >    
                         <Text
                             align="left"
-                            color="foreground"
+                            color="textSecondary"
                             >
-                            SOL
+                            Liquidation threshold
                         </Text>
                         <Text
                             align="right"
                             color="foreground"
                         >
-                            {((new BN(parsedReserves[0].reserveState.outstandingDebt).div(new BN(10**15)).toNumber())) / LAMPORTS_PER_SOL}
+                            75%
                         </Text>
                     </Stack>
                 </Stack>
@@ -198,18 +202,12 @@ const LoanRepay = (props: LoanRepayProps) => {
                         space="2"
                     >
                         <Text align="left"
-                        color="textSecondary">Total debt</Text>
+                        color="textSecondary">Total allowance</Text>
                         <Text
                             align="right"
                             color="foreground"
                         >
-                        	{
-                            loanPositions
-														?  
-														 `${((new BN(parsedReserves[0].reserveState.outstandingDebt).div(new BN(10**15)).toNumber())) / LAMPORTS_PER_SOL} SOL`
-														:
-														0
-													}
+                            {((new BN(parsedReserves[0].reserveState.outstandingDebt).div(new BN(10**15)).toNumber())) / LAMPORTS_PER_SOL}
                         </Text>
                     </Stack>
                 </Stack>

@@ -73,9 +73,8 @@ const LoanBorrow = (props: LoanBorrowProps) => {
                     paddingBottom="2"
                 >
                     <Stack
-                        direction="horizontal"
-                        justify="space-between"
-                        align="center"
+                        direction="vertical"
+                        justify="flex-start"
                         space="2"
                     >
                         <Text
@@ -85,6 +84,9 @@ const LoanBorrow = (props: LoanBorrowProps) => {
                             variant="large"
                         >
                             {NFT.name}
+                        </Text>
+                        <Text>
+                            Estimated value: <span>2 SOL</span>
                         </Text>
                     </Stack>
                 </Box>
@@ -99,6 +101,9 @@ const LoanBorrow = (props: LoanBorrowProps) => {
                 <Stack
                     justify="space-between"
                 >
+                    <Text color="textSecondary">
+                        Total debt
+                    </Text>
                     <Stack
                     direction="horizontal"
                     justify="space-between"
@@ -106,12 +111,12 @@ const LoanBorrow = (props: LoanBorrowProps) => {
                     space="2"
                     >
                         <Text align="left"
-                        color="textSecondary">Estimated value</Text>
+                        color="textPrimary">SOL</Text>
                         <Text
                             align="right"
                             color="foreground"
                         >
-                            2 SOL
+                            {((new BN(parsedReserves[0].reserveState.outstandingDebt).div(new BN(10**15)).toNumber())) / LAMPORTS_PER_SOL}
                         </Text>
                     </Stack>
                 </Stack>
@@ -134,12 +139,13 @@ const LoanBorrow = (props: LoanBorrowProps) => {
                         <Text
                             align="left"
                             color="textSecondary">
-                                Assets borrowed
+                                Loan to value
                         </Text>
                         <Text
                             align="right"
                             color="foreground"
-                        >
+                        > 
+                            30%
                         </Text>
                     </Stack>
                     <Stack
@@ -151,16 +157,16 @@ const LoanBorrow = (props: LoanBorrowProps) => {
                         <Stack direction="horizontal">
                             <Text
                                 align="left"
-                                color="foreground"
+                                color="textSecondary"
                             >
-                            SOL
+                            Liquidation threshold
                             </Text>
                         </Stack>
                     <Text
                         align="right"
                         color="foreground"
                     >
-                        {((new BN(parsedReserves[0].reserveState.outstandingDebt).div(new BN(10**15)).toNumber())) / LAMPORTS_PER_SOL}
+                        75%
                     </Text>
                     </Stack>
                 </Stack>
@@ -180,7 +186,7 @@ const LoanBorrow = (props: LoanBorrowProps) => {
                     <Text
                         align="left"
                         color="textSecondary">
-                        Net borrow balance
+                        Total Allowance
                     </Text>
                     <Text
                         align="right"

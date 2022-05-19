@@ -20,7 +20,8 @@ export const rangeSliderRange = style({
 globalStyle(`${rangeSlider} > input`, {
   WebkitAppearance: 'none',
   width: '100%',
-  outline: 'none'
+  outline: 'none',
+  color: 'white'
 });
 // style based off of pseudo - also for the input; should define this for moz and other browsers
 globalStyle(`${rangeSlider} > input::-webkit-slider-thumb`, {
@@ -83,7 +84,7 @@ export const currencyStyles = style({
   fontSize: '1.8em',
   background: 'none',
   border: 'none',
-  color: 'rgb(102, 102, 102)',
+  color: 'white',
   textAlign: 'end'
 });
 

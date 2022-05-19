@@ -56,7 +56,7 @@ const Slider = (props: SliderProps) => {
         </Box>
         <Box className={styles.selectionDetails}>
           <div className={styles.currencyStyles}>
-            <input type="number" placeholder='' onChange={(value) => handleChange(value)} className={styles.currencyStyles} value={slideCount} min="0" max="100" />
+            <input type="number" placeholder='0' onChange={(value) => handleChange(value)} className={styles.currencyStyles} value={slideCount} min="0" max="100" />
           </div>
           <Avatar label="TetranodeNFT" size="10" shape="square" src={'https://assets.coingecko.com/coins/images/4128/small/solana.png?1640133422'} />
           <select name="currencySelector" id="currencySelector" className={styles.currencySelector}>
