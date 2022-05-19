@@ -87,6 +87,7 @@ const sdkConfig = ConfigureSDK();
   function filterReserves() {
 
   }
+
   /**
    * @description deposits 1 sol
    * @params none
@@ -95,6 +96,7 @@ const sdkConfig = ConfigureSDK();
   async function executeDeposit() {
     const tokenAmount = 1 * LAMPORTS_PER_SOL;
     const depositTokenMint = new PublicKey('So11111111111111111111111111111111111111112');
+    console.log('this is deposittokenmint', depositTokenMint);
     await deposit(honeyUser, tokenAmount, depositTokenMint, honeyReserves);
 
     const depositReserve = honeyReserves.filter((reserve) =>
@@ -267,6 +269,7 @@ const sdkConfig = ConfigureSDK();
           <DepositWithdrawModule
             executeDeposit={executeDeposit}
             executeWithdraw={executeWithdraw}
+            honeyReserves={honeyReserves}
           />
         </Box>
       </Stack>

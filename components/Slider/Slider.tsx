@@ -7,6 +7,7 @@ import BN from 'bn.js';
 interface SliderProps {
   handleUserChange: (val: any) => void;
   parsedReserves: any;
+  totalAllowance: any;
 }
 
 /**
@@ -15,16 +16,18 @@ interface SliderProps {
  * @returns Returns the slider
  **/
 const Slider = (props: SliderProps) => {
-  const {handleUserChange, parsedReserves} = props;
+  const {handleUserChange, parsedReserves, totalAllowance} = props;
+
   const [slideCount, setSlideCount] = useState(0);
   const [userMessage, setUserMessage] = useState('');
   const [currentDebtAmount, setCurrentDebtAmount] = useState(0);
 
   useEffect(() => {
+    console.log('running', 1.4 -(((new BN(parsedReserves[0].reserveState.outstandingDebt).div(new BN(10**15)).toNumber())) / LAMPORTS_PER_SOL))
     if (parsedReserves) {
       setCurrentDebtAmount(((new BN(parsedReserves[0].reserveState.outstandingDebt).div(new BN(10**15)).toNumber())) / LAMPORTS_PER_SOL);
     }
-  }, [parsedReserves])
+  }, [parsedReserves, currentDebtAmount])
 
   /**
    * @description
@@ -33,12 +36,8 @@ const Slider = (props: SliderProps) => {
   */
   const handleOnChange = (event: any) => {
     // ideally we want to implement a debaunce here and not fire the function every second the user interacts with it
-    if (event.target.value >= 0 && event.target.value <= 2) {
       setSlideCount(event.target.value);
       handleUserChange(event.target.value);
-    } else {
-      setUserMessage('Max value is 2');
-    };
   }
   /**
    * @description
@@ -46,25 +45,10 @@ const Slider = (props: SliderProps) => {
    * @returns
   */
   function handleChange(value: any) {
-    console.log('hello there?', value)
-    console.log('the value', value.target.value)
-    if (value.target.value >= 0 && value.target.value <= 2) {
       setSlideCount(value.target.value);
       handleUserChange(value.target.value);
-    } else {
-      setUserMessage('Max value is 2');
-    };
   }
-  /**
-   * @description
-   * @params
-   * @returns
-   */
-  function handleMaxButton() {
-    console.log('hello max', currentDebtAmount)
-    setSlideCount(currentDebtAmount);
-    handleUserChange(currentDebtAmount);
-  }
+
   return (
     <Stack space="0">
       {
@@ -74,22 +58,15 @@ const Slider = (props: SliderProps) => {
         </Box>
       }
       <Box className={styles.selectionWrapper}>
-        <Box>
-          <Button size="small" variant="secondary" onClick={handleMaxButton}>Max</Button>
-        </Box>
         <Box className={styles.selectionDetails}>
           <div className={styles.currencyStyles}>
-            <input type="number" placeholder='0' onChange={(value) => handleChange(value)} className={styles.currencyStyles} value={slideCount} min="0" max="100" />
+            <input type="number" placeholder="0.00" onChange={(value) => handleChange(value)} className={styles.currencyStyles} value={slideCount} min="0" max={totalAllowance} step="0.1" />
           </div>
-          <Avatar label="TetranodeNFT" size="10" shape="square" src={'https://assets.coingecko.com/coins/images/4128/small/solana.png?1640133422'} />
-          <select name="currencySelector" id="currencySelector" className={styles.currencySelector}>
-            <option value="SOL">SOL</option>
-          </select>
         </Box>
       </Box>
       <Box>
         <div className={styles.rangeSlider}>
-          <input className={styles.rangeSliderRange} type="range" value={slideCount} min="0" max="100" onChange={handleOnChange} />
+          <input className={styles.rangeSliderRange} type="range" value={slideCount} min="0" max={totalAllowance} onChange={handleOnChange} step="0.1" />
         </div>
         <div className={styles.percentageWrapper}>
             <span>0%</span>

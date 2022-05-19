@@ -21,7 +21,7 @@ globalStyle(`${rangeSlider} > input`, {
   WebkitAppearance: 'none',
   width: '100%',
   outline: 'none',
-  color: 'white'
+  color: 'white',
 });
 // style based off of pseudo - also for the input; should define this for moz and other browsers
 globalStyle(`${rangeSlider} > input::-webkit-slider-thumb`, {
@@ -84,8 +84,9 @@ export const currencyStyles = style({
   fontSize: '1.8em',
   background: 'none',
   border: 'none',
-  color: 'white',
-  textAlign: 'end'
+  color: 'gray',
+  textAlign: 'start',
+  maxWidth: '3em'
 });
 
 globalStyle(`${currencyStyles}, > *`, {

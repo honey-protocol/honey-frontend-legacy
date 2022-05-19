@@ -28,6 +28,15 @@ const LoanBorrow = (props: LoanBorrowProps) => {
     
     const [noPositions, setNoPositions] = useState('');
     const [currentLoanPosition, updateCurrentLoanPosition] = useState(0);
+    const [totalAllowance, setTotalAllowance] = useState(0);
+
+    useEffect(() => {
+        if (parsedReserves) {
+            let divSum: any = (((new BN(parsedReserves[0].reserveState.outstandingDebt).div(new BN(10**15)).toNumber())) / LAMPORTS_PER_SOL).toFixed(4)
+            let sumOfAllowance = 1.35 - divSum;
+            setTotalAllowance(sumOfAllowance)
+        };
+    }, [parsedReserves]);
 
     useEffect(() => {
         if (loanPositions) {
@@ -43,10 +52,12 @@ const LoanBorrow = (props: LoanBorrowProps) => {
     const [userMessage, setUserMessage] = useState('');
 
     function handleExecuteBorrow(val: any) {
-        if (userInput < 1) {
+        if (userInput < 0) {
             setUserMessage('Please fill in an amount.');
             return; 
-        } else if (userInput <=2) {
+        } else if (userInput > (1.4 - ((new BN(parsedReserves[0].reserveState.outstandingDebt).div(new BN(10**15)).toNumber())) / LAMPORTS_PER_SOL)) {
+            setUserMessage('Request loan too high');
+        } else {
             executeBorrow(userInput);
         }
     }
@@ -116,7 +127,7 @@ const LoanBorrow = (props: LoanBorrowProps) => {
                             align="right"
                             color="foreground"
                         >
-                            {((new BN(parsedReserves[0].reserveState.outstandingDebt).div(new BN(10**15)).toNumber())) / LAMPORTS_PER_SOL}
+                            {totalAllowance.toFixed(4)}
                         </Text>
                     </Stack>
                 </Stack>
@@ -145,7 +156,7 @@ const LoanBorrow = (props: LoanBorrowProps) => {
                             align="right"
                             color="foreground"
                         > 
-                            30%
+                            {(((((new BN(parsedReserves[0].reserveState.outstandingDebt).div(new BN(10**15)).toNumber())) / LAMPORTS_PER_SOL)/2)*100).toFixed(2)} %
                         </Text>
                     </Stack>
                     <Stack
@@ -192,7 +203,7 @@ const LoanBorrow = (props: LoanBorrowProps) => {
                         align="right"
                         color="foreground"
                     >
-                        {NFT.netBorrowBalance}
+                        {(1.4 - ((new BN(parsedReserves[0].reserveState.outstandingDebt).div(new BN(10**15)).toNumber())) / LAMPORTS_PER_SOL).toFixed(4)}
                     </Text>
                 </Stack>
             </Box>
@@ -200,6 +211,7 @@ const LoanBorrow = (props: LoanBorrowProps) => {
                 <Slider 
                     handleUserChange={(val: any) => handleUserChange(val)}
                     parsedReserves={parsedReserves}
+                    totalAllowance={totalAllowance}
                 />
             </Box>
             {noPositions && 

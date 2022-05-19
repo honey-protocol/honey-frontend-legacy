@@ -2,6 +2,7 @@ import { style } from '@vanilla-extract/css';
 
 export const cardContainer = style({
   width: '100%',
+  maxWidth: '30em',
   display: 'flex',
   alignItems: 'stretch'
 });

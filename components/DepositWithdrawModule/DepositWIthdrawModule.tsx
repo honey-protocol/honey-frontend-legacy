@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Box, Button, Card, Stack, Text, Tag } from 'degen';
 import { Avatar } from 'degen';
 import { Input } from 'degen';
@@ -7,19 +7,41 @@ import LoanWithdraw from '../LoanWithdraw';
 import * as styles from './DepositWithdrawModule.css';
 import ToggleSwitchLoan from '../ToggleSwitchLoan';
 import ToggleSwitch from 'components/ToggleSwitch';
+import { LAMPORTS_PER_SOL, PublicKey } from '@solana/web3.js';
 
 interface DepositWithdrawModuleProps {
   executeDeposit: () => void;
   executeWithdraw: () => void;
+  honeyReserves: any;
 }
 
 const DepositWithdrawModule = (props: DepositWithdrawModuleProps) => {
   const {
     executeDeposit,
-    executeWithdraw
+    executeWithdraw,
+    honeyReserves
   } = props;
 
   const [depositOrWithdraw, setDepositOrWithdraw] = useState(0);
+  const [totalDeposits, setTotalDeposits] = useState('');
+
+  function handleReserves(honeyR: any) {
+    const depositTokenMint = new PublicKey('So11111111111111111111111111111111111111112');
+    
+    const depositReserve = honeyR?.filter((reserve: any) =>
+      reserve?.data?.tokenMint?.equals(depositTokenMint),
+    )[0];
+
+    const reserveState = depositReserve?.data?.reserveState;
+
+    console.log('@@@@@_-------', reserveState?.totalDeposits.toString());
+
+    setTotalDeposits(reserveState?.totalDeposits.toString())
+  }
+
+  useEffect(() => {
+    handleReserves(honeyReserves);
+  }, [honeyReserves]);
 
   return (
     <Box
@@ -47,6 +69,8 @@ const DepositWithdrawModule = (props: DepositWithdrawModuleProps) => {
               assetsBorrowed={1}
               netBorrowBalance={1}
               handleDeposit={executeDeposit}
+              totalDeposits={totalDeposits}
+
             />
           ) : (
             <LoanWithdraw
@@ -56,6 +80,7 @@ const DepositWithdrawModule = (props: DepositWithdrawModuleProps) => {
               totalInterest={1}
               totalPayback={1}
               handleWithdraw={executeWithdraw}
+              totalDeposits={totalDeposits}
             />
           )}
         </Box>

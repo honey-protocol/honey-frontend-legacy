@@ -4,6 +4,7 @@ import { Avatar } from 'degen';
 import { Input } from 'degen';
 import * as styles from '../components/Slider/Slider.css';
 import * as loanStyles from '../styles/loan.css';
+import { LAMPORTS_PER_SOL } from '@solana/web3.js';
 
 interface LoanDepositProps {
   borrowApy: number;
@@ -11,10 +12,11 @@ interface LoanDepositProps {
   assetsBorrowed: number;
   netBorrowBalance: number;
   handleDeposit: () => void;
+  totalDeposits: any;
 }
 
 const LoanDeposit = (props: LoanDepositProps) => {
-  const { borrowApy, estValue, assetsBorrowed, netBorrowBalance, handleDeposit } = props;
+  const { borrowApy, estValue, assetsBorrowed, netBorrowBalance, handleDeposit, totalDeposits } = props;
 
   const [userMessage, setUserMessage] = useState('');
   const [userInput, setUserInput] = useState(0);
@@ -26,10 +28,6 @@ const LoanDeposit = (props: LoanDepositProps) => {
   function handleChange(value: any) {
     if (value.target.value < 0) return;
      value.target.value <= 2 ? setUserInput(value.target.value) : handleMaxMessage();
-  }
-
-  function handleMaxValue() {
-    setUserInput(2)
   }
 
   return (
@@ -64,10 +62,10 @@ const LoanDeposit = (props: LoanDepositProps) => {
             space="2"
           >
             <Text align="left" color="textSecondary">
-              Total supply
+              Assets Deposited
             </Text>
             <Text align="right" color="foreground">
-              $0
+              TBA
             </Text>
           </Stack>
           {/* <Stack
@@ -90,10 +88,10 @@ const LoanDeposit = (props: LoanDepositProps) => {
             space="2"
           >
             <Text align="left" color="textSecondary">
-              Your deposit
+              Total balance
             </Text>
             <Text align="right" color="foreground">
-              $0
+              {(totalDeposits / LAMPORTS_PER_SOL).toFixed(2)} SOL
             </Text>
           </Stack>
         </Stack>
@@ -104,11 +102,6 @@ const LoanDeposit = (props: LoanDepositProps) => {
         </Box>  
         {/* Borrowed amount and currency */}
         <Box className={styles.selectionWrapper}>
-          <Box>
-            <Button size="small" variant="secondary" onClick={handleMaxValue}>
-              Max
-            </Button>
-          </Box>
           <Box className={styles.selectionDetails}>
             <input type="number" placeholder='0' onChange={(value) => handleChange(value)} className={styles.currencyStyles} value={userInput} min="1" max="2" />
             <Avatar

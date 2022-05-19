@@ -4,6 +4,7 @@ import { Avatar } from 'degen';
 import { Input } from 'degen';
 import * as styles from '../components/Slider/Slider.css';
 import * as loanStyles from '../styles/loan.css';
+import { LAMPORTS_PER_SOL } from '@solana/web3.js';
 
 interface LoanWithdrawProps {
   evaluation: number;
@@ -12,6 +13,7 @@ interface LoanWithdrawProps {
   totalInterest: number;
   totalPayback: number;
   handleWithdraw: () => void;
+  totalDeposits: any;
 }
 
 const LoanWithdraw = (props: LoanWithdrawProps) => {
@@ -21,7 +23,8 @@ const LoanWithdraw = (props: LoanWithdrawProps) => {
     assetsBorrowed,
     totalInterest,
     totalPayback,
-    handleWithdraw
+    handleWithdraw,
+    totalDeposits
   } = props;
 
   const [userMessage, setUserMessage] = useState('');
@@ -31,14 +34,9 @@ const LoanWithdraw = (props: LoanWithdrawProps) => {
     setUserMessage('Max input is 2');
   }
 
-
   function handleChange(value: any) {
     if (value.target.value < 0) return;
     value.target.value <= 2 ? setUserInput(value.target.value) : handleMaxMessage();
-  }
-
-  function handleMaxValue() {
-    setUserInput(2)
   }
 
   return (
@@ -77,40 +75,7 @@ const LoanWithdraw = (props: LoanWithdrawProps) => {
               Assets deposited
             </Text>
             <Text align="right" color="foreground">
-              $0
-            </Text>
-          </Stack>
-          <Stack
-            direction="horizontal"
-            justify="space-between"
-            align="center"
-            space="2"
-          >
-            <Text align="left" color="foreground">
-              SOL
-            </Text>
-            <Text align="right" color="foreground">
-              0
-            </Text>
-          </Stack>
-        </Stack>
-        <Box
-          backgroundColor="text"
-          style={{ width: '100%', opacity: '0.5', height: '1px' }}
-        />
-        {/* Interest & payback data*/}
-        <Stack justify="space-between">
-          <Stack
-            direction="horizontal"
-            justify="space-between"
-            align="center"
-            space="2"
-          >
-            <Text align="left" color="textSecondary">
-              Interest earned
-            </Text>
-            <Text align="right" color="foreground">
-              $0
+              TBA
             </Text>
           </Stack>
           <Stack
@@ -122,8 +87,8 @@ const LoanWithdraw = (props: LoanWithdrawProps) => {
             <Text align="left" color="textSecondary">
               Total balance
             </Text>
-            <Text align="right" color="foreground">
-              $0
+            <Text align="right" color="textPrimary">
+            {(totalDeposits / LAMPORTS_PER_SOL).toFixed(2)} SOL
             </Text>
           </Stack>
         </Stack>
@@ -134,11 +99,6 @@ const LoanWithdraw = (props: LoanWithdrawProps) => {
         </Box> 
         {/* Borrowed amount and currency */}
         <Box className={styles.selectionWrapper}>
-          <Box>
-            <Button size="small" variant="secondary" onClick={handleMaxValue}>
-              Max
-            </Button>
-          </Box>
           <Box className={styles.selectionDetails}>
           <input type="number" placeholder='0' onChange={(value) => handleChange(value)} className={styles.currencyStyles} value={userInput} min="1" max="2" />
             <Avatar
