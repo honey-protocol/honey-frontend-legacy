@@ -19,11 +19,12 @@ export const Meter: React.FC<Props> = ({
     typeof value === 'number' && typeof max === 'number'
       ? value / max
       : new Fraction(value, max).asNumber;
+
   return (
     <Box
       className={className}
       flexGrow={1}
-      backgroundColor="accent"
+      backgroundColor="accentSecondary"
       height="1"
       borderRadius="full"
     >
@@ -34,7 +35,7 @@ export const Meter: React.FC<Props> = ({
         }}
         height="1"
         borderRadius="full"
-        backgroundColor="backgroundSecondary"
+        backgroundColor="accent"
         // tw="bg-primary h-1 rounded transition-all"
       />
     </Box>

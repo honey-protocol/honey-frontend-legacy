@@ -42,7 +42,7 @@ export const CastVoteModal: React.FC<Props> = ({ proposalInfo }: Props) => {
     const memoIX = createMemoInstruction(reason, [
       escrow.escrowW.provider.wallet.publicKey
     ]);
-    tx.addInstructions(memoIX);
+    tx.append(memoIX);
     const { pending } = await handleTX(tx, `Vote ${VOTE_SIDE_LABEL[side]}`);
     if (!pending) {
       return;
