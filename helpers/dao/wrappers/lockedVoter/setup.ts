@@ -1,20 +1,20 @@
-import type { GokiSDK, SmartWalletWrapper } from "@gokiprotocol/client";
-import type { TransactionEnvelope } from "@saberhq/solana-contrib";
-import type { PublicKey } from "@solana/web3.js";
-import { Keypair } from "@solana/web3.js";
+import type { GokiSDK, SmartWalletWrapper } from '@gokiprotocol/client';
+import type { TransactionEnvelope } from '@saberhq/solana-contrib';
+import type { PublicKey } from '@solana/web3.js';
+import { Keypair } from '@solana/web3.js';
 
 import type {
   GovernanceParameters,
   GovernorWrapper,
-  LockerParams,
-} from "../..";
+  LockerParamsV2
+} from '../..';
 import {
   DEFAULT_GOVERNANCE_PARAMETERS,
-  DEFAULT_LOCKER_PARAMS,
-} from "../../constants";
-import type { TribecaSDK } from "../../sdk";
-import { createGovernorWithElectorate } from "../govern/setup";
-import { LockerWrapper } from "./locker";
+  DEFAULT_LOCKER_PARAMS
+} from '../../constants';
+import type { TribecaSDK } from '../../sdk';
+import { createGovernorWithElectorate } from '../govern/setup';
+import { LockerWrapper } from './locker';
 
 /**
  * Creates a new Locker.
@@ -29,14 +29,14 @@ export const createLocker = async ({
   lockerParams = DEFAULT_LOCKER_PARAMS,
   governorBaseKP = Keypair.generate(),
   lockerBaseKP = Keypair.generate(),
-  smartWalletBaseKP = Keypair.generate(),
+  smartWalletBaseKP = Keypair.generate()
 }: {
   sdk: TribecaSDK;
   gokiSDK: GokiSDK;
   govTokenMint: PublicKey;
   owners?: PublicKey[];
   governanceParameters?: Partial<GovernanceParameters>;
-  lockerParams?: Partial<LockerParams>;
+  lockerParams?: Partial<LockerParamsV2>;
   /**
    * Base of the governor.
    */
@@ -59,16 +59,16 @@ export const createLocker = async ({
   }[];
 }> => {
   const { electorate, ...governor } = await createGovernorWithElectorate({
-    createElectorate: async (governorKey) => {
+    createElectorate: async governorKey => {
       const { locker, tx: tx1 } = await sdk.createLocker({
         ...lockerParams,
         baseKP: lockerBaseKP,
         governor: governorKey,
-        govTokenMint,
+        govTokenMint
       });
       return {
         key: locker,
-        tx: tx1,
+        tx: tx1
       };
     },
     sdk,
@@ -76,7 +76,7 @@ export const createLocker = async ({
     owners,
     governanceParameters,
     govBaseKP: governorBaseKP,
-    smartWalletBaseKP,
+    smartWalletBaseKP
   });
   return {
     ...governor,
@@ -84,6 +84,6 @@ export const createLocker = async ({
       sdk,
       electorate,
       governor.governorWrapper.governorKey
-    ),
+    )
   };
 };
