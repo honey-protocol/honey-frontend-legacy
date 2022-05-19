@@ -1,28 +1,28 @@
 import {
   findTransactionAddress,
   GOKI_ADDRESSES,
-  GOKI_CODERS,
-} from "@gokiprotocol/client";
-import { TransactionEnvelope } from "@saberhq/solana-contrib";
-import { u64 } from "@saberhq/token-utils";
-import type { PublicKey, TransactionInstruction } from "@solana/web3.js";
-import { SystemProgram } from "@solana/web3.js";
-import type BN from "bn.js";
+  GOKI_CODERS
+} from '@gokiprotocol/client';
+import { TransactionEnvelope } from '@saberhq/solana-contrib';
+import { u64 } from '@saberhq/token-utils';
+import type { PublicKey, TransactionInstruction } from '@solana/web3.js';
+import { SystemProgram } from '@solana/web3.js';
+import { PendingProposal } from '@tribecahq/tribeca-sdk';
+import type BN from 'bn.js';
 
 import type {
   GovernanceParameters,
   GovernorData,
   ProposalData,
   ProposalInstruction,
-  ProposalMetaData,
-} from "../../programs/govern";
-import type { TribecaSDK } from "../../sdk";
-import type { PendingProposal } from "../simpleVoter/types";
+  ProposalMetaData
+} from '../../programs/govern';
+import type { TribecaSDK } from '../../sdk';
 import {
   findProposalAddress,
   findProposalMetaAddress,
-  findVoteAddress,
-} from "./pda";
+  findVoteAddress
+} from './pda';
 
 /**
  * Wrapper around a Governor.
@@ -80,7 +80,7 @@ export class GovernorWrapper {
     proposal,
     proposer = this.sdk.provider.wallet.publicKey,
     title,
-    descriptionLink,
+    descriptionLink
   }: {
     proposal: PublicKey;
     proposer?: PublicKey;
@@ -98,8 +98,8 @@ export class GovernorWrapper {
           proposer,
           proposalMeta: proposalMetaKey,
           payer: this.provider.wallet.publicKey,
-          systemProgram: SystemProgram.programId,
-        },
+          systemProgram: SystemProgram.programId
+        }
       }
     );
     return this.provider.newTX([ix]);
@@ -111,7 +111,7 @@ export class GovernorWrapper {
    */
   async createProposal({
     proposer = this.sdk.provider.wallet.publicKey,
-    instructions,
+    instructions
   }: {
     proposer?: PublicKey;
     instructions: ProposalInstruction[];
@@ -131,15 +131,15 @@ export class GovernorWrapper {
           proposal,
           proposer,
           payer: provider.wallet.publicKey,
-          systemProgram: SystemProgram.programId,
-        },
+          systemProgram: SystemProgram.programId
+        }
       })
     );
 
     return {
       proposal,
       index,
-      tx: this.provider.newTX(ixs),
+      tx: this.provider.newTX(ixs)
     };
   }
 
@@ -150,7 +150,7 @@ export class GovernorWrapper {
   async queueProposal({
     index,
     smartWalletProgram = GOKI_ADDRESSES.SmartWallet,
-    payer = this.provider.wallet.publicKey,
+    payer = this.provider.wallet.publicKey
   }: {
     index: BN;
     smartWalletProgram?: PublicKey;
@@ -164,7 +164,7 @@ export class GovernorWrapper {
         governorData.smartWallet
       );
     if (!smartWalletDataRaw) {
-      throw new Error("smart wallet not found");
+      throw new Error('smart wallet not found');
     }
     const smartWalletData = GOKI_CODERS.SmartWallet.accountParsers.smartWallet(
       smartWalletDataRaw.data
@@ -182,9 +182,9 @@ export class GovernorWrapper {
           smartWalletProgram,
           transaction: txKey,
           payer,
-          systemProgram: SystemProgram.programId,
-        },
-      }),
+          systemProgram: SystemProgram.programId
+        }
+      })
     ]);
   }
 
@@ -194,7 +194,7 @@ export class GovernorWrapper {
    */
   cancelProposal({
     proposal,
-    proposer = this.sdk.provider.wallet.publicKey,
+    proposer = this.sdk.provider.wallet.publicKey
   }: {
     proposal: PublicKey;
     proposer?: PublicKey;
@@ -204,16 +204,16 @@ export class GovernorWrapper {
         accounts: {
           governor: this.governorKey,
           proposal,
-          proposer,
-        },
-      }),
+          proposer
+        }
+      })
     ]);
   }
 
   async getOrCreateVote({
     proposal,
     voter = this.sdk.provider.wallet.publicKey,
-    payer = this.sdk.provider.wallet.publicKey,
+    payer = this.sdk.provider.wallet.publicKey
   }: {
     proposal: PublicKey;
     voter?: PublicKey;
@@ -234,8 +234,8 @@ export class GovernorWrapper {
           proposal,
           voteKeyAndBump: [voteKey, bump],
           voter,
-          payer,
-        }),
+          payer
+        })
       };
     }
   }
@@ -244,7 +244,7 @@ export class GovernorWrapper {
     proposal,
     voteKeyAndBump,
     voter = this.sdk.provider.wallet.publicKey,
-    payer = this.sdk.provider.wallet.publicKey,
+    payer = this.sdk.provider.wallet.publicKey
   }: {
     proposal: PublicKey;
     voteKeyAndBump?: [PublicKey, number];
@@ -261,8 +261,8 @@ export class GovernorWrapper {
         vote: voteKey,
         proposal,
         payer,
-        systemProgram: SystemProgram.programId,
-      },
+        systemProgram: SystemProgram.programId
+      }
     });
   }
 
@@ -273,8 +273,8 @@ export class GovernorWrapper {
     return this.program.instruction.setGovernanceParams(newParams, {
       accounts: {
         governor: this.governorKey,
-        smartWallet,
-      },
+        smartWallet
+      }
     });
   }
 }
