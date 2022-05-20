@@ -1,21 +1,22 @@
+import Link from 'next/link';
 import { mapSome, useTXHandlers } from '@saberhq/sail';
-// import pluralize from 'pluralize';
+import { Box, Button, Text } from 'degen';
 import Countdown from 'react-countdown';
+// import invariant from 'tiny-invariant';
+// import pluralize from 'pluralize';
 
-// import { useSDK } from 'helpers/sdk';
+import { useSDK } from 'helpers/sdk';
 import { useExecutiveCouncil } from 'hooks/tribeca/useExecutiveCouncil';
-// import { useGovernor } from 'hooks/tribeca/useGovernor';
+import { useGovernor } from 'hooks/tribeca/useGovernor';
 import type { ProposalInfo } from 'hooks/tribeca/useProposals';
 import { useGokiTransactionData } from 'helpers/parser';
-import { tsToDate } from 'helpers/utils';
+import { gokiTXLink, tsToDate } from 'helpers/utils';
 // import { AsyncConfirmButton } from '../../../../../../common/AsyncConfirmButton';
 // import { Card } from '../../../../../../common/governance/Card';
 // import { ExternalLink } from '../../../../../../common/typography/ExternalLink';
 // import { ProseSmall } from '../../../../../../common/typography/Prose';
-// import { ExecuteProposalButton } from '../../../../GovernanceManageView/tabs/ExecutiveCouncilTab/ExecuteProposalButton';
+import { ExecuteProposalButton } from 'components/GovernanceManageView/ExecutiveCouncilTab/ExecuteProposalButton';
 import { Card } from 'components/common/governance/Card';
-import { Box, Text } from 'degen';
-import Link from 'next/link';
 
 interface Props {
   proposal: ProposalInfo;
@@ -26,9 +27,9 @@ export const ProposalExecute: React.FC<Props> = ({
   proposal,
   onActivate
 }: Props) => {
-  // const { governorW, smartWallet } = useGovernor();
+  const { sdkMut } = useSDK();
+  const { governorW, smartWallet } = useGovernor();
   // const emergencyDAO = manifest?.addresses?.['emergency-dao']?.address;
-  // const { sdkMut } = useSDK();
   const { ecWallet, isMemberOfEC } = useExecutiveCouncil();
   const { data: gokiTransactionData } = useGokiTransactionData(
     proposal.proposalData.queuedTransaction
@@ -89,18 +90,20 @@ export const ProposalExecute: React.FC<Props> = ({
             <Countdown date={eta} />.
           </Text>
         )}
-        {/* <ExternalLink tw="mb-4" href={gokiTXLink(gokiTransactionData.account)}>
-          View on Goki
-        </ExternalLink> */}
+        <Box marginBottom="4">
+          <Link href={gokiTXLink(gokiTransactionData.account)} passHref>
+            <Button variant="transparent">View on Goki</Button>
+          </Link>
+        </Box>
         {/* </ProseSmall> */}
-        {/* {isMemberOfEC && (
+        {isMemberOfEC && (
           <Box
             display="flex"
             justifyContent="space-between"
             alignItems="center"
             marginBottom="8"
           >
-            {gracePeriodSurpassed && emergencyDAO && (
+            {/* {gracePeriodSurpassed && (
               <AsyncConfirmButton
                 modal={{
                   title: 'Revive Proposal via Emergency DAO',
@@ -161,13 +164,13 @@ export const ProposalExecute: React.FC<Props> = ({
                   'Revive Proposal via Emergency DAO'
                 )}
               </AsyncConfirmButton>
-            )}
+            )} */}
             <ExecuteProposalButton
               tx={gokiTransactionData}
               onActivate={onActivate}
             />
           </Box>
-        )} */}
+        )}
       </Box>
     </Card>
   );
