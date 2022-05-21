@@ -52,7 +52,7 @@ const LoanRepay = (props: LoanRepayProps) => {
         if (userInput < 0) {
             setUserMessage('Please fill in an amount.');
             return; 
-        } else if (userInput <=2) {
+        } else if (userInput <= 2.5) {
             executeRepay(userInput)
         }
     }
@@ -133,7 +133,7 @@ const LoanRepay = (props: LoanRepayProps) => {
                     align="right"
                     color="foreground"
                 >
-                    {totalDebt}
+                    {((((new BN(parsedReserves[0].reserveState.outstandingDebt).div(new BN(10**15)).toNumber())) / LAMPORTS_PER_SOL)).toFixed(2)}
                 </Text>
                 </Stack>
                 {/* <Stack
@@ -175,7 +175,7 @@ const LoanRepay = (props: LoanRepayProps) => {
                     >
                     </Text>
                     <Text color="textPrimary">
-                        30%
+                    {(((((new BN(parsedReserves[0].reserveState.outstandingDebt).div(new BN(10**15)).toNumber())) / LAMPORTS_PER_SOL)/2)*100).toFixed(2)} %
                     </Text>
                     </Stack>
                     <Stack
@@ -220,7 +220,7 @@ const LoanRepay = (props: LoanRepayProps) => {
                             align="right"
                             color="foreground"
                         >
-                            {(((new BN(parsedReserves[0].reserveState.outstandingDebt).div(new BN(10**15)).toNumber())) / LAMPORTS_PER_SOL).toFixed(1)}
+                            {(1.25 - ((new BN(parsedReserves[0].reserveState.outstandingDebt).div(new BN(10**15)).toNumber())) / LAMPORTS_PER_SOL).toFixed(1)} SOL
                         </Text>
                     </Stack>
                 </Stack>

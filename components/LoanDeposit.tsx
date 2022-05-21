@@ -11,7 +11,7 @@ interface LoanDepositProps {
   estValue: number;
   assetsBorrowed: number;
   netBorrowBalance: number;
-  handleDeposit: () => void;
+  handleDeposit: (value: any) => void;
   totalDeposits: any;
 }
 
@@ -28,6 +28,10 @@ const LoanDeposit = (props: LoanDepositProps) => {
   function handleChange(value: any) {
     if (value.target.value < 0) return;
      value.target.value <= 2 ? setUserInput(value.target.value) : handleMaxMessage();
+  }
+
+  function executeDeposit() {
+    handleDeposit(userInput ? userInput : 1)
   }
 
   return (
@@ -122,7 +126,7 @@ const LoanDeposit = (props: LoanDepositProps) => {
           </Box>
         </Box>
         <Box height="16">
-          <Button width="full" onClick={handleDeposit}>Deposit</Button>
+          <Button width="full" onClick={executeDeposit}>Deposit</Button>
         </Box>
       </Stack>
     </Box>

@@ -72,6 +72,7 @@ globalStyle(`${selectionDetails} > *`, {
   background: 'none',
   border: 'none',
   textAlign: 'end',
+  width: '4em'
 });
 
 globalStyle(`${selectionDetails}, input::-webkit-outer-spin-button, input::-webkit-inner-spin-button `, {

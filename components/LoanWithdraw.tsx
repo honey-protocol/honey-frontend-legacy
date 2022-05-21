@@ -12,7 +12,7 @@ interface LoanWithdrawProps {
   assetsBorrowed: number;
   totalInterest: number;
   totalPayback: number;
-  handleWithdraw: () => void;
+  handleWithdraw: (value: number) => void;
   totalDeposits: any;
 }
 
@@ -37,6 +37,10 @@ const LoanWithdraw = (props: LoanWithdrawProps) => {
   function handleChange(value: any) {
     if (value.target.value < 0) return;
     value.target.value <= 2 ? setUserInput(value.target.value) : handleMaxMessage();
+  }
+
+  function executeWithdraw() {
+    handleWithdraw(userInput ? userInput : 1);
   }
 
   return (
@@ -119,7 +123,7 @@ const LoanWithdraw = (props: LoanWithdrawProps) => {
           </Box>
         </Box>
         <Box height="16">
-          <Button width="full" onClick={handleWithdraw}>Withdraw</Button>
+          <Button width="full" onClick={executeWithdraw}>Withdraw</Button>
         </Box>
       </Stack>
     </Box>

@@ -46,7 +46,9 @@ const OnChainProvider: FC<{ children: ReactNode }> = ({ children }) => {
         connection={connection}
         honeyProgramId={"BmdNpm85xLcZCY9nAT6YB9reeFYRDaAUQorr4hEXh8ZL"}
         honeyMarketId={"9Hd2ZWmdGoBco3bo33pf1ydh9JAGQ5c8LNuduAvKL9o4"}
-        // new market; BvVZscx5C3FGPhhRHNo6R8UCbmeeSDK58mKih8oCwn1p
+        // previous market: 9Hd2ZWmdGoBco3bo33pf1ydh9JAGQ5c8LNuduAvKL9o4
+        // new market from brian; BvVZscx5C3FGPhhRHNo6R8UCbmeeSDK58mKih8oCwn1p
+        // new market myself: 2TCtcW9NnYL3SNyP7wSmgFxTr4grMdyGQEjBEqXba8uD
       >
         {children}
       </HoneyProvider>

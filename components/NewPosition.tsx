@@ -10,10 +10,11 @@ interface LoanNewBorrowProps {
   executeDepositNFT: (key: any) => void;
   loanPositions: any;
   parsedReserves: any;
+  openPositions: any;
 }
 
 const LoanNewBorrow = (props: LoanNewBorrowProps) => {
-  const { NFT, mint, executeDepositNFT, loanPositions, parsedReserves } = props;
+  const { NFT, mint, executeDepositNFT, loanPositions, parsedReserves, openPositions } = props;
 
   if (!NFT) return null;
 
@@ -92,7 +93,19 @@ const LoanNewBorrow = (props: LoanNewBorrowProps) => {
             onClick={() => executeDepositNFT(NFT.mint)}
             width="full"
           >
-            Deposit
+            {
+              openPositions?.length < 1 
+              ?
+              <Button
+                onClick={() => executeDepositNFT(NFT.mint)}
+                width="full"
+              >Deposit
+              </Button>
+              :
+              <Button width="full">
+                You already have an open position
+              </Button>
+            }
           </Button>
         </Box>
       </Stack>
