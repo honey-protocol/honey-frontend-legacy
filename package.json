@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "postinstall": "patch-package"
   },
   "dependencies": {
     "@emotion/react": "^11.8.1",
@@ -29,6 +30,7 @@
     "@saberhq/use-solana": "^1.12.48",
     "@solana/spl-token": "0.1.8",
     "@solana/web3.js": "^1.36.0",
+    "@strata-foundation/spl-utils": "^3.5.7",
     "@vanilla-extract/babel-plugin": "^1.1.4",
     "@vanilla-extract/css": "^1.6.8",
     "@vanilla-extract/next-plugin": "^2.0.1",
@@ -59,6 +61,8 @@
     "eslint-plugin-simple-import-sort": "^7.0.0",
     "eslint-plugin-sonarjs": "^0.12.0",
     "eslint-plugin-unicorn": "^41.0.0",
+    "patch-package": "^6.4.7",
+    "postinstall-postinstall": "^2.1.0",
     "prettier": "^2.5.1",
     "typescript": "4.6.2"
   }
