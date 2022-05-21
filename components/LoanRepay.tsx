@@ -33,8 +33,8 @@ const LoanRepay = (props: LoanRepayProps) => {
 
     useEffect(() => {
         if (parsedReserves) {
-            let divSum: any = (((new BN(parsedReserves[0].reserveState.outstandingDebt).div(new BN(10**15)).toNumber())) / LAMPORTS_PER_SOL).toFixed(4)
-            setTotalAllowance(divSum);
+            let divSum: any = (((new BN(parsedReserves[0].reserveState.outstandingDebt).div(new BN(10**15)).toNumber())) / LAMPORTS_PER_SOL).toFixed(2)
+            setTotalDebt(divSum);
             let sumOfAllowance = 1.35 - divSum;
             setTotalAllowance(sumOfAllowance)
         };
@@ -133,7 +133,7 @@ const LoanRepay = (props: LoanRepayProps) => {
                     align="right"
                     color="foreground"
                 >
-                    {((((new BN(parsedReserves[0].reserveState.outstandingDebt).div(new BN(10**15)).toNumber())) / LAMPORTS_PER_SOL)).toFixed(2)}
+                    {totalDebt}
                 </Text>
                 </Stack>
                 {/* <Stack
@@ -229,6 +229,8 @@ const LoanRepay = (props: LoanRepayProps) => {
                 handleUserChange={(val: any) => handleUserChange(val)}
                 parsedReserves={parsedReserves}
                 totalAllowance={totalAllowance}
+                type="repay"
+                totalDebt={totalDebt}
             />
             {/* if no more outstanding amount - render claim nft, is there is, render repay;  */}
             {

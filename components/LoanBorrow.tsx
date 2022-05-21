@@ -29,10 +29,12 @@ const LoanBorrow = (props: LoanBorrowProps) => {
     const [noPositions, setNoPositions] = useState('');
     const [currentLoanPosition, updateCurrentLoanPosition] = useState(0);
     const [totalAllowance, setTotalAllowance] = useState(0);
+    const [totalDebt, setTotalDebt] = useState(0);
 
     useEffect(() => {
         if (parsedReserves) {
-            let divSum: any = (((new BN(parsedReserves[0].reserveState.outstandingDebt).div(new BN(10**15)).toNumber())) / LAMPORTS_PER_SOL).toFixed(1)
+            let divSum: any = (((new BN(parsedReserves[0].reserveState.outstandingDebt).div(new BN(10**15)).toNumber())) / LAMPORTS_PER_SOL).toFixed(2);
+            setTotalDebt(divSum)
             let sumOfAllowance = 1.25 - divSum;
             setTotalAllowance(sumOfAllowance)
         };
@@ -212,6 +214,8 @@ const LoanBorrow = (props: LoanBorrowProps) => {
                     handleUserChange={(val: any) => handleUserChange(val)}
                     parsedReserves={parsedReserves}
                     totalAllowance={totalAllowance}
+                    type="borrow"
+                    totalDebt={totalDebt}
                 />
             </Box>
             {noPositions && 
