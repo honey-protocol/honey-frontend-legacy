@@ -68,7 +68,7 @@ const LoanNewBorrow = (props: LoanNewBorrowProps) => {
                   Loan to value ratio
                 </Text>
                 <Text align="right" color="foreground">
-                  50%
+                  0%
                 </Text>
               </Stack>
               <Stack
@@ -81,7 +81,7 @@ const LoanNewBorrow = (props: LoanNewBorrowProps) => {
                   Liquidation threshold
                 </Text>
                 <Text align="right" color="foreground">
-                  50%
+                  75%
                 </Text>
               </Stack>
             </Stack>

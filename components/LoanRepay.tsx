@@ -29,10 +29,12 @@ const LoanRepay = (props: LoanRepayProps) => {
     const [userInput, setUserInput] = useState(0);
     const [userMessage, setUserMessage] = useState('');
     const [totalAllowance, setTotalAllowance] = useState(0);
+    const [totalDebt, setTotalDebt] = useState(0);
 
     useEffect(() => {
         if (parsedReserves) {
             let divSum: any = (((new BN(parsedReserves[0].reserveState.outstandingDebt).div(new BN(10**15)).toNumber())) / LAMPORTS_PER_SOL).toFixed(4)
+            setTotalAllowance(divSum);
             let sumOfAllowance = 1.35 - divSum;
             setTotalAllowance(sumOfAllowance)
         };
@@ -58,6 +60,8 @@ const LoanRepay = (props: LoanRepayProps) => {
     function handleUserChange(val: any) {
         setUserInput(val);
       }
+
+    console.log('this is total allowance', totalAllowance);
 
     return (
         <Box gap="3">
@@ -129,7 +133,7 @@ const LoanRepay = (props: LoanRepayProps) => {
                     align="right"
                     color="foreground"
                 >
-                    {(((new BN(parsedReserves[0].reserveState.outstandingDebt).div(new BN(10**15)).toNumber())) / LAMPORTS_PER_SOL).toFixed(4)}    
+                    {totalDebt}
                 </Text>
                 </Stack>
                 {/* <Stack
@@ -170,7 +174,7 @@ const LoanRepay = (props: LoanRepayProps) => {
                         color="foreground"
                     >
                     </Text>
-                    <Text>
+                    <Text color="textPrimary">
                         30%
                     </Text>
                     </Stack>
@@ -216,7 +220,7 @@ const LoanRepay = (props: LoanRepayProps) => {
                             align="right"
                             color="foreground"
                         >
-                            {(((new BN(parsedReserves[0].reserveState.outstandingDebt).div(new BN(10**15)).toNumber())) / LAMPORTS_PER_SOL).toFixed(4)}
+                            {(((new BN(parsedReserves[0].reserveState.outstandingDebt).div(new BN(10**15)).toNumber())) / LAMPORTS_PER_SOL).toFixed(1)}
                         </Text>
                     </Stack>
                 </Stack>

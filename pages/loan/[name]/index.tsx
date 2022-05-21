@@ -9,7 +9,7 @@ import BorrowNFTsModule from 'components/BorrowNFTsModule/BorrowNFTsModule';
 import Link from 'next/link';
 import * as styles from '../../../styles/name.css';
 import { ConfigureSDK } from '../../../helpers/loanHelpers/index';
-import useFetchNFTByUser from '../../../hooks/useNFT';
+import useFetchNFTByUser from '../../../hooks/useNFTV2';
 import LoanNewBorrow from 'components/NewPosition';
 import { LAMPORTS_PER_SOL, PublicKey } from '@solana/web3.js';
 import {TYPE_ZERO, TYPE_ONE} from '../../../constants/loan';
@@ -126,7 +126,9 @@ const Loan: NextPage = () => {
   let { loading, collateralNFTPositions, loanPositions, fungibleCollateralPosition, error } = useBorrowPositions(sdkConfig.saberHqConnection, sdkConfig.sdkWallet!, sdkConfig.honeyId, sdkConfig.marketId)
 
   useEffect(() => {
-    console.log('this is loan positions', loanPositions);
+    if (loanPositions) {
+      console.log('this is loan positions', loanPositions[0].amount);
+    }
     if (collateralNFTPositions && collateralNFTPositions.length > TYPE_ZERO) setBorrowModal(TYPE_ONE)
   }, [collateralNFTPositions, loanPositions, fungibleCollateralPosition]);
 
@@ -137,9 +139,10 @@ const Loan: NextPage = () => {
   */
   const wallet = useConnectedWallet();
   let availableNFTs = useFetchNFTByUser(wallet);
+  let reFetchNFTs = availableNFTs[2];
 
   useEffect(() => {
-  }, [availableNFTs]);
+  }, [availableNFTs, reFetchNFTs]);
 
   const [withDrawDepositNFT, updateWithdrawDepositNFT] = useState();
 
@@ -172,6 +175,8 @@ const Loan: NextPage = () => {
       const metadata = await Metadata.findByMint(sdkConfig.saberHqConnection, mintID);
       console.log('updateAuthority', metadata.pubkey.toString());
       depositNFT(sdkConfig.saberHqConnection, honeyUser, metadata.pubkey);
+      reFetchNFTs({});
+      console.log('this is outcome of reFetchNFTS', reFetchNFTs);
     } catch (error) {
       console.log('error depositing nft', error);
       return;
@@ -189,6 +194,8 @@ const Loan: NextPage = () => {
       if (!mintID) return;
       const metadata = await Metadata.findByMint(sdkConfig.saberHqConnection, mintID);
       withdrawNFT(sdkConfig.saberHqConnection, honeyUser, metadata.pubkey);
+      reFetchNFTs({});
+      console.log('this is outcome of reFetchNFTS', reFetchNFTs);
     } catch (error) {
       console.log('error depositing nft', error);
       return;
@@ -203,7 +210,7 @@ const Loan: NextPage = () => {
    * @returns borrowTx
   */
   async function executeBorrow(val: any) {
-    console.log('THIS IS VAL;', val);
+    if (val < 1) val = 1;
     const borrowTokenMint = new PublicKey('So11111111111111111111111111111111111111112');
     const tx = await borrow(honeyUser, val * LAMPORTS_PER_SOL, borrowTokenMint, honeyReserves);
     console.log('this is borrowTx', tx);
@@ -217,7 +224,7 @@ const Loan: NextPage = () => {
    * @returns repayTx
   */
   async function executeRepay(val: any) {
-    console.log('THIS IS VAL;', val);
+    if (val < 1) val = 1;
     const repayTokenMint = new PublicKey('So11111111111111111111111111111111111111112');
     const tx = await repay(honeyUser, val * LAMPORTS_PER_SOL, repayTokenMint, honeyReserves)
     console.log('this is repayTx', tx);

@@ -104,6 +104,7 @@ const sdkConfig = ConfigureSDK();
     )[0];
 
     const reserveState = depositReserve.data?.reserveState;
+    console.log('this is reserveState', reserveState)
 
     console.log('outstandingDebt', reserveState?.outstandingDebt.toString());
     console.log('totalDepositNotes', reserveState?.totalDepositNotes.toString());

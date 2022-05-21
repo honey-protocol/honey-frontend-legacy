@@ -32,7 +32,7 @@ const LoanBorrow = (props: LoanBorrowProps) => {
 
     useEffect(() => {
         if (parsedReserves) {
-            let divSum: any = (((new BN(parsedReserves[0].reserveState.outstandingDebt).div(new BN(10**15)).toNumber())) / LAMPORTS_PER_SOL).toFixed(4)
+            let divSum: any = (((new BN(parsedReserves[0].reserveState.outstandingDebt).div(new BN(10**15)).toNumber())) / LAMPORTS_PER_SOL).toFixed(1)
             let sumOfAllowance = 1.35 - divSum;
             setTotalAllowance(sumOfAllowance)
         };
@@ -127,7 +127,7 @@ const LoanBorrow = (props: LoanBorrowProps) => {
                             align="right"
                             color="foreground"
                         >
-                            {totalAllowance.toFixed(4)}
+                            {(currentLoanPosition / LAMPORTS_PER_SOL).toFixed(1)}
                         </Text>
                     </Stack>
                 </Stack>
@@ -203,7 +203,7 @@ const LoanBorrow = (props: LoanBorrowProps) => {
                         align="right"
                         color="foreground"
                     >
-                        {(1.4 - ((new BN(parsedReserves[0].reserveState.outstandingDebt).div(new BN(10**15)).toNumber())) / LAMPORTS_PER_SOL).toFixed(4)}
+                        {(1.4 - ((new BN(parsedReserves[0].reserveState.outstandingDebt).div(new BN(10**15)).toNumber())) / LAMPORTS_PER_SOL).toFixed(1)} SOL
                     </Text>
                 </Stack>
             </Box>
