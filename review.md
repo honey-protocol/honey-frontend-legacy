@@ -22,7 +22,7 @@ for (const r in reserves) {
 #	Minimum C-RATIO(ex: 125%)
 
 
-
+# Struct valules
 1.	CacheReserveInfo
 - depositNoteExchangeRate: BN
 - The value of the deposit note (unit: reserve tokens per note token)
