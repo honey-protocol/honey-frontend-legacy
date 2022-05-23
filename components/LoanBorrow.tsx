@@ -50,7 +50,6 @@ const LoanBorrow = (props: LoanBorrowProps) => {
 
     useEffect(() => {
       if (loanPositions[0]?.amount) setDebtAmount(loanPositions[0].amount);
-      console.log('///', debtAmount / LAMPORTS_PER_SOL)
     }, [loanPositions]);
     /**
      * @description
