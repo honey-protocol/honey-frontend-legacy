@@ -33,11 +33,12 @@ export const ProposalQueue: React.FC<Props> = ({
             .
           </Text>
         </Box>
-        <Box display="flex" alignItems="center" justifyContent="space-between">
+        <Box display="flex" alignItems="center" justifyContent="center">
           <Button
             width="3/4"
             disabled={!governorW}
             variant="primary"
+            size="small"
             onClick={async () => {
               invariant(governorW);
               const tx = await governorW.queueProposal({

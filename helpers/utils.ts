@@ -149,6 +149,10 @@ export const generateInspectLink = (
   )}`;
 };
 
+export const SYSVAR_OWNER = new PublicKey(
+  'Sysvar1111111111111111111111111111111111111'
+);
+
 export enum PROGRAM_NAMES {
   // native built-ins
   ADDRESS_MAP = 'Address Map Program',

@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { mapSome, useTXHandlers } from '@saberhq/sail';
-import { Box, Button, Text } from 'degen';
+import { Box, Button, IconLink, Text } from 'degen';
 import Countdown from 'react-countdown';
 // import invariant from 'tiny-invariant';
 // import pluralize from 'pluralize';
@@ -90,9 +90,11 @@ export const ProposalExecute: React.FC<Props> = ({
             <Countdown date={eta} />.
           </Text>
         )}
-        <Box marginBottom="4">
+        <Box marginY="4">
           <Link href={gokiTXLink(gokiTransactionData.account)} passHref>
-            <Button variant="transparent">View on Goki</Button>
+            <Button variant="transparent" size="small" suffix={<IconLink />}>
+              View on Goki
+            </Button>
           </Link>
         </Box>
         {/* </ProseSmall> */}
