@@ -63,16 +63,17 @@ const Loan: NextPage = () => {
      * @returns **dont call - actually creates a market
     */
   function createMarket() {
-    if (honeyClient && wallet?.publicKey) {
-      honeyClient.createMarket({
-        owner: wallet.publicKey,
-        quoteCurrencyMint: new PublicKey('So11111111111111111111111111111111111111112'),
-        quoteCurrencyName: 'wSOL',
-        nftCollectionCreator: new PublicKey('F69tu2rGcBrTtUT2ZsevujKRP4efVs9VfZPK2hYbYhvi'),
-        nftOraclePrice: new PublicKey('FNu14oQiSkLFw5iR5Nhc4dTkHqJH5thg1CRVQkwx66LZ'),
-        nftOracleProduct: new PublicKey('FNu14oQiSkLFw5iR5Nhc4dTkHqJH5thg1CRVQkwx66LZ')
-      });
-    }
+    // if (honeyClient && wallet?.publicKey) {
+    //   honeyClient.createMarket({
+    //     owner: wallet.publicKey,
+    //     quoteCurrencyMint: new PublicKey('So11111111111111111111111111111111111111112'),
+    //     quoteCurrencyName: 'wSOL',
+    //     nftCollectionCreator: new PublicKey('F69tu2rGcBrTtUT2ZsevujKRP4efVs9VfZPK2hYbYhvi'),
+    //     nftOraclePrice: new PublicKey('FNu14oQiSkLFw5iR5Nhc4dTkHqJH5thg1CRVQkwx66LZ'),
+    //     nftOracleProduct: new PublicKey('FNu14oQiSkLFw5iR5Nhc4dTkHqJH5thg1CRVQkwx66LZ')
+    //   });
+    // }
+    return;
   }
   
   // createMarket();
