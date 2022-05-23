@@ -17,19 +17,26 @@ interface LoanDepositProps {
 
 const LoanDeposit = (props: LoanDepositProps) => {
   const { borrowApy, estValue, assetsBorrowed, netBorrowBalance, handleDeposit, totalDeposits } = props;
-
+  /**
+   * @description
+   * @params
+   * @returns
+  */
   const [userMessage, setUserMessage] = useState('');
   const [userInput, setUserInput] = useState(0);
-
-  function handleMaxMessage() {
-    setUserMessage('Max input is 2');
-  }
-
+  /**
+   * @description
+   * @params
+   * @returns
+  */
   function handleChange(value: any) {
-    if (value.target.value < 0) return;
-     value.target.value <= 2 ? setUserInput(value.target.value) : handleMaxMessage();
+     setUserInput(value.target.value)
   }
-
+  /**
+   * @description
+   * @params
+   * @returns
+  */
   function executeDeposit() {
     handleDeposit(userInput ? userInput : 1)
   }
@@ -72,19 +79,6 @@ const LoanDeposit = (props: LoanDepositProps) => {
               TBA
             </Text>
           </Stack>
-          {/* <Stack
-            direction="horizontal"
-            justify="space-between"
-            align="center"
-            space="2"
-          >
-            <Text align="left" color="textSecondary">
-              Supply APY
-            </Text>
-            <Text align="right" color="foreground">
-              0%
-            </Text>
-          </Stack> */}
           <Stack
             direction="horizontal"
             justify="space-between"
@@ -95,7 +89,8 @@ const LoanDeposit = (props: LoanDepositProps) => {
               Total balance
             </Text>
             <Text align="right" color="foreground">
-              {(totalDeposits / LAMPORTS_PER_SOL).toFixed(2)} SOL
+              {/* {(totalDeposits / LAMPORTS_PER_SOL).toFixed(2)} SOL */}
+              0 SOL
             </Text>
           </Stack>
         </Stack>
