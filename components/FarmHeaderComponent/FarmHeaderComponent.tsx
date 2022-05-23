@@ -18,7 +18,8 @@ const FarmHeaderComponent = (props: FarmHeaderComponentProps) => {
     collectionTotalNumber,
     rewardTokenName,
     handleRefreshRewardsButtonClick,
-    claimRewards
+    claimRewards,
+    availableToClaimA
   } = useGemFarm();
 
   const [txLoading, setTxLoading] = useState({
@@ -119,6 +120,14 @@ const FarmHeaderComponent = (props: FarmHeaderComponentProps) => {
             </Text>
             <Text size="small" variant="small">
               {farmerState}
+            </Text>
+          </Stack>
+          <Stack direction="vertical" space="1" align="center">
+            <Text align="center" variant="label">
+              Balance
+            </Text>
+            <Text variant="small">
+              {`${availableToClaimA ?? 0} $${rewardTokenName}`}
             </Text>
           </Stack>
           {Boolean(unstakingFee) && (
