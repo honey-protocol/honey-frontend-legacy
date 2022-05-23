@@ -18,7 +18,11 @@ const FarmHeaderComponent = (props: FarmHeaderComponentProps) => {
     collectionTotalNumber,
     rewardTokenName,
     handleRefreshRewardsButtonClick,
-    claimRewards
+    claimRewards,
+    farmerState,
+    stakedNFTsInFarm,
+    farmerVaultLocked,
+    lockVault
   } = useGemFarm();
 
   const [txLoading, setTxLoading] = useState({

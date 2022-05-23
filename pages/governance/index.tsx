@@ -167,19 +167,20 @@ const Governance: NextPage = () => {
               <Box display="flex" height="full">
                 <Stack flex={1} justify="center" align="center" space="3">
                   <IconExclamation color="accent" />
-                  <Text variant="small" align="center">
-                    Pre-IDO HONEY (pHONEY) can be converted to HONEY at a 1:1
-                    ratio.{' '}
-                    <Text as="span" color="accent">
-                      You can increase this ratio by locking your tokens
+                  <Text as="span" color="accent">
+                      Maintenance warning
                     </Text>{' '}
-                    (and receive veHONEY). To participate in governance, you can
-                    lock your HONEY for veHONEY.
+                  <Text variant="small" align="center">
+                    Our governance program is {' '}
+                    <Text as="span" color="accent">
+                      currently undergoing a maintenance.
+                    </Text>{' '}
+                    Please wait before converting pHONEY to HONEY, or withdrawing HONEY from the conversion tool.
                   </Text>
                   <Stack direction="horizontal" justify="center" align="center">
                     <Button
                       as="a"
-                      href="https://docs.honey.finance/tokenomics/vehoney"
+                      href="https://discord.gg/honeydefi"
                       target="_blank"
                       size="small"
                       variant="tertiary"
