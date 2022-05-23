@@ -26,46 +26,47 @@ interface LoanBorrowProps {
 const LoanBorrow = (props: LoanBorrowProps) => {
     const { NFT, executeBorrow, openPositions, loanPositions, parsedReserves } = props;
     
-    const [noPositions, setNoPositions] = useState('');
-    const [currentLoanPosition, updateCurrentLoanPosition] = useState(0);
-    const [totalAllowance, setTotalAllowance] = useState(0);
-    const [totalDebt, setTotalDebt] = useState(0);
+    // useEffect(() => {
+    //     if (parsedReserves) {
+    //         let divSum: any = (((new BN(parsedReserves[0].reserveState.outstandingDebt).div(new BN(10**15)).toNumber())) / LAMPORTS_PER_SOL).toFixed(2);
+    //         setTotalDebt(divSum)
+    //         let sumOfAllowance = 1.25 - divSum;
+    //         setTotalAllowance(sumOfAllowance)
+    //     };
+    // }, [parsedReserves]);
 
-    useEffect(() => {
-        if (parsedReserves) {
-            let divSum: any = (((new BN(parsedReserves[0].reserveState.outstandingDebt).div(new BN(10**15)).toNumber())) / LAMPORTS_PER_SOL).toFixed(2);
-            setTotalDebt(divSum)
-            let sumOfAllowance = 1.25 - divSum;
-            setTotalAllowance(sumOfAllowance)
-        };
-    }, [parsedReserves]);
+    // useEffect(() => {
+    //     if (loanPositions) {
+    //         updateCurrentLoanPosition(loanPositions[0]?.amount)
+    //     }
+    // }, [loanPositions]);
 
-    useEffect(() => {
-        if (loanPositions) {
-            updateCurrentLoanPosition(loanPositions[0]?.amount)
-        }
-    }, [loanPositions]);
-
-    useEffect(() => {
-        console.log('running', noPositions)
-    }, [noPositions]);
+    // useEffect(() => {
+    //     console.log('running', noPositions)
+    // }, [noPositions]);
 
     const [userInput, setUserInput] = useState(0);
-    const [userMessage, setUserMessage] = useState('');
+    const [debtAmount, setDebtAmount] = useState(0);
 
-    function handleExecuteBorrow(val: any) {
-        if (userInput < 0) {
-            setUserMessage('Please fill in an amount.');
-            return; 
-        } else if (userInput > (1.4 - ((new BN(parsedReserves[0].reserveState.outstandingDebt).div(new BN(10**15)).toNumber())) / LAMPORTS_PER_SOL)) {
-            setUserMessage('Request loan too high');
-        } else {
-            executeBorrow(userInput);
-        }
-    }
-
+    useEffect(() => {
+      if (loanPositions[0]?.amount) setDebtAmount(loanPositions[0].amount);
+      console.log('///', debtAmount / LAMPORTS_PER_SOL)
+    }, [loanPositions]);
+    /**
+     * @description
+     * @params
+     * @returns
+    */
     function handleUserChange(val: any) {
         setUserInput(val);
+    }
+    /**
+     * @description
+     * @params
+     * @returns
+    */
+    function handleExecuteBorrow(val: any) {
+        executeBorrow(userInput ? userInput : 1);
     }
 
     return (
@@ -129,7 +130,8 @@ const LoanBorrow = (props: LoanBorrowProps) => {
                             align="right"
                             color="foreground"
                         >
-                            {((((new BN(parsedReserves[0].reserveState.outstandingDebt).div(new BN(10**15)).toNumber())) / LAMPORTS_PER_SOL)).toFixed(2)}
+                          {/* WIP - BE fix lamports issue? */}
+                          {debtAmount/ LAMPORTS_PER_SOL}
                         </Text>
                     </Stack>
                 </Stack>
@@ -158,7 +160,7 @@ const LoanBorrow = (props: LoanBorrowProps) => {
                             align="right"
                             color="foreground"
                         > 
-                            {(((((new BN(parsedReserves[0].reserveState.outstandingDebt).div(new BN(10**15)).toNumber())) / LAMPORTS_PER_SOL)/2)*100).toFixed(2)} %
+                         0%
                         </Text>
                     </Stack>
                     <Stack
@@ -205,31 +207,21 @@ const LoanBorrow = (props: LoanBorrowProps) => {
                         align="right"
                         color="foreground"
                     >
-                        {(1.25 - ((new BN(parsedReserves[0].reserveState.outstandingDebt).div(new BN(10**15)).toNumber())) / LAMPORTS_PER_SOL).toFixed(1)} SOL
                     </Text>
                 </Stack>
             </Box>
             <Box>
                 <Slider 
-                    handleUserChange={(val: any) => handleUserChange(val)}
-                    parsedReserves={parsedReserves}
-                    totalAllowance={totalAllowance}
-                    type="borrow"
-                    totalDebt={totalDebt}
+                  handleUserChange={handleUserChange}
+                  handleExecuteBorrow={handleExecuteBorrow}
                 />
             </Box>
-            {noPositions && 
-                <Box className={styles.noPositions}>
-                    {noPositions}
-                </Box>
-            }
-            {
-                userMessage && 
-                <Box marginBottom="4" className={styles.errorMessage}>
-                    {userMessage}
-                </Box>
-            }
-            <Button width="full" onClick={handleExecuteBorrow}>Borrow</Button>
+            <Button 
+              width="full"
+              onClick={handleExecuteBorrow}
+            >
+              Borrow
+            </Button>
         </Box>
     )
 }

@@ -24,44 +24,39 @@ interface LoanRepayProps {
 
 const LoanRepay = (props: LoanRepayProps) => {
     const { NFT, executeWithdrawNFT, mint, executeRepay, loanPositions, parsedReserves } = props;
-
-    const [currentLoanPosition, updateCurrentLoanPosition] = useState(0);
     const [userInput, setUserInput] = useState(0);
-    const [userMessage, setUserMessage] = useState('');
-    const [totalAllowance, setTotalAllowance] = useState(0);
-    const [totalDebt, setTotalDebt] = useState(0);
+    const [debtAmount, setDebtAmount] = useState(0);
 
     useEffect(() => {
-        if (parsedReserves) {
-            let divSum: any = (((new BN(parsedReserves[0].reserveState.outstandingDebt).div(new BN(10**15)).toNumber())) / LAMPORTS_PER_SOL).toFixed(2)
-            setTotalDebt(divSum);
-            let sumOfAllowance = 1.35 - divSum;
-            setTotalAllowance(sumOfAllowance)
-        };
-    }, [parsedReserves]);
-
-    // loanpositions refers to the amount that has been borrowed as collateral
-    // if loanpositions amount is zero - the repay button becomes claim NFT - line 212
-    useEffect(() => {
-        if (loanPositions) {
-            updateCurrentLoanPosition(loanPositions[0]?.amount)
-        }
+      if (loanPositions[0]?.amount) setDebtAmount(loanPositions[0].amount);
     }, [loanPositions]);
 
+    // useEffect(() => {
+    //     if (parsedReserves) {
+    //         let divSum: any = (((new BN(parsedReserves[0].reserveState.outstandingDebt).div(new BN(10**15)).toNumber())) / LAMPORTS_PER_SOL).toFixed(2)
+    //         setTotalDebt(divSum);
+    //         let sumOfAllowance = 1.35 - divSum;
+    //         setTotalAllowance(sumOfAllowance)
+    //     };
+    // }, [parsedReserves]);
+
+    // // loanpositions refers to the amount that has been borrowed as collateral
+    // // if loanpositions amount is zero - the repay button becomes claim NFT - line 212
+    // useEffect(() => {
+    //     if (loanPositions) {
+    //         updateCurrentLoanPosition(loanPositions[0]?.amount)
+    //     }
+    // }, [loanPositions]);
+
     function handleExecuteRepay(val: any) {
-        if (userInput < 0) {
-            setUserMessage('Please fill in an amount.');
-            return; 
-        } else if (userInput <= 2.5) {
-            executeRepay(userInput)
-        }
+      executeRepay(1);
     }
 
     function handleUserChange(val: any) {
-        setUserInput(val);
-      }
+      setUserInput(val);
+    }
 
-    console.log('this is total allowance', totalAllowance);
+    // console.log('this is total allowance', totalAllowance);
 
     return (
         <Box gap="3">
@@ -133,23 +128,9 @@ const LoanRepay = (props: LoanRepayProps) => {
                     align="right"
                     color="foreground"
                 >
-                    {totalDebt}
+                  {debtAmount / LAMPORTS_PER_SOL}
                 </Text>
                 </Stack>
-                {/* <Stack
-                direction="horizontal"
-                justify="space-between"
-                align="center"
-                space="2"
-                >
-                <Text align="left"
-                color="textSecondary">Borrow APR</Text>
-                <Text
-                    align="right"
-                    color="foreground"
-                >
-                    4.2%</Text>
-                </Stack> */}
             </Stack>
             </Box>
             <hr></hr>
@@ -175,7 +156,7 @@ const LoanRepay = (props: LoanRepayProps) => {
                     >
                     </Text>
                     <Text color="textPrimary">
-                    {(((((new BN(parsedReserves[0].reserveState.outstandingDebt).div(new BN(10**15)).toNumber())) / LAMPORTS_PER_SOL)/2)*100).toFixed(2)} %
+                    0%
                     </Text>
                     </Stack>
                     <Stack
@@ -220,17 +201,14 @@ const LoanRepay = (props: LoanRepayProps) => {
                             align="right"
                             color="foreground"
                         >
-                            {(1.25 - ((new BN(parsedReserves[0].reserveState.outstandingDebt).div(new BN(10**15)).toNumber())) / LAMPORTS_PER_SOL).toFixed(1)} SOL
+                            0 SOL
                         </Text>
                     </Stack>
                 </Stack>
             </Box>
             <Slider 
-                handleUserChange={(val: any) => handleUserChange(val)}
-                parsedReserves={parsedReserves}
-                totalAllowance={totalAllowance}
-                type="repay"
-                totalDebt={totalDebt}
+              handleUserChange={handleUserChange}
+              handleExecuteBorrow={handleExecuteRepay}
             />
             {/* if no more outstanding amount - render claim nft, is there is, render repay;  */}
             {
