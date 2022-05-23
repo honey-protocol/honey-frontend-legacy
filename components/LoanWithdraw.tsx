@@ -26,19 +26,27 @@ const LoanWithdraw = (props: LoanWithdrawProps) => {
     handleWithdraw,
     totalDeposits
   } = props;
-
+  
+  /**
+   * @description
+   * @params
+   * @returns
+  */
   const [userMessage, setUserMessage] = useState('');
   const [userInput, setUserInput] = useState(0);
-
-  function handleMaxMessage() {
-    setUserMessage('Max input is 2');
-  }
-
+  /**
+   * @description
+   * @params
+   * @returns
+  */
   function handleChange(value: any) {
-    if (value.target.value < 0) return;
-    value.target.value <= 2 ? setUserInput(value.target.value) : handleMaxMessage();
+    setUserInput(value.target.value)
   }
-
+  /**
+   * @description
+   * @params
+   * @returns
+  */
   function executeWithdraw() {
     handleWithdraw(userInput ? userInput : 1);
   }
@@ -92,7 +100,8 @@ const LoanWithdraw = (props: LoanWithdrawProps) => {
               Total balance
             </Text>
             <Text align="right" color="textPrimary">
-            {(totalDeposits / LAMPORTS_PER_SOL).toFixed(2)} SOL
+            {/* {(totalDeposits / LAMPORTS_PER_SOL).toFixed(2)} SOL */}
+            0 SOL
             </Text>
           </Stack>
         </Stack>
