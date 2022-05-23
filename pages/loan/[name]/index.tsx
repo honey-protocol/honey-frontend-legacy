@@ -102,7 +102,7 @@ const Loan: NextPage = () => {
 
   useEffect(() => {
     if (parsedReserves) {
-      console.log('@@@@@@@@@ outstandingDebt-', ((new BN(parsedReserves[0].reserveState.outstandingDebt).div(new BN(10**15)).toNumber())/ LAMPORTS_PER_SOL));
+      console.log('@@@@@@@@@ outstandingDebt-', ((new BN(parsedReserves[0]?.reserveState.outstandingDebt).div(new BN(10**15)).toNumber())/ LAMPORTS_PER_SOL));
     }
     console.log('market', market)
   }, [market, marketReserveInfo, parsedReserves]);
@@ -210,7 +210,7 @@ const Loan: NextPage = () => {
    * @returns borrowTx
   */
   async function executeBorrow(val: any) {
-    if (val < 1) val = 1;
+    if (!val) val = 1;
     const borrowTokenMint = new PublicKey('So11111111111111111111111111111111111111112');
     const tx = await borrow(honeyUser, val * LAMPORTS_PER_SOL, borrowTokenMint, honeyReserves);
     console.log('this is borrowTx', tx);
@@ -224,7 +224,7 @@ const Loan: NextPage = () => {
    * @returns repayTx
   */
   async function executeRepay(val: any) {
-    if (val < 1) val = 1;
+    if (!val) val = 1;
     const repayTokenMint = new PublicKey('So11111111111111111111111111111111111111112');
     const tx = await repay(honeyUser, val * LAMPORTS_PER_SOL, repayTokenMint, honeyReserves)
     console.log('this is repayTx', tx);
