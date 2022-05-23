@@ -8,11 +8,12 @@ import {
 } from 'helpers/dao';
 import BN from 'bn.js';
 import { startCase } from 'lodash';
-import { Box, IconLink, Text } from 'degen';
+import { Box, Button, IconLink, Text } from 'degen';
 
 import type { ProposalInfo } from 'hooks/tribeca/useProposals';
 import { useGokiTransactionData } from 'helpers/parser';
 import { Card } from 'components/common/governance/Card';
+import Link from 'next/link';
 
 const ZERO = new BN(0);
 interface Props {
@@ -114,14 +115,19 @@ export const ProposalHistory: React.FC<Props> = ({
                 </Text>
               </Box>
               {link && (
-                <a
-                  href={link}
-                  // tw="text-primary hover:text-white transition-colors"
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  <IconLink />
-                </a>
+                <Link href={link} passHref>
+                  <Button
+                    href={link}
+                    size="small"
+                    // tone="green"
+                    variant="transparent"
+                    // tw="text-primary hover:text-white transition-colors"
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    <IconLink />
+                  </Button>
+                </Link>
               )}
             </Box>
           </Box>

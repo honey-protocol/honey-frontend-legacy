@@ -1,4 +1,4 @@
-import { Box, Text } from 'degen';
+import { Box, Button, Text } from 'degen';
 import Link from 'next/link';
 
 import { HelperCard } from '../HelperCard';
@@ -69,13 +69,27 @@ export const Card: React.FC<Props> = ({
         {children}
       </Box>
       {/* </ErrorBoundary> */}
-      {link &&
-        (link.href ? (
-          <Box
-            as={Link}
-            href={link.href}
-            color={{ base: 'white', hover: 'textPrimary' }}
-          >
+      {link && (
+        <Box width="full">
+          {link.href ? (
+            <Link href={link.href} passHref>
+              <Button variant="transparent" center width="full">
+                {/* <Box
+                display="flex"
+                alignItems="center"
+                justifyContent="center"
+                paddingY="5"
+                fontSize="small"
+                fontWeight="bold"
+                textTransform="uppercase"
+                color="white"
+                // tw="flex items-center justify-center py-5 text-xs uppercase font-bold tracking-widest border-t border-warmGray-800"
+              > */}
+                {link.title}
+                {/* </Box> */}
+              </Button>
+            </Link>
+          ) : (
             <Box
               display="flex"
               alignItems="center"
@@ -83,27 +97,14 @@ export const Card: React.FC<Props> = ({
               paddingY="5"
               fontSize="small"
               fontWeight="bold"
-              textTransform="uppercase"
               color="white"
-              // tw="flex items-center justify-center py-5 text-xs uppercase font-bold tracking-widest border-t border-warmGray-800"
+              // tw="flex items-center justify-center py-5 text-xs uppercase font-bold tracking-widest border-t border-warmGray-800 text-warmGray-600 cursor-not-allowed"
             >
               {link.title}
             </Box>
-          </Box>
-        ) : (
-          <Box
-            display="flex"
-            alignItems="center"
-            justifyContent="center"
-            paddingY="5"
-            fontSize="small"
-            fontWeight="bold"
-            color="white"
-            // tw="flex items-center justify-center py-5 text-xs uppercase font-bold tracking-widest border-t border-warmGray-800 text-warmGray-600 cursor-not-allowed"
-          >
-            {link.title}
-          </Box>
-        ))}
+          )}
+        </Box>
+      )}
     </Box>
   );
 };

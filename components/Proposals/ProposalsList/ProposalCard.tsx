@@ -20,18 +20,13 @@ export const ProposalCard: React.FC<Props> = ({ proposalInfo }: Props) => {
   const router = useRouter();
   const { state, executed } = proposalInfo.status;
   return (
-    <Link
-      passHref
-      href={`${router.pathname}/proposals/${proposalInfo.index}`}
-      // tw="flex items-center justify-between py-5 px-6 border-l-2 border-l-transparent border-b border-b-warmGray-800 cursor-pointer hover:border-l-primary"
-    >
+    <Link passHref href={`${router.pathname}/proposals/${proposalInfo.index}`}>
       <Box
         display="flex"
         alignItems="center"
         justifyContent="space-between"
         paddingX="6"
         paddingY="5"
-        // as={Link}
       >
         <Box
           display="flex"
@@ -47,11 +42,7 @@ export const ProposalCard: React.FC<Props> = ({ proposalInfo }: Props) => {
           )}
           <Box>
             <Box display="flex" alignItems="center">
-              <Text
-                color="white"
-                lineHeight="1.375"
-                // tw="text-white leading-snug break-words hyphens[auto]"
-              >
+              <Text color="white" lineHeight="1.375">
                 {proposalInfo.proposalMetaData?.title.slice(
                   0,
                   PROPOSAL_TITLE_MAX_LEN

@@ -62,7 +62,7 @@ export const ExecuteProposalButton: React.FC<Props> = ({
               behalf of the DAO:
             </Text>
             {/* </ProseSmall> */}
-            <Box width="full" overflow="scroll">
+            <Box width="full">
               <EmbedTX txKey={tx.publicKey} />
             </Box>
             <Box textAlign="center">

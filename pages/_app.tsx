@@ -17,6 +17,7 @@ import { GovernorProvider } from 'hooks/tribeca/useGovernor';
 import 'degen/styles';
 import '../styles/globals.css';
 import 'react-toastify/dist/ReactToastify.css';
+import { onSailError } from 'helpers/error';
 
 const queryClient = new QueryClient();
 const network = process.env.NETWORK as Network;
@@ -77,9 +78,7 @@ function MyApp({ Component, pageProps }: AppProps) {
         >
           <SailProvider
             initialState={{
-              onSailError: err => {
-                console.log(err);
-              }
+              onSailError
             }}
           >
             <SDKProvider>
@@ -95,7 +94,6 @@ function MyApp({ Component, pageProps }: AppProps) {
                 ) : (
                   <>
                     <Component {...pageProps} />
-                    <ToastContainer theme="dark" position="bottom-right" />
                   </>
                 )}
               </GovernorProvider>
@@ -103,8 +101,9 @@ function MyApp({ Component, pageProps }: AppProps) {
           </SailProvider>
         </WalletKitProvider>
       </QueryClientProvider>
+      <ToastContainer theme="dark" position="bottom-right" />
     </ThemeProvider>
   );
 }
 
-export default MyApp; 
+export default MyApp;

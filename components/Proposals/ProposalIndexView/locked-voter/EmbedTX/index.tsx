@@ -3,7 +3,7 @@ import { Box, Spinner } from 'degen';
 
 import { useParsedTXByKey } from 'hooks/useParsedTX';
 import { SmartWalletProvider } from 'hooks/useSmartWallet';
-// import { TransactionProvider } from '../../../../../wallet/tx/TransactionView/context';
+import { TransactionProvider } from 'components/tx/TransactionView/context';
 import { InstructionsInner } from './InstructionsInner';
 
 interface Props {
@@ -17,9 +17,9 @@ export const EmbedTX: React.FC<Props> = ({ txKey }: Props) => {
       {isLoading && !parsedTX && <Spinner />}
       {parsedTX && (
         <SmartWalletProvider initialState={parsedTX.tx.account.smartWallet}>
-          {/* <TransactionProvider initialState={parsedTX}>
+          <TransactionProvider initialState={parsedTX}>
             <InstructionsInner />
-          </TransactionProvider> */}
+          </TransactionProvider>
         </SmartWalletProvider>
       )}
     </Box>

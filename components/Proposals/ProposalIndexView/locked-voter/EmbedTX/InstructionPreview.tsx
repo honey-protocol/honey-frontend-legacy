@@ -1,11 +1,12 @@
+import { Box, Text } from 'degen';
 import { startCase } from 'lodash';
 
 import { useParsedInstruction } from 'hooks/useParsedInstruction';
 import type { ParsedInstruction } from 'hooks/useSmartWallet';
 import { shortenAddress } from 'helpers/utils';
-// import { AddressLink } from 'components/common/AddressLink';
+import { AddressLink } from 'components/AddressLink';
+import { InstructionDisplay } from 'components/tx/TransactionView/TransactionIndexView/InstructionDisplay';
 // import { InstructionDisplay } from '../../../../../wallet/tx/TransactionView/TransactionIndexView/InstructionDisplay';
-import { Box, Text } from 'degen';
 
 interface Props {
   index: number;
@@ -42,13 +43,13 @@ export const InstructionPreview: React.FC<Props> = ({
           <Text as="span" weight="medium">
             Program:
           </Text>{' '}
-          {/* <AddressLink
-            tw="font-semibold text-secondary"
+          <AddressLink
+            // tw="font-semibold text-secondary"
             address={instruction.ix.programId}
           >
             {instruction.programName} (
             {shortenAddress(instruction.ix.programId.toString())})
-          </AddressLink> */}
+          </AddressLink>
         </Text>
       </Box>
       <Box
@@ -56,7 +57,7 @@ export const InstructionPreview: React.FC<Props> = ({
         borderTopWidth="px"
         // tw="p-4 border-t dark:border-t-warmGray-600"
       >
-        {/* <InstructionDisplay parsed={parsed} instruction={instruction} /> */}
+        <InstructionDisplay parsed={parsed} instruction={instruction} />
       </Box>
     </Box>
   );
