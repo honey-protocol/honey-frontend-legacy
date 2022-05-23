@@ -10,8 +10,8 @@ import ToggleSwitch from 'components/ToggleSwitch';
 import { LAMPORTS_PER_SOL, PublicKey } from '@solana/web3.js';
 
 interface DepositWithdrawModuleProps {
-  executeDeposit: () => void;
-  executeWithdraw: () => void;
+  executeDeposit: (val: any) => void;
+  executeWithdraw: (val: any) => void;
   honeyReserves: any;
 }
 
@@ -21,27 +21,12 @@ const DepositWithdrawModule = (props: DepositWithdrawModuleProps) => {
     executeWithdraw,
     honeyReserves
   } = props;
-
+  /**
+   * @description
+   * @params
+   * @returns
+  */
   const [depositOrWithdraw, setDepositOrWithdraw] = useState(0);
-  const [totalDeposits, setTotalDeposits] = useState('');
-
-  function handleReserves(honeyR: any) {
-    const depositTokenMint = new PublicKey('So11111111111111111111111111111111111111112');
-    
-    const depositReserve = honeyR?.filter((reserve: any) =>
-      reserve?.data?.tokenMint?.equals(depositTokenMint),
-    )[0];
-
-    const reserveState = depositReserve?.data?.reserveState;
-
-    console.log('@@@@@_-------', reserveState?.totalDeposits.toString());
-
-    setTotalDeposits(reserveState?.totalDeposits.toString())
-  }
-
-  useEffect(() => {
-    handleReserves(honeyReserves);
-  }, [honeyReserves]);
 
   return (
     <Box
@@ -69,8 +54,6 @@ const DepositWithdrawModule = (props: DepositWithdrawModuleProps) => {
               assetsBorrowed={1}
               netBorrowBalance={1}
               handleDeposit={executeDeposit}
-              totalDeposits={totalDeposits}
-
             />
           ) : (
             <LoanWithdraw
@@ -80,7 +63,6 @@ const DepositWithdrawModule = (props: DepositWithdrawModuleProps) => {
               totalInterest={1}
               totalPayback={1}
               handleWithdraw={executeWithdraw}
-              totalDeposits={totalDeposits}
             />
           )}
         </Box>

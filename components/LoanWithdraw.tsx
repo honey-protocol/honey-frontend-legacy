@@ -13,7 +13,6 @@ interface LoanWithdrawProps {
   totalInterest: number;
   totalPayback: number;
   handleWithdraw: (value: number) => void;
-  totalDeposits: any;
 }
 
 const LoanWithdraw = (props: LoanWithdrawProps) => {
@@ -24,7 +23,6 @@ const LoanWithdraw = (props: LoanWithdrawProps) => {
     totalInterest,
     totalPayback,
     handleWithdraw,
-    totalDeposits
   } = props;
   
   /**
