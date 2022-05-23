@@ -92,20 +92,7 @@ const LoanNewBorrow = (props: LoanNewBorrowProps) => {
           <Button
             onClick={() => executeDepositNFT(NFT.mint)}
             width="full"
-          >
-            {
-              openPositions?.length < 1 
-              ?
-              <Button
-                onClick={() => executeDepositNFT(NFT.mint)}
-                width="full"
-              >Deposit
-              </Button>
-              :
-              <Button width="full">
-                You already have an open position
-              </Button>
-            }
+          >Deposit
           </Button>
         </Box>
       </Stack>

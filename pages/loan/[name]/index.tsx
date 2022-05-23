@@ -158,7 +158,6 @@ const Loan: NextPage = () => {
   const [nftArrayType, setNftArrayType] = useState(false);
   // state handler based off nft key
   function selectNFT(key: any, type: boolean) {
-    console.log('this is the selected NFT', key, nftArrayType)
     setSelectedId(key.name);
     setNftArrayType(type);
     updateWithdrawDepositNFT(key.mint)
@@ -176,7 +175,6 @@ const Loan: NextPage = () => {
       console.log('updateAuthority', metadata.pubkey.toString());
       depositNFT(sdkConfig.saberHqConnection, honeyUser, metadata.pubkey);
       reFetchNFTs({});
-      console.log('this is outcome of reFetchNFTS', reFetchNFTs);
     } catch (error) {
       console.log('error depositing nft', error);
       return;
@@ -195,7 +193,6 @@ const Loan: NextPage = () => {
       const metadata = await Metadata.findByMint(sdkConfig.saberHqConnection, mintID);
       withdrawNFT(sdkConfig.saberHqConnection, honeyUser, metadata.pubkey);
       reFetchNFTs({});
-      console.log('this is outcome of reFetchNFTS', reFetchNFTs);
     } catch (error) {
       console.log('error depositing nft', error);
       return;
@@ -257,6 +254,7 @@ const Loan: NextPage = () => {
         <LoanNFTsContainer
           selectedId={selectedId}
           handleBorrow={handleBorrowModal}
+          reFetchNFTs={reFetchNFTs}
           buttons={[
             {
               title: 'Open positions',
