@@ -84,19 +84,14 @@ const sdkConfig = ConfigureSDK();
   console.log('honeyUser', honeyUser)
   console.log('withdrawReserves', honeyReserves)
 
-  function filterReserves() {
-
-  }
-
   /**
    * @description deposits 1 sol
-   * @params none
+   * @params optional value from user input; amount of SOL
    * @returns succes | failure
   */
   async function executeDeposit(value: number) {
     const tokenAmount =  value ? value * LAMPORTS_PER_SOL : 1 * LAMPORTS_PER_SOL;
     const depositTokenMint = new PublicKey('So11111111111111111111111111111111111111112');
-    console.log('this is deposittokenmint', depositTokenMint);
     await deposit(honeyUser, tokenAmount, depositTokenMint, honeyReserves);
 
     const depositReserve = honeyReserves.filter((reserve) =>
@@ -104,7 +99,6 @@ const sdkConfig = ConfigureSDK();
     )[0];
 
     const reserveState = depositReserve.data?.reserveState;
-    console.log('this is reserveState', reserveState)
 
     console.log('outstandingDebt', reserveState?.outstandingDebt.toString());
     console.log('totalDepositNotes', reserveState?.totalDepositNotes.toString());
@@ -114,7 +108,7 @@ const sdkConfig = ConfigureSDK();
 
   /**
    * @description withdraws 1 sol
-   * @params none
+   * @params optional value from user input; amount of SOL
    * @returns succes | failure
   */
   async function executeWithdraw(value: number) {
