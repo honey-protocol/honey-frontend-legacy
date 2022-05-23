@@ -1,10 +1,12 @@
 import type { NextPage } from 'next';
+import React, { useState, useEffect } from 'react';
 import { Box, Button, Card, IconChevronLeft, Text, vars } from 'degen';
 import { Stack } from 'degen';
 import {
   deposit,
   withdraw,
-  useMarket
+  useMarket,
+  useHoney
 } from '@honey-finance/sdk';
 import { ConfigureSDK } from 'helpers/loanHelpers';
 import { LAMPORTS_PER_SOL, PublicKey } from '@solana/web3.js';
@@ -19,6 +21,7 @@ import {
   YAxis
 } from 'recharts';
 import Link from 'next/link';
+import BN from 'bn.js';
 import * as styles from '../../../styles/lend.css';
 
 // TOOD: Needs to accept props for data
@@ -80,9 +83,16 @@ const sdkConfig = ConfigureSDK();
      * @params solanas useConnection func. && useConnectedWallet func. && JET ID
      * @returns honeyUser which is the main object - honeyMarket, honeyReserves are for testing purposes
     */
-  const { honeyClient, honeyUser, honeyReserves } = useMarket(sdkConfig.saberHqConnection, sdkConfig.sdkWallet!, sdkConfig.honeyId, sdkConfig.marketId);
-  console.log('honeyUser', honeyUser)
-  console.log('withdrawReserves', honeyReserves)
+  const { honeyUser, honeyReserves } = useMarket(sdkConfig.saberHqConnection, sdkConfig.sdkWallet!, sdkConfig.honeyId, sdkConfig.marketId);
+  const { parsedReserves }  = useHoney();
+  const [marketValue, setMarketValue] = useState(0);
+
+  useEffect(() => {
+    if (parsedReserves) {
+      console.log('@@@--outstandingDebt-', ((new BN(parsedReserves[0]?.reserveState.outstandingDebt).div(new BN(10**15)).toNumber())/ LAMPORTS_PER_SOL));
+      setMarketValue(((new BN(parsedReserves[0]?.reserveState.outstandingDebt).div(new BN(10**15)).toNumber())/ LAMPORTS_PER_SOL));
+    }
+  }, [parsedReserves]);
 
   /**
    * @description deposits 1 sol
@@ -265,6 +275,7 @@ const sdkConfig = ConfigureSDK();
             executeDeposit={executeDeposit}
             executeWithdraw={executeWithdraw}
             honeyReserves={honeyReserves}
+            marketValue={marketValue}
           />
         </Box>
       </Stack>

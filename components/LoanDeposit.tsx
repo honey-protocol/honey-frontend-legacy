@@ -12,10 +12,11 @@ interface LoanDepositProps {
   assetsBorrowed: number;
   netBorrowBalance: number;
   handleDeposit: (value: any) => void;
+  marketValue: any;
 }
 
 const LoanDeposit = (props: LoanDepositProps) => {
-  const { borrowApy, estValue, assetsBorrowed, netBorrowBalance, handleDeposit } = props;
+  const { borrowApy, estValue, assetsBorrowed, netBorrowBalance, handleDeposit, marketValue } = props;
   /**
    * @description
    * @params
@@ -89,7 +90,8 @@ const LoanDeposit = (props: LoanDepositProps) => {
             </Text>
             <Text align="right" color="foreground">
               {/* {(totalDeposits / LAMPORTS_PER_SOL).toFixed(2)} SOL */}
-              0 SOL
+              {/* {marketValue.toFixed(2)} SOL  */}
+              .. SOL
             </Text>
           </Stack>
         </Stack>

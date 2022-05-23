@@ -101,10 +101,7 @@ const Loan: NextPage = () => {
   const { market, marketReserveInfo, parsedReserves }  = useHoney();
 
   useEffect(() => {
-    if (parsedReserves) {
-      console.log('@@@@@@@@@ outstandingDebt-', ((new BN(parsedReserves[0]?.reserveState.outstandingDebt).div(new BN(10**15)).toNumber())/ LAMPORTS_PER_SOL));
-    }
-    console.log('market', market)
+    
   }, [market, marketReserveInfo, parsedReserves]);
 
     /**
