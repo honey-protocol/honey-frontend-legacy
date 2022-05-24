@@ -45,24 +45,37 @@ const LoanBorrow = (props: LoanBorrowProps) => {
     //     console.log('running', noPositions)
     // }, [noPositions]);
 
+    /**
+     * @description set default state for userInput and debtAmount to 0
+     * @params number
+     * @returns userInput | debtAmount
+    */
     const [userInput, setUserInput] = useState(0);
     const [debtAmount, setDebtAmount] = useState(0);
-
+    
+    /**
+     * @description set default state for userInput and debtAmount to 0
+     * @params number
+     * @returns userInput | debtAmount
+    */
     useEffect(() => {
       if (loanPositions[0]?.amount) setDebtAmount(loanPositions[0].amount);
     }, [loanPositions]);
+    
     /**
-     * @description
-     * @params
-     * @returns
+     * @description handles the users input
+     * @params event object
+     * @returns userInput
     */
     function handleUserChange(val: any) {
         setUserInput(val);
     }
+    
     /**
-     * @description
-     * @params
-     * @returns
+     * @description handles execute borrow func.
+     * @params amount that user wants to borrow
+     * @returns execution of borrow
+     * @todo add regex for userinput
     */
     function handleExecuteBorrow(val: any) {
         executeBorrow(userInput ? userInput : 1);
