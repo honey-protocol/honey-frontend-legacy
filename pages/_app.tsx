@@ -39,13 +39,13 @@ const OnChainProvider: FC<{ children: ReactNode }> = ({ children }) => {
     wallet={wallet}
     connection={connection}
     network={network}
-    // honeyProgram={"6ujVJiHnyqaTBHzwwfySzTDX5EPFgmXqnibuMp3Hun1w"}>
-    honeyProgram={"BmdNpm85xLcZCY9nAT6YB9reeFYRDaAUQorr4hEXh8ZL"}>
+    honeyProgram={"6ujVJiHnyqaTBHzwwfySzTDX5EPFgmXqnibuMp3Hun1w"}>
+    {/* honeyProgram={"BmdNpm85xLcZCY9nAT6YB9reeFYRDaAUQorr4hEXh8ZL"}> */}
       <HoneyProvider
         wallet={wallet}
         connection={connection}
-        honeyProgramId={"BmdNpm85xLcZCY9nAT6YB9reeFYRDaAUQorr4hEXh8ZL"}
-        honeyMarketId={"kifNihaXSZMHgCmiKkoA8RoMiAwqQCda3WSDoRYLj2r"}
+        honeyProgramId={"6ujVJiHnyqaTBHzwwfySzTDX5EPFgmXqnibuMp3Hun1w"}
+        honeyMarketId={"A3mxc8yc6ZjoYrMe9JcDzvQcv5hgNwkbTrE44yZ3bMZg"}
         // previous market: 9Hd2ZWmdGoBco3bo33pf1ydh9JAGQ5c8LNuduAvKL9o4
         // new market from brian; BvVZscx5C3FGPhhRHNo6R8UCbmeeSDK58mKih8oCwn1p
         // new market myself: 2TCtcW9NnYL3SNyP7wSmgFxTr4grMdyGQEjBEqXba8uD
