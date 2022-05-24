@@ -90,30 +90,41 @@ const Loan: NextPage = () => {
   * @returns honeyUser | honeyReserves - used for interaction regarding the SDK
   */
   const { honeyClient, honeyUser, honeyReserves } = useMarket(sdkConfig.saberHqConnection, sdkConfig.sdkWallet!, sdkConfig.honeyId, sdkConfig.marketId);
-
+  
+  /**
+   * @description updates honeyUser | honeyReserves | honeyClient when fetched
+   * @params none
+   * @returns honeyUser | honeyReserves | honeyClient
+  */
   useEffect(() => {
     console.log('this is honeyReserves', honeyReserves);
   }, [honeyUser, honeyReserves, honeyClient]);
+  
   /**
    * @description calls upon markets which
    * @params none
    * @returns market | market reserve information | parsed reserves |
   */
   const { market, marketReserveInfo, parsedReserves }  = useHoney();
-
+  
+  /**
+   * @description updates parsedReserves which is the parsed honeyReserves 
+   * @params none
+   * @returns parsedReserves
+  */
   useEffect(() => {
     console.log('this is parsedReserves', parsedReserves);
 
-    for (const r in parsedReserves) {
-      console.log('this is r', r);
-      let borrowed;
-      borrowed += parsedReserves[r]?.outstandingDebt?.muln(parsedReserves[r].price)?.tokens;
-      console.log('@@@@@', borrowed);
-    }
+    // for (const r in parsedReserves) {
+    //   console.log('this is r', r);
+    //   let borrowed;
+    //   borrowed += parsedReserves[r]?.outstandingDebt?.muln(parsedReserves[r].price)?.tokens;
+    //   console.log('@@@@@', borrowed);
+    // }
 
   }, [market, marketReserveInfo, parsedReserves]);
 
-    /**
+  /**
    * @description logic regarding borrow modal or lendmodal
    * @params 0 or 1
    * @returns sets state and renders appropriate modal
@@ -126,11 +137,16 @@ const Loan: NextPage = () => {
 
   /**
    * @description fetches open positions and the amount regarding loan positions / token account
-   * @params
-   * @returns
+   * @params none
+   * @returns collateralNFTPositions | loanPositions | fungibleCollateralPosition | loading | error
    */
   let { loading, collateralNFTPositions, loanPositions, fungibleCollateralPosition, error } = useBorrowPositions(sdkConfig.saberHqConnection, sdkConfig.sdkWallet!, sdkConfig.honeyId, sdkConfig.marketId)
 
+  /**
+   * @description updates collateralNFTPositions | loanPositions | fungibleCollateralPosition
+   * @params none
+   * @returns collateralNFTPositions | loanPositions | fungibleCollateralPosition
+  */
   useEffect(() => {
     if (loanPositions) {
       console.log('this is loan positions', loanPositions[0]?.amount);
@@ -145,13 +161,27 @@ const Loan: NextPage = () => {
   */
   const wallet = useConnectedWallet();
   let availableNFTs = useFetchNFTByUser(wallet);
+  // re-fetch function to force update
   let reFetchNFTs = availableNFTs[2];
 
+  /**
+   * @description updates availableNFTs | reFetchNFTs
+   * @params none
+   * @returns availableNFTs | reFetchNFTs
+  */
   useEffect(() => {
   }, [availableNFTs, reFetchNFTs]);
-
-  const [withDrawDepositNFT, updateWithdrawDepositNFT] = useState();
-
+  /**
+   * @description sets default state for withDrawDepositNFT
+   * @params mint of nft
+   * @returns withDrawDepositNFT
+  */
+  const [withDrawDepositNFT, updateWithdrawDepositNFT] = useState('');
+  /**
+   * @description updates withDrawDepositNFT
+   * @params none
+   * @returns withDrawDepositNFT
+  */
   useEffect(() => {
   }, [withDrawDepositNFT]);
 
