@@ -177,6 +177,7 @@ const Loan: NextPage = () => {
    * @returns withDrawDepositNFT
   */
   const [withDrawDepositNFT, updateWithdrawDepositNFT] = useState('');
+
   /**
    * @description updates withDrawDepositNFT
    * @params none

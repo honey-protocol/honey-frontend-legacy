@@ -53,7 +53,12 @@ const LoanNFTsContainer = (props: LoanNFTsContainerProps) => {
   */
   const [highlightNFTOpen, setHighlightNFTOpen] = useState(TYPE_ZERO);
   const [highlightNFTAvailable, setHighlightNFTAvailable] = useState(TYPE_ZERO);
-
+  
+  /**
+   * @description sets active state on NFT
+   * @params nft | positionstype; open || available
+   * @returns highlightNFTAvailable
+  */
   function handleActiveState(nft: any, positionType: string) {
     if (positionType == TYPE_OPEN) {
       setHighlightNFTOpen(nft)
@@ -62,6 +67,11 @@ const LoanNFTsContainer = (props: LoanNFTsContainerProps) => {
     }
   }
 
+  /**
+   * @description updates highlightNFTOpen | highlightNFTAvailable
+   * @params none
+   * @returns highlightNFTOpen | highlightNFTAvailable
+  */
   useEffect(() => {
   }, [highlightNFTOpen, highlightNFTAvailable]);
 
