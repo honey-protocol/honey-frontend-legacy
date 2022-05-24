@@ -124,7 +124,7 @@ const Loan: NextPage = () => {
 
   useEffect(() => {
     if (loanPositions) {
-      console.log('this is loan positions', loanPositions[0].amount);
+      console.log('this is loan positions', loanPositions[0]?.amount);
     }
     if (collateralNFTPositions && collateralNFTPositions.length > TYPE_ZERO) setBorrowModal(TYPE_ONE)
   }, [collateralNFTPositions, loanPositions, fungibleCollateralPosition]);
