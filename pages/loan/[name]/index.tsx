@@ -105,8 +105,9 @@ const Loan: NextPage = () => {
     console.log('this is parsedReserves', parsedReserves);
 
     for (const r in parsedReserves) {
+      console.log('this is r', r);
       let borrowed;
-      borrowed += parsedReserves[r].outstandingDebt.muln(parsedReserves[r].price)?.tokens;
+      borrowed += parsedReserves[r]?.outstandingDebt?.muln(parsedReserves[r].price)?.tokens;
       console.log('@@@@@', borrowed);
     }
 

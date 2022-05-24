@@ -1,3 +1,5 @@
+export const HONEY_PROGRAM_ID = '6ujVJiHnyqaTBHzwwfySzTDX5EPFgmXqnibuMp3Hun1w';
+export const HONEY_MARKET_ID = 'A3mxc8yc6ZjoYrMe9JcDzvQcv5hgNwkbTrE44yZ3bMZg'
 export const OPEN_POSITIONS = "Open positions";
 export const NEW_POSITIONS = "New position";
 export const TYPE_OPEN = "open";
