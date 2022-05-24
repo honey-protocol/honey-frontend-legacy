@@ -1,4 +1,5 @@
 import { useConnection, useConnectedWallet } from '@saberhq/use-solana';
+import { HONEY_PROGRAM_ID, HONEY_MARKET_ID } from 'constants/loan';
 
 /**
  * @description exports the current sdk configuration object
@@ -9,7 +10,7 @@ export function ConfigureSDK() {
     return {
         saberHqConnection: useConnection(),
         sdkWallet: useConnectedWallet(),
-        honeyId: '6ujVJiHnyqaTBHzwwfySzTDX5EPFgmXqnibuMp3Hun1w',
-        marketId: 'A3mxc8yc6ZjoYrMe9JcDzvQcv5hgNwkbTrE44yZ3bMZg'
+        honeyId: HONEY_PROGRAM_ID,
+        marketId: HONEY_MARKET_ID
     }
 }
