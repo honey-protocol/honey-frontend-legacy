@@ -92,6 +92,7 @@ const Loan: NextPage = () => {
   const { honeyClient, honeyUser, honeyReserves } = useMarket(sdkConfig.saberHqConnection, sdkConfig.sdkWallet!, sdkConfig.honeyId, sdkConfig.marketId);
 
   useEffect(() => {
+    console.log('this is honeyReserves', honeyReserves);
   }, [honeyUser, honeyReserves, honeyClient]);
   /**
    * @description calls upon markets which
@@ -101,7 +102,14 @@ const Loan: NextPage = () => {
   const { market, marketReserveInfo, parsedReserves }  = useHoney();
 
   useEffect(() => {
-    
+    console.log('this is parsedReserves', parsedReserves);
+
+    for (const r in parsedReserves) {
+      let borrowed;
+      borrowed += parsedReserves[r].outstandingDebt.muln(parsedReserves[r].price)?.tokens;
+      console.log('@@@@@', borrowed);
+    }
+
   }, [market, marketReserveInfo, parsedReserves]);
 
     /**
