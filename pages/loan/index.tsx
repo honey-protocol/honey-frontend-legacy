@@ -40,22 +40,29 @@ const Loan: NextPage = () => {
     */
   const { honeyClient } = useMarket(sdkConfig.saberHqConnection, sdkConfig.sdkWallet!, sdkConfig.honeyId, sdkConfig.marketId);
   useEffect(() => {
-
   }, [honeyClient]);
-
-
+  
+  /**
+   * @description state to update open positions
+   * @params none
+   * @returns currentOpenPositions
+  */
   const [currentOpenPositions, setCurrentOpenPositions] = useState(TYPE_ZERO);
   /**
    * @description fetches open positions and the amount regarding loan positions / token account
-   * @params
-   * @returns
+   * @params none
+   * @returns collateralNFTPositions | loading | error
   */  
-     let { loading, collateralNFTPositions, error } = useBorrowPositions(sdkConfig.saberHqConnection, sdkConfig.sdkWallet!, sdkConfig.honeyId, sdkConfig.marketId)
-       
-     useEffect(() => {
-       console.log('-------this is collateralpositions', collateralNFTPositions?.length)
-       if (collateralNFTPositions) setCurrentOpenPositions(collateralNFTPositions.length);
-     }, [collateralNFTPositions]);
+  let { loading, collateralNFTPositions, error } = useBorrowPositions(sdkConfig.saberHqConnection, sdkConfig.sdkWallet!, sdkConfig.honeyId, sdkConfig.marketId)
+  /**
+   * @description sets open positions
+   * @params none
+   * @returns collateralNFTPositions
+  */
+  useEffect(() => {
+    console.log('collateralpositions', collateralNFTPositions?.length)
+    if (collateralNFTPositions) setCurrentOpenPositions(collateralNFTPositions.length);
+  }, [collateralNFTPositions]);
 
   /**
      * @description **dont call - actually creates a market
