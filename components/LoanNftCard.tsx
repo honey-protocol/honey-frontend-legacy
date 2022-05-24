@@ -25,8 +25,14 @@ const LoanNFTCard = (props: LoanNFTCardProps) => {
     onSelectNFT, available, handleActiveState, activeNFT, NFT, nftArrayType
   } = props;
 
+  /**
+   * @description sets state of active card by default to false
+   * @params boolean
+   * @returns activeCard
+  */
   const [activeCard, setActiveCard] = useState(false);
-   /**
+  
+  /**
    * @description handler that calls upon active state for modal and nft selection
    * @params nft name and type: open || closed
    * @returns sets state of highlighted NFT
@@ -37,6 +43,11 @@ const LoanNFTCard = (props: LoanNFTCardProps) => {
     activeCard ==  true ? setActiveCard(true) : setActiveCard(false);
   }
 
+  /**
+   * @description updates activeCard 
+   * @params none
+   * @returns activeCard
+  */
   useEffect(() => {
   }, [activeCard]);
 
