@@ -75,18 +75,21 @@ const cardsDetails = [
 ];
 
 const Borrow: NextPage = () => {
-
 const sdkConfig = ConfigureSDK();
 
   /**
-     * @description calls upon the honey sdk - market
-     * @params solanas useConnection func. && useConnectedWallet func. && JET ID
-     * @returns honeyUser which is the main object - honeyMarket, honeyReserves are for testing purposes
-    */
+   * @description calls upon the honey sdk - market
+   * @params solanas useConnection func. && useConnectedWallet func. && JET ID
+   * @returns honeyUser which is the main object - honeyMarket, honeyReserves are for testing purposes
+  */
   const { honeyUser, honeyReserves } = useMarket(sdkConfig.saberHqConnection, sdkConfig.sdkWallet!, sdkConfig.honeyId, sdkConfig.marketId);
   const { parsedReserves }  = useHoney();
   const [marketValue, setMarketValue] = useState(0);
-
+  /**
+   * @description sets state of marketValue by parsing lamports outstanding debt amount to SOL
+   * @params none, requires parsedReserves
+   * @returns updates marketValue 
+  */
   useEffect(() => {
     if (parsedReserves) {
       console.log('@@@--outstandingDebt-', ((new BN(parsedReserves[0]?.reserveState.outstandingDebt).div(new BN(10**15)).toNumber())/ LAMPORTS_PER_SOL));
@@ -99,7 +102,7 @@ const sdkConfig = ConfigureSDK();
    * @params optional value from user input; amount of SOL
    * @returns succes | failure
   */
-  async function executeDeposit(value: number) {
+  async function executeDeposit(value?: number) {
     const tokenAmount =  value ? value * LAMPORTS_PER_SOL : 1 * LAMPORTS_PER_SOL;
     const depositTokenMint = new PublicKey('So11111111111111111111111111111111111111112');
     await deposit(honeyUser, tokenAmount, depositTokenMint, honeyReserves);
@@ -121,7 +124,7 @@ const sdkConfig = ConfigureSDK();
    * @params optional value from user input; amount of SOL
    * @returns succes | failure
   */
-  async function executeWithdraw(value: number) {
+  async function executeWithdraw(value?: number) {
     const tokenAmount =  value ? value * LAMPORTS_PER_SOL : 1 * LAMPORTS_PER_SOL;
     const depositTokenMint = new PublicKey('So11111111111111111111111111111111111111112');
     await withdraw(honeyUser, tokenAmount, depositTokenMint, honeyReserves);

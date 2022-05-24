@@ -31,7 +31,6 @@ const assetData: Array<AssetRowType> = [
 const Loan: NextPage = () => {
   const wallet = useConnectedWallet();
   const { connect } = useWalletKit();
-
   const sdkConfig = ConfigureSDK();
   /**
      * @description calls upon the honey sdk - market 
