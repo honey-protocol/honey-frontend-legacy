@@ -25,6 +25,18 @@ interface LoanBorrowProps {
 
 const LoanBorrow = (props: LoanBorrowProps) => {
     const { NFT, executeBorrow, openPositions, loanPositions, parsedReserves } = props;
+    /**
+     * @description
+     * @params
+     * @returns
+    */
+    const [availableLiquidity, setAvailableLiquidity] = useState(0);
+    
+    useEffect(() => {
+      if(parsedReserves) {
+        console.log('@@--', ((new BN(parsedReserves[0].reserveState?.totalDeposits).div(new BN(10**15)).toNumber())) / LAMPORTS_PER_SOL);
+      }
+    });
     
     // useEffect(() => {
     //     if (parsedReserves) {
