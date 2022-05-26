@@ -113,13 +113,13 @@ const Loan: NextPage = () => {
    * @returns parsedReserves
   */
   useEffect(() => {
-    console.log('this is parsedReserves', parsedReserves);
+    console.log('parsedReserves', parsedReserves);
 
     // for (const r in parsedReserves) {
-    //   console.log('this is r', r);
+    //   console.log('r', r);
     //   let borrowed;
-    //   borrowed += parsedReserves[r]?.outstandingDebt?.muln(parsedReserves[r].price)?.tokens;
-    //   console.log('@@@@@', borrowed);
+    //   borrowed += ((new BN(parsedReserves[r]?.outstandingDebt?.muln(parsedReserves[r].price)?.tokens).div(new BN(10**15)).toNumber()))
+    //   console.log('borrowed', parsedReserves[r]?.outstandingDebt);
     // }
 
   }, [market, marketReserveInfo, parsedReserves]);

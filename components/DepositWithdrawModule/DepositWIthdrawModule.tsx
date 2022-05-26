@@ -13,7 +13,7 @@ interface DepositWithdrawModuleProps {
   executeDeposit: (val: any) => void;
   executeWithdraw: (val: any) => void;
   honeyReserves: any;
-  marketValue: any;
+  userDebt: any;
 }
 
 const DepositWithdrawModule = (props: DepositWithdrawModuleProps) => {
@@ -21,7 +21,7 @@ const DepositWithdrawModule = (props: DepositWithdrawModuleProps) => {
     executeDeposit,
     executeWithdraw,
     honeyReserves,
-    marketValue
+    userDebt
   } = props;
   /**
    * @description
@@ -29,6 +29,10 @@ const DepositWithdrawModule = (props: DepositWithdrawModuleProps) => {
    * @returns
   */
   const [depositOrWithdraw, setDepositOrWithdraw] = useState(0);
+
+  useEffect(() => {
+    console.log('@@@@@@@ being updated', userDebt)
+  }, [userDebt])
 
   return (
     <Box
@@ -56,7 +60,7 @@ const DepositWithdrawModule = (props: DepositWithdrawModuleProps) => {
               assetsBorrowed={1}
               netBorrowBalance={1}
               handleDeposit={executeDeposit}
-              marketValue={marketValue}
+              userDebt={userDebt}
             />
           ) : (
             <LoanWithdraw
@@ -66,7 +70,7 @@ const DepositWithdrawModule = (props: DepositWithdrawModuleProps) => {
               totalInterest={1}
               totalPayback={1}
               handleWithdraw={executeWithdraw}
-              marketValue={marketValue}
+              userDebt={userDebt}
             />
           )}
         </Box>

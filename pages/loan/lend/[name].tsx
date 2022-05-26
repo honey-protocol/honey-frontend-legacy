@@ -84,7 +84,7 @@ const sdkConfig = ConfigureSDK();
   */
   const { honeyUser, honeyReserves } = useMarket(sdkConfig.saberHqConnection, sdkConfig.sdkWallet!, sdkConfig.honeyId, sdkConfig.marketId);
   const { parsedReserves }  = useHoney();
-  const [marketValue, setMarketValue] = useState(0);
+  const [userDebt, setUserDebt] = useState(0);
   /**
    * @description sets state of marketValue by parsing lamports outstanding debt amount to SOL
    * @params none, requires parsedReserves
@@ -93,7 +93,7 @@ const sdkConfig = ConfigureSDK();
   useEffect(() => {
     if (parsedReserves) {
       console.log('@@@--outstandingDebt-', ((new BN(parsedReserves[0]?.reserveState.outstandingDebt).div(new BN(10**15)).toNumber())/ LAMPORTS_PER_SOL));
-      setMarketValue(((new BN(parsedReserves[0]?.reserveState.outstandingDebt).div(new BN(10**15)).toNumber())/ LAMPORTS_PER_SOL));
+      setUserDebt(((new BN(parsedReserves[0]?.reserveState.totalDeposits).div(new BN(10**15)).toNumber())/ LAMPORTS_PER_SOL));
     }
   }, [parsedReserves]);
 
@@ -112,7 +112,7 @@ const sdkConfig = ConfigureSDK();
     )[0];
 
     const reserveState = depositReserve.data?.reserveState;
-
+    console.log('this is reserveState-- deposit', reserveState);
     console.log('outstandingDebt', reserveState?.outstandingDebt.toString());
     console.log('totalDepositNotes', reserveState?.totalDepositNotes.toString());
     console.log('totalDeposits', reserveState?.totalDeposits.toString());
@@ -133,6 +133,7 @@ const sdkConfig = ConfigureSDK();
     )[0];
 
     const reserveState = withdrawReserve.data?.reserveState;
+    console.log('this is reserveState-- withdraw', reserveState);
     console.log('outstandingDebt', reserveState?.outstandingDebt.toString());
     console.log('totalDepositNotes', reserveState?.totalDepositNotes.toString());
     console.log('totalDeposits', reserveState?.totalDeposits.toString());
@@ -278,7 +279,7 @@ const sdkConfig = ConfigureSDK();
             executeDeposit={executeDeposit}
             executeWithdraw={executeWithdraw}
             honeyReserves={honeyReserves}
-            marketValue={marketValue}
+            userDebt={userDebt}
           />
         </Box>
       </Stack>

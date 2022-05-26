@@ -14,3 +14,22 @@ export function ConfigureSDK() {
         marketId: HONEY_MARKET_ID
     }
 }
+
+/**
+ * @description exports function that validates if input is number
+ * @params user input
+ * @returns success or failure object
+*/
+export async function inputNumberValidator(val: any) {
+    const regex = new RegExp('^[0-9]*$');
+    if (regex.test(val) == false) {
+        return {
+            success: false,
+            message: 'Only numbers allowed'
+        };
+    }
+    return {
+        success: true,
+        message: ''
+    }
+}

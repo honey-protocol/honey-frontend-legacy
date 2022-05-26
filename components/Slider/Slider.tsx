@@ -4,6 +4,7 @@ import * as styles from './Slider.css';
 import { LAMPORTS_PER_SOL } from '@solana/web3.js';
 import BN from 'bn.js';
 import {TYPE_BORROW, TYPE_REPAY} from '../../constants/loan';
+import {inputNumberValidator} from '../../helpers/loanHelpers';
 
 interface SliderProps {
   handleUserChange: (val: any) => void;
@@ -20,7 +21,12 @@ const Slider = (props: SliderProps) => {
   const {handleUserChange, handleExecuteBorrow, handleExecuteRepay} = props;
 
   const [slideCount, setSlideCount] = useState(0);
+  const [userInput, setUserInput] = useState()
   const [userMessage, setUserMessage] = useState('');
+
+  useEffect(() => {
+    console.log('this is userInput', userInput)
+  }, [slideCount, userInput, userMessage])
 
   // useEffect(() => {
   //   if (parsedReserves) {
@@ -47,9 +53,15 @@ const Slider = (props: SliderProps) => {
    * @params
    * @returns
   */
-  function handleNumberInput(val: any) {
-    console.log('number value', val.target.value);
-    setSlideCount(val.target.value);
+  async function handleNumberInput(val: any) {
+    const isInputValid = await inputNumberValidator(val.target.value);
+
+    if (isInputValid.success == true) {
+      setUserInput(val.target.value);
+      setSlideCount(val.target.value);
+    } else {
+      setUserMessage(isInputValid.message);
+    }
   }
   // const handleOnChange = (event: any) => {
   //   // ideally we want to implement a debaunce here and not fire the function every second the user interacts with it
@@ -80,7 +92,7 @@ const Slider = (props: SliderProps) => {
               placeholder="0.00" 
               onChange={handleNumberInput}
               className={styles.currencyStyles} 
-              value={slideCount} 
+              value={userInput} 
               min="0" 
               max="100" 
               step="0.1" />

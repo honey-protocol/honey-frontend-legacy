@@ -34,7 +34,7 @@ const LoanBorrow = (props: LoanBorrowProps) => {
     
     useEffect(() => {
       if(parsedReserves) {
-        console.log('@@--', ((new BN(parsedReserves[0].reserveState?.totalDeposits).div(new BN(10**15)).toNumber())) / LAMPORTS_PER_SOL);
+        console.log('@@--totalDeposits', ((new BN(parsedReserves[0].reserveState?.totalDeposits).div(new BN(10**15)).toNumber())));
       }
     });
     
