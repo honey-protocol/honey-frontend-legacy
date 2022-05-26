@@ -97,7 +97,7 @@ const Loan: NextPage = () => {
    * @returns honeyUser | honeyReserves | honeyClient
   */
   useEffect(() => {
-    console.log('this is honeyReserves', honeyReserves);
+    // console.log('this is honeyReserves', honeyReserves);
   }, [honeyUser, honeyReserves, honeyClient]);
   
   /**
@@ -113,7 +113,7 @@ const Loan: NextPage = () => {
    * @returns parsedReserves
   */
   useEffect(() => {
-    console.log('parsedReserves', parsedReserves);
+    // console.log('parsedReserves', parsedReserves);
 
     // for (const r in parsedReserves) {
     //   console.log('r', r);
@@ -149,7 +149,7 @@ const Loan: NextPage = () => {
   */
   useEffect(() => {
     if (loanPositions) {
-      console.log('this is loan positions', loanPositions[0]?.amount);
+      // console.log('this is loan positions', loanPositions[0]?.amount);
     }
     if (collateralNFTPositions && collateralNFTPositions.length > TYPE_ZERO) setBorrowModal(TYPE_ONE)
   }, [collateralNFTPositions, loanPositions, fungibleCollateralPosition]);
@@ -209,7 +209,6 @@ const Loan: NextPage = () => {
     try {
       if (!mintID) return;
       const metadata = await Metadata.findByMint(sdkConfig.saberHqConnection, mintID);
-      console.log('updateAuthority', metadata.pubkey.toString());
       depositNFT(sdkConfig.saberHqConnection, honeyUser, metadata.pubkey);
       reFetchNFTs({});
     } catch (error) {

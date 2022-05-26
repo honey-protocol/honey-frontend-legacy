@@ -21,15 +21,17 @@ export function ConfigureSDK() {
  * @returns success or failure object
 */
 export async function inputNumberValidator(val: any) {
-    const regex = new RegExp('^[0-9]*$');
-    if (regex.test(val) == false) {
-        return {
-            success: false,
-            message: 'Only numbers allowed'
-        };
-    }
-    return {
-        success: true,
-        message: ''
+    if (val >= 0 && val < 100) {
+      return {
+          success: true,
+          message: '',
+          value: val
+      };
+    } else {
+      return {
+        success: false,
+        message: 'Please fill in a number between 0 and 100',
+        value: val
+      }
     }
 }

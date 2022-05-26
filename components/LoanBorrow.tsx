@@ -34,7 +34,7 @@ const LoanBorrow = (props: LoanBorrowProps) => {
     
     useEffect(() => {
       if(parsedReserves) {
-        console.log('@@--totalDeposits', ((new BN(parsedReserves[0].reserveState?.totalDeposits).div(new BN(10**15)).toNumber())));
+        // console.log('@@--totalDeposits', ((new BN(parsedReserves[0].reserveState?.totalDeposits).div(new BN(10**15)).toNumber())));
       }
     });
     
@@ -71,7 +71,9 @@ const LoanBorrow = (props: LoanBorrowProps) => {
      * @returns userInput | debtAmount
     */
     useEffect(() => {
-      if (loanPositions[0]?.amount) setDebtAmount(loanPositions[0].amount);
+      if (loanPositions && loanPositions[0].amount) {
+        setDebtAmount(loanPositions[0].amount);
+      }
     }, [loanPositions]);
     
     /**

@@ -13,7 +13,7 @@ import LoanHeaderComponent from 'components/LoanHeaderComponent/LoanHeaderCompon
 import CreateMarket from 'pages/createmarket';
 import  { ConfigureSDK } from '../../helpers/loanHelpers';
 import { useMarket, useBorrowPositions } from '@honey-finance/sdk';
-import { PublicKey } from '@solana/web3.js';
+import { LAMPORTS_PER_SOL, PublicKey } from '@solana/web3.js';
 import {TYPE_ZERO, TYPE_ONE} from '../../constants/loan';
 
 // TODO: should be fetched by SDK
@@ -32,14 +32,46 @@ const Loan: NextPage = () => {
   const wallet = useConnectedWallet();
   const { connect } = useWalletKit();
   const sdkConfig = ConfigureSDK();
+
+  const [userLoans, setUserLoans] = useState(0);
+  const [userDeposits, setUserDeposits] = useState('');
+  const [userCollateral, setUserCollateral] = useState('');
+
   /**
      * @description calls upon the honey sdk - market 
      * @params solanas useConnection func. && useConnectedWallet func. && JET ID
      * @returns honeyUser which is the main object - honeyMarket, honeyReserves are for testing purposes
     */
-  const { honeyClient } = useMarket(sdkConfig.saberHqConnection, sdkConfig.sdkWallet!, sdkConfig.honeyId, sdkConfig.marketId);
+  const { honeyClient, honeyUser } = useMarket(sdkConfig.saberHqConnection, sdkConfig.sdkWallet!, sdkConfig.honeyId, sdkConfig.marketId);
+  
   useEffect(() => {
-  }, [honeyClient]);
+    console.log('this is honeyUser', honeyUser?.loans())
+    if (honeyUser?.loans().length) {
+      honeyUser?.loans().map(value => {
+        let honeyUserLoan: any = value.amount.toString();
+        let sum = honeyUserLoan / LAMPORTS_PER_SOL;
+        console.log('@@@@@@@USER_LOANS@@@@@@', sum);
+        setUserLoans(sum);
+      })
+    }
+
+    if(honeyUser?.deposits().length) {
+      honeyUser?.deposits().map(value => {
+        console.log('honeyUser deposits', value.amount.toString());
+        let honeyUserDeposit = value.amount.toString();
+        setUserDeposits(honeyUserDeposit);
+      })
+    }
+
+    if(honeyUser?.collateral().length) {
+      honeyUser?.collateral().map(value => {
+        console.log('honeyUser collateral', value.amount.toString());
+        let honeyUserCollateral = value.amount.toString();
+        setUserCollateral(honeyUserCollateral);
+      })
+    }
+
+  }, [honeyClient, honeyUser]);
   
   /**
    * @description state to update open positions

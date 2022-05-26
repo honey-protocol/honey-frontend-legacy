@@ -19,14 +19,14 @@ interface SliderProps {
  **/
 const Slider = (props: SliderProps) => {
   const {handleUserChange, handleExecuteBorrow, handleExecuteRepay} = props;
-
+  /**
+   * @description
+   * @params
+   * @returns
+  */
   const [slideCount, setSlideCount] = useState(0);
-  const [userInput, setUserInput] = useState()
+  const [userInput, setUserInput] = useState('');
   const [userMessage, setUserMessage] = useState('');
-
-  useEffect(() => {
-    console.log('this is userInput', userInput)
-  }, [slideCount, userInput, userMessage])
 
   // useEffect(() => {
   //   if (parsedReserves) {
@@ -44,8 +44,8 @@ const Slider = (props: SliderProps) => {
    * @returns
   */
   function handleRangeInput(val: any) {
-    console.log('range value', val.target.value);
     setSlideCount(val.target.value);
+    setUserInput(val.target.value);
   }
   
   /**
@@ -56,25 +56,23 @@ const Slider = (props: SliderProps) => {
   async function handleNumberInput(val: any) {
     const isInputValid = await inputNumberValidator(val.target.value);
 
-    if (isInputValid.success == true) {
-      setUserInput(val.target.value);
-      setSlideCount(val.target.value);
+    if (isInputValid.success) {
+      setUserInput(isInputValid.value);
+      setSlideCount(isInputValid.value);
+      setUserMessage('')
     } else {
+      setUserInput(isInputValid.value);
       setUserMessage(isInputValid.message);
     }
   }
-  // const handleOnChange = (event: any) => {
-  //   // ideally we want to implement a debaunce here and not fire the function every second the user interacts with it
-  //     if (type == TYPE_REPAY && event.target.value <= totalDebt) {
-  //       setSlideCount(event.target.value);
-  //       handleUserChange(event.target.value);
-  //     } else if (type == TYPE_REPAY && event.target.value > totalDebt) {
-  //       setUserMessage('Requested repay amount too high')
-  //     } else if (type == TYPE_BORROW) {
-  //       setSlideCount(event.target.value);
-  //       handleUserChange(event.target.value);
-  //     }
-  // }
+
+  /**
+   * @description
+   * @params
+   * @returns
+  */
+  useEffect(() => {
+  }, [slideCount, userInput, userMessage]);
 
   return (
     <Stack space="0">
