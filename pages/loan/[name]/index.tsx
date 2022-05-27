@@ -84,21 +84,18 @@ const Loan: NextPage = () => {
   */
   const sdkConfig = ConfigureSDK();
 
+  const [depositNoteExRate, setDepositNoteExRate] = useState(0);
+  const [loanNoteExRate, setLoanNoteExRate] = useState(0);
+  const [userLoanPositions, setUserLoanPositions] = useState(0);
+  const [userAvailableNFTs, setUserAvailableNFTs] = useState([]);
+  const [userCollateralPositions, setUserCollateralPositions] = useState([]);
+
   /**
   * @description calls upon the honey sdk
   * @params  useConnection func. | useConnectedWallet func. | honeyID | marketID
   * @returns honeyUser | honeyReserves - used for interaction regarding the SDK
   */
   const { honeyClient, honeyUser, honeyReserves } = useMarket(sdkConfig.saberHqConnection, sdkConfig.sdkWallet!, sdkConfig.honeyId, sdkConfig.marketId);
-  
-  /**
-   * @description updates honeyUser | honeyReserves | honeyClient when fetched
-   * @params none
-   * @returns honeyUser | honeyReserves | honeyClient
-  */
-  useEffect(() => {
-    // console.log('this is honeyReserves', honeyReserves);
-  }, [honeyUser, honeyReserves, honeyClient]);
   
   /**
    * @description calls upon markets which
@@ -108,69 +105,22 @@ const Loan: NextPage = () => {
   const { market, marketReserveInfo, parsedReserves }  = useHoney();
   
   /**
-   * @description updates parsedReserves which is the parsed honeyReserves 
-   * @params none
-   * @returns parsedReserves
-  */
-  useEffect(() => {
-    // console.log('parsedReserves', parsedReserves);
-
-    // for (const r in parsedReserves) {
-    //   console.log('r', r);
-    //   let borrowed;
-    //   borrowed += ((new BN(parsedReserves[r]?.outstandingDebt?.muln(parsedReserves[r].price)?.tokens).div(new BN(10**15)).toNumber()))
-    //   console.log('borrowed', parsedReserves[r]?.outstandingDebt);
-    // }
-
-  }, [market, marketReserveInfo, parsedReserves]);
-
-  /**
-   * @description logic regarding borrow modal or lendmodal
-   * @params 0 or 1
-   * @returns sets state and renders appropriate modal
-  */
-     const [borrowModal, setBorrowModal] = useState(TYPE_ZERO);
-
-     function handleBorrowModal(value: any) {
-       value == TYPE_ONE ? setBorrowModal(TYPE_ONE) : setBorrowModal(TYPE_ZERO)
-     }
-
-  /**
    * @description fetches open positions and the amount regarding loan positions / token account
    * @params none
    * @returns collateralNFTPositions | loanPositions | fungibleCollateralPosition | loading | error
    */
-  let { loading, collateralNFTPositions, loanPositions, fungibleCollateralPosition, error } = useBorrowPositions(sdkConfig.saberHqConnection, sdkConfig.sdkWallet!, sdkConfig.honeyId, sdkConfig.marketId)
-
-  /**
-   * @description updates collateralNFTPositions | loanPositions | fungibleCollateralPosition
-   * @params none
-   * @returns collateralNFTPositions | loanPositions | fungibleCollateralPosition
-  */
-  useEffect(() => {
-    if (loanPositions) {
-      // console.log('this is loan positions', loanPositions[0]?.amount);
-    }
-    if (collateralNFTPositions && collateralNFTPositions.length > TYPE_ZERO) setBorrowModal(TYPE_ONE)
-  }, [collateralNFTPositions, loanPositions, fungibleCollateralPosition]);
-
+   let { loading, collateralNFTPositions, loanPositions, fungibleCollateralPosition, error } = useBorrowPositions(sdkConfig.saberHqConnection, sdkConfig.sdkWallet!, sdkConfig.honeyId, sdkConfig.marketId)
+  
   /**
    * @description fetched available nfts in the users wallet
    * @params wallet
    * @returns array of available nfts
   */
   const wallet = useConnectedWallet();
-  let availableNFTs = useFetchNFTByUser(wallet);
+  let availableNFTs: any = useFetchNFTByUser(wallet);
   // re-fetch function to force update
   let reFetchNFTs = availableNFTs[2];
-
-  /**
-   * @description updates availableNFTs | reFetchNFTs
-   * @params none
-   * @returns availableNFTs | reFetchNFTs
-  */
-  useEffect(() => {
-  }, [availableNFTs, reFetchNFTs]);
+  
   /**
    * @description sets default state for withDrawDepositNFT
    * @params mint of nft
@@ -179,20 +129,90 @@ const Loan: NextPage = () => {
   const [withDrawDepositNFT, updateWithdrawDepositNFT] = useState('');
 
   /**
-   * @description updates withDrawDepositNFT
-   * @params none
-   * @returns withDrawDepositNFT
-  */
-  useEffect(() => {
-  }, [withDrawDepositNFT]);
-
-  /**
    * @description logic regarding selected nft for borrow module
    * @params key of nft
    * @returns sets state
   */
   const [selectedId, setSelectedId] = useState('1');
   const [nftArrayType, setNftArrayType] = useState(false);
+
+  /**
+   * @description updates honeyUser | honeyReserves | honeyClient when fetched
+   * @params none
+   * @returns honeyUser | honeyReserves | honeyClient
+  */
+  useEffect(() => {
+  }, [honeyUser, honeyReserves, honeyClient]);
+  
+  
+  /**
+   * @description updates parsedReserves which is the parsed honeyReserves 
+   * @params none
+   * @returns parsedReserves
+  */
+  useEffect(() => {
+    let depositNoteSum;
+    let loanNoteSum;
+
+    // validate and set deposit note ex. rate
+    if (marketReserveInfo && marketReserveInfo[0].depositNoteExchangeRate) {
+      depositNoteSum = marketReserveInfo[0].depositNoteExchangeRate
+      // setDepositNoteExRate(depositNoteSum);
+    }
+
+    // validate and set loan note ex. rate
+    if (marketReserveInfo && marketReserveInfo[0].loanNoteExchangeRate) {
+      loanNoteSum = marketReserveInfo[0].loanNoteExchangeRate;
+      console.log('@@--loannotesum--@@@', loanNoteSum) // BN
+      // let totalDebt = loanNoteSum * userLoanPositions;
+      // console.log('@@--totaldebt--@@', totalDebt);
+      // setLoanNoteExRate(loanNoteSum);
+    }
+  }, [market, marketReserveInfo, parsedReserves]);
+
+  /**
+   * @description logic regarding borrow modal or lendmodal
+   * @params 0 or 1
+   * @returns sets state and renders appropriate modal
+  */
+  const [borrowModal, setBorrowModal] = useState(TYPE_ZERO);
+
+  function handleBorrowModal(value: any) {
+    value == TYPE_ONE ? setBorrowModal(TYPE_ONE) : setBorrowModal(TYPE_ZERO)
+  }
+
+  
+  /**
+   * @description updates collateralNFTPositions | loanPositions | fungibleCollateralPosition
+   * @params none
+   * @returns collateralNFTPositions | loanPositions | fungibleCollateralPosition
+  */
+  useEffect(() => {
+    // validate if loanpositions and amount
+    if (loanPositions && loanPositions[0].amount) setUserLoanPositions(loanPositions[0].amount);
+    // validate if collateralNFTPositions
+    if (collateralNFTPositions && collateralNFTPositions.length > TYPE_ZERO) setBorrowModal(TYPE_ONE);
+    setUserCollateralPositions(collateralNFTPositions);
+  }, [collateralNFTPositions, loanPositions, fungibleCollateralPosition]);
+
+  /**
+   * @description updates availableNFTs | reFetchNFTs
+   * @params none
+   * @returns availableNFTs | reFetchNFTs
+  */
+  useEffect(() => {
+    setUserAvailableNFTs(availableNFTs[0]);
+  }, [availableNFTs]);
+
+
+  /**
+   * @description updates withDrawDepositNFT
+   * @params none
+   * @returns withDrawDepositNFT
+  */
+  useEffect(() => {
+  }, [withDrawDepositNFT]);
+  
   // state handler based off nft key
   function selectNFT(key: any, type: boolean) {
     setSelectedId(key.name);
@@ -208,14 +228,13 @@ const Loan: NextPage = () => {
   async function executeDepositNFT(mintID: any) {
     try {
       if (!mintID) return;
+      console.log('current nfts', availableNFTs[0])
       const metadata = await Metadata.findByMint(sdkConfig.saberHqConnection, mintID);
       depositNFT(sdkConfig.saberHqConnection, honeyUser, metadata.pubkey);
-      reFetchNFTs({});
     } catch (error) {
       console.log('error depositing nft', error);
       return;
     }
-
   }
 
   /**
@@ -228,7 +247,6 @@ const Loan: NextPage = () => {
       if (!mintID) return;
       const metadata = await Metadata.findByMint(sdkConfig.saberHqConnection, mintID);
       withdrawNFT(sdkConfig.saberHqConnection, honeyUser, metadata.pubkey);
-      reFetchNFTs({});
     } catch (error) {
       console.log('error depositing nft', error);
       return;
@@ -290,7 +308,6 @@ const Loan: NextPage = () => {
         <LoanNFTsContainer
           selectedId={selectedId}
           handleBorrow={handleBorrowModal}
-          reFetchNFTs={reFetchNFTs}
           buttons={[
             {
               title: 'Open positions',
@@ -301,10 +318,10 @@ const Loan: NextPage = () => {
               active: false,
             }
           ]}
-          openPositions={collateralNFTPositions}
+          openPositions={userCollateralPositions}
           onSelectNFT={selectNFT}
           nftArrayType={nftArrayType}
-          availableNFTs={availableNFTs[0]}
+          availableNFTs={userAvailableNFTs}
           executeWithdrawNFT={executeWithdrawNFT}
           executeDepositNFT={executeDepositNFT}
           // set key equal to name since open positions doesnt contain id but name is with unique number
@@ -327,19 +344,21 @@ const Loan: NextPage = () => {
                 honeyUser={honeyUser}
                 openPositions={collateralNFTPositions}
                 parsedReserves={parsedReserves}
+                userAvailableNFTs={availableNFTs}
               />
             :
               <LoanNewBorrow
                 NFT={
                   availableNFTs
                   &&
-                  availableNFTs[0].find((NFT) => NFT.name == selectedId) || marketNFTs[3]
+                  availableNFTs[0].find((NFT: any) => NFT.name == selectedId) || marketNFTs[3]
                 }
                 mint={withDrawDepositNFT}
                 executeDepositNFT={executeDepositNFT}
                 loanPositions={loanPositions}
                 parsedReserves={parsedReserves}
                 openPositions={collateralNFTPositions}
+                userAvailableNFTs={availableNFTs}
               />
           }
         </Box>

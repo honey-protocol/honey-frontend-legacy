@@ -3,6 +3,8 @@ import { Box, Button, Card, Spinner, Stack, Text } from 'degen';
 import React, { useState, useEffect } from 'react';
 import * as styles from './LoanNFTsContainer.css';
 import {NEW_POSITIONS, OPEN_POSITIONS, TYPE_OPEN, TYPE_PRIMARY, TYPE_SECONDARY, TYPE_ZERO, TYPE_ONE} from '../../constants/loan';
+import { useConnectedWallet } from '@saberhq/use-solana';
+import useFetchNFTByUser from '../../hooks/useNFTV2';
 
 type TButton = {
   title: string;
@@ -20,7 +22,6 @@ interface LoanNFTsContainerProps {
   executeWithdrawNFT: (nft: any) => void;
   executeDepositNFT: (nft: any) => void;
   nftArrayType: any;
-  reFetchNFTs: (val: any) => void;
 }
 
 const LoanNFTsContainer = (props: LoanNFTsContainerProps) => {
@@ -35,7 +36,6 @@ const LoanNFTsContainer = (props: LoanNFTsContainerProps) => {
     executeDepositNFT,
     openPositions,
     nftArrayType,
-    reFetchNFTs
   } = props;
 
   /**
@@ -45,6 +45,7 @@ const LoanNFTsContainer = (props: LoanNFTsContainerProps) => {
   */
   const [renderNFTs, setRenderNFTs] = useState(TYPE_ZERO);
   const [activeIndex, setActiveIndex] = useState(TYPE_ZERO);
+  
   /**
    * @description
    * this logic is to determine the active state of selected NFT
@@ -53,7 +54,7 @@ const LoanNFTsContainer = (props: LoanNFTsContainerProps) => {
   */
   const [highlightNFTOpen, setHighlightNFTOpen] = useState(TYPE_ZERO);
   const [highlightNFTAvailable, setHighlightNFTAvailable] = useState(TYPE_ZERO);
-  
+
   /**
    * @description sets active state on NFT
    * @params nft | positionstype; open || available
@@ -68,6 +69,23 @@ const LoanNFTsContainer = (props: LoanNFTsContainerProps) => {
   }
 
   /**
+   * @description handler for above declared logic
+   * @params title of the button thats being clicked; open positions || new position
+   * @returns nothing - sets state of to be rendered nft array
+  */
+     function handleNFTModal(nftType: string) {
+      if (nftType == OPEN_POSITIONS) {
+        setRenderNFTs(TYPE_ZERO);
+        handleBorrow(TYPE_ONE);
+        setActiveIndex(TYPE_ZERO);
+      } else {
+        setRenderNFTs(TYPE_ONE);
+        handleBorrow(TYPE_ZERO);
+        setActiveIndex(TYPE_ONE);
+      }
+    }
+
+  /**
    * @description updates highlightNFTOpen | highlightNFTAvailable
    * @params none
    * @returns highlightNFTOpen | highlightNFTAvailable
@@ -75,27 +93,16 @@ const LoanNFTsContainer = (props: LoanNFTsContainerProps) => {
   useEffect(() => {
   }, [highlightNFTOpen, highlightNFTAvailable]);
 
-  /**
-   * @description handler for above declared logic
-   * @params title of the button thats being clicked; open positions || new position
-   * @returns nothing - sets state of to be rendered nft array
-  */
-  function handleNFTModal(nftType: string) {
-    reFetchNFTs({});
-
-    if (nftType == OPEN_POSITIONS) {
-      setRenderNFTs(TYPE_ZERO);
-      handleBorrow(TYPE_ONE);
-      setActiveIndex(TYPE_ZERO);
-    } else {
-      setRenderNFTs(TYPE_ONE);
-      handleBorrow(TYPE_ZERO);
-      setActiveIndex(TYPE_ONE);
-    }
-  }
   // re-render after update
   useEffect(() => {
   }, [renderNFTs]);
+
+  useEffect(() => {
+  }, [activeIndex]);
+
+  useEffect(() => {
+    console.log('@@--open-positions--@@', openPositions);
+  }, [openPositions])
 
   return (
     <Box className={styles.cardContainer}>
@@ -112,7 +119,7 @@ const LoanNFTsContainer = (props: LoanNFTsContainerProps) => {
                     <Button
                     key={button.title}
                     size="small"
-                    disabled={button.title == OPEN_POSITIONS && (openPositions?.length < TYPE_ONE || openPositions == undefined) ? true : false}
+                    disabled={false}
                     onClick={() => handleNFTModal(button.title)}
                     variant={i === activeIndex ? TYPE_PRIMARY : TYPE_SECONDARY}
                   >

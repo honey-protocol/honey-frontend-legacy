@@ -113,8 +113,6 @@ const Loan: NextPage = () => {
     // }
     return;
   }
-  
-  // createMarket();
 
   /**
    * @description logic for rendering borrow or lend page 

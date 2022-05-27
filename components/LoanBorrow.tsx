@@ -233,6 +233,7 @@ const LoanBorrow = (props: LoanBorrowProps) => {
                         align="right"
                         color="foreground"
                     >
+                        0 SOL
                     </Text>
                 </Stack>
             </Box>

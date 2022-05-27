@@ -28,25 +28,8 @@ const LoanRepay = (props: LoanRepayProps) => {
     const [debtAmount, setDebtAmount] = useState(0);
 
     useEffect(() => {
-      if (loanPositions[0]?.amount) setDebtAmount(loanPositions[0].amount);
+      if (loanPositions && loanPositions[0]?.amount) setDebtAmount(loanPositions[0].amount);
     }, [loanPositions]);
-
-    // useEffect(() => {
-    //     if (parsedReserves) {
-    //         let divSum: any = (((new BN(parsedReserves[0].reserveState.outstandingDebt).div(new BN(10**15)).toNumber())) / LAMPORTS_PER_SOL).toFixed(2)
-    //         setTotalDebt(divSum);
-    //         let sumOfAllowance = 1.35 - divSum;
-    //         setTotalAllowance(sumOfAllowance)
-    //     };
-    // }, [parsedReserves]);
-
-    // // loanpositions refers to the amount that has been borrowed as collateral
-    // // if loanpositions amount is zero - the repay button becomes claim NFT - line 212
-    // useEffect(() => {
-    //     if (loanPositions) {
-    //         updateCurrentLoanPosition(loanPositions[0]?.amount)
-    //     }
-    // }, [loanPositions]);
 
     function handleExecuteRepay(val: any) {
       executeRepay(1);
