@@ -90,6 +90,7 @@ const Loan: NextPage = () => {
   const [userAvailableNFTs, setUserAvailableNFTs] = useState([]);
   const [userCollateralPositions, setUserCollateralPositions] = useState([]);
   const [userDebt, setUserDebt] = useState(0);
+  const [userAllowance, setUserAllowance] = useState(0);
   const [totalMarkDeposits, setTotalMarketDeposits] = useState(0);
 
   /**
@@ -160,17 +161,17 @@ const Loan: NextPage = () => {
         // should be divided into 10**15
         // and the others are divided into LAMPORTS
         let depositNoteExRate = marketReserveInfo[0].depositNoteExchangeRate.div(new BN(10 ** 15)).toNumber();
-        let userDeposits = honeyUser.deposits()[0].amount.div(new BN(10 ** 9)).toNumber();
-        let nftCollateralValue = .5;
+        let userDeposits = honeyUser.deposits()[0].amount.div(new BN(10 ** 9)).toNumber() * depositNoteExRate;
+        let nftCollateralValue = marketReserveInfo[0].price.div(new BN(10 ** 15)).toNumber() * (collateralNFTPositions?.length || 0);
         let loanNoteExRate = marketReserveInfo[0].loanNoteExchangeRate.div(new BN(10 ** 15)).toNumber();
-        let userLoans = honeyUser.loans()[0].amount.div(new BN(10 ** 9)).toNumber();
-  
+        let userLoans = honeyUser.loans()[0].amount.div(new BN(10 ** 9)).toNumber() * loanNoteExRate;
         let sumOfAllowance = (((depositNoteExRate * userDeposits) + nftCollateralValue) - loanNoteExRate) * userLoans;
   
         console.log('__sum-of-allowance__', sumOfAllowance); 
+        setUserAllowance(sumOfAllowance)
       }
     }, 3000);
-  }, [marketReserveInfo, honeyUser]);
+  }, [marketReserveInfo, honeyUser, collateralNFTPositions]);
 
   useEffect(() => {
     if (marketReserveInfo) {
