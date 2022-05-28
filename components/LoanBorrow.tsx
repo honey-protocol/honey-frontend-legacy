@@ -21,10 +21,11 @@ interface LoanBorrowProps {
     openPositions?:[];
     loanPositions: any;
     parsedReserves: any;
+    userDebt: number;
 }
 
 const LoanBorrow = (props: LoanBorrowProps) => {
-    const { NFT, executeBorrow, openPositions, loanPositions, parsedReserves } = props;
+    const { NFT, executeBorrow, openPositions, loanPositions, parsedReserves, userDebt } = props;
     /**
      * @description
      * @params
@@ -75,6 +76,7 @@ const LoanBorrow = (props: LoanBorrowProps) => {
         setDebtAmount(loanPositions[0].amount);
       }
     }, [loanPositions]);
+
     
     /**
      * @description handles the users input
@@ -156,8 +158,7 @@ const LoanBorrow = (props: LoanBorrowProps) => {
                             align="right"
                             color="foreground"
                         >
-                          {/* WIP - BE fix lamports issue? */}
-                          {debtAmount/ LAMPORTS_PER_SOL}
+                            {userDebt.toFixed(4)}
                         </Text>
                     </Stack>
                 </Stack>

@@ -101,7 +101,6 @@ const LoanNFTsContainer = (props: LoanNFTsContainerProps) => {
   }, [activeIndex]);
 
   useEffect(() => {
-    console.log('@@--open-positions--@@', openPositions);
   }, [openPositions])
 
   return (

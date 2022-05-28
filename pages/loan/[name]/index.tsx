@@ -89,6 +89,8 @@ const Loan: NextPage = () => {
   const [userLoanPositions, setUserLoanPositions] = useState(0);
   const [userAvailableNFTs, setUserAvailableNFTs] = useState([]);
   const [userCollateralPositions, setUserCollateralPositions] = useState([]);
+  const [userDebt, setUserDebt] = useState(0);
+  const [totalMarkDeposits, setTotalMarketDeposits] = useState(0);
 
   /**
   * @description calls upon the honey sdk
@@ -137,38 +139,45 @@ const Loan: NextPage = () => {
   const [nftArrayType, setNftArrayType] = useState(false);
 
   /**
-   * @description updates honeyUser | honeyReserves | honeyClient when fetched
+   * @description updates honeyUser | marketReserveInfo | - timeout required
    * @params none
-   * @returns honeyUser | honeyReserves | honeyClient
+   * @returns honeyUser | marketReserveInfo |
   */
   useEffect(() => {
-  }, [honeyUser, honeyReserves, honeyClient]);
-  
-  
-  /**
-   * @description updates parsedReserves which is the parsed honeyReserves 
-   * @params none
-   * @returns parsedReserves
-  */
+    setTimeout(() => {
+    if (honeyUser?.loans().length && marketReserveInfo) {
+      const totalDebt = (marketReserveInfo[0]?.loanNoteExchangeRate.mul(honeyUser?.loans()[0]?.amount)?.div(new BN(10 ** 15))).toNumber() / (10 ** 9);
+      setUserDebt(totalDebt);
+    }
+    }, 2000);
+
+  }, [marketReserveInfo, honeyUser]);
+
   useEffect(() => {
-    let depositNoteSum;
-    let loanNoteSum;
+    setTimeout(() => {
+      if (marketReserveInfo && honeyUser?.deposits()[0]) {
+        // deposistNoteExchangeRate, loanNoteExchangeRate, marketReserveInfo[0].price 
+        // should be divided into 10**15
+        // and the others are divided into LAMPORTS
+        let depositNoteExRate = marketReserveInfo[0].depositNoteExchangeRate.div(new BN(10 ** 15)).toNumber();
+        let userDeposits = honeyUser.deposits()[0].amount.div(new BN(10 ** 9)).toNumber();
+        let nftCollateralValue = .5;
+        let loanNoteExRate = marketReserveInfo[0].loanNoteExchangeRate.div(new BN(10 ** 15)).toNumber();
+        let userLoans = honeyUser.loans()[0].amount.div(new BN(10 ** 9)).toNumber();
+  
+        let sumOfAllowance = (((depositNoteExRate * userDeposits) + nftCollateralValue) - loanNoteExRate) * userLoans;
+  
+        console.log('__sum-of-allowance__', sumOfAllowance); 
+      }
+    }, 3000);
+  }, [marketReserveInfo, honeyUser]);
 
-    // validate and set deposit note ex. rate
-    if (marketReserveInfo && marketReserveInfo[0].depositNoteExchangeRate) {
-      depositNoteSum = marketReserveInfo[0].depositNoteExchangeRate
-      // setDepositNoteExRate(depositNoteSum);
+  useEffect(() => {
+    if (marketReserveInfo) {
+      let nftCollateralValue = .5;
+      let estimatedNFTValue = nftCollateralValue
     }
-
-    // validate and set loan note ex. rate
-    if (marketReserveInfo && marketReserveInfo[0].loanNoteExchangeRate) {
-      loanNoteSum = marketReserveInfo[0].loanNoteExchangeRate;
-      console.log('@@--loannotesum--@@@', loanNoteSum) // BN
-      // let totalDebt = loanNoteSum * userLoanPositions;
-      // console.log('@@--totaldebt--@@', totalDebt);
-      // setLoanNoteExRate(loanNoteSum);
-    }
-  }, [market, marketReserveInfo, parsedReserves]);
+  }, [marketReserveInfo, collateralNFTPositions]);
 
   /**
    * @description logic regarding borrow modal or lendmodal
@@ -181,7 +190,6 @@ const Loan: NextPage = () => {
     value == TYPE_ONE ? setBorrowModal(TYPE_ONE) : setBorrowModal(TYPE_ZERO)
   }
 
-  
   /**
    * @description updates collateralNFTPositions | loanPositions | fungibleCollateralPosition
    * @params none
@@ -203,7 +211,6 @@ const Loan: NextPage = () => {
   useEffect(() => {
     setUserAvailableNFTs(availableNFTs[0]);
   }, [availableNFTs]);
-
 
   /**
    * @description updates withDrawDepositNFT
@@ -345,6 +352,7 @@ const Loan: NextPage = () => {
                 openPositions={collateralNFTPositions}
                 parsedReserves={parsedReserves}
                 userAvailableNFTs={availableNFTs}
+                userDebt={userDebt}
               />
             :
               <LoanNewBorrow

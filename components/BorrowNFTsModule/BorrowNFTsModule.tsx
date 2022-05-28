@@ -16,10 +16,11 @@ interface BorrowNFTsModule {
   loanPositions: any;
   parsedReserves: any;
   userAvailableNFTs: any;
+  userDebt: number;
 }
 
 const BorrowNFTsModule = (props: BorrowNFTsModule) => {
-  const { NFT, executeWithdrawNFT, mint, loanPositions, executeBorrow, executeRepay, openPositions, parsedReserves, userAvailableNFTs } = props;
+  const { NFT, executeWithdrawNFT, mint, loanPositions, executeBorrow, executeRepay, openPositions, parsedReserves, userAvailableNFTs, userDebt } = props;
 
   /**
    * @description sets default state for borrow or repay module 0 = borrow 1 = repay
@@ -35,7 +36,7 @@ const BorrowNFTsModule = (props: BorrowNFTsModule) => {
   */
   useEffect(() => {
   }, [loanPositions]);
-
+  
   function handleExecute(key: any) {
     executeWithdrawNFT(key);
   }
@@ -61,6 +62,7 @@ const BorrowNFTsModule = (props: BorrowNFTsModule) => {
               openPositions={openPositions} 
               loanPositions={loanPositions} 
               parsedReserves={parsedReserves}
+              userDebt={userDebt}
             />
           ) : (
             <LoanRepay 
@@ -70,6 +72,7 @@ const BorrowNFTsModule = (props: BorrowNFTsModule) => {
               executeRepay={executeRepay} 
               loanPositions={loanPositions} 
               parsedReserves={parsedReserves}
+              userDebt={userDebt}
             />
           )}
         </Stack>

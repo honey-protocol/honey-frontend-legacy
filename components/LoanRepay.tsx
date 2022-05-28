@@ -20,16 +20,16 @@ interface LoanRepayProps {
     executeRepay: (val: any) => void;
     loanPositions: any;
     parsedReserves: any;
+    userDebt: number;
 }
 
 const LoanRepay = (props: LoanRepayProps) => {
-    const { NFT, executeWithdrawNFT, mint, executeRepay, loanPositions, parsedReserves } = props;
+    const { NFT, executeWithdrawNFT, mint, executeRepay, loanPositions, parsedReserves, userDebt } = props;
     const [userInput, setUserInput] = useState(0);
-    const [debtAmount, setDebtAmount] = useState(0);
 
-    useEffect(() => {
-      if (loanPositions && loanPositions[0]?.amount) setDebtAmount(loanPositions[0].amount);
-    }, [loanPositions]);
+    // useEffect(() => {
+    //   if (loanPositions && loanPositions[0]?.amount) setDebtAmount(loanPositions[0].amount);
+    // }, [loanPositions]);
 
     function handleExecuteRepay(val: any) {
       executeRepay(1);
@@ -111,7 +111,7 @@ const LoanRepay = (props: LoanRepayProps) => {
                     align="right"
                     color="foreground"
                 >
-                  {debtAmount / LAMPORTS_PER_SOL}
+                    {userDebt.toFixed(4)}
                 </Text>
                 </Stack>
             </Stack>
