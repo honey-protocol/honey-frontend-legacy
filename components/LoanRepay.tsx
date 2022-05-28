@@ -21,10 +21,11 @@ interface LoanRepayProps {
     loanPositions: any;
     parsedReserves: any;
     userDebt: number;
+    userAllowance: number;
 }
 
 const LoanRepay = (props: LoanRepayProps) => {
-    const { NFT, executeWithdrawNFT, mint, executeRepay, loanPositions, parsedReserves, userDebt } = props;
+    const { NFT, executeWithdrawNFT, mint, executeRepay, loanPositions, parsedReserves, userDebt, userAllowance } = props;
     const [userInput, setUserInput] = useState(0);
 
     // useEffect(() => {
@@ -184,7 +185,7 @@ const LoanRepay = (props: LoanRepayProps) => {
                             align="right"
                             color="foreground"
                         >
-                            0 SOL
+                            {userAllowance} SOL
                         </Text>
                     </Stack>
                 </Stack>

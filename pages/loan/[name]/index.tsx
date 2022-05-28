@@ -88,7 +88,7 @@ const Loan: NextPage = () => {
   const [loanNoteExRate, setLoanNoteExRate] = useState(0);
   const [userLoanPositions, setUserLoanPositions] = useState(0);
   const [userAvailableNFTs, setUserAvailableNFTs] = useState([]);
-  const [userCollateralPositions, setUserCollateralPositions] = useState([]);
+  const [userCollateralPositions, setUserCollateralPositions] = useState<{}>();
   const [userDebt, setUserDebt] = useState(0);
   const [userAllowance, setUserAllowance] = useState(0);
   const [totalMarkDeposits, setTotalMarketDeposits] = useState(0);
@@ -201,9 +201,10 @@ const Loan: NextPage = () => {
     if (loanPositions && loanPositions[0].amount) setUserLoanPositions(loanPositions[0].amount);
     // validate if collateralNFTPositions
     if (collateralNFTPositions && collateralNFTPositions.length > TYPE_ZERO) setBorrowModal(TYPE_ONE);
-    setUserCollateralPositions(collateralNFTPositions);
+      setUserCollateralPositions(collateralNFTPositions);
   }, [collateralNFTPositions, loanPositions, fungibleCollateralPosition]);
 
+  console.log('all my collateral pos.', userCollateralPositions)
   /**
    * @description updates availableNFTs | reFetchNFTs
    * @params none
@@ -354,6 +355,7 @@ const Loan: NextPage = () => {
                 parsedReserves={parsedReserves}
                 userAvailableNFTs={availableNFTs}
                 userDebt={userDebt}
+                userAllowance={userAllowance}
               />
             :
               <LoanNewBorrow

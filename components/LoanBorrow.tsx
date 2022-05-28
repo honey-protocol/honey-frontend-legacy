@@ -22,10 +22,11 @@ interface LoanBorrowProps {
     loanPositions: any;
     parsedReserves: any;
     userDebt: number;
+    userAllowance: number;
 }
 
 const LoanBorrow = (props: LoanBorrowProps) => {
-    const { NFT, executeBorrow, openPositions, loanPositions, parsedReserves, userDebt } = props;
+    const { NFT, executeBorrow, openPositions, loanPositions, parsedReserves, userDebt, userAllowance } = props;
     /**
      * @description
      * @params
@@ -234,7 +235,7 @@ const LoanBorrow = (props: LoanBorrowProps) => {
                         align="right"
                         color="foreground"
                     >
-                        0 SOL
+                        {userAllowance} SOL
                     </Text>
                 </Stack>
             </Box>
