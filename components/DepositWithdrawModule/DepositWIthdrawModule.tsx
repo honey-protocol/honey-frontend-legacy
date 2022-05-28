@@ -14,6 +14,7 @@ interface DepositWithdrawModuleProps {
   executeWithdraw: (val: any) => void;
   honeyReserves: any;
   userDebt: any;
+  totalMarkDeposits: number;
 }
 
 const DepositWithdrawModule = (props: DepositWithdrawModuleProps) => {
@@ -21,7 +22,8 @@ const DepositWithdrawModule = (props: DepositWithdrawModuleProps) => {
     executeDeposit,
     executeWithdraw,
     honeyReserves,
-    userDebt
+    userDebt,
+    totalMarkDeposits
   } = props;
   /**
    * @description
@@ -61,6 +63,7 @@ const DepositWithdrawModule = (props: DepositWithdrawModuleProps) => {
               netBorrowBalance={1}
               handleDeposit={executeDeposit}
               userDebt={userDebt}
+              totalMarkDeposits={totalMarkDeposits}
             />
           ) : (
             <LoanWithdraw
@@ -71,6 +74,7 @@ const DepositWithdrawModule = (props: DepositWithdrawModuleProps) => {
               totalPayback={1}
               handleWithdraw={executeWithdraw}
               userDebt={userDebt}
+              totalMarkDeposits={totalMarkDeposits}
             />
           )}
         </Box>

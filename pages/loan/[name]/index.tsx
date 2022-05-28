@@ -91,7 +91,6 @@ const Loan: NextPage = () => {
   const [userCollateralPositions, setUserCollateralPositions] = useState<{}>();
   const [userDebt, setUserDebt] = useState(0);
   const [userAllowance, setUserAllowance] = useState(0);
-  const [totalMarkDeposits, setTotalMarketDeposits] = useState(0);
 
   /**
   * @description calls upon the honey sdk
@@ -157,9 +156,6 @@ const Loan: NextPage = () => {
   useEffect(() => {
     setTimeout(() => {
       if (marketReserveInfo && honeyUser?.deposits()[0]) {
-        // deposistNoteExchangeRate, loanNoteExchangeRate, marketReserveInfo[0].price 
-        // should be divided into 10**15
-        // and the others are divided into LAMPORTS
         let depositNoteExRate = marketReserveInfo[0].depositNoteExchangeRate.div(new BN(10 ** 15)).toNumber();
         let userDeposits = honeyUser.deposits()[0].amount.div(new BN(10 ** 9)).toNumber() * depositNoteExRate;
         let nftCollateralValue = marketReserveInfo[0].price.div(new BN(10 ** 15)).toNumber() * (collateralNFTPositions?.length || 0);
@@ -173,12 +169,12 @@ const Loan: NextPage = () => {
     }, 3000);
   }, [marketReserveInfo, honeyUser, collateralNFTPositions]);
 
-  useEffect(() => {
-    if (marketReserveInfo) {
-      let nftCollateralValue = .5;
-      let estimatedNFTValue = nftCollateralValue
-    }
-  }, [marketReserveInfo, collateralNFTPositions]);
+  // useEffect(() => {
+  //   if (marketReserveInfo) {
+  //     let nftCollateralValue = .5;
+  //     let estimatedNFTValue = nftCollateralValue
+  //   }
+  // }, [marketReserveInfo, collateralNFTPositions]);
 
   /**
    * @description logic regarding borrow modal or lendmodal
@@ -204,7 +200,6 @@ const Loan: NextPage = () => {
       setUserCollateralPositions(collateralNFTPositions);
   }, [collateralNFTPositions, loanPositions, fungibleCollateralPosition]);
 
-  console.log('all my collateral pos.', userCollateralPositions)
   /**
    * @description updates availableNFTs | reFetchNFTs
    * @params none

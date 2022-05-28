@@ -85,17 +85,19 @@ const sdkConfig = ConfigureSDK();
   const { honeyUser, honeyReserves } = useMarket(sdkConfig.saberHqConnection, sdkConfig.sdkWallet!, sdkConfig.honeyId, sdkConfig.marketId);
   const { parsedReserves }  = useHoney();
   const [userDebt, setUserDebt] = useState(0);
+  const [totalMarkDeposits, setTotalMarketDeposits] = useState(0);
   /**
    * @description sets state of marketValue by parsing lamports outstanding debt amount to SOL
    * @params none, requires parsedReserves
    * @returns updates marketValue 
   */
   useEffect(() => {
-    if (parsedReserves) {
-      // console.log('@@@--outstandingDebt-', ((new BN(parsedReserves[0]?.reserveState.outstandingDebt).div(new BN(10**15)).toNumber())/ LAMPORTS_PER_SOL));
-      setUserDebt(((new BN(parsedReserves[0]?.reserveState.totalDeposits).div(new BN(10**15)).toNumber())/ LAMPORTS_PER_SOL));
+    if (parsedReserves && parsedReserves[0].reserveState.totalDeposits) {
+      console.log('__PARSED-RESERVES__', parsedReserves[0].reserveState.totalDeposits.div(new BN(10 ** 9)).toNumber());
+      setTotalMarketDeposits(parsedReserves[0].reserveState.totalDeposits.div(new BN(10 ** 9)).toNumber());
     }
-  }, [parsedReserves]);
+    // parsedReserves[0].reserveState.totalDeposits
+  }, [parsedReserves])
 
   /**
    * @description deposits 1 sol
@@ -280,6 +282,7 @@ const sdkConfig = ConfigureSDK();
             executeWithdraw={executeWithdraw}
             honeyReserves={honeyReserves}
             userDebt={userDebt}
+            totalMarkDeposits={totalMarkDeposits}
           />
         </Box>
       </Stack>
