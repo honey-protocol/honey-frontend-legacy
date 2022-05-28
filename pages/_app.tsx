@@ -101,11 +101,7 @@ function MyApp({ Component, pageProps }: AppProps) {
           </SailProvider>
         </WalletKitProvider>
       </QueryClientProvider>
-<<<<<<< HEAD
-
-=======
       <ToastContainer theme="dark" position="bottom-right" />
->>>>>>> 6d255de (Fix styling)
     </ThemeProvider>
   );
 }
