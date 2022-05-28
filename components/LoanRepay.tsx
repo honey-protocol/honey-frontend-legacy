@@ -5,6 +5,8 @@ import { Input } from 'degen';
 import Slider from '../components/Slider/Slider';
 import { LAMPORTS_PER_SOL } from '@solana/web3.js';
 import BN from 'bn.js';
+import { TYPE_REPAY } from '../constants/loan';
+
 interface LoanRepayProps {
     NFT: {
         name: string,
@@ -29,10 +31,12 @@ const LoanRepay = (props: LoanRepayProps) => {
     const [userInput, setUserInput] = useState(0);
 
     function handleExecuteRepay(val: any) {
+      console.log('this is val', val)
       executeRepay(1);
     }
 
     function handleUserChange(val: any) {
+        console.log('val from input slider in repay', val)
       setUserInput(val);
     }
 
@@ -187,13 +191,15 @@ const LoanRepay = (props: LoanRepayProps) => {
             <Slider 
               handleUserChange={handleUserChange}
               handleExecuteBorrow={handleExecuteRepay}
+              userDebt={userDebt}
+              type={TYPE_REPAY}
             />
             {/* if no more outstanding amount - render claim nft, is there is, render repay;  */}
             {
                 loanPositions?.length > 0 && loanPositions[0]?.amount != 0 
                 ?
                 (
-                    <Button width="full" onClick={handleExecuteRepay}>Repay</Button>
+                    <Button width="full" onClick={(val: any) => handleExecuteRepay}>Repay</Button>
                 )
                 :
                 (

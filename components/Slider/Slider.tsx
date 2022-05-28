@@ -10,6 +10,9 @@ interface SliderProps {
   handleUserChange: (val: any) => void;
   handleExecuteBorrow?: (val: any) => void;
   handleExecuteRepay?: (val: any) => void;
+  userDebt?: number;
+  type: string;
+  userAllowance?: number; 
 }
 
 /**
@@ -18,7 +21,8 @@ interface SliderProps {
  * @returns Returns the slider
  **/
 const Slider = (props: SliderProps) => {
-  const {handleUserChange, handleExecuteBorrow, handleExecuteRepay} = props;
+  const {handleUserChange, handleExecuteBorrow, handleExecuteRepay, type, userAllowance} = props;
+  let {userDebt} = props;
   /**
    * @description
    * @params
@@ -27,16 +31,6 @@ const Slider = (props: SliderProps) => {
   const [slideCount, setSlideCount] = useState(0);
   const [userInput, setUserInput] = useState('');
   const [userMessage, setUserMessage] = useState('');
-
-  // useEffect(() => {
-  //   if (parsedReserves) {
-  //     setCurrentDebtAmount(((new BN(parsedReserves[0].reserveState.outstandingDebt).div(new BN(10**15)).toNumber())) / LAMPORTS_PER_SOL);
-  //   }
-
-  //   if (totalAllowance && type == TYPE_BORROW) {
-  //     if (totalAllowance < 0) setUserMessage('Max borrow amount reached')
-  //   }
-  // }, [parsedReserves, currentDebtAmount, totalAllowance, type]);
 
   /**
    * @description
@@ -55,6 +49,19 @@ const Slider = (props: SliderProps) => {
   */
   async function handleNumberInput(val: any) {
     const isInputValid = await inputNumberValidator(val.target.value);
+
+    if (type == TYPE_REPAY &&  (userDebt && isInputValid.value > userDebt)) {
+      userDebt += .1;
+      setUserMessage(`Your max repay amount is ${userDebt?.toFixed(2)} SOL`);
+      setUserInput(userDebt.toFixed(2));
+      handleUserChange(userDebt.toFixed(2));
+      return;
+    }
+
+    if (type == TYPE_BORROW && (userAllowance && isInputValid.value > userAllowance)) {
+      setUserMessage(`Your max borrow amount is ${userAllowance} SOL`);
+      return
+    }
 
     if (isInputValid.success) {
       setUserInput(isInputValid.value);
@@ -92,7 +99,7 @@ const Slider = (props: SliderProps) => {
               className={styles.currencyStyles} 
               value={userInput} 
               min="0" 
-              max="100" 
+              max={userDebt}
               step="0.1" />
           </div>
         </Box>
@@ -104,7 +111,7 @@ const Slider = (props: SliderProps) => {
             type="range"
             value={slideCount} 
             min="0" 
-            max="100"
+            max={userDebt}
             onChange={handleRangeInput} 
             step="0.1" />
         </div>

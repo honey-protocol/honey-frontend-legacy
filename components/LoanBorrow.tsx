@@ -6,6 +6,7 @@ import Slider from '../components/Slider/Slider';
 import * as styles from './Slider/Slider.css';
 import { LAMPORTS_PER_SOL } from '@solana/web3.js';
 import BN from 'bn.js';
+import { TYPE_BORROW } from "constants/loan";
 
 interface LoanBorrowProps {
     NFT: {
@@ -212,6 +213,8 @@ const LoanBorrow = (props: LoanBorrowProps) => {
                 <Slider 
                   handleUserChange={handleUserChange}
                   handleExecuteBorrow={handleExecuteBorrow}
+                  type={TYPE_BORROW}
+                  userAllowance={userAllowance}
                 />
             </Box>
             <Button 
