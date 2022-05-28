@@ -181,4 +181,19 @@ export const newFarmCollections: TGFarm[] = [
     farmAddress: "6ktAbBBPHVyfMMpxhBoDraKMsjbXiJeWshGKXP76VJZQ",
     bankAddress: "7zeVRxx3jJWRmbxgy8Ap86Wwbw6JvdjBqFXaojoJXo5y",
   },
+  {
+    id: "GARI", // manager 5mVXEHyTDxp7d46Htis587Pqt3yjUEjERpUD62ZGvXvD
+    imageUrl: "https://storage.googleapis.com/tally-response-assets/NaMneN/06279f1c-40c0-442d-8191-49a24960a5e9/6872.png",
+    name: "Chingari: Gari Panda",
+    totalStaked: "???",
+    totalNumber:10000, 
+    allocation: "1.25",
+    totalStakedByUser: "-",
+    eventStartDate: "2022-03-04T14:50Z",
+    eventDuration: "∞",
+    updateAuthority: "2qQE715qJQ9cJ2WZJNmQiNF8Hq8TGTA3St8cSvSvtwzA",
+    rewardTokenName: "GARI",
+    farmAddress: "JAdPgH7EbnAZczF3qSrn2qppdHRweEKhv47zxnSMdakt",
+    bankAddress: "XKxagKWnY9woh5BVhpvqoSm2prFNHEEBYC9Lw55bofY",
+  },
 ];
