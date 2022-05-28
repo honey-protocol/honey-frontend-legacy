@@ -28,10 +28,6 @@ const LoanRepay = (props: LoanRepayProps) => {
     const { NFT, executeWithdrawNFT, mint, executeRepay, loanPositions, parsedReserves, userDebt, userAllowance } = props;
     const [userInput, setUserInput] = useState(0);
 
-    // useEffect(() => {
-    //   if (loanPositions && loanPositions[0]?.amount) setDebtAmount(loanPositions[0].amount);
-    // }, [loanPositions]);
-
     function handleExecuteRepay(val: any) {
       executeRepay(1);
     }
@@ -39,8 +35,6 @@ const LoanRepay = (props: LoanRepayProps) => {
     function handleUserChange(val: any) {
       setUserInput(val);
     }
-
-    // console.log('this is total allowance', totalAllowance);
 
     return (
         <Box gap="3">

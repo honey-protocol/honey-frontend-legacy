@@ -93,7 +93,6 @@ const sdkConfig = ConfigureSDK();
   */
   useEffect(() => {
     if (parsedReserves && parsedReserves[0].reserveState.totalDeposits) {
-      console.log('__PARSED-RESERVES__', parsedReserves[0].reserveState.totalDeposits.div(new BN(10 ** 9)).toNumber());
       setTotalMarketDeposits(parsedReserves[0].reserveState.totalDeposits.div(new BN(10 ** 9)).toNumber());
     }
     // parsedReserves[0].reserveState.totalDeposits

@@ -163,18 +163,10 @@ const Loan: NextPage = () => {
         let userLoans = honeyUser.loans()[0].amount.div(new BN(10 ** 9)).toNumber() * loanNoteExRate;
         let sumOfAllowance = (((depositNoteExRate * userDeposits) + nftCollateralValue) - loanNoteExRate) * userLoans;
   
-        console.log('__sum-of-allowance__', sumOfAllowance); 
         setUserAllowance(sumOfAllowance)
       }
     }, 3000);
   }, [marketReserveInfo, honeyUser, collateralNFTPositions]);
-
-  // useEffect(() => {
-  //   if (marketReserveInfo) {
-  //     let nftCollateralValue = .5;
-  //     let estimatedNFTValue = nftCollateralValue
-  //   }
-  // }, [marketReserveInfo, collateralNFTPositions]);
 
   /**
    * @description logic regarding borrow modal or lendmodal

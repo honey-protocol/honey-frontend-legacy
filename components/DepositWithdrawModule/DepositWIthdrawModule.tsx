@@ -32,10 +32,6 @@ const DepositWithdrawModule = (props: DepositWithdrawModuleProps) => {
   */
   const [depositOrWithdraw, setDepositOrWithdraw] = useState(0);
 
-  useEffect(() => {
-    // console.log('@@@@@@@ being updated', userDebt)
-  }, [userDebt])
-
   return (
     <Box
       height="full"

@@ -27,37 +27,6 @@ interface LoanBorrowProps {
 
 const LoanBorrow = (props: LoanBorrowProps) => {
     const { NFT, executeBorrow, openPositions, loanPositions, parsedReserves, userDebt, userAllowance } = props;
-    /**
-     * @description
-     * @params
-     * @returns
-    */
-    const [availableLiquidity, setAvailableLiquidity] = useState(0);
-    
-    useEffect(() => {
-      if(parsedReserves) {
-        // console.log('@@--totalDeposits', ((new BN(parsedReserves[0].reserveState?.totalDeposits).div(new BN(10**15)).toNumber())));
-      }
-    });
-    
-    // useEffect(() => {
-    //     if (parsedReserves) {
-    //         let divSum: any = (((new BN(parsedReserves[0].reserveState.outstandingDebt).div(new BN(10**15)).toNumber())) / LAMPORTS_PER_SOL).toFixed(2);
-    //         setTotalDebt(divSum)
-    //         let sumOfAllowance = 1.25 - divSum;
-    //         setTotalAllowance(sumOfAllowance)
-    //     };
-    // }, [parsedReserves]);
-
-    // useEffect(() => {
-    //     if (loanPositions) {
-    //         updateCurrentLoanPosition(loanPositions[0]?.amount)
-    //     }
-    // }, [loanPositions]);
-
-    // useEffect(() => {
-    //     console.log('running', noPositions)
-    // }, [noPositions]);
 
     /**
      * @description set default state for userInput and debtAmount to 0
