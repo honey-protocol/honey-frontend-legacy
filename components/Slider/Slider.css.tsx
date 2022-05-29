@@ -69,11 +69,12 @@ export const selectionDetails = style({
 globalStyle(`${selectionDetails} > *`, {
   margin: '.75em',
   color: 'gray',
-  fontSize: '1em',
+  fontSize: '1.1em',
   background: 'none',
   border: 'none',
   textAlign: 'end',
-  width: '4em'
+  width: '4em',
+  outline: 'none',
 });
 
 globalStyle(`${selectionDetails}, input::-webkit-outer-spin-button, input::-webkit-inner-spin-button `, {
