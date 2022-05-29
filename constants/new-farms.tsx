@@ -191,7 +191,7 @@ export const newFarmCollections: TGFarm[] = [
     totalStakedByUser: "-",
     eventStartDate: "2022-03-04T14:50Z",
     eventDuration: "∞",
-    updateAuthority: "2qQE715qJQ9cJ2WZJNmQiNF8Hq8TGTA3St8cSvSvtwzA",
+    updateAuthority: "H3txuY3VR14WMgBbXKQbyDWGsdAMxhC1kUQfPowXAww7",
     rewardTokenName: "GARI",
     farmAddress: "JAdPgH7EbnAZczF3qSrn2qppdHRweEKhv47zxnSMdakt",
     bankAddress: "XKxagKWnY9woh5BVhpvqoSm2prFNHEEBYC9Lw55bofY",
