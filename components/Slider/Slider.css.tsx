@@ -23,6 +23,7 @@ globalStyle(`${rangeSlider} > input`, {
   outline: 'none',
   color: 'white',
 });
+
 // style based off of pseudo - also for the input; should define this for moz and other browsers
 globalStyle(`${rangeSlider} > input::-webkit-slider-thumb`, {
   WebkitAppearance: 'none',
@@ -81,18 +82,21 @@ globalStyle(`${selectionDetails}, input::-webkit-outer-spin-button, input::-webk
   margin: 0
 }); 
 
-export const currencyStyles = style({
+export const currencyStylesWrapper = style({
+  textAlign: 'start',
+  width: '100%'
+});
+
+export const currencyStylesChild = style({
   fontSize: '1.8em',
   background: 'none',
   border: 'none',
-  color: 'gray',
-  textAlign: 'start',
-  maxWidth: '3em'
+  maxWidth: '100%',
+  color: 'white',
+  outline: 'none'
 });
 
-globalStyle(`${currencyStyles}, > *`, {
-  display: 'none'
-});
+
 
 export const currencySelector = style({
   background: 'none',

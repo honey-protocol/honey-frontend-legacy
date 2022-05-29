@@ -3,7 +3,7 @@ import { Box, Stack, Button, Avatar } from 'degen';
 import * as styles from './Slider.css';
 import { LAMPORTS_PER_SOL } from '@solana/web3.js';
 import BN from 'bn.js';
-import {TYPE_BORROW, TYPE_REPAY} from '../../constants/loan';
+import {TYPE_BORROW, TYPE_REPAY, TYPE_ZERO} from '../../constants/loan';
 import {inputNumberValidator} from '../../helpers/loanHelpers';
 
 interface SliderProps {
@@ -49,24 +49,41 @@ const Slider = (props: SliderProps) => {
   */
   async function handleNumberInput(val: any) {
     const isInputValid = await inputNumberValidator(val.target.value);
-
-    if (type == TYPE_REPAY &&  (userDebt && isInputValid.value > userDebt)) {
-      userDebt += .1;
-      setUserMessage(`Your max repay amount is ${userDebt?.toFixed(2)} SOL`);
-      setUserInput(userDebt.toFixed(2));
-      handleUserChange(userDebt.toFixed(2));
-      return;
-    }
-
-    if (type == TYPE_BORROW && (userAllowance && isInputValid.value > userAllowance)) {
-      setUserMessage(`Your max borrow amount is ${userAllowance} SOL`);
-      return
-    }
-
     if (isInputValid.success) {
-      setUserInput(isInputValid.value);
-      setSlideCount(isInputValid.value);
-      setUserMessage('')
+      if (type == TYPE_REPAY) {
+        if (userDebt == TYPE_ZERO) {
+          setUserMessage('No outstanding debt');
+          return;
+        }
+  
+        if (userDebt && isInputValid.value > userDebt) {
+          userDebt += .1;
+          setUserMessage(`Your max repay amount is ${userDebt?.toFixed(2)} SOL`);
+          setUserInput(userDebt.toFixed(2));
+          handleUserChange(userDebt.toFixed(2));
+          setSlideCount(userDebt);
+          return;
+        }
+
+        if (userDebt && isInputValid.value < userDebt) {
+          setUserInput(userDebt.toFixed(2));
+          handleUserChange(userDebt.toFixed(2));
+          setSlideCount(userDebt);
+          return;
+        }
+      }
+
+      if (type == TYPE_BORROW) {
+        setUserInput(isInputValid.value);
+        handleUserChange(isInputValid.value);
+        setSlideCount(isInputValid.value);
+        return;
+      }
+  
+      // if (type == TYPE_BORROW && (userAllowance && isInputValid.value > userAllowance)) {
+      //   setUserMessage(`Your max borrow amount is ${userAllowance} SOL`);
+      //   return
+      // }
     } else {
       setUserInput(isInputValid.value);
       setUserMessage(isInputValid.message);
@@ -91,12 +108,12 @@ const Slider = (props: SliderProps) => {
       }
       <Box className={styles.selectionWrapper}>
         <Box className={styles.selectionDetails}>
-          <div className={styles.currencyStyles}>
+          <div className={styles.currencyStylesWrapper}>
             <input 
               type="number" 
               placeholder="0.00" 
               onChange={handleNumberInput}
-              className={styles.currencyStyles} 
+              className={styles.currencyStylesChild} 
               value={userInput} 
               min="0" 
               max={userDebt}

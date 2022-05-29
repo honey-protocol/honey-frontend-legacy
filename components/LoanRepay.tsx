@@ -6,6 +6,7 @@ import Slider from '../components/Slider/Slider';
 import { LAMPORTS_PER_SOL } from '@solana/web3.js';
 import BN from 'bn.js';
 import { TYPE_REPAY } from '../constants/loan';
+import * as styles from './Slider/Slider.css';
 
 interface LoanRepayProps {
     NFT: {
@@ -29,14 +30,16 @@ interface LoanRepayProps {
 const LoanRepay = (props: LoanRepayProps) => {
     const { NFT, executeWithdrawNFT, mint, executeRepay, loanPositions, parsedReserves, userDebt, userAllowance } = props;
     const [userInput, setUserInput] = useState(0);
+    const [userMessage, setUserMessage] = useState('');
 
-    function handleExecuteRepay(val: any) {
-      console.log('this is val', val)
-      executeRepay(1);
+    function handleExecuteRepay() {
+      console.log('this is userInput', userInput)
+      if (!userInput) return setUserMessage('No user input provided');
+      executeRepay(userInput);
     }
 
     function handleUserChange(val: any) {
-        console.log('val from input slider in repay', val)
+    console.log('val from input slider in repay', val)
       setUserInput(val);
     }
 
@@ -188,9 +191,15 @@ const LoanRepay = (props: LoanRepayProps) => {
                     </Stack>
                 </Stack>
             </Box>
+            {
+              userMessage &&
+              <Box className={styles.errorMessage}>
+                {userMessage}
+              </Box>
+            }
             <Slider 
               handleUserChange={handleUserChange}
-              handleExecuteBorrow={handleExecuteRepay}
+              handleExecuteRepay={handleExecuteRepay}
               userDebt={userDebt}
               type={TYPE_REPAY}
             />
@@ -199,7 +208,7 @@ const LoanRepay = (props: LoanRepayProps) => {
                 loanPositions?.length > 0 && loanPositions[0]?.amount != 0 
                 ?
                 (
-                    <Button width="full" onClick={(val: any) => handleExecuteRepay}>Repay</Button>
+                    <Button width="full" onClick={handleExecuteRepay}>Repay</Button>
                 )
                 :
                 (
