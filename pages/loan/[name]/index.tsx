@@ -186,7 +186,7 @@ const Loan: NextPage = () => {
         nftPrice = 2;
         depositNoteExchangeRate = marketReserveInfo[0].depositNoteExchangeRate.div(new BN(10 ** 15)).toNumber();
         loanNoteExchangeRate = marketReserveInfo[0].loanNoteExchangeRate.div(new BN(10 ** 10)).toNumber() / (10 ** 5);
-        cRatio = marketReserveInfo[0].minCollateralRatio.div(new BN(10 ** 15)).toNumber();
+        cRatio = marketReserveInfo[0].minCollateralRatio.div(new BN(10 ** 10)).toNumber() / (10 ** 5);
 
         console.log('marketReserveInfo[0]', marketReserveInfo[0]);
         console.log('nftPrice', nftPrice);
