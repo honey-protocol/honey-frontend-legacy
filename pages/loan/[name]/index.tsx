@@ -157,17 +157,17 @@ const Loan: NextPage = () => {
   useEffect(() => {
     setTimeout(() => {
       if (marketReserveInfo && honeyUser?.deposits()[0]) {
-        let depositNoteExRate = marketReserveInfo[0].depositNoteExchangeRate.div(new BN(10 ** 15)).toNumber();
-        let userDeposits = honeyUser.deposits()[0].amount.div(new BN(10 ** 9)).toNumber() * depositNoteExRate;
+        // let depositNoteExRate = marketReserveInfo[0].depositNoteExchangeRate.div(new BN(10 ** 15)).toNumber();
+        // let userDeposits = honeyUser.deposits()[0].amount.div(new BN(10 ** 9)).toNumber() * depositNoteExRate;
         let nftCollateralValue = marketReserveInfo[0].price.div(new BN(10 ** 15)).toNumber() * (collateralNFTPositions?.length || 0);
         let loanNoteExRate = marketReserveInfo[0].loanNoteExchangeRate.div(new BN(10 ** 15)).toNumber();
         let userLoans = honeyUser.loans()[0].amount.div(new BN(10 ** 9)).toNumber() * loanNoteExRate;
-        let sumOfAllowance = userDeposits + nftCollateralValue - userLoans;
+        let sumOfAllowance = nftCollateralValue - userLoans;
         
         setUserAllowance(sumOfAllowance)
       }
     }, 3000);
-  }, [marketReserveInfo, honeyUser, collateralNFTPositions]);
+  }, [marketReserveInfo, honeyUser, collateralNFTPositions, reFetchNFTs]);
 
   /**
    * @description logic regarding borrow modal or lendmodal

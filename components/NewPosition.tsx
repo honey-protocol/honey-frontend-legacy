@@ -19,13 +19,11 @@ const LoanNewBorrow = (props: LoanNewBorrowProps) => {
   const { NFT, mint, executeDepositNFT, loanPositions, parsedReserves, openPositions, userAvailableNFTs, reFetchNFTs } = props;
   
   function handleExecute(val: any) {
-    console.log('inside deposit')
     executeDepositNFT(val);
 
     setTimeout(() => {
-      console.log('inside deposit 2')
       reFetchNFTs({});
-    }, 5000)
+    }, 3500)
   }
 
   if (!NFT) return null;
