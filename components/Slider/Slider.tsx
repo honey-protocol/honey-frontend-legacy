@@ -66,9 +66,9 @@ const Slider = (props: SliderProps) => {
         }
 
         if (userDebt && isInputValid.value < userDebt) {
-          setUserInput(userDebt.toFixed(2));
-          handleUserChange(userDebt.toFixed(2));
-          setSlideCount(userDebt);
+          setUserInput(isInputValid.value);
+          handleUserChange(isInputValid.value);
+          setSlideCount(isInputValid.value);
           return;
         }
       }

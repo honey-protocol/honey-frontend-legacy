@@ -91,6 +91,7 @@ const Loan: NextPage = () => {
   const [userCollateralPositions, setUserCollateralPositions] = useState<{}>();
   const [userDebt, setUserDebt] = useState(0);
   const [userAllowance, setUserAllowance] = useState(0);
+  const [userTotalDeposits, setUserTotalDeposits] = useState(0);
 
   /**
   * @description calls upon the honey sdk
@@ -149,6 +150,12 @@ const Loan: NextPage = () => {
       const totalDebt = (marketReserveInfo[0]?.loanNoteExchangeRate.mul(honeyUser?.loans()[0]?.amount)?.div(new BN(10 ** 15))).toNumber() / (10 ** 9);
       setUserDebt(totalDebt);
     }
+
+    if( honeyUser?.deposits().length && marketReserveInfo) {
+      const totalDeposit = ( marketReserveInfo[0].depositNoteExchangeRate.mul(honeyUser?.deposits()[0].amount).div(new BN(10 ** 15))).toNumber() / (10 ** 9);
+      setUserTotalDeposits(totalDeposit);
+      console.log('@@__total-deposits__@@', userTotalDeposits);
+    }
     }, 2000);
 
   }, [marketReserveInfo, honeyUser]);
@@ -161,8 +168,8 @@ const Loan: NextPage = () => {
         let nftCollateralValue = marketReserveInfo[0].price.div(new BN(10 ** 15)).toNumber() * (collateralNFTPositions?.length || 0);
         let loanNoteExRate = marketReserveInfo[0].loanNoteExchangeRate.div(new BN(10 ** 15)).toNumber();
         let userLoans = honeyUser.loans()[0].amount.div(new BN(10 ** 9)).toNumber() * loanNoteExRate;
-        let sumOfAllowance = (((depositNoteExRate * userDeposits) + nftCollateralValue) - loanNoteExRate) * userLoans;
-  
+        let sumOfAllowance = userDeposits + nftCollateralValue - userLoans;
+        
         setUserAllowance(sumOfAllowance)
       }
     }, 3000);
