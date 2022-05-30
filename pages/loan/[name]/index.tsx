@@ -13,22 +13,16 @@ import useFetchNFTByUser from '../../../hooks/useNFTV2';
 import LoanNewBorrow from 'components/NewPosition';
 import { LAMPORTS_PER_SOL, PublicKey } from '@solana/web3.js';
 import {TYPE_ZERO, TYPE_ONE} from '../../../constants/loan';
+import BN from 'bn.js';
 import {
-  deposit,
-  HoneyUser,
   depositNFT,
   withdrawNFT,
   useBorrowPositions,
   useMarket,
-  usePools,
   useHoney,
-  withdraw,
   borrow,
   repay,
 } from '@honey-finance/sdk';
-import Nft from 'pages/farm/[name]';
-import { parse } from 'path';
-import BN from 'bn.js';
 
 /**
  * @description
@@ -112,8 +106,8 @@ const Loan: NextPage = () => {
    * @params none
    * @returns collateralNFTPositions | loanPositions | fungibleCollateralPosition | loading | error
    */
-   let { loading, collateralNFTPositions, loanPositions, fungibleCollateralPosition, error } = useBorrowPositions(sdkConfig.saberHqConnection, sdkConfig.sdkWallet!, sdkConfig.honeyId, sdkConfig.marketId)
-  
+   let { loading, collateralNFTPositions, loanPositions, fungibleCollateralPosition, error } = useBorrowPositions(sdkConfig.saberHqConnection, sdkConfig.sdkWallet!, sdkConfig.honeyId, sdkConfig.marketId);
+
   /**
    * @description fetched available nfts in the users wallet
    * @params wallet
@@ -196,7 +190,9 @@ const Loan: NextPage = () => {
     if (loanPositions && loanPositions[0].amount) setUserLoanPositions(loanPositions[0].amount);
     // validate if collateralNFTPositions
     if (collateralNFTPositions && collateralNFTPositions.length > TYPE_ZERO) setBorrowModal(TYPE_ONE);
-      setUserCollateralPositions(collateralNFTPositions);
+    
+    console.log('collateral positions updated', collateralNFTPositions);
+    setUserCollateralPositions(collateralNFTPositions);
   }, [collateralNFTPositions, loanPositions, fungibleCollateralPosition]);
 
   /**
@@ -327,6 +323,7 @@ const Loan: NextPage = () => {
           availableNFTs={userAvailableNFTs}
           executeWithdrawNFT={executeWithdrawNFT}
           executeDepositNFT={executeDepositNFT}
+          reFetchNFTs={reFetchNFTs}
           // set key equal to name since open positions doesnt contain id but name is with unique number
         />
 
@@ -364,6 +361,7 @@ const Loan: NextPage = () => {
                 parsedReserves={parsedReserves}
                 openPositions={collateralNFTPositions}
                 userAvailableNFTs={availableNFTs}
+                reFetchNFTs={reFetchNFTs}
               />
           }
         </Box>

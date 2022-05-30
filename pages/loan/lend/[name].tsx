@@ -95,8 +95,7 @@ const sdkConfig = ConfigureSDK();
     if (parsedReserves && parsedReserves[0].reserveState.totalDeposits) {
       setTotalMarketDeposits(parsedReserves[0].reserveState.totalDeposits.div(new BN(10 ** 9)).toNumber());
     }
-    // parsedReserves[0].reserveState.totalDeposits
-  }, [parsedReserves])
+  }, [parsedReserves]);
 
   /**
    * @description deposits 1 sol

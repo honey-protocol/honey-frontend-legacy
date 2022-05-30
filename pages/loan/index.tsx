@@ -12,33 +12,53 @@ import * as styles from '../../styles/loan.css';
 import LoanHeaderComponent from 'components/LoanHeaderComponent/LoanHeaderComponent';
 import CreateMarket from 'pages/createmarket';
 import  { ConfigureSDK } from '../../helpers/loanHelpers';
-import { useMarket, useBorrowPositions } from '@honey-finance/sdk';
-import { LAMPORTS_PER_SOL, PublicKey } from '@solana/web3.js';
+import { useMarket, useBorrowPositions, useHoney } from '@honey-finance/sdk';
 import {TYPE_ZERO, TYPE_ONE} from '../../constants/loan';
-
-// TODO: should be fetched by SDK
-const assetData: Array<AssetRowType> = [
-  {
-    vaultName: 'Cofre',
-    vaultImageUrl: 'https://www.arweave.net/5zeisOPbDekgyqYHd0okraQKaWwlVxvIIiXLH4Sr2M8?ext=png',
-    totalBorrowed: 14000,
-    interest: 10,
-    available: 1000,
-    positions: 0
-  }
-];
+import BN from 'bn.js';
 
 const Loan: NextPage = () => {
   const wallet = useConnectedWallet();
   const { connect } = useWalletKit();
   const sdkConfig = ConfigureSDK();
+
+  /**
+    * @description calls upon markets which
+    * @params none
+    * @returns market | market reserve information | parsed reserves |
+  */
+  const { market, marketReserveInfo, parsedReserves }  = useHoney();
+  const [totalMarkDeposits, setTotalMarketDeposits] = useState(0);
+
+  // TODO: should be fetched by SDK
+  const assetData: Array<AssetRowType> = [
+    {
+      vaultName: 'Cofre',
+      vaultImageUrl: 'https://www.arweave.net/5zeisOPbDekgyqYHd0okraQKaWwlVxvIIiXLH4Sr2M8?ext=png',
+      totalBorrowed: 14000,
+      interest: 10,
+      available: totalMarkDeposits,
+      positions: 0
+    }
+  ];
   
+  /**
+   * @description sets state of marketValue by parsing lamports outstanding debt amount to SOL
+   * @params none, requires parsedReserves
+   * @returns updates marketValue 
+  */
+  useEffect(() => {
+    if (parsedReserves && parsedReserves[0].reserveState.totalDeposits) {
+      setTotalMarketDeposits(parsedReserves[0].reserveState.totalDeposits.div(new BN(10 ** 9)).toNumber());
+    }
+  }, [parsedReserves]);
+
   /**
    * @description state to update open positions
    * @params none
    * @returns currentOpenPositions
   */
   const [currentOpenPositions, setCurrentOpenPositions] = useState(TYPE_ZERO);
+
   /**
    * @description fetches open positions and the amount regarding loan positions / token account
    * @params none

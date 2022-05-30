@@ -12,13 +12,20 @@ interface LoanNewBorrowProps {
   parsedReserves: any;
   openPositions: any;
   userAvailableNFTs: any;
+  reFetchNFTs: (val: any) => void;
 }
 
 const LoanNewBorrow = (props: LoanNewBorrowProps) => {
-  const { NFT, mint, executeDepositNFT, loanPositions, parsedReserves, openPositions, userAvailableNFTs } = props;
+  const { NFT, mint, executeDepositNFT, loanPositions, parsedReserves, openPositions, userAvailableNFTs, reFetchNFTs } = props;
   
   function handleExecute(val: any) {
+    console.log('inside deposit')
     executeDepositNFT(val);
+
+    setTimeout(() => {
+      console.log('inside deposit 2')
+      reFetchNFTs({});
+    }, 5000)
   }
 
   if (!NFT) return null;

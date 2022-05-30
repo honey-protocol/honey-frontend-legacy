@@ -63,7 +63,7 @@ const AssetRow = ({ data, openPositions }: AssetRowProps) => {
                 <Box
                 >
                     <Text align="center" >
-                        {data.available}
+                        {data.available} SOL
                     </Text>
                 </Box>
                 <Box

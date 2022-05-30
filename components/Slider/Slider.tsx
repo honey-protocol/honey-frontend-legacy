@@ -116,7 +116,7 @@ const Slider = (props: SliderProps) => {
               className={styles.currencyStylesChild} 
               value={userInput} 
               min="0" 
-              max={userDebt}
+              max={type == TYPE_REPAY ? userDebt : userAllowance}
               step="0.1" />
           </div>
         </Box>
@@ -128,7 +128,7 @@ const Slider = (props: SliderProps) => {
             type="range"
             value={slideCount} 
             min="0" 
-            max={userDebt}
+            max={type == TYPE_REPAY ? userDebt : userAllowance}
             onChange={handleRangeInput} 
             step="0.1" />
         </div>

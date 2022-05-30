@@ -22,6 +22,7 @@ interface LoanNFTsContainerProps {
   executeWithdrawNFT: (nft: any) => void;
   executeDepositNFT: (nft: any) => void;
   nftArrayType: any;
+  reFetchNFTs: (val: any) => void;
 }
 
 const LoanNFTsContainer = (props: LoanNFTsContainerProps) => {
@@ -36,6 +37,7 @@ const LoanNFTsContainer = (props: LoanNFTsContainerProps) => {
     executeDepositNFT,
     openPositions,
     nftArrayType,
+    reFetchNFTs
   } = props;
 
   /**
@@ -82,6 +84,7 @@ const LoanNFTsContainer = (props: LoanNFTsContainerProps) => {
         setRenderNFTs(TYPE_ONE);
         handleBorrow(TYPE_ZERO);
         setActiveIndex(TYPE_ONE);
+        reFetchNFTs({});
       }
     }
 
