@@ -36,19 +36,19 @@ const LoanBorrow = (props: LoanBorrowProps) => {
     */
     const [userInput, setUserInput] = useState(0);
     const [debtAmount, setDebtAmount] = useState(0);
-    
+
     /**
      * @description set default state for userInput and debtAmount to 0
      * @params number
      * @returns userInput | debtAmount
     */
     useEffect(() => {
-      if (loanPositions && loanPositions[0].amount) {
+      if (loanPositions.length > 0) {
         setDebtAmount(loanPositions[0].amount);
       }
     }, [loanPositions]);
 
-    
+
     /**
      * @description handles the users input
      * @params event object
@@ -57,7 +57,7 @@ const LoanBorrow = (props: LoanBorrowProps) => {
     function handleUserChange(val: any) {
         setUserInput(val);
     }
-    
+
     /**
      * @description handles execute borrow func.
      * @params amount that user wants to borrow
@@ -157,7 +157,7 @@ const LoanBorrow = (props: LoanBorrowProps) => {
                         <Text
                             align="right"
                             color="foreground"
-                        > 
+                        >
                          0%
                         </Text>
                     </Stack>
@@ -210,14 +210,14 @@ const LoanBorrow = (props: LoanBorrowProps) => {
                 </Stack>
             </Box>
             <Box>
-                <Slider 
+                <Slider
                   handleUserChange={handleUserChange}
                   handleExecuteBorrow={handleExecuteBorrow}
                   type={TYPE_BORROW}
                   userAllowance={userAllowance}
                 />
             </Box>
-            <Button 
+            <Button
               width="full"
               onClick={handleExecuteBorrow}
             >

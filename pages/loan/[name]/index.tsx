@@ -14,6 +14,7 @@ import LoanNewBorrow from 'components/NewPosition';
 import { LAMPORTS_PER_SOL, PublicKey } from '@solana/web3.js';
 import {TYPE_ZERO, TYPE_ONE} from '../../../constants/loan';
 import BN from 'bn.js';
+import * as BL from '@solana/buffer-layout';
 import {
   depositNFT,
   withdrawNFT,
@@ -22,8 +23,17 @@ import {
   useHoney,
   borrow,
   repay,
+  ObligationAccount,
+  numberField,
+  u64Field,
+  i64Field
 } from '@honey-finance/sdk';
-
+import {
+  parseMappingData,
+  parsePriceData,
+  parseProductData,
+  PythHttpClient
+} from "@pythnetwork/client";
 /**
  * @description
  *  static nft object based off current posted as collateral and available nfts
@@ -93,14 +103,14 @@ const Loan: NextPage = () => {
   * @returns honeyUser | honeyReserves - used for interaction regarding the SDK
   */
   const { honeyClient, honeyUser, honeyReserves } = useMarket(sdkConfig.saberHqConnection, sdkConfig.sdkWallet!, sdkConfig.honeyId, sdkConfig.marketId);
-  
+
   /**
    * @description calls upon markets which
    * @params none
    * @returns market | market reserve information | parsed reserves |
   */
   const { market, marketReserveInfo, parsedReserves }  = useHoney();
-  
+
   /**
    * @description fetches open positions and the amount regarding loan positions / token account
    * @params none
@@ -117,7 +127,7 @@ const Loan: NextPage = () => {
   let availableNFTs: any = useFetchNFTByUser(wallet);
   // re-fetch function to force update
   let reFetchNFTs = availableNFTs[2];
-  
+
   /**
    * @description sets default state for withDrawDepositNFT
    * @params mint of nft
@@ -140,31 +150,71 @@ const Loan: NextPage = () => {
   */
   useEffect(() => {
     setTimeout(() => {
-    if (honeyUser?.loans().length && marketReserveInfo) {
-      const totalDebt = (marketReserveInfo[0]?.loanNoteExchangeRate.mul(honeyUser?.loans()[0]?.amount)?.div(new BN(10 ** 15))).toNumber() / (10 ** 9);
-      setUserDebt(totalDebt);
-    }
 
-    if( honeyUser?.deposits().length && marketReserveInfo) {
-      const totalDeposit = ( marketReserveInfo[0].depositNoteExchangeRate.mul(honeyUser?.deposits()[0].amount).div(new BN(10 ** 15))).toNumber() / (10 ** 9);
-      setUserTotalDeposits(totalDeposit);
-      console.log('@@__total-deposits__@@', userTotalDeposits);
-    }
     }, 2000);
 
   }, [marketReserveInfo, honeyUser]);
 
   useEffect(() => {
     setTimeout(() => {
-      if (marketReserveInfo && honeyUser?.deposits()[0]) {
-        // let depositNoteExRate = marketReserveInfo[0].depositNoteExchangeRate.div(new BN(10 ** 15)).toNumber();
-        // let userDeposits = honeyUser.deposits()[0].amount.div(new BN(10 ** 9)).toNumber() * depositNoteExRate;
-        let nftCollateralValue = marketReserveInfo[0].price.div(new BN(10 ** 15)).toNumber() * (collateralNFTPositions?.length || 0);
-        let loanNoteExRate = marketReserveInfo[0].loanNoteExchangeRate.div(new BN(10 ** 15)).toNumber();
-        let userLoans = honeyUser.loans()[0].amount.div(new BN(10 ** 9)).toNumber() * loanNoteExRate;
-        let sumOfAllowance = nftCollateralValue - userLoans;
-        
-        setUserAllowance(sumOfAllowance)
+    const fetchAsyncData = async() => {
+      let obligation = await honeyUser?.getObligationData() as ObligationAccount;
+      console.log('obligationData', obligation);
+      const Cached = BL.struct([
+        i64Field('accruedUntil'),
+        numberField('outstandingDebt'),
+        numberField('uncollectedFees'),
+        numberField('protocolUncollectedFees'),
+        u64Field('totalDeposits'),
+        u64Field('totalDepositNotes'),
+        u64Field('totalLoanNotes'),
+        BL.blob(416, '_UNUSED_0_'),
+        u64Field('lastUpdated'),
+        BL.u8('invalidated'),
+        BL.blob(7, '_UNUSED_1_'),
+      ]);
+
+    }
+    fetchAsyncData();
+      console.log('honeyUser?.loans()', honeyUser?.loans());
+      console.log('honeyUser?.deposits()', honeyUser?.deposits());
+      console.log('collateralNFTPositions', collateralNFTPositions);
+      console.log('market', market);
+      let depositNoteExchangeRate = 0, loanNoteExchangeRate = 0, nftPrice = 0, cRatio = 1;
+      if(marketReserveInfo) {
+        // nftPrice = marketReserveInfo[0].price.div(new BN(10 ** 15)).toNumber();
+        nftPrice = 2;
+        depositNoteExchangeRate = marketReserveInfo[0].depositNoteExchangeRate.div(new BN(10 ** 15)).toNumber();
+        loanNoteExchangeRate = marketReserveInfo[0].loanNoteExchangeRate.div(new BN(10 ** 10)).toNumber() / (10 ** 5);
+        cRatio = marketReserveInfo[0].minCollateralRatio.div(new BN(10 ** 15)).toNumber();
+
+        console.log('marketReserveInfo[0]', marketReserveInfo[0]);
+        console.log('nftPrice', nftPrice);
+        console.log('depositNoteExRate', depositNoteExchangeRate);
+        console.log('loanNoteExRate', loanNoteExchangeRate);
+        console.log('cRatio', cRatio);
+
+      }
+      console.log('honeyUser?.loans().length', honeyUser?.loans().length)
+      if (honeyUser?.loans().length > 0) {
+        let nftCollateralValue = nftPrice * (collateralNFTPositions?.length || 0);
+        let userLoans = loanNoteExchangeRate * (honeyUser?.loans()[0]?.amount.toNumber() / (10 ** 9));
+
+        let sumOfAllowance = nftCollateralValue / cRatio - userLoans;
+        setUserAllowance(sumOfAllowance);
+
+        const totalDebt = loanNoteExchangeRate * (honeyUser?.loans()[0]?.amount.toNumber() / (10 ** 9));
+        setUserDebt(totalDebt);
+
+        console.log('sumOfAllowance', sumOfAllowance);
+        console.log('userLoans', userLoans);
+        console.log('totalDebt', totalDebt);
+      }
+
+      if(honeyUser?.deposits().length > 0) {
+        let totalDeposit = honeyUser.deposits()[0].amount.div(new BN(10 ** 9)).toNumber() * depositNoteExchangeRate;
+        setUserTotalDeposits(totalDeposit);
+        console.log('userDeposits', totalDeposit);
       }
     }, 3000);
   }, [marketReserveInfo, honeyUser, collateralNFTPositions, reFetchNFTs]);
@@ -187,10 +237,10 @@ const Loan: NextPage = () => {
   */
   useEffect(() => {
     // validate if loanpositions and amount
-    if (loanPositions && loanPositions[0].amount) setUserLoanPositions(loanPositions[0].amount);
+    if (loanPositions?.length) setUserLoanPositions(loanPositions[0].amount);
     // validate if collateralNFTPositions
     if (collateralNFTPositions && collateralNFTPositions.length > TYPE_ZERO) setBorrowModal(TYPE_ONE);
-    
+
     console.log('collateral positions updated', collateralNFTPositions);
     setUserCollateralPositions(collateralNFTPositions);
   }, [collateralNFTPositions, loanPositions, fungibleCollateralPosition]);
@@ -211,7 +261,7 @@ const Loan: NextPage = () => {
   */
   useEffect(() => {
   }, [withDrawDepositNFT]);
-  
+
   // state handler based off nft key
   function selectNFT(key: any, type: boolean) {
     setSelectedId(key.name);
