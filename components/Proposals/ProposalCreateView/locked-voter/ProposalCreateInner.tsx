@@ -181,9 +181,11 @@ export const ProposalCreateInner: React.FC = () => {
                   value={discussionLink}
                   onChange={e => setDiscussionLink(e.target.value)}
                   error={
-                    !discussionLink.startsWith(
-                      proposalCfg.discussion.prefix ?? ''
-                    )
+                    !discussionLink.length
+                      ? undefined
+                      : !discussionLink.startsWith(
+                          proposalCfg.discussion.prefix ?? ''
+                        )
                       ? 'Invalid discussion link'
                       : undefined
                   }
