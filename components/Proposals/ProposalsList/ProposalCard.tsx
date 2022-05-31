@@ -21,10 +21,7 @@ export const ProposalCard: React.FC<Props> = ({ proposalInfo }: Props) => {
   const { state, executed } = proposalInfo.status;
   return (
     <Card hover>
-      <Link
-        passHref
-        href={`${router.pathname}/proposals/${proposalInfo.index}`}
-      >
+      <Link passHref href={`/governance/proposals/${proposalInfo.index}`}>
         <Box
           display="flex"
           alignItems="center"
@@ -81,7 +78,7 @@ export const ProposalCard: React.FC<Props> = ({ proposalInfo }: Props) => {
             </Box>
           </Box>
           {state === ProposalState.Active && (
-            <Box width="1/2">
+            <Box width="1/3">
               <ActiveProposalVotingBars proposal={proposalInfo} />
             </Box>
           )}
