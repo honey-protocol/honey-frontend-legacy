@@ -112,7 +112,7 @@ export const ProposalsList: React.FC<Props> = ({
 
   const pageCount = calcPageTotal(allProposals.length ?? 0);
   return (
-    <Box>
+    <Box display="flex" flexDirection="column" gap="5">
       {allProposals
         .slice(startCursor, startCursor + PROPOSALS_PER_PAGE)
         .map((proposal, i) =>

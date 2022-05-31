@@ -19,9 +19,9 @@ export const ProposalBody: React.FC<Props> = ({
       {issue && (
         <Box
           paddingBottom="8"
-          marginBottom="8"
           borderBottomWidth="px"
           color="text"
+          fontSize="base"
           // tw="border-b border-b-gray-700 pb-8 mb-8"
         >
           <ReactMarkdown linkTarget="_blank">{issue.body ?? ''}</ReactMarkdown>

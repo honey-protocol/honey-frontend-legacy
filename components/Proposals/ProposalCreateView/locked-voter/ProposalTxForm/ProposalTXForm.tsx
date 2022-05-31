@@ -8,6 +8,7 @@ import { HelperCard } from 'components/common/HelperCard';
 import { Box, Field, Spinner, Text } from 'degen';
 // import { Select } from '../../../../../common/inputs/InputText';
 // import { LoadingPage } from '../../../../../common/LoadingPage';
+import * as styles from './ProposalTxForm.css';
 
 interface Props {
   txRaw: string;
@@ -38,6 +39,7 @@ export const ProposalTXForm: React.FC<Props> = ({
       <Field label={<Text as="span">Proposed Action</Text>}>
         <select
           value={actionType}
+          className={styles.actionTypeSelect}
           onChange={e => {
             setActionType(e.target.value as ActionType);
             setError(null);

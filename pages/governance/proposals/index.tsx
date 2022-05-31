@@ -11,7 +11,12 @@ const Proposals: NextPage = () => {
 
   return (
     <Layout>
-      <Stack align="center" direction="horizontal" justify="space-between">
+      <Stack
+        align="center"
+        direction="horizontal"
+        space="20"
+        justify="space-between"
+      >
         <Stack align="center" direction="horizontal">
           <Text variant="large">All proposals</Text>
           <Link href="/governance/proposals/create" passHref>

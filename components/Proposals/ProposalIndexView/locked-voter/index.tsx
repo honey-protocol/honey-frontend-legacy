@@ -29,7 +29,7 @@ export const ProposalIndexView: React.FC = () => {
         <Text
           as="h1"
           size="extraLarge"
-          weight="bold"
+          weight="semiBold"
           color="white"
           // tw="text-2xl md:text-3xl font-bold text-white tracking-tighter"
         >
@@ -95,13 +95,13 @@ export const ProposalIndexView: React.FC = () => {
           gap="4"
           // tw="flex flex-col md:(flex-row items-start) gap-4"
         >
-          <Box display="flex" flex={1} flexDirection="column" gap="4">
+          <Box display="flex" width="1/2" flexDirection="column" gap="4">
             <ProposalDetails proposalInfo={proposalInfo} />
           </Box>
           <Box
             display="flex"
             flexDirection="column"
-            width={{ md: '1/3', sm: 'full' }}
+            width="1/2"
             gap="4"
             // tw="w-full md:w-[350px] flex flex-col gap-4"
           >

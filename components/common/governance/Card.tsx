@@ -1,4 +1,4 @@
-import { Box, Button, Text } from 'degen';
+import { Box, Button, Stack, Text } from 'degen';
 import Link from 'next/link';
 
 import { HelperCard } from '../HelperCard';
@@ -30,28 +30,52 @@ export const Card: React.FC<Props> = ({
 }: Props) => {
   return (
     <Box
-      borderRadius="medium"
-      backgroundColor="black"
+      borderRadius="extraLarge"
+      backgroundColor="background"
       boxShadow="0.5"
+      padding="5"
       display="flex"
       flexDirection="column"
       className={className}
     >
-      {title && (
-        <Box
-          width="full"
-          height="16"
-          display="flex"
-          alignItems="center"
-          paddingX="7"
-          fontWeight="bold"
-          color="white"
-          // tw="h-16 flex items-center px-7 w-full text-white font-bold tracking-tight border-b border-warmGray-800"
-          // style={titleStyles}
-        >
-          {typeof title === 'string' ? <Text as="h2">{title}</Text> : title}
-        </Box>
-      )}
+      <Stack direction="horizontal">
+        {title && (
+          <Box
+            width="full"
+            display="flex"
+            alignItems="center"
+            fontWeight="bold"
+            color="white"
+            // tw="h-16 flex items-center px-7 w-full text-white font-bold tracking-tight border-b border-warmGray-800"
+            // style={titleStyles}
+          >
+            {typeof title === 'string' ? <Text as="h2">{title}</Text> : title}
+          </Box>
+        )}
+        {link && (
+          <Box>
+            {link.href ? (
+              <Link href={link.href} passHref>
+                <Button size="small" variant="transparent" center>
+                  {link.title}
+                </Button>
+              </Link>
+            ) : (
+              <Box
+                display="flex"
+                alignItems="center"
+                justifyContent="center"
+                paddingY="5"
+                fontSize="small"
+                fontWeight="bold"
+                color="white"
+              >
+                {link.title}
+              </Box>
+            )}
+          </Box>
+        )}
+      </Stack>
       {/* <ErrorBoundary
         fallback={
           <div tw="py-7 px-4">
@@ -62,49 +86,12 @@ export const Card: React.FC<Props> = ({
         }
       > */}
       <Box
+        paddingTop="5"
         {...(padded && { paddingX: '7', paddingY: '4' })}
         {...(bodyScrollX && { overflow: 'auto' })}
-        // css={[padded && tw`px-7 py-4`, bodyScrollX && tw`overflow-x-auto`]}
       >
         {children}
       </Box>
-      {/* </ErrorBoundary> */}
-      {link && (
-        <Box width="full">
-          {link.href ? (
-            <Link href={link.href} passHref>
-              <Button variant="transparent" center width="full">
-                {/* <Box
-                display="flex"
-                alignItems="center"
-                justifyContent="center"
-                paddingY="5"
-                fontSize="small"
-                fontWeight="bold"
-                textTransform="uppercase"
-                color="white"
-                // tw="flex items-center justify-center py-5 text-xs uppercase font-bold tracking-widest border-t border-warmGray-800"
-              > */}
-                {link.title}
-                {/* </Box> */}
-              </Button>
-            </Link>
-          ) : (
-            <Box
-              display="flex"
-              alignItems="center"
-              justifyContent="center"
-              paddingY="5"
-              fontSize="small"
-              fontWeight="bold"
-              color="white"
-              // tw="flex items-center justify-center py-5 text-xs uppercase font-bold tracking-widest border-t border-warmGray-800 text-warmGray-600 cursor-not-allowed"
-            >
-              {link.title}
-            </Box>
-          )}
-        </Box>
-      )}
     </Box>
   );
 };

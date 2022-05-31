@@ -6,12 +6,21 @@ import {
 } from '@saberhq/sail';
 import { LAMPORTS_PER_SOL, SystemProgram, Transaction } from '@solana/web3.js';
 import ReactMarkdown from 'react-markdown';
-import { Box, Button, Card, Heading, Input, Textarea, Text } from 'degen';
+import {
+  Box,
+  Button,
+  Card,
+  Heading,
+  Input,
+  Textarea,
+  Text,
+  Stack
+} from 'degen';
 
 import { useExecutiveCouncil } from 'hooks/tribeca/useExecutiveCouncil';
 import { useGovernor } from 'hooks/tribeca/useGovernor';
 import { ProposalConfirmModal } from './ProposalConfirmationModal';
-import { ProposalTXForm } from './ProposalTXForm';
+import { ProposalTXForm } from './ProposalTxForm/ProposalTXForm';
 import { HelperCard } from 'components/common/HelperCard';
 import { AsyncButton } from 'components/AsyncButton';
 
@@ -98,20 +107,18 @@ export const ProposalCreateInner: React.FC = () => {
         //   grid-template-columns: 400px 1fr;
         // `}
       >
-        <div>
-          <Card>
-            <Box display="grid" gap="4" paddingX="7" paddingY="6">
-              {/* <HelperCard variant="muted"> */}
-              <Box>
-                <Box as="p" color="white" marginBottom="2">
-                  You are creating a proposal draft.
-                </Box>
-                <Text as="p">
-                  If activated by a a DAO member with at least{' '}
-                  <strong>{minActivationThreshold?.formatUnits()}</strong>, the
-                  members of the DAO may vote to execute or reject the proposal.
-                </Text>
+        <Stack space="12">
+          <Card level="2" padding="10">
+            {/* <HelperCard variant="muted"> */}
+            <Stack space="3">
+              <Box as="p" color="white" marginBottom="2">
+                You are creating a proposal draft.
               </Box>
+              <Text as="p">
+                If activated by a a DAO member with at least{' '}
+                <strong>{minActivationThreshold?.formatUnits()}</strong>, the
+                members of the DAO may vote to execute or reject the proposal.
+              </Text>
               {/* </HelperCard> */}
               {proposalCfg?.notice && (
                 <HelperCard variant="primary">
@@ -134,6 +141,10 @@ export const ProposalCreateInner: React.FC = () => {
                   </Box>
                 </HelperCard>
               )}
+            </Stack>
+          </Card>
+          <Card level="2">
+            <Box display="grid" gap="4" padding="10">
               {/* <label tw="flex flex-col gap-1" htmlFor="title">
                 <span tw="text-sm">Title (max 140 characters)</span> */}
               <Input
@@ -181,61 +192,61 @@ export const ProposalCreateInner: React.FC = () => {
               )}
             </Box>
           </Card>
-        </div>
-        <Box display="flex" flexDirection="column" gap="4">
-          <Card padding="6">
-            <Heading level="2">Proposal Action</Heading>
-            <Box display="grid" gap="4" paddingX="7" paddingY="6">
-              <ProposalTXForm
-                setError={setError}
-                txRaw={txRaw}
-                setTxRaw={setTxRaw}
-              />
+          <Box display="flex" flexDirection="column" gap="4">
+            <Card padding="10" level="2">
+              <Text size="extraLarge">Proposal Action</Text>
+              <Box display="grid" gap="4" marginTop="10">
+                <ProposalTXForm
+                  setError={setError}
+                  txRaw={txRaw}
+                  setTxRaw={setTxRaw}
+                />
+              </Box>
+            </Card>
+            <Box display="flex" gap="4">
+              {payerMut &&
+                currentPayerBalance !== undefined &&
+                currentPayerBalance < 0.5 && (
+                  <AsyncButton
+                    width="full"
+                    // tw="flex-1"
+                    size="medium"
+                    onClick={async ({ provider }) => {
+                      await signAndConfirmTX(
+                        provider.newTX([
+                          SystemProgram.transfer({
+                            fromPubkey: provider.walletKey,
+                            toPubkey: payerMut,
+                            lamports: LAMPORTS_PER_SOL
+                          })
+                        ])
+                      );
+                    }}
+                  >
+                    <Box display="flex" flexDirection="column">
+                      <span>Fund with 1 SOL</span>
+                      <Text as="span" size="small">
+                        (payer balance: {currentPayerBalance.toLocaleString()}{' '}
+                        SOL)
+                      </Text>
+                    </Box>
+                  </AsyncButton>
+                )}
+              <Button
+                // tw="flex-1"
+                // size="md"
+                type="button"
+                disabled={!(tx && title && description) || !!error}
+                variant="primary"
+                onClick={() => {
+                  setShowConfirm(true);
+                }}
+              >
+                {error ? error : 'Preview Proposal'}
+              </Button>
             </Box>
-          </Card>
-          <Box display="flex" gap="4">
-            {payerMut &&
-              currentPayerBalance !== undefined &&
-              currentPayerBalance < 0.5 && (
-                <AsyncButton
-                  width="full"
-                  // tw="flex-1"
-                  size="medium"
-                  onClick={async ({ provider }) => {
-                    await signAndConfirmTX(
-                      provider.newTX([
-                        SystemProgram.transfer({
-                          fromPubkey: provider.walletKey,
-                          toPubkey: payerMut,
-                          lamports: LAMPORTS_PER_SOL
-                        })
-                      ])
-                    );
-                  }}
-                >
-                  <Box display="flex" flexDirection="column">
-                    <span>Fund with 1 SOL</span>
-                    <Text as="span" size="small">
-                      (payer balance: {currentPayerBalance.toLocaleString()}{' '}
-                      SOL)
-                    </Text>
-                  </Box>
-                </AsyncButton>
-              )}
-            <Button
-              // tw="flex-1"
-              // size="md"
-              type="button"
-              disabled={!(tx && title && description) || !!error}
-              variant="primary"
-              onClick={() => {
-                setShowConfirm(true);
-              }}
-            >
-              {error ? error : 'Preview Proposal'}
-            </Button>
           </Box>
-        </Box>
+        </Stack>
       </Box>
     </>
   );

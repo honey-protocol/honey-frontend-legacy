@@ -29,8 +29,8 @@ export const ProposalDetails: React.FC<Props> = ({
             <Box
               key={i}
               display="flex"
-              paddingX="7"
-              paddingY="5"
+              paddingX="5"
+              paddingY="3"
               borderBottomWidth="px"
               // tw="px-7 py-5 border-b border-warmGray-800 flex"
             >
@@ -41,7 +41,7 @@ export const ProposalDetails: React.FC<Props> = ({
             </Box>
           ))}
         </Box>
-        <Box padding="7">
+        <Box padding="4">
           {/* {proposalInfo &&
             !proposalInfo.status.executed &&
             proposalInfo.proposalData.instructions.length > 0 && (
@@ -49,7 +49,7 @@ export const ProposalDetails: React.FC<Props> = ({
                 instructions={proposalInfo.proposalData.instructions}
               />
             )} */}
-          <Box {...(!proposalInfo?.status.executed && { marginTop: '7' })}>
+          <Box {...!proposalInfo?.status.executed}>
             <ProposalBody description={description} issue={githubIssue} />
           </Box>
         </Box>

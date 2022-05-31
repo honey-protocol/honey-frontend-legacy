@@ -33,15 +33,9 @@ export const GovernancePageInner: React.FC<Props> = ({
   // const { daoName, iconURL } = useGovernor();
   return (
     <Box width="full">
-      <Box paddingBottom="24">
-        <Box
-          height="6"
-          width="3/4"
-          maxWidth="screenLg"
-          marginBottom="4"
-          // tw="h-6 mx-auto w-11/12 max-w-7xl mb-4"
-        >
-          {!hideDAOName && (
+      <Box>
+        {!hideDAOName && (
+          <Box width="3/4" maxWidth="screenLg" marginBottom="4">
             <Box
               display="flex"
               alignItems="center"
@@ -57,8 +51,8 @@ export const GovernancePageInner: React.FC<Props> = ({
               />
               <span>{daoName} Governance</span> */}
             </Box>
-          )}
-        </Box>
+          </Box>
+        )}
         <Box style={containerStyles}>
           <Box
             width="full"
@@ -117,13 +111,7 @@ export const GovernancePageInner: React.FC<Props> = ({
         </Box>
       </Box>
       <Box style={containerStyles}>
-        <Box
-          as="main"
-          width="full"
-          marginTop="-4"
-          marginBottom="20"
-          style={contentStyles}
-        >
+        <Box as="main" width="full" marginBottom="20" style={contentStyles}>
           {children}
         </Box>
       </Box>
