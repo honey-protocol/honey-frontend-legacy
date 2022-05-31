@@ -205,7 +205,7 @@ const LoanBorrow = (props: LoanBorrowProps) => {
                         align="right"
                         color="foreground"
                     >
-                        {userAllowance} SOL
+                        {userAllowance?.toFixed(4)} SOL
                     </Text>
                 </Stack>
             </Box>

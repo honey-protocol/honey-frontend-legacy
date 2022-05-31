@@ -186,7 +186,7 @@ const LoanRepay = (props: LoanRepayProps) => {
                             align="right"
                             color="foreground"
                         >
-                            {userAllowance} SOL
+                            {userAllowance?.toFixed(4)} SOL
                         </Text>
                     </Stack>
                 </Stack>
