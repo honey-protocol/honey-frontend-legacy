@@ -87,15 +87,17 @@ const Loan: NextPage = () => {
    * @returns connection | wallet | honeyID | marketID
   */
   const sdkConfig = ConfigureSDK();
-
-  const [depositNoteExRate, setDepositNoteExRate] = useState(0);
-  const [loanNoteExRate, setLoanNoteExRate] = useState(0);
+  /**
+   * @description 
+   * @params 
+   * @returns 
+  */
   const [userLoanPositions, setUserLoanPositions] = useState(0);
   const [userAvailableNFTs, setUserAvailableNFTs] = useState([]);
   const [userCollateralPositions, setUserCollateralPositions] = useState<{}>();
   const [userDebt, setUserDebt] = useState(0);
   const [userAllowance, setUserAllowance] = useState(0);
-  const [userTotalDeposits, setUserTotalDeposits] = useState(0);
+
 
   /**
   * @description calls upon the honey sdk
@@ -188,7 +190,6 @@ const Loan: NextPage = () => {
         console.log('cRatio', cRatio);
 
       }
-      console.log('honeyUser?.loans().length', honeyUser?.loans().length)
       if (honeyUser?.loans().length > 0) {
         let nftCollateralValue = nftPrice * (collateralNFTPositions?.length || 0);
         let userLoans = loanNoteExchangeRate * (honeyUser?.loans()[0]?.amount.toNumber() / (10 ** 9));
@@ -198,15 +199,6 @@ const Loan: NextPage = () => {
 
         const totalDebt = loanNoteExchangeRate * (honeyUser?.loans()[0]?.amount.toNumber() / (10 ** 9));
         setUserDebt(totalDebt);
-
-        console.log('sumOfAllowance', sumOfAllowance);
-        console.log('userLoans', userLoans);
-        console.log('totalDebt', totalDebt);
-      }
-
-      if(honeyUser?.deposits().length > 0) {
-        let totalDeposit = honeyUser.deposits()[0].amount.div(new BN(10 ** 5)).toNumber() * depositNoteExchangeRate / (10 ** 4);
-        setUserTotalDeposits(totalDeposit);
       }
     }, 3000);
   }, [marketReserveInfo, honeyUser, collateralNFTPositions, reFetchNFTs]);
@@ -320,8 +312,6 @@ const Loan: NextPage = () => {
     const tx = await repay(honeyUser, val * LAMPORTS_PER_SOL, repayTokenMint, honeyReserves)
     console.log('this is repayTx', tx);
   }
-
-  console.log('__user total deposits__', userTotalDeposits);
 
   return (
     <Layout>

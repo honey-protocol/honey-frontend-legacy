@@ -97,8 +97,6 @@ export const currencyStylesChild = style({
   outline: 'none'
 });
 
-
-
 export const currencySelector = style({
   background: 'none',
   border: 'none',
@@ -118,4 +116,8 @@ export const noPositions = style({
   fontSize: '1.2em',
   padding: '.5em 0',
   fontWeight: 600
+});
+
+export const currencyStyles = style({
+  fontSize: '2em'
 });

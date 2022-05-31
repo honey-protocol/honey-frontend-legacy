@@ -12,12 +12,12 @@ interface LoanDepositProps {
   assetsBorrowed: number;
   netBorrowBalance: number;
   handleDeposit: (value: any) => void;
-  userDebt: any;
+  userTotalDeposits: any;
   totalMarkDeposits: number;
 }
 
 const LoanDeposit = (props: LoanDepositProps) => {
-  const { borrowApy, estValue, assetsBorrowed, netBorrowBalance, handleDeposit, userDebt, totalMarkDeposits } = props;
+  const { borrowApy, estValue, assetsBorrowed, netBorrowBalance, handleDeposit, userTotalDeposits, totalMarkDeposits } = props;
   /**
    * @description
    * @params
@@ -77,7 +77,7 @@ const LoanDeposit = (props: LoanDepositProps) => {
               Assets Deposited
             </Text>
             <Text align="right" color="foreground">
-              {userDebt.toFixed(4)}
+              {userTotalDeposits.toFixed(4)}
             </Text>
           </Stack>
           <Stack

@@ -78,14 +78,45 @@ const Borrow: NextPage = () => {
 const sdkConfig = ConfigureSDK();
 
   /**
+   * @description calls upon markets which
+   * @params none
+   * @returns market | market reserve information | parsed reserves |
+  */
+   const { market, marketReserveInfo, parsedReserves }  = useHoney();
+  
+   /**
    * @description calls upon the honey sdk - market
    * @params solanas useConnection func. && useConnectedWallet func. && JET ID
    * @returns honeyUser which is the main object - honeyMarket, honeyReserves are for testing purposes
   */
   const { honeyUser, honeyReserves } = useMarket(sdkConfig.saberHqConnection, sdkConfig.sdkWallet!, sdkConfig.honeyId, sdkConfig.marketId);
-  const { parsedReserves }  = useHoney();
   const [userDebt, setUserDebt] = useState(0);
   const [totalMarkDeposits, setTotalMarketDeposits] = useState(0);
+  const [userTotalDeposits, setUserTotalDeposits] = useState(0);
+
+  /**
+   * @description updates honeyUser | marketReserveInfo | - timeout required
+   * @params none
+   * @returns honeyUser | marketReserveInfo |
+  */
+   useEffect(() => {
+    setTimeout(() => {
+      let depositNoteExchangeRate = 0, loanNoteExchangeRate = 0, nftPrice = 0, cRatio = 1;
+      if(marketReserveInfo) {
+        nftPrice = 2;
+        depositNoteExchangeRate = marketReserveInfo[0].depositNoteExchangeRate.div(new BN(10 ** 15)).toNumber();
+        console.log('depositNoteExRate', depositNoteExchangeRate);
+      }
+
+      if(honeyUser?.deposits().length > 0) {
+        let totalDeposit = honeyUser.deposits()[0].amount.div(new BN(10 ** 5)).toNumber() * depositNoteExchangeRate / (10 ** 4);
+        setUserTotalDeposits(totalDeposit);
+        console.log('___TOTAL_DEPOSIT___', totalDeposit);
+      }
+    }, 3000);
+  }, [marketReserveInfo, honeyUser]);
+
+
   /**
    * @description sets state of marketValue by parsing lamports outstanding debt amount to SOL
    * @params none, requires parsedReserves
@@ -279,7 +310,7 @@ const sdkConfig = ConfigureSDK();
             executeDeposit={executeDeposit}
             executeWithdraw={executeWithdraw}
             honeyReserves={honeyReserves}
-            userDebt={userDebt}
+            userTotalDeposits={userTotalDeposits}
             totalMarkDeposits={totalMarkDeposits}
           />
         </Box>
