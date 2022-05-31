@@ -30,9 +30,9 @@ export const Card: React.FC<Props> = ({
 }: Props) => {
   return (
     <Box
-      borderRadius="extraLarge"
+      borderRadius="3xLarge"
       backgroundColor="background"
-      boxShadow="0.5"
+      // boxShadow="0.5"
       padding="5"
       display="flex"
       width="full"

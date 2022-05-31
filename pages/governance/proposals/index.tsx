@@ -14,7 +14,7 @@ const Proposals: NextPage = () => {
   return (
     <Layout>
       <Box padding="5">
-        <Stack space="8">
+        <Stack space="5">
           <Button
             onClick={router.back}
             size="small"
@@ -30,7 +30,7 @@ const Proposals: NextPage = () => {
             space="20"
             justify="space-between"
           >
-            <Stack space="2" direction="vertical">
+            <Stack space="2" direction="horizontal">
               <Text variant="large" weight="semiBold">
                 All proposals
               </Text>

@@ -75,33 +75,22 @@ export const ProposalIndexView: React.FC = () => {
             proposal={proposalInfo ? proposalInfo.proposalData : null}
           />
         </Box>
-        <Box display="flex" flexDirection="column" gap="4">
-          <ProposalDetails proposalInfo={proposalInfo} />
-        </Box>
-        <Box
-          height="full"
-          alignItems="stretch"
-          display="flex"
-          gap="4"
-          width="full"
-          // tw="w-full md:w-[350px] flex flex-col gap-4"
-        >
-          <Box width="full" alignSelf="stretch" display="flex">
-            {proposalInfo?.status.state === ProposalState.Draft && (
-              <ProposalActivate proposal={proposalInfo} onActivate={noop} />
-            )}
-            {proposalInfo?.status.state === ProposalState.Active && (
-              <ProposalVote proposalInfo={proposalInfo} onVote={noop} />
-            )}
-            {proposalInfo?.status.state === ProposalState.Succeeded && (
-              <ProposalQueue proposal={proposalInfo} onActivate={noop} />
-            )}
-            {proposalInfo?.status.state === ProposalState.Queued && (
-              <ProposalExecute proposal={proposalInfo} onActivate={noop} />
-            )}
-            <ProposalHistory proposalInfo={proposalInfo} />
-          </Box>
-        </Box>
+
+        <ProposalDetails proposalInfo={proposalInfo} />
+
+        {proposalInfo?.status.state === ProposalState.Draft && (
+          <ProposalActivate proposal={proposalInfo} onActivate={noop} />
+        )}
+        {proposalInfo?.status.state === ProposalState.Active && (
+          <ProposalVote proposalInfo={proposalInfo} onVote={noop} />
+        )}
+        {proposalInfo?.status.state === ProposalState.Succeeded && (
+          <ProposalQueue proposal={proposalInfo} onActivate={noop} />
+        )}
+        {proposalInfo?.status.state === ProposalState.Queued && (
+          <ProposalExecute proposal={proposalInfo} onActivate={noop} />
+        )}
+        <ProposalHistory proposalInfo={proposalInfo} />
       </Box>
     </GovernancePage>
   );
