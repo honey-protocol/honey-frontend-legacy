@@ -212,7 +212,7 @@ const Loan: NextPage = () => {
       }
 
       if(honeyUser?.deposits().length > 0) {
-        let totalDeposit = honeyUser.deposits()[0].amount.div(new BN(10 ** 9)).toNumber() * depositNoteExchangeRate;
+        let totalDeposit = honeyUser.deposits()[0].amount.div(new BN(10 ** 5)).toNumber() * depositNoteExchangeRate / (10 ** 4);
         setUserTotalDeposits(totalDeposit);
         console.log('userDeposits', totalDeposit);
       }
