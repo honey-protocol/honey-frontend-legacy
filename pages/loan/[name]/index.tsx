@@ -150,13 +150,6 @@ const Loan: NextPage = () => {
   */
   useEffect(() => {
     setTimeout(() => {
-
-    }, 2000);
-
-  }, [marketReserveInfo, honeyUser]);
-
-  useEffect(() => {
-    setTimeout(() => {
     const fetchAsyncData = async() => {
       let obligation = await honeyUser?.getObligationData() as ObligationAccount;
       console.log('obligationData', obligation);
@@ -241,7 +234,6 @@ const Loan: NextPage = () => {
     // validate if collateralNFTPositions
     if (collateralNFTPositions && collateralNFTPositions.length > TYPE_ZERO) setBorrowModal(TYPE_ONE);
 
-    console.log('collateral positions updated', collateralNFTPositions);
     setUserCollateralPositions(collateralNFTPositions);
   }, [collateralNFTPositions, loanPositions, fungibleCollateralPosition]);
 

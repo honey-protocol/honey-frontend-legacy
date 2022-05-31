@@ -2,6 +2,7 @@ import React, { useContext, useState } from 'react';
 import { Box, Button, Stack, Text } from 'degen';
 import { Avatar } from 'degen';
 import * as loanStyles from '../styles/loan.css';
+import CollateralPopup from '../components/CollateralPopup/CollateralPopup';
 
 interface LoanNewBorrowProps {
   NFT: any;
@@ -17,8 +18,14 @@ interface LoanNewBorrowProps {
 
 const LoanNewBorrow = (props: LoanNewBorrowProps) => {
   const { NFT, mint, executeDepositNFT, loanPositions, parsedReserves, openPositions, userAvailableNFTs, reFetchNFTs } = props;
-  
+  const [showCollateralPopup, setShowCollateralPopup] = useState(0);
+
   function handleExecute(val: any) {
+    if (openPositions?.length > 0) {
+      setShowCollateralPopup(1);
+      return;
+    }
+
     executeDepositNFT(val);
 
     setTimeout(() => {
@@ -30,6 +37,12 @@ const LoanNewBorrow = (props: LoanNewBorrowProps) => {
 
   return (
     <Box display="flex" paddingTop="5" gap="3" minHeight="full" className={loanStyles.loanWrapper}>
+      {
+        showCollateralPopup == 1 && 
+        <CollateralPopup 
+        setShowCollateralPopup={setShowCollateralPopup}
+        />
+      }
       <Stack flex={1} justify={'space-between'}>
         <Stack justify="space-between">
           <Stack justify="space-between" align="center">
