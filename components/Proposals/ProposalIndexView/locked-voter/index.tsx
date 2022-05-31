@@ -26,26 +26,13 @@ export const ProposalIndexView: React.FC = () => {
   return (
     <GovernancePage
       title={
-        <Text
-          as="h1"
-          size="extraLarge"
-          weight="semiBold"
-          color="white"
-          // tw="text-2xl md:text-3xl font-bold text-white tracking-tighter"
-        >
-          <Box
-            // minHeight="36px"
-            display="flex"
-            alignItems="center"
-            // tw="min-h-[36px] flex items-center break-words hyphens[auto]"
-          >
-            {proposalInfo ? (
-              proposalInfo?.proposalMetaData?.title ?? 'Proposal'
-            ) : (
-              <div></div>
-              // <ContentLoader tw="w-40 h-7" />
-            )}
-          </Box>
+        <Text size="extraLarge" weight="semiBold" color="white">
+          {proposalInfo ? (
+            proposalInfo?.proposalMetaData?.title ?? 'Proposal'
+          ) : (
+            <div></div>
+            // <ContentLoader tw="w-40 h-7" />
+          )}
         </Text>
       }
       header={
@@ -70,41 +57,36 @@ export const ProposalIndexView: React.FC = () => {
       }
     >
       {/* {proposalInfo && <ProposalHelmet proposalInfo={proposalInfo} />} */}
-      <Box display="grid" gap="4" marginBottom="20">
-        <Stack
-          direction="horizontal"
-          // tw="grid md:grid-cols-2 gap-4"
-        >
-          <Box flex={1}>
-            <VotesCard
-              side={VoteSide.For}
-              proposal={proposalInfo ? proposalInfo.proposalData : null}
-            />
-          </Box>
-          <Box flex={1}>
-            <VotesCard
-              side={VoteSide.Against}
-              proposal={proposalInfo ? proposalInfo.proposalData : null}
-            />
-          </Box>
-        </Stack>
+      <Box
+        display="grid"
+        style={{ gridTemplateColumns: '1fr 1fr' }}
+        gap="4"
+        marginBottom="20"
+      >
+        <Box flex={1}>
+          <VotesCard
+            side={VoteSide.For}
+            proposal={proposalInfo ? proposalInfo.proposalData : null}
+          />
+        </Box>
+        <Box flex={1}>
+          <VotesCard
+            side={VoteSide.Against}
+            proposal={proposalInfo ? proposalInfo.proposalData : null}
+          />
+        </Box>
+        <Box display="flex" flexDirection="column" gap="4">
+          <ProposalDetails proposalInfo={proposalInfo} />
+        </Box>
         <Box
+          height="full"
+          alignItems="stretch"
           display="flex"
-          flexDirection={{ sm: 'column', md: 'row' }}
-          alignItems={{ md: 'flex-start' }}
           gap="4"
-          // tw="flex flex-col md:(flex-row items-start) gap-4"
+          width="full"
+          // tw="w-full md:w-[350px] flex flex-col gap-4"
         >
-          <Box display="flex" width="1/2" flexDirection="column" gap="4">
-            <ProposalDetails proposalInfo={proposalInfo} />
-          </Box>
-          <Box
-            display="flex"
-            flexDirection="column"
-            width="1/2"
-            gap="4"
-            // tw="w-full md:w-[350px] flex flex-col gap-4"
-          >
+          <Box width="full" alignSelf="stretch" display="flex">
             {proposalInfo?.status.state === ProposalState.Draft && (
               <ProposalActivate proposal={proposalInfo} onActivate={noop} />
             )}

@@ -35,6 +35,7 @@ export const Card: React.FC<Props> = ({
       boxShadow="0.5"
       padding="5"
       display="flex"
+      width="full"
       flexDirection="column"
       className={className}
     >
