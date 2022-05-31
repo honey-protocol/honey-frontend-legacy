@@ -1,7 +1,7 @@
 import { Box, Button, IconRefresh, Stack, Text } from 'degen';
 import React, { useMemo, useState } from 'react';
 import { LAMPORTS_PER_SOL } from '@solana/web3.js';
-import useGemFarm from 'hooks/useGemFarm';
+import useGemFarmStaking from 'hooks/useGemFarmStaking';
 
 interface FarmHeaderComponentProps {
   farmerState: string;
@@ -18,8 +18,9 @@ const FarmHeaderComponent = (props: FarmHeaderComponentProps) => {
     claimRewards,
     stakedNFTsInFarm,
     farmerVaultLocked,
-    lockVault
-  } = useGemFarm();
+    lockVault,
+    availableToClaimA
+  } = useGemFarmStaking();
 
   const [txLoading, setTxLoading] = useState({
     value: false,
@@ -147,7 +148,7 @@ const FarmHeaderComponent = (props: FarmHeaderComponentProps) => {
             loading={txLoading.value && txLoading.txName === 'claim'}
             size="small"
           >
-            {`Claim $${rewardTokenName}`}
+            {`Claim ${availableToClaimA} $${rewardTokenName}`}
           </Button>
           {(Object.values(stakedNFTsInFarm).length > 0 &&
             !farmerVaultLocked) && (

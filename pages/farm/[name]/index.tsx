@@ -2,13 +2,15 @@ import type { NextPage } from 'next';
 import { Box, Stack, Button, IconChevronLeft } from 'degen';
 import Layout from '../../../components/Layout/Layout';
 import FarmHeaderComponent from 'components/FarmHeaderComponent/FarmHeaderComponent';
-import useGemFarm from 'hooks/useGemFarm';
+import useGemFarmStaking from 'hooks/useGemFarmStaking';
 import FarmNFTsContainer from 'components/FarmNFTsContainer/FarmNFTsContainer';
 import Link from 'next/link';
 import * as styles from '../../../styles/name.css';
 import { useState } from 'react';
 
 const Nft: NextPage = () => {
+  const [farmId, setFarmId] = useState(process.env.NEXT_PUBLIC_GEMFARM_ID || "")
+
   const {
     onWalletNFTSelect,
     onWalletNFTSelectAll,
@@ -26,7 +28,7 @@ const Nft: NextPage = () => {
     selectedVaultNFTs,
     selectedWalletNFTs,
     farmerState
-  } = useGemFarm();
+  } = useGemFarmStaking(farmId);
 
   const [txLoading, setTxLoading] = useState({
     value: false,
