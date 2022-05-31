@@ -21,16 +21,11 @@ export const HelperCard: React.FC<Props> = ({
   return (
     <Box
       paddingX="4"
-      paddingY="2"
-      borderWidth="1"
+      paddingY="4"
+      borderWidth="0.5"
       fontSize="small"
-      // backgroundColor="accent"
-      borderRadius="medium"
-      borderColor="green"
-      borderTopWidth="px"
-      borderLeftWidth="px"
-      borderRightWidth="px"
-      borderBottomWidth="px"
+      backgroundColor="black"
+      borderRadius="extraLarge"
       opacity="50"
       className={className}
     >
