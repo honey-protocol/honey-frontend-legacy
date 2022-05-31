@@ -12,6 +12,7 @@ const Nft: NextPage = () => {
   const [farmId, setFarmId] = useState(process.env.NEXT_PUBLIC_GEMFARM_ID || "")
 
   const {
+    
     onWalletNFTSelect,
     onWalletNFTSelectAll,
     onWalletNFTUnselect,
