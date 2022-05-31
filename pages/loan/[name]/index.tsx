@@ -127,7 +127,7 @@ const Loan: NextPage = () => {
   let availableNFTs: any = useFetchNFTByUser(wallet);
   // re-fetch function to force update
   let reFetchNFTs = availableNFTs[2];
-
+  
   /**
    * @description sets default state for withDrawDepositNFT
    * @params mint of nft
@@ -207,7 +207,6 @@ const Loan: NextPage = () => {
       if(honeyUser?.deposits().length > 0) {
         let totalDeposit = honeyUser.deposits()[0].amount.div(new BN(10 ** 9)).toNumber() * depositNoteExchangeRate;
         setUserTotalDeposits(totalDeposit);
-        console.log('userDeposits', totalDeposit);
       }
     }, 3000);
   }, [marketReserveInfo, honeyUser, collateralNFTPositions, reFetchNFTs]);
@@ -321,6 +320,8 @@ const Loan: NextPage = () => {
     const tx = await repay(honeyUser, val * LAMPORTS_PER_SOL, repayTokenMint, honeyReserves)
     console.log('this is repayTx', tx);
   }
+
+  console.log('__user total deposits__', userTotalDeposits);
 
   return (
     <Layout>
