@@ -112,35 +112,15 @@ export const ProposalCreateInner: React.FC = () => {
             {/* <HelperCard variant="muted"> */}
             <Stack space="3">
               <Box as="p" color="white" marginBottom="2">
-                You are creating a proposal draft.
+                Please take note of the following before creating a draft proposal:
               </Box>
               <Text as="p">
-                If activated by a a DAO member with at least{' '}
-                <strong>{minActivationThreshold?.formatUnits()}</strong>, the
-                members of the DAO may vote to execute or reject the proposal.
+                1) Please make sure to start a discussion on the forum to see if there is sufficient support for your proposal.<br />
+                <br />
+                2) Draft proposals can only be activated by a DAO member with at least 1,000,000 $honey, all members of the DAO may vote to execute or reject the proposal.<br />
+                <br />
+                3) For a proposal to be executed there should be a minimum of 50,000,000 $honey votes casted resulting in at least 2/3 of the votes for one option.
               </Text>
-              {/* </HelperCard> */}
-              {proposalCfg?.notice && (
-                <HelperCard variant="primary">
-                  <Box
-                    color="white"
-                    fontWeight="bold"
-                    // css={css`
-                    //   p {
-                    //     ${tw`mb-2`}
-                    //   }
-                    //   a {
-                    //     ${tw`text-white`}
-                    //     &:hover {
-                    //       ${tw`underline`}
-                    //     }
-                    //   }
-                    // `}
-                  >
-                    <ReactMarkdown>{proposalCfg.notice}</ReactMarkdown>
-                  </Box>
-                </HelperCard>
-              )}
             </Stack>
           </Card>
           <Card level="2">
