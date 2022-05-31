@@ -13,14 +13,19 @@ export const messageWrapper = style({
   zIndex: '10',
   background: 'black',
   border: '2px solid gray',
-  borderRadius: '18px'
+  borderRadius: '18px',
 });
 
 export const blockOne = style({
   width: '80%',
   textAlign: 'center',
   fontSize: '1.2em',
-  margin: '0 auto'
+  margin: '0 auto',
+  lineHeight: '1.5em'
+});
+
+export const heading = style({
+  fontWeight: 'bold'
 });
 
 export const blockTwo = style({

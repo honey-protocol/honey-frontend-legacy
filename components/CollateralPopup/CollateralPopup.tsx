@@ -13,7 +13,7 @@ const CollateralPopup = (props: CollateralPopupProps) => {
     <Stack>
       <Box className={styles.messageWrapper}>
         <div className={styles.blockOne}>
-          Currently loans are limited to 1 open position per lending market. Please close your current position before opening a new one in this market.
+          <div className={styles.heading}>Honey Finance</div>Currently loans are limited to 1 open position per lending market. Please close your current position before opening a new one in this market.
         </div>
         <div className={styles.blockTwo}>
           <Button 
