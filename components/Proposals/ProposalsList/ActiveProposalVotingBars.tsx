@@ -36,7 +36,7 @@ export const ActiveProposalVotingBars: React.FC<Props> = ({
         color="white"
       >
         <Meter value={forVotes} max={maxVotes} barColor={'primary'} />
-        <Box display="flex" flexBasis="12">
+        <Box marginLeft="3" display="flex" flexBasis="12">
           {formatNumberSI(forVotes)}
         </Box>
       </Box>
@@ -49,7 +49,7 @@ export const ActiveProposalVotingBars: React.FC<Props> = ({
         color="white"
       >
         <Meter value={againstVotes} max={maxVotes} barColor={'red'} />
-        <Box display="flex" flexBasis="12">
+        <Box marginLeft="3" display="flex" flexBasis="12">
           {formatNumberSI(againstVotes)}
         </Box>
       </Box>
