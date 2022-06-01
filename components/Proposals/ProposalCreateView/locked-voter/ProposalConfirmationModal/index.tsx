@@ -69,7 +69,7 @@ export const ProposalConfirmModal: React.FC<Props> = ({
       isVisible={modalProps.isOpen}
       onClose={modalProps.onDismiss}
     >
-      <Box width="128" display="grid" padding="10" gap="4">
+      <Box width="144" display="grid" padding="10" gap="4">
         <Box paddingBottom="3" borderBottomWidth="0.5">
           <Text weight="semiBold" align="center" variant="large" ellipsis>
             Proposal: {proposal.title}
