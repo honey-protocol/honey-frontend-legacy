@@ -85,9 +85,7 @@ export const ProposalCard: React.FC<Props> = ({ proposalInfo }: Props) => {
           {state !== null &&
             state !== ProposalState.Draft &&
             state !== ProposalState.Active && (
-              <Box width={{ sm: '16', md: '20', lg: '40' }}>
-                <ProposalStateBadge status={proposalInfo.status} />
-              </Box>
+              <ProposalStateBadge status={proposalInfo.status} />
             )}
         </Box>
       </Link>
