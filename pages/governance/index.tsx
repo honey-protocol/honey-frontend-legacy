@@ -30,6 +30,7 @@ import { Card as ProposalContainer } from 'components/common/governance/Card';
 import { useTokenAmount, useTokenMint } from '@saberhq/sail';
 import { useGovernor } from 'hooks/tribeca/useGovernor';
 import { TokenAmount } from '@saberhq/token-utils';
+import ToolTip from 'components/ToolTip/ToolTip';
 
 const Governance: NextPage = () => {
   const wallet = useConnectedWallet();
@@ -338,15 +339,18 @@ const Governance: NextPage = () => {
         >
           <ProposalContainer
             title={
-              <Text
-                weight="semiBold"
-                variant="large"
-                ellipsis
-                lineHeight="none"
-                whiteSpace="pre-wrap"
-              >
-                Recent Proposals
-              </Text>
+              <Stack align="center" direction="horizontal">
+                <Text
+                  weight="semiBold"
+                  variant="large"
+                  ellipsis
+                  lineHeight="none"
+                  whiteSpace="pre-wrap"
+                >
+                  Recent Proposals
+                </Text>
+                <ToolTip />
+              </Stack>
             }
             link={{
               title: 'View All Proposals',
