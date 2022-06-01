@@ -6,10 +6,14 @@ import { Box, Button, IconChevronLeft, IconPlus, Stack, Text } from 'degen';
 import SmallToggleSwitch from 'components/SmallToggleSwitch/SmallToggleSwitch';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
+import { useConnectedWallet } from '@saberhq/use-solana';
+import { useWalletKit } from '@gokiprotocol/walletkit';
 
 const Proposals: NextPage = () => {
   const [showDrafts, setShowDrafts] = useState(true);
   const router = useRouter();
+  const wallet = useConnectedWallet();
+  const { connect } = useWalletKit();
 
   return (
     <Layout>
@@ -37,11 +41,22 @@ const Proposals: NextPage = () => {
                 setIsActive={setShowDrafts}
               />
             </Stack>
-            <Link href="/governance/proposals/create" passHref>
-              <Button variant="secondary" prefix={<IconPlus />} size="small">
+            {wallet?.connected ? (
+              <Link href="/governance/proposals/create" passHref>
+                <Button variant="secondary" prefix={<IconPlus />} size="small">
+                  New proposal
+                </Button>
+              </Link>
+            ) : (
+              <Button
+                onClick={connect}
+                variant="secondary"
+                prefix={<IconPlus />}
+                size="small"
+              >
                 New proposal
               </Button>
-            </Link>
+            )}
           </Stack>
           <Box backgroundColor="background" borderRadius="2xLarge" padding="6">
             <ProposalsList showDrafts={showDrafts} />
