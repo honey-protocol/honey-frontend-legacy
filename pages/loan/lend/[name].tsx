@@ -8,7 +8,7 @@ import {
   useMarket,
   useHoney
 } from '@honey-finance/sdk';
-import { ConfigureSDK } from 'helpers/loanHelpers';
+import { BnToDecimal, ConfigureSDK } from 'helpers/loanHelpers';
 import { LAMPORTS_PER_SOL, PublicKey } from '@solana/web3.js';
 import Layout from '../../../components/Layout/Layout';
 import DepositWithdrawModule from 'components/DepositWithdrawModule/DepositWIthdrawModule';
@@ -23,6 +23,7 @@ import {
 import Link from 'next/link';
 import BN from 'bn.js';
 import * as styles from '../../../styles/lend.css';
+import { convertToBN } from 'helpers/utils';
 
 // TOOD: Needs to accept props for data
 // TODO: render rows of length two for NFT collections based on data props
@@ -89,13 +90,27 @@ const sdkConfig = ConfigureSDK();
   /**
    * @description sets state of marketValue by parsing lamports outstanding debt amount to SOL
    * @params none, requires parsedReserves
-   * @returns updates marketValue 
+   * @returns updates marketValue
   */
   useEffect(() => {
     if (parsedReserves && parsedReserves[0].reserveState.totalDeposits) {
       setTotalMarketDeposits(parsedReserves[0].reserveState.totalDeposits.div(new BN(10 ** 9)).toNumber());
+
+      const depositTokenMint = new PublicKey('So11111111111111111111111111111111111111112');
+      const depositReserve = honeyReserves.filter((reserve) =>
+        reserve?.data?.tokenMint?.equals(depositTokenMint),
+      )[0];
+      const reserveState = depositReserve.data?.reserveState;
+      console.log('this is reserveState-- deposit', reserveState);
+      console.log('outstandingDebt', reserveState?.outstandingDebt.toString());
+
+      console.log('total_outstanding_debt', BnToDecimal( reserveState?.outstandingDebt.div(new BN(Math.pow(10, 15))), 9, 3));
+
+      // console.log('totalDepositNotes', reserveState?.totalDepositNotes.toString());
+      console.log('totalDeposits', BnToDecimal(reserveState?.totalDeposits, 9, 3));
+      console.log('totalLoanNotes', reserveState?.totalLoanNotes.toString());
     }
-  }, [parsedReserves]);
+  }, [parsedReserves, honeyReserves]);
 
   /**
    * @description deposits 1 sol
@@ -114,6 +129,7 @@ const sdkConfig = ConfigureSDK();
     const reserveState = depositReserve.data?.reserveState;
     console.log('this is reserveState-- deposit', reserveState);
     console.log('outstandingDebt', reserveState?.outstandingDebt.toString());
+    console.log('total_outstanding_debt', reserveState?.outstandingDebt.div(new BN(10 ** 12)).toNumber() || 0 / (10 ** 3));
     console.log('totalDepositNotes', reserveState?.totalDepositNotes.toString());
     console.log('totalDeposits', reserveState?.totalDeposits.toString());
     console.log('totalLoanNotes', reserveState?.totalLoanNotes.toString());

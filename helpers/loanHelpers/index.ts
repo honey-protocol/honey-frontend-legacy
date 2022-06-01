@@ -1,4 +1,5 @@
 import { useConnection, useConnectedWallet } from '@saberhq/use-solana';
+import BN from 'bn.js';
 import { HONEY_PROGRAM_ID, HONEY_MARKET_ID } from 'constants/loan';
 
 /**
@@ -34,4 +35,10 @@ export async function inputNumberValidator(val: any) {
         value: val
       }
     }
+}
+
+export function BnToDecimal(val: BN | undefined, decimal: number, precision: number) {
+  if(!val)
+    return 0;
+  return val.div(new BN(10 ** (decimal - precision))).toNumber() / (10 ** precision);
 }
