@@ -34,7 +34,6 @@ export const ProposalDetails: React.FC<Props> = ({
               borderBottomWidth="px"
               // tw="px-7 py-5 border-b border-warmGray-800 flex"
             >
-              <Text weight="medium">{i + 1}</Text>
               <Box flex={1} color="white">
                 {/* <IXSummary instruction={ix} /> */}
               </Box>
