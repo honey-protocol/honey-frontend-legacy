@@ -6,6 +6,7 @@ import {
   deposit,
   withdraw,
   useMarket,
+  useAnchor,
   useHoney
 } from '@honey-finance/sdk';
 import { BnToDecimal, ConfigureSDK } from 'helpers/loanHelpers';
@@ -87,6 +88,9 @@ const sdkConfig = ConfigureSDK();
   const { parsedReserves }  = useHoney();
   const [userDebt, setUserDebt] = useState(0);
   const [totalMarkDeposits, setTotalMarketDeposits] = useState(0);
+  const { program } = useAnchor();
+
+
   /**
    * @description sets state of marketValue by parsing lamports outstanding debt amount to SOL
    * @params none, requires parsedReserves
@@ -110,7 +114,19 @@ const sdkConfig = ConfigureSDK();
       console.log('totalDeposits', BnToDecimal(reserveState?.totalDeposits, 9, 3));
       console.log('totalLoanNotes', reserveState?.totalLoanNotes.toString());
     }
+    getUserCount();
+
   }, [parsedReserves, honeyReserves]);
+
+  async function getUserCount() {
+    try {
+      let obligations = await program.account.obligation.all();
+      console.log('user count', obligations.length);
+      return obligations.length;
+    } catch {
+      return 0;
+    }
+  }
 
   /**
    * @description deposits 1 sol
