@@ -43,7 +43,7 @@ const LoanBorrow = (props: LoanBorrowProps) => {
      * @returns userInput | debtAmount
     */
     useEffect(() => {
-      if (loanPositions.length > 0) {
+      if (loanPositions?.length > 0) {
         setDebtAmount(loanPositions[0].amount);
       }
     }, [loanPositions]);

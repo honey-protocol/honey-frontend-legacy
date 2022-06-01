@@ -12,9 +12,10 @@ import * as styles from '../../styles/loan.css';
 import LoanHeaderComponent from 'components/LoanHeaderComponent/LoanHeaderComponent';
 import CreateMarket from 'pages/createmarket';
 import  { ConfigureSDK } from '../../helpers/loanHelpers';
-import { useMarket, useBorrowPositions, useHoney } from '@honey-finance/sdk';
+import { useMarket, useBorrowPositions, useHoney, HoneyReserve } from '@honey-finance/sdk';
 import {TYPE_ZERO, TYPE_ONE} from '../../constants/loan';
 import BN from 'bn.js';
+import { LAMPORTS_PER_SOL, PublicKey } from '@solana/web3.js';
 
 const Loan: NextPage = () => {
   const wallet = useConnectedWallet();
@@ -27,17 +28,19 @@ const Loan: NextPage = () => {
     * @returns market | market reserve information | parsed reserves |
   */
   const { market, marketReserveInfo, parsedReserves }  = useHoney();
+  const { honeyUser, honeyReserves } = useMarket(sdkConfig.saberHqConnection, sdkConfig.sdkWallet!, sdkConfig.honeyId, sdkConfig.marketId);
   /**
    * 
   */
   const [totalMarkDeposits, setTotalMarketDeposits] = useState(0);
+  const [totalMarketDebt, setTotalMarketDebt] = useState(0);
 
   // TODO: should be fetched by SDK
   const assetData: Array<AssetRowType> = [
     {
       vaultName: 'Cofre',
       vaultImageUrl: 'https://www.arweave.net/5zeisOPbDekgyqYHd0okraQKaWwlVxvIIiXLH4Sr2M8?ext=png',
-      totalBorrowed: 14000,
+      totalBorrowed: totalMarketDebt,
       interest: 10,
       available: totalMarkDeposits,
       positions: 0
@@ -54,6 +57,25 @@ const Loan: NextPage = () => {
       setTotalMarketDeposits(parsedReserves[0].reserveState.totalDeposits.div(new BN(10 ** 9)).toNumber());
     }
   }, [parsedReserves]);
+
+  useEffect(() => {
+    const depositTokenMint = new PublicKey('So11111111111111111111111111111111111111112');
+
+    if (honeyReserves) {
+      const depositReserve = honeyReserves.filter((reserve) =>
+        reserve?.data?.tokenMint?.equals(depositTokenMint),
+      )[0];
+
+      const reserveState = depositReserve.data?.reserveState;
+      let marketDebt = reserveState?.outstandingDebt.div(new BN(10 ** 15)).toNumber();
+      if (marketDebt) {
+        let sum = Number((marketDebt / LAMPORTS_PER_SOL).toFixed(2))
+
+        setTotalMarketDebt(sum);
+      }
+    }
+
+  }, [honeyReserves]);
 
   /**
    * @description state to update open positions
