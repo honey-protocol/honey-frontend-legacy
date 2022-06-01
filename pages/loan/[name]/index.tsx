@@ -97,7 +97,7 @@ const Loan: NextPage = () => {
   const [userCollateralPositions, setUserCollateralPositions] = useState<{}>();
   const [userDebt, setUserDebt] = useState(0);
   const [userAllowance, setUserAllowance] = useState(0);
-
+  const [loanToValue, setLoanToValue] = useState(0);
 
   /**
   * @description calls upon the honey sdk
@@ -188,7 +188,6 @@ const Loan: NextPage = () => {
         console.log('depositNoteExRate', depositNoteExchangeRate);
         console.log('loanNoteExRate', loanNoteExchangeRate);
         console.log('cRatio', cRatio);
-
       }
       if (honeyUser?.loans().length > 0) {
         let nftCollateralValue = nftPrice * (collateralNFTPositions?.length || 0);
@@ -198,7 +197,10 @@ const Loan: NextPage = () => {
         setUserAllowance(sumOfAllowance);
 
         const totalDebt = loanNoteExchangeRate * (honeyUser?.loans()[0]?.amount.toNumber() / (10 ** 9));
+        const lvt = totalDebt / nftPrice;
+        
         setUserDebt(totalDebt);
+        setLoanToValue(lvt);
       }
     }, 3000);
   }, [marketReserveInfo, honeyUser, collateralNFTPositions, reFetchNFTs]);
@@ -380,6 +382,7 @@ const Loan: NextPage = () => {
                 userAvailableNFTs={availableNFTs}
                 userDebt={userDebt}
                 userAllowance={userAllowance}
+                loanToValue={loanToValue}
               />
             :
               <LoanNewBorrow

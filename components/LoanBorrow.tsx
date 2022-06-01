@@ -24,10 +24,11 @@ interface LoanBorrowProps {
     parsedReserves: any;
     userDebt: number;
     userAllowance: number;
+    loanToValue: number;
 }
 
 const LoanBorrow = (props: LoanBorrowProps) => {
-    const { NFT, executeBorrow, openPositions, loanPositions, parsedReserves, userDebt, userAllowance } = props;
+    const { NFT, executeBorrow, openPositions, loanPositions, parsedReserves, userDebt, userAllowance, loanToValue } = props;
 
     /**
      * @description set default state for userInput and debtAmount to 0
@@ -158,7 +159,7 @@ const LoanBorrow = (props: LoanBorrowProps) => {
                             align="right"
                             color="foreground"
                         >
-                         0%
+                         {(loanToValue * 100).toFixed(2)}%
                         </Text>
                     </Stack>
                     <Stack

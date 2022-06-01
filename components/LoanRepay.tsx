@@ -25,10 +25,11 @@ interface LoanRepayProps {
     parsedReserves: any;
     userDebt: number;
     userAllowance: number;
+    loanToValue: number;
 }
 
 const LoanRepay = (props: LoanRepayProps) => {
-    const { NFT, executeWithdrawNFT, mint, executeRepay, loanPositions, parsedReserves, userDebt, userAllowance } = props;
+    const { NFT, executeWithdrawNFT, mint, executeRepay, loanPositions, parsedReserves, userDebt, userAllowance, loanToValue } = props;
     const [userInput, setUserInput] = useState(0);
     const [userMessage, setUserMessage] = useState('');
 
@@ -141,7 +142,7 @@ const LoanRepay = (props: LoanRepayProps) => {
                     >
                     </Text>
                     <Text color="textPrimary">
-                    0%
+                    {(loanToValue * 100).toFixed(2)}%
                     </Text>
                     </Stack>
                     <Stack
