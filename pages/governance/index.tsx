@@ -164,11 +164,7 @@ const Governance: NextPage = () => {
             flexDirection={{ xs: 'column', md: 'row' }}
             justifyContent="space-between"
           >
-            <Box
-              display="flex"
-              flexDirection={{ xs: 'column', md: 'row' }}
-              alignItems="center"
-            >
+            <Stack align="center">
               <IconExclamation color="accent" />
               <Text variant="small" align="center">
                 Pre-IDO HONEY (pHONEY) can be converted to HONEY at a 1:1 ratio.{' '}
@@ -178,8 +174,6 @@ const Governance: NextPage = () => {
                 (and receive veHONEY). To participate in governance, you can
                 lock your HONEY for veHONEY.
               </Text>
-            </Box>
-            <Stack direction="horizontal" justify="center" align="center">
               <Button
                 as="a"
                 href="https://docs.honey.finance/tokenomics/vehoney"
