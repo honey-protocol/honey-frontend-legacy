@@ -27,6 +27,9 @@ const Loan: NextPage = () => {
     * @returns market | market reserve information | parsed reserves |
   */
   const { market, marketReserveInfo, parsedReserves }  = useHoney();
+  /**
+   * 
+  */
   const [totalMarkDeposits, setTotalMarketDeposits] = useState(0);
 
   // TODO: should be fetched by SDK
