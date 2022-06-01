@@ -10,17 +10,8 @@ interface Props {
 export const ProposalIX: React.FC<Props> = ({ ix }: Props) => {
   const parsedIX = useParsedInstruction(ix);
   return (
-    <Box
-      opacity="50"
-      paddingX="4"
-      paddingY="2"
-      fontSize="small"
-      fontWeight="semiBold"
-      width="fit"
-    >
-      <Text as="span" color="orange">
-        {parsedIX.title}
-      </Text>
+    <Box opacity="50" fontSize="small" fontWeight="semiBold" width="fit">
+      <Text as="span">{parsedIX.title}</Text>
     </Box>
   );
 };

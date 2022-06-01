@@ -6,7 +6,7 @@ import { GovernorWrapper } from 'helpers/dao';
 import ReactMarkdown from 'react-markdown';
 import invariant from 'tiny-invariant';
 import { useRouter } from 'next/router';
-import { Box, IconLink, Text } from 'degen';
+import { Box, Button, IconLink, Text } from 'degen';
 
 import { useSDK } from 'helpers/sdk';
 import { useGovernor, useGovernorParams } from 'hooks/tribeca/useGovernor';
@@ -16,6 +16,7 @@ import type { ModalProps } from 'components/Modal';
 import { Modal } from 'components/Modal';
 import { ModalInner } from 'components/Modal/ModalInner';
 import { ProposalIX } from './ProposalIX';
+import ModalContainer from 'components/ModalContainer/ModalContainer';
 
 type Props = Omit<ModalProps, 'children'> & {
   proposal: {
@@ -64,75 +65,75 @@ export const ProposalConfirmModal: React.FC<Props> = ({
   };
 
   return (
-    <Modal
-      // tw="p-0 dark:text-white"
-      {...modalProps}
+    <ModalContainer
+      isVisible={modalProps.isOpen}
+      onClose={modalProps.onDismiss}
     >
-      <ModalInner
-        title={
-          <Text variant="large" ellipsis>
+      <Box width="128" display="grid" padding="10" gap="4">
+        <Box paddingBottom="3" borderBottomWidth="0.5">
+          <Text weight="semiBold" align="center" variant="large" ellipsis>
             Proposal: {proposal.title}
           </Text>
-        }
-        buttonProps={{
-          disabled: !tribecaMut,
-          variant: 'primary',
-          onClick: doProposeTransaction,
-          children: 'Propose Transaction'
-        }}
-      >
-        <Box display="grid" paddingY="4" gap="4">
-          <HelperCard>
-            <Box marginBottom="1">
-              <Text as="p">
-                Tip: The proposal cannot be modified after submission, so please
-                verify all information before submitting.
-              </Text>
-            </Box>
-            <Text as="p">
-              Once submitted, anyone with at least{' '}
-              {minActivationThreshold?.formatUnits()} may start the voting
-              period, i.e., activate the proposal. The voting period will then
-              immediately begin and last for {votingPeriodFmt}.
-            </Text>
-          </HelperCard>
-          <Box>
-            <Text>
-              <ReactMarkdown>{proposal.description}</ReactMarkdown>
-            </Text>
-          </Box>
-          <Box display="flex" flexDirection="column" gap="1.5">
-            {proposal.instructions.map((ix, i) => (
-              <ProposalIX key={i} ix={ix} />
-            ))}
-          </Box>
-          {network !== 'localnet' && proposal.instructions.length > 0 && (
-            <a
-              // tw="text-sm text-primary hover:text-white transition-colors flex items-center gap-2"
-              href={`https://${
-                network === 'mainnet-beta' ? '' : `${network}.`
-              }anchor.so/tx/inspector?message=${encodeURIComponent(
-                buildStubbedTransaction(network, proposal.instructions)
-                  .serializeMessage()
-                  .toString('base64')
-              )}`}
-              target="_blank"
-              rel="noreferrer"
-            >
-              <Box
-                display="flex"
-                alignItems="center"
-                gap="2"
-                color={{ base: 'green', hover: 'white' }}
-                fontSize="small"
-              >
-                <span>Preview on Anchor.so</span>
-                <IconLink size="5" />
-              </Box>
-            </a>
-          )}
         </Box>
-      </ModalInner>
-    </Modal>
+        <HelperCard>
+          <Box marginBottom="3">
+            <Text size="small" lineHeight="1.5" as="p">
+              Tip: The proposal cannot be modified after submission, so please
+              verify all information before submitting.
+            </Text>
+          </Box>
+          <Text size="small" lineHeight="1.5" as="p">
+            Once submitted, anyone with at least{' '}
+            {minActivationThreshold?.formatUnits()} may start the voting period,
+            i.e., activate the proposal. The voting period will then immediately
+            begin and last for {votingPeriodFmt}.
+          </Text>
+        </HelperCard>
+        <Box>
+          <Text>
+            <ReactMarkdown>{proposal.description}</ReactMarkdown>
+          </Text>
+        </Box>
+        <Box display="flex" flexDirection="column" gap="1.5">
+          {proposal.instructions.map((ix, i) => (
+            <ProposalIX key={i} ix={ix} />
+          ))}
+        </Box>
+        {network !== 'localnet' && proposal.instructions.length > 0 && (
+          <a
+            // tw="text-sm text-primary hover:text-white transition-colors flex items-center gap-2"
+            href={`https://${
+              network === 'mainnet-beta' ? '' : `${network}.`
+            }anchor.so/tx/inspector?message=${encodeURIComponent(
+              buildStubbedTransaction(network, proposal.instructions)
+                .serializeMessage()
+                .toString('base64')
+            )}`}
+            target="_blank"
+            rel="noreferrer"
+          >
+            <Box
+              display="flex"
+              alignItems="center"
+              gap="2"
+              color={{ base: 'green', hover: 'white' }}
+              fontSize="small"
+            >
+              <span>Preview on Anchor.so</span>
+              <IconLink size="5" />
+            </Box>
+          </a>
+        )}
+        <Button
+          disabled={!tribecaMut}
+          size="small"
+          width={'full'}
+          variant="primary"
+          onClick={doProposeTransaction}
+        >
+          Propose Transaction
+        </Button>
+      </Box>
+    </ModalContainer>
   );
 };
