@@ -30,17 +30,12 @@ const Proposals: NextPage = () => {
             space="20"
             justify="space-between"
           >
-            <Stack space="2" direction="horizontal">
-              <Text variant="large" weight="semiBold">
-                All proposals
-              </Text>
-              <Stack align="center" direction="horizontal">
-                <SmallToggleSwitch
-                  isActive={showDrafts}
-                  setIsActive={setShowDrafts}
-                />
-                <Text variant="label">View Drafts</Text>
-              </Stack>
+            <Stack align="center" direction="horizontal">
+              <Text variant="label">View Drafts</Text>
+              <SmallToggleSwitch
+                isActive={showDrafts}
+                setIsActive={setShowDrafts}
+              />
             </Stack>
             <Link href="/governance/proposals/create" passHref>
               <Button variant="secondary" prefix={<IconPlus />} size="small">
@@ -48,7 +43,9 @@ const Proposals: NextPage = () => {
               </Button>
             </Link>
           </Stack>
-          <ProposalsList showDrafts={showDrafts} />
+          <Box backgroundColor="background" borderRadius="2xLarge" padding="6">
+            <ProposalsList showDrafts={showDrafts} />
+          </Box>
         </Stack>
       </Box>
     </Layout>
