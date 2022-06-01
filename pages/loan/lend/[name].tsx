@@ -6,7 +6,7 @@ import {
   deposit,
   withdraw,
   useMarket,
-  useHoney
+  useHoney,
 } from '@honey-finance/sdk';
 import { ConfigureSDK } from 'helpers/loanHelpers';
 import { LAMPORTS_PER_SOL, PublicKey } from '@solana/web3.js';
@@ -116,7 +116,6 @@ const sdkConfig = ConfigureSDK();
     }, 3000);
   }, [marketReserveInfo, honeyUser]);
 
-
   /**
    * @description sets state of marketValue by parsing lamports outstanding debt amount to SOL
    * @params none, requires parsedReserves
@@ -147,6 +146,7 @@ const sdkConfig = ConfigureSDK();
     console.log('outstandingDebt', reserveState?.outstandingDebt.toString());
     console.log('totalDepositNotes', reserveState?.totalDepositNotes.toString());
     console.log('TOTAL_DEPOSITS', reserveState?.totalDeposits.toString());
+    console.log('totalLoanNotes', reserveState?.totalLoanNotes.toString());
     console.log('totalLoanNotes', reserveState?.totalLoanNotes.toString());
   }
 

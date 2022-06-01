@@ -12,7 +12,7 @@ import * as styles from '../../styles/loan.css';
 import LoanHeaderComponent from 'components/LoanHeaderComponent/LoanHeaderComponent';
 import CreateMarket from 'pages/createmarket';
 import  { ConfigureSDK } from '../../helpers/loanHelpers';
-import { useMarket, useBorrowPositions, useHoney, HoneyReserve } from '@honey-finance/sdk';
+import { useMarket, useBorrowPositions, useHoney, useAnchor } from '@honey-finance/sdk';
 import {TYPE_ZERO, TYPE_ONE} from '../../constants/loan';
 import BN from 'bn.js';
 import { LAMPORTS_PER_SOL, PublicKey } from '@solana/web3.js';
@@ -21,6 +21,7 @@ const Loan: NextPage = () => {
   const wallet = useConnectedWallet();
   const { connect } = useWalletKit();
   const sdkConfig = ConfigureSDK();
+  const {program} = useAnchor();
 
   /**
     * @description calls upon markets which
@@ -34,6 +35,7 @@ const Loan: NextPage = () => {
   */
   const [totalMarkDeposits, setTotalMarketDeposits] = useState(0);
   const [totalMarketDebt, setTotalMarketDebt] = useState(0);
+  const [totalMarketPositions, setTotalMarketPositions] = useState(0);
 
   // TODO: should be fetched by SDK
   const assetData: Array<AssetRowType> = [
@@ -43,10 +45,22 @@ const Loan: NextPage = () => {
       totalBorrowed: totalMarketDebt,
       interest: 10,
       available: totalMarkDeposits,
-      positions: 0
+      positions: totalMarketPositions
     }
   ];
-  
+
+  useEffect(() => {
+      async function fetchObligations() {
+        let obligations = await program?.account?.obligation?.all();
+        if (obligations) {
+          console.log('testing', obligations.length)
+          setTotalMarketPositions(obligations.length);
+        }
+      }
+
+      fetchObligations();
+  }, []);
+
   /**
    * @description sets state of marketValue by parsing lamports outstanding debt amount to SOL
    * @params none, requires parsedReserves
@@ -212,7 +226,6 @@ const Loan: NextPage = () => {
                           <a>
                             <AssetRow
                               data={item}
-                              openPositions={currentOpenPositions}
                             />
                           </a>
                         </Link>
@@ -225,7 +238,6 @@ const Loan: NextPage = () => {
                           <a>
                             <AssetRow 
                               data={item}
-                              openPositions={currentOpenPositions}
                             />
                           </a>
                         </Link>
@@ -234,7 +246,6 @@ const Loan: NextPage = () => {
                         <Box onClick={connect} cursor="pointer">
                           <AssetRow 
                             data={item} 
-                            openPositions={currentOpenPositions}
                           />
                         </Box>
                       )}
