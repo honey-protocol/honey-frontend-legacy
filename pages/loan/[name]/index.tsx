@@ -202,8 +202,9 @@ const Loan: NextPage = () => {
         setUserDebt(totalDebt);
         setLoanToValue(lvt);
       }
+      reFetchNFTs({});
     }, 3000);
-  }, [marketReserveInfo, honeyUser, collateralNFTPositions, reFetchNFTs]);
+  }, [marketReserveInfo, honeyUser, collateralNFTPositions, reFetchNFTs, market]);
 
   /**
    * @description logic regarding borrow modal or lendmodal
@@ -345,11 +346,11 @@ const Loan: NextPage = () => {
           buttons={[
             {
               title: 'Open positions',
-              active: true,
+              active: false,
             },
             {
               title: 'New position',
-              active: false,
+              active: true,
             }
           ]}
           openPositions={userCollateralPositions}

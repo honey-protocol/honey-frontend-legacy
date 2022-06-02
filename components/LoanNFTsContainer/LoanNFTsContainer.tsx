@@ -46,7 +46,7 @@ const LoanNFTsContainer = (props: LoanNFTsContainerProps) => {
    * @returns the appropriate array to render in the borrow module
   */
   const [renderNFTs, setRenderNFTs] = useState(TYPE_ZERO);
-  const [activeIndex, setActiveIndex] = useState(TYPE_ZERO);
+  const [activeIndex, setActiveIndex] = useState(TYPE_ONE);
   
   /**
    * @description
@@ -56,6 +56,10 @@ const LoanNFTsContainer = (props: LoanNFTsContainerProps) => {
   */
   const [highlightNFTOpen, setHighlightNFTOpen] = useState(TYPE_ZERO);
   const [highlightNFTAvailable, setHighlightNFTAvailable] = useState(TYPE_ZERO);
+
+  useEffect(() => {
+    if (openPositions?.length) setActiveIndex(TYPE_ZERO);
+  }, [openPositions])
 
   /**
    * @description sets active state on NFT
@@ -76,6 +80,7 @@ const LoanNFTsContainer = (props: LoanNFTsContainerProps) => {
    * @returns nothing - sets state of to be rendered nft array
   */
      function handleNFTModal(nftType: string) {
+      reFetchNFTs({});
       if (nftType == OPEN_POSITIONS) {
         setRenderNFTs(TYPE_ZERO);
         handleBorrow(TYPE_ONE);
@@ -84,7 +89,6 @@ const LoanNFTsContainer = (props: LoanNFTsContainerProps) => {
         setRenderNFTs(TYPE_ONE);
         handleBorrow(TYPE_ZERO);
         setActiveIndex(TYPE_ONE);
-        reFetchNFTs({});
       }
     }
 
