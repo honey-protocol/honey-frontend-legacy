@@ -20,17 +20,22 @@ const LoanNewBorrow = (props: LoanNewBorrowProps) => {
   const { NFT, mint, executeDepositNFT, loanPositions, parsedReserves, openPositions, userAvailableNFTs, reFetchNFTs } = props;
   const [showCollateralPopup, setShowCollateralPopup] = useState(0);
 
-  function handleExecute(val: any) {
+  async function handleExecute(val: any) {
     if (openPositions?.length > 0) {
       setShowCollateralPopup(1);
+      await fetchOpenPositions();
       return;
     }
 
     executeDepositNFT(val);
+    await fetchOpenPositions();
+  }
 
+  async function fetchOpenPositions() {
     setTimeout(() => {
       reFetchNFTs({});
-    }, 3500)
+      console.log('refetch fired');
+    }, 4500)
   }
 
   if (!NFT) return null;

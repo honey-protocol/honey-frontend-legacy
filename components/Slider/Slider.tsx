@@ -21,8 +21,8 @@ interface SliderProps {
  * @returns Returns the slider
  **/
 const Slider = (props: SliderProps) => {
-  const {handleUserChange, handleExecuteBorrow, handleExecuteRepay, type, userAllowance} = props;
-  let {userDebt} = props;
+  const {handleUserChange, handleExecuteBorrow, handleExecuteRepay, type} = props;
+  let {userDebt, userAllowance} = props;
   /**
    * @description
    * @params
@@ -74,9 +74,17 @@ const Slider = (props: SliderProps) => {
       }
 
       if (type == TYPE_BORROW) {
-        setUserInput(isInputValid.value);
-        handleUserChange(isInputValid.value);
-        setSlideCount(isInputValid.value);
+        if (userAllowance && isInputValid.value > userAllowance) {
+          setUserMessage(`Your max allowance is ${userAllowance.toFixed(2)} SOL`);
+          setUserInput(userAllowance.toFixed(2));
+          handleUserChange(userAllowance.toFixed(2));
+          setSlideCount(userAllowance);
+        } else {
+          setUserInput(isInputValid.value);
+          handleUserChange(isInputValid.value);
+          setSlideCount(isInputValid.value);
+        }
+        
         return;
       }
   
