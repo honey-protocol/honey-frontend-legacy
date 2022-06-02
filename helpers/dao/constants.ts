@@ -24,7 +24,7 @@ export interface TribecaPrograms {
 // See `Anchor.toml` for all addresses.
 export const HONEY_DAO_ADDRESSES = {
   Govern: new PublicKey('Govz1VyoyLD5BL6CSCxUJLVLsQHRwjfFj1prNsdNg5Jw'),
-  LockedVoter: new PublicKey(process.env.NEXT_PUBLIC_VOTE_PROGRAM_ID!)
+  LockedVoter: new PublicKey(process.env.NEXT_PUBLIC_VOTER_PROGRAM_ID!)
 };
 
 /**
