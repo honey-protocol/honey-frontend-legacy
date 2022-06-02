@@ -22,7 +22,7 @@ export const ProposalTXForm: React.FC<Props> = ({
   setTxRaw
 }: Props) => {
   const [actionType, setActionType] = useState<ActionType>('Memo');
-  const { smartWallet, lockerData, governor } = useGovernor();
+  const { smartWallet, lockerData, governor, minter } = useGovernor();
   const { ownerInvokerKey } = useExecutiveCouncil();
 
   if (!smartWallet || !ownerInvokerKey) {
@@ -30,7 +30,7 @@ export const ProposalTXForm: React.FC<Props> = ({
   }
 
   const actor = smartWallet;
-  const ctx = { locker: lockerData?.publicKey, governor };
+  const ctx = { locker: lockerData?.publicKey, governor, minter };
 
   const currentAction = ACTIONS.find(action => action.title === actionType);
 

@@ -11,7 +11,12 @@ import { ThemeProvider } from 'degen';
 import { ToastContainer } from 'react-toastify';
 import { accentSequence, ThemeAccent } from 'helpers/theme-utils';
 import SecPopup from 'components/SecPopup';
-import { GOVERNOR_ADDRESS, HONEY_MINT, SDKProvider } from 'helpers/sdk';
+import {
+  GOVERNOR_ADDRESS,
+  HONEY_MINT,
+  // HONEY_MINT_WRAPPER,
+  SDKProvider
+} from 'helpers/sdk';
 import { GovernorProvider } from 'hooks/tribeca/useGovernor';
 
 import 'degen/styles';
@@ -86,6 +91,9 @@ function MyApp({ Component, pageProps }: AppProps) {
                 initialState={{
                   governor: GOVERNOR_ADDRESS,
                   govToken: HONEY_MINT
+                  // minter: {
+                  //   mintWrapper: HONEY_MINT_WRAPPER
+                  // }
                 }}
               >
                 {/* {children} */}

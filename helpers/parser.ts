@@ -1,6 +1,7 @@
 import { GOKI_CODERS } from '@gokiprotocol/client';
 import { makeParserHooks, makeProgramParserHooks } from '@saberhq/sail';
 import { SNAPSHOTS_CODERS } from '@saberhq/snapshots';
+import { QUARRY_CODERS } from '@quarryprotocol/quarry-sdk';
 import { HONEY_DAO_CODERS } from './dao';
 
 // import { HONEY_DAO_CODERS } from './sdk';
@@ -8,7 +9,8 @@ import { HONEY_DAO_CODERS } from './dao';
 const parserHooks = makeParserHooks({
   ...HONEY_DAO_CODERS.Govern.accountParsers,
   ...HONEY_DAO_CODERS.LockedVoter.accountParsers,
-  ...GOKI_CODERS.SmartWallet.accountParsers
+  ...GOKI_CODERS.SmartWallet.accountParsers,
+  ...QUARRY_CODERS.MintWrapper.accountParsers
 });
 
 export const {
@@ -21,6 +23,10 @@ export const {
   escrowV2: { useData: useParsedEscrows, useSingleData: useParsedEscrow },
   governor: { useData: useParsedGovernors, useSingleData: useParsedGovernor },
   vote: { useData: useParsedVotes, useSingleData: useParsedVote },
+  mintWrapper: {
+    useData: useParsedMintWrappers,
+    useSingleData: useParsedMintWrapper
+  },
   transaction: { useData: useParsedTXByKeys, useSingleData: useParsedTXByKey }
 } = parserHooks;
 

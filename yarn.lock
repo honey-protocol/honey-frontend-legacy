@@ -745,6 +745,15 @@
     bs58 "^4.0.1"
     eventemitter3 "^4.0.7"
 
+"@quarryprotocol/quarry-sdk@^5.0.2":
+  version "5.0.2"
+  resolved "https://registry.yarnpkg.com/@quarryprotocol/quarry-sdk/-/quarry-sdk-5.0.2.tgz#f306ef4c0446a2ae7432e6e0593bc3dcb75812ee"
+  integrity sha512-wczlmNfb8fk6WCZsLLR7ysSjgxl6ZdEJ7cNDhgvFpU9E1YMSN1f2l2NK9yw+VksuLxWCightFsBrHSqqIftDzQ==
+  dependencies:
+    superstruct "^0.15.4"
+    tiny-invariant "^1.2.0"
+    tslib "^2.3.1"
+
 "@reach/dialog@^0.16.2":
   version "0.16.2"
   resolved "https://registry.yarnpkg.com/@reach/dialog/-/dialog-0.16.2.tgz#567e6f59d0a6dabe84b2ba4c456404efa6cb7d03"
@@ -1145,7 +1154,7 @@
     localstorage-memory "^1.0.3"
     superstruct "0.14.2"
     tweetnacl "^1.0.3"
-    
+
 "@tribecahq/tribeca-sdk@^0.5.6":
   version "0.5.6"
   resolved "https://registry.yarnpkg.com/@tribecahq/tribeca-sdk/-/tribeca-sdk-0.5.6.tgz#c0e5cdbb01250de305245bdb3802429c25ec58f8"
@@ -4397,7 +4406,7 @@ klaw-sync@^6.0.0:
   integrity sha512-nIeuVSzdCCs6TDPTqI8w1Yre34sSq7AkZ4B3sfOBbI2CgVSB4Du4aLQijFU2+lhAFCwt9+42Hel6lQNIv6AntQ==
   dependencies:
     graceful-fs "^4.1.11"
-    
+
 kleur@^4.0.3:
   version "4.1.4"
   resolved "https://registry.yarnpkg.com/kleur/-/kleur-4.1.4.tgz#8c202987d7e577766d039a8cd461934c01cda04d"
@@ -6885,11 +6894,6 @@ union-value@^1.0.0:
     is-extendable "^0.1.1"
     set-value "^2.0.1"
 
-universalify@^0.1.0:
-  version "0.1.2"
-  resolved "https://registry.yarnpkg.com/universalify/-/universalify-0.1.2.tgz#b646f69be3942dabcecc9d6639c80dc105efaa66"
-  integrity sha512-rBJeI5CXAlmy1pV+617WB9J63U6XcazHHF2f2dbJix4XzpUF0RS3Zbj0FGIOCAva5P/d/GBOYaACQ1w+0azUkg==
-  
 unist-builder@^3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/unist-builder/-/unist-builder-3.0.0.tgz#728baca4767c0e784e1e64bb44b5a5a753021a04"
@@ -6954,6 +6958,11 @@ unist-util-visit@^4.0.0:
     "@types/unist" "^2.0.0"
     unist-util-is "^5.0.0"
     unist-util-visit-parents "^5.0.0"
+
+universalify@^0.1.0:
+  version "0.1.2"
+  resolved "https://registry.yarnpkg.com/universalify/-/universalify-0.1.2.tgz#b646f69be3942dabcecc9d6639c80dc105efaa66"
+  integrity sha512-rBJeI5CXAlmy1pV+617WB9J63U6XcazHHF2f2dbJix4XzpUF0RS3Zbj0FGIOCAva5P/d/GBOYaACQ1w+0azUkg==
 
 unload@2.2.0:
   version "2.2.0"

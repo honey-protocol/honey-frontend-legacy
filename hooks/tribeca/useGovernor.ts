@@ -9,28 +9,6 @@ import { useSDK } from 'helpers/sdk';
 import { formatDurationSeconds } from 'helpers/format';
 import { useGovernorData, useLockerData } from 'helpers/parser';
 
-// export interface GaugeSettings {
-//   gaugemeister: PublicKey;
-// }
-
-// export type GovernorInfo = (
-//   | {
-//       key: PublicKey;
-//       meta: GovernorConfig | null;
-//       slug: string;
-//       loading: boolean;
-//     }
-//   | {
-//       key: PublicKey | null;
-//       meta: GovernorConfig | null;
-//       slug: string;
-//       loading: true;
-//     }
-// ) & {
-//   gauge: GaugeSettings | null;
-//   manifest: GovernorConfig | null | undefined;
-// };
-
 // export const useGovernorInfo = (): GovernorInfo | null => {
 //   const { governor: governorStr } = useParams<{ governor: string }>();
 //   const { data: governorMetas, isLoading, isFetched } = useTribecaRegistry();
@@ -84,6 +62,9 @@ import { useGovernorData, useLockerData } from 'helpers/parser';
 interface GovernorProps {
   governor: PublicKey | undefined;
   govToken: PublicKey | undefined;
+  minter?: {
+    mintWrapper?: PublicKey;
+  };
 }
 
 const useGovernorInner = (props: GovernorProps | undefined) => {
@@ -162,6 +143,7 @@ const useGovernorInner = (props: GovernorProps | undefined) => {
   };
 
   return {
+    minter: props.minter,
     manifest,
     governor,
     governorW,

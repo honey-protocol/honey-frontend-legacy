@@ -77,7 +77,7 @@ export class VoteEscrow {
         return new BN(0);
       }
       const secondsUntilLockupExpiry = escrowData.escrowEndsAt
-        .sub(new BN(timestampSeconds))
+        .sub(escrowData.escrowStartedAt)
         .toNumber();
       const relevantSecondsUntilLockupExpiry = Math.min(
         secondsUntilLockupExpiry,

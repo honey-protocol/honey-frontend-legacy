@@ -27,6 +27,7 @@
     "@nfteyez/sol-rayz-react": "^0.10.2",
     "@octokit/plugin-rest-endpoint-methods": "^5.13.0",
     "@project-serum/anchor": "^0.24.2",
+    "@quarryprotocol/quarry-sdk": "^5.0.2",
     "@saberhq/anchor-contrib": "^1.12.69",
     "@saberhq/sail": "3.4.4",
     "@saberhq/snapshots": "^0.2.8",
