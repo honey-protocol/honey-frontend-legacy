@@ -43,7 +43,7 @@ import {
 */
 const marketNFTs = [
   {
-    name: 'No NFTs available',
+    name: 'No open positions available',
     image:'https://assets.coingecko.com/coins/images/24781/small/honey.png?1648902423',
     borrowApy: '0%',
     estValue: '0 SOL',
@@ -83,9 +83,7 @@ const Loan: NextPage = () => {
   const [userDebt, setUserDebt] = useState(0);
   const [userAllowance, setUserAllowance] = useState(0);
   const [loanToValue, setLoanToValue] = useState(0);
-  const [defaultNFT, setDefaultNFT] = useState<{name: string, image: string, borrowAPY: string, estValue: string, assetsBorrowed: number, netBorrowBalance: number, key: number}[]>(
-    [],
-  );
+  const [defaultNFT, setDefaultNFT] = useState<{}>();
 
   /**
   * @description calls upon the honey sdk
@@ -145,19 +143,19 @@ const Loan: NextPage = () => {
     const fetchAsyncData = async() => {
       let obligation = await honeyUser?.getObligationData() as ObligationAccount;
       console.log('obligationData', obligation);
-      const Cached = BL.struct([
-        i64Field('accruedUntil'),
-        numberField('outstandingDebt'),
-        numberField('uncollectedFees'),
-        numberField('protocolUncollectedFees'),
-        u64Field('totalDeposits'),
-        u64Field('totalDepositNotes'),
-        u64Field('totalLoanNotes'),
-        BL.blob(416, '_UNUSED_0_'),
-        u64Field('lastUpdated'),
-        BL.u8('invalidated'),
-        BL.blob(7, '_UNUSED_1_'),
-      ]);
+      // const Cached = BL.struct([
+      //   i64Field('accruedUntil'),
+      //   numberField('outstandingDebt'),
+      //   numberField('uncollectedFees'),
+      //   numberField('protocolUncollectedFees'),
+      //   u64Field('totalDeposits'),
+      //   u64Field('totalDepositNotes'),
+      //   u64Field('totalLoanNotes'),
+      //   BL.blob(416, '_UNUSED_0_'),
+      //   u64Field('lastUpdated'),
+      //   BL.u8('invalidated'),
+      //   BL.blob(7, '_UNUSED_1_'),
+      // ]);
 
     }
     fetchAsyncData();

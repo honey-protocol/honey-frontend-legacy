@@ -59,7 +59,7 @@ const LoanNFTsContainer = (props: LoanNFTsContainerProps) => {
 
   useEffect(() => {
     if (openPositions?.length) setActiveIndex(TYPE_ZERO);
-  }, [openPositions])
+  }, [openPositions]);
 
   /**
    * @description sets active state on NFT
@@ -109,7 +109,8 @@ const LoanNFTsContainer = (props: LoanNFTsContainerProps) => {
 
   useEffect(() => {
     console.log('__UPDATE_OPEN_POSITIONS', openPositions);
-  }, [openPositions])
+  }, [openPositions]);
+  console.log(availableNFTs)
 
   return (
     <Box className={styles.cardContainer}>
@@ -150,18 +151,22 @@ const LoanNFTsContainer = (props: LoanNFTsContainerProps) => {
                       activeNFT={highlightNFTOpen}
                       nftArrayType={nftArrayType}
                     />
-                  )) : availableNFTs && availableNFTs.map((nft, i) => (
-                    <LoanNFTCard
-                      selected={selectedId}
-                      key={nft.key}
-                      NFT={nft}
-                      onSelectNFT={onSelectNFT}
-                      available={true}
-                      executeDepositNFT={executeDepositNFT}
-                      handleActiveState={handleActiveState}
-                      activeNFT={highlightNFTAvailable}
-                      nftArrayType={nftArrayType}
-                    />
+                  )) 
+                  : 
+                  availableNFTs && availableNFTs.map((nft, i) => (
+                    nft.name.includes('Cofre') && (
+                      <LoanNFTCard
+                        selected={selectedId}
+                        key={nft.key}
+                        NFT={nft}
+                        onSelectNFT={onSelectNFT}
+                        available={true}
+                        executeDepositNFT={executeDepositNFT}
+                        handleActiveState={handleActiveState}
+                        activeNFT={highlightNFTAvailable}
+                        nftArrayType={nftArrayType}
+                      />
+                    )
                   ))
                 }
               </Box>
