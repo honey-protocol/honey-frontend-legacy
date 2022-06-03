@@ -11,6 +11,9 @@ import { PartialNetworkConfigMap } from '@saberhq/use-solana/src/utils/useConnec
 import { useEffect, useState } from 'react';
 import SecPopup from 'components/SecPopup';
 import Script from 'next/script';
+import { Mode, Accent } from 'degen/dist/types/tokens';
+import { Language, languages } from 'helpers/languageUtils';
+import { accentLocalKey, languageLocalKey, modeLocalKey } from 'constants/local-storage';
 
 const network = process.env.NETWORK as Network;
 const networkConfiguration = () => {
@@ -21,10 +24,23 @@ const networkConfiguration = () => {
   }
 };
 
+const defaultMode: Mode = 'dark';
+const storedMode =
+typeof window !== 'undefined'
+? (localStorage.getItem(modeLocalKey) as Mode)
+: undefined;
+
 const defaultAccent: ThemeAccent = accentSequence[0];
 const storedAccent =
   typeof window !== 'undefined'
-    ? (localStorage.getItem('accent') as ThemeAccent)
+    ? (localStorage.getItem(accentLocalKey) as ThemeAccent | Accent)
+    : undefined;
+
+// TODO: Utilise language setting site wide with intl files
+const defaultLanguage: Language = Language.EN_US;
+const storedLanguage =
+  typeof window !== 'undefined'
+    ? (localStorage.getItem(languageLocalKey) as Language)
     : undefined;
 
 function MyApp({ Component, pageProps }: AppProps) {
@@ -41,7 +57,7 @@ function MyApp({ Component, pageProps }: AppProps) {
 
   return (
     <ThemeProvider
-      defaultMode="dark"
+      defaultMode={storedMode || defaultMode}
       defaultAccent={storedAccent || defaultAccent}
     >
       <Script
