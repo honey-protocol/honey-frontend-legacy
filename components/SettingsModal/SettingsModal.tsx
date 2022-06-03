@@ -9,7 +9,7 @@ import { accentLocalKey, languageLocalKey, modeLocalKey } from 'constants/local-
 
 const SettingsModal = () => {
   const { accent, setAccent, mode, setMode } = useTheme();
-  const [language, setLanguage] = useState<string>('en-US');
+  const [language, setLanguage] = useState<Language>(Language.EN_US);
 
   const locallyStore = (key: string, value: string) => localStorage.setItem(key, value);
 
