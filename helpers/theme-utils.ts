@@ -11,7 +11,7 @@ export const accents: Accent[] = [
   'pink',
   'purple',
   'red',
-  'teal',
+  'teal'
 ];
 
 export const accentSequence: ThemeAccent[] = [
