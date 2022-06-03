@@ -29,7 +29,7 @@ interface LoanBorrowProps {
 
 const LoanBorrow = (props: LoanBorrowProps) => {
     const { NFT, executeBorrow, openPositions, loanPositions, parsedReserves, userDebt, userAllowance, loanToValue } = props;
-    console.log('this is NFT', NFT);
+
     /**
      * @description set default state for userInput and debtAmount to 0
      * @params number
@@ -37,6 +37,7 @@ const LoanBorrow = (props: LoanBorrowProps) => {
     */
     const [userInput, setUserInput] = useState(0);
     const [debtAmount, setDebtAmount] = useState(0);
+    const [userMessage, setUserMessage] = useState('');
 
     /**
      * @description set default state for userInput and debtAmount to 0
@@ -66,7 +67,13 @@ const LoanBorrow = (props: LoanBorrowProps) => {
      * @todo add regex for userinput
     */
     function handleExecuteBorrow(val: any) {
-        executeBorrow(userInput ? userInput : 1);
+        if (userInput && userInput < 0.1) {
+            return setUserMessage('No allowance left');
+        }
+        if (!userInput) {
+            return setUserMessage('Please provide an amount');
+        }
+        executeBorrow(userInput);
     }
 
     return (
@@ -130,7 +137,7 @@ const LoanBorrow = (props: LoanBorrowProps) => {
                             align="right"
                             color="foreground"
                         >
-                            {userDebt.toFixed(4)}
+                            {userDebt.toFixed(2)}
                         </Text>
                     </Stack>
                 </Stack>
@@ -206,7 +213,7 @@ const LoanBorrow = (props: LoanBorrowProps) => {
                         align="right"
                         color="foreground"
                     >
-                        {userAllowance?.toFixed(4)} SOL
+                        {userAllowance.toFixed(2)} SOL
                     </Text>
                 </Stack>
             </Box>
@@ -218,6 +225,12 @@ const LoanBorrow = (props: LoanBorrowProps) => {
                   userAllowance={userAllowance}
                 />
             </Box>
+            {
+                userMessage &&
+                <Box className={styles.errorMessage}>
+                    {userMessage}
+                </Box>
+            }
             <Button
               width="full"
               onClick={handleExecuteBorrow}

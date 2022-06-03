@@ -29,8 +29,9 @@ const Slider = (props: SliderProps) => {
    * @returns
   */
   const [slideCount, setSlideCount] = useState(0);
-  const [userInput, setUserInput] = useState('');
+  const [userInput, setUserInput] = useState(0);
   const [userMessage, setUserMessage] = useState('');
+  const [rangeSlider, setRangeSlider] = useState(0);
 
   /**
    * @description
@@ -38,9 +39,38 @@ const Slider = (props: SliderProps) => {
    * @returns
   */
   function handleRangeInput(val: any) {
-    console.log('this is val from range', val.target.value)
-    setSlideCount(val.target.value);
-    setUserInput(val.target.value);
+    if (type == TYPE_REPAY && userDebt) {
+      let sum;
+      let inputVal = Number(val.target.value);
+      console.log('this is userdebt', userDebt, typeof(val.target.value))
+
+      setSlideCount(val.target.value)
+      if (inputVal == 100) {
+        console.log('is this the case?')
+        sum = (userDebt += 1);
+      } else {
+        sum = (Number(val.target.value / 100) * userDebt);
+      }
+
+      setUserInput(sum);
+      handleUserChange(sum);
+      setRangeSlider(val.target.value)
+    } else if (type == TYPE_BORROW && userAllowance) {
+      if (userAllowance < 0.1) return setUserMessage('No allowance left');
+
+      setSlideCount(val.target.value)
+      let sum = (Number(val.target.value / 100) * userAllowance);
+      // sum = sum - 0.01;
+      setUserInput(sum)
+      // setSlideCount(Number(slideVal));
+      // setUserInput(slideVal);
+
+      handleUserChange(sum);
+      // let rangeVal = ((slideVal * 100)).toFixed(4);
+
+      // setRangeSlider(Number(rangeVal));
+      setRangeSlider(val.target.value)
+    }
   }
   
   /**
@@ -60,7 +90,7 @@ const Slider = (props: SliderProps) => {
         if (userDebt && isInputValid.value > userDebt) {
           userDebt += .1;
           setUserMessage(`Your max repay amount is ${userDebt?.toFixed(2)} SOL`);
-          setUserInput(userDebt.toFixed(2));
+          setUserInput(Number(userDebt.toFixed(2)));
           handleUserChange(userDebt.toFixed(2));
           setSlideCount(userDebt);
           return;
@@ -77,7 +107,7 @@ const Slider = (props: SliderProps) => {
       if (type == TYPE_BORROW) {
         if (userAllowance && isInputValid.value > userAllowance) {
           setUserMessage(`Your max allowance is ${userAllowance.toFixed(2)} SOL`);
-          setUserInput(userAllowance.toFixed(2));
+          setUserInput(Number(userAllowance.toFixed(2)));
           handleUserChange(userAllowance.toFixed(2));
           setSlideCount(userAllowance);
         } else {
@@ -88,11 +118,6 @@ const Slider = (props: SliderProps) => {
         
         return;
       }
-  
-      // if (type == TYPE_BORROW && (userAllowance && isInputValid.value > userAllowance)) {
-      //   setUserMessage(`Your max borrow amount is ${userAllowance} SOL`);
-      //   return
-      // }
     } else {
       setUserInput(isInputValid.value);
       setUserMessage(isInputValid.message);
@@ -125,8 +150,8 @@ const Slider = (props: SliderProps) => {
               className={styles.currencyStylesChild} 
               value={userInput} 
               min="0" 
-              max={type == TYPE_REPAY ? userDebt : userAllowance}
-              step="0.1" />
+              max="100"
+               />
           </div>
         </Box>
       </Box>
@@ -135,11 +160,10 @@ const Slider = (props: SliderProps) => {
           <input 
             className={styles.rangeSliderRange} 
             type="range"
-            value={slideCount} 
+            value={rangeSlider} 
             min="0" 
-            max={type == TYPE_REPAY ? userDebt : userAllowance}
+            max="100"
             onChange={handleRangeInput} 
-            step="0.1" 
           />
         </div>
         <div className={styles.percentageWrapper}>
@@ -155,3 +179,4 @@ const Slider = (props: SliderProps) => {
 };
 
 export default Slider;
+
