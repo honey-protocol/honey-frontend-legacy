@@ -29,7 +29,7 @@ interface LoanBorrowProps {
 
 const LoanBorrow = (props: LoanBorrowProps) => {
     const { NFT, executeBorrow, openPositions, loanPositions, parsedReserves, userDebt, userAllowance, loanToValue } = props;
-
+    console.log('this is NFT', NFT);
     /**
      * @description set default state for userInput and debtAmount to 0
      * @params number

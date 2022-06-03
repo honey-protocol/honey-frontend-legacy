@@ -43,32 +43,17 @@ import {
 */
 const marketNFTs = [
   {
-    name: 'COFRE #573',
-    image:'https://www.arweave.net/sHPeuSwbrN3SNBwcn8OZjV_VYVp3TlONXduzyqpoXb8?ext=png',
-    borrowApy: '4%',
-    estValue: '2 SOL',
+    name: 'No NFTs available',
+    image:'https://assets.coingecko.com/coins/images/24781/small/honey.png?1648902423',
+    borrowApy: '0%',
+    estValue: '0 SOL',
     assetsBorrowed: 0,
     netBorrowBalance: 0,
     key: 1
-  },
-  {
-    name: 'COFRE #574',
-    image:'https://www.arweave.net/2XSva0NaalwsGBtxw-puVT_j1NDXecrMAGRxxvRjMK0?ext=png',
-    borrowApy: '6.2%',
-    estValue: '2 SOL',
-    assetsBorrowed: 0,
-    netBorrowBalance: 0,
-    key: 2
-  },
-  {
-    name: 'Cofre #529',
-    image: 'https://www.arweave.net/5zeisOPbDekgyqYHd0okraQKaWwlVxvIIiXLH4Sr2M8?ext=png',
-    borrowAPY: '3.1',
-    estValue: '2 SOL',
-    assetsBorrowed: 0,
-    netBorrowBalance: 0,
-    key: 3
-  },
+  }
+];
+
+const newPositionPlaceholder = [
   {
     name: 'Please select an NFT',
     image: 'https://assets.coingecko.com/coins/images/24781/small/honey.png?1648902423',
@@ -78,7 +63,7 @@ const marketNFTs = [
     netBorrowBalance: 0,
     key: 4,
   }
-]
+];
 
 const Loan: NextPage = () => {
   /**
@@ -98,6 +83,9 @@ const Loan: NextPage = () => {
   const [userDebt, setUserDebt] = useState(0);
   const [userAllowance, setUserAllowance] = useState(0);
   const [loanToValue, setLoanToValue] = useState(0);
+  const [defaultNFT, setDefaultNFT] = useState<{name: string, image: string, borrowAPY: string, estValue: string, assetsBorrowed: number, netBorrowBalance: number, key: number}[]>(
+    [],
+  );
 
   /**
   * @description calls upon the honey sdk
@@ -151,6 +139,8 @@ const Loan: NextPage = () => {
    * @returns honeyUser | marketReserveInfo |
   */
   useEffect(() => {
+    if (collateralNFTPositions) setDefaultNFT(collateralNFTPositions);
+
     setTimeout(() => {
     const fetchAsyncData = async() => {
       let obligation = await honeyUser?.getObligationData() as ObligationAccount;
@@ -365,12 +355,12 @@ const Loan: NextPage = () => {
 
         <Box>
           {
-            borrowModal == 1 ?
+            borrowModal == 1 && collateralNFTPositions?.length ?
               <BorrowNFTsModule
                 NFT={
                   collateralNFTPositions
                   &&
-                  collateralNFTPositions.find((NFT) => NFT.name == selectedId) || marketNFTs[0]
+                  collateralNFTPositions.find((NFT) => NFT.name == selectedId) || defaultNFT[0]
                 }
                 mint={withDrawDepositNFT}
                 loanPositions={loanPositions}
@@ -390,7 +380,7 @@ const Loan: NextPage = () => {
                 NFT={
                   availableNFTs
                   &&
-                  availableNFTs[0].find((NFT: any) => NFT.name == selectedId) || marketNFTs[3]
+                  availableNFTs[0].find((NFT: any) => NFT.name == selectedId) || newPositionPlaceholder[0]
                 }
                 mint={withDrawDepositNFT}
                 executeDepositNFT={executeDepositNFT}
