@@ -38,6 +38,7 @@ const Slider = (props: SliderProps) => {
    * @returns
   */
   function handleRangeInput(val: any) {
+    console.log('this is val from range', val.target.value)
     setSlideCount(val.target.value);
     setUserInput(val.target.value);
   }
@@ -138,7 +139,8 @@ const Slider = (props: SliderProps) => {
             min="0" 
             max={type == TYPE_REPAY ? userDebt : userAllowance}
             onChange={handleRangeInput} 
-            step="0.1" />
+            step="0.1" 
+          />
         </div>
         <div className={styles.percentageWrapper}>
             <span>0%</span>
