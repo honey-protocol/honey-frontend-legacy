@@ -53,7 +53,6 @@ const Loan: NextPage = () => {
       async function fetchObligations() {
         let obligations = await program?.account?.obligation?.all();
         if (obligations) {
-          console.log('testing', obligations.length)
           setTotalMarketPositions(obligations.length);
         }
       }

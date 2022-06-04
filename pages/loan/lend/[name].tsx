@@ -105,13 +105,11 @@ const sdkConfig = ConfigureSDK();
       if(marketReserveInfo) {
         nftPrice = 2;
         depositNoteExchangeRate = marketReserveInfo[0].depositNoteExchangeRate.div(new BN(10 ** 15)).toNumber();
-        console.log('depositNoteExRate', depositNoteExchangeRate);
       }
 
       if(honeyUser?.deposits().length > 0) {
         let totalDeposit = honeyUser.deposits()[0].amount.div(new BN(10 ** 5)).toNumber() * depositNoteExchangeRate / (10 ** 4);
         setUserTotalDeposits(totalDeposit);
-        console.log('___TOTAL_DEPOSIT___', totalDeposit);
       }
     }, 3000);
   }, [marketReserveInfo, honeyUser]);

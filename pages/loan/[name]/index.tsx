@@ -140,6 +140,7 @@ const Loan: NextPage = () => {
     if (collateralNFTPositions) setDefaultNFT(collateralNFTPositions);
 
     setTimeout(() => {
+    // needs to be separated 
     const fetchAsyncData = async() => {
       let obligation = await honeyUser?.getObligationData() as ObligationAccount;
       console.log('obligationData', obligation);
