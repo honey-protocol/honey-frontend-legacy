@@ -83,7 +83,7 @@ const Loan: NextPage = () => {
   const [userDebt, setUserDebt] = useState(0);
   const [userAllowance, setUserAllowance] = useState(0);
   const [loanToValue, setLoanToValue] = useState(0);
-  const [defaultNFT, setDefaultNFT] = useState<{}>();
+  const [defaultNFT, setDefaultNFT] = useState<Array<NFT>>([]);
 
   /**
   * @description calls upon the honey sdk
@@ -164,7 +164,11 @@ const Loan: NextPage = () => {
       console.log('honeyUser?.deposits()', honeyUser?.deposits());
       console.log('collateralNFTPositions', collateralNFTPositions);
       console.log('market', market);
-      let depositNoteExchangeRate = 0, loanNoteExchangeRate = 0, nftPrice = 0, cRatio = 1;
+      let depositNoteExchangeRate = 0
+      , loanNoteExchangeRate = 0
+      , nftPrice = 0
+      , cRatio = 1;
+      
       if(marketReserveInfo) {
         // nftPrice = marketReserveInfo[0].price.div(new BN(10 ** 15)).toNumber();
         nftPrice = 2;
@@ -192,7 +196,7 @@ const Loan: NextPage = () => {
         setUserDebt(totalDebt);
         setLoanToValue(lvt);
       }
-      reFetchNFTs({});
+      // reFetchNFTs({});
     }, 3000);
   }, [marketReserveInfo, honeyUser, collateralNFTPositions, reFetchNFTs, market]);
 
