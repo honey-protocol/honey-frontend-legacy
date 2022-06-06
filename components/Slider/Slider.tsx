@@ -45,7 +45,7 @@ const Slider = (props: SliderProps) => {
 
       setSlideCount(val.target.value)
       if (inputVal == 100) {
-        sum = (userDebt += 1);
+        sum = (userDebt += 0.01);
       } else {
         sum = (Number(val.target.value / 100) * userDebt);
       }
