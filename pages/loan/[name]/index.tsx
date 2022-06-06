@@ -1,6 +1,6 @@
 import type { NextPage } from 'next';
 import React, { useState, useEffect } from 'react';
-import { Box, Stack, Button, IconChevronLeft, Text } from 'degen';
+import { Box, Stack, Button, IconChevronLeft } from 'degen';
 import { useConnectedWallet } from '@saberhq/use-solana';
 import { Metadata } from '@metaplex-foundation/mpl-token-metadata';
 import Layout from '../../../components/Layout/Layout';
@@ -8,13 +8,12 @@ import LoanNFTsContainer from 'components/LoanNFTsContainer/LoanNFTsContainer';
 import BorrowNFTsModule from 'components/BorrowNFTsModule/BorrowNFTsModule';
 import Link from 'next/link';
 import * as styles from '../../../styles/name.css';
-import { ConfigureSDK } from '../../../helpers/loanHelpers/index';
+import { ConfigureSDK, loadAnchor } from '../../../helpers/loanHelpers/index';
 import useFetchNFTByUser from '../../../hooks/useNFTV2';
 import LoanNewBorrow from 'components/NewPosition';
 import { LAMPORTS_PER_SOL, PublicKey } from '@solana/web3.js';
 import {TYPE_ZERO, TYPE_ONE} from '../../../constants/loan';
 import BN from 'bn.js';
-import * as BL from '@solana/buffer-layout';
 import {
   depositNFT,
   withdrawNFT,
@@ -23,17 +22,8 @@ import {
   useHoney,
   borrow,
   repay,
-  ObligationAccount,
-  numberField,
-  u64Field,
-  i64Field
-} from '@honey-finance/sdk';
-import {
-  parseMappingData,
-  parsePriceData,
-  parseProductData,
-  PythHttpClient
-} from "@pythnetwork/client";
+  ObligationAccount} from '@honey-finance/sdk';
+import { AggregatorAccount } from '@switchboard-xyz/switchboard-v2';
 /**
  * @description
  *  static nft object based off current posted as collateral and available nfts
@@ -160,20 +150,13 @@ const Loan: NextPage = () => {
     const fetchAsyncData = async() => {
       let obligation = await honeyUser?.getObligationData() as ObligationAccount;
       console.log('obligationData', obligation);
-      const Cached = BL.struct([
-        i64Field('accruedUntil'),
-        numberField('outstandingDebt'),
-        numberField('uncollectedFees'),
-        numberField('protocolUncollectedFees'),
-        u64Field('totalDeposits'),
-        u64Field('totalDepositNotes'),
-        u64Field('totalLoanNotes'),
-        BL.blob(416, '_UNUSED_0_'),
-        u64Field('lastUpdated'),
-        BL.u8('invalidated'),
-        BL.blob(7, '_UNUSED_1_'),
-      ]);
 
+      const prog = await loadAnchor(wallet);
+      const aggregatorAccount: AggregatorAccount = new AggregatorAccount({program: prog, publicKey: new PublicKey("8VD9EJ4njJfH1o2X2a8HLrx93Qa5noNGYt3qhyzcVZ1S")});;
+
+      const result: BN = await aggregatorAccount.getLatestValue();
+
+      console.log("switchboard value", result.toNumber());
     }
     fetchAsyncData();
       console.log('honeyUser?.loans()', honeyUser?.loans());
