@@ -198,12 +198,12 @@ const Loan: NextPage = () => {
         setUserDebt(totalDebt);
         setLoanToValue(lvt);
       }
-    }, 3000)
-  });
 
-  useEffect(() => {
+      console.log('@@@@@@---', userDebt);
+    }, 3000)
 
   }, [honeyUser]);
+
   /**
    * @description updates honeyUser | marketReserveInfo | - timeout required
    * @params none
