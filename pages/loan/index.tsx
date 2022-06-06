@@ -155,52 +155,6 @@ const Loan: NextPage = () => {
     setRenderCreateMarket(TYPE_ONE);
   }
 
-  useEffect(() => {
-    setTimeout(() => {
-      console.log('numbers are changing')
-      const fetchAsyncData = async () => {
-        let obligation = await honeyUser?.getObligationData() as ObligationAccount;
-        console.log('this is obligation', obligation)
-      }
-
-      let loanNoteExchangeRate;
-      let cRatio;
-      fetchAsyncData();
-
-      if(marketReserveInfo) {
-        // nftPrice = marketReserveInfo[0].price.div(new BN(10 ** 15)).toNumber();
-
-        let depositNoteExchangeRate = (marketReserveInfo[0].depositNoteExchangeRate.div(new BN(10 ** 15)).toNumber())
-        loanNoteExchangeRate = (marketReserveInfo[0].loanNoteExchangeRate.div(new BN(10 ** 10)).toNumber() / (10 ** 5));
-        cRatio = (marketReserveInfo[0].minCollateralRatio.div(new BN(10 ** 10)).toNumber() / (10 ** 5));
-  
-        console.log('marketReserveInfo[0]', marketReserveInfo[0]);
-
-        console.log('depositNoteExRate', depositNoteExchangeRate);
-        console.log('loanNoteExRate', loanNoteExchangeRate);
-        console.log('cRatio', cRatio);
-      }
-
-      fetchAsyncData();
-
-      if (honeyUser?.loans().length > 0 && loanNoteExchangeRate) {
-        let nftCollateralValue = 2 * (collateralNFTPositions?.length || 0);
-        let userLoans =  loanNoteExchangeRate * (honeyUser?.loans()[0]?.amount.toNumber() / (10 ** 9))
-        if (cRatio) {
-
-          let sumOfAllowance = nftCollateralValue / cRatio - userLoans;
-          sumOfAllowance = sumOfAllowance - 0.01;
-          let totalAllowance = ((sumOfAllowance / 100) * 60).toFixed(2);
-
-        console.log('user allowance--------@@@@', Number(totalAllowance));
-        setTotalAll(Number(totalAllowance))
-        }
-
-        
-      }
-    }, 3000)
-  });
-
   return (
     <Layout>
       <Stack>
