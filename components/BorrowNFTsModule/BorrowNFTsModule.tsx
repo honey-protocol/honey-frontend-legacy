@@ -43,6 +43,10 @@ const BorrowNFTsModule = (props: BorrowNFTsModule) => {
     executeWithdrawNFT(key);
   }
 
+  useEffect(() => {
+    console.log('USERDEBT - FIRST', userDebt)
+  })
+
   return (
     <Box className={styles.cardContainer}>
       <Card level="2" width="full" padding="8" shadow>

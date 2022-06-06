@@ -75,6 +75,10 @@ const LoanBorrow = (props: LoanBorrowProps) => {
         }
         executeBorrow(userInput);
     }
+    
+    useEffect(() => {
+     console.log('USER DEBT SECOND', userDebt);   
+    })
 
     return (
         <Box gap="3">
