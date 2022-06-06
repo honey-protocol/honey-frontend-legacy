@@ -26,7 +26,7 @@ import {
   ObligationAccount,
   numberField,
   u64Field,
-  i64Field
+  i64Field,
 } from '@honey-finance/sdk';
 import {
   parseMappingData,
@@ -64,6 +64,14 @@ const newPositionPlaceholder = [
     key: 4,
   }
 ];
+interface CollateralNFT {
+  image: string,
+  mint: PublicKey,
+  name: string,
+  symbol: string,
+  updateAuthority: PublicKey,
+  uri: string
+}
 
 const Loan: NextPage = () => {
   /**
@@ -83,7 +91,7 @@ const Loan: NextPage = () => {
   const [userDebt, setUserDebt] = useState(0);
   const [userAllowance, setUserAllowance] = useState(0);
   const [loanToValue, setLoanToValue] = useState(0);
-  const [defaultNFT, setDefaultNFT] = useState<Array<NFT>>([]);
+  const [defaultNFT, setDefaultNFT] = useState<Array<CollateralNFT>>([]);
 
   /**
   * @description calls upon the honey sdk
@@ -104,7 +112,7 @@ const Loan: NextPage = () => {
    * @params none
    * @returns collateralNFTPositions | loanPositions | fungibleCollateralPosition | loading | error
    */
-   let { loading, collateralNFTPositions, loanPositions, fungibleCollateralPosition, error } = useBorrowPositions(sdkConfig.saberHqConnection, sdkConfig.sdkWallet!, sdkConfig.honeyId, sdkConfig.marketId);
+   let { loading, collateralNFTPositions, loanPositions, fungibleCollateralPosition, refreshPositions, error } = useBorrowPositions(sdkConfig.saberHqConnection, sdkConfig.sdkWallet!, sdkConfig.honeyId, sdkConfig.marketId);
 
   /**
    * @description fetched available nfts in the users wallet
@@ -255,14 +263,14 @@ const Loan: NextPage = () => {
    * @returns succes | failure
   */
   async function executeDepositNFT(mintID: any) {
-    try {
-      if (!mintID) return;
-      console.log('current nfts', availableNFTs[0])
-      const metadata = await Metadata.findByMint(sdkConfig.saberHqConnection, mintID);
-      depositNFT(sdkConfig.saberHqConnection, honeyUser, metadata.pubkey);
-    } catch (error) {
-      console.log('error depositing nft', error);
-      return;
+      try {
+        if (!mintID) return;
+        console.log('current nfts', availableNFTs[0])
+        const metadata = await Metadata.findByMint(sdkConfig.saberHqConnection, mintID);
+        depositNFT(sdkConfig.saberHqConnection, honeyUser, metadata.pubkey);
+      } catch (error) {
+        console.log('error depositing nft', error);
+        return;
     }
   }
 
@@ -354,6 +362,7 @@ const Loan: NextPage = () => {
           executeWithdrawNFT={executeWithdrawNFT}
           executeDepositNFT={executeDepositNFT}
           reFetchNFTs={reFetchNFTs}
+          refreshPositions={refreshPositions}
           // set key equal to name since open positions doesnt contain id but name is with unique number
         />
 
@@ -393,6 +402,7 @@ const Loan: NextPage = () => {
                 openPositions={collateralNFTPositions}
                 userAvailableNFTs={availableNFTs}
                 reFetchNFTs={reFetchNFTs}
+                refreshPositions={refreshPositions}
               />
           }
         </Box>

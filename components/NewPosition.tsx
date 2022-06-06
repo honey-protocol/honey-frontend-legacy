@@ -14,10 +14,11 @@ interface LoanNewBorrowProps {
   openPositions: any;
   userAvailableNFTs: any;
   reFetchNFTs: (val: any) => void;
+  refreshPositions: () => void;
 }
 
 const LoanNewBorrow = (props: LoanNewBorrowProps) => {
-  const { NFT, mint, executeDepositNFT, loanPositions, parsedReserves, openPositions, userAvailableNFTs, reFetchNFTs } = props;
+  const { NFT, mint, executeDepositNFT, loanPositions, parsedReserves, openPositions, userAvailableNFTs, reFetchNFTs, refreshPositions } = props;
   const [showCollateralPopup, setShowCollateralPopup] = useState(0);
 
   async function handleExecute(val: any) {
@@ -35,7 +36,7 @@ const LoanNewBorrow = (props: LoanNewBorrowProps) => {
     setTimeout(() => {
       reFetchNFTs({});
       console.log('refetch fired');
-    }, 4500)
+    }, 3500)
   }
 
   if (!NFT) return null;

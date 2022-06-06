@@ -23,7 +23,7 @@ interface LoanNFTsContainerProps {
   executeDepositNFT: (nft: any) => void;
   nftArrayType: any;
   reFetchNFTs: (val: any) => void;
-  refreshPositions: () => void;
+  refreshPositions: () => {};
 }
 
 const LoanNFTsContainer = (props: LoanNFTsContainerProps) => {
@@ -48,7 +48,15 @@ const LoanNFTsContainer = (props: LoanNFTsContainerProps) => {
    * @returns the appropriate array to render in the borrow module
   */
   const [renderNFTs, setRenderNFTs] = useState(TYPE_ZERO);
+  /**
+   * @description button state color
+   */
   const [activeIndex, setActiveIndex] = useState(TYPE_ONE);
+
+  /**
+   * @description render no position text
+  */
+ const [renderNoPositionText, setRenderNoPositionText] = useState();
   
   /**
    * @description
@@ -60,8 +68,22 @@ const LoanNFTsContainer = (props: LoanNFTsContainerProps) => {
   const [highlightNFTAvailable, setHighlightNFTAvailable] = useState(TYPE_ZERO);
 
   useEffect(() => {
-    if (openPositions?.length) setActiveIndex(TYPE_ZERO);
-  }, [openPositions]);
+    console.log('heellooo')
+    if (openPositions?.length > 0) {
+
+      setActiveIndex(TYPE_ZERO)
+      setRenderNFTs(TYPE_ZERO)
+    } else if (openPositions?.length < 1 && renderNFTs == TYPE_ONE) {
+      setRenderNFTs(TYPE_ZERO);
+      handleBorrow(TYPE_ONE);
+      setActiveIndex(TYPE_ZERO);
+    } 
+    
+    else {
+      setActiveIndex(TYPE_ONE)
+      setRenderNFTs(TYPE_ONE)
+    } 
+  },[openPositions]);
 
   /**
    * @description sets active state on NFT
@@ -82,17 +104,16 @@ const LoanNFTsContainer = (props: LoanNFTsContainerProps) => {
    * @returns nothing - sets state of to be rendered nft array
   */
      function handleNFTModal(nftType: string) {
-      
       if (nftType == OPEN_POSITIONS) {
+        refreshPositions();
         setRenderNFTs(TYPE_ZERO);
         handleBorrow(TYPE_ONE);
         setActiveIndex(TYPE_ZERO);
-        refreshPositions()
       } else {
+        reFetchNFTs({});
         setRenderNFTs(TYPE_ONE);
         handleBorrow(TYPE_ZERO);
         setActiveIndex(TYPE_ONE);
-        reFetchNFTs({});
       }
     }
 
@@ -112,7 +133,17 @@ const LoanNFTsContainer = (props: LoanNFTsContainerProps) => {
   }, [activeIndex]);
 
   useEffect(() => {
-  }, [openPositions]);
+    console.log('__UPDATE_OPEN_POSITIONS', openPositions);
+    console.log('__UPDATE_AVAILABLE_POSITIONS', availableNFTs)
+    if (openPositions?.length < 1) {
+      setRenderNoPositionText(0);
+    } else if (openPositions?.length > 0) {
+      setRenderNoPositionText(1);
+    }
+  }, [openPositions, availableNFTs]);
+
+  console.log('RENDER NFTs value', renderNFTs)
+  
 
   return (
     <Box className={styles.cardContainer}>
@@ -139,7 +170,13 @@ const LoanNFTsContainer = (props: LoanNFTsContainerProps) => {
                 })}
               </Box>
             </Stack>
-              <Box className={styles.nftContainer}>
+            {
+              renderNoPositionText == 0 && renderNFTs == TYPE_ZERO
+              ?
+              <Text>No open positions</Text>
+              :
+              (
+                <Box className={styles.nftContainer}>
                 {
                   openPositions && openPositions.length > TYPE_ZERO && renderNFTs == TYPE_ZERO ? openPositions.map((nft: any, i: any) => (
                     <LoanNFTCard
@@ -172,6 +209,8 @@ const LoanNFTsContainer = (props: LoanNFTsContainerProps) => {
                   ))
                 }
               </Box>
+              )
+            }
           </Stack>
         </Box>
       </Card>
