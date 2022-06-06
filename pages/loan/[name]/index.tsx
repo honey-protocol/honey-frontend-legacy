@@ -194,7 +194,9 @@ const Loan: NextPage = () => {
 
         let sumOfAllowance = nftCollateralValue / cRatio - userLoans;
         sumOfAllowance = sumOfAllowance - 0.01;
-        setUserAllowance(sumOfAllowance);
+        // based off 75% liquidation threshold our max allowance is set to 70%
+        let totalAllowance = ((sumOfAllowance / 100) * 70).toFixed(2);
+        setUserAllowance(Number(totalAllowance));
 
         const totalDebt = loanNoteExchangeRate * (honeyUser?.loans()[0]?.amount.toNumber() / (10 ** 9));
         const lvt = totalDebt / nftPrice;
