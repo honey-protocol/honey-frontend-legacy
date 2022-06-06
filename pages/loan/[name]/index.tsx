@@ -149,7 +149,7 @@ const Loan: NextPage = () => {
   let [depositNoteExchangeRate, setDepositNoteExchangeRate] = useState(0);
   let [loanNoteExchangeRate, setLoanNoteExchangeRate] = useState(0);
   let [nftPrice, setNFTPrice] = useState(0);
-  let [cRatio, setCRatio] = useState(0);
+  let [cRatio, setCRatio] = useState(1);
 
   useEffect(() => {
     console.log('collaternft effect running');
@@ -162,15 +162,13 @@ const Loan: NextPage = () => {
   */
   useEffect(() => {
     console.log('marketreserveinfo effect running');
-    setTimeout(() => {
-      if(marketReserveInfo) {
-        // nftPrice = marketReserveInfo[0].price.div(new BN(10 ** 15)).toNumber();
-        setNFTPrice(2);
-        setDepositNoteExchangeRate(marketReserveInfo[0].depositNoteExchangeRate.div(new BN(10 ** 15)).toNumber())
-        setLoanNoteExchangeRate(marketReserveInfo[0].loanNoteExchangeRate.div(new BN(10 ** 10)).toNumber() / (10 ** 5));
-        setCRatio(marketReserveInfo[0].minCollateralRatio.div(new BN(10 ** 10)).toNumber() / (10 ** 5));
-      }
-    }, 3000)
+    if(marketReserveInfo) {
+      // nftPrice = marketReserveInfo[0].price.div(new BN(10 ** 15)).toNumber();
+      setNFTPrice(2);
+      setDepositNoteExchangeRate(marketReserveInfo[0].depositNoteExchangeRate.div(new BN(10 ** 15)).toNumber())
+      setLoanNoteExchangeRate(marketReserveInfo[0].loanNoteExchangeRate.div(new BN(10 ** 10)).toNumber() / (10 ** 5));
+      setCRatio(marketReserveInfo[0].minCollateralRatio.div(new BN(10 ** 10)).toNumber() / (10 ** 5));
+    }
   }, []);
 
   /**
@@ -191,13 +189,16 @@ const Loan: NextPage = () => {
         let userLoans = loanNoteExchangeRate * (honeyUser?.loans()[0]?.amount.toNumber() / (10 ** 9));
   
         let sumOfAllowance = nftCollateralValue / cRatio - userLoans;
-        sumOfAllowance = sumOfAllowance - 0.01;
+
         // based off 75% liquidation threshold our max allowance is set to 70%
-        let totalAllowance = ((sumOfAllowance / 100) * 60).toFixed(2);
-        setUserAllowance(Number(totalAllowance));
+        // let totalAllowance = ((sumOfAllowance / 100) * 60).toFixed(2);
+        setUserAllowance(sumOfAllowance);
   
         const totalDebt = loanNoteExchangeRate * (honeyUser?.loans()[0]?.amount.toNumber() / (10 ** 9));
         const lvt = totalDebt / nftPrice;
+
+        console.log('@@@ total debt', totalDebt)
+        console.log('@@@ total allowance', sumOfAllowance)
         
         setUserDebt(totalDebt);
         setLoanToValue(lvt);

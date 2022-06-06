@@ -212,7 +212,7 @@ const Loan: NextPage = () => {
                 <Text>Total borrowed</Text>
                 <Text>Interest</Text>
                 <Text>Available</Text>
-                <Text>Your positions</Text>
+                <Text>Total positions</Text>
               </Box>
               <Box>
                 <hr className={styles.lineDivider}></hr>

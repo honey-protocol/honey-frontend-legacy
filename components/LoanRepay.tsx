@@ -84,7 +84,7 @@ const LoanRepay = (props: LoanRepayProps) => {
                     align="right"
                     color="foreground"
                     >
-                    {NFT.estValue}
+                    2 SOL
                     </Text>
                 </Stack>
                 </Box>
