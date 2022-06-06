@@ -42,11 +42,9 @@ const Slider = (props: SliderProps) => {
     if (type == TYPE_REPAY && userDebt) {
       let sum;
       let inputVal = Number(val.target.value);
-      console.log('this is userdebt', userDebt, typeof(val.target.value))
 
       setSlideCount(val.target.value)
       if (inputVal == 100) {
-        console.log('is this the case?')
         sum = (userDebt += 1);
       } else {
         sum = (Number(val.target.value / 100) * userDebt);
@@ -80,6 +78,10 @@ const Slider = (props: SliderProps) => {
   */
   async function handleNumberInput(val: any) {
     const isInputValid = await inputNumberValidator(val.target.value);
+
+    let rangeUserCalc = (Number(userDebt) / 100 || 0);
+    let rangeAllowanceCalc = (Number(userAllowance) / 100) || 0;
+
     if (isInputValid.success) {
       if (type == TYPE_REPAY) {
         if (userDebt == TYPE_ZERO) {
@@ -93,6 +95,7 @@ const Slider = (props: SliderProps) => {
           setUserInput(Number(userDebt.toFixed(2)));
           handleUserChange(userDebt.toFixed(2));
           setSlideCount(userDebt);
+          if (userDebt > 0) setRangeSlider(isInputValid.value / rangeUserCalc);
           return;
         }
 
@@ -100,6 +103,7 @@ const Slider = (props: SliderProps) => {
           setUserInput(isInputValid.value);
           handleUserChange(isInputValid.value);
           setSlideCount(isInputValid.value);
+          if (userDebt > 0) setRangeSlider(isInputValid.value / rangeUserCalc);
           return;
         }
       }
@@ -110,10 +114,12 @@ const Slider = (props: SliderProps) => {
           setUserInput(Number(userAllowance.toFixed(2)));
           handleUserChange(userAllowance.toFixed(2));
           setSlideCount(userAllowance);
+          setRangeSlider(isInputValid.value / rangeAllowanceCalc);
         } else {
           setUserInput(isInputValid.value);
           handleUserChange(isInputValid.value);
           setSlideCount(isInputValid.value);
+          setRangeSlider(isInputValid.value / rangeAllowanceCalc);
         }
         
         return;
@@ -121,6 +127,7 @@ const Slider = (props: SliderProps) => {
     } else {
       setUserInput(isInputValid.value);
       setUserMessage(isInputValid.message);
+      setRangeSlider(isInputValid.value / rangeAllowanceCalc);
     }
   }
 

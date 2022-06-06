@@ -23,6 +23,7 @@ interface LoanNFTsContainerProps {
   executeDepositNFT: (nft: any) => void;
   nftArrayType: any;
   reFetchNFTs: (val: any) => void;
+  refreshPositions: () => void;
 }
 
 const LoanNFTsContainer = (props: LoanNFTsContainerProps) => {
@@ -37,7 +38,8 @@ const LoanNFTsContainer = (props: LoanNFTsContainerProps) => {
     executeDepositNFT,
     openPositions,
     nftArrayType,
-    reFetchNFTs
+    reFetchNFTs,
+    refreshPositions
   } = props;
 
   /**
@@ -80,15 +82,17 @@ const LoanNFTsContainer = (props: LoanNFTsContainerProps) => {
    * @returns nothing - sets state of to be rendered nft array
   */
      function handleNFTModal(nftType: string) {
-      reFetchNFTs({});
+      
       if (nftType == OPEN_POSITIONS) {
         setRenderNFTs(TYPE_ZERO);
         handleBorrow(TYPE_ONE);
         setActiveIndex(TYPE_ZERO);
+        refreshPositions()
       } else {
         setRenderNFTs(TYPE_ONE);
         handleBorrow(TYPE_ZERO);
         setActiveIndex(TYPE_ONE);
+        reFetchNFTs({});
       }
     }
 

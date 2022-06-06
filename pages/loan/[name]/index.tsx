@@ -9,6 +9,12 @@ import BorrowNFTsModule from 'components/BorrowNFTsModule/BorrowNFTsModule';
 import Link from 'next/link';
 import * as styles from '../../../styles/name.css';
 import { ConfigureSDK } from '../../../helpers/loanHelpers/index';
+import {
+  useFetchUserAllowance, 
+  useFetchUserDebt, 
+  useFetchMarketReserveInfo, 
+  useFetchObligationAccount
+} from '../../../helpers/loanHelpers/obligationHelper';
 import useFetchNFTByUser from '../../../hooks/useNFTV2';
 import LoanNewBorrow from 'components/NewPosition';
 import { LAMPORTS_PER_SOL, PublicKey } from '@solana/web3.js';
@@ -104,7 +110,7 @@ const Loan: NextPage = () => {
    * @params none
    * @returns collateralNFTPositions | loanPositions | fungibleCollateralPosition | loading | error
    */
-   let { loading, collateralNFTPositions, loanPositions, fungibleCollateralPosition, error } = useBorrowPositions(sdkConfig.saberHqConnection, sdkConfig.sdkWallet!, sdkConfig.honeyId, sdkConfig.marketId);
+   let { loading, collateralNFTPositions, loanPositions, fungibleCollateralPosition, refreshPositions, error } = useBorrowPositions(sdkConfig.saberHqConnection, sdkConfig.sdkWallet!, sdkConfig.honeyId, sdkConfig.marketId);
 
   /**
    * @description fetched available nfts in the users wallet
@@ -354,6 +360,7 @@ const Loan: NextPage = () => {
           executeWithdrawNFT={executeWithdrawNFT}
           executeDepositNFT={executeDepositNFT}
           reFetchNFTs={reFetchNFTs}
+          refreshPositions={refreshPositions}
           // set key equal to name since open positions doesnt contain id but name is with unique number
         />
 

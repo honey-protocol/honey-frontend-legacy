@@ -1,7 +1,22 @@
 import { useState, useEffect } from "react";
 import { ConfigureSDK } from '../loanHelpers/index';
-import { useHoney, useMarket , useBorrowPositions} from '@honey-finance/sdk';
+import { useHoney, useMarket , useBorrowPositions, ObligationAccount } from '@honey-finance/sdk';
 import BN from 'bn.js';
+
+interface NFTArrayType {
+  [index: string]: Array<NFT>
+}
+
+const defaultNFT: NFT = {
+  creators: [],
+  image: "",
+  mint: "",
+  name: "",
+  symbol: "",
+  tokenId: "",
+  updateAuthority: "",
+}
+
 /**
  * @description declaration of base variables
 */
@@ -9,41 +24,22 @@ let nftPrice = 0;
 let depositNoteExchangeRate = 0;
 let loanNoteExchangeRate = 0;
 let cRatio = 1;
+
 /**
- * @description fetches the base values from the SDK 
- * @params none - makes use of the sdkConfig file and the SDK
- * @returns market - marketreserveinfo - parsedreserves - honeyclient - honeyuser - honeyreserves - nftsobject
+ * @description fetches obligation account
+ * @params none
+ * @returns returns obligation account of user
 */
-async function useFetchBaseData() {
-  const sdkConfig = ConfigureSDK();
-  const { market, marketReserveInfo, parsedReserves }  = useHoney();
-  const { honeyClient, honeyUser, honeyReserves } = useMarket(sdkConfig.saberHqConnection, sdkConfig.sdkWallet!, sdkConfig.honeyId, sdkConfig.marketId);
-  let { loading, collateralNFTPositions, loanPositions, fungibleCollateralPosition, error } = useBorrowPositions(sdkConfig.saberHqConnection, sdkConfig.sdkWallet!, sdkConfig.honeyId, sdkConfig.marketId);
-  
-  return {
-    market,
-    marketReserveInfo,
-    parsedReserves,
-    honeyClient,
-    honeyUser,
-    honeyReserves,
-    nfts: {
-      loading,
-      collateralNFTPositions,
-      loanPositions,
-      fungibleCollateralPosition,
-      error
-    }
-  }
+export async function useFetchObligationAccount(honeyUser: any) {
+  return await honeyUser?.getObligationData() as ObligationAccount;
 }
 /**
  * @description calculates depositnoteexchange - loannoteexchange - cratio
  * @params
  * @returns
 */
-export async function useFetchMarketReserveInfo() {
+export async function useFetchMarketReserveInfo(marketReserveInfo: any) {
   console.log('use fetch market reserve running');
-  const { marketReserveInfo } = await useFetchBaseData();
 
   useEffect(() => {
     if(marketReserveInfo) {
@@ -66,12 +62,11 @@ export async function useFetchMarketReserveInfo() {
  * @params
  * @returns
 */
-export async function useFetchUserDebt() {
+export async function useFetchUserDebt(honeyUser: any) {
   console.log('fetch user debt runs');
-  const { honeyUser } = await useFetchBaseData();
 
-  const [userDebt, setUserDebt] = useState(0);
-  const [loanToValue, setLoanToValue] = useState(0);
+  // const [userDebt, setUserDebt] = useState(0);
+  // const [loanToValue, setLoanToValue] = useState(0);
   
   useEffect(() => {
     const fetchUserDebt = () => {
@@ -79,39 +74,40 @@ export async function useFetchUserDebt() {
         const totalDebt = loanNoteExchangeRate * (honeyUser?.loans()[0]?.amount.toNumber() / (10 ** 9));
         const lvt = totalDebt / nftPrice;
         
-        setUserDebt(totalDebt);
-        setLoanToValue(lvt);
+        // setUserDebt(totalDebt);
+        // setLoanToValue(lvt);
+        console.log('TOTAL DEBT', totalDebt);
+        console.log('LVT', lvt);
+        return {
+          totalDebt,
+          lvt
+        }
       }
     }
     
-    fetchUserDebt();
+    const outcome = fetchUserDebt();
+    console.log('this is outcome', outcome);
   }, [honeyUser]);
-  return [userDebt, loanToValue]
 }
 /**
- * @description 
- * @params
- * @returns
+ * @description calculates user allowance
+ * @params none
+ * @returns user allowance 
 */
-export async function useFetchUserAllowance() {
+export async function useFetchUserAllowance(honeyUser: any, nfts: any) {
   console.log('fetch user allowance runs');
-  const { honeyUser, nfts } = await useFetchBaseData();
+  let sumOfAllowance: number;
 
-  const [userAllowance, setUserAllowance] = useState(0);
-
-  useEffect(() => {
     const fetchUserAllowance = async () => {
+      // if (nfts.collateralNFTPositions) setDefaultNFT(nfts.collateralNFTPositions);
       if (honeyUser?.loans().length > 0) {
         let nftCollateralValue = nftPrice * (nfts.collateralNFTPositions?.length || 0);
         let userLoans = loanNoteExchangeRate * (honeyUser?.loans()[0]?.amount.toNumber() / (10 ** 9));
 
-        let sumOfAllowance = nftCollateralValue / cRatio - userLoans;
+        sumOfAllowance = nftCollateralValue / cRatio - userLoans;
         sumOfAllowance = sumOfAllowance - 0.01;
-        setUserAllowance(sumOfAllowance);
+        console.log('ALLOWANCE', sumOfAllowance)
+        return sumOfAllowance
       }
     }
-    
-    fetchUserAllowance();
-  }, [honeyUser, nfts.collateralNFTPositions])
-  return [userAllowance]
 }
