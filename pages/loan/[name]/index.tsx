@@ -171,7 +171,6 @@ const Loan: NextPage = () => {
 
     }
     fetchAsyncData();
-    // if (loading == true) toastResponse('LOADING', 'Loading..');
     // if (error) toastResponse('ERROR', `An error occurred ${error}`);
       // console.log('honeyUser?.loans()', honeyUser?.loans());
       // console.log('honeyUser?.deposits()', honeyUser?.deposits());
@@ -200,7 +199,9 @@ const Loan: NextPage = () => {
         let userLoans = loanNoteExchangeRate * (honeyUser?.loans()[0]?.amount.toNumber() / (10 ** 9));
 
         let sumOfAllowance = nftCollateralValue / cRatio - userLoans;
-        sumOfAllowance = sumOfAllowance - 0.01;
+        console.log('BEFORE', sumOfAllowance)
+        if (sumOfAllowance > 0) sumOfAllowance = sumOfAllowance * 0.6;
+        console.log('AFTER', sumOfAllowance)
         setUserAllowance(sumOfAllowance);
 
         const totalDebt = loanNoteExchangeRate * (honeyUser?.loans()[0]?.amount.toNumber() / (10 ** 9));
@@ -258,7 +259,7 @@ const Loan: NextPage = () => {
   }, [withDrawDepositNFT]);
 
   useEffect(() => {
-    toastResponse('LOADING', '');
+    toastResponse('LOADING', 'Loading..', 'LOADING');
   }, [loading])
 
   // state handler based off nft key
@@ -281,7 +282,7 @@ const Loan: NextPage = () => {
         depositNFT(sdkConfig.saberHqConnection, honeyUser, metadata.pubkey);
       } catch (error) {
         console.log('error depositing nft', error);
-        toastResponse('ERROR', 'Error deposit NFT');
+        toastResponse('ERROR', 'Error deposit NFT', 'ERROR');
         return;
     }
   }
@@ -293,12 +294,12 @@ const Loan: NextPage = () => {
   */
   async function executeWithdrawNFT(mintID: any) {
     try {
-      if (!mintID) return toastResponse('ERROR', 'No mint was provided');
+      if (!mintID) return toastResponse('ERROR', 'No NFT was provided', 'ERROR');
       const metadata = await Metadata.findByMint(sdkConfig.saberHqConnection, mintID);
       withdrawNFT(sdkConfig.saberHqConnection, honeyUser, metadata.pubkey);
     } catch (error) {
       console.log('error depositing nft', error);
-      toastResponse('ERROR', 'Error withdraw NFT');
+      toastResponse('ERROR', 'Error withdraw NFT', 'ERROR');
       return;
     }
   }
@@ -311,12 +312,12 @@ const Loan: NextPage = () => {
    * @returns borrowTx
   */
   async function executeBorrow(val: any) {
-    if (!val) return toastResponse('ERROR', 'Please provide a value');
+    if (!val) return toastResponse('ERROR', 'Please provide a value', 'ERROR');
     const borrowTokenMint = new PublicKey('So11111111111111111111111111111111111111112');
     const tx = await borrow(honeyUser, val * LAMPORTS_PER_SOL, borrowTokenMint, honeyReserves);
-    console.log('borrowed amount', val.mul(LAMPORTS_PER_SOL));
+    console.log('borrowed amount', val * LAMPORTS_PER_SOL);
     if (tx[0] == 'SUCCESS') {
-      toastResponse('SUCCESS', 'Borrow success');
+      toastResponse('SUCCESS', 'Borrow success', 'SUCCESS');
     }
   }
 
@@ -328,12 +329,12 @@ const Loan: NextPage = () => {
    * @returns repayTx
   */
   async function executeRepay(val: any) {
-    if (!val) return toastResponse('ERROR', 'Please provide a value');
+    if (!val) return toastResponse('ERROR', 'Please provide a value', 'ERROR');
     const repayTokenMint = new PublicKey('So11111111111111111111111111111111111111112');
     const tx = await repay(honeyUser, val * LAMPORTS_PER_SOL, repayTokenMint, honeyReserves)
     console.log('this is repayTx', tx);
     if (tx[0] == 'SUCCESS') {
-      toastResponse('SUCCESS', 'Repay success');
+      toastResponse('SUCCESS', 'Repay success', 'SUCCESS');
     }
   }
 

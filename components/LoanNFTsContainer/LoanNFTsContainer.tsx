@@ -173,7 +173,7 @@ const LoanNFTsContainer = (props: LoanNFTsContainerProps) => {
             {
               renderNoPositionText == 0 && renderNFTs == TYPE_ZERO
               ?
-              <Text>No open positions</Text>
+              <Box className={styles.errorMessage}>No open positions</Box>
               :
               (
                 <Box className={styles.nftContainer}>

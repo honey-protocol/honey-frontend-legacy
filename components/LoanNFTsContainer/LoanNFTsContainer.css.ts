@@ -52,3 +52,11 @@ export const active = style({
 export const notActive = style({
   border: 'none',
 });
+
+export const errorMessage = style({
+  color: 'white',
+  fontWeight: '600',
+  paddingLeft: '1em',
+  paddingTop: '.5m',
+  fontSize: '1.2em'
+})
