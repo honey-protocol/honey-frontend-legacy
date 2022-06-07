@@ -274,6 +274,7 @@ const Loan: NextPage = () => {
         depositNFT(sdkConfig.saberHqConnection, honeyUser, metadata.pubkey);
       } catch (error) {
         console.log('error depositing nft', error);
+        toastResponse('ERROR', 'Error deposit NFT');
         return;
     }
   }
@@ -290,6 +291,7 @@ const Loan: NextPage = () => {
       withdrawNFT(sdkConfig.saberHqConnection, honeyUser, metadata.pubkey);
     } catch (error) {
       console.log('error depositing nft', error);
+      toastResponse('ERROR', 'Error withdraw NFT');
       return;
     }
   }
@@ -323,6 +325,9 @@ const Loan: NextPage = () => {
     const repayTokenMint = new PublicKey('So11111111111111111111111111111111111111112');
     const tx = await repay(honeyUser, val * LAMPORTS_PER_SOL, repayTokenMint, honeyReserves)
     console.log('this is repayTx', tx);
+    if (tx[0] == 'SUCCESS') {
+      toastResponse('SUCCESS', 'Repay success');
+    }
   }
 
   return (
