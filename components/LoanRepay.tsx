@@ -36,7 +36,7 @@ const LoanRepay = (props: LoanRepayProps) => {
 
     function handleExecuteRepay() {
       console.log('this is userInput', userInput)
-      if (!userInput) return toastResponse('ERROR', 'Please provide a value');
+      if (!userInput) return toastResponse('ERROR', 'Please provide a value', 'ERROR');
       executeRepay(userInput);
     }
 

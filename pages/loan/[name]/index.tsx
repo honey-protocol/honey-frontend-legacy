@@ -279,7 +279,10 @@ const Loan: NextPage = () => {
         if (!mintID) return;
         console.log('current nfts', availableNFTs[0])
         const metadata = await Metadata.findByMint(sdkConfig.saberHqConnection, mintID);
-        depositNFT(sdkConfig.saberHqConnection, honeyUser, metadata.pubkey);
+        const tx = await depositNFT(sdkConfig.saberHqConnection, honeyUser, metadata.pubkey);
+        if (tx[0] == 'SUCCESS') {
+          toastResponse('SUCCESS', 'Deposit success', 'SUCCESS');
+        }
       } catch (error) {
         console.log('error depositing nft', error);
         toastResponse('ERROR', 'Error deposit NFT', 'ERROR');
@@ -296,7 +299,10 @@ const Loan: NextPage = () => {
     try {
       if (!mintID) return toastResponse('ERROR', 'No NFT was provided', 'ERROR');
       const metadata = await Metadata.findByMint(sdkConfig.saberHqConnection, mintID);
-      withdrawNFT(sdkConfig.saberHqConnection, honeyUser, metadata.pubkey);
+      const tx = await withdrawNFT(sdkConfig.saberHqConnection, honeyUser, metadata.pubkey);
+      if (tx[0] == 'SUCCESS') {
+        toastResponse('SUCCESS', 'Withdraw success', 'SUCCESS');
+      }
     } catch (error) {
       console.log('error depositing nft', error);
       toastResponse('ERROR', 'Error withdraw NFT', 'ERROR');

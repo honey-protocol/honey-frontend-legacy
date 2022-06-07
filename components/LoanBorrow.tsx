@@ -69,10 +69,10 @@ const LoanBorrow = (props: LoanBorrowProps) => {
     */
     function handleExecuteBorrow(val: any) {
         if (userInput && userInput < 0.1) {
-            return toastResponse('ERROR', 'No allowance left');
+            return toastResponse('ERROR', 'No allowance left', 'ERROR');
         }
         if (!userInput) {
-            return toastResponse('ERROR', 'Please provide an amount');
+            return toastResponse('ERROR', 'Please provide an amount', 'ERROR');
         }
         executeBorrow(userInput);
     }

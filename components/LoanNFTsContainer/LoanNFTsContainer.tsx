@@ -56,7 +56,7 @@ const LoanNFTsContainer = (props: LoanNFTsContainerProps) => {
   /**
    * @description render no position text
   */
- const [renderNoPositionText, setRenderNoPositionText] = useState();
+ const [renderNoPositionText, setRenderNoPositionText] = useState(0);
   
   /**
    * @description

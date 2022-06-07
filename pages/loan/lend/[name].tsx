@@ -12,6 +12,7 @@ import { ConfigureSDK } from 'helpers/loanHelpers';
 import { LAMPORTS_PER_SOL, PublicKey } from '@solana/web3.js';
 import Layout from '../../../components/Layout/Layout';
 import DepositWithdrawModule from 'components/DepositWithdrawModule/DepositWIthdrawModule';
+import {toastResponse} from '../../../helpers/loanHelpers/index';
 import {
   Area,
   AreaChart,
@@ -135,8 +136,14 @@ const sdkConfig = ConfigureSDK();
       // integrate toast response
       const tokenAmount =  value ? value * LAMPORTS_PER_SOL : 1 * LAMPORTS_PER_SOL;
       const depositTokenMint = new PublicKey('So11111111111111111111111111111111111111112');
-      await deposit(honeyUser, tokenAmount, depositTokenMint, honeyReserves);
-  
+      const tx = await deposit(honeyUser, tokenAmount, depositTokenMint, honeyReserves);
+      
+      if (tx[0] == 'SUCCESS') {
+        toastResponse('SUCCESS', 'Deposit success', 'SUCCESS');
+      } else {
+        return toastResponse('ERROR', 'Deposit failed', 'ERROR');
+      }
+
       const depositReserve = honeyReserves.filter((reserve) =>
         reserve?.data?.tokenMint?.equals(depositTokenMint),
       )[0];
@@ -150,7 +157,8 @@ const sdkConfig = ConfigureSDK();
       console.log('totalLoanNotes', reserveState?.totalLoanNotes.toString()); 
     } catch (error) {
       // integrate toast response
-      console.log('error during deposit', error)
+      console.log('error during deposit', error);
+      return toastResponse('ERROR', 'Deposit failed', 'ERROR');
     }
   }
 
@@ -164,7 +172,14 @@ const sdkConfig = ConfigureSDK();
       // integrate toast response
       const tokenAmount =  value ? value * LAMPORTS_PER_SOL : 1 * LAMPORTS_PER_SOL;
       const depositTokenMint = new PublicKey('So11111111111111111111111111111111111111112');
-      await withdraw(honeyUser, tokenAmount, depositTokenMint, honeyReserves);
+      const tx = await withdraw(honeyUser, tokenAmount, depositTokenMint, honeyReserves);
+      
+      if (tx[0] == 'SUCCESS') {
+        toastResponse('SUCCESS', 'Withdraw success', 'SUCCESS');
+      } else {
+        return toastResponse('ERROR', 'Withdraw failed ', 'ERROR');
+      }
+      
       const withdrawReserve = honeyReserves.filter((reserve) =>
         reserve?.data?.tokenMint?.equals(depositTokenMint),
       )[0];
@@ -174,10 +189,12 @@ const sdkConfig = ConfigureSDK();
       console.log('outstandingDebt', reserveState?.outstandingDebt.toString());
       console.log('totalDepositNotes', reserveState?.totalDepositNotes.toString());
       console.log('totalDeposits', reserveState?.totalDeposits.toString());
-      console.log('totalLoanNotes', reserveState?.totalLoanNotes.toString());      
+      console.log('totalLoanNotes', reserveState?.totalLoanNotes.toString());    
+
     } catch (error) {
       // integrate toast response
-      console.log('no success', error)
+      console.log('no success', error);
+      return toastResponse('ERROR', 'Withdraw failed ', 'ERROR');
     }
   }
 
