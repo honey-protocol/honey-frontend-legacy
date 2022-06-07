@@ -7,6 +7,7 @@ import * as styles from './Slider/Slider.css';
 import { LAMPORTS_PER_SOL } from '@solana/web3.js';
 import BN from 'bn.js';
 import { TYPE_BORROW } from "constants/loan";
+import {toastResponse} from '../helpers/loanHelpers/index';
 
 interface LoanBorrowProps {
     NFT: {
@@ -68,10 +69,10 @@ const LoanBorrow = (props: LoanBorrowProps) => {
     */
     function handleExecuteBorrow(val: any) {
         if (userInput && userInput < 0.1) {
-            return setUserMessage('No allowance left');
+            return toastResponse('ERROR', 'No allowance left');
         }
         if (!userInput) {
-            return setUserMessage('Please provide an amount');
+            return toastResponse('ERROR', 'Please provide an amount');
         }
         executeBorrow(userInput);
     }

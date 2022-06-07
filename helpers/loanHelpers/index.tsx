@@ -1,5 +1,6 @@
 import { useConnection, useConnectedWallet } from '@saberhq/use-solana';
 import { HONEY_PROGRAM_ID, HONEY_MARKET_ID } from 'constants/loan';
+import { toast } from 'react-toastify';
 
 /**
  * @description exports the current sdk configuration object
@@ -34,4 +35,21 @@ export async function inputNumberValidator(val: any) {
         value: val
       }
     }
+}
+
+/**
+ * @description
+ * @params
+ * @returns
+*/
+export async function toastResponse(responseType: string, message: string) {
+  if (responseType == 'ERROR') {
+    return toast.error(message);
+  } else if (responseType == 'LOADING') {
+    // loading logic
+    return toast.loading(message);
+  } else if (responseType == 'SUCCESS') {
+    // success logic
+    return toast.success(message);
+  }
 }

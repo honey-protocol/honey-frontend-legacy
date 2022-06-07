@@ -7,6 +7,7 @@ import { LAMPORTS_PER_SOL } from '@solana/web3.js';
 import BN from 'bn.js';
 import { TYPE_REPAY } from '../constants/loan';
 import * as styles from './Slider/Slider.css';
+import {toastResponse} from '../helpers/loanHelpers/index';
 
 interface LoanRepayProps {
     NFT: {
@@ -35,7 +36,7 @@ const LoanRepay = (props: LoanRepayProps) => {
 
     function handleExecuteRepay() {
       console.log('this is userInput', userInput)
-      if (!userInput) return setUserMessage('No user input provided');
+      if (!userInput) return toastResponse('ERROR', 'Please provide a value');
       executeRepay(userInput);
     }
 

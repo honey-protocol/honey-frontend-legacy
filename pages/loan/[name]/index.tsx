@@ -15,6 +15,7 @@ import { LAMPORTS_PER_SOL, PublicKey } from '@solana/web3.js';
 import {TYPE_ZERO, TYPE_ONE} from '../../../constants/loan';
 import BN from 'bn.js';
 import * as BL from '@solana/buffer-layout';
+import {toastResponse} from '../../../helpers/loanHelpers/index';
 import {
   depositNFT,
   withdrawNFT,
@@ -34,6 +35,7 @@ import {
   parseProductData,
   PythHttpClient
 } from "@pythnetwork/client";
+import { toast } from 'react-toastify';
 /**
  * @description
  *  static nft object based off current posted as collateral and available nfts
@@ -208,6 +210,8 @@ const Loan: NextPage = () => {
     }, 3000);
   }, [marketReserveInfo, honeyUser, collateralNFTPositions, reFetchNFTs, market]);
 
+
+
   /**
    * @description logic regarding borrow modal or lendmodal
    * @params 0 or 1
@@ -298,10 +302,13 @@ const Loan: NextPage = () => {
    * @returns borrowTx
   */
   async function executeBorrow(val: any) {
-    if (!val) val = 1;
+    if (!val) return;
     const borrowTokenMint = new PublicKey('So11111111111111111111111111111111111111112');
     const tx = await borrow(honeyUser, val * LAMPORTS_PER_SOL, borrowTokenMint, honeyReserves);
     console.log('this is borrowTx', tx);
+    if (tx[0] == 'SUCCESS') {
+      toastResponse('SUCCESS', 'Borrow success');
+    }
   }
 
   /**
@@ -312,7 +319,7 @@ const Loan: NextPage = () => {
    * @returns repayTx
   */
   async function executeRepay(val: any) {
-    if (!val) val = 1;
+    if (!val) return toastResponse('ERROR', 'Please provide a value');
     const repayTokenMint = new PublicKey('So11111111111111111111111111111111111111112');
     const tx = await repay(honeyUser, val * LAMPORTS_PER_SOL, repayTokenMint, honeyReserves)
     console.log('this is repayTx', tx);
