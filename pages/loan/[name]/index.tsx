@@ -94,6 +94,7 @@ const Loan: NextPage = () => {
   const [userAllowance, setUserAllowance] = useState(0);
   const [loanToValue, setLoanToValue] = useState(0);
   const [defaultNFT, setDefaultNFT] = useState<Array<CollateralNFT>>([]);
+  const [globalLoadingState, setGlobalLoadingState] = useState(false);
 
   /**
   * @description calls upon the honey sdk
@@ -153,7 +154,7 @@ const Loan: NextPage = () => {
     // needs to be separated 
     const fetchAsyncData = async() => {
       let obligation = await honeyUser?.getObligationData() as ObligationAccount;
-      console.log('obligationData', obligation);
+      // console.log('obligationData', obligation);
       // const Cached = BL.struct([
       //   i64Field('accruedUntil'),
       //   numberField('outstandingDebt'),
@@ -170,10 +171,12 @@ const Loan: NextPage = () => {
 
     }
     fetchAsyncData();
-      console.log('honeyUser?.loans()', honeyUser?.loans());
-      console.log('honeyUser?.deposits()', honeyUser?.deposits());
-      console.log('collateralNFTPositions', collateralNFTPositions);
-      console.log('market', market);
+    // if (loading == true) toastResponse('LOADING', 'Loading..');
+    // if (error) toastResponse('ERROR', `An error occurred ${error}`);
+      // console.log('honeyUser?.loans()', honeyUser?.loans());
+      // console.log('honeyUser?.deposits()', honeyUser?.deposits());
+      // console.log('collateralNFTPositions', collateralNFTPositions);
+      // console.log('market', market);
       let depositNoteExchangeRate = 0
       , loanNoteExchangeRate = 0
       , nftPrice = 0
@@ -186,11 +189,11 @@ const Loan: NextPage = () => {
         loanNoteExchangeRate = marketReserveInfo[0].loanNoteExchangeRate.div(new BN(10 ** 10)).toNumber() / (10 ** 5);
         cRatio = marketReserveInfo[0].minCollateralRatio.div(new BN(10 ** 10)).toNumber() / (10 ** 5);
 
-        console.log('marketReserveInfo[0]', marketReserveInfo[0]);
-        console.log('nftPrice', nftPrice);
-        console.log('depositNoteExRate', depositNoteExchangeRate);
-        console.log('loanNoteExRate', loanNoteExchangeRate);
-        console.log('cRatio', cRatio);
+        // console.log('marketReserveInfo[0]', marketReserveInfo[0]);
+        // console.log('nftPrice', nftPrice);
+        // console.log('depositNoteExRate', depositNoteExchangeRate);
+        // console.log('loanNoteExRate', loanNoteExchangeRate);
+        // console.log('cRatio', cRatio);
       }
       if (honeyUser?.loans().length > 0) {
         let nftCollateralValue = nftPrice * (collateralNFTPositions?.length || 0);
@@ -208,7 +211,7 @@ const Loan: NextPage = () => {
       }
       // reFetchNFTs({});
     }, 3000);
-  }, [marketReserveInfo, honeyUser, collateralNFTPositions, reFetchNFTs, market]);
+  }, [marketReserveInfo, honeyUser, collateralNFTPositions, reFetchNFTs, market, error]);
 
 
 
@@ -235,7 +238,7 @@ const Loan: NextPage = () => {
     if (collateralNFTPositions && collateralNFTPositions.length > TYPE_ZERO) setBorrowModal(TYPE_ONE);
 
     setUserCollateralPositions(collateralNFTPositions);
-  }, [collateralNFTPositions, loanPositions, fungibleCollateralPosition]);
+  }, [collateralNFTPositions, loanPositions, fungibleCollateralPosition, error, globalLoadingState]);
 
   /**
    * @description updates availableNFTs | reFetchNFTs
@@ -253,6 +256,10 @@ const Loan: NextPage = () => {
   */
   useEffect(() => {
   }, [withDrawDepositNFT]);
+
+  useEffect(() => {
+    toastResponse('LOADING', '');
+  }, [loading])
 
   // state handler based off nft key
   function selectNFT(key: any, type: boolean) {
@@ -286,7 +293,7 @@ const Loan: NextPage = () => {
   */
   async function executeWithdrawNFT(mintID: any) {
     try {
-      if (!mintID) return;
+      if (!mintID) return toastResponse('ERROR', 'No mint was provided');
       const metadata = await Metadata.findByMint(sdkConfig.saberHqConnection, mintID);
       withdrawNFT(sdkConfig.saberHqConnection, honeyUser, metadata.pubkey);
     } catch (error) {
@@ -304,10 +311,10 @@ const Loan: NextPage = () => {
    * @returns borrowTx
   */
   async function executeBorrow(val: any) {
-    if (!val) return;
+    if (!val) return toastResponse('ERROR', 'Please provide a value');
     const borrowTokenMint = new PublicKey('So11111111111111111111111111111111111111112');
     const tx = await borrow(honeyUser, val * LAMPORTS_PER_SOL, borrowTokenMint, honeyReserves);
-    console.log('this is borrowTx', tx);
+    console.log('borrowed amount', val.mul(LAMPORTS_PER_SOL));
     if (tx[0] == 'SUCCESS') {
       toastResponse('SUCCESS', 'Borrow success');
     }

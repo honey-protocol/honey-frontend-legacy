@@ -46,8 +46,15 @@ export async function toastResponse(responseType: string, message: string) {
   if (responseType == 'ERROR') {
     return toast.error(message);
   } else if (responseType == 'LOADING') {
-    // loading logic
-    return toast.loading(message);
+    const resolveP = new Promise(resolve => setTimeout(resolve, 4000));
+    return toast.promise(
+      resolveP,
+      {
+        pending: 'Loading data..',
+        success: 'Data loaded',
+        error: 'An error occurred'
+      }
+    )
   } else if (responseType == 'SUCCESS') {
     // success logic
     return toast.success(message);
