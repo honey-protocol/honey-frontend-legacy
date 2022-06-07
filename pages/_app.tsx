@@ -14,7 +14,7 @@ import SecPopup from 'components/SecPopup';
 import {
   GOVERNOR_ADDRESS,
   HONEY_MINT,
-  // HONEY_MINT_WRAPPER,
+  HONEY_MINT_WRAPPER,
   SDKProvider
 } from 'helpers/sdk';
 import { GovernorProvider } from 'hooks/tribeca/useGovernor';
@@ -90,10 +90,10 @@ function MyApp({ Component, pageProps }: AppProps) {
               <GovernorProvider
                 initialState={{
                   governor: GOVERNOR_ADDRESS,
-                  govToken: HONEY_MINT
-                  // minter: {
-                  //   mintWrapper: HONEY_MINT_WRAPPER
-                  // }
+                  govToken: HONEY_MINT,
+                  minter: {
+                    mintWrapper: HONEY_MINT_WRAPPER
+                  }
                 }}
               >
                 {/* {children} */}

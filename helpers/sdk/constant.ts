@@ -10,7 +10,8 @@ export const HONEY_MINT = new PublicKey(
 export const HONEY_DECIMALS = 6;
 
 export const PHONEY_MINT = new PublicKey(
-  '7unYPivFG6cuDGeDVjhbutcjYDcMKPu2mBCnRyJ5Qki2'
+  process.env.NEXT_PUBLIC_PHONEY_MINT ||
+    '7unYPivFG6cuDGeDVjhbutcjYDcMKPu2mBCnRyJ5Qki2'
 );
 
 export const WHITELIST_ENTRY = new PublicKey(
