@@ -42,9 +42,9 @@ export async function inputNumberValidator(val: any) {
  * @params
  * @returns
 */
-export async function toastResponse(responseType: string, message: string) {
+export async function toastResponse(responseType: string, message: string, id: any) {
   if (responseType == 'ERROR') {
-    return toast.error(message);
+    return toast.error(message, {toastId: responseType});
   } else if (responseType == 'LOADING') {
     const resolveP = new Promise(resolve => setTimeout(resolve, 4000));
     return toast.promise(
@@ -53,10 +53,13 @@ export async function toastResponse(responseType: string, message: string) {
         pending: 'Loading data..',
         success: 'Data loaded',
         error: 'An error occurred'
+      },
+      {
+        toastId: responseType
       }
     )
   } else if (responseType == 'SUCCESS') {
     // success logic
-    return toast.success(message);
+    return toast.success(message, {toastId: responseType});
   }
 }
