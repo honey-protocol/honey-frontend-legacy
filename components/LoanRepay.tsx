@@ -143,7 +143,7 @@ const LoanRepay = (props: LoanRepayProps) => {
                     >
                     </Text>
                     <Text color="textPrimary">
-                    {(loanToValue * 100).toFixed(2)}%
+                    {(loanToValue * 100).toFixed(0)}%
                     </Text>
                     </Stack>
                     <Stack
@@ -188,7 +188,7 @@ const LoanRepay = (props: LoanRepayProps) => {
                             align="right"
                             color="foreground"
                         >
-                            {userAllowance.toFixed(2)} SOL
+                            {userAllowance.toFixed(2)}
                         </Text>
                     </Stack>
                 </Stack>

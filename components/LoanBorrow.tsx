@@ -167,7 +167,7 @@ const LoanBorrow = (props: LoanBorrowProps) => {
                             align="right"
                             color="foreground"
                         >
-                         {(loanToValue * 100).toFixed(2)}%
+                         {(loanToValue * 100).toFixed(0)}%
                         </Text>
                     </Stack>
                     <Stack
@@ -214,7 +214,7 @@ const LoanBorrow = (props: LoanBorrowProps) => {
                         align="right"
                         color="foreground"
                     >
-                        {userAllowance.toFixed(2)} SOL
+                        {userAllowance.toFixed(2)}
                     </Text>
                 </Stack>
             </Box>
