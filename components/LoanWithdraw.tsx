@@ -5,6 +5,7 @@ import { Input } from 'degen';
 import * as styles from '../components/Slider/Slider.css';
 import * as loanStyles from '../styles/loan.css';
 import { LAMPORTS_PER_SOL } from '@solana/web3.js';
+import {toastResponse} from '../helpers/loanHelpers/index';
 
 interface LoanWithdrawProps {
   evaluation: number;
@@ -50,7 +51,11 @@ const LoanWithdraw = (props: LoanWithdrawProps) => {
    * @returns
   */
   function executeWithdraw() {
-    handleWithdraw(userInput ? userInput : 1);
+    if (userInput) {
+      handleWithdraw(userInput);
+    } else {
+      toastResponse('ERROR', 'Please provide an amount')
+    }
   }
 
   return (

@@ -131,21 +131,27 @@ const sdkConfig = ConfigureSDK();
    * @returns succes | failure
   */
   async function executeDeposit(value?: number) {
-    const tokenAmount =  value ? value * LAMPORTS_PER_SOL : 1 * LAMPORTS_PER_SOL;
-    const depositTokenMint = new PublicKey('So11111111111111111111111111111111111111112');
-    await deposit(honeyUser, tokenAmount, depositTokenMint, honeyReserves);
-
-    const depositReserve = honeyReserves.filter((reserve) =>
-      reserve?.data?.tokenMint?.equals(depositTokenMint),
-    )[0];
-
-    const reserveState = depositReserve.data?.reserveState;
-    console.log('this is reserveState-- deposit', reserveState);
-    console.log('outstandingDebt', reserveState?.outstandingDebt.toString());
-    console.log('totalDepositNotes', reserveState?.totalDepositNotes.toString());
-    console.log('TOTAL_DEPOSITS', reserveState?.totalDeposits.toString());
-    console.log('totalLoanNotes', reserveState?.totalLoanNotes.toString());
-    console.log('totalLoanNotes', reserveState?.totalLoanNotes.toString());
+    try {
+      // integrate toast response
+      const tokenAmount =  value ? value * LAMPORTS_PER_SOL : 1 * LAMPORTS_PER_SOL;
+      const depositTokenMint = new PublicKey('So11111111111111111111111111111111111111112');
+      await deposit(honeyUser, tokenAmount, depositTokenMint, honeyReserves);
+  
+      const depositReserve = honeyReserves.filter((reserve) =>
+        reserve?.data?.tokenMint?.equals(depositTokenMint),
+      )[0];
+  
+      const reserveState = depositReserve.data?.reserveState;
+      console.log('this is reserveState-- deposit', reserveState);
+      console.log('outstandingDebt', reserveState?.outstandingDebt.toString());
+      console.log('totalDepositNotes', reserveState?.totalDepositNotes.toString());
+      console.log('TOTAL_DEPOSITS', reserveState?.totalDeposits.toString());
+      console.log('totalLoanNotes', reserveState?.totalLoanNotes.toString());
+      console.log('totalLoanNotes', reserveState?.totalLoanNotes.toString()); 
+    } catch (error) {
+      // integrate toast response
+      console.log('error during deposit', error)
+    }
   }
 
   /**
@@ -154,19 +160,25 @@ const sdkConfig = ConfigureSDK();
    * @returns succes | failure
   */
   async function executeWithdraw(value?: number) {
-    const tokenAmount =  value ? value * LAMPORTS_PER_SOL : 1 * LAMPORTS_PER_SOL;
-    const depositTokenMint = new PublicKey('So11111111111111111111111111111111111111112');
-    await withdraw(honeyUser, tokenAmount, depositTokenMint, honeyReserves);
-    const withdrawReserve = honeyReserves.filter((reserve) =>
-      reserve?.data?.tokenMint?.equals(depositTokenMint),
-    )[0];
-
-    const reserveState = withdrawReserve.data?.reserveState;
-    console.log('this is reserveState-- withdraw', reserveState);
-    console.log('outstandingDebt', reserveState?.outstandingDebt.toString());
-    console.log('totalDepositNotes', reserveState?.totalDepositNotes.toString());
-    console.log('totalDeposits', reserveState?.totalDeposits.toString());
-    console.log('totalLoanNotes', reserveState?.totalLoanNotes.toString());
+    try {
+      // integrate toast response
+      const tokenAmount =  value ? value * LAMPORTS_PER_SOL : 1 * LAMPORTS_PER_SOL;
+      const depositTokenMint = new PublicKey('So11111111111111111111111111111111111111112');
+      await withdraw(honeyUser, tokenAmount, depositTokenMint, honeyReserves);
+      const withdrawReserve = honeyReserves.filter((reserve) =>
+        reserve?.data?.tokenMint?.equals(depositTokenMint),
+      )[0];
+  
+      const reserveState = withdrawReserve.data?.reserveState;
+      console.log('this is reserveState-- withdraw', reserveState);
+      console.log('outstandingDebt', reserveState?.outstandingDebt.toString());
+      console.log('totalDepositNotes', reserveState?.totalDepositNotes.toString());
+      console.log('totalDeposits', reserveState?.totalDeposits.toString());
+      console.log('totalLoanNotes', reserveState?.totalLoanNotes.toString());      
+    } catch (error) {
+      // integrate toast response
+      console.log('no success', error)
+    }
   }
 
   return (
