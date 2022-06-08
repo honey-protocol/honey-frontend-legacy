@@ -28,7 +28,8 @@ module.exports = {
     'plugin:unicorn/recommended',
     'plugin:security/recommended',
     'plugin:react-hooks/recommended',
-    'prettier/react'
+    'prettier/react',
+    'plugin:react-hooks/recommended'
   ],
   plugins: ['react', 'prettier', 'simple-import-sort'],
   rules: {
