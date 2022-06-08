@@ -106,10 +106,7 @@ const LoanNFTsContainer = (props: LoanNFTsContainerProps) => {
   */
      function handleNFTModal(nftType: string) {
       if (nftType == OPEN_POSITIONS) {
-
-        if (openPositions && openPositions.length > 0) {
-          refreshPositions();
-        }
+        refreshPositions();
         setRenderNFTs(TYPE_ZERO);
         handleBorrow(TYPE_ONE);
         setActiveIndex(TYPE_ZERO);

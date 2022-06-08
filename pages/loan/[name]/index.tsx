@@ -28,6 +28,8 @@ import {
   numberField,
   u64Field,
   i64Field,
+  ReserveStateLayout,
+  HoneyReserve,
 } from '@honey-finance/sdk';
 import {
   parseMappingData,
@@ -150,15 +152,19 @@ const Loan: NextPage = () => {
   useEffect(() => {
     if (collateralNFTPositions) setDefaultNFT(collateralNFTPositions);
 
+
+
+
+
     setTimeout(() => {
       // needs to be separated 
-      const fetchAsyncData = async() => {
-        if (honeyUser && honeyUser.getObligationData) {
-          let obligation = await honeyUser?.getObligationData() as ObligationAccount;
-        }
-      }
+      // const fetchAsyncData = async() => {
+      //   if (honeyUser && honeyUser.getObligationData) {
+      //     // let obligation = await honeyUser?.getObligationData() as ObligationAccount;
+      //   }
+      // }
 
-      fetchAsyncData();
+      // fetchAsyncData();
 
       let depositNoteExchangeRate = 0
       , loanNoteExchangeRate = 0
