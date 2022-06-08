@@ -148,14 +148,17 @@ const Loan: NextPage = () => {
    * @returns honeyUser | marketReserveInfo |
   */
   useEffect(() => {
-    console.log('change in main useEffect');
     if (collateralNFTPositions) setDefaultNFT(collateralNFTPositions);
 
     setTimeout(() => {
       // needs to be separated 
       const fetchAsyncData = async() => {
-        let obligation = await honeyUser?.getObligationData() as ObligationAccount;
+        if (honeyUser && honeyUser.getObligationData) {
+          let obligation = await honeyUser?.getObligationData() as ObligationAccount;
+        }
       }
+
+      fetchAsyncData();
 
       let depositNoteExchangeRate = 0
       , loanNoteExchangeRate = 0
@@ -164,7 +167,6 @@ const Loan: NextPage = () => {
       
 
       if(marketReserveInfo) {
-        fetchAsyncData();
         nftPrice = marketReserveInfo[0].price.div(new BN(10 ** 15)).toNumber();
         nftPrice = 2;
         depositNoteExchangeRate = marketReserveInfo[0].depositNoteExchangeRate.div(new BN(10 ** 15)).toNumber();

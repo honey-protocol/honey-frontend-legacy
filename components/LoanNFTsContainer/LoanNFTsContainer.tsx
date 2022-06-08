@@ -97,6 +97,8 @@ const LoanNFTsContainer = (props: LoanNFTsContainerProps) => {
     }
   }
 
+  console.log('open pos', openPositions)
+
   /**
    * @description handler for above declared logic
    * @params title of the button thats being clicked; open positions || new position
@@ -104,7 +106,10 @@ const LoanNFTsContainer = (props: LoanNFTsContainerProps) => {
   */
      function handleNFTModal(nftType: string) {
       if (nftType == OPEN_POSITIONS) {
-        refreshPositions();
+
+        if (openPositions && openPositions.length > 0) {
+          refreshPositions();
+        }
         setRenderNFTs(TYPE_ZERO);
         handleBorrow(TYPE_ONE);
         setActiveIndex(TYPE_ZERO);
