@@ -97,7 +97,7 @@ const LoanBorrow = (props: LoanBorrowProps) => {
           align="center"
       >
         <Box alignItems="flex-start">
-          <Avatar label="" size="10" src={NFT.image} />
+          <Avatar label="" size="10" src={NFT.image || ''} />
         </Box>
         <Box
           paddingBottom="2"
