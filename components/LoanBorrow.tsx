@@ -8,6 +8,7 @@ import { LAMPORTS_PER_SOL } from '@solana/web3.js';
 import BN from 'bn.js';
 import { TYPE_BORROW } from "constants/loan";
 import {toastResponse} from '../helpers/loanHelpers/index';
+import {asyncTimeout} from '../helpers/loanHelpers/index';
 
 interface LoanBorrowProps {
   NFT: {
@@ -26,7 +27,7 @@ interface LoanBorrowProps {
   userDebt: number;
   userAllowance: number;
   loanToValue: number;
-  fetchMarket: () => void;
+  fetchMarket: Function;
 }
 
 const LoanBorrow = (props: LoanBorrowProps) => {
@@ -62,6 +63,11 @@ const LoanBorrow = (props: LoanBorrowProps) => {
     setUserInput(val);
   }
 
+  async function handleTimeout() {
+    await asyncTimeout(5000);
+    await fetchMarket();
+  }
+
   /**
    * @description handles execute borrow func.
    * @params amount that user wants to borrow
@@ -76,11 +82,7 @@ const LoanBorrow = (props: LoanBorrowProps) => {
       return toastResponse('ERROR', 'Please provide an amount', 'ERROR');
     }
     executeBorrow(userInput);
-
-    setTimeout(() => {
-      console.log('fetch market from borrow running');
-      fetchMarket();
-    }, 3000)
+    handleTimeout();
   }
 
   return (

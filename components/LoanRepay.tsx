@@ -8,6 +8,7 @@ import BN from 'bn.js';
 import { TYPE_REPAY } from '../constants/loan';
 import * as styles from './Slider/Slider.css';
 import {toastResponse} from '../helpers/loanHelpers/index';
+import {asyncTimeout} from '../helpers/loanHelpers/index';
 
 interface LoanRepayProps {
     NFT: {
@@ -27,7 +28,7 @@ interface LoanRepayProps {
     userDebt: number;
     userAllowance: number;
     loanToValue: number;
-    fetchMarket: () => void;
+    fetchMarket: Function;
 }
 
 const LoanRepay = (props: LoanRepayProps) => {
@@ -35,19 +36,19 @@ const LoanRepay = (props: LoanRepayProps) => {
     const [userInput, setUserInput] = useState(0);
     const [userMessage, setUserMessage] = useState('');
 
+
+    async function handleTimeout() {
+      await asyncTimeout(5000);
+      await fetchMarket();
+    }
+
     function handleExecuteRepay() {
-      console.log('this is userInput', userInput)
       if (!userInput) return toastResponse('ERROR', 'Please provide a value', 'ERROR');
       executeRepay(userInput);
-
-      setTimeout(() => {
-        console.log('fetch market from repay running');
-        fetchMarket();
-      }, 3000)
+      handleTimeout();
     }
  
     function handleUserChange(val: any) {
-    console.log('val from input slider in repay', val)
       setUserInput(val);
     }
 

@@ -63,3 +63,9 @@ export async function toastResponse(responseType: string, message: string, id: a
     return toast.success(message, {toastId: responseType});
   }
 }
+
+export const asyncTimeout = (ms: number) => {
+  return new Promise((resolve) => {
+    setTimeout(resolve, ms);
+  });
+};

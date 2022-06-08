@@ -19,7 +19,7 @@ interface BorrowNFTsModule {
   userDebt: number;
   userAllowance: number;
   loanToValue: number;
-  fetchMarket: () => {};
+  fetchMarket: Function;
 }
  
 const BorrowNFTsModule = (props: BorrowNFTsModule) => {

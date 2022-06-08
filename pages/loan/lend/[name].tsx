@@ -133,8 +133,10 @@ const sdkConfig = ConfigureSDK();
   */
   async function executeDeposit(value?: number) {
     try {
+
+      if (!value) return toastResponse('ERROR', 'Deposit failed', 'ERROR');
       // integrate toast response
-      const tokenAmount =  value ? value * LAMPORTS_PER_SOL : 1 * LAMPORTS_PER_SOL;
+      const tokenAmount =  value * LAMPORTS_PER_SOL;
       const depositTokenMint = new PublicKey('So11111111111111111111111111111111111111112');
       const tx = await deposit(honeyUser, tokenAmount, depositTokenMint, honeyReserves);
       
@@ -169,8 +171,9 @@ const sdkConfig = ConfigureSDK();
   */
   async function executeWithdraw(value?: number) {
     try {
+      if (!value) return toastResponse('ERROR', 'Withdraw failed', 'ERROR');
       // integrate toast response
-      const tokenAmount =  value ? value * LAMPORTS_PER_SOL : 1 * LAMPORTS_PER_SOL;
+      const tokenAmount =  value * LAMPORTS_PER_SOL;
       const depositTokenMint = new PublicKey('So11111111111111111111111111111111111111112');
       const tx = await withdraw(honeyUser, tokenAmount, depositTokenMint, honeyReserves);
       

@@ -35,7 +35,6 @@ const LoanNewBorrow = (props: LoanNewBorrowProps) => {
   async function fetchOpenPositions() {
     setTimeout(() => {
       reFetchNFTs({});
-      console.log('refetch fired');
     }, 3500)
   }
 

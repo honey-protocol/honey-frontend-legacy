@@ -68,7 +68,6 @@ const LoanNFTsContainer = (props: LoanNFTsContainerProps) => {
   const [highlightNFTAvailable, setHighlightNFTAvailable] = useState(TYPE_ZERO);
 
   useEffect(() => {
-    console.log('heellooo')
     if (openPositions?.length > 0) {
 
       setActiveIndex(TYPE_ZERO)
@@ -133,17 +132,12 @@ const LoanNFTsContainer = (props: LoanNFTsContainerProps) => {
   }, [activeIndex]);
 
   useEffect(() => {
-    console.log('__UPDATE_OPEN_POSITIONS', openPositions);
-    console.log('__UPDATE_AVAILABLE_POSITIONS', availableNFTs)
     if (openPositions?.length < 1) {
       setRenderNoPositionText(0);
     } else if (openPositions?.length > 0) {
       setRenderNoPositionText(1);
     }
   }, [openPositions, availableNFTs]);
-
-  console.log('RENDER NFTs value', renderNFTs)
-  
 
   return (
     <Box className={styles.cardContainer}>
