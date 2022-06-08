@@ -52,8 +52,6 @@ const LoanRepay = (props: LoanRepayProps) => {
       setUserInput(val);
     }
 
-    console.log('this is the image', NFT.image)
-
     return (
         <Box gap="3">
             {/* Vault data row */}
