@@ -52,6 +52,8 @@ const LoanRepay = (props: LoanRepayProps) => {
       setUserInput(val);
     }
 
+    console.log('this is the image', NFT.image)
+
     return (
         <Box gap="3">
             {/* Vault data row */}
@@ -63,7 +65,7 @@ const LoanRepay = (props: LoanRepayProps) => {
                 justify="space-between"
             >
                 <Box alignItems="flex-end">
-                    <Avatar label="" size="10" src={NFT.image} />
+                    <Avatar label="" size="10" src={NFT.image || ''} />
                 </Box>
                 <Box
                 paddingBottom="2"

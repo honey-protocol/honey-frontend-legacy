@@ -279,7 +279,7 @@ const Loan: NextPage = () => {
   */
   async function executeWithdrawNFT(mintID: any) {
     try {
-      if (!mintID) return toastResponse('ERROR', 'No NFT was provided', 'ERROR');
+      if (!mintID) return toastResponse('ERROR', 'Please select NFT', 'ERROR');
       const metadata = await Metadata.findByMint(sdkConfig.saberHqConnection, mintID);
       const tx = await withdrawNFT(sdkConfig.saberHqConnection, honeyUser, metadata.pubkey);
       if (tx[0] == 'SUCCESS') {
