@@ -9,6 +9,7 @@ import { Box, Field, Spinner, Text } from 'degen';
 // import { Select } from '../../../../../common/inputs/InputText';
 // import { LoadingPage } from '../../../../../common/LoadingPage';
 import * as styles from './ProposalTxForm.css';
+import CustomDropdown from 'components/CustomDropdown/CustomDropdown';
 
 interface Props {
   txRaw: string;
@@ -37,26 +38,22 @@ export const ProposalTXForm: React.FC<Props> = ({
   return (
     <Box display="grid" gap="4" htmlFor="proposedAction">
       <Field label={<Text as="span">Proposed Action</Text>}>
-        <select
-          value={actionType}
-          className={styles.actionTypeSelect}
-          onChange={e => {
-            setActionType(e.target.value as ActionType);
+        <CustomDropdown
+          onChange={value => {
+            setActionType(value as ActionType);
             setError(null);
             setTxRaw('');
           }}
-        >
-          {ACTIONS.map(({ title, isEnabled }) => {
+          options={ACTIONS.map(({ title, isEnabled }) => {
             if (isEnabled && ctx && !isEnabled(ctx)) {
-              return null;
+              return { title: '', value: '' };
             }
-            return (
-              <option key={title} value={title}>
-                {title}
-              </option>
-            );
+            return {
+              title,
+              value: title
+            };
           })}
-        </select>
+        />
       </Field>
       {/* <label tw="flex flex-col gap-1" htmlFor="proposedAction">
         <select
