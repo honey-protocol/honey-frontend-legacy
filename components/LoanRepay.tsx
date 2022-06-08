@@ -27,10 +27,11 @@ interface LoanRepayProps {
     userDebt: number;
     userAllowance: number;
     loanToValue: number;
+    fetchMarket: () => void;
 }
 
 const LoanRepay = (props: LoanRepayProps) => {
-    const { NFT, executeWithdrawNFT, mint, executeRepay, loanPositions, parsedReserves, userDebt, userAllowance, loanToValue } = props;
+    const { NFT, executeWithdrawNFT, mint, executeRepay, loanPositions, parsedReserves, userDebt, userAllowance, loanToValue, fetchMarket } = props;
     const [userInput, setUserInput] = useState(0);
     const [userMessage, setUserMessage] = useState('');
 
@@ -38,8 +39,13 @@ const LoanRepay = (props: LoanRepayProps) => {
       console.log('this is userInput', userInput)
       if (!userInput) return toastResponse('ERROR', 'Please provide a value', 'ERROR');
       executeRepay(userInput);
-    }
 
+      setTimeout(() => {
+        console.log('fetch market from repay running');
+        fetchMarket();
+      }, 3000)
+    }
+ 
     function handleUserChange(val: any) {
     console.log('val from input slider in repay', val)
       setUserInput(val);

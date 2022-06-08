@@ -213,7 +213,7 @@ const Loan: NextPage = () => {
       }
       // reFetchNFTs({});
     }, 3000);
-  }, [marketReserveInfo, honeyUser, collateralNFTPositions, market, error]);
+  }, [marketReserveInfo, parsedReserves, honeyUser, collateralNFTPositions, market, fetchMarket, error]);
 
 
 
