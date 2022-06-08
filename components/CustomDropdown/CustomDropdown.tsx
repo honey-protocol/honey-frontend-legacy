@@ -7,7 +7,7 @@ import {
   Stack,
   Text
 } from 'degen';
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import * as styles from './CustomDropdown.css';
 
 type Option = {
@@ -23,13 +23,24 @@ interface CustomDropdownProps {
 const CustomDropdown = (props: CustomDropdownProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedOption, setSelectedOption] = useState(props.options[0]);
+  const optionsContainerRef = useRef(null);
   const onSelect = (option: Option) => {
     setSelectedOption(option);
     setIsOpen(false);
     props.onChange(option.value);
   };
-  const onOpen = () => {};
-  const onClose = () => {};
+
+  useEffect(() => {
+    window.onclick = event => {
+      if (isOpen && event.target !== optionsContainerRef.current) {
+        setIsOpen(false);
+      }
+    };
+    return () => {
+      window.onclick = null;
+    };
+  }, [isOpen, setIsOpen, optionsContainerRef]);
+
   return (
     <Box className={styles.dropdown}>
       <Box
@@ -44,6 +55,7 @@ const CustomDropdown = (props: CustomDropdownProps) => {
       <Box
         display={isOpen ? 'block' : 'none'}
         className={styles.dropdownSelect}
+        ref={optionsContainerRef}
       >
         {props.options.map(
           (option, i) =>
