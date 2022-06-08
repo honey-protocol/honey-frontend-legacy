@@ -108,7 +108,7 @@ const Loan: NextPage = () => {
    * @params none
    * @returns market | market reserve information | parsed reserves |
   */
-  const { market, marketReserveInfo, parsedReserves }  = useHoney();
+  const { market, marketReserveInfo, parsedReserves, fetchMarket }  = useHoney();
 
   /**
    * @description fetches open positions and the amount regarding loan positions / token account
@@ -148,6 +148,7 @@ const Loan: NextPage = () => {
    * @returns honeyUser | marketReserveInfo |
   */
   useEffect(() => {
+    console.log('change in main useEffect');
     if (collateralNFTPositions) setDefaultNFT(collateralNFTPositions);
 
     setTimeout(() => {
@@ -212,7 +213,7 @@ const Loan: NextPage = () => {
       }
       // reFetchNFTs({});
     }, 3000);
-  }, [marketReserveInfo, honeyUser, collateralNFTPositions, reFetchNFTs, market, error]);
+  }, [marketReserveInfo, honeyUser, collateralNFTPositions, market, error]);
 
 
 
@@ -285,8 +286,7 @@ const Loan: NextPage = () => {
         }
       } catch (error) {
         console.log('error depositing nft', error);
-        toastResponse('ERROR', 'Error deposit NFT', 'ERROR');
-        return;
+        return toastResponse('ERROR', 'Error deposit NFT', 'ERROR');
     }
   }
 
@@ -413,6 +413,7 @@ const Loan: NextPage = () => {
                 userDebt={userDebt}
                 userAllowance={userAllowance}
                 loanToValue={loanToValue}
+                fetchMarket={fetchMarket}
               />
             :
               <LoanNewBorrow

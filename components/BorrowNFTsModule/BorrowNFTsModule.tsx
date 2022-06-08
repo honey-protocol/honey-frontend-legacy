@@ -19,10 +19,11 @@ interface BorrowNFTsModule {
   userDebt: number;
   userAllowance: number;
   loanToValue: number;
+  fetchMarket: () => void;
 }
-
+ 
 const BorrowNFTsModule = (props: BorrowNFTsModule) => {
-  const { NFT, executeWithdrawNFT, mint, loanPositions, executeBorrow, executeRepay, openPositions, parsedReserves, userAvailableNFTs, userDebt, userAllowance, loanToValue } = props;
+  const { NFT, executeWithdrawNFT, mint, loanPositions, executeBorrow, executeRepay, openPositions, parsedReserves, userAvailableNFTs, userDebt, userAllowance, loanToValue, fetchMarket } = props;
 
   /**
    * @description sets default state for borrow or repay module 0 = borrow 1 = repay
