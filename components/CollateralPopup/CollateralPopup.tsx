@@ -17,7 +17,7 @@ const CollateralPopup = (props: CollateralPopupProps) => {
         </div>
         <div className={styles.blockTwo}>
           <Button 
-            variant="primary"
+            variant="secondary"
             onClick={() => setShowCollateralPopup(0)}
           >
             Understood
