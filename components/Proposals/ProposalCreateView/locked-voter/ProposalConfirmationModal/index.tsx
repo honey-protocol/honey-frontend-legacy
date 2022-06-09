@@ -17,6 +17,7 @@ import { Modal } from 'components/Modal';
 import { ModalInner } from 'components/Modal/ModalInner';
 import { ProposalIX } from './ProposalIX';
 import ModalContainer from 'components/ModalContainer/ModalContainer';
+import * as styles from './ProposalConfirmationModal.css';
 
 type Props = Omit<ModalProps, 'children'> & {
   proposal: {
@@ -69,26 +70,32 @@ export const ProposalConfirmModal: React.FC<Props> = ({
       isVisible={modalProps.isOpen}
       onClose={modalProps.onDismiss}
     >
-      <Box width="144" display="grid" padding="10" gap="4">
-        <Box paddingBottom="3" borderBottomWidth="0.5">
-          <Text weight="semiBold" align="center" variant="large" ellipsis>
-            Proposal: {proposal.title}
-          </Text>
-        </Box>
-        <HelperCard>
-          <Box marginBottom="3">
+      <Box
+        width="144"
+        className={styles.modal}
+        display="grid"
+        padding="10"
+        gap="4"
+      >
+        <Text weight="semiBold" align="center" variant="large" ellipsis>
+          Proposal: {proposal.title}
+        </Text>
+        <Box paddingTop="3" borderTopWidth="0.5">
+          <HelperCard>
+            <Box marginBottom="3">
+              <Text size="small" lineHeight="1.5" as="p">
+                Tip: The proposal cannot be modified after submission, so please
+                verify all information before submitting.
+              </Text>
+            </Box>
             <Text size="small" lineHeight="1.5" as="p">
-              Tip: The proposal cannot be modified after submission, so please
-              verify all information before submitting.
+              Once submitted, anyone with at least{' '}
+              {minActivationThreshold?.formatUnits()} may start the voting
+              period, i.e., activate the proposal. The voting period will then
+              immediately begin and last for {votingPeriodFmt}.
             </Text>
-          </Box>
-          <Text size="small" lineHeight="1.5" as="p">
-            Once submitted, anyone with at least{' '}
-            {minActivationThreshold?.formatUnits()} may start the voting period,
-            i.e., activate the proposal. The voting period will then immediately
-            begin and last for {votingPeriodFmt}.
-          </Text>
-        </HelperCard>
+          </HelperCard>
+        </Box>
         <Box>
           <Text>
             <ReactMarkdown>{proposal.description}</ReactMarkdown>
