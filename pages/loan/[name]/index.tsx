@@ -8,7 +8,7 @@ import LoanNFTsContainer from 'components/LoanNFTsContainer/LoanNFTsContainer';
 import BorrowNFTsModule from 'components/BorrowNFTsModule/BorrowNFTsModule';
 import Link from 'next/link';
 import * as styles from '../../../styles/name.css';
-import { ConfigureSDK, loadAnchor } from '../../../helpers/loanHelpers/index';
+import { BnToDecimal, ConfigureSDK, loadAnchor } from '../../../helpers/loanHelpers/index';
 import useFetchNFTByUser from '../../../hooks/useNFTV2';
 import LoanNewBorrow from 'components/NewPosition';
 import { LAMPORTS_PER_SOL, PublicKey } from '@solana/web3.js';
@@ -167,7 +167,7 @@ const Loan: NextPage = () => {
       if(marketReserveInfo) {
         // nftPrice = marketReserveInfo[0].price.div(new BN(10 ** 15)).toNumber();
         nftPrice = 2;
-        depositNoteExchangeRate = marketReserveInfo[0].depositNoteExchangeRate.div(new BN(10 ** 15)).toNumber();
+        depositNoteExchangeRate = BnToDecimal(marketReserveInfo[0].depositNoteExchangeRate, 15, 5);
         loanNoteExchangeRate = marketReserveInfo[0].loanNoteExchangeRate.div(new BN(10 ** 10)).toNumber() / (10 ** 5);
         cRatio = marketReserveInfo[0].minCollateralRatio.div(new BN(10 ** 10)).toNumber() / (10 ** 5);
 

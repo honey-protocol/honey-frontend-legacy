@@ -109,7 +109,7 @@ const sdkConfig = ConfigureSDK();
 
       console.log('total_outstanding_debt', BnToDecimal( reserveState?.outstandingDebt.div(new BN(Math.pow(10, 15))), 9, 3));
 
-      // console.log('totalDepositNotes', reserveState?.totalDepositNotes.toString());
+      console.log('totalDepositNotes', reserveState?.totalDepositNotes.toString());
       console.log('totalDeposits', BnToDecimal(reserveState?.totalDeposits, 9, 3));
       console.log('totalLoanNotes', reserveState?.totalLoanNotes.toString());
     }
