@@ -1,4 +1,4 @@
-import { useConnection, useConnectedWallet } from '@saberhq/use-solana';
+import { useConnection, useConnectedWallet, ConnectedWallet } from '@saberhq/use-solana';
 import { HONEY_PROGRAM_ID, HONEY_MARKET_ID } from 'constants/loan';
 import { toast } from 'react-toastify';
 
@@ -63,7 +63,11 @@ export async function toastResponse(responseType: string, message: string, id: a
     return toast.success(message, {toastId: responseType});
   }
 }
-
+/**
+ * @description
+ * @params
+ * @returns
+*/
 export const asyncTimeout = (ms: number) => {
   return new Promise((resolve) => {
     setTimeout(resolve, ms);
