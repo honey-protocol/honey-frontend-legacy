@@ -36,6 +36,10 @@ const LoanRepay = (props: LoanRepayProps) => {
     const [userInput, setUserInput] = useState(0);
     const [userMessage, setUserMessage] = useState('');
 
+    let nftPlaceholder = {
+        image: 'https://assets.coingecko.com/coins/images/24781/small/honey.png?1648902423',
+        name: 'Loading..',
+      }
 
     async function handleTimeout() {
       await asyncTimeout(5000);
@@ -63,7 +67,7 @@ const LoanRepay = (props: LoanRepayProps) => {
                 justify="space-between"
             >
                 <Box alignItems="flex-end">
-                    <Avatar label="" size="10" src={NFT.image || ''} />
+                    <Avatar label="" size="10" src={NFT ? NFT.image : nftPlaceholder.image} />
                 </Box>
                 <Box
                 paddingBottom="2"
@@ -79,7 +83,7 @@ const LoanRepay = (props: LoanRepayProps) => {
                     color="foreground"
                     variant="large"
                     >
-                    {NFT.name}
+                    {NFT ? NFT.name : nftPlaceholder.name}
                     </Text>
                 </Stack>
                 <Stack

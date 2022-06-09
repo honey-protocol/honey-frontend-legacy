@@ -4,7 +4,7 @@ import { Avatar } from 'degen';
 import { Input } from 'degen';
 import Slider from '../components/Slider/Slider';
 import * as styles from './Slider/Slider.css';
-import { LAMPORTS_PER_SOL } from '@solana/web3.js';
+import { LAMPORTS_PER_SOL, PublicKey } from '@solana/web3.js';
 import BN from 'bn.js';
 import { TYPE_BORROW } from "constants/loan";
 import {toastResponse} from '../helpers/loanHelpers/index';
@@ -12,13 +12,12 @@ import {asyncTimeout} from '../helpers/loanHelpers/index';
 
 interface LoanBorrowProps {
   NFT: {
-      name: string,
-      image: string,
-      borrowApy: string,
-      estValue: string,
-      assetsBorrowed: number,
-      netBorrowBalance: number,
-      key: number
+    image: string,
+    mint: PublicKey,
+    name: string,
+    symbol: string,
+    updateAuthority: PublicKey,
+    uri: string
   },
   executeBorrow: (val:any) => void;
   openPositions?:[];
@@ -32,7 +31,11 @@ interface LoanBorrowProps {
 
 const LoanBorrow = (props: LoanBorrowProps) => {
   const { NFT, executeBorrow, openPositions, loanPositions, parsedReserves, userDebt, userAllowance, loanToValue, fetchMarket } = props;
-
+  
+  let nftPlaceholder = {
+    image: 'https://assets.coingecko.com/coins/images/24781/small/honey.png?1648902423',
+    name: 'Loading..',
+  }
   /**
    * @description set default state for userInput and debtAmount to 0
    * @params number
@@ -97,7 +100,7 @@ const LoanBorrow = (props: LoanBorrowProps) => {
           align="center"
       >
         <Box alignItems="flex-start">
-          <Avatar label="" size="10" src={NFT.image || ''} />
+          <Avatar label="" size="10" src={NFT ? NFT.image : nftPlaceholder.image} />
         </Box>
         <Box
           paddingBottom="2"
@@ -113,7 +116,7 @@ const LoanBorrow = (props: LoanBorrowProps) => {
               color="foreground"
               variant="large"
             >
-              {NFT.name}
+              {NFT ? NFT.name : nftPlaceholder.name}
             </Text>
             <Text>
               Estimated value: <span>2 SOL</span>
