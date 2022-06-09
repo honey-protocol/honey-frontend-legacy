@@ -137,6 +137,7 @@ const sdkConfig = ConfigureSDK();
       if (!value) return toastResponse('ERROR', 'Deposit failed', 'ERROR');
       // integrate toast response
       const tokenAmount =  value * LAMPORTS_PER_SOL;
+      console.log('this is value and the multiplier', value, (value * LAMPORTS_PER_SOL))
       const depositTokenMint = new PublicKey('So11111111111111111111111111111111111111112');
       const tx = await deposit(honeyUser, tokenAmount, depositTokenMint, honeyReserves);
       

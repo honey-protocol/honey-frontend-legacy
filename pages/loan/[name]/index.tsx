@@ -184,9 +184,7 @@ const Loan: NextPage = () => {
         let userLoans = loanNoteExchangeRate * (honeyUser?.loans()[0]?.amount.toNumber() / (10 ** 9));
 
         let sumOfAllowance = nftCollateralValue / cRatio - userLoans;
-        console.log('BEFORE', sumOfAllowance)
         if (sumOfAllowance > 0) sumOfAllowance = sumOfAllowance * 0.6;
-        console.log('AFTER', sumOfAllowance)
         setUserAllowance(sumOfAllowance);
 
         const totalDebt = loanNoteExchangeRate * (honeyUser?.loans()[0]?.amount.toNumber() / (10 ** 9));

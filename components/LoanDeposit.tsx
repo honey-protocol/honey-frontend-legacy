@@ -25,14 +25,18 @@ const LoanDeposit = (props: LoanDepositProps) => {
    * @returns
   */
   const [userMessage, setUserMessage] = useState('');
-  const [userInput, setUserInput] = useState(0);
+  const [userInput, setUserInput] = useState();
   /**
    * @description
    * @params
    * @returns
   */
   function handleChange(value: any) {
-     setUserInput(value.target.value)
+    let userValue = value.target.value
+    const validated = userValue.match(/^(\d*\.{0,1}\d{0,2}$)/)
+    if (validated) {
+      setUserInput(userValue)
+    }
   }
   /**
    * @description
@@ -43,7 +47,7 @@ const LoanDeposit = (props: LoanDepositProps) => {
     if (userInput) {
       handleDeposit(userInput)
     } else {
-      toastResponse('ERROR', 'Please provide an amount');
+      toastResponse('ERROR', 'Please provide an amount', 'ERROR');
     }
   }
 
@@ -82,7 +86,7 @@ const LoanDeposit = (props: LoanDepositProps) => {
               Assets Deposited
             </Text>
             <Text align="right" color="foreground">
-              {userTotalDeposits.toFixed(4)}
+              {userTotalDeposits.toFixed(2)}
             </Text>
           </Stack>
           <Stack
@@ -107,7 +111,7 @@ const LoanDeposit = (props: LoanDepositProps) => {
         {/* Borrowed amount and currency */}
         <Box className={styles.selectionWrapper}>
           <Box className={styles.selectionDetails}>
-            <input type="number" placeholder='0' onChange={(value) => handleChange(value)} className={styles.currencyStyles} value={userInput} min="1" max="2" />
+            <input type="number" placeholder='0.00' step=".01" onChange={(value) => handleChange(value)} className={styles.currencyStyles} value={userInput} min="1" max="2" />
             <Avatar
               label="TetranodeNFT"
               size="7"
