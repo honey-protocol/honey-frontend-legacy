@@ -42,7 +42,7 @@ export async function inputNumberValidator(val: any) {
  * @params
  * @returns
 */
-export async function toastResponse(responseType: string, message: string, id: any) {
+export async function toastResponse(responseType: string, message: string, id: any, triggerType?: string) {
   if (responseType == 'ERROR') {
     return toast.error(message, {toastId: responseType});
   } else if (responseType == 'LOADING') {
@@ -60,6 +60,16 @@ export async function toastResponse(responseType: string, message: string, id: a
     )
   } else if (responseType == 'SUCCESS') {
     // success logic
+    if (triggerType && (triggerType == 'BORROW' || triggerType == 'REPAY')) {
+      console.log('inside right if', triggerType)
+      asyncTimeout(3000).then(() => window.location.reload());
+      return toast.success(message, {toastId: responseType});
+    }
+
+    if (triggerType && triggerType == 'CLAIM_NFT') {
+      // write logic to call open positions refresh function
+      return toast.success(message, {toastId: responseType});
+    }
     return toast.success(message, {toastId: responseType});
   }
 }
@@ -69,6 +79,7 @@ export async function toastResponse(responseType: string, message: string, id: a
  * @returns
 */
 export const asyncTimeout = (ms: number) => {
+  console.log('async being called')
   return new Promise((resolve) => {
     setTimeout(resolve, ms);
   });

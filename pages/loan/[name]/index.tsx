@@ -97,7 +97,7 @@ const Loan: NextPage = () => {
   const [loanToValue, setLoanToValue] = useState(0);
   const [defaultNFT, setDefaultNFT] = useState<Array<CollateralNFT>>([]);
   const [globalLoadingState, setGlobalLoadingState] = useState(false);
-
+  console.log('this is the window', window)
   /**
   * @description calls upon the honey sdk
   * @params  useConnection func. | useConnectedWallet func. | honeyID | marketID
@@ -303,7 +303,7 @@ const Loan: NextPage = () => {
     const tx = await borrow(honeyUser, val * LAMPORTS_PER_SOL, borrowTokenMint, honeyReserves);
     console.log('borrowed amount', val * LAMPORTS_PER_SOL);
     if (tx[0] == 'SUCCESS') {
-      toastResponse('SUCCESS', 'Borrow success', 'SUCCESS');
+      toastResponse('SUCCESS', 'Borrow success', 'SUCCESS', 'BORROW');
     }
   }
 
@@ -320,10 +320,9 @@ const Loan: NextPage = () => {
     const tx = await repay(honeyUser, val * LAMPORTS_PER_SOL, repayTokenMint, honeyReserves)
     console.log('this is repayTx', tx);
     if (tx[0] == 'SUCCESS') {
-      toastResponse('SUCCESS', 'Repay success', 'SUCCESS');
+      toastResponse('SUCCESS', 'Repay success', 'SUCCESS', 'REPAY');
     }
   }
- 
 
   return (
     <Layout>
