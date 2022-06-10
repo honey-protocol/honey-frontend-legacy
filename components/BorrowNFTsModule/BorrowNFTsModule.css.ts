@@ -4,7 +4,8 @@ export const cardContainer = style({
   width: '100%',
   maxWidth: '30em',
   display: 'flex',
-  alignItems: 'stretch'
+  alignItems: 'stretch',
+  minHeight: '100%'
 });
 
 export const nftContainer = style({
