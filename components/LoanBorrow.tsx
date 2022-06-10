@@ -78,9 +78,6 @@ const LoanBorrow = (props: LoanBorrowProps) => {
    * @todo add regex for userinput
   */
   function handleExecuteBorrow(val: any) {
-    if (userInput && userInput < 0.1) {
-      return toastResponse('ERROR', 'No allowance left', 'ERROR');
-    }
     if (!userInput) {
       return toastResponse('ERROR', 'Please provide an amount', 'ERROR');
     }
@@ -149,7 +146,7 @@ const LoanBorrow = (props: LoanBorrowProps) => {
                           align="right"
                           color="foreground"
                       >
-                          {userDebt.toFixed(2)}
+                          {userDebt}
                       </Text>
                   </Stack>
               </Stack>
@@ -178,7 +175,7 @@ const LoanBorrow = (props: LoanBorrowProps) => {
                           align="right"
                           color="foreground"
                       >
-                        {(loanToValue * 100).toFixed(0)}%
+                        {(loanToValue * 100)}%
                       </Text>
                   </Stack>
                   <Stack
@@ -219,13 +216,13 @@ const LoanBorrow = (props: LoanBorrowProps) => {
                   <Text
                       align="left"
                       color="textSecondary">
-                      Total Allowance
+                      Total allowance
                   </Text>
                   <Text
                       align="right"
                       color="foreground"
                   >
-                      {userAllowance.toFixed(2)}
+                      {userAllowance}
                   </Text>
               </Stack>
           </Box>

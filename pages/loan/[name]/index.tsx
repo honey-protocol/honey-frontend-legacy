@@ -15,7 +15,7 @@ import { LAMPORTS_PER_SOL, PublicKey } from '@solana/web3.js';
 import {TYPE_ZERO, TYPE_ONE} from '../../../constants/loan';
 import BN from 'bn.js';
 import * as BL from '@solana/buffer-layout';
-import {toastResponse, BnToDecimal} from '../../../helpers/loanHelpers/index';
+import {toastResponse, BnToDecimal, asyncTimeout} from '../../../helpers/loanHelpers/index';
 import {
   depositNFT,
   withdrawNFT,
@@ -31,6 +31,7 @@ import {
   ReserveStateLayout,
   HoneyReserve,
 } from '@honey-finance/sdk';
+import { RoundHalfDown } from 'helpers/utils';
 import {
   parseMappingData,
   parsePriceData,
@@ -143,6 +144,40 @@ const Loan: NextPage = () => {
   */
   const [selectedId, setSelectedId] = useState('1');
   const [nftArrayType, setNftArrayType] = useState(false);
+  const [depositNoteExchangeRate, setDepositNoteExchangeRate] = useState(0);
+  const [nftPrice, setNFTPrice] = useState(0);
+  const [cRatio, setCRatio] = useState(0);
+
+
+
+  // let depositNoteExchangeRate = 0
+  // , loanNoteExchangeRate = 0
+  // , nftPrice = 0
+  // , cRatio = 1;
+
+
+  async function handleLoanInit() {
+    if (marketReserveInfo) {
+      setNFTPrice(marketReserveInfo[0].price.div(new BN(10 ** 15)).toNumber());
+      setDepositNoteExchangeRate(BnToDecimal(marketReserveInfo[0].depositNoteExchangeRate, 15, 5))
+      setCRatio(BnToDecimal(marketReserveInfo[0].minCollateralRatio, 15, 5))
+    }
+  }
+
+  function handleLoanValues() {
+    if (honeyUser?.loans().length > 0 && marketReserveInfo) {
+      let nftCollateralValue = nftPrice * (collateralNFTPositions?.length || 0);
+      let userLoans = marketReserveInfo[0].loanNoteExchangeRate.mul(honeyUser?.loans()[0]?.amount).div(new BN(10 ** 15)).toNumber() / LAMPORTS_PER_SOL;
+      let sumOfAllowance = RoundHalfDown(nftCollateralValue / cRatio - userLoans, 2);
+      setUserAllowance(sumOfAllowance);
+  
+      const totalDebt = marketReserveInfo[0].loanNoteExchangeRate.mul(honeyUser?.loans()[0]?.amount).div(new BN(10 ** 15)).toNumber() / LAMPORTS_PER_SOL;
+      const lvt = totalDebt / nftPrice;
+
+      setUserDebt(totalDebt);
+      setLoanToValue(lvt);
+    }
+  }
 
   /**
    * @description updates honeyUser | marketReserveInfo | - timeout required
@@ -152,7 +187,7 @@ const Loan: NextPage = () => {
   useEffect(() => {
     if (collateralNFTPositions) setDefaultNFT(collateralNFTPositions);
 
-    setTimeout(() => {
+    // setTimeout(() => {
       // needs to be separated 
       // const fetchAsyncData = async() => {
       //   if (honeyUser && honeyUser.getObligationData) {
@@ -162,37 +197,40 @@ const Loan: NextPage = () => {
 
       // fetchAsyncData();
 
-      let depositNoteExchangeRate = 0
-      , loanNoteExchangeRate = 0
-      , nftPrice = 0
-      , cRatio = 1;
+      // let depositNoteExchangeRate = 0
+      // , loanNoteExchangeRate = 0
+      // , nftPrice = 0
+      // , cRatio = 1;
       
 
-      if(marketReserveInfo) {
-        nftPrice = marketReserveInfo[0].price.div(new BN(10 ** 15)).toNumber();
-        nftPrice = 2;
-        depositNoteExchangeRate = marketReserveInfo[0].depositNoteExchangeRate.div(new BN(10 ** 15)).toNumber();
-        // depositNoteExchangeRate = BnToDecimal(marketReserveInfo[0].depositNoteExchangeRate, 15, 5);
-        loanNoteExchangeRate = marketReserveInfo[0].loanNoteExchangeRate.div(new BN(10 ** 10)).toNumber() / (10 ** 5);
-        cRatio = marketReserveInfo[0].minCollateralRatio.div(new BN(10 ** 10)).toNumber() / (10 ** 5);
-      }
+    //   if(marketReserveInfo) {
+    //     console.log('@@@@@MARKET RESERV NFT PRICEE@@@@@@')
+    //     nftPrice = 2;
+    //     depositNoteExchangeRate = marketReserveInfo[0].depositNoteExchangeRate.div(new BN(10 ** 15)).toNumber();
+    //     // depositNoteExchangeRate = BnToDecimal(marketReserveInfo[0].depositNoteExchangeRate, 15, 5);
+    //     loanNoteExchangeRate = marketReserveInfo[0].loanNoteExchangeRate.div(new BN(10 ** 10)).toNumber() / (10 ** 5);
+    //     cRatio = marketReserveInfo[0].minCollateralRatio.div(new BN(10 ** 10)).toNumber() / (10 ** 5);
+    //   }
 
-      if (honeyUser?.loans().length > 0) {
-        let nftCollateralValue = nftPrice * (collateralNFTPositions?.length || 0);
-        let userLoans = loanNoteExchangeRate * (honeyUser?.loans()[0]?.amount.toNumber() / (10 ** 9));
+    //   if (honeyUser?.loans().length > 0) {
+    //     let nftCollateralValue = nftPrice * (collateralNFTPositions?.length || 0);
+    //     let userLoans = loanNoteExchangeRate * (honeyUser?.loans()[0]?.amount.toNumber() / (10 ** 9));
 
-        let sumOfAllowance = nftCollateralValue / cRatio - userLoans;
-        if (sumOfAllowance > 0) sumOfAllowance = sumOfAllowance * 0.6;
-        setUserAllowance(sumOfAllowance);
+    //     let sumOfAllowance = nftCollateralValue / cRatio - userLoans;
+    //     if (sumOfAllowance > 0) sumOfAllowance = sumOfAllowance * 0.6;
+    //     setUserAllowance(sumOfAllowance);
 
-        const totalDebt = loanNoteExchangeRate * (honeyUser?.loans()[0]?.amount.toNumber() / (10 ** 9));
-        const lvt = totalDebt / nftPrice;
+    //     const totalDebt = loanNoteExchangeRate * (honeyUser?.loans()[0]?.amount.toNumber() / (10 ** 9));
+    //     const lvt = totalDebt / nftPrice;
         
-        setUserDebt(totalDebt);
-        setLoanToValue(lvt);
-      }
-      // reFetchNFTs({});
-    }, 3000);
+    //     setUserDebt(totalDebt);
+    //     setLoanToValue(lvt);
+    //   }
+    // }, 3000);
+
+    if (marketReserveInfo) handleLoanInit(); 
+    if (honeyUser?.loans().length > 0) handleLoanValues();
+
   }, [marketReserveInfo, honeyUser, collateralNFTPositions, market, error, parsedReserves]);
 
   /**

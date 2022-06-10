@@ -44,29 +44,21 @@ const Slider = (props: SliderProps) => {
       let inputVal = Number(val.target.value);
 
       setSlideCount(val.target.value)
-      if (inputVal == 100) {
-        sum = (userDebt += 0.01);
-      } else {
-        sum = (Number(val.target.value / 100) * userDebt);
-      }
+      sum = (Number(val.target.value / 100) * userDebt);
+      // if (inputVal == 100) {
+      //   sum = (userDebt += 0.01);
+      // } else {
+      //   sum = (Number(val.target.value / 100) * userDebt);
+      // }
 
       setUserInput(sum);
       handleUserChange(sum);
       setRangeSlider(val.target.value)
     } else if (type == TYPE_BORROW && userAllowance) {
-      if (userAllowance < 0.1) return setUserMessage('No allowance left');
-
       setSlideCount(val.target.value)
       let sum = (Number(val.target.value / 100) * userAllowance);
-      // sum = sum - 0.01;
       setUserInput(sum)
-      // setSlideCount(Number(slideVal));
-      // setUserInput(slideVal);
-
       handleUserChange(sum);
-      // let rangeVal = ((slideVal * 100)).toFixed(4);
-
-      // setRangeSlider(Number(rangeVal));
       setRangeSlider(val.target.value)
     }
   }
@@ -77,57 +69,62 @@ const Slider = (props: SliderProps) => {
    * @returns
   */
   async function handleNumberInput(val: any) {
-    const isInputValid = await inputNumberValidator(val.target.value);
+    let userValue = val.target.value
+    const validated = userValue.match(/^(\d*\.{0,1}\d{0,2}$)/)
 
-    let rangeUserCalc = (Number(userDebt) / 100 || 0);
-    let rangeAllowanceCalc = (Number(userAllowance) / 100) || 0;
+    if (validated) {
+      console.log('user value', userValue)
+      const isInputValid = await inputNumberValidator(userValue);
 
-    if (isInputValid.success) {
-      if (type == TYPE_REPAY) {
-        if (userDebt == TYPE_ZERO) {
-          setUserMessage('No outstanding debt');
+      let rangeUserCalc = (Number(userDebt) / 100 || 0);
+      let rangeAllowanceCalc = (Number(userAllowance) / 100) || 0;
+
+      if (isInputValid.success) {
+        if (type == TYPE_REPAY) {
+          if (userDebt == TYPE_ZERO) {
+            setUserMessage('No outstanding debt');
+            return;
+          }
+    
+          if (userDebt && isInputValid.value > userDebt) {
+            userDebt += .1;
+            setUserMessage(`Your max repay amount is ${userDebt} SOL`);
+            setUserInput(Number(userDebt));
+            handleUserChange(userDebt);
+            setSlideCount(userDebt);
+            if (userDebt > 0) setRangeSlider(isInputValid.value / rangeUserCalc);
+            return;
+          }
+
+          if (userDebt && isInputValid.value < userDebt) {
+            setUserInput(isInputValid.value);
+            handleUserChange(isInputValid.value);
+            setSlideCount(isInputValid.value);
+            if (userDebt > 0) setRangeSlider(isInputValid.value / rangeUserCalc);
+            return;
+          }
+        }
+
+        if (type == TYPE_BORROW) {
+          if (userAllowance && isInputValid.value > userAllowance) {
+            setUserMessage(`Your max allowance is ${userAllowance} SOL`);
+            setUserInput(Number(userAllowance));
+            handleUserChange(userAllowance);
+            setSlideCount(userAllowance);
+            setRangeSlider(isInputValid.value / rangeAllowanceCalc);
+          } else {
+            setUserInput(isInputValid.value);
+            handleUserChange(isInputValid.value);
+            setSlideCount(isInputValid.value);
+            setRangeSlider(isInputValid.value / rangeAllowanceCalc);
+          }
           return;
         }
-  
-        if (userDebt && isInputValid.value > userDebt) {
-          userDebt += .1;
-          setUserMessage(`Your max repay amount is ${userDebt?.toFixed(2)} SOL`);
-          setUserInput(Number(userDebt.toFixed(2)));
-          handleUserChange(userDebt.toFixed(2));
-          setSlideCount(userDebt);
-          if (userDebt > 0) setRangeSlider(isInputValid.value / rangeUserCalc);
-          return;
-        }
-
-        if (userDebt && isInputValid.value < userDebt) {
-          setUserInput(isInputValid.value);
-          handleUserChange(isInputValid.value);
-          setSlideCount(isInputValid.value);
-          if (userDebt > 0) setRangeSlider(isInputValid.value / rangeUserCalc);
-          return;
-        }
+      } else {
+        setUserInput(isInputValid.value);
+        setUserMessage(isInputValid.message);
+        setRangeSlider(isInputValid.value / rangeAllowanceCalc);
       }
-
-      if (type == TYPE_BORROW) {
-        if (userAllowance && isInputValid.value > userAllowance) {
-          setUserMessage(`Your max allowance is ${userAllowance.toFixed(2)} SOL`);
-          setUserInput(Number(userAllowance.toFixed(2)));
-          handleUserChange(userAllowance.toFixed(2));
-          setSlideCount(userAllowance);
-          setRangeSlider(isInputValid.value / rangeAllowanceCalc);
-        } else {
-          setUserInput(isInputValid.value);
-          handleUserChange(isInputValid.value);
-          setSlideCount(isInputValid.value);
-          setRangeSlider(isInputValid.value / rangeAllowanceCalc);
-        }
-        
-        return;
-      }
-    } else {
-      setUserInput(isInputValid.value);
-      setUserMessage(isInputValid.message);
-      setRangeSlider(isInputValid.value / rangeAllowanceCalc);
     }
   }
 

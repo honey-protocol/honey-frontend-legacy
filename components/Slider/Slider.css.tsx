@@ -92,7 +92,7 @@ export const currencyStylesChild = style({
   fontSize: '1.8em',
   background: 'none',
   border: 'none',
-  maxWidth: '100%',
+  width: '10em',
   color: 'white',
   outline: 'none'
 });

@@ -86,7 +86,7 @@ const LoanDeposit = (props: LoanDepositProps) => {
               Assets Deposited
             </Text>
             <Text align="right" color="foreground">
-              {userTotalDeposits.toFixed(2)}
+              {userTotalDeposits}
             </Text>
           </Stack>
           <Stack

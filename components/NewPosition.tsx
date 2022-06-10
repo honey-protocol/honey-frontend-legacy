@@ -24,19 +24,12 @@ const LoanNewBorrow = (props: LoanNewBorrowProps) => {
   async function handleExecute(val: any) {
     if (openPositions?.length > 0) {
       setShowCollateralPopup(1);
-      // await fetchOpenPositions();
       return;
     }
 
     executeDepositNFT(val);
-    // await fetchOpenPositions();
   }
 
-  // async function fetchOpenPositions() {
-  //   setTimeout(() => {
-  //     reFetchNFTs({});
-  //   }, 3500)
-  // }
 
   if (!NFT) return null;
 

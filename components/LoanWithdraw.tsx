@@ -98,7 +98,7 @@ const LoanWithdraw = (props: LoanWithdrawProps) => {
               Assets deposited
             </Text>
             <Text align="right" color="foreground">
-            {userTotalDeposits.toFixed(2)}
+            {userTotalDeposits}
             </Text>
           </Stack>
           <Stack
@@ -111,8 +111,6 @@ const LoanWithdraw = (props: LoanWithdrawProps) => {
               Total balance
             </Text>
             <Text align="right" color="textPrimary">
-            {/* {(totalDeposits / LAMPORTS_PER_SOL).toFixed(2)} SOL */}
-            {/* {userTotalDeposits.toFixed(2)} SOL */}
             {totalMarkDeposits} SOL
             </Text>
           </Stack>

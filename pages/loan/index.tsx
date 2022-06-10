@@ -83,7 +83,7 @@ const Loan: NextPage = () => {
       const reserveState = depositReserve.data?.reserveState;
       let marketDebt = reserveState?.outstandingDebt.div(new BN(10 ** 15)).toNumber();
       if (marketDebt) {
-        let sum = Number((marketDebt / LAMPORTS_PER_SOL).toFixed(2))
+        let sum = Number((marketDebt / LAMPORTS_PER_SOL))
 
         setTotalMarketDebt(sum);
       }
