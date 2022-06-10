@@ -15,7 +15,7 @@ import { LAMPORTS_PER_SOL, PublicKey } from '@solana/web3.js';
 import {TYPE_ZERO, TYPE_ONE} from '../../../constants/loan';
 import BN from 'bn.js';
 import * as BL from '@solana/buffer-layout';
-import {toastResponse} from '../../../helpers/loanHelpers/index';
+import {toastResponse, BnToDecimal} from '../../../helpers/loanHelpers/index';
 import {
   depositNFT,
   withdrawNFT,
@@ -152,10 +152,6 @@ const Loan: NextPage = () => {
   useEffect(() => {
     if (collateralNFTPositions) setDefaultNFT(collateralNFTPositions);
 
-
-
-
-
     setTimeout(() => {
       // needs to be separated 
       // const fetchAsyncData = async() => {
@@ -176,9 +172,11 @@ const Loan: NextPage = () => {
         nftPrice = marketReserveInfo[0].price.div(new BN(10 ** 15)).toNumber();
         nftPrice = 2;
         depositNoteExchangeRate = marketReserveInfo[0].depositNoteExchangeRate.div(new BN(10 ** 15)).toNumber();
+        // depositNoteExchangeRate = BnToDecimal(marketReserveInfo[0].depositNoteExchangeRate, 15, 5);
         loanNoteExchangeRate = marketReserveInfo[0].loanNoteExchangeRate.div(new BN(10 ** 10)).toNumber() / (10 ** 5);
         cRatio = marketReserveInfo[0].minCollateralRatio.div(new BN(10 ** 10)).toNumber() / (10 ** 5);
       }
+
       if (honeyUser?.loans().length > 0) {
         let nftCollateralValue = nftPrice * (collateralNFTPositions?.length || 0);
         let userLoans = loanNoteExchangeRate * (honeyUser?.loans()[0]?.amount.toNumber() / (10 ** 9));

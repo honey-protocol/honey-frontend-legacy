@@ -1,6 +1,7 @@
 import { useConnection, useConnectedWallet, ConnectedWallet } from '@saberhq/use-solana';
 import { HONEY_PROGRAM_ID, HONEY_MARKET_ID } from 'constants/loan';
 import { toast } from 'react-toastify';
+import BN from 'bn.js';
 
 /**
  * @description exports the current sdk configuration object
@@ -84,3 +85,15 @@ export const asyncTimeout = (ms: number) => {
     setTimeout(resolve, ms);
   });
 };
+
+/**
+ * @description
+ * @params
+ * @returns
+*/
+export function BnToDecimal(val: BN | undefined, decimal: number, precision: number) {
+  if(!val)
+    return 0;
+  console.log('outcome', val.div(new BN(10 ** (decimal - precision))).toNumber() / (10 ** precision))
+  return val.div(new BN(10 ** (decimal - precision))).toNumber() / (10 ** precision);
+}

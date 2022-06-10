@@ -8,11 +8,10 @@ import {
   useMarket,
   useHoney,
 } from '@honey-finance/sdk';
-import { ConfigureSDK } from 'helpers/loanHelpers';
 import { LAMPORTS_PER_SOL, PublicKey } from '@solana/web3.js';
 import Layout from '../../../components/Layout/Layout';
 import DepositWithdrawModule from 'components/DepositWithdrawModule/DepositWIthdrawModule';
-import {toastResponse} from '../../../helpers/loanHelpers/index';
+import {toastResponse, BnToDecimal, ConfigureSDK} from '../../../helpers/loanHelpers/index';
 import {
   Area,
   AreaChart,
@@ -105,7 +104,8 @@ const sdkConfig = ConfigureSDK();
       let depositNoteExchangeRate = 0, loanNoteExchangeRate = 0, nftPrice = 0, cRatio = 1;
       if(marketReserveInfo) {
         nftPrice = 2;
-        depositNoteExchangeRate = marketReserveInfo[0].depositNoteExchangeRate.div(new BN(10 ** 15)).toNumber();
+        depositNoteExchangeRate = BnToDecimal(marketReserveInfo[0].depositNoteExchangeRate, 15, 5);
+        // depositNoteExchangeRate = marketReserveInfo[0].depositNoteExchangeRate.div(new BN(10 ** 15)).toNumber();
       }
 
       if(honeyUser?.deposits().length > 0) {
