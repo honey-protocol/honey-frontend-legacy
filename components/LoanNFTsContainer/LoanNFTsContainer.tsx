@@ -97,8 +97,6 @@ const LoanNFTsContainer = (props: LoanNFTsContainerProps) => {
     }
   }
 
-  console.log('open pos', openPositions)
-
   /**
    * @description handler for above declared logic
    * @params title of the button thats being clicked; open positions || new position
@@ -111,7 +109,7 @@ const LoanNFTsContainer = (props: LoanNFTsContainerProps) => {
         handleBorrow(TYPE_ONE);
         setActiveIndex(TYPE_ZERO);
       } else {
-        reFetchNFTs({});
+        // reFetchNFTs({});
         setRenderNFTs(TYPE_ONE);
         handleBorrow(TYPE_ZERO);
         setActiveIndex(TYPE_ONE);
