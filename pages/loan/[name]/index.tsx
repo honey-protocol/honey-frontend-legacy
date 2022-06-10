@@ -86,9 +86,9 @@ const Loan: NextPage = () => {
   */
   const sdkConfig = ConfigureSDK();
   /**
-   * @description 
-   * @params 
-   * @returns 
+   * @description
+   * @params
+   * @returns
   */
   const [userLoanPositions, setUserLoanPositions] = useState(0);
   const [userAvailableNFTs, setUserAvailableNFTs] = useState([]);
@@ -98,7 +98,7 @@ const Loan: NextPage = () => {
   const [loanToValue, setLoanToValue] = useState(0);
   const [defaultNFT, setDefaultNFT] = useState<Array<CollateralNFT>>([]);
   const [globalLoadingState, setGlobalLoadingState] = useState(false);
-  
+
   /**
   * @description calls upon the honey sdk
   * @params  useConnection func. | useConnectedWallet func. | honeyID | marketID
@@ -129,7 +129,7 @@ const Loan: NextPage = () => {
   let availableNFTs: any = useFetchNFTByUser(wallet);
   // re-fetch function to force update
   let reFetchNFTs = availableNFTs[2];
-  
+
   /**
    * @description sets default state for withDrawDepositNFT
    * @params mint of nft
@@ -301,7 +301,7 @@ const Loan: NextPage = () => {
           toastResponse('SUCCESS', 'Deposit success', 'SUCCESS');
           console.log('firing')
           await refreshPositions();
-          
+
           reFetchNFTs({})
         }
       } catch (error) {
@@ -320,13 +320,13 @@ const Loan: NextPage = () => {
       if (!mintID) return toastResponse('ERROR', 'Please select NFT', 'ERROR');
       const metadata = await Metadata.findByMint(sdkConfig.saberHqConnection, mintID);
       const tx = await withdrawNFT(sdkConfig.saberHqConnection, honeyUser, metadata.pubkey);
-      
+
       if (tx[0] == 'SUCCESS') {
         await toastResponse('SUCCESS', 'Withdraw success', 'SUCCESS');
         console.log('firing')
         reFetchNFTs({});
         await refreshPositions();
-        
+
       }
     } catch (error) {
       console.log('error depositing nft', error);

@@ -71,7 +71,7 @@ const Slider = (props: SliderProps) => {
   async function handleNumberInput(val: any) {
     let userValue = val.target.value
     const validated = userValue.match(/^(\d*\.{0,1}\d{0,2}$)/)
-
+    
     if (validated) {
       console.log('user value', userValue)
       const isInputValid = await inputNumberValidator(userValue);
