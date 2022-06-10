@@ -38,6 +38,7 @@ import {
   PythHttpClient
 } from "@pythnetwork/client";
 import { toast } from 'react-toastify';
+import { RoundHalfDown } from 'helpers/utils';
 /**
  * @description
  *  static nft object based off current posted as collateral and available nfts
@@ -85,9 +86,9 @@ const Loan: NextPage = () => {
   */
   const sdkConfig = ConfigureSDK();
   /**
-   * @description 
-   * @params 
-   * @returns 
+   * @description
+   * @params
+   * @returns
   */
   const [userLoanPositions, setUserLoanPositions] = useState(0);
   const [userAvailableNFTs, setUserAvailableNFTs] = useState([]);
@@ -97,7 +98,7 @@ const Loan: NextPage = () => {
   const [loanToValue, setLoanToValue] = useState(0);
   const [defaultNFT, setDefaultNFT] = useState<Array<CollateralNFT>>([]);
   const [globalLoadingState, setGlobalLoadingState] = useState(false);
-  
+
   /**
   * @description calls upon the honey sdk
   * @params  useConnection func. | useConnectedWallet func. | honeyID | marketID
@@ -128,7 +129,7 @@ const Loan: NextPage = () => {
   let availableNFTs: any = useFetchNFTByUser(wallet);
   // re-fetch function to force update
   let reFetchNFTs = availableNFTs[2];
-  
+
   /**
    * @description sets default state for withDrawDepositNFT
    * @params mint of nft
@@ -153,7 +154,7 @@ const Loan: NextPage = () => {
     if (collateralNFTPositions) setDefaultNFT(collateralNFTPositions);
 
     setTimeout(() => {
-      // needs to be separated 
+      // needs to be separated
       // const fetchAsyncData = async() => {
       //   if (honeyUser && honeyUser.getObligationData) {
       //     // let obligation = await honeyUser?.getObligationData() as ObligationAccount;
@@ -163,34 +164,33 @@ const Loan: NextPage = () => {
       // fetchAsyncData();
 
       let depositNoteExchangeRate = 0
-      , loanNoteExchangeRate = 0
       , nftPrice = 0
       , cRatio = 1;
-      
+
 
       if(marketReserveInfo) {
-        nftPrice = marketReserveInfo[0].price.div(new BN(10 ** 15)).toNumber();
+        nftPrice = marketReserveInfo[0].price.div(new BN(10 ** 15)).toNumber();//TODO: should get from switchboard
         nftPrice = 2;
-        depositNoteExchangeRate = marketReserveInfo[0].depositNoteExchangeRate.div(new BN(10 ** 15)).toNumber();
-        // depositNoteExchangeRate = BnToDecimal(marketReserveInfo[0].depositNoteExchangeRate, 15, 5);
-        loanNoteExchangeRate = marketReserveInfo[0].loanNoteExchangeRate.div(new BN(10 ** 10)).toNumber() / (10 ** 5);
-        cRatio = marketReserveInfo[0].minCollateralRatio.div(new BN(10 ** 10)).toNumber() / (10 ** 5);
+        depositNoteExchangeRate = BnToDecimal(marketReserveInfo[0].depositNoteExchangeRate, 15, 5);
+        cRatio = BnToDecimal(marketReserveInfo[0].minCollateralRatio, 15, 5);
+
+        if (honeyUser?.loans().length > 0) {
+          let nftCollateralValue = nftPrice * (collateralNFTPositions?.length || 0);
+
+          let userLoans = marketReserveInfo[0].loanNoteExchangeRate.mul(honeyUser?.loans()[0]?.amount).div(new BN(10 ** 15)).toNumber() / LAMPORTS_PER_SOL;
+
+          let sumOfAllowance = RoundHalfDown(nftCollateralValue / cRatio - userLoans, 2);
+          setUserAllowance(sumOfAllowance);
+
+          const totalDebt = marketReserveInfo[0].loanNoteExchangeRate.mul(honeyUser?.loans()[0]?.amount).div(new BN(10 ** 15)).toNumber() / LAMPORTS_PER_SOL;
+          const lvt = totalDebt / nftPrice;
+
+          setUserDebt(totalDebt);
+          setLoanToValue(lvt);
+        }
       }
 
-      if (honeyUser?.loans().length > 0) {
-        let nftCollateralValue = nftPrice * (collateralNFTPositions?.length || 0);
-        let userLoans = loanNoteExchangeRate * (honeyUser?.loans()[0]?.amount.toNumber() / (10 ** 9));
 
-        let sumOfAllowance = nftCollateralValue / cRatio - userLoans;
-        if (sumOfAllowance > 0) sumOfAllowance = sumOfAllowance * 0.6;
-        setUserAllowance(sumOfAllowance);
-
-        const totalDebt = loanNoteExchangeRate * (honeyUser?.loans()[0]?.amount.toNumber() / (10 ** 9));
-        const lvt = totalDebt / nftPrice;
-        
-        setUserDebt(totalDebt);
-        setLoanToValue(lvt);
-      }
       // reFetchNFTs({});
     }, 3000);
   }, [marketReserveInfo, honeyUser, collateralNFTPositions, market, error, parsedReserves]);
@@ -263,7 +263,7 @@ const Loan: NextPage = () => {
           toastResponse('SUCCESS', 'Deposit success', 'SUCCESS');
           console.log('firing')
           await refreshPositions();
-          
+
           reFetchNFTs({})
         }
       } catch (error) {
@@ -282,13 +282,13 @@ const Loan: NextPage = () => {
       if (!mintID) return toastResponse('ERROR', 'Please select NFT', 'ERROR');
       const metadata = await Metadata.findByMint(sdkConfig.saberHqConnection, mintID);
       const tx = await withdrawNFT(sdkConfig.saberHqConnection, honeyUser, metadata.pubkey);
-      
+
       if (tx[0] == 'SUCCESS') {
         await toastResponse('SUCCESS', 'Withdraw success', 'SUCCESS');
         console.log('firing')
         reFetchNFTs({});
         await refreshPositions();
-        
+
       }
     } catch (error) {
       console.log('error depositing nft', error);
