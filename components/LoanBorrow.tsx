@@ -77,12 +77,11 @@ const LoanBorrow = (props: LoanBorrowProps) => {
    * @returns execution of borrow
    * @todo add regex for userinput
   */
-  function handleExecuteBorrow(val: any) {
+  async function handleExecuteBorrow(val: any) {
     if (!userInput) {
       return toastResponse('ERROR', 'Please provide an amount', 'ERROR');
     }
     executeBorrow(userInput);
-    handleTimeout();
   }
 
   return (
