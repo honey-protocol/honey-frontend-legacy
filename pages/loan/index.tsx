@@ -16,6 +16,7 @@ import { useMarket, useBorrowPositions, useHoney, useAnchor, ObligationAccount} 
 import {TYPE_ZERO, TYPE_ONE} from '../../constants/loan';
 import BN from 'bn.js';
 import { LAMPORTS_PER_SOL, PublicKey } from '@solana/web3.js';
+import {RoundHalfDown} from '../../helpers/utils';
 
 const Loan: NextPage = () => {
   const wallet = useConnectedWallet();
@@ -43,7 +44,7 @@ const Loan: NextPage = () => {
     {
       vaultName: 'Cofre',
       vaultImageUrl: 'https://www.arweave.net/5zeisOPbDekgyqYHd0okraQKaWwlVxvIIiXLH4Sr2M8?ext=png',
-      totalBorrowed: totalMarketDebt,
+      totalBorrowed: RoundHalfDown(totalMarketDebt),
       interest: 10,
       available: totalMarkDeposits,
       positions: totalMarketPositions

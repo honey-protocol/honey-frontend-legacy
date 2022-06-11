@@ -5,9 +5,11 @@ import { LAMPORTS_PER_SOL } from '@solana/web3.js';
 import BN from 'bn.js';
 import {TYPE_BORROW, TYPE_REPAY, TYPE_ZERO} from '../../constants/loan';
 import {inputNumberValidator} from '../../helpers/loanHelpers';
+import {RoundHalfDown} from '../../helpers/utils';
+import {debounce} from 'lodash';
 
 interface SliderProps {
-  handleUserChange: (val: any) => void;
+  handleUserChange: (val: any, rangeVal?: number) => void;
   handleExecuteBorrow?: (val: any) => void;
   handleExecuteRepay?: (val: any) => void;
   userDebt?: number;
@@ -23,6 +25,7 @@ interface SliderProps {
 const Slider = (props: SliderProps) => {
   const {handleUserChange, handleExecuteBorrow, handleExecuteRepay, type} = props;
   let {userDebt, userAllowance} = props;
+
   /**
    * @description
    * @params
@@ -40,26 +43,19 @@ const Slider = (props: SliderProps) => {
   */
   function handleRangeInput(val: any) {
     if (type == TYPE_REPAY && userDebt) {
-      let sum;
-      let inputVal = Number(val.target.value);
-
       setSlideCount(val.target.value)
-      sum = (Number(val.target.value / 100) * userDebt);
-      // if (inputVal == 100) {
-      //   sum = (userDebt += 0.01);
-      // } else {
-      //   sum = (Number(val.target.value / 100) * userDebt);
-      // }
+      let sum = ((val.target.value / 100) * userDebt);
 
-      setUserInput(sum);
-      handleUserChange(sum);
-      setRangeSlider(val.target.value)
+      setUserInput(RoundHalfDown(sum));
+      handleUserChange(RoundHalfDown(sum), rangeSlider);
+      setRangeSlider(RoundHalfDown(val.target.value));
+
     } else if (type == TYPE_BORROW && userAllowance) {
-      setSlideCount(val.target.value)
-      let sum = (Number(val.target.value / 100) * userAllowance);
-      setUserInput(sum)
-      handleUserChange(sum);
-      setRangeSlider(val.target.value)
+      setSlideCount(RoundHalfDown(val.target.value))
+      let sum = ((val.target.value / 100) * userAllowance);
+      setUserInput(RoundHalfDown(sum))
+      handleUserChange(RoundHalfDown(sum));
+      setRangeSlider(RoundHalfDown(val.target.value))
     }
   }
   
@@ -73,7 +69,6 @@ const Slider = (props: SliderProps) => {
     const validated = userValue.match(/^(\d*\.{0,1}\d{0,2}$)/)
     
     if (validated) {
-      console.log('user value', userValue)
       const isInputValid = await inputNumberValidator(userValue);
 
       let rangeUserCalc = (Number(userDebt) / 100 || 0);
@@ -81,26 +76,26 @@ const Slider = (props: SliderProps) => {
 
       if (isInputValid.success) {
         if (type == TYPE_REPAY) {
-          if (userDebt == TYPE_ZERO) {
+          if (userDebt && userDebt < 0.01) {
             setUserMessage('No outstanding debt');
             return;
           }
     
           if (userDebt && isInputValid.value > userDebt) {
-            userDebt += .1;
+            // userDebt += .1;
             setUserMessage(`Your max repay amount is ${userDebt} SOL`);
-            setUserInput(Number(userDebt));
-            handleUserChange(userDebt);
-            setSlideCount(userDebt);
-            if (userDebt > 0) setRangeSlider(isInputValid.value / rangeUserCalc);
+            setUserInput(RoundHalfDown(userDebt));
+            handleUserChange(RoundHalfDown(userDebt));
+            setSlideCount(RoundHalfDown(userDebt));
+            if (userDebt > 0) setRangeSlider(RoundHalfDown(isInputValid.value / rangeUserCalc));
             return;
           }
 
           if (userDebt && isInputValid.value < userDebt) {
-            setUserInput(isInputValid.value);
-            handleUserChange(isInputValid.value);
-            setSlideCount(isInputValid.value);
-            if (userDebt > 0) setRangeSlider(isInputValid.value / rangeUserCalc);
+            setUserInput(RoundHalfDown(isInputValid.value));
+            handleUserChange(RoundHalfDown(isInputValid.value));
+            setSlideCount(RoundHalfDown(isInputValid.value));
+            if (userDebt > 0) setRangeSlider(RoundHalfDown(isInputValid.value / rangeUserCalc));
             return;
           }
         }
@@ -108,7 +103,7 @@ const Slider = (props: SliderProps) => {
         if (type == TYPE_BORROW) {
           if (userAllowance && isInputValid.value > userAllowance) {
             setUserMessage(`Your max allowance is ${userAllowance} SOL`);
-            setUserInput(Number(userAllowance));
+            setUserInput(userAllowance);
             handleUserChange(userAllowance);
             setSlideCount(userAllowance);
             setRangeSlider(isInputValid.value / rangeAllowanceCalc);

@@ -6,6 +6,7 @@ import * as styles from '../components/Slider/Slider.css';
 import * as loanStyles from '../styles/loan.css';
 import { LAMPORTS_PER_SOL } from '@solana/web3.js';
 import {toastResponse} from '../helpers/loanHelpers/index';
+import {RoundHalfDown} from '../helpers/utils';
 
 interface LoanWithdrawProps {
   evaluation: number;
@@ -98,7 +99,7 @@ const LoanWithdraw = (props: LoanWithdrawProps) => {
               Assets deposited
             </Text>
             <Text align="right" color="foreground">
-            {userTotalDeposits}
+            {RoundHalfDown(userTotalDeposits)}
             </Text>
           </Stack>
           <Stack

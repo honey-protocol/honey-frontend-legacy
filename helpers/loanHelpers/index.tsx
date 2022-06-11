@@ -23,19 +23,26 @@ export function ConfigureSDK() {
  * @returns success or failure object
 */
 export async function inputNumberValidator(val: any) {
-    if (val >= 0 && val < 100) {
-      return {
-          success: true,
-          message: '',
-          value: val
-      };
-    } else {
-      return {
-        success: false,
-        message: 'Please fill in a number between 0 and 100',
-        value: val
-      }
+  if (val == '000' || val == '0000' ) {
+    return {
+      success: true,
+      message: '',
+      value: '00'
     }
+  }
+  if (val >= 0 && val < 100) {
+    return {
+        success: true,
+        message: '',
+        value: val
+    };
+  } else {
+    return {
+      success: false,
+      message: 'Please fill in a number between 0 and 100',
+      value: val
+    }
+  }
 }
 
 /**
@@ -62,7 +69,6 @@ export async function toastResponse(responseType: string, message: string, id: a
   } else if (responseType == 'SUCCESS') {
     // success logic
     if (triggerType && (triggerType == 'BORROW' || triggerType == 'REPAY')) {
-      console.log('inside right if', triggerType)
       asyncTimeout(3000).then(() => window.location.reload());
       return toast.success(message, {toastId: responseType});
     }
@@ -80,7 +86,6 @@ export async function toastResponse(responseType: string, message: string, id: a
  * @returns
 */
 export const asyncTimeout = (ms: number) => {
-  console.log('async being called')
   return new Promise((resolve) => {
     setTimeout(resolve, ms);
   });
@@ -94,6 +99,5 @@ export const asyncTimeout = (ms: number) => {
 export function BnToDecimal(val: BN | undefined, decimal: number, precision: number) {
   if(!val)
     return 0;
-  console.log('outcome', val.div(new BN(10 ** (decimal - precision))).toNumber() / (10 ** precision))
   return val.div(new BN(10 ** (decimal - precision))).toNumber() / (10 ** precision);
 }

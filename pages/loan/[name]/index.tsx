@@ -169,13 +169,13 @@ const Loan: NextPage = () => {
       let nftCollateralValue = nftPrice * (collateralNFTPositions?.length || 0);
       let userLoans = marketReserveInfo[0].loanNoteExchangeRate.mul(honeyUser?.loans()[0]?.amount).div(new BN(10 ** 15)).toNumber() / LAMPORTS_PER_SOL;
       let sumOfAllowance = RoundHalfDown(nftCollateralValue / cRatio - userLoans, 2);
-      setUserAllowance(sumOfAllowance);
+      setUserAllowance(RoundHalfDown(sumOfAllowance));
   
       const totalDebt = marketReserveInfo[0].loanNoteExchangeRate.mul(honeyUser?.loans()[0]?.amount).div(new BN(10 ** 15)).toNumber() / LAMPORTS_PER_SOL;
       const lvt = totalDebt / nftPrice;
 
-      setUserDebt(totalDebt);
-      setLoanToValue(lvt);
+      setUserDebt(RoundHalfDown(totalDebt));
+      setLoanToValue(RoundHalfDown(lvt));
     }
   }
 

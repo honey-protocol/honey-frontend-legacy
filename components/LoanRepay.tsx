@@ -33,26 +33,41 @@ interface LoanRepayProps {
 
 const LoanRepay = (props: LoanRepayProps) => {
     const { NFT, executeWithdrawNFT, mint, executeRepay, loanPositions, parsedReserves, userDebt, userAllowance, loanToValue, fetchMarket } = props;
-    const [userInput, setUserInput] = useState(0);
+    const [userInput, setUserInput] = useState();
     const [userMessage, setUserMessage] = useState('');
+    const [rangeVal, setRangeVal] = useState(0);
 
+    let totalRepay: number;
     let nftPlaceholder = {
         image: 'https://assets.coingecko.com/coins/images/24781/small/honey.png?1648902423',
         name: 'Loading..',
-      }
+    }
 
     async function handleTimeout() {
       await asyncTimeout(5000);
       await fetchMarket();
     }
-
+    
     function handleExecuteRepay() {
+      totalRepay = userDebt
       if (!userInput) return toastResponse('ERROR', 'Please provide a value', 'ERROR');
+      if (userInput == userDebt) {
+        // for small amounts - make sure no amount is left
+        totalRepay += 0.09999
+        return executeRepay(totalRepay);
+      }
       executeRepay(userInput);
       handleTimeout();
     }
  
-    function handleUserChange(val: any) {
+    function handleUserChange(val: any, rangeSliderValue?: number) {
+
+      if (rangeSliderValue && rangeSliderValue == 100) {
+        setRangeVal(100)
+      } else {
+        setRangeVal(0)
+      }
+
       setUserInput(val);
     }
 

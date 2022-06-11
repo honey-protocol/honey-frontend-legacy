@@ -6,6 +6,7 @@ import * as styles from '../components/Slider/Slider.css';
 import * as loanStyles from '../styles/loan.css';
 import { LAMPORTS_PER_SOL } from '@solana/web3.js';
 import {toastResponse} from '../helpers/loanHelpers/index';
+import {RoundHalfDown} from '../helpers/utils';
 
 interface LoanDepositProps {
   borrowApy: number;
@@ -86,7 +87,7 @@ const LoanDeposit = (props: LoanDepositProps) => {
               Assets Deposited
             </Text>
             <Text align="right" color="foreground">
-              {userTotalDeposits}
+              {RoundHalfDown(userTotalDeposits)}
             </Text>
           </Stack>
           <Stack
