@@ -99,6 +99,7 @@ const Loan: NextPage = () => {
   const [loanToValue, setLoanToValue] = useState(0);
   const [defaultNFT, setDefaultNFT] = useState<Array<CollateralNFT>>([]);
   const [globalLoadingState, setGlobalLoadingState] = useState(false);
+  const [reserveHoneyState, setReserveHoneyState] = useState(0);
 
   /**
   * @description calls upon the honey sdk
@@ -150,28 +151,28 @@ const Loan: NextPage = () => {
   const [nftPrice, setNFTPrice] = useState(0);
   const [cRatio, setCRatio] = useState(0);
 
-  async function handleLoanInit() {
-    if (marketReserveInfo) {
-      setNFTPrice(marketReserveInfo[0].price.div(new BN(10 ** 15)).toNumber());
-      setDepositNoteExchangeRate(BnToDecimal(marketReserveInfo[0].depositNoteExchangeRate, 15, 5))
-      setCRatio(BnToDecimal(marketReserveInfo[0].minCollateralRatio, 15, 5))
-    }
-  }
+  // async function handleLoanInit() {
+  //   if (marketReserveInfo) {
+  //     setNFTPrice(marketReserveInfo[0].price.div(new BN(10 ** 15)).toNumber());
+  //     setDepositNoteExchangeRate(BnToDecimal(marketReserveInfo[0].depositNoteExchangeRate, 15, 5))
+  //     setCRatio(BnToDecimal(marketReserveInfo[0].minCollateralRatio, 15, 5))
+  //   }
+  // }
 
-  function handleLoanValues() {
-    if (honeyUser?.loans().length > 0 && marketReserveInfo) {
-      let nftCollateralValue = nftPrice * (collateralNFTPositions?.length || 0);
-      let userLoans = marketReserveInfo[0].loanNoteExchangeRate.mul(honeyUser?.loans()[0]?.amount).div(new BN(10 ** 15)).toNumber() / LAMPORTS_PER_SOL;
-      let sumOfAllowance = RoundHalfDown(nftCollateralValue / cRatio - userLoans, 2);
-      setUserAllowance(RoundHalfDown(sumOfAllowance));
+  // function handleLoanValues() {
+  //   if (honeyUser?.loans().length > 0 && marketReserveInfo) {
+  //     let nftCollateralValue = nftPrice * (collateralNFTPositions?.length || 0);
+  //     let userLoans = marketReserveInfo[0].loanNoteExchangeRate.mul(honeyUser?.loans()[0]?.amount).div(new BN(10 ** 15)).toNumber() / LAMPORTS_PER_SOL;
+  //     let sumOfAllowance = RoundHalfDown(nftCollateralValue / cRatio - userLoans, 2);
+  //     setUserAllowance(RoundHalfDown(sumOfAllowance));
   
-      const totalDebt = marketReserveInfo[0].loanNoteExchangeRate.mul(honeyUser?.loans()[0]?.amount).div(new BN(10 ** 15)).toNumber() / LAMPORTS_PER_SOL;
-      const lvt = totalDebt / nftPrice;
+  //     const totalDebt = marketReserveInfo[0].loanNoteExchangeRate.mul(honeyUser?.loans()[0]?.amount).div(new BN(10 ** 15)).toNumber() / LAMPORTS_PER_SOL;
+  //     const lvt = totalDebt / nftPrice;
 
-      setUserDebt(RoundHalfDown(totalDebt));
-      setLoanToValue(RoundHalfDown(lvt));
-    }
-  }
+  //     setUserDebt(RoundHalfDown(totalDebt));
+  //     setLoanToValue(RoundHalfDown(lvt));
+  //   }
+  // }
 
   /**
    * @description updates honeyUser | marketReserveInfo | - timeout required
@@ -179,15 +180,32 @@ const Loan: NextPage = () => {
    * @returns honeyUser | marketReserveInfo |
   */
   useEffect(() => {
-    if (collateralNFTPositions) setDefaultNFT(collateralNFTPositions);
-    if (marketReserveInfo) handleLoanInit(); 
-    if (honeyUser?.loans().length > 0) handleLoanValues();
+    setTimeout(() => {
+      if (collateralNFTPositions) setDefaultNFT(collateralNFTPositions);
 
-  }, [marketReserveInfo, honeyUser, collateralNFTPositions, market, error, parsedReserves, honeyReserves]);
-
-  useEffect(() => {
-    console.log('honey change', honeyReserves)
-  }, [honeyReserves, parsedReserves])
+      if (marketReserveInfo) {
+          setNFTPrice(marketReserveInfo[0].price.div(new BN(10 ** 15)).toNumber());
+          setDepositNoteExchangeRate(BnToDecimal(marketReserveInfo[0].depositNoteExchangeRate, 15, 5))
+          setCRatio(BnToDecimal(marketReserveInfo[0].minCollateralRatio, 15, 5))
+       }
+  
+      if (honeyUser?.loans().length > 0) {
+        if (honeyUser?.loans().length > 0 && marketReserveInfo) {
+          let nftCollateralValue = nftPrice * (collateralNFTPositions?.length || 0);
+          let userLoans = marketReserveInfo[0].loanNoteExchangeRate.mul(honeyUser?.loans()[0]?.amount).div(new BN(10 ** 15)).toNumber() / LAMPORTS_PER_SOL;
+          let sumOfAllowance = RoundHalfDown(nftCollateralValue / cRatio - userLoans, 2);
+          setUserAllowance(RoundHalfDown(sumOfAllowance));
+      
+          const totalDebt = marketReserveInfo[0].loanNoteExchangeRate.mul(honeyUser?.loans()[0]?.amount).div(new BN(10 ** 15)).toNumber() / LAMPORTS_PER_SOL;
+          const lvt = totalDebt / nftPrice;
+    
+          setUserDebt(RoundHalfDown(totalDebt));
+          setLoanToValue(RoundHalfDown(lvt));
+        }
+      }
+    }, 3000)
+    
+  }, [marketReserveInfo, honeyUser, collateralNFTPositions, market, error, parsedReserves, honeyReserves, cRatio, nftPrice, reserveHoneyState]);
  
   /**
    * @description logic regarding borrow modal or lendmodal
@@ -299,30 +317,23 @@ const Loan: NextPage = () => {
    * @returns borrowTx
   */
   async function executeBorrow(val: any) {
-    if (!val) return toastResponse('ERROR', 'Please provide a value', 'ERROR');
-    const borrowTokenMint = new PublicKey('So11111111111111111111111111111111111111112');
-    const tx = await borrow(honeyUser, val * LAMPORTS_PER_SOL, borrowTokenMint, honeyReserves);
-    console.log('borrowed amount', val * LAMPORTS_PER_SOL);
-    if (tx[0] == 'SUCCESS') {
-      toastResponse('SUCCESS', 'Borrow success', 'SUCCESS', 'BORROW');
-      await asyncTimeout(3000);
-      console.log('first await')
-      await honeyReserves[0].sendRefreshTx();
-      fetchMarket().then((res: any) => { console.log('this is res', res)}).catch((err: any) => console.log('err', err))
-      // console.log('THIS IS REFRESHTX', refreshTx);
-      // if (refreshTx[0] == 'SUCCESS') {
-      //   await asyncTimeout(3000).then(() => {
-      //     console.log('were now running')
-      //     fetchMarket();
-      //   })
-      //   toastResponse('SUCCESS', 'Borrow success', 'SUCCESS', 'BORROW');
-      //   await fetchMarket();
-      //   return toastResponse('SUCCESS', '2nd Borrow success', 'SUCCESS', 'BORROW');
-      // } else {
-      //   return toastResponse('ERROR', 'Borrow failed', 'BORROW')
-      // }
-    } else {
-        return toastResponse('ERROR', 'Borrow failed', 'BORROW')
+    try {
+      if (!val) return toastResponse('ERROR', 'Please provide a value', 'ERROR');
+      const borrowTokenMint = new PublicKey('So11111111111111111111111111111111111111112');
+      const tx = await borrow(honeyUser, val * LAMPORTS_PER_SOL, borrowTokenMint, honeyReserves);
+      console.log('borrowed amount', val * LAMPORTS_PER_SOL);
+      if (tx[0] == 'SUCCESS') {
+        toastResponse('SUCCESS', 'Borrow success', 'SUCCESS', 'BORROW');
+        await asyncTimeout(3000);
+        await honeyReserves[0].sendRefreshTx();
+        await fetchMarket().then(() => {
+          reserveHoneyState ==  0 ? setReserveHoneyState(1) : setReserveHoneyState(0);
+        })
+      } else {
+          return toastResponse('ERROR', 'Borrow failed', 'BORROW');
+      }
+    } catch (error) {
+      return toastResponse('ERROR', 'An error occurred', 'BORROW');
     }
   }
 
@@ -334,29 +345,23 @@ const Loan: NextPage = () => {
    * @returns repayTx
   */
   async function executeRepay(val: any) {
-    if (!val) return toastResponse('ERROR', 'Please provide a value', 'ERROR');
-    const repayTokenMint = new PublicKey('So11111111111111111111111111111111111111112');
-    const tx = await repay(honeyUser, val * LAMPORTS_PER_SOL, repayTokenMint, honeyReserves)
-    console.log('this is repayTx', tx);
-    if (tx[0] == 'SUCCESS') {
-      toastResponse('SUCCESS', 'Repay success', 'SUCCESS', 'REPAY');
-      await asyncTimeout(3000);
-      console.log('first await')
-      await honeyReserves[0].sendRefreshTx();
-      fetchMarket().then((res: any) => { console.log('this is res', res)}).catch((err: any) => console.log('err', err))
-      // console.log('THIS IS REFRESHTX', refreshTx);
-      // if (refreshTx[0] == 'SUCCESS') {
-      //   toastResponse('SUCCESS', 'Repay success', 'SUCCESS', 'REPAY');
-      //   await asyncTimeout(3000).then(() => {
-      //     console.log('were now running')
-      //     fetchMarket();
-      //   })
-      //   return toastResponse('SUCCESS', '2nd Repay success', 'SUCCESS', 'REPAY');
-      // } else {
-      //   return toastResponse('ERROR', 'Repay failed', 'REPAY')
-      // }
-    } else {
-      return toastResponse('ERROR', 'Repay failed', 'REPAY')
+    try {
+      if (!val) return toastResponse('ERROR', 'Please provide a value', 'ERROR');
+      const repayTokenMint = new PublicKey('So11111111111111111111111111111111111111112');
+      const tx = await repay(honeyUser, val * LAMPORTS_PER_SOL, repayTokenMint, honeyReserves)
+      console.log('this is repayTx', tx);
+      if (tx[0] == 'SUCCESS') {
+        toastResponse('SUCCESS', 'Repay success', 'SUCCESS', 'REPAY');
+        await asyncTimeout(3000);
+        await honeyReserves[0].sendRefreshTx();
+        await fetchMarket().then(() => {
+          reserveHoneyState ==  0 ? setReserveHoneyState(1) : setReserveHoneyState(0);
+        })
+      } else {
+        return toastResponse('ERROR', 'Repay failed', 'REPAY')
+      }
+    } catch (error) {
+      return toastResponse('ERROR', 'An error occurred', 'REPAY')
     }
   }
 
