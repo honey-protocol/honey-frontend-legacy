@@ -44,7 +44,7 @@ export const newFarmCollections: TGFarm[] = [
   {
     id: "NATA",
     imageUrl:
-      "https://pbs.twimg.com/profile_images/1492926663969198080/BKeKhTHc_400x400.png",
+      "https://uploads-ssl.webflow.com/61ce513cf689b19dbc7ffdda/61de6a8ad23bc18159efc177_Logo.png",
     name: "Atadians (FIXED)",
     totalStaked: "???",
     totalNumber: 5000,
