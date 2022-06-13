@@ -142,7 +142,7 @@ const sdkConfig = ConfigureSDK();
       const tx = await deposit(honeyUser, tokenAmount, depositTokenMint, honeyReserves);
       
       if (tx[0] == 'SUCCESS') {
-        toastResponse('SUCCESS', 'Deposit success', 'SUCCESS');
+        toastResponse('SUCCESS', 'Deposit success', 'SUCCESS', 'DEPOSIT');
       } else {
         return toastResponse('ERROR', 'Deposit failed', 'ERROR');
       }
@@ -179,7 +179,7 @@ const sdkConfig = ConfigureSDK();
       const tx = await withdraw(honeyUser, tokenAmount, depositTokenMint, honeyReserves);
       
       if (tx[0] == 'SUCCESS') {
-        toastResponse('SUCCESS', 'Withdraw success', 'SUCCESS');
+        toastResponse('SUCCESS', 'Withdraw success', 'SUCCESS', 'WITHDRAW');
       } else {
         return toastResponse('ERROR', 'Withdraw failed ', 'ERROR');
       }

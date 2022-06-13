@@ -36,12 +36,17 @@ const LoanRepay = (props: LoanRepayProps) => {
     const [userInput, setUserInput] = useState();
     const [userMessage, setUserMessage] = useState('');
     const [rangeVal, setRangeVal] = useState(0);
+    const [userLvt, setUserLvt] = useState(0);
 
     let totalRepay: number;
     let nftPlaceholder = {
         image: 'https://assets.coingecko.com/coins/images/24781/small/honey.png?1648902423',
         name: 'Loading..',
     }
+
+    useEffect(() => {
+      setUserLvt(loanToValue)
+    }, [loanToValue]);
 
     async function handleTimeout() {
       await asyncTimeout(5000);
@@ -169,7 +174,7 @@ const LoanRepay = (props: LoanRepayProps) => {
                     >
                     </Text>
                     <Text color="textPrimary">
-                    {(loanToValue * 100)}%
+                    {(userLvt * 100).toFixed(2)}%
                     </Text>
                     </Stack>
                     <Stack

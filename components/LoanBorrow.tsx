@@ -7,7 +7,7 @@ import * as styles from './Slider/Slider.css';
 import { LAMPORTS_PER_SOL, PublicKey } from '@solana/web3.js';
 import BN from 'bn.js';
 import { TYPE_BORROW } from "constants/loan";
-import {toastResponse} from '../helpers/loanHelpers/index';
+import {toastResponse, BnToDecimal} from '../helpers/loanHelpers/index';
 import {asyncTimeout} from '../helpers/loanHelpers/index';
 
 interface LoanBorrowProps {
@@ -44,6 +44,7 @@ const LoanBorrow = (props: LoanBorrowProps) => {
   const [userInput, setUserInput] = useState(0);
   const [debtAmount, setDebtAmount] = useState(0);
   const [userMessage, setUserMessage] = useState('');
+  const [userLvt, setUserLvt] = useState(0);
 
   /**
    * @description set default state for userInput and debtAmount to 0
@@ -55,6 +56,10 @@ const LoanBorrow = (props: LoanBorrowProps) => {
       setDebtAmount(loanPositions[0].amount);
     }
   }, [loanPositions]);
+
+  useEffect(() => {
+    setUserLvt(loanToValue)
+  }, [loanToValue]);
 
 
   /**
@@ -174,7 +179,7 @@ const LoanBorrow = (props: LoanBorrowProps) => {
                           align="right"
                           color="foreground"
                       >
-                        {(loanToValue * 100)}%
+                        {(userLvt * 100).toFixed(2)}%
                       </Text>
                   </Stack>
                   <Stack
