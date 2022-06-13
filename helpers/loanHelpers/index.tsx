@@ -69,7 +69,7 @@ export async function toastResponse(responseType: string, message: string, id: a
   } else if (responseType == 'SUCCESS') {
     // success logic
     if (triggerType && (triggerType == 'BORROW' || triggerType == 'REPAY' || triggerType == 'WITHDRAW' || triggerType == 'DEPOSIT')) {
-      asyncTimeout(3000).then(() => window.location.reload());
+      // asyncTimeout(3000).then(() => window.location.reload());
       return toast.success(message, {toastId: responseType});
     }
 

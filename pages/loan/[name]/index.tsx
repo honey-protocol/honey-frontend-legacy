@@ -40,6 +40,7 @@ import {
   PythHttpClient
 } from "@pythnetwork/client";
 import { toast } from 'react-toastify';
+import { Connection } from '@metaplex/js';
 /**
  * @description
  *  static nft object based off current posted as collateral and available nfts
@@ -151,35 +152,14 @@ const Loan: NextPage = () => {
   const [nftPrice, setNFTPrice] = useState(0);
   const [cRatio, setCRatio] = useState(0);
 
-  // async function handleLoanInit() {
-  //   if (marketReserveInfo) {
-  //     setNFTPrice(marketReserveInfo[0].price.div(new BN(10 ** 15)).toNumber());
-  //     setDepositNoteExchangeRate(BnToDecimal(marketReserveInfo[0].depositNoteExchangeRate, 15, 5))
-  //     setCRatio(BnToDecimal(marketReserveInfo[0].minCollateralRatio, 15, 5))
-  //   }
-  // }
-
-  // function handleLoanValues() {
-  //   if (honeyUser?.loans().length > 0 && marketReserveInfo) {
-  //     let nftCollateralValue = nftPrice * (collateralNFTPositions?.length || 0);
-  //     let userLoans = marketReserveInfo[0].loanNoteExchangeRate.mul(honeyUser?.loans()[0]?.amount).div(new BN(10 ** 15)).toNumber() / LAMPORTS_PER_SOL;
-  //     let sumOfAllowance = RoundHalfDown(nftCollateralValue / cRatio - userLoans, 2);
-  //     setUserAllowance(RoundHalfDown(sumOfAllowance));
-  
-  //     const totalDebt = marketReserveInfo[0].loanNoteExchangeRate.mul(honeyUser?.loans()[0]?.amount).div(new BN(10 ** 15)).toNumber() / LAMPORTS_PER_SOL;
-  //     const lvt = totalDebt / nftPrice;
-
-  //     setUserDebt(RoundHalfDown(totalDebt));
-  //     setLoanToValue(RoundHalfDown(lvt));
-  //   }
-  // }
-
   /**
    * @description updates honeyUser | marketReserveInfo | - timeout required
    * @params none
    * @returns honeyUser | marketReserveInfo |
   */
   useEffect(() => {
+    // debugger;
+
     if (collateralNFTPositions) setDefaultNFT(collateralNFTPositions);
 
     if (marketReserveInfo) {
@@ -273,7 +253,7 @@ const Loan: NextPage = () => {
           console.log('firing')
           await refreshPositions();
 
-          reFetchNFTs({})
+          reFetchNFTs({});
         }
       } catch (error) {
         console.log('error depositing nft', error);
@@ -320,21 +300,32 @@ const Loan: NextPage = () => {
       const tx = await borrow(honeyUser, val * LAMPORTS_PER_SOL, borrowTokenMint, honeyReserves);
       console.log('borrowed amount', val * LAMPORTS_PER_SOL);
       if (tx[0] == 'SUCCESS') {
+        console.log('this is the tx', tx[0])
         toastResponse('SUCCESS', 'Borrow success', 'SUCCESS', 'BORROW');
-        await asyncTimeout(3000);
-        await honeyReserves[0].sendRefreshTx();
-        await fetchMarket().then(() => {
+
+        let testing = await honeyReserves[0].sendRefreshTx();
+        const latestBlockHash = await sdkConfig.saberHqConnection.getLatestBlockhash()
+
+        await sdkConfig.saberHqConnection.confirmTransaction({
+          blockhash: latestBlockHash.blockhash,
+          lastValidBlockHeight: latestBlockHash.lastValidBlockHeight,
+          signature: testing,
+        });
+
+        await fetchMarket()
+        await honeyUser.refresh().then((val: any) => {
+          console.log('honeyUser', honeyUser)
           reserveHoneyState ==  0 ? setReserveHoneyState(1) : setReserveHoneyState(0);
         })
       } else {
           return toastResponse('ERROR', 'Borrow failed', 'BORROW');
       }
     } catch (error) {
-      console.log('@@error', error);
-      return toastResponse('ERROR', 'An error occurred', 'BORROW');
+        console.log('@@error', error);
+        return toastResponse('ERROR', 'An error occurred', 'BORROW');
     }
   }
-
+  
   /**
    * @description
    * executes the repay function which allows user to repay their borrowed amount
@@ -360,7 +351,7 @@ const Loan: NextPage = () => {
       }
     } catch (error) {
       console.log('@@error', error);
-      return toastResponse('ERROR', 'An error occurred', 'REPAY')
+      return toastResponse('ERROR', 'An error occurred', 'REPAY');
     }
   }
 
