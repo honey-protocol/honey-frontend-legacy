@@ -1,14 +1,10 @@
 import React, {useEffect, useState} from "react";
 import { Box, Button, Card, Stack, Text, Tag } from 'degen';
 import { Avatar } from 'degen';
-import { Input } from 'degen';
 import Slider from '../components/Slider/Slider';
-import { LAMPORTS_PER_SOL } from '@solana/web3.js';
-import BN from 'bn.js';
 import { TYPE_REPAY } from '../constants/loan';
 import * as styles from './Slider/Slider.css';
 import {toastResponse} from '../helpers/loanHelpers/index';
-import {asyncTimeout} from '../helpers/loanHelpers/index';
 
 interface LoanRepayProps {
     NFT: {
@@ -33,7 +29,7 @@ interface LoanRepayProps {
 
 const LoanRepay = (props: LoanRepayProps) => {
     const { NFT, executeWithdrawNFT, mint, executeRepay, loanPositions, parsedReserves, userDebt, userAllowance, loanToValue, fetchMarket } = props;
-    const [userInput, setUserInput] = useState();
+    const [userInput, setUserInput] = useState(0);
     const [userMessage, setUserMessage] = useState('');
     const [rangeVal, setRangeVal] = useState(0);
     const [userLvt, setUserLvt] = useState(0);
@@ -48,11 +44,6 @@ const LoanRepay = (props: LoanRepayProps) => {
       setUserLvt(loanToValue)
     }, [loanToValue]);
 
-    async function handleTimeout() {
-      await asyncTimeout(5000);
-      await fetchMarket();
-    }
-    
     function handleExecuteRepay() {
       totalRepay = userDebt
       if (!userInput) return toastResponse('ERROR', 'Please provide a value', 'ERROR');
@@ -62,7 +53,6 @@ const LoanRepay = (props: LoanRepayProps) => {
         return executeRepay(totalRepay);
       }
       executeRepay(userInput);
-      handleTimeout();
     }
  
     function handleUserChange(val: any, rangeSliderValue?: number) {

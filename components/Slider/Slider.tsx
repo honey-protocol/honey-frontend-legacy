@@ -1,12 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { Box, Stack, Button, Avatar } from 'degen';
 import * as styles from './Slider.css';
-import { LAMPORTS_PER_SOL } from '@solana/web3.js';
 import BN from 'bn.js';
 import {TYPE_BORROW, TYPE_REPAY, TYPE_ZERO} from '../../constants/loan';
 import {inputNumberValidator} from '../../helpers/loanHelpers';
 import {RoundHalfDown} from '../../helpers/utils';
-import {debounce} from 'lodash';
 
 interface SliderProps {
   handleUserChange: (val: any, rangeVal?: number) => void;
@@ -70,6 +68,7 @@ const Slider = (props: SliderProps) => {
     
     if (validated) {
       const isInputValid = await inputNumberValidator(userValue);
+      console.log('this is the object', isInputValid)
 
       let rangeUserCalc = (Number(userDebt) / 100 || 0);
       let rangeAllowanceCalc = (Number(userAllowance) / 100) || 0;
@@ -82,6 +81,7 @@ const Slider = (props: SliderProps) => {
           }
     
           if (userDebt && isInputValid.value > userDebt) {
+            console.log('this is the case')
             // userDebt += .1;
             setUserMessage(`Your max repay amount is ${userDebt} SOL`);
             setUserInput(RoundHalfDown(userDebt));
@@ -92,6 +92,7 @@ const Slider = (props: SliderProps) => {
           }
 
           if (userDebt && isInputValid.value < userDebt) {
+            console.log('is this the case?', userDebt)
             setUserInput(RoundHalfDown(isInputValid.value));
             handleUserChange(RoundHalfDown(isInputValid.value));
             setSlideCount(RoundHalfDown(isInputValid.value));

@@ -1,14 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { Box, Button, Card, Stack, Text, Tag } from 'degen';
 import { Avatar } from 'degen';
-import { Input } from 'degen';
 import Slider from '../components/Slider/Slider';
 import * as styles from './Slider/Slider.css';
-import { LAMPORTS_PER_SOL, PublicKey } from '@solana/web3.js';
-import BN from 'bn.js';
+import { PublicKey } from '@solana/web3.js';
 import { TYPE_BORROW } from "constants/loan";
-import {toastResponse, BnToDecimal} from '../helpers/loanHelpers/index';
-import {asyncTimeout} from '../helpers/loanHelpers/index';
+import {toastResponse} from '../helpers/loanHelpers/index';
 
 interface LoanBorrowProps {
   NFT: {
@@ -69,11 +66,6 @@ const LoanBorrow = (props: LoanBorrowProps) => {
   */
   function handleUserChange(val: any) {
     setUserInput(val);
-  }
-
-  async function handleTimeout() {
-    await asyncTimeout(5000);
-    await fetchMarket();
   }
 
   /**
