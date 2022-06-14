@@ -80,24 +80,25 @@ const Slider = (props: SliderProps) => {
             return;
           }
     
-          if (userDebt && isInputValid.value > userDebt) {
-            console.log('this is the case')
+          if (userDebt) {
+            console.log('hi')
             // userDebt += .1;
-            setUserMessage(`Your max repay amount is ${userDebt} SOL`);
-            setUserInput(RoundHalfDown(userDebt));
-            handleUserChange(RoundHalfDown(userDebt));
-            setSlideCount(RoundHalfDown(userDebt));
+            // setUserMessage(`Your max repay amount is ${userDebt} SOL`);
+            setUserInput((isInputValid.value));
+            handleUserChange((isInputValid.value));
+            setSlideCount((isInputValid.value));
             if (userDebt > 0) setRangeSlider(RoundHalfDown(isInputValid.value / rangeUserCalc));
-            return;
+            // return;
           }
 
-          if (userDebt && isInputValid.value < userDebt) {
+          if (userDebt && isInputValid.value > userDebt) {
             console.log('is this the case?', userDebt)
-            setUserInput(RoundHalfDown(isInputValid.value));
-            handleUserChange(RoundHalfDown(isInputValid.value));
-            setSlideCount(RoundHalfDown(isInputValid.value));
+            setUserMessage(`Your max repay amount is ${userDebt}`);
+            setUserInput((userDebt));
+            handleUserChange((userDebt));
+            setSlideCount(RoundHalfDown(userDebt));
             if (userDebt > 0) setRangeSlider(RoundHalfDown(isInputValid.value / rangeUserCalc));
-            return;
+            // return;
           }
         }
 

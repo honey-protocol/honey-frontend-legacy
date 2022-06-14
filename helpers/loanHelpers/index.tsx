@@ -23,13 +23,13 @@ export function ConfigureSDK() {
  * @returns success or failure object
 */
 export async function inputNumberValidator(val: any) {
-  // if (val == '000' || val == '0000' ) {
-  //   return {
-  //     success: true,
-  //     message: '',
-  //     value: '00'
-  //   }
-  // }
+  if (val == '000' || val == '0000' ) {
+    return {
+      success: true,
+      message: '',
+      value: '00'
+    }
+  }
   if (val >= 0 && val < 100) {
     return {
         success: true,

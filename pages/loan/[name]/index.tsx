@@ -300,28 +300,25 @@ const Loan: NextPage = () => {
       const tx = await borrow(honeyUser, val * LAMPORTS_PER_SOL, borrowTokenMint, honeyReserves);
       console.log('borrowed amount', val * LAMPORTS_PER_SOL);
       if (tx[0] == 'SUCCESS') {
-        console.log('this is the tx', tx[0])
         toastResponse('SUCCESS', 'Borrow success', 'SUCCESS', 'BORROW');
 
-        let testing = await honeyReserves[0].sendRefreshTx();
+        let refreshedHoneyReserves = await honeyReserves[0].sendRefreshTx();
         const latestBlockHash = await sdkConfig.saberHqConnection.getLatestBlockhash()
 
         await sdkConfig.saberHqConnection.confirmTransaction({
           blockhash: latestBlockHash.blockhash,
           lastValidBlockHeight: latestBlockHash.lastValidBlockHeight,
-          signature: testing,
+          signature: refreshedHoneyReserves,
         });
 
         await fetchMarket()
         await honeyUser.refresh().then((val: any) => {
-          console.log('honeyUser', honeyUser)
           reserveHoneyState ==  0 ? setReserveHoneyState(1) : setReserveHoneyState(0);
-        })
+        });
       } else {
           return toastResponse('ERROR', 'Borrow failed', 'BORROW');
       }
     } catch (error) {
-        console.log('@@error', error);
         return toastResponse('ERROR', 'An error occurred', 'BORROW');
     }
   }
@@ -341,11 +338,19 @@ const Loan: NextPage = () => {
       console.log('this is repayTx', tx);
       if (tx[0] == 'SUCCESS') {
         toastResponse('SUCCESS', 'Repay success', 'SUCCESS', 'REPAY');
-        await asyncTimeout(3000);
-        await honeyReserves[0].sendRefreshTx();
-        await fetchMarket().then(() => {
+        let refreshedHoneyReserves = await honeyReserves[0].sendRefreshTx();
+        const latestBlockHash = await sdkConfig.saberHqConnection.getLatestBlockhash()
+
+        await sdkConfig.saberHqConnection.confirmTransaction({
+          blockhash: latestBlockHash.blockhash,
+          lastValidBlockHeight: latestBlockHash.lastValidBlockHeight,
+          signature: refreshedHoneyReserves,
+        });
+
+        await fetchMarket()
+        await honeyUser.refresh().then((val: any) => {
           reserveHoneyState ==  0 ? setReserveHoneyState(1) : setReserveHoneyState(0);
-        })
+        });
       } else {
         return toastResponse('ERROR', 'Repay failed', 'REPAY')
       }

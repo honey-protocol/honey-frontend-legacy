@@ -82,7 +82,7 @@ const sdkConfig = ConfigureSDK();
    * @params none
    * @returns market | market reserve information | parsed reserves |
   */
-   const { market, marketReserveInfo, parsedReserves }  = useHoney();
+   const { market, marketReserveInfo, parsedReserves, fetchMarket }  = useHoney();
   
    /**
    * @description calls upon the honey sdk - market
@@ -93,6 +93,7 @@ const sdkConfig = ConfigureSDK();
   const [userDebt, setUserDebt] = useState(0);
   const [totalMarkDeposits, setTotalMarketDeposits] = useState(0);
   const [userTotalDeposits, setUserTotalDeposits] = useState(0);
+  const [reserveHoneyState, setReserveHoneyState] = useState(0);
 
   /**
    * @description updates honeyUser | marketReserveInfo | - timeout required
@@ -126,6 +127,9 @@ const sdkConfig = ConfigureSDK();
     }
   }, [parsedReserves]);
 
+  useEffect(() => {
+  }, [reserveHoneyState]);
+
   /**
    * @description deposits 1 sol
    * @params optional value from user input; amount of SOL
@@ -143,21 +147,23 @@ const sdkConfig = ConfigureSDK();
       
       if (tx[0] == 'SUCCESS') {
         toastResponse('SUCCESS', 'Deposit success', 'SUCCESS', 'DEPOSIT');
+        
+        let refreshedHoneyReserves = await honeyReserves[0].sendRefreshTx();
+        const latestBlockHash = await sdkConfig.saberHqConnection.getLatestBlockhash()
+
+        await sdkConfig.saberHqConnection.confirmTransaction({
+          blockhash: latestBlockHash.blockhash,
+          lastValidBlockHeight: latestBlockHash.lastValidBlockHeight,
+          signature: refreshedHoneyReserves,
+        });
+
+        await fetchMarket()
+        await honeyUser.refresh().then((val: any) => {
+          reserveHoneyState ==  0 ? setReserveHoneyState(1) : setReserveHoneyState(0);
+        });
       } else {
         return toastResponse('ERROR', 'Deposit failed', 'ERROR');
       }
-
-      const depositReserve = honeyReserves.filter((reserve) =>
-        reserve?.data?.tokenMint?.equals(depositTokenMint),
-      )[0];
-  
-      const reserveState = depositReserve.data?.reserveState;
-      console.log('this is reserveState-- deposit', reserveState);
-      console.log('outstandingDebt', reserveState?.outstandingDebt.toString());
-      console.log('totalDepositNotes', reserveState?.totalDepositNotes.toString());
-      console.log('TOTAL_DEPOSITS', reserveState?.totalDeposits.toString());
-      console.log('totalLoanNotes', reserveState?.totalLoanNotes.toString());
-      console.log('totalLoanNotes', reserveState?.totalLoanNotes.toString()); 
     } catch (error) {
       // integrate toast response
       console.log('error during deposit', error);
@@ -180,21 +186,23 @@ const sdkConfig = ConfigureSDK();
       
       if (tx[0] == 'SUCCESS') {
         toastResponse('SUCCESS', 'Withdraw success', 'SUCCESS', 'WITHDRAW');
+        let refreshedHoneyReserves = await honeyReserves[0].sendRefreshTx();
+        const latestBlockHash = await sdkConfig.saberHqConnection.getLatestBlockhash()
+
+        await sdkConfig.saberHqConnection.confirmTransaction({
+          blockhash: latestBlockHash.blockhash,
+          lastValidBlockHeight: latestBlockHash.lastValidBlockHeight,
+          signature: refreshedHoneyReserves,
+        });
+
+        await fetchMarket()
+        await honeyUser.refresh().then((val: any) => {
+          reserveHoneyState ==  0 ? setReserveHoneyState(1) : setReserveHoneyState(0);
+        });
+
       } else {
         return toastResponse('ERROR', 'Withdraw failed ', 'ERROR');
       }
-      
-      const withdrawReserve = honeyReserves.filter((reserve) =>
-        reserve?.data?.tokenMint?.equals(depositTokenMint),
-      )[0];
-  
-      const reserveState = withdrawReserve.data?.reserveState;
-      console.log('this is reserveState-- withdraw', reserveState);
-      console.log('outstandingDebt', reserveState?.outstandingDebt.toString());
-      console.log('totalDepositNotes', reserveState?.totalDepositNotes.toString());
-      console.log('totalDeposits', reserveState?.totalDeposits.toString());
-      console.log('totalLoanNotes', reserveState?.totalLoanNotes.toString());    
-
     } catch (error) {
       // integrate toast response
       console.log('no success', error);

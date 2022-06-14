@@ -29,7 +29,7 @@ interface LoanRepayProps {
 
 const LoanRepay = (props: LoanRepayProps) => {
     const { NFT, executeWithdrawNFT, mint, executeRepay, loanPositions, parsedReserves, userDebt, userAllowance, loanToValue, fetchMarket } = props;
-    const [userInput, setUserInput] = useState(0);
+    const [userInput, setUserInput] = useState();
     const [userMessage, setUserMessage] = useState('');
     const [rangeVal, setRangeVal] = useState(0);
     const [userLvt, setUserLvt] = useState(0);
@@ -55,16 +55,26 @@ const LoanRepay = (props: LoanRepayProps) => {
       executeRepay(userInput);
     }
  
-    function handleUserChange(val: any, rangeSliderValue?: number) {
+    // function handleUserChange(val: any, rangeSliderValue?: number) {
+    //   console.log('kom ik hier')
+    //   if (rangeSliderValue && rangeSliderValue == 100) {
+    //     setRangeVal(100)
+    //     setUserInput(val);
+    //   } else {
+    //     setRangeVal(0)
+    //     setUserInput(val);
+    //   }
 
-      if (rangeSliderValue && rangeSliderValue == 100) {
-        setRangeVal(100)
-      } else {
-        setRangeVal(0)
-      }
-
+    //   setUserInput(val);
+    // }
+    function handleUserChange(val: any) {
+      console.log('kom ik hier', val)
       setUserInput(val);
     }
+
+    useEffect(() => {
+      console.log('loan positions inside loan repay changed', (userDebt == 0))
+    }, [loanPositions])
 
     return (
         <Box gap="3">
@@ -228,14 +238,14 @@ const LoanRepay = (props: LoanRepayProps) => {
             />
             {/* if no more outstanding amount - render claim nft, is there is, render repay;  */}
             {
-                loanPositions?.length > 0 && loanPositions[0]?.amount != 0 
+                userDebt == 0 
                 ?
                 (
-                    <Button width="full" onClick={handleExecuteRepay}>Repay</Button>
+                  <Button width="full" onClick={() => executeWithdrawNFT(mint)}>Claim NFT</Button>
                 )
                 :
                 (
-                    <Button width="full" onClick={() => executeWithdrawNFT(mint)}>Claim NFT</Button>
+                  <Button width="full" onClick={handleExecuteRepay}>Repay</Button>
                 )
             }
         </Box>
