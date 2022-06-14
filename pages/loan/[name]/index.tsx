@@ -170,6 +170,7 @@ const Loan: NextPage = () => {
       }
 
     if (honeyUser?.loans().length > 0) {
+      console.log('this is cRatio', cRatio)
       if (honeyUser?.loans().length > 0 && marketReserveInfo) {
         let nftCollateralValue = nftPrice * (collateralNFTPositions?.length || 0);
         let userLoans = marketReserveInfo[0].loanNoteExchangeRate.mul(honeyUser?.loans()[0]?.amount).div(new BN(10 ** 15)).toNumber() * 1.002 / LAMPORTS_PER_SOL;
@@ -182,8 +183,10 @@ const Loan: NextPage = () => {
 
         setUserDebt(RoundHalfDown(totalDebt));
         setLoanToValue(RoundHalfDown(lvt));
+
       }
     }
+    console.log('@@@@--NFT PRICE--@@@@@', nftPrice);
   }, [marketReserveInfo, honeyUser, collateralNFTPositions, market, error, parsedReserves, honeyReserves, cRatio, nftPrice, reserveHoneyState]);
 
   /**
