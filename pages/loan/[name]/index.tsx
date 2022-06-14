@@ -158,19 +158,15 @@ const Loan: NextPage = () => {
    * @returns honeyUser | marketReserveInfo |
   */
   useEffect(() => {
-    // debugger;
-
     if (collateralNFTPositions) setDefaultNFT(collateralNFTPositions);
 
     if (marketReserveInfo) {
-        // setNFTPrice(marketReserveInfo[0].price.div(new BN(10 ** 15)).toNumber());
         setNFTPrice(2);
         setDepositNoteExchangeRate(BnToDecimal(marketReserveInfo[0].depositNoteExchangeRate, 15, 5))
         setCRatio(BnToDecimal(marketReserveInfo[0].minCollateralRatio, 15, 5))
       }
 
     if (honeyUser?.loans().length > 0) {
-      console.log('this is cRatio', cRatio)
       if (honeyUser?.loans().length > 0 && marketReserveInfo) {
         let nftCollateralValue = nftPrice * (collateralNFTPositions?.length || 0);
         let userLoans = marketReserveInfo[0].loanNoteExchangeRate.mul(honeyUser?.loans()[0]?.amount).div(new BN(10 ** 15)).toNumber() * 1.002 / LAMPORTS_PER_SOL;
@@ -186,7 +182,6 @@ const Loan: NextPage = () => {
 
       }
     }
-    console.log('@@@@--NFT PRICE--@@@@@', nftPrice);
   }, [marketReserveInfo, honeyUser, collateralNFTPositions, market, error, parsedReserves, honeyReserves, cRatio, nftPrice, reserveHoneyState]);
 
   /**
@@ -250,18 +245,17 @@ const Loan: NextPage = () => {
   async function executeDepositNFT(mintID: any) {
       try {
         if (!mintID) return;
-        console.log('current nfts', availableNFTs[0])
+
         const metadata = await Metadata.findByMint(sdkConfig.saberHqConnection, mintID);
         const tx = await depositNFT(sdkConfig.saberHqConnection, honeyUser, metadata.pubkey);
         if (tx[0] == 'SUCCESS') {
           toastResponse('SUCCESS', 'Deposit success', 'SUCCESS');
-          console.log('firing')
+
           await refreshPositions();
 
           reFetchNFTs({});
         }
       } catch (error) {
-        console.log('error depositing nft', error);
         return toastResponse('ERROR', 'Error deposit NFT', 'ERROR');
     }
   }
@@ -279,13 +273,11 @@ const Loan: NextPage = () => {
 
       if (tx[0] == 'SUCCESS') {
         await toastResponse('SUCCESS', 'Withdraw success', 'SUCCESS');
-        console.log('firing')
         reFetchNFTs({});
         await refreshPositions();
 
       }
     } catch (error) {
-      console.log('error depositing nft', error);
       toastResponse('ERROR', 'Error withdraw NFT', 'ERROR');
       return;
     }
@@ -303,7 +295,7 @@ const Loan: NextPage = () => {
       if (!val) return toastResponse('ERROR', 'Please provide a value', 'ERROR');
       const borrowTokenMint = new PublicKey('So11111111111111111111111111111111111111112');
       const tx = await borrow(honeyUser, val * LAMPORTS_PER_SOL, borrowTokenMint, honeyReserves);
-      console.log('borrowed amount', val * LAMPORTS_PER_SOL);
+
       if (tx[0] == 'SUCCESS') {
         toastResponse('SUCCESS', 'Borrow success', 'SUCCESS', 'BORROW');
 
@@ -340,7 +332,7 @@ const Loan: NextPage = () => {
       if (!val) return toastResponse('ERROR', 'Please provide a value', 'ERROR');
       const repayTokenMint = new PublicKey('So11111111111111111111111111111111111111112');
       const tx = await repay(honeyUser, val * LAMPORTS_PER_SOL, repayTokenMint, honeyReserves)
-      console.log('this is repayTx', tx);
+
       if (tx[0] == 'SUCCESS') {
         toastResponse('SUCCESS', 'Repay success', 'SUCCESS', 'REPAY');
         let refreshedHoneyReserves = await honeyReserves[0].sendRefreshTx();
@@ -360,7 +352,6 @@ const Loan: NextPage = () => {
         return toastResponse('ERROR', 'Repay failed', 'REPAY')
       }
     } catch (error) {
-      console.log('@@error', error);
       return toastResponse('ERROR', 'An error occurred', 'REPAY');
     }
   }
