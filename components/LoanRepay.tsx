@@ -54,26 +54,12 @@ const LoanRepay = (props: LoanRepayProps) => {
       }
       executeRepay(userInput);
     }
- 
-    // function handleUserChange(val: any, rangeSliderValue?: number) {
-    //   console.log('kom ik hier')
-    //   if (rangeSliderValue && rangeSliderValue == 100) {
-    //     setRangeVal(100)
-    //     setUserInput(val);
-    //   } else {
-    //     setRangeVal(0)
-    //     setUserInput(val);
-    //   }
 
-    //   setUserInput(val);
-    // }
     function handleUserChange(val: any) {
-      console.log('kom ik hier', val)
       setUserInput(val);
     }
 
     useEffect(() => {
-      console.log('loan positions inside loan repay changed', (userDebt == 0))
     }, [loanPositions])
 
     return (

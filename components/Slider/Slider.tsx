@@ -7,7 +7,7 @@ import {inputNumberValidator} from '../../helpers/loanHelpers';
 import {RoundHalfDown} from '../../helpers/utils';
 
 interface SliderProps {
-  handleUserChange: (val: any, rangeVal?: number) => void;
+  handleUserChange: (val: any, rangeVal?: number, maxBorrowReached?: boolean) => void;
   handleExecuteBorrow?: (val: any) => void;
   handleExecuteRepay?: (val: any) => void;
   userDebt?: number;
@@ -30,7 +30,7 @@ const Slider = (props: SliderProps) => {
    * @returns
   */
   const [slideCount, setSlideCount] = useState(0);
-  const [userInput, setUserInput] = useState(0);
+  const [userInput, setUserInput] = useState<number>();
   const [userMessage, setUserMessage] = useState('');
   const [rangeSlider, setRangeSlider] = useState(0);
 
@@ -63,66 +63,86 @@ const Slider = (props: SliderProps) => {
    * @returns
   */
   async function handleNumberInput(val: any) {
-    let userValue = val.target.value
-    const validated = userValue.match(/^(\d*\.{0,1}\d{0,2}$)/)
-    
-    if (validated) {
-      const isInputValid = await inputNumberValidator(userValue);
-      console.log('this is the object', isInputValid)
+    let rangeUserCalc = (Number(userDebt) / 100 || 0);
+    let rangeAllowanceCalc = (Number(userAllowance) / 100) || 0;
 
-      let rangeUserCalc = (Number(userDebt) / 100 || 0);
-      let rangeAllowanceCalc = (Number(userAllowance) / 100) || 0;
-
-      if (isInputValid.success) {
-        if (type == TYPE_REPAY) {
-          if (userDebt && userDebt < 0.01) {
-            setUserMessage('No outstanding debt');
-            return;
-          }
-    
-          if (userDebt) {
-            console.log('hi')
-            // userDebt += .1;
-            // setUserMessage(`Your max repay amount is ${userDebt} SOL`);
-            setUserInput((isInputValid.value));
-            handleUserChange((isInputValid.value));
-            setSlideCount((isInputValid.value));
-            if (userDebt > 0) setRangeSlider(RoundHalfDown(isInputValid.value / rangeUserCalc));
-            // return;
-          }
-
-          if (userDebt && isInputValid.value > userDebt) {
-            console.log('is this the case?', userDebt)
-            setUserMessage(`Your max repay amount is ${userDebt}`);
-            setUserInput((userDebt));
-            handleUserChange((userDebt));
-            setSlideCount(RoundHalfDown(userDebt));
-            if (userDebt > 0) setRangeSlider(RoundHalfDown(isInputValid.value / rangeUserCalc));
-            // return;
-          }
-        }
-
-        if (type == TYPE_BORROW) {
-          if (userAllowance && isInputValid.value > userAllowance) {
-            setUserMessage(`Your max allowance is ${userAllowance} SOL`);
-            setUserInput(userAllowance);
-            handleUserChange(userAllowance);
-            setSlideCount(userAllowance);
-            setRangeSlider(isInputValid.value / rangeAllowanceCalc);
-          } else {
-            setUserInput(isInputValid.value);
-            handleUserChange(isInputValid.value);
-            setSlideCount(isInputValid.value);
-            setRangeSlider(isInputValid.value / rangeAllowanceCalc);
-          }
-          return;
-        }
-      } else {
-        setUserInput(isInputValid.value);
-        setUserMessage(isInputValid.message);
-        setRangeSlider(isInputValid.value / rangeAllowanceCalc);
-      }
+    if (type == TYPE_BORROW) {
+      console.log('the value', val)
+      setUserInput(val.target.value);
+      handleUserChange(val.target.value);
+      setSlideCount(val.target.value);
+      setRangeSlider(val.target.value / rangeAllowanceCalc);
+    } else if (type == TYPE_REPAY) {
+      console.log('the value', val)
+        setUserInput((val.target.value));
+        handleUserChange((val.target.value));
+        setSlideCount((val.target.value));
+        if (userDebt && userDebt > 0) setRangeSlider(RoundHalfDown(val.target.value / rangeUserCalc));
     }
+
+      // let userValue = val.target.value
+      // const validated = userValue.match(/^(\d*\.{0,1}\d{0,2}$)/);
+  
+      // if (userDebt && userDebt >= .8 && type == TYPE_BORROW) {
+      //   console.log('inside ')
+      //   setUserMessage('You have reached your max allowance of 0.8 SOL');
+      //   handleUserChange(0, 0, true);
+      //   return ;
+      // }
+      
+      // if (validated) {
+      //   const isInputValid = await inputNumberValidator(userValue);
+      //   console.log('this is the object', isInputValid)
+  
+      //   let rangeUserCalc = (Number(userDebt) / 100 || 0);
+      //   let rangeAllowanceCalc = (Number(userAllowance) / 100) || 0;
+  
+      //   if (isInputValid.success) {
+      //     if (type == TYPE_REPAY) {
+      //       if (userDebt && userDebt < 0.01) {
+      //         setUserMessage('No outstanding debt');
+      //         return;
+      //       }
+      
+      //       if (userDebt && isInputValid.value > userDebt) {
+      //         // userDebt += .1;
+      //         // setUserMessage(`Your max repay amount is ${userDebt} SOL`);
+      //         setUserMessage(`Your max repay amount is ${userDebt}`);
+      //         setUserInput((userDebt));
+      //         handleUserChange((userDebt));
+      //         setSlideCount(RoundHalfDown(userDebt));
+      //         if (userDebt > 0) setRangeSlider(RoundHalfDown(isInputValid.value / rangeUserCalc));
+      //         // return;
+      //       } else if (userDebt) {
+      //         setUserInput((isInputValid.value));
+      //         handleUserChange((isInputValid.value));
+      //         setSlideCount((isInputValid.value));
+      //         if (userDebt > 0) setRangeSlider(RoundHalfDown(isInputValid.value / rangeUserCalc));
+      //       }
+  
+      //     }
+  
+      //     if (type == TYPE_BORROW) {
+      //       if (userAllowance && isInputValid.value > userAllowance) {
+      //         setUserMessage(`Your max allowance is ${userAllowance} SOL`);
+      //         setUserInput(userAllowance);
+      //         handleUserChange(userAllowance);
+      //         setSlideCount(userAllowance);
+      //         setRangeSlider(isInputValid.value / rangeAllowanceCalc);
+      //       } else {
+      //         setUserInput(isInputValid.value);
+      //         handleUserChange(isInputValid.value);
+      //         setSlideCount(isInputValid.value);
+      //         setRangeSlider(isInputValid.value / rangeAllowanceCalc);
+      //       }
+      //       return;
+      //     }
+      //   } else {
+      //     setUserInput(isInputValid.value);
+      //     setUserMessage(isInputValid.message);
+      //     setRangeSlider(isInputValid.value / rangeAllowanceCalc);
+      //   }
+    // }
   }
 
   /**

@@ -163,25 +163,40 @@ const Loan: NextPage = () => {
     if (collateralNFTPositions) setDefaultNFT(collateralNFTPositions);
 
     if (marketReserveInfo) {
-        setNFTPrice(marketReserveInfo[0].price.div(new BN(10 ** 15)).toNumber());
+        setNFTPrice(marketReserveInfo[0].price.div(new BN(10 ** 15)).toNumber() * 2);
         setDepositNoteExchangeRate(BnToDecimal(marketReserveInfo[0].depositNoteExchangeRate, 15, 5))
         setCRatio(BnToDecimal(marketReserveInfo[0].minCollateralRatio, 15, 5))
       }
 
     if (honeyUser?.loans().length > 0) {
+      console.log('this is cRatio', cRatio)
       if (honeyUser?.loans().length > 0 && marketReserveInfo) {
         let nftCollateralValue = nftPrice * (collateralNFTPositions?.length || 0);
         let userLoans = marketReserveInfo[0].loanNoteExchangeRate.mul(honeyUser?.loans()[0]?.amount).div(new BN(10 ** 15)).toNumber() / LAMPORTS_PER_SOL;
-        let sumOfAllowance = RoundHalfDown(nftCollateralValue / cRatio - userLoans, 2);
-        setUserAllowance(RoundHalfDown(sumOfAllowance));
+        console.log('this is userLoans', userLoans);
+        console.log('this is nftCollateralValue', nftCollateralValue)
+
+        if (userLoans >= .8) {
+          setUserAllowance(0);
+        } else {
+          let sumOfAllowance = RoundHalfDown(((nftCollateralValue / cRatio - userLoans) / 2), 2);
+          // setUserAllowance(RoundHalfDown(sumOfAllowance));
+          if ((.8 - userLoans) >= .01) {
+            setUserAllowance(.8 - userLoans);  
+          } else {
+            setUserAllowance(0);
+          }
+        }
     
         const totalDebt = marketReserveInfo[0].loanNoteExchangeRate.mul(honeyUser?.loans()[0]?.amount).div(new BN(10 ** 15)).toNumber() / LAMPORTS_PER_SOL;
         const lvt = totalDebt / nftPrice;
-  
+
         setUserDebt(RoundHalfDown(totalDebt));
         setLoanToValue(RoundHalfDown(lvt));
+
       }
     }    
+    console.log('@@@@--NFT PRICE--@@@@@', nftPrice);
   }, [marketReserveInfo, honeyUser, collateralNFTPositions, market, error, parsedReserves, honeyReserves, cRatio, nftPrice, reserveHoneyState]);
  
   /**

@@ -64,7 +64,8 @@ const LoanBorrow = (props: LoanBorrowProps) => {
    * @params event object
    * @returns userInput
   */
-  function handleUserChange(val: any) {
+  function handleUserChange(val: any, rangeVal?: number, reachedMaxBorrowed?: boolean) {
+    if (reachedMaxBorrowed && reachedMaxBorrowed == true) return;
     setUserInput(val);
   }
 
@@ -228,6 +229,7 @@ const LoanBorrow = (props: LoanBorrowProps) => {
                 handleExecuteBorrow={handleExecuteBorrow}
                 type={TYPE_BORROW}
                 userAllowance={userAllowance}
+                userDebt={userDebt}
               />
           </Box>
           {
