@@ -108,7 +108,7 @@ const Loan: NextPage = () => {
   * @returns honeyUser | honeyReserves - used for interaction regarding the SDK
   */
   const { honeyClient, honeyUser, honeyReserves } = useMarket(sdkConfig.saberHqConnection, sdkConfig.sdkWallet!, sdkConfig.honeyId, sdkConfig.marketId);
-  
+
   // const {sendRefreshTx} = new HoneyReserve(sdkConfig.saberHqConnection, sdkConfig.sdkWallet!, sdkConfig.honeyId, sdkConfig.marketId)
   /**
    * @description calls upon markets which
@@ -163,7 +163,8 @@ const Loan: NextPage = () => {
     if (collateralNFTPositions) setDefaultNFT(collateralNFTPositions);
 
     if (marketReserveInfo) {
-        setNFTPrice(marketReserveInfo[0].price.div(new BN(10 ** 15)).toNumber());
+        // setNFTPrice(marketReserveInfo[0].price.div(new BN(10 ** 15)).toNumber());
+        setNFTPrice(2);
         setDepositNoteExchangeRate(BnToDecimal(marketReserveInfo[0].depositNoteExchangeRate, 15, 5))
         setCRatio(BnToDecimal(marketReserveInfo[0].minCollateralRatio, 15, 5))
       }
@@ -171,19 +172,20 @@ const Loan: NextPage = () => {
     if (honeyUser?.loans().length > 0) {
       if (honeyUser?.loans().length > 0 && marketReserveInfo) {
         let nftCollateralValue = nftPrice * (collateralNFTPositions?.length || 0);
-        let userLoans = marketReserveInfo[0].loanNoteExchangeRate.mul(honeyUser?.loans()[0]?.amount).div(new BN(10 ** 15)).toNumber() / LAMPORTS_PER_SOL;
+        let userLoans = marketReserveInfo[0].loanNoteExchangeRate.mul(honeyUser?.loans()[0]?.amount).div(new BN(10 ** 15)).toNumber() * 1.002 / LAMPORTS_PER_SOL;
+
         let sumOfAllowance = RoundHalfDown(nftCollateralValue / cRatio - userLoans, 2);
         setUserAllowance(RoundHalfDown(sumOfAllowance));
-    
+
         const totalDebt = marketReserveInfo[0].loanNoteExchangeRate.mul(honeyUser?.loans()[0]?.amount).div(new BN(10 ** 15)).toNumber() / LAMPORTS_PER_SOL;
         const lvt = totalDebt / nftPrice;
-  
+
         setUserDebt(RoundHalfDown(totalDebt));
         setLoanToValue(RoundHalfDown(lvt));
       }
-    }    
+    }
   }, [marketReserveInfo, honeyUser, collateralNFTPositions, market, error, parsedReserves, honeyReserves, cRatio, nftPrice, reserveHoneyState]);
- 
+
   /**
    * @description logic regarding borrow modal or lendmodal
    * @params 0 or 1
@@ -322,7 +324,7 @@ const Loan: NextPage = () => {
         return toastResponse('ERROR', 'An error occurred', 'BORROW');
     }
   }
-  
+
   /**
    * @description
    * executes the repay function which allows user to repay their borrowed amount
