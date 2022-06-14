@@ -90,7 +90,6 @@ const sdkConfig = ConfigureSDK();
    * @returns honeyUser which is the main object - honeyMarket, honeyReserves are for testing purposes
   */
   const { honeyUser, honeyReserves } = useMarket(sdkConfig.saberHqConnection, sdkConfig.sdkWallet!, sdkConfig.honeyId, sdkConfig.marketId);
-  const [userDebt, setUserDebt] = useState(0);
   const [totalMarkDeposits, setTotalMarketDeposits] = useState(0);
   const [userTotalDeposits, setUserTotalDeposits] = useState(0);
   const [reserveHoneyState, setReserveHoneyState] = useState(0);
@@ -103,10 +102,10 @@ const sdkConfig = ConfigureSDK();
    useEffect(() => {
     setTimeout(() => {
       let depositNoteExchangeRate = 0, loanNoteExchangeRate = 0, nftPrice = 0, cRatio = 1;
+      
       if(marketReserveInfo) {
         nftPrice = 2;
         depositNoteExchangeRate = BnToDecimal(marketReserveInfo[0].depositNoteExchangeRate, 15, 5);
-        // depositNoteExchangeRate = marketReserveInfo[0].depositNoteExchangeRate.div(new BN(10 ** 15)).toNumber();
       }
 
       if(honeyUser?.deposits().length > 0) {
@@ -137,11 +136,9 @@ const sdkConfig = ConfigureSDK();
   */
   async function executeDeposit(value?: number) {
     try {
-
       if (!value) return toastResponse('ERROR', 'Deposit failed', 'ERROR');
-      // integrate toast response
+
       const tokenAmount =  value * LAMPORTS_PER_SOL;
-      console.log('this is value and the multiplier', value, (value * LAMPORTS_PER_SOL))
       const depositTokenMint = new PublicKey('So11111111111111111111111111111111111111112');
       const tx = await deposit(honeyUser, tokenAmount, depositTokenMint, honeyReserves);
       
@@ -165,8 +162,6 @@ const sdkConfig = ConfigureSDK();
         return toastResponse('ERROR', 'Deposit failed', 'ERROR');
       }
     } catch (error) {
-      // integrate toast response
-      console.log('error during deposit', error);
       return toastResponse('ERROR', 'Deposit failed', 'ERROR');
     }
   }
@@ -179,7 +174,7 @@ const sdkConfig = ConfigureSDK();
   async function executeWithdraw(value?: number) {
     try {
       if (!value) return toastResponse('ERROR', 'Withdraw failed', 'ERROR');
-      // integrate toast response
+
       const tokenAmount =  value * LAMPORTS_PER_SOL;
       const depositTokenMint = new PublicKey('So11111111111111111111111111111111111111112');
       const tx = await withdraw(honeyUser, tokenAmount, depositTokenMint, honeyReserves);
@@ -199,13 +194,10 @@ const sdkConfig = ConfigureSDK();
         await honeyUser.refresh().then((val: any) => {
           reserveHoneyState ==  0 ? setReserveHoneyState(1) : setReserveHoneyState(0);
         });
-
       } else {
         return toastResponse('ERROR', 'Withdraw failed ', 'ERROR');
       }
     } catch (error) {
-      // integrate toast response
-      console.log('no success', error);
       return toastResponse('ERROR', 'Withdraw failed ', 'ERROR');
     }
   }
