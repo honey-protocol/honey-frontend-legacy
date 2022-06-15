@@ -179,7 +179,7 @@ const LoanRepay = (props: LoanRepayProps) => {
                             align="right"
                             color="foreground"
                         >
-                            75%
+                            90%
                         </Text>
                     </Stack>
                 </Stack>
