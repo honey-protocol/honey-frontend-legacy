@@ -68,7 +68,7 @@ export async function toastResponse(responseType: string, message: string, id: a
     )
   } else if (responseType == 'SUCCESS') {
     // success logic
-    if (triggerType && (triggerType == 'BORROW' || triggerType == 'REPAY' || triggerType == 'WITHDRAW' || triggerType == 'DEPOSIT')) {
+    if (triggerType && (triggerType == 'BORROW' || triggerType == 'REPAY')) {
       return toast.success(message, {toastId: responseType});
     }
 
@@ -76,7 +76,7 @@ export async function toastResponse(responseType: string, message: string, id: a
       // write logic to call open positions refresh function
       return toast.success(message, {toastId: responseType});
     }
-    return toast.success(message, {toastId: responseType});
+    // return toast.success(message, {toastId: responseType});
   }
 }
 /**
