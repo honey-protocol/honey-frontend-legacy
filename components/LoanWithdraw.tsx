@@ -125,14 +125,14 @@ const LoanWithdraw = (props: LoanWithdrawProps) => {
         <Box className={styles.selectionWrapper}>
           <Box className={styles.selectionDetails}>
           <input type="number" placeholder='0.00' step='.01' onChange={(value) => handleChange(value)} className={styles.currencyStyles} value={userInput} />
-            <Avatar
+            {/* <Avatar
               label="TetranodeNFT"
               size="7"
               shape="square"
               src={
                 'https://assets.coingecko.com/coins/images/4128/small/solana.png?1640133422'
               }
-            />
+            /> */}
             <select
               name="currencySelector"
               id="currencySelector"
