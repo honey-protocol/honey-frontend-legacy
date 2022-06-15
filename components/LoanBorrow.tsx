@@ -172,7 +172,7 @@ const LoanBorrow = (props: LoanBorrowProps) => {
                           align="right"
                           color="foreground"
                       >
-                        {(userLvt * 100).toFixed(2)}%
+                        {(userLvt * 100).toFixed(0)}%
                       </Text>
                   </Stack>
                   <Stack
