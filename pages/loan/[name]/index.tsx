@@ -175,6 +175,7 @@ const Loan: NextPage = () => {
         const lvt = totalDebt / nftPrice;
         
         let sumOfAllowance = RoundHalfDown(nftCollateralValue / cRatio - userLoans, 2);
+
         setUserAllowance(RoundHalfDown(sumOfAllowance));
         setUserDebt(RoundHalfDown(totalDebt));
         setLoanToValue(RoundHalfDown(lvt));
