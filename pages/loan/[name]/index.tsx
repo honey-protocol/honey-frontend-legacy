@@ -12,7 +12,7 @@ import { ConfigureSDK } from '../../../helpers/loanHelpers/index';
 import useFetchNFTByUser from '../../../hooks/useNFTV2';
 import LoanNewBorrow from 'components/NewPosition';
 import { LAMPORTS_PER_SOL, PublicKey } from '@solana/web3.js';
-import {TYPE_ZERO, TYPE_ONE} from '../../../constants/loan';
+import {TYPE_ZERO, TYPE_ONE, LTV} from '../../../constants/loan';
 import BN from 'bn.js';
 import * as BL from '@solana/buffer-layout';
 import {toastResponse, BnToDecimal, asyncTimeout} from '../../../helpers/loanHelpers/index';
@@ -166,20 +166,25 @@ const Loan: NextPage = () => {
         setCRatio(BnToDecimal(marketReserveInfo[0].minCollateralRatio, 15, 5))
       }
 
+      let userLoans = 0, totalDebt = 0;
+      let nftCollateralValue = nftPrice * (collateralNFTPositions?.length || 0);
+
     if (honeyUser?.loans().length > 0) {
       if (honeyUser?.loans().length > 0 && marketReserveInfo) {
-        let nftCollateralValue = nftPrice * (collateralNFTPositions?.length || 0);
-        let userLoans = marketReserveInfo[0].loanNoteExchangeRate.mul(honeyUser?.loans()[0]?.amount).div(new BN(10 ** 15)).toNumber() * 1.002 / LAMPORTS_PER_SOL;
-        
-        const totalDebt = marketReserveInfo[0].loanNoteExchangeRate.mul(honeyUser?.loans()[0]?.amount).div(new BN(10 ** 15)).toNumber() / LAMPORTS_PER_SOL;
-        const lvt = totalDebt / nftPrice;
-        
-        let sumOfAllowance = RoundHalfDown(nftCollateralValue / cRatio - userLoans, 4);
-        sumOfAllowance < 0 ? setUserAllowance(0) : setUserAllowance(RoundHalfDown(sumOfAllowance));
-        setUserDebt(RoundHalfDown(totalDebt));
-        setLoanToValue(RoundHalfDown(lvt));
+        userLoans = marketReserveInfo[0].loanNoteExchangeRate.mul(honeyUser?.loans()[0]?.amount).div(new BN(10 ** 15)).toNumber() * 1.002 / LAMPORTS_PER_SOL;
+
+        totalDebt = marketReserveInfo[0].loanNoteExchangeRate.mul(honeyUser?.loans()[0]?.amount).div(new BN(10 ** 15)).toNumber() / LAMPORTS_PER_SOL;
+
       }
     }
+    const lvt = totalDebt / nftPrice;
+
+    let sumOfAllowance = RoundHalfDown(nftCollateralValue * LTV - userLoans, 4);
+    sumOfAllowance < 0 ? setUserAllowance(0) : setUserAllowance(RoundHalfDown(sumOfAllowance));
+    setUserDebt(RoundHalfDown(totalDebt));
+    setLoanToValue(RoundHalfDown(lvt));
+
+    let liquidationThresh = 1 / cRatio * 100;
   }, [marketReserveInfo, honeyUser, collateralNFTPositions, market, error, parsedReserves, honeyReserves, cRatio, nftPrice, reserveHoneyState]);
 
   /**
