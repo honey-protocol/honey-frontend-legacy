@@ -180,7 +180,7 @@ const LoanRepay = (props: LoanRepayProps) => {
                             align="right"
                             color="foreground"
                         >
-                            {liqidationThreshold}
+                            {liqidationThreshold}%
                         </Text>
                     </Stack>
                 </Stack>

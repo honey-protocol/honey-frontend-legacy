@@ -194,7 +194,7 @@ const LoanBorrow = (props: LoanBorrowProps) => {
                       align="right"
                       color="foreground"
                   >
-                      {liqidationThreshold}
+                      {liqidationThreshold}%
                   </Text>
                   </Stack>
               </Stack>

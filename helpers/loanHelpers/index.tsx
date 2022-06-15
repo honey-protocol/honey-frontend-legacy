@@ -59,7 +59,7 @@ export async function toastResponse(responseType: string, message: string, id: a
       resolveP,
       {
         pending: 'Loading data',
-        success: '',
+        success: 'Data loaded',
         error: 'An error occurred'
       },
       {

@@ -104,7 +104,7 @@ const LoanNewBorrow = (props: LoanNewBorrowProps) => {
                   Liquidation threshold
                 </Text>
                 <Text align="right" color="foreground">
-                  {liqidationThreshold}
+                  {liqidationThreshold}%
                 </Text>
               </Stack>
             </Stack>
