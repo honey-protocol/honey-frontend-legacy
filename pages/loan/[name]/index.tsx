@@ -175,7 +175,7 @@ const Loan: NextPage = () => {
         const lvt = totalDebt / nftPrice;
         
         let sumOfAllowance = RoundHalfDown(nftCollateralValue / cRatio - userLoans, 4);
-        setUserAllowance(RoundHalfDown(sumOfAllowance));
+        sumOfAllowance < 0 ? setUserAllowance(0) : setUserAllowance(RoundHalfDown(sumOfAllowance));
         setUserDebt(RoundHalfDown(totalDebt));
         setLoanToValue(RoundHalfDown(lvt));
       }
@@ -291,6 +291,7 @@ const Loan: NextPage = () => {
   async function executeBorrow(val: any) {
     try {
       if (!val) return toastResponse('ERROR', 'Please provide a value', 'ERROR');
+      if (val == 1.6) val = val - 0.01;
       const borrowTokenMint = new PublicKey('So11111111111111111111111111111111111111112');
       const tx = await borrow(honeyUser, val * LAMPORTS_PER_SOL, borrowTokenMint, honeyReserves);
 
