@@ -20,6 +20,7 @@ interface BorrowNFTsModule {
   userAllowance: number;
   loanToValue: number;
   fetchMarket: Function;
+  liqidationThreshold: number;
 }
  
 const BorrowNFTsModule = (props: BorrowNFTsModule) => {
@@ -36,7 +37,8 @@ const BorrowNFTsModule = (props: BorrowNFTsModule) => {
     userDebt, 
     userAllowance, 
     loanToValue, 
-    fetchMarket 
+    fetchMarket,
+    liqidationThreshold
   } = props;
 
   /**
@@ -83,6 +85,7 @@ const BorrowNFTsModule = (props: BorrowNFTsModule) => {
               userAllowance={userAllowance}
               loanToValue={loanToValue}
               fetchMarket={fetchMarket}
+              liqidationThreshold={liqidationThreshold}
             />
           ) : (
             <LoanRepay 
@@ -96,6 +99,7 @@ const BorrowNFTsModule = (props: BorrowNFTsModule) => {
               userAllowance={userAllowance}
               loanToValue={loanToValue}
               fetchMarket={fetchMarket}
+              liqidationThreshold={liqidationThreshold}
             />
           )}
         </Stack>

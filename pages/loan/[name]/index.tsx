@@ -101,6 +101,7 @@ const Loan: NextPage = () => {
   const [defaultNFT, setDefaultNFT] = useState<Array<CollateralNFT>>([]);
   const [globalLoadingState, setGlobalLoadingState] = useState(false);
   const [reserveHoneyState, setReserveHoneyState] = useState(0);
+  const [liqidationThreshold, setLiquidationThreshold] = useState(0);
 
   /**
   * @description calls upon the honey sdk
@@ -184,7 +185,8 @@ const Loan: NextPage = () => {
     setUserDebt(RoundHalfDown(totalDebt));
     setLoanToValue(RoundHalfDown(lvt));
 
-    let liquidationThresh = 1 / cRatio * 100;
+    // let liquidationThresh = 1 / cRatio * 100;
+    setLiquidationThreshold(1 / cRatio * 100);
   }, [marketReserveInfo, honeyUser, collateralNFTPositions, market, error, parsedReserves, honeyReserves, cRatio, nftPrice, reserveHoneyState]);
 
   /**
@@ -430,6 +432,7 @@ const Loan: NextPage = () => {
                 userAllowance={userAllowance}
                 loanToValue={loanToValue}
                 fetchMarket={fetchMarket}
+                liqidationThreshold={liqidationThreshold}
               />
             :
               <LoanNewBorrow
@@ -446,6 +449,7 @@ const Loan: NextPage = () => {
                 userAvailableNFTs={availableNFTs}
                 reFetchNFTs={reFetchNFTs}
                 refreshPositions={refreshPositions}
+                liqidationThreshold={liqidationThreshold}
               />
           }
         </Box>
