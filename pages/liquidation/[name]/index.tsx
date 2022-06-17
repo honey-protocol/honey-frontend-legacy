@@ -11,20 +11,28 @@ interface LiquidationSubProps {
 const LiquidationSub = (props: LiquidationSubProps) => {
   const { loan } = props;
 
+  console.log('loan', loan)
+
   return (
-      <Box marginY="4">
-        <Box>
-          <Avatar
-            label="" size="15" src={''}
-          />
-          <Text>{loan.title}</Text>
-          <Text>{loan.debt}</Text>
-          <Text>{loan.collateral}</Text>
-          <Text>{loan.address}</Text>
-          <Text>{loan.lr}</Text>
-          <Text>{loan.ltv}</Text>
-        </Box>
-      </Box>
+    <Box className={styles.subWrapper}>
+      {
+        loan && (
+          <Box className={styles.subContainer}>
+            <Box className={styles.imageWrapper}>
+              <Avatar
+                label="" size="15" src={loan.image}
+              />
+              <Text>{loan.title}</Text>
+            </Box>
+            <Text>{loan.debt}</Text>
+            <Text>{loan.collateral}</Text>
+            <Text>{loan.address}</Text>
+            <Text>{loan.lr}</Text>
+            <Text>{loan.ltv}</Text>
+          </Box>
+        )
+      }
+    </Box>
   );
 };
 

@@ -15,36 +15,40 @@ const Liquidation: NextPage = () => {
       title: 'BTC-ETH',
       debt: 103.44,
       collateral: 100.000,
-      address: 'HADIWJioh3122342ojncj29433011',
+      address: 'HADIWJioh31..',
       lr: 90,
-      ltv: 80
+      ltv: 80,
+      name: 'val'
     },
     {
       image: 'https://assets.coingecko.com/coins/images/24781/small/honey.png?1648902423',
       title: 'BTC-ETH',
       debt: 103.44,
       collateral: 100.000,
-      address: 'HADIWJioh3122342ojncj29433011',
+      address: 'HADIWJioh31..',
       lr: 90,
-      ltv: 80
+      ltv: 80,
+      name: 'loan'
     },
     {
       image: 'https://assets.coingecko.com/coins/images/24781/small/honey.png?1648902423',
       title: 'BTC-ETH',
       debt: 103.44,
       collateral: 100.000,
-      address: 'HADIWJioh3122342ojncj29433011',
+      address: 'HADIWJioh31..',
       lr: 90,
-      ltv: 80
+      ltv: 80,
+      name: 'loan'
     },
     {
       image: 'https://assets.coingecko.com/coins/images/24781/small/honey.png?1648902423',
       title: 'BTC-ETH',
       debt: 103.44,
       collateral: 100.000,
-      address: 'HADIWJioh3122342ojncj29433011',
+      address: 'HADIWJioh31..',
       lr: 90,
-      ltv: 80
+      ltv: 80,
+      name: 'loan'
     },
   ]
   return (
@@ -58,7 +62,7 @@ const Liquidation: NextPage = () => {
               dataSet.map((loan, i) => (
                 <Link 
                   href="/liquidation/[name]" 
-                  as={`/loan/${loan.title}`}
+                  as={`/liquidation/${loan.name}`}
                   key={i}
                 >
                   <a>
