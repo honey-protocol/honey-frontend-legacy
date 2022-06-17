@@ -1,18 +1,18 @@
 import { useState, useEffect } from 'react';
 import type { NextPage } from 'next';
-import Link from 'next/link';
-import { useWalletKit } from '@gokiprotocol/walletkit';
 import { Box, Stack } from 'degen';
 import Layout from '../../components/Layout/Layout';
-import * as styles from '../../styles/loan.css';
+import * as styles from '../../styles/liquidation.css';
+import LiquidationHeader from 'components/LiquidationHeader/LiquidationHeader';
 
 
 const Liquidation: NextPage = () => {
   return (
     <Layout>
       <Stack>
-        <Box marginY="4">
-          <h2>Liquidation main</h2>
+        <Box marginY="4" className={styles.liquidationWrapper}>
+          <h2>Leaderboard</h2>
+          <LiquidationHeader />
         </Box>
       </Stack>
     </Layout>
