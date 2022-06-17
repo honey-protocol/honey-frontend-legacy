@@ -1,9 +1,11 @@
 import { useState, useEffect } from 'react';
 import type { NextPage } from 'next';
+import Link from 'next/link';
 import { Box, Stack } from 'degen';
 import Layout from '../../components/Layout/Layout';
 import * as styles from '../../styles/liquidation.css';
 import LiquidationHeader from 'components/LiquidationHeader/LiquidationHeader';
+import LiquidationSub from './[name]/index';
 
 
 const Liquidation: NextPage = () => {
@@ -51,7 +53,24 @@ const Liquidation: NextPage = () => {
         <Box marginY="4" className={styles.liquidationWrapper}>
           <h2>Leaderboard</h2>
           <LiquidationHeader />
-          
+          <Box>
+            {
+              dataSet.map((loan, i) => (
+                <Link 
+                  href="/liquidation/[name]" 
+                  as={`/loan/${loan.title}`}
+                  key={i}
+                >
+                  <a>
+                    <LiquidationSub 
+                      key={i}
+                      loan={loan}
+                    />
+                  </a>
+                </Link>
+              ))
+            }
+          </Box>
         </Box>
       </Stack>
     </Layout>
