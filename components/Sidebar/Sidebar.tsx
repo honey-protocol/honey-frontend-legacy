@@ -41,7 +41,7 @@ const mainLinks = [
   {
     url: '/loan',
     title: 'Loans',
-    comingSoon: false,
+    comingSoon: true,
     IconComp: IconSplit,
     key: 2
   },
