@@ -8,5 +8,5 @@ export const liquidationHeaderWrapper = style({
 
 export const liquidationHeaderContainer = style({
   display: 'flex',
-  justifyContent: 'space-around'
+  justifyContent: 'space-between'
 })
