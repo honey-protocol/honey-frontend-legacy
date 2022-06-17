@@ -555,7 +555,15 @@
     "@solana/spl-token" "^0.1.8"
     "@solana/web3.js" "^1.31.0"
 
-"@metaplex/js@^4.12.0", "@metaplex/js@^4.9.0":
+"@metaplex/arweave-cost@1.0.4":
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/@metaplex/arweave-cost/-/arweave-cost-1.0.4.tgz#35d5d10dfc855463fc7fe18594e175506a4a35d4"
+  integrity sha512-bJ7knj9bacarfoIgkomDUOIRURYBAIYUg1oJZh1MfAl9w28x1gfMkt2e7H5zK0HDKkS2lmJQ5dpcsR+FGP9zMA==
+  dependencies:
+    axios "^0.24.0"
+    debug "^4.3.2"
+
+"@metaplex/js@^4.12.0", "@metaplex/js@^4.3.0", "@metaplex/js@^4.9.0":
   version "4.12.0"
   resolved "https://registry.yarnpkg.com/@metaplex/js/-/js-4.12.0.tgz#1190767a4e69d4e5613002aab3f4c1fb8de07896"
   integrity sha512-rIUTMXo5gIXFIZt08AEHyqH4oVoLL2dMYiNePQluw9pydesRym4jDayJ5POxEmKmyc6KGqVKw/YWUIivmUY5zg==
@@ -1174,7 +1182,7 @@
     "@solana/wallet-adapter-base" "^0.9.3"
     "@solana/web3.js" "^1.20.0"
 
-"@solana/web3.js@^1.11.0", "@solana/web3.js@^1.17.0", "@solana/web3.js@^1.20.0", "@solana/web3.js@^1.21.0", "@solana/web3.js@^1.22.0", "@solana/web3.js@^1.30.2", "@solana/web3.js@^1.31.0", "@solana/web3.js@^1.32.1", "@solana/web3.js@^1.33.0", "@solana/web3.js@^1.36.0", "@solana/web3.js@^1.9.1":
+"@solana/web3.js@^1.11.0", "@solana/web3.js@^1.17.0", "@solana/web3.js@^1.20.0", "@solana/web3.js@^1.21.0", "@solana/web3.js@^1.22.0", "@solana/web3.js@^1.30.2", "@solana/web3.js@^1.31.0", "@solana/web3.js@^1.32.0", "@solana/web3.js@^1.32.1", "@solana/web3.js@^1.33.0", "@solana/web3.js@^1.36.0", "@solana/web3.js@^1.9.1":
   version "1.44.0"
   resolved "https://registry.yarnpkg.com/@solana/web3.js/-/web3.js-1.44.0.tgz#233f7bd268520a0ce852ff7f92ded150c5fad0f5"
   integrity sha512-KHf7o8sM5FlxYGHGroD7IJeCCOmjFITdBIXq4cO5xPFQ8O6Y26FWfYqIXqY1dXI29t240g0m1GYPssCp5UVgZg==
@@ -1205,6 +1213,21 @@
     bs58 "^4.0.1"
     eventemitter3 "^4.0.7"
     uuid "^8.3.2"
+
+"@strata-foundation/spl-utils@^3.7.0":
+  version "3.7.0"
+  resolved "https://registry.yarnpkg.com/@strata-foundation/spl-utils/-/spl-utils-3.7.0.tgz#6b6addb5ebf9bc78abb0271583e8254b9b484c1e"
+  integrity sha512-qC6HKJugjGk48qLN7Qy2TYBn6hFQVYfbHhgtTxfQsB+hi846GaMu488JiZScWiyRfgcwUr2+KVgMinFHgT/SEQ==
+  dependencies:
+    "@metaplex-foundation/mpl-token-metadata" "^1.1.0"
+    "@metaplex/arweave-cost" "1.0.4"
+    "@metaplex/js" "^4.3.0"
+    "@solana/spl-name-service" "^0.1.3"
+    "@solana/web3.js" "^1.32.0"
+    bs58 "^4.0.1"
+    localstorage-memory "^1.0.3"
+    superstruct "0.14.2"
+    tweetnacl "^1.0.3"
 
 "@switchboard-xyz/eslint-config@^0.1.1":
   version "0.1.1"
@@ -1705,6 +1728,13 @@ axe-core@^4.3.5:
   version "4.4.2"
   resolved "https://registry.yarnpkg.com/axe-core/-/axe-core-4.4.2.tgz#dcf7fb6dea866166c3eab33d68208afe4d5f670c"
   integrity sha512-LVAaGp/wkkgYJcjmHsoKx4juT1aQvJyPcW09MLCjVTh3V2cc6PnyempiLMNH5iMdfIX/zdbjUx2KDjMLCTdPeA==
+
+axios@^0.24.0:
+  version "0.24.0"
+  resolved "https://registry.yarnpkg.com/axios/-/axios-0.24.0.tgz#804e6fa1e4b9c5288501dd9dff56a7a0940d20d6"
+  integrity sha512-Q6cWsys88HoPgAaFAVUb0WpPk0O8iTeisR9IMqy9G8AbO4NlpVknrnQS03zzF9PGAWgO3cgletO3VjV/P7VztA==
+  dependencies:
+    follow-redirects "^1.14.4"
 
 axios@^0.25.0:
   version "0.25.0"
@@ -2887,7 +2917,7 @@ focus-visible@^5.2.0:
   resolved "https://registry.yarnpkg.com/focus-visible/-/focus-visible-5.2.0.tgz#3a9e41fccf587bd25dcc2ef045508284f0a4d6b3"
   integrity sha512-Rwix9pBtC1Nuy5wysTmKy+UjbDJpIfg8eHjw0rjZ1mX4GNLz1Bmd16uDpI3Gk1i70Fgcs8Csg2lPm8HULFg9DQ==
 
-follow-redirects@^1.14.7:
+follow-redirects@^1.14.4, follow-redirects@^1.14.7:
   version "1.15.1"
   resolved "https://registry.yarnpkg.com/follow-redirects/-/follow-redirects-1.15.1.tgz#0ca6a452306c9b276e4d3127483e29575e207ad5"
   integrity sha512-yLAMQs+k0b2m7cVxpS1VKJVvoz7SS9Td1zss3XRwXj+ZDH00RJgnuLx7E44wx02kQLrdM3aOOy+FpzS7+8OizA==
@@ -3534,6 +3564,11 @@ loader-utils@^2.0.0:
     big.js "^5.2.2"
     emojis-list "^3.0.0"
     json5 "^2.1.2"
+
+localstorage-memory@^1.0.3:
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/localstorage-memory/-/localstorage-memory-1.0.3.tgz#566b37968fe0c4d76ba36a6da564fa613945ca72"
+  integrity sha512-t9P8WB6DcVttbw/W4PIE8HOqum8Qlvx5SjR6oInwR9Uia0EEmyUeBh7S+weKByW+l/f45Bj4L/dgZikGFDM6ng==
 
 locate-path@^2.0.0:
   version "2.0.0"
@@ -4670,7 +4705,7 @@ stylis@4.0.13:
   resolved "https://registry.yarnpkg.com/stylis/-/stylis-4.0.13.tgz#f5db332e376d13cc84ecfe5dace9a2a51d954c91"
   integrity sha512-xGPXiFVl4YED9Jh7Euv2V220mriG9u4B2TA6Ybjc1catrstKD2PpIdU3U0RKpkVBC2EhmL/F0sPCr9vrFTNRag==
 
-superstruct@^0.14.2:
+superstruct@0.14.2, superstruct@^0.14.2:
   version "0.14.2"
   resolved "https://registry.yarnpkg.com/superstruct/-/superstruct-0.14.2.tgz#0dbcdf3d83676588828f1cf5ed35cda02f59025b"
   integrity sha512-nPewA6m9mR3d6k7WkZ8N8zpTWfenFH3q9pA2PkuiZxINr9DKB2+40wEQf0ixn8VaGuJ78AB6iWOtStI+/4FKZQ==
@@ -4790,7 +4825,7 @@ tsutils@^3.21.0:
   dependencies:
     tslib "^1.8.1"
 
-tweetnacl@^1.0.0:
+tweetnacl@^1.0.0, tweetnacl@^1.0.3:
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/tweetnacl/-/tweetnacl-1.0.3.tgz#ac0af71680458d8a6378d0d0d050ab1407d35596"
   integrity sha512-6rt+RN7aOi1nGMyC4Xa5DdYiukl2UWCbcJft7YhxReBGQD7OAM8Pbxw6YMo4r2diNEA8FEmu32YOn9rhaiE5yw==
