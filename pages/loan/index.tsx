@@ -32,7 +32,7 @@ const Loan: NextPage = () => {
   const { market, marketReserveInfo, parsedReserves }  = useHoney();
   const { honeyUser, honeyReserves } = useMarket(sdkConfig.saberHqConnection, sdkConfig.sdkWallet!, sdkConfig.honeyId, sdkConfig.marketId);
   /**
-   * 
+   *
   */
   const [totalMarkDeposits, setTotalMarketDeposits] = useState(0);
   const [totalMarketDebt, setTotalMarketDebt] = useState(0);
@@ -53,19 +53,33 @@ const Loan: NextPage = () => {
 
   useEffect(() => {
       async function fetchObligations() {
+        console.log('fetching obligations...');
         let obligations = await program?.account?.obligation?.all();
         if (obligations) {
           setTotalMarketPositions(obligations.length);
+
+          console.log('obligations', obligations);
+
+          obligations.map(item => {
+            let owner = item.account.owner.toString();
+            console.log('owner', owner);
+            let nftMints:PublicKey[] = item.account.collateralNftMint;
+            nftMints.map((nft) => {
+              if(nft.toString() != '11111111111111111111111111111111') {
+                console.log('nftCollateral', nft.toString());
+              }
+            })
+          })
         }
       }
 
       fetchObligations();
-  }, []);
+  }, [program]);
 
   /**
    * @description sets state of marketValue by parsing lamports outstanding debt amount to SOL
    * @params none, requires parsedReserves
-   * @returns updates marketValue 
+   * @returns updates marketValue
   */
   useEffect(() => {
     if (parsedReserves && parsedReserves[0].reserveState.totalDeposits) {
@@ -103,7 +117,7 @@ const Loan: NextPage = () => {
    * @description fetches open positions and the amount regarding loan positions / token account
    * @params none
    * @returns collateralNFTPositions | loading | error
-  */  
+  */
   let { loading, collateralNFTPositions, error } = useBorrowPositions(sdkConfig.saberHqConnection, sdkConfig.sdkWallet!, sdkConfig.honeyId, sdkConfig.marketId)
   /**
    * @description sets open positions
@@ -134,24 +148,24 @@ const Loan: NextPage = () => {
   }
 
   /**
-   * @description logic for rendering borrow or lend page 
+   * @description logic for rendering borrow or lend page
    * @params 0 | 1
    * @returns state for rendering correct modal
   */
   const [borrowOrLend, setBorrowOrLend] = useState(TYPE_ZERO);
   const loadBorrowPage = wallet && borrowOrLend === TYPE_ZERO;
   const loadLendPage = wallet && borrowOrLend === TYPE_ONE;
-  
+
   /**
    * @description logic for rendering out create market page
    * @params 0 | 1
    * @returns create market modal or Pool modal in return of Loan component
   */
   const [renderCreateMarket, setRenderCreateMarket] = useState(TYPE_ZERO);
-  
+
   useEffect(() => {
   }, [renderCreateMarket]);
-  
+
   function handleCreateMarket() {
     setRenderCreateMarket(TYPE_ONE);
   }
@@ -193,7 +207,7 @@ const Loan: NextPage = () => {
           >
             <Stack>
         {
-          renderCreateMarket == 1 
+          renderCreateMarket == 1
           ?
             <CreateMarket
               setRenderCreateMarket={setRenderCreateMarket}
@@ -237,7 +251,7 @@ const Loan: NextPage = () => {
                           as={`/loan/lend/${item.vaultName}`}
                         >
                           <a>
-                            <AssetRow 
+                            <AssetRow
                               data={item}
                             />
                           </a>
@@ -245,8 +259,8 @@ const Loan: NextPage = () => {
                       )}
                       {!wallet && (
                         <Box onClick={connect} cursor="pointer">
-                          <AssetRow 
-                            data={item} 
+                          <AssetRow
+                            data={item}
                           />
                         </Box>
                       )}
