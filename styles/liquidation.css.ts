@@ -38,3 +38,9 @@ export const imageWrapper = style({
   flexDirection: 'column',
   alignItems: 'center',
 });
+
+globalStyle(`${subContainer} > div:last-child`, {
+  padding: '1em 0',
+  background: 'orange',
+  borderRadius: '.8em'
+});
