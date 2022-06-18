@@ -29,7 +29,7 @@ const LiquidationSub = (props: LiquidationSubProps) => {
             <Text>{loan.address}</Text>
             <Text>{loan.lr}</Text>
             <Text>{loan.ltv}</Text>
-            <Text>Borrow</Text>
+            <Text>Bid</Text>
             {/* <Button variant="primary">Borrow</Button> */}
           </Box>
         )
