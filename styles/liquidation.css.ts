@@ -33,14 +33,27 @@ globalStyle(`${subContainer} > div`, {
   textAlign: 'center'
 });
 
+globalStyle(`${subContainer} button`, {
+  margin: '0 auto'
+});
+
 export const imageWrapper = style({
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'center',
 });
 
-globalStyle(`${subContainer} > div:last-child`, {
-  padding: '1em 0',
-  background: 'orange',
-  borderRadius: '.8em'
+export const healthFactor = style({
+  width: '5em'
 });
+
+globalStyle(`${healthFactor} div`, {
+  width: '75%',
+  textAlign: 'center',
+  fontWeight: '600',
+  color: 'rgb(48, 208, 88) !important',
+  padding: '0.25em',
+  background: 'rgb(26, 58, 34)',
+  borderRadius: '10px',
+  margin: '0 auto'
+})

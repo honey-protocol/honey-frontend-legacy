@@ -8,6 +8,11 @@ interface LiquidationSubProps {
   loan: any;
 }
 
+function handleBid(e: any) {
+  e.preventDefault();
+  console.log('handle bid being fired')
+}
+
 const LiquidationSub = (props: LiquidationSubProps) => {
   const { loan } = props;
 
@@ -29,8 +34,19 @@ const LiquidationSub = (props: LiquidationSubProps) => {
             <Text>{loan.address}</Text>
             <Text>{loan.lr}</Text>
             <Text>{loan.ltv}</Text>
-            <Text>Bid</Text>
-            {/* <Button variant="primary">Borrow</Button> */}
+            <Box className={styles.healthFactor}>
+              <Text>
+                {loan.healthFactor}
+              </Text>
+            </Box>
+            <Text>
+              <Button 
+                variant="primary"
+                onClick={handleBid}
+              >
+                Place bid
+              </Button>
+            </Text>
           </Box>
         )
       }

@@ -17,6 +17,7 @@ const LiquidationHeader = (props: LiquidationHeaderProps) => {
         <Text>Address</Text>
         <Text>LR(%)</Text>
         <Text>LTV(%)</Text>
+        <Text>Health factor</Text>
         <Text></Text>
       </Box>
     </Box>

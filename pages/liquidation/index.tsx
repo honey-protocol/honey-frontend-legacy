@@ -18,7 +18,8 @@ const Liquidation: NextPage = () => {
       address: 'HADIWJioh31..',
       lr: 90,
       ltv: 80,
-      name: 'val'
+      name: 'loan',
+      healthFactor: 'Healthy'
     },
     {
       image: 'https://assets.coingecko.com/coins/images/24781/small/honey.png?1648902423',
@@ -28,7 +29,8 @@ const Liquidation: NextPage = () => {
       address: 'HADIWJioh31..',
       lr: 90,
       ltv: 80,
-      name: 'loan'
+      name: 'loan',
+      healthFactor: 'Healthy'
     },
     {
       image: 'https://assets.coingecko.com/coins/images/24781/small/honey.png?1648902423',
@@ -38,7 +40,8 @@ const Liquidation: NextPage = () => {
       address: 'HADIWJioh31..',
       lr: 90,
       ltv: 80,
-      name: 'loan'
+      name: 'loan',
+      healthFactor: 'Healthy'
     },
     {
       image: 'https://assets.coingecko.com/coins/images/24781/small/honey.png?1648902423',
@@ -48,7 +51,8 @@ const Liquidation: NextPage = () => {
       address: 'HADIWJioh31..',
       lr: 90,
       ltv: 80,
-      name: 'loan'
+      name: 'loan',
+      healthFactor: 'Healthy'
     },
   ]
   return (
