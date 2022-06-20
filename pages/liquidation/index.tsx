@@ -19,7 +19,7 @@ const Liquidation: NextPage = () => {
       lr: 90,
       ltv: 80,
       name: 'loan',
-      healthFactor: 'Healthy'
+      healthFactor: 'Unhealthy'
     },
     {
       image: 'https://assets.coingecko.com/coins/images/24781/small/honey.png?1648902423',
@@ -30,7 +30,7 @@ const Liquidation: NextPage = () => {
       lr: 90,
       ltv: 80,
       name: 'loan',
-      healthFactor: 'Healthy'
+      healthFactor: 'Medium'
     },
     {
       image: 'https://assets.coingecko.com/coins/images/24781/small/honey.png?1648902423',

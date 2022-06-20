@@ -16,7 +16,18 @@ function handleBid(e: any) {
 const LiquidationSub = (props: LiquidationSubProps) => {
   const { loan } = props;
 
-  console.log('loan', loan)
+  function determineHealthStyles(healthFactor: string) {
+    if (healthFactor == 'Healthy') {
+      return styles.healthFactorHigh
+      'healthFactorHigh'
+    } else if (healthFactor == 'Medium') {
+      return styles.healthFactorMedium
+      'healthFactorMedium'
+    } else {
+      return styles.healthFactorLow
+      'healthFactorLow'
+    }
+  }
 
   return (
     <Box className={styles.subWrapper}>
@@ -34,7 +45,7 @@ const LiquidationSub = (props: LiquidationSubProps) => {
             <Text>{loan.address}</Text>
             <Text>{loan.lr}</Text>
             <Text>{loan.ltv}</Text>
-            <Box className={styles.healthFactor}>
+            <Box className={determineHealthStyles(loan.healthFactor)}>
               <Text>
                 {loan.healthFactor}
               </Text>

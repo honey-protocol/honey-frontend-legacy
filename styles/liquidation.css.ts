@@ -43,17 +43,47 @@ export const imageWrapper = style({
   alignItems: 'center',
 });
 
-export const healthFactor = style({
+export const healthFactorHigh = style({
   width: '5em'
 });
 
-globalStyle(`${healthFactor} div`, {
+globalStyle(`${healthFactorHigh} div`, {
   width: '75%',
   textAlign: 'center',
   fontWeight: '600',
   color: 'rgb(48, 208, 88) !important',
-  padding: '0.25em',
+  padding: '0.5em',
   background: 'rgb(26, 58, 34)',
   borderRadius: '10px',
   margin: '0 auto'
-})
+});
+
+export const healthFactorMedium = style({
+  width: '5em'
+});
+
+globalStyle(`${healthFactorMedium} div`, {
+  width: '75%',
+  textAlign: 'center',
+  fontWeight: '600',
+  color: 'orange',
+  padding: '0.5em',
+  background: 'rgb(255, 215, 0, .5)',
+  borderRadius: '10px',
+  margin: '0 auto'
+});
+
+export const healthFactorLow = style({
+  width: '5em'
+});
+
+globalStyle(`${healthFactorLow} div`, {
+  width: '75%',
+  textAlign: 'center',
+  fontWeight: '600',
+  color: 'red',
+  padding: '0.5em',
+  background: 'rgba(255, 0, 0, .5)',
+  borderRadius: '10px',
+  margin: '0 auto'
+});
