@@ -1,68 +1,90 @@
 import type { NextPage } from 'next';
+import Link from 'next/link';
 import React, { useState, useEffect } from 'react';
 import { Box, Stack, Button, IconChevronLeft, Text, Avatar } from 'degen';
 import Layout from '../../../components/Layout/Layout';
 import * as styles from '../../../styles/liquidation.css';
 
-interface LiquidationSubProps {
+interface LiquidationDetailProps {
   loan: any;
 }
 
-function handleBid(e: any) {
-  e.preventDefault();
-  console.log('handle bid being fired')
-}
-
-const LiquidationSub = (props: LiquidationSubProps) => {
-  const { loan } = props;
-
-  function determineHealthStyles(healthFactor: string) {
-    if (healthFactor == 'Healthy') {
-      return styles.healthFactorHigh
-      'healthFactorHigh'
-    } else if (healthFactor == 'Medium') {
-      return styles.healthFactorMedium
-      'healthFactorMedium'
-    } else {
-      return styles.healthFactorLow
-      'healthFactorLow'
-    }
-  }
+const LiquidationDetail: NextPage<LiquidationDetailProps> = (props: LiquidationDetailProps) => {
+  const {loan} = props;
+  console.log('this is the loan', loan)
 
   return (
-    <Box className={styles.subWrapper}>
-      {
-        loan && (
-          <Box className={styles.subContainer}>
-            <Box className={styles.imageWrapper}>
-              <Avatar
-                label="" size="15" src={loan.image}
-              />
-              <Text>{loan.title}</Text>
+    <Layout>
+      <Stack>
+        <Box>
+            <Stack
+              direction="horizontal"
+              justify="space-between"
+              wrap
+              align="center"
+            >
+              <Box display="flex" alignSelf="center" justifySelf="center">
+                <Link href="/liquidation" passHref>
+                  <Button
+                    size="small"
+                    variant="transparent"
+                    rel="noreferrer"
+                    prefix={<IconChevronLeft />}
+                  >
+                    Liquidations
+                  </Button>
+                </Link>
+              </Box>
+          </Stack>
+        </Box>
+      </Stack>
+      <Box className={styles.liquidationDetaiPageWrapper}>
+        <Box className={styles.liquidationDetaiPageWrapperImage}>
+          <Avatar
+            label="Image of NFT" 
+            src={'https://assets.coingecko.com/coins/images/24781/small/honey.png?1648902423'}
+          />
+        </Box>
+        <Box>
+          <Box>
+            <Text size="headingOne" color="accent">Liquidation 443</Text>
+            <Box>
+              <Stack>
+                <Box>
+                  <Text size="headingTwo">
+                    Time left for auction
+                  </Text>
+                  <Text>
+                    0h 0m 0s
+                  </Text>
+                </Box>
+                <Box>
+                  <Text size="headingTwo">
+                    Price of winning bid
+                  </Text>
+                  <Text>
+                    100 SOL
+                  </Text>
+                </Box>
+                <Box>
+                  <Text size="headingTwo">Address of new owner:</Text>
+                  <Text>Xaheh12...</Text>
+                </Box>
+                <Box>
+                  <Text size="headingTwo">Date of creation</Text>
+                  <Text>22-02-2022</Text>
+                </Box>
+              </Stack>
             </Box>
-            <Text>{loan.debt}</Text>
-            <Text>{loan.collateral}</Text>
-            <Text>{loan.address}</Text>
-            <Text>{loan.lr}</Text>
-            <Text>{loan.ltv}</Text>
-            <Box className={determineHealthStyles(loan.healthFactor)}>
-              <Text>
-                {loan.healthFactor}
-              </Text>
+            <Box className={styles.buttonWrapper}>
+              <Button variant="primary">View on Etherscan</Button>
+              <Button variant="primary">Bidding History</Button>
             </Box>
-            <Text>
-              <Button 
-                variant="primary"
-                onClick={handleBid}
-              >
-                Place bid
-              </Button>
-            </Text>
           </Box>
-        )
-      }
-    </Box>
+        </Box>
+      </Box>
+    </Layout>
   );
 };
 
-export default LiquidationSub;
+export default LiquidationDetail;

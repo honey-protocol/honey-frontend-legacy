@@ -5,10 +5,6 @@ export const liquidationWrapper = style({
   color: 'white'
 });
 
-globalStyle(`${liquidationWrapper} > *`, {
-  
-});
-
 export const subWrapper = style({
   background: 'rgb(30, 30, 30)',
   margin: '.75em 0',
@@ -68,7 +64,7 @@ globalStyle(`${healthFactorMedium} div`, {
   fontWeight: '600',
   color: 'orange',
   padding: '0.5em',
-  background: 'rgb(255, 215, 0, .5)',
+  background: 'rgb(255, 215, 0, .3)',
   borderRadius: '10px',
   margin: '0 auto'
 });
@@ -83,7 +79,38 @@ globalStyle(`${healthFactorLow} div`, {
   fontWeight: '600',
   color: 'red',
   padding: '0.5em',
-  background: 'rgba(255, 0, 0, .5)',
+  background: 'rgba(255, 0, 0, .3)',
   borderRadius: '10px',
   margin: '0 auto'
 });
+
+export const liquidationDetaiPageWrapper = style({
+  display: 'flex',
+  flexDirection: 'row',
+  width: '66%',
+  padding: '1em 0',
+  borderRadius: '1em'
+});
+
+globalStyle(`${liquidationDetaiPageWrapper} div`, {
+  flex: '1 1 0px',
+});
+
+export const liquidationDetaiPageWrapperImage = style({
+});
+
+globalStyle(`${liquidationDetaiPageWrapperImage} div`, {
+  height: '10em',
+  width: '10em'
+});
+
+export const buttonWrapper = style({
+  display: 'flex',
+  flexDirection: 'row',
+  justifyContent: 'space-between'
+})
+
+globalStyle(`${buttonWrapper} button`, {
+  margin: '1em 0',
+  width: '45%'
+})

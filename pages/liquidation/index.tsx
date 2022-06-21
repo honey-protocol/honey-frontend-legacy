@@ -5,7 +5,8 @@ import { Box, Stack } from 'degen';
 import Layout from '../../components/Layout/Layout';
 import * as styles from '../../styles/liquidation.css';
 import LiquidationHeader from 'components/LiquidationHeader/LiquidationHeader';
-import LiquidationSub from './[name]/index';
+// import LiquidationCard from './[name]/index';
+import LiquidationCard from '../../components/LiquidationCard/LiquidationCard';
 
 
 const Liquidation: NextPage = () => {
@@ -18,8 +19,9 @@ const Liquidation: NextPage = () => {
       address: 'HADIWJioh31..',
       lr: 90,
       ltv: 80,
-      name: 'loan',
-      healthFactor: 'Unhealthy'
+      name: 'first',
+      healthFactor: 'Unhealthy',
+      currentPrice: 103
     },
     {
       image: 'https://assets.coingecko.com/coins/images/24781/small/honey.png?1648902423',
@@ -29,8 +31,9 @@ const Liquidation: NextPage = () => {
       address: 'HADIWJioh31..',
       lr: 90,
       ltv: 80,
-      name: 'loan',
-      healthFactor: 'Medium'
+      name: 'second',
+      healthFactor: 'Medium',
+      currentPrice: 88
     },
     {
       image: 'https://assets.coingecko.com/coins/images/24781/small/honey.png?1648902423',
@@ -40,8 +43,9 @@ const Liquidation: NextPage = () => {
       address: 'HADIWJioh31..',
       lr: 90,
       ltv: 80,
-      name: 'loan',
-      healthFactor: 'Healthy'
+      name: 'third',
+      healthFactor: 'Healthy',
+      currentPrice: 36
     },
     {
       image: 'https://assets.coingecko.com/coins/images/24781/small/honey.png?1648902423',
@@ -51,8 +55,9 @@ const Liquidation: NextPage = () => {
       address: 'HADIWJioh31..',
       lr: 90,
       ltv: 80,
-      name: 'loan',
-      healthFactor: 'Healthy'
+      name: 'fourth',
+      healthFactor: 'Healthy',
+      currentPrice: 185
     },
   ]
   return (
@@ -64,13 +69,14 @@ const Liquidation: NextPage = () => {
           <Box>
             {
               dataSet.map((loan, i) => (
+                // <Link href="/farm/[name]" as={`/farm/${item.name}`}></Link>
                 <Link 
                   href="/liquidation/[name]" 
                   as={`/liquidation/${loan.name}`}
                   key={i}
                 >
                   <a>
-                    <LiquidationSub 
+                    <LiquidationCard 
                       key={i}
                       loan={loan}
                     />

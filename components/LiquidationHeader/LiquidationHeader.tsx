@@ -18,6 +18,7 @@ const LiquidationHeader = (props: LiquidationHeaderProps) => {
         <Text>LR(%)</Text>
         <Text>LTV(%)</Text>
         <Text>Health factor</Text>
+        <Text>Current price</Text>
         <Text></Text>
       </Box>
     </Box>
