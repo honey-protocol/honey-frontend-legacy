@@ -77,7 +77,7 @@ const LiquidationDetail: NextPage<LiquidationDetailProps> = (props: LiquidationD
               </Stack>
             </Box>
             <Box className={styles.buttonWrapper}>
-              <Button variant="primary">View on Etherscan</Button>
+              <Button variant="primary">View on Solscan</Button>
               <Button variant="primary">Bidding History</Button>
             </Box>
           </Box>
