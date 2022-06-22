@@ -121,7 +121,8 @@ export const biddingBlock = style({
   display: 'flex',
   flexDirection: 'row',
   alignItems: 'center',
-  justifyContent: 'space-between'
+  justifyContent: 'space-between',
+  margin: '1em 0'
 })
 
 export const currentBidInput = style({
@@ -139,4 +140,14 @@ export const biddingHistory = style({
   display: 'flex',
   flexDirection: 'row',
   alignItems: 'center',
+  margin: '1em 0 '
+});
+
+globalStyle(`${biddingHistory} img`, {
+  margin: '0 1em 0 0',
+  borderRadius: '32px'
+});
+
+globalStyle(`${biddingHistory} div`, {
+  alignSelf: 'center'
 });

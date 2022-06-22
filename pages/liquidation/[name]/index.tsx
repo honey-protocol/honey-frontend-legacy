@@ -1,4 +1,5 @@
 import type { NextPage } from 'next';
+import Image from 'next/image'
 import Link from 'next/link';
 import React, { useState, useEffect } from 'react';
 import { Box, Stack, Button, IconChevronLeft, Text, Avatar } from 'degen';
@@ -14,7 +15,7 @@ const LiquidationDetail: NextPage<LiquidationDetailProps> = (props: LiquidationD
   let currentBid = 66;
 
   const [activeLiquidation, setActiveLiquidation] = useState(0);
-  const [userInput, setUserInput] = useState(0);
+  const [userInput, setUserInput] = useState<{}>();;
   
   useEffect(() => {
     window.location.href.includes('closed') == true ? setActiveLiquidation(0) : setActiveLiquidation(1);
@@ -93,8 +94,7 @@ const LiquidationDetail: NextPage<LiquidationDetailProps> = (props: LiquidationD
                   </Stack>
                 </Box>
               <Box className={styles.buttonWrapper}>
-                <Button variant="primary">View on Solscan</Button>
-                <Button variant="primary">Bidding History</Button>
+                <Button variant="primary">Full Bidding History</Button>
               </Box>
             </Box>
           </Box>
@@ -135,38 +135,27 @@ const LiquidationDetail: NextPage<LiquidationDetailProps> = (props: LiquidationD
                 </Box>
                 <Box>
                   <Box className={styles.biddingHistory}>
-                    <Avatar 
-                      label="Image of NFT" 
-                      shape="circle"
-                      size="1.5"
-                      src={'https://assets.coingecko.com/coins/images/24781/small/honey.png?1648902423'}
-                    />
+
+                    <img alt="honey logo img" src="https://assets.coingecko.com/coins/images/24781/small/honey.png?1648902423" />
                     <Text>Faren.eth</Text>
+                    <Text>62 SOL</Text>
                   </Box>
                   <Box className={styles.biddingHistory}>
-                    <Avatar 
-                      label="Image of NFT" 
-                      shape="circle"
-                      size="1.5"
-                      src={'https://assets.coingecko.com/coins/images/24781/small/honey.png?1648902423'}
-                    />
+                    <img alt="honey logo img" src="https://assets.coingecko.com/coins/images/24781/small/honey.png?1648902423" />
                     <Text>Heron.eth</Text>
+                    <Text>58 SOL</Text>
                   </Box>
                   <Box className={styles.biddingHistory}>
-                    <Avatar 
-                      label="Image of NFT" 
-                      shape="circle"
-                      size="1.5"
-                      src={'https://assets.coingecko.com/coins/images/24781/small/honey.png?1648902423'}
-                    />
+
+                    <img alt="honey logo img" src="https://assets.coingecko.com/coins/images/24781/small/honey.png?1648902423" />
                     <Text>Pyro.eth</Text>
+                    <Text>57 SOL</Text>
                   </Box>
                 </Box>
               </Stack>
             </Box>
             <Box className={styles.buttonWrapper}>
-              <Button variant="primary">View on Solscan</Button>
-              <Button variant="primary">Bidding History</Button>
+              <Button variant="primary">Full Bidding History</Button>
             </Box>
           </Box>
         </Box>
