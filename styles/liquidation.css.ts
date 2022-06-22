@@ -62,7 +62,6 @@ globalStyle(`${healthFactorMedium} div`, {
   width: '75%',
   textAlign: 'center',
   fontWeight: '600',
-  color: 'orange',
   padding: '0.5em',
   background: 'rgb(255, 215, 0, .3)',
   borderRadius: '10px',
@@ -87,7 +86,7 @@ globalStyle(`${healthFactorLow} div`, {
 export const liquidationDetaiPageWrapper = style({
   display: 'flex',
   flexDirection: 'row',
-  width: '66%',
+  width: '70%',
   padding: '1em 0',
   borderRadius: '1em'
 });
@@ -96,16 +95,48 @@ globalStyle(`${liquidationDetaiPageWrapper} div`, {
   flex: '1 1 0px',
 });
 
-export const liquidationDetaiPageWrapperImage = style({
-});
-
 export const buttonWrapper = style({
   display: 'flex',
   flexDirection: 'row',
   justifyContent: 'space-between'
-})
+});
 
 globalStyle(`${buttonWrapper} button`, {
   margin: '1em 0',
   width: '45%'
+});
+
+export const currentBidding = style({
+  display: 'flex',
+  flexDirection: 'row',
+  marginTop: '1.5em'
+}); 
+
+export const currentBiddingFirstBlock = style({
+  borderRight: '2px solid gray',
+  marginRight: '2.5em'
+});
+
+export const biddingBlock = style({
+  display: 'flex',
+  flexDirection: 'row',
+  alignItems: 'center',
+  justifyContent: 'space-between'
 })
+
+export const currentBidInput = style({
+  maxWidth: '10em',
+  width: '100%',
+  fontSize: '1.8em',
+  color: 'gray',
+  border: 'none',
+  borderRadius: '5px',
+  padding: '.25em',
+  margin: '.5em .5em .5m 0'
+});
+
+export const biddingHistory = style({
+  display: 'flex',
+  flexDirection: 'row',
+  alignItems: 'center',
+});

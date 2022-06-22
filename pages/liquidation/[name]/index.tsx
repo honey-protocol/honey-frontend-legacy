@@ -11,7 +11,19 @@ interface LiquidationDetailProps {
 
 const LiquidationDetail: NextPage<LiquidationDetailProps> = (props: LiquidationDetailProps) => {
   const {loan} = props;
+  let currentBid = 66;
+
   const [activeLiquidation, setActiveLiquidation] = useState(0);
+  const [userInput, setUserInput] = useState(0);
+  
+  useEffect(() => {
+    window.location.href.includes('closed') == true ? setActiveLiquidation(0) : setActiveLiquidation(1);
+  }, []);
+
+  function handleBid(val: any) {
+    console.log('the input value', val.target.val);
+    setUserInput(val.target.val);
+  }
 
   return (
     <Layout>
@@ -39,7 +51,7 @@ const LiquidationDetail: NextPage<LiquidationDetailProps> = (props: LiquidationD
         </Box>
       </Stack>
       <Box className={styles.liquidationDetaiPageWrapper}>
-        <Box className={styles.liquidationDetaiPageWrapperImage}>
+        <Box>
           <Avatar
             label="Image of NFT" 
             shape="square"
@@ -47,34 +59,108 @@ const LiquidationDetail: NextPage<LiquidationDetailProps> = (props: LiquidationD
             src={'https://img-cdn.magiceden.dev/rs:fill:400:400:0:0/plain/https://arweave.net/D54ab6AQy6oVhLpBEmIXxKnNftNhBfqeOCmZtb7OkWE'}
           />
         </Box>
-        <Box>
+        {
+          activeLiquidation == 0 ? (
+            <Box>
+              <Box>
+                <Text size="headingOne" color="accent">Bee 443</Text>
+                <Box>
+                  <Stack>
+                    <Box>
+                      <Text size="headingTwo">
+                        Time left for auction
+                      </Text>
+                      <Text>
+                       0h 0m 0s
+                      </Text>
+                    </Box>
+                    <Box>
+                      <Text size="headingTwo">
+                        Price of winning bid
+                      </Text>
+                      <Text>
+                        100 SOL
+                      </Text>
+                    </Box>
+                    <Box>
+                      <Text size="headingTwo">Address of new owner:</Text>
+                      <Text>Xaheh12...</Text>
+                    </Box>
+                    <Box>
+                      <Text size="headingTwo">Date of creation</Text>
+                      <Text>22-02-2022</Text>
+                    </Box>
+                  </Stack>
+                </Box>
+              <Box className={styles.buttonWrapper}>
+                <Button variant="primary">View on Solscan</Button>
+                <Button variant="primary">Bidding History</Button>
+              </Box>
+            </Box>
+          </Box>
+          ) :
           <Box>
-            <Text size="headingOne" color="accent">Liquidation 443</Text>
+          <Box>
+            <Text size="headingOne" color="accent">Bee 443</Text>
             <Box>
               <Stack>
-                <Box>
-                  <Text size="headingTwo">
-                    Time left for auction
-                  </Text>
-                  <Text>
-                    0h 0m 0s
-                  </Text>
+                <Box className={styles.currentBidding}>
+                  <Box className={styles.currentBiddingFirstBlock}>
+                    <Text size="headingTwo">
+                      Current bid
+                    </Text>
+                    <Text>
+                      62 SOL
+                    </Text>
+                  </Box>
+                  <Box>
+                    <Text size="headingTwo">
+                      Auction ends
+                    </Text>
+                    <Text>
+                      4h 2m 18s
+                    </Text>
+                  </Box>
+                </Box>
+                <Box className={styles.biddingBlock}>
+                  <input 
+                    type="number" 
+                    placeholder="66.5 SOL or more"
+                    onChange={handleBid}
+                    className={styles.currentBidInput} 
+                    value={userInput} 
+                    min="0" 
+                  />
+                  <Button variant="primary">Place bid</Button>
                 </Box>
                 <Box>
-                  <Text size="headingTwo">
-                    Price of winning bid
-                  </Text>
-                  <Text>
-                    100 SOL
-                  </Text>
-                </Box>
-                <Box>
-                  <Text size="headingTwo">Address of new owner:</Text>
-                  <Text>Xaheh12...</Text>
-                </Box>
-                <Box>
-                  <Text size="headingTwo">Date of creation</Text>
-                  <Text>22-02-2022</Text>
+                  <Box className={styles.biddingHistory}>
+                    <Avatar 
+                      label="Image of NFT" 
+                      shape="circle"
+                      size="1.5"
+                      src={'https://assets.coingecko.com/coins/images/24781/small/honey.png?1648902423'}
+                    />
+                    <Text>Faren.eth</Text>
+                  </Box>
+                  <Box className={styles.biddingHistory}>
+                    <Avatar 
+                      label="Image of NFT" 
+                      shape="circle"
+                      size="1.5"
+                      src={'https://assets.coingecko.com/coins/images/24781/small/honey.png?1648902423'}
+                    />
+                    <Text>Heron.eth</Text>
+                  </Box>
+                  <Box className={styles.biddingHistory}>
+                    <Avatar 
+                      label="Image of NFT" 
+                      shape="circle"
+                      size="1.5"
+                      src={'https://assets.coingecko.com/coins/images/24781/small/honey.png?1648902423'}
+                    />
+                    <Text>Pyro.eth</Text>
+                  </Box>
                 </Box>
               </Stack>
             </Box>
@@ -84,6 +170,7 @@ const LiquidationDetail: NextPage<LiquidationDetailProps> = (props: LiquidationD
             </Box>
           </Box>
         </Box>
+        }
       </Box>
     </Layout>
   );

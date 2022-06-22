@@ -19,7 +19,7 @@ const Liquidation: NextPage = () => {
       address: 'HADIWJioh31..',
       lr: 90,
       ltv: 80,
-      name: 'first',
+      name: 'first-closed',
       healthFactor: 'Unhealthy',
       currentPrice: 103
     },
@@ -31,7 +31,7 @@ const Liquidation: NextPage = () => {
       address: 'HADIWJioh31..',
       lr: 90,
       ltv: 80,
-      name: 'second',
+      name: 'second-open',
       healthFactor: 'Medium',
       currentPrice: 88
     },
@@ -43,7 +43,7 @@ const Liquidation: NextPage = () => {
       address: 'HADIWJioh31..',
       lr: 90,
       ltv: 80,
-      name: 'third',
+      name: 'third-open',
       healthFactor: 'Healthy',
       currentPrice: 36
     },
@@ -55,7 +55,7 @@ const Liquidation: NextPage = () => {
       address: 'HADIWJioh31..',
       lr: 90,
       ltv: 80,
-      name: 'fourth',
+      name: 'fourth-closed',
       healthFactor: 'Healthy',
       currentPrice: 185
     },
