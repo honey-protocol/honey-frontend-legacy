@@ -123,7 +123,13 @@ export const biddingBlock = style({
   alignItems: 'center',
   justifyContent: 'space-between',
   margin: '1em 0'
-})
+});
+
+globalStyle(`${biddingBlock}, input::-webkit-outer-spin-button, input::-webkit-inner-spin-button `, {
+  WebkitAppearance: 'none',
+  MozAppearance: 'textfield',
+  margin: 0
+}); 
 
 export const currentBidInput = style({
   maxWidth: '10em',

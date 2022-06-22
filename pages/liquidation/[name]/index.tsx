@@ -15,7 +15,7 @@ const LiquidationDetail: NextPage<LiquidationDetailProps> = (props: LiquidationD
   let currentBid = 66;
 
   const [activeLiquidation, setActiveLiquidation] = useState(0);
-  const [userInput, setUserInput] = useState<{}>();;
+  const [userInput, setUserInput] = useState<[]>();;
   
   useEffect(() => {
     window.location.href.includes('closed') == true ? setActiveLiquidation(0) : setActiveLiquidation(1);
@@ -94,7 +94,7 @@ const LiquidationDetail: NextPage<LiquidationDetailProps> = (props: LiquidationD
                   </Stack>
                 </Box>
               <Box className={styles.buttonWrapper}>
-                <Button variant="primary">Full Bidding History</Button>
+                <Button variant="primary">View on Solscan</Button>
               </Box>
             </Box>
           </Box>
