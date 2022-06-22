@@ -99,11 +99,6 @@ globalStyle(`${liquidationDetaiPageWrapper} div`, {
 export const liquidationDetaiPageWrapperImage = style({
 });
 
-globalStyle(`${liquidationDetaiPageWrapperImage} div`, {
-  height: '10em',
-  width: '10em'
-});
-
 export const buttonWrapper = style({
   display: 'flex',
   flexDirection: 'row',

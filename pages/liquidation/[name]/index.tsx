@@ -11,7 +11,7 @@ interface LiquidationDetailProps {
 
 const LiquidationDetail: NextPage<LiquidationDetailProps> = (props: LiquidationDetailProps) => {
   const {loan} = props;
-  console.log('this is the loan', loan)
+  const [activeLiquidation, setActiveLiquidation] = useState(0);
 
   return (
     <Layout>
@@ -42,7 +42,9 @@ const LiquidationDetail: NextPage<LiquidationDetailProps> = (props: LiquidationD
         <Box className={styles.liquidationDetaiPageWrapperImage}>
           <Avatar
             label="Image of NFT" 
-            src={'https://assets.coingecko.com/coins/images/24781/small/honey.png?1648902423'}
+            shape="square"
+            size="max"
+            src={'https://img-cdn.magiceden.dev/rs:fill:400:400:0:0/plain/https://arweave.net/D54ab6AQy6oVhLpBEmIXxKnNftNhBfqeOCmZtb7OkWE'}
           />
         </Box>
         <Box>
