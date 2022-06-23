@@ -86,13 +86,22 @@ globalStyle(`${healthFactorLow} div`, {
 export const liquidationDetaiPageWrapper = style({
   display: 'flex',
   flexDirection: 'row',
-  width: '70%',
+  width: '85%',
   padding: '1em 0',
   borderRadius: '1em'
 });
 
 globalStyle(`${liquidationDetaiPageWrapper} div`, {
   flex: '1 1 0px',
+  marginRight: '.5em'
+});
+
+globalStyle(`${liquidationDetaiPageWrapper} > div:first-child`, {
+  marginRight: '1.5em'
+});
+
+globalStyle(`${liquidationDetaiPageWrapper} button`, {
+  width: '100%'
 });
 
 export const buttonWrapper = style({
@@ -113,7 +122,6 @@ export const currentBidding = style({
 }); 
 
 export const currentBiddingFirstBlock = style({
-  borderRight: '2px solid gray',
   marginRight: '2.5em'
 });
 
@@ -156,4 +164,101 @@ globalStyle(`${biddingHistory} img`, {
 
 globalStyle(`${biddingHistory} div`, {
   alignSelf: 'center'
+});
+
+export const avatarTitle = style({
+  fontSize: '1.2em',
+  fontWeight: '600'
+});
+
+export const attributeBlock = style({
+  background: 'none',
+  display: 'flex',
+  flexDirection: 'row',
+  flexWrap: 'wrap',
+  marginLeft: '-.5em'
+});
+
+globalStyle(`${attributeBlock} > div`, {
+  background: 'rgb(238, 240, 243)',
+  borderRadius: '12px',
+  fontSize: '1em',
+  fontWeight: '600',
+  margin: '.25em',
+  padding: '.5em 1em',
+  minWidth: '10em',
+  maxWidth: '10em'
+});
+
+globalStyle(`${attributeBlock} > div > div:first-child`, {
+  fontWeight: '300',
+});
+
+export const subHeading = style({
+  fontSize: '1.2em',
+  fontWeight: '600',
+});
+
+globalStyle(`${subHeading} > div`, {
+  display: 'flex',
+  margin: '.5em 0'
+})
+
+export const poolBlock = style({
+  display: 'flex',
+  alignItems: 'center',
+});
+
+globalStyle(`${poolBlock} > img`, {
+  width: '4em',
+  borderRadius: '2em',
+  marginRight: '1em'
+})
+
+globalStyle(`${poolBlock} > div`, {
+  fontWeight: '300',
+  fontSize: '.9em'
+});
+
+export const flexBlock = style({
+  display: 'flex',
+  alignItems: 'center'
+});
+
+globalStyle(`${flexBlock} > svg`, {
+  marginRight: '1em'
+})
+
+export const nftDetailBlock = style({
+  display: 'flex',
+  flexDirection: 'column',
+});
+
+globalStyle(`${nftDetailBlock} > div:first-child`, {
+  display: 'flex',
+  flexDirection: 'row',
+  width: '100%',
+  margin: '.5em 0',
+  fontSize: '1.2em',
+});
+
+globalStyle(`${nftDetailBlock} > div`, {
+  display: 'flex',
+  flexDirection: 'row',
+  width: '100%',
+});
+
+export const nftDetailBlockPrice = style({
+  display: 'flex',
+  flexDirection: 'row',
+  margin: '1em 0'
+});
+
+
+globalStyle(`${nftDetailBlockPrice} > div:last-child`, {
+  textAlign: 'end'
+});
+
+globalStyle(`${nftDetailBlock} button`, {
+  width: '100%',
 });
