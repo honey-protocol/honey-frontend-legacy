@@ -2,9 +2,9 @@ import type { NextPage } from 'next';
 import Image from 'next/image'
 import Link from 'next/link';
 import React, { useState, useEffect } from 'react';
-import { Box, Stack, Button, IconChevronLeft, Text, Avatar, IconWallet } from 'degen';
+import { Box, Stack, Button, IconChevronLeft, IconClose, Text, Avatar, IconWallet, IconChevronDown, IconChevronRight } from 'degen';
 import Layout from '../../../components/Layout/Layout';
-import * as styles from '../../../styles/liquidation.css';
+import * as styles from '../../../styles/liquidationDetail.css';
 
 interface LiquidationDetailProps {
   loan: any;
@@ -12,22 +12,60 @@ interface LiquidationDetailProps {
 
 const LiquidationDetail: NextPage<LiquidationDetailProps> = (props: LiquidationDetailProps) => {
   const {loan} = props;
-  let currentBid = 66;
 
-  const [activeLiquidation, setActiveLiquidation] = useState(0);
-  const [userInput, setUserInput] = useState<[]>();;
-  
-  useEffect(() => {
-    window.location.href.includes('closed') == true ? setActiveLiquidation(0) : setActiveLiquidation(1);
-  }, []);
+  const [userInput, setUserInput] = useState<[]>();
+  const [displayDetailState, setDisplayDetailState] = useState(0);
+  const [biddingModal, setBiddingModal] = useState(0);
+
+  function handleBiddingModal() {
+    biddingModal == 0 ? setBiddingModal(1) : setBiddingModal(0);
+  }
 
   function handleBid(val: any) {
     setUserInput(val.target.val);
   }
 
+  function handleNumberInput(val: any) {
+    console.log('this is the value', val.target.value);
+  }
+
+  function handleDetails() {
+    displayDetailState == 0 ? setDisplayDetailState(1) : setDisplayDetailState(0);
+  }
+
   return (
     <Layout>
       <Stack>
+        {
+          biddingModal == 1 && (
+            <Box className={styles.biddingModalWrapper}>
+              <Box className={styles.biddingModalContainer}>
+                <span onClick={handleBiddingModal}>X</span>
+                <Box className={styles.biddingModalImageWrapper}>
+                  <Box className={styles.biddingModalImage}>
+                    <img
+                      alt="Image of NFT" 
+                      src="https://img-cdn.magiceden.dev/rs:fill:400:400:0:0/plain/https://arweave.net/D54ab6AQy6oVhLpBEmIXxKnNftNhBfqeOCmZtb7OkWE"
+                    />
+                    <span>Honey Bee #443</span>
+                  </Box>
+                </Box>
+                <Box className={styles.inputButtonWrapper}>
+                  <input 
+                    type="number" 
+                    placeholder="0.00" 
+                    onChange={handleNumberInput}
+                    className={styles.biddingModalInput} 
+                    value={userInput} 
+                    min="0" 
+                    max="100"
+                  />
+                  <Button variant='primary'>Place bid</Button>
+                </Box>
+              </Box>
+            </Box>
+          )
+        }
         <Box>
             <Stack
               direction="horizontal"
@@ -51,77 +89,43 @@ const LiquidationDetail: NextPage<LiquidationDetailProps> = (props: LiquidationD
         </Box>
       </Stack>
       <Box className={styles.liquidationDetaiPageWrapper}>
-        <Box>
+        {/* first contentblock */}
+        <Box className={styles.liquidationDetailPageFirstBlock}>
           <Avatar
             label="Image of NFT" 
             shape="square"
             size="max"
             src={'https://img-cdn.magiceden.dev/rs:fill:400:400:0:0/plain/https://arweave.net/D54ab6AQy6oVhLpBEmIXxKnNftNhBfqeOCmZtb7OkWE'}
           />
-          <Box className={styles.nftDetailBlock}>
-            <Text>Current bid</Text>
-            <Box className={styles.nftDetailBlockPrice}>
-              <Text>212 SOL</Text>
-              <Text>$12.355</Text>
-            </Box>
-          </Box>
-          <Button>Place Bid</Button>
-        </Box>
-        {
-          activeLiquidation == 0 ? (
-            <Box>
-              <Box>
-                <Text color="accent">Honey Bee 443</Text>
-                <Box>
-                  <Stack>
-                    <Box>
-                      <Text size="headingTwo">
-                        Time left for auction
-                      </Text>
-                      <Text>
-                       0h 0m 0s
-                      </Text>
-                    </Box>
-                    <Box>
-                      <Text size="headingTwo">
-                        Price of winning bid
-                      </Text>
-                      <Text>
-                        100 SOL
-                      </Text>
-                    </Box>
-                    <Box>
-                      <Text size="headingTwo">Address of new owner:</Text>
-                      <Text>Xaheh12...</Text>
-                    </Box>
-                    <Box>
-                      <Text size="headingTwo">Date of creation</Text>
-                      <Text>22-02-2022</Text>
-                    </Box>
-                  </Stack>
-                </Box>
-              <Box className={styles.buttonWrapper}>
-                <Button variant="primary">View on Solscan</Button>
-              </Box>
-            </Box>
-          </Box>
-          ) :
-          <Box>
-          <Box>
-            <Text size="headingOne" color="accent">Honey Bee #443</Text>
+          <Box className={styles.nftPriceWrapper}>
             <Box className={styles.subHeading}>
-              <Text>Collection</Text>
-              <Box className={styles.poolBlock}>
-                <img
-                  src={"https://img-cdn.magiceden.dev/rs:fill:170:170:0:0/plain/https://dl.airtable.com/.attachmentThumbnails/6b6c8954aed777a74de52fd70f8751ab/46b325db"}
-                />
-                <Text>Honey Genesis Bee</Text>
+              <Text>Current bid:</Text>
+            </Box>
+            <Box>
+              <Box className={styles.nftPriceWrapperDetail}>
+                <span>212 SOL</span>
+                <span>$12.355</span>
               </Box>
             </Box>
+          </Box>
+          <Button onClick={handleBiddingModal}>Place Bid</Button>
+        </Box>
+        {/* second contentblock */}
+        <Box className={styles.liquidationDetailPageSecondBlock}>
+          <Text size="headingOne" color="accent">Honey Bee #443</Text>
+          <Box className={styles.subHeading}>
+            <Text>Collection</Text>
+            <Box className={styles.poolBlock}>
+              <img
+                src={"https://img-cdn.magiceden.dev/rs:fill:170:170:0:0/plain/https://dl.airtable.com/.attachmentThumbnails/6b6c8954aed777a74de52fd70f8751ab/46b325db"}
+              />
+              <Text>Honey Genesis Bee</Text>
+            </Box>
+          </Box>
             <Box>
               <Stack>
-                <Box className={styles.currentBidding}>
-                  <Box className={styles.currentBiddingFirstBlock}>
+                <Box>
+                  <Box>
                     <Box className={styles.subHeading}>
                       <Text>
                         Created By
@@ -134,66 +138,58 @@ const LiquidationDetail: NextPage<LiquidationDetailProps> = (props: LiquidationD
                   </Box>
                 </Box>
                 <Box>
-                  <Box className={styles.avatarTitle}>
+                  <Box className={styles.subHeading}>
                     <Text>Attributes</Text>
                   </Box>
                   <Box className={styles.attributeBlock}>
                     <Box>
-                      <Text color="black">Theme</Text>
-                      <Text color="black">Asian</Text>
+                      <Text color="white">Theme</Text>
+                      <Text color="white">Asian</Text>
                     </Box>
                     <Box>
-                      <Text color="black">Bee color</Text>
-                      <Text color="black">Purple/Gold</Text>
+                      <Text color="white">Bee color</Text>
+                      <Text color="white">Purple/Gold</Text>
                     </Box>
                     <Box>
-                      <Text color="black">Ability</Text>
-                      <Text color="black">Thunder</Text>
+                      <Text color="white">Ability</Text>
+                      <Text color="white">Thunder</Text>
                     </Box>
                     <Box>
-                      <Text color="black">Ability</Text>
-                      <Text color="black">Thunder</Text>
+                      <Text color="white">Ability</Text>
+                      <Text color="white">Thunder</Text>
                     </Box>
                     <Box>
-                      <Text color="black">Ability</Text>
-                      <Text color="black">Thunder</Text>
+                      <Text color="white">Ability</Text>
+                      <Text color="white">Thunder</Text>
                     </Box>
                   </Box>
                 </Box>
-                <Box>
-                  <Box className={styles.subHeading}>
-                    <Text>
-                      Details
-                    </Text>
+                <Box className={styles.detailListWrapper}>
+                  <Box className={styles.detailList} onClick={handleDetails}>
+                    <Box>
+                      Details 
+                    </Box>
+                    {
+                      displayDetailState == 0 
+                      ? (<IconChevronRight color="white" />)
+                      : (<IconChevronDown />)
+                    }
                   </Box>
+                  {
+                      displayDetailState == 1 && (
+                        <Box>  
+                          <ul>
+                            <li>1st detail</li>
+                            <li>2nd detail</li>
+                            <li>3th detail</li>
+                          </ul>
+                        </Box>
+                      )
+                    }
                 </Box>
-                {/* <Box>
-                  <Box className={styles.biddingHistory}>
-
-                    <img alt="honey logo img" src="https://assets.coingecko.com/coins/images/24781/small/honey.png?1648902423" />
-                    <Text>Faren.eth</Text>
-                    <Text>62 SOL</Text>
-                  </Box>
-                  <Box className={styles.biddingHistory}>
-                    <img alt="honey logo img" src="https://assets.coingecko.com/coins/images/24781/small/honey.png?1648902423" />
-                    <Text>Heron.eth</Text>
-                    <Text>58 SOL</Text>
-                  </Box>
-                  <Box className={styles.biddingHistory}>
-
-                    <img alt="honey logo img" src="https://assets.coingecko.com/coins/images/24781/small/honey.png?1648902423" />
-                    <Text>Pyro.eth</Text>
-                    <Text>57 SOL</Text>
-                  </Box>
-                </Box> */}
               </Stack>
             </Box>
-            {/* <Box className={styles.buttonWrapper}>
-              <Button variant="primary">Full Bidding History</Button>
-            </Box> */}
-          </Box>
         </Box>
-        }
       </Box>
     </Layout>
   );
