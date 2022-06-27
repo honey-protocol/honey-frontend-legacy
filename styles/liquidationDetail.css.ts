@@ -177,77 +177,38 @@ globalStyle(`${attributeBlock} > div > div:first-child`, {
 });
 
 // styles for bid modal
-export const biddingModalWrapper = style({
-  position: 'relative',
-});
-
-export const biddingModalContainer = style({
-  position: 'absolute',
-  display: 'block',
-  left: 'calc(50% - 20em)',
-  right: '0',
-  height: '30em',
-  width: '50%',
-  marginLeft: 'auto', 
-  marginRight: 'auto',
-  zIndex: '10',
-  border: '2px solid gray',
-  background: 'rgb(20, 20, 20)',
-  borderRadius: '16px',
-  padding: '1.2em'
-});
-
-export const biddingModalInput = style({
-  width: '70%',
-  fontSize: '2em',
-  borderRadius: '8px',
-  border: 'none',
-});
-
-globalStyle(`${biddingModalContainer}, input::-webkit-outer-spin-button, input::-webkit-inner-spin-button `, {
-  WebkitAppearance: 'none',
-  MozAppearance: 'textfield',
-  margin: 0
-}); 
-
-globalStyle(`${biddingModalContainer}, span`, {
-  right: '1em',
-  padding: '1em',
-  color: 'white',
-  display: 'block',
-  textAlign: 'end'
-}); 
-
-globalStyle(`${biddingModalContainer}, span:hover`, {
-  cursor: 'pointer'
-}); 
-
-export const biddingModalImageWrapper = style({
-  display: 'flex',
-  flexDirection: 'row',
-  color: 'gray',
-  width: '100%'
-});
-
-globalStyle(`${biddingModalImageWrapper}, div `, {
-  textAlign: 'left'
-});
-
-export const biddingModalImage = style({
-  width: '100%',
-  display: 'flex',
-  flexDirection: 'row'
-});
-
-globalStyle(`${biddingModalImage}, img `, {
-  width: '50%',
-  marginRight: '1em'
-});
-
 export const inputButtonWrapper = style({
   display: 'flex',
   flexDirection: 'row',
   alignItems: 'center',
   justifyContent: 'space-between',
-  marginTop: '2em'
+});
+
+globalStyle(`${inputButtonWrapper}, input::-webkit-outer-spin-button, input::-webkit-inner-spin-button `, {
+  WebkitAppearance: 'none',
+  MozAppearance: 'textfield',
+  margin: 0
+}); 
+
+globalStyle(`${inputButtonWrapper}, span`, {
+  color: 'white',
+  display: 'block',
+  textAlign: 'start'
+}); 
+
+globalStyle(`${inputButtonWrapper}, span:hover`, {
+  cursor: 'pointer'
+}); 
+
+export const biddingModalInput = style({
+  width: '100%',
+  padding: '.5em',
+  fontSize: '1.2em',
+  margin: '0 0 .5em 0',
+  borderRadius: '10px',
+  border: 'none',
+  transition: 'all 1s ease',
+  WebkitTransition: 'all 1s ease',
+  MozTransition: 'all 1s ease',
+  msTransition: 'all 1s ease'
 });

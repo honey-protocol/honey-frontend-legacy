@@ -17,8 +17,12 @@ const LiquidationDetail: NextPage<LiquidationDetailProps> = (props: LiquidationD
   const [displayDetailState, setDisplayDetailState] = useState(0);
   const [biddingModal, setBiddingModal] = useState(0);
 
-  function handleBiddingModal() {
-    biddingModal == 0 ? setBiddingModal(1) : setBiddingModal(0);
+  function handleBiddingModal(val: any) {
+    if (val.target.innerText == 'Confirm bid') {
+      console.log('do bid logic call')
+    } else {
+      setBiddingModal(1);
+    }
   }
 
   function handleBid(val: any) {
@@ -36,36 +40,6 @@ const LiquidationDetail: NextPage<LiquidationDetailProps> = (props: LiquidationD
   return (
     <Layout>
       <Stack>
-        {
-          biddingModal == 1 && (
-            <Box className={styles.biddingModalWrapper}>
-              <Box className={styles.biddingModalContainer}>
-                <span onClick={handleBiddingModal}>X</span>
-                <Box className={styles.biddingModalImageWrapper}>
-                  <Box className={styles.biddingModalImage}>
-                    <img
-                      alt="Image of NFT" 
-                      src="https://img-cdn.magiceden.dev/rs:fill:400:400:0:0/plain/https://arweave.net/D54ab6AQy6oVhLpBEmIXxKnNftNhBfqeOCmZtb7OkWE"
-                    />
-                    <span>Honey Bee #443</span>
-                  </Box>
-                </Box>
-                <Box className={styles.inputButtonWrapper}>
-                  <input 
-                    type="number" 
-                    placeholder="0.00" 
-                    onChange={handleNumberInput}
-                    className={styles.biddingModalInput} 
-                    value={userInput} 
-                    min="0" 
-                    max="100"
-                  />
-                  <Button variant='primary'>Place bid</Button>
-                </Box>
-              </Box>
-            </Box>
-          )
-        }
         <Box>
             <Stack
               direction="horizontal"
@@ -108,7 +82,22 @@ const LiquidationDetail: NextPage<LiquidationDetailProps> = (props: LiquidationD
               </Box>
             </Box>
           </Box>
-          <Button onClick={handleBiddingModal}>Place Bid</Button>
+          {
+          biddingModal == 1 && (
+                <Box className={styles.inputButtonWrapper}>
+                  <input 
+                    type="number" 
+                    placeholder="0.00" 
+                    onChange={handleNumberInput}
+                    className={styles.biddingModalInput} 
+                    value={userInput} 
+                    min="0" 
+                    max="100"
+                  />
+                </Box>
+          )
+        }
+          <Button onClick={(event) => handleBiddingModal(event)}>{biddingModal == 0 ? 'Place bid' : 'Confirm bid'}</Button>
         </Box>
         {/* second contentblock */}
         <Box className={styles.liquidationDetailPageSecondBlock}>
