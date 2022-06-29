@@ -7,6 +7,7 @@ import * as styles from '../../styles/liquidation.css';
 import LiquidationHeader from 'components/LiquidationHeader/LiquidationHeader';
 // import LiquidationCard from './[name]/index';
 import LiquidationCard from '../../components/LiquidationCard/LiquidationCard';
+import { PublicKey } from '@solana/web3.js';
 
 
 const Liquidation: NextPage = () => {
@@ -60,6 +61,69 @@ const Liquidation: NextPage = () => {
       currentPrice: 185
     },
   ]
+    /**
+   * @params
+   * @description
+   * @returns
+  */
+  interface PlaceBidParams {
+    bid_limit: number;
+    market: PublicKey;
+    bidder: PublicKey;
+    bid_mint: PublicKey;
+    deposit_source?: PublicKey;
+  }
+
+  interface IncreaseBidParams {
+    bid_increase: number;
+    market: PublicKey;
+    bidder: PublicKey;
+    bid_mint: PublicKey;
+    deposit_source?: PublicKey;
+  }
+
+  interface RevokeBidParams {
+    market: PublicKey;
+    bidder: PublicKey;
+    bid_mint: PublicKey;
+    withdraw_destination?: PublicKey;
+  }
+  interface ExecuteBidParams {
+    amount: number;
+    market: PublicKey;
+    obligation: PublicKey;
+    reserve: PublicKey;
+    nftMint: PublicKey;
+    payer: PublicKey;
+    bidder: PublicKey;
+  }
+
+  /**
+   * @params
+   * @description
+   * @returns
+  */
+  function handleIncreaseBid(val: number) {
+
+  }
+
+  /**
+   * @params
+   * @description
+   * @returns
+  */
+  function handleRevokeBid(val: number) {
+    
+  }
+  /**
+   * @params
+   * @description
+   * @returns
+  */
+   function handleExecuteBid(val: number) {
+    
+  }
+
   return (
     <Layout>
       <Stack>

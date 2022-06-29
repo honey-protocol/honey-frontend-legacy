@@ -87,6 +87,7 @@ const Loan: NextPage = () => {
    * @returns connection | wallet | honeyID | marketID
   */
   const sdkConfig = ConfigureSDK();
+
   /**
    * @description
    * @params
