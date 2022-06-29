@@ -103,7 +103,7 @@ const Liquidation: NextPage = () => {
    * @description
    * @returns
   */
-  function handleIncreaseBid(val: number) {
+  function handleIncreaseBid(params: IncreaseBidParams) {
 
   }
 
@@ -112,7 +112,7 @@ const Liquidation: NextPage = () => {
    * @description
    * @returns
   */
-  function handleRevokeBid(val: number) {
+  function handleRevokeBid(params: RevokeBidParams) {
     
   }
   /**
@@ -120,9 +120,18 @@ const Liquidation: NextPage = () => {
    * @description
    * @returns
   */
-   function handleExecuteBid(val: number) {
+   function handleExecuteBid(params: ExecuteBidParams) {
     
   }
+
+    /**
+   * @params
+   * @description
+   * @returns
+  */
+     function handlePlaceBid(params: PlaceBidParams) {
+    
+    }
 
   return (
     <Layout>
