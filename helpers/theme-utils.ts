@@ -1,8 +1,8 @@
-import { Accent } from 'degen/dist/types/tokens';
+import { Accent, Mode } from 'degen/dist/types/tokens';
 
 export type ThemeAccent = Accent | 'foreground';
 
-export const accentSequence: ThemeAccent[] = [
+export const accents: Accent[] = [
   'orange',
   'yellow',
   'blue',
@@ -11,9 +11,15 @@ export const accentSequence: ThemeAccent[] = [
   'pink',
   'purple',
   'red',
-  'teal',
+  'teal'
+];
+
+export const accentSequence: ThemeAccent[] = [
+  ...accents,
   'foreground'
 ];
+
+export const modes: Mode[] = ['dark', 'light'];
 
 //returns sequence in form of map {'orange': 'yellow', 'yellow': 'blue', ...}
 export const nextAccentMap = accentSequence.reduce((acc, color, index) => {

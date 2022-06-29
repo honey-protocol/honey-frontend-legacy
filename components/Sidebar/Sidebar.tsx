@@ -23,6 +23,7 @@ import { MediumIcon } from 'icons/MediumIcon';
 import { GithubIcon } from 'icons/GithubIcon';
 import { useRouter } from 'next/router';
 import { nextAccentMap } from 'helpers/theme-utils';
+import { accentLocalKey } from 'constants/local-storage';
 
 const feedbackUrl =
   'https://feedback.honey.finance/';
@@ -88,7 +89,7 @@ const Sidebar = (props: SidebarProps) => {
 
   const toggleAccent = React.useCallback(() => {
     const nextAccent = nextAccentMap[accent];
-    localStorage.setItem('accent', nextAccent);
+    localStorage.setItem(accentLocalKey, nextAccent);
     setAccent(nextAccent);
   }, [accent, setAccent]);
 
