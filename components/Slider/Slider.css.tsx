@@ -83,6 +83,10 @@ globalStyle(`${selectionDetails}, input::-webkit-outer-spin-button, input::-webk
   margin: 0
 }); 
 
+globalStyle(`${selectionDetails}, input[type="number"]`, {
+  MozAppearance: 'textfield'
+});
+
 export const currencyStylesWrapper = style({
   textAlign: 'start',
   width: '100%'
