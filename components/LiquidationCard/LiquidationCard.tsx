@@ -8,11 +8,6 @@ interface LiquidationCardProps {
   loan: any;
 }
 
-function handleBid(e: any) {
-  e.preventDefault();
-  console.log('handle bid being fired')
-}
-
 const LiquidationCard = (props: LiquidationCardProps) => {
   const { loan } = props;
 
@@ -51,7 +46,6 @@ const LiquidationCard = (props: LiquidationCardProps) => {
             <Text>
               <Button 
                 variant="primary"
-                onClick={handleBid}
               >
                 Place bid
               </Button>
