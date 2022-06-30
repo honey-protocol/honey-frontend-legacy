@@ -47,7 +47,7 @@ const HoneyModal = () => {
   );
   // ============================================================================
 
-  const { lock, escrow } = useStake(STAKE_POOL_ADDRESS, LOCKER_ADDRESS);
+  const { lock, unlock, escrow } = useStake(STAKE_POOL_ADDRESS, LOCKER_ADDRESS);
 
   const lockedAmount = useMemo(() => {
     if (!escrow) {
@@ -169,6 +169,9 @@ const HoneyModal = () => {
             width="full"
           >
             {amount ? 'Deposit' : 'Enter amount'}
+          </Button>
+          <Button onClick={unlock} width="full">
+            Unlock
           </Button>
         </Stack>
       </Box>

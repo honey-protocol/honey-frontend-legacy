@@ -64,7 +64,7 @@ const VeHoneyModal = () => {
   );
   // ============================================================================
 
-  const { stake, escrow } = useStake(STAKE_POOL_ADDRESS, LOCKER_ADDRESS);
+  const { stake, unlock, escrow } = useStake(STAKE_POOL_ADDRESS, LOCKER_ADDRESS);
 
   const lockedAmount = useMemo(() => {
     if (!escrow) {
@@ -205,6 +205,11 @@ const VeHoneyModal = () => {
           >
             {amount ? 'Deposit' : 'Enter amount'}
           </Button>
+          {/* TODO: add disabled if schedule hasn't ended */}
+          <Button onClick={unlock} width="full">
+            Unlock
+          </Button>
+
         </Stack>
       </Box>
     </Box>
