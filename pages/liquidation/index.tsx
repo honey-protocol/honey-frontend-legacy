@@ -66,13 +66,21 @@ const Liquidation: NextPage = () => {
 
   const { program } = useAnchor();
 
-  LiquidatorClient.connect(program.provider, HONEY_PROGRAM_ID, false).then((response) => {
-    console.log('this is the response', response);
-  }).catch((err) => {
-    console.log('this is the err', err);
-  });
+  async function fetchLiquidatorClient(type: string, params: any) {
+    LiquidatorClient.connect(program.provider, HONEY_PROGRAM_ID, false).then((res) => {
+      if (type == 'revoke_bid') {
+        console.log(res.revokeBid)
+        res.revokeBid();
+      } else if (type == 'place_bid') {
+        console.log(res.placeBid)
+        // res.placeBid()
+      } else if (type == 'increase_bid') {
+        console.log(res.increaseBid)
+        // res.increaseBid() 
+      }
+    }).catch((err) => err);
+  }
 
-    
   /**
    * @params
    * @description
@@ -100,15 +108,6 @@ const Liquidation: NextPage = () => {
     bid_mint: PublicKey;
     withdraw_destination?: PublicKey;
   }
-  interface ExecuteBidParams {
-    amount: number;
-    market: PublicKey;
-    obligation: PublicKey;
-    reserve: PublicKey;
-    nftMint: PublicKey;
-    payer: PublicKey;
-    bidder: PublicKey;
-  }
 
   /**
    * @params
@@ -116,7 +115,13 @@ const Liquidation: NextPage = () => {
    * @returns
   */
   function handleIncreaseBid(params: IncreaseBidParams) {
-
+    fetchLiquidatorClient('increase_bid', {
+      bid_increase: 1,
+      market: PublicKey,
+      bidder: PublicKey,
+      bid_mint: PublicKey,
+      deposit_source: PublicKey,
+    })
   }
 
   /**
@@ -125,24 +130,27 @@ const Liquidation: NextPage = () => {
    * @returns
   */
   function handleRevokeBid(params: RevokeBidParams) {
-    
+    fetchLiquidatorClient('revoke_bid', {
+      market: PublicKey,
+      bidder: PublicKey,
+      bid_mint: PublicKey,
+      withdraw_destination: PublicKey
+    });
   }
+
   /**
    * @params
    * @description
    * @returns
   */
-   function handleExecuteBid(params: ExecuteBidParams) {
-    
-  }
-
-    /**
-   * @params
-   * @description
-   * @returns
-  */
      function handlePlaceBid(params: PlaceBidParams) {
-    
+      fetchLiquidatorClient('place_bid', {
+        bid_limit: 'number',
+        market: PublicKey,
+        bidder: PublicKey,
+        bid_mint: PublicKey,
+        deposit_source: PublicKey
+      })
     }
 
   return (
