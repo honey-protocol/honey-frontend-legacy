@@ -65,9 +65,13 @@ const Liquidation: NextPage = () => {
   ];
 
   const { program } = useAnchor();
-  // anchor provider | pub key of the devnet program 1w (ending) | true
-  const liquidatorClient = LiquidatorClient.connect(program.provider, HONEY_PROGRAM_ID, true);
-  // liquidatorClient.placeBid 
+
+  LiquidatorClient.connect(program.provider, HONEY_PROGRAM_ID, false).then((response) => {
+    console.log('this is the response', response);
+  }).catch((err) => {
+    console.log('this is the err', err);
+  });
+
     
   /**
    * @params
