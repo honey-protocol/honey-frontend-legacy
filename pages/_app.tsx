@@ -9,7 +9,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { accentSequence, ThemeAccent } from 'helpers/theme-utils';
 import { PartialNetworkConfigMap } from '@saberhq/use-solana/src/utils/useConnectionInternal';
 import SecPopup from 'components/SecPopup';
-import { AnchorProvider, HoneyProvider } from '@honey-finance/sdk';
+import { AnchorProvider, HoneyProvider } from '../../honey-sdk';
 import { useConnectedWallet, useConnection } from '@saberhq/use-solana';
 import React, { FC, ReactNode, useEffect, useState } from "react";
 import Script from 'next/script';
@@ -37,18 +37,16 @@ const OnChainProvider: FC<{ children: ReactNode }> = ({ children }) => {
 
   return (
     <AnchorProvider
-    wallet={wallet}
-    connection={connection}
-    network={network}
-    honeyProgram={HONEY_PROGRAM_ID}>
+      wallet={wallet}
+      connection={connection}
+      network={network}
+      honeyProgram={HONEY_PROGRAM_ID}
+    >
       <HoneyProvider
         wallet={wallet}
         connection={connection}
         honeyProgramId={HONEY_PROGRAM_ID}
         honeyMarketId={HONEY_MARKET_ID}
-        // 9Hd2ZWmdGoBco3bo33pf1ydh9JAGQ5c8LNuduAvKL9o4
-        // kifNihaXSZMHgCmiKkoA8RoMiAwqQCda3WSDoRYLj2r
-        // 6ujVJiHnyqaTBHzwwfySzTDX5EPFgmXqnibuMp3Hun1w
       >
         {children}
       </HoneyProvider>

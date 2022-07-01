@@ -8,6 +8,8 @@ import LiquidationHeader from 'components/LiquidationHeader/LiquidationHeader';
 // import LiquidationCard from './[name]/index';
 import LiquidationCard from '../../components/LiquidationCard/LiquidationCard';
 import { PublicKey } from '@solana/web3.js';
+import { LiquidatorClient, useAnchor } from '../../../honey-sdk';
+import { HONEY_PROGRAM_ID } from '../../constants/loan';
 
 
 const Liquidation: NextPage = () => {
@@ -60,8 +62,14 @@ const Liquidation: NextPage = () => {
       healthFactor: 'Healthy',
       currentPrice: 185
     },
-  ]
-    /**
+  ];
+
+  const { program } = useAnchor();
+  // anchor provider | pub key of the devnet program 1w (ending) | true
+  const liquidatorClient = LiquidatorClient.connect(program.provider, HONEY_PROGRAM_ID, true);
+  // liquidatorClient.placeBid 
+    
+  /**
    * @params
    * @description
    * @returns
@@ -142,7 +150,6 @@ const Liquidation: NextPage = () => {
           <Box>
             {
               dataSet.map((loan, i) => (
-                // <Link href="/farm/[name]" as={`/farm/${item.name}`}></Link>
                 <Link 
                   href="/liquidation/[name]" 
                   as={`/liquidation/${loan.name}`}
