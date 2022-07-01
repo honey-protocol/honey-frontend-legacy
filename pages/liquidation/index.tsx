@@ -70,7 +70,7 @@ const Liquidation: NextPage = () => {
     LiquidatorClient.connect(program.provider, HONEY_PROGRAM_ID, false).then((res) => {
       if (type == 'revoke_bid') {
         console.log(res.revokeBid)
-        res.revokeBid();
+        // res.revokeBid();
       } else if (type == 'place_bid') {
         console.log(res.placeBid)
         // res.placeBid()
@@ -114,9 +114,9 @@ const Liquidation: NextPage = () => {
    * @description
    * @returns
   */
-  function handleIncreaseBid(params: IncreaseBidParams) {
+  function handleIncreaseBid(userBid: number, params: IncreaseBidParams) {
     fetchLiquidatorClient('increase_bid', {
-      bid_increase: 1,
+      bid_increase: userBid,
       market: PublicKey,
       bidder: PublicKey,
       bid_mint: PublicKey,
@@ -143,15 +143,15 @@ const Liquidation: NextPage = () => {
    * @description
    * @returns
   */
-     function handlePlaceBid(params: PlaceBidParams) {
-      fetchLiquidatorClient('place_bid', {
-        bid_limit: 'number',
-        market: PublicKey,
-        bidder: PublicKey,
-        bid_mint: PublicKey,
-        deposit_source: PublicKey
-      })
-    }
+  function handlePlaceBid(userBid: number, params: PlaceBidParams) {
+    fetchLiquidatorClient('place_bid', {
+      bid_limit: userBid,
+      market: PublicKey,
+      bidder: PublicKey,
+      bid_mint: PublicKey,
+      deposit_source: PublicKey
+    })
+  }
 
   return (
     <Layout>
