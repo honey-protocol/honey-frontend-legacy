@@ -8,10 +8,12 @@ import * as styles from '../../../styles/liquidationDetail.css';
 
 interface LiquidationDetailProps {
   loan: any;
+  openPositions: boolean;
 }
 
 const LiquidationDetail: NextPage<LiquidationDetailProps> = (props: LiquidationDetailProps) => {
   const {loan} = props;
+  const [openPositions, setOpenPositions] = useState(true);
 
   const [userInput, setUserInput] = useState<[]>();
   const [displayDetailState, setDisplayDetailState] = useState(0);
@@ -97,7 +99,24 @@ const LiquidationDetail: NextPage<LiquidationDetailProps> = (props: LiquidationD
                 </Box>
           )
         }
-          <Button onClick={(event) => handleBiddingModal(event)}>{biddingModal == 0 ? 'Place bid' : 'Confirm bid'}</Button>
+        {
+          openPositions
+          ?
+          (
+            <Box className={styles.dubbleButtonWrapper}>
+              <Button variant="primary">
+                Increase bid
+              </Button>
+              <Button variant="primary">
+                Revoke bid
+              </Button>
+            </Box>              
+          )
+          :
+          (              
+            <Button onClick={(event) => handleBiddingModal(event)}>{biddingModal == 0 ? 'Place bid' : 'Confirm bid'}</Button>
+          )
+        }
         </Box>
         {/* second contentblock */}
         <Box className={styles.liquidationDetailPageSecondBlock}>

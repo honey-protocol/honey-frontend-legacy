@@ -6,10 +6,11 @@ import * as styles from '../../styles/liquidation.css';
 
 interface LiquidationCardProps {
   loan: any;
+  openPositions: boolean;
 }
 
 const LiquidationCard = (props: LiquidationCardProps) => {
-  const { loan } = props;
+  const { loan, openPositions } = props;
 
   function determineHealthStyles(healthFactor: string) {
     if (healthFactor == 'Healthy') {
@@ -43,10 +44,8 @@ const LiquidationCard = (props: LiquidationCardProps) => {
               </Text>
             </Box>
             <Text>{loan.currentPrice} SOL</Text>
-            <Text>
-              <Button 
-                variant="primary"
-              >
+            <Text>    
+              <Button variant="primary">
                 Place bid
               </Button>
             </Text>

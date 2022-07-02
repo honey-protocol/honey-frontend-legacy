@@ -77,6 +77,8 @@ export async function toastResponse(responseType: string, message: string, id: a
       return toast.success(message, {toastId: responseType});
     }
     // return toast.success(message, {toastId: responseType});
+  } else if (responseType == 'LIQUIDATION') {
+    return toast.success(message, {toastId: responseType});
   }
 }
 /**

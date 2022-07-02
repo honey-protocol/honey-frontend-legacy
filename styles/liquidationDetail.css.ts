@@ -212,3 +212,11 @@ export const biddingModalInput = style({
   MozTransition: 'all 1s ease',
   msTransition: 'all 1s ease'
 });
+
+export const dubbleButtonWrapper = style({
+  width: '100%'
+});
+
+globalStyle(`${dubbleButtonWrapper} button:first-child`, {
+  margin: '.5em 0'
+});

@@ -10,9 +10,12 @@ import LiquidationCard from '../../components/LiquidationCard/LiquidationCard';
 import { PublicKey } from '@solana/web3.js';
 import { LiquidatorClient, useAnchor } from '../../../honey-sdk';
 import { HONEY_PROGRAM_ID } from '../../constants/loan';
+import {toastResponse} from '../../helpers/loanHelpers/index';
 
 
 const Liquidation: NextPage = () => {
+  const [openPositions, setOpenPositions] = useState(false);
+
   const dataSet = [
     {
       image: 'https://assets.coingecko.com/coins/images/24781/small/honey.png?1648902423',
@@ -153,6 +156,17 @@ const Liquidation: NextPage = () => {
     })
   }
 
+
+  function validatePositions() {
+    openPositions 
+    ? 
+    toastResponse('LIQUIDATION', '1 oustanding bid', 'LIQUIDATION')
+    :
+    toastResponse('LIQUIDATION', 'No outstanding bid', 'LIQUIDATION')
+  }
+
+  validatePositions();
+
   return (
     <Layout>
       <Stack>
@@ -166,11 +180,13 @@ const Liquidation: NextPage = () => {
                   href="/liquidation/[name]" 
                   as={`/liquidation/${loan.name}`}
                   key={i}
+
                 >
                   <a>
                     <LiquidationCard 
                       key={i}
                       loan={loan}
+                      openPositions={openPositions}
                     />
                   </a>
                 </Link>
