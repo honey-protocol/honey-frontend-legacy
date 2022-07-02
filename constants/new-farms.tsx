@@ -198,7 +198,7 @@ export const newFarmCollections: TGFarm[] = [
   },
   {
     id: "PB", // manager 8fS9NcGcJma74tTyTmzjpMdMkPdnP6xF5bhYp2JHXZvE
-    imageUrl: "https://img-cdn.magiceden.dev/rs:fill:170:170:0:0/plain/https://creator-hub-prod.s3.us-east-2.amazonaws.com/pixelbrains_pfp_1655630654220.jpeg",
+    imageUrl: "https://pbs.twimg.com/profile_images/1538089062778609665/fcJ0qpaN_400x400.jpg",
     name: "Pixel Brains",
     totalStaked: "???",
     totalNumber:3333,
