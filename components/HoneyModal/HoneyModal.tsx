@@ -65,6 +65,15 @@ const HoneyModal = () => {
     return convertBnTimestampToDate(escrow.escrowEndsAt);
   }, [escrow]);
 
+  const lockPeriodTimestampEnd = useMemo(() => {
+    if (!escrow) {
+      return 0;
+    }
+    const currentTimestamp = new Date().getTime();
+
+    if (currentTimestamp <= escrow.escrowEndsAt) return false;
+  }, [escrow]);
+
   const veHoneyAmount = useMemo(() => {
     if (!escrow) {
       return 0;
@@ -139,7 +148,7 @@ const HoneyModal = () => {
                   onChange={event =>
                     setVestingPeriod(Number(event.target.value))
                   }
-                > 
+                >
                   <option value="1">1 month</option>
                   <option value="3">3 months</option>
                   <option value="6">6 months</option>
@@ -170,7 +179,11 @@ const HoneyModal = () => {
           >
             {amount ? 'Deposit' : 'Enter amount'}
           </Button>
-          <Button onClick={unlock} width="full">
+          <Button
+            onClick={unlock}
+            disabled={lockPeriodTimestampEnd ? true : false}
+            width="full"
+          >
             Unlock
           </Button>
         </Stack>

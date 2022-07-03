@@ -9,5 +9,5 @@ export const mobileBgBlur = style({
 });
 
 export const pageContainer = style({
-  minHeight: '100vh'
+  minHeight: '110vh'
 });

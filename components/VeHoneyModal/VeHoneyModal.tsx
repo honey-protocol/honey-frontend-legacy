@@ -64,7 +64,10 @@ const VeHoneyModal = () => {
   );
   // ============================================================================
 
-  const { stake, unlock, escrow } = useStake(STAKE_POOL_ADDRESS, LOCKER_ADDRESS);
+  const { stake, unlock, escrow } = useStake(
+    STAKE_POOL_ADDRESS,
+    LOCKER_ADDRESS
+  );
 
   const lockedAmount = useMemo(() => {
     if (!escrow) {
@@ -80,6 +83,15 @@ const VeHoneyModal = () => {
     }
 
     return convertBnTimestampToDate(escrow.escrowEndsAt);
+  }, [escrow]);
+
+  const lockPeriodTimestampEnd = useMemo(() => {
+    if (!escrow) {
+      return 0;
+    }
+    const currentTimestamp = new Date().getTime();
+
+    if (currentTimestamp <= escrow.escrowEndsAt) return false;
   }, [escrow]);
 
   const veHoneyAmount = useMemo(() => {
@@ -205,11 +217,13 @@ const VeHoneyModal = () => {
           >
             {amount ? 'Deposit' : 'Enter amount'}
           </Button>
-          {/* TODO: add disabled if schedule hasn't ended */}
-          <Button onClick={unlock} width="full">
+          <Button
+            onClick={unlock}
+            disabled={lockPeriodTimestampEnd ? true : false}
+            width="full"
+          >
             Unlock
           </Button>
-
         </Stack>
       </Box>
     </Box>
