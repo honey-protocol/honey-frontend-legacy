@@ -91,7 +91,7 @@ const VeHoneyModal = () => {
     }
     const currentTimestamp = new Date().getTime();
 
-    if (currentTimestamp <= escrow.escrowEndsAt) return false;
+    if (currentTimestamp <= escrow.escrowEndsAt) return true;
   }, [escrow]);
 
   const veHoneyAmount = useMemo(() => {
