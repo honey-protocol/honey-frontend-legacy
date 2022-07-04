@@ -5,6 +5,7 @@ import React, { useState, useEffect } from 'react';
 import { Box, Stack, Button, IconChevronLeft, IconClose, Text, Avatar, IconWallet, IconChevronDown, IconChevronRight } from 'degen';
 import Layout from '../../../components/Layout/Layout';
 import * as styles from '../../../styles/liquidationDetail.css';
+import { useConnectedWallet } from '@saberhq/use-solana';
 
 interface LiquidationDetailProps {
   loan: any;
@@ -13,15 +14,19 @@ interface LiquidationDetailProps {
 
 const LiquidationDetail: NextPage<LiquidationDetailProps> = (props: LiquidationDetailProps) => {
   const {loan} = props;
-  const [openPositions, setOpenPositions] = useState(true);
-
+  const [openPositions, setOpenPositions] = useState(false);
   const [userInput, setUserInput] = useState<[]>();
   const [displayDetailState, setDisplayDetailState] = useState(0);
   const [biddingModal, setBiddingModal] = useState(0);
 
+  const wallet = useConnectedWallet();
+  console.log('@@@__wallet__@@@', wallet?.publicKey.toString());
+
   function handleBiddingModal(val: any) {
     if (val.target.innerText == 'Confirm bid') {
-      console.log('do bid logic call')
+      console.log('do bid logic call', val)
+
+
     } else {
       setBiddingModal(1);
     }

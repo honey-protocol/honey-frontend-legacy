@@ -8,7 +8,7 @@ import LiquidationHeader from 'components/LiquidationHeader/LiquidationHeader';
 // import LiquidationCard from './[name]/index';
 import LiquidationCard from '../../components/LiquidationCard/LiquidationCard';
 import { PublicKey } from '@solana/web3.js';
-import { LiquidatorClient, useAnchor } from '../../../honey-sdk';
+import { LiquidatorClient, useAnchor } from '@honey-finance/sdk';
 import { HONEY_PROGRAM_ID } from '../../constants/loan';
 import {toastResponse} from '../../helpers/loanHelpers/index';
 
@@ -70,7 +70,7 @@ const Liquidation: NextPage = () => {
   const { program } = useAnchor();
 
   async function fetchLiquidatorClient(type: string, params: any) {
-    LiquidatorClient.connect(program.provider, HONEY_PROGRAM_ID, false).then((res) => {
+    LiquidatorClient.connect(program.provider, HONEY_PROGRAM_ID, false).then((res: any) => {
       if (type == 'revoke_bid') {
         console.log(res.revokeBid)
         // res.revokeBid();
@@ -81,7 +81,7 @@ const Liquidation: NextPage = () => {
         console.log(res.increaseBid)
         // res.increaseBid() 
       }
-    }).catch((err) => err);
+    }).catch((err: any) => err);
   }
 
   /**
@@ -180,7 +180,6 @@ const Liquidation: NextPage = () => {
                   href="/liquidation/[name]" 
                   as={`/liquidation/${loan.name}`}
                   key={i}
-
                 >
                   <a>
                     <LiquidationCard 
