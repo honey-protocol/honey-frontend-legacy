@@ -3,23 +3,24 @@ import React from 'react';
 import * as styles from './LiquidationHeader.css';
 
 interface LiquidationHeaderProps {
+  headerData: any
 }
 
 const LiquidationHeader = (props: LiquidationHeaderProps) => {
-  // const { } = props;
+  const { headerData } = props;
 
   return (
     <Box className={styles.liquidationHeaderWrapper}>
       <Box className={styles.liquidationHeaderContainer}>
-        <Text>Loans</Text>
-        <Text>Debt</Text>
-        <Text>Collateral</Text>
-        <Text>Address</Text>
-        <Text>LR(%)</Text>
-        <Text>LTV(%)</Text>
-        <Text>Health factor</Text>
-        <Text>Current price</Text>
-        <Text></Text>
+        {
+          headerData.map((item: any, i: number) => {
+            return (
+              <Text key={i}>
+                {item}
+              </Text>
+            )
+          })
+        }
       </Box>
     </Box>
   );

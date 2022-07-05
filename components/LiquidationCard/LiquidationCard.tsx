@@ -1,16 +1,20 @@
-import type { NextPage } from 'next';
 import React, { useState, useEffect } from 'react';
 import { Box, Stack, Button, IconChevronLeft, Text, Avatar } from 'degen';
 import Layout from '../../components/Layout/Layout';
 import * as styles from '../../styles/liquidation.css';
+import Link from 'next/link'
+import LiquidationBiddingModal from 'components/LiquidationBiddingModal/LiquidationBiddingModal';
 
 interface LiquidationCardProps {
   loan: any;
-  openPositions: boolean;
+  openPositions?: boolean;
+  liquidationType?: boolean;
 }
 
 const LiquidationCard = (props: LiquidationCardProps) => {
-  const { loan, openPositions } = props;
+  const [biddingModal, setBiddingModal] = useState(false);
+  const { loan, openPositions, liquidationType } = props;
+
 
   function determineHealthStyles(healthFactor: string) {
     if (healthFactor == 'Healthy') {
@@ -22,36 +26,49 @@ const LiquidationCard = (props: LiquidationCardProps) => {
     }
   }
 
+  function handleBiddingModal() {
+    biddingModal == false ? setBiddingModal(true) : setBiddingModal(false);
+  }
+
   return (
     <Box className={styles.subWrapper}>
       {
-        loan && (
-          <Box className={styles.subContainer}>
-            <Box className={styles.imageWrapper}>
-              <Avatar
-                label="" size="15" src={loan.image}
-              />
-              <Text>{loan.title}</Text>
-            </Box>
-            <Text>{loan.debt}</Text>
-            <Text>{loan.collateral}</Text>
+        liquidationType ? (
+          <Box onClick={handleBiddingModal} className={styles.subContainer}>
+            <Text>{loan.position}</Text>
+            <Text>{loan.debt} SOL</Text>
             <Text>{loan.address}</Text>
-            <Text>{loan.lr}</Text>
-            <Text>{loan.ltv}</Text>
-            <Box className={determineHealthStyles(loan.healthFactor)}>
-              <Text>
-                {loan.healthFactor}
+            <Text>{loan.lvt} %</Text>
+            <Box className={styles.healthFactor}>{loan.healthFactor}</Box>
+            <Text>{loan.highestBid} SOL</Text>
+          </Box>
+        ) : (
+          <Link 
+            href={`/liquidation/[collection]`}
+            as={`/liquidation/${loan.collection}`}
+            passHref
+          >
+            <Box className={styles.subContainer}>
+              <Text>{loan.collection}</Text>
+              <Text>{loan.totalCollateral} NFTs</Text>
+              <Text>{loan.totalDebt} SOL</Text>
+              <Text>{loan.averageLVT} %</Text>
+              <Text>    
+                <Button variant="primary">
+                  Place bid
+                </Button>
               </Text>
             </Box>
-            <Text>{loan.currentPrice} SOL</Text>
-            <Text>    
-              <Button variant="primary">
-                Place bid
-              </Button>
-            </Text>
-          </Box>
+          </Link>
         )
       }
+      <Box>
+        {
+          biddingModal && (
+            <LiquidationBiddingModal />
+          )
+        }
+      </Box>
     </Box>
   );
 };

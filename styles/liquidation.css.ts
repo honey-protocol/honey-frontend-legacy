@@ -73,7 +73,6 @@ export const liquidationDetaiPageWrapper = style({
   display: 'flex',
   flexDirection: 'row',
   width: '70%',
-  width: '85%',
   padding: '1em 0',
   borderRadius: '1em'
 });
@@ -244,3 +243,11 @@ globalStyle(`${nftDetailBlockPrice} > div:last-child`, {
 globalStyle(`${nftDetailBlock} button`, {
   width: '100%',
 }); 
+
+export const healthFactor = style({
+  background: 'rgb(26, 58, 34)',
+  color: 'rgb(48, 208, 88)',
+  fontWeight: '600',
+  padding: '.5em 1em',
+  borderRadius: '10px'
+});
