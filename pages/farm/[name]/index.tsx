@@ -50,8 +50,9 @@ const Nft: NextPage = () => {
     <Layout>
       <Box marginTop="3" marginBottom="2">
         <Stack
-          direction={{ lg: 'horizontal', md: 'vertical' }}
+          direction={{ lg: 'horizontal', xs: 'vertical' }}
           justify="space-between"
+          wrap
         >
           <Box
             marginRight="auto"
