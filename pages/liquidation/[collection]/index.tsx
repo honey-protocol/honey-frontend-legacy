@@ -33,7 +33,7 @@ const LiquidationPool = () => {
       debt: '319',
       address: 'xAz2Li..',
       lvt: '62',
-      healthFactor: 'Unhealthy',
+      healthFactor: 'Healthy',
       highestBid: '682'
     },
     {
@@ -49,10 +49,21 @@ const LiquidationPool = () => {
       debt: '319',
       address: 'xAz2Li..',
       lvt: '62',
-      healthFactor: 'Unhealthy',
+      healthFactor: 'Healthy',
       highestBid: '682'
     },
   ];
+
+  const [showBiddingModal, setBiddingModal] = useState(false);
+  
+  function handleShowBiddingModal() {
+    showBiddingModal == false ? setBiddingModal(true) : setBiddingModal(false);
+  }
+
+  useEffect(() => {
+
+  }, [showBiddingModal]);
+
   return (
     <Layout>
       <Stack>
@@ -87,6 +98,8 @@ const LiquidationPool = () => {
                 key={i}
                 loan={loan}
                 liquidationType={true}
+                handleShowBiddingModal={handleShowBiddingModal}
+                showBiddingModal={showBiddingModal}
               />
             ))
           }

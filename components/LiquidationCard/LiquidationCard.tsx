@@ -9,11 +9,13 @@ interface LiquidationCardProps {
   loan: any;
   openPositions?: boolean;
   liquidationType?: boolean;
+  handleShowBiddingModal: () => void;
+  showBiddingModal: boolean;
 }
 
 const LiquidationCard = (props: LiquidationCardProps) => {
   const [biddingModal, setBiddingModal] = useState(false);
-  const { loan, openPositions, liquidationType } = props;
+  const { loan, openPositions, liquidationType, handleShowBiddingModal, showBiddingModal } = props;
 
 
   function determineHealthStyles(healthFactor: string) {
@@ -26,15 +28,15 @@ const LiquidationCard = (props: LiquidationCardProps) => {
     }
   }
 
-  function handleBiddingModal() {
-    biddingModal == false ? setBiddingModal(true) : setBiddingModal(false);
-  }
+  // function handleBiddingModal() {
+  //   biddingModal == false ? setBiddingModal(true) : setBiddingModal(false);
+  // }
 
   return (
     <Box className={styles.subWrapper}>
       {
         liquidationType ? (
-          <Box onClick={handleBiddingModal} className={styles.subContainer}>
+          <Box onClick={handleShowBiddingModal} className={styles.subContainer}>
             <Text>{loan.position}</Text>
             <Text>{loan.debt} SOL</Text>
             <Text>{loan.address}</Text>
@@ -64,8 +66,10 @@ const LiquidationCard = (props: LiquidationCardProps) => {
       }
       <Box>
         {
-          biddingModal && (
-            <LiquidationBiddingModal />
+          showBiddingModal && (
+            <LiquidationBiddingModal 
+              handleShowBiddingModal={handleShowBiddingModal}
+            />
           )
         }
       </Box>
