@@ -51,7 +51,10 @@ export const inputWrapper = style({
 
 globalStyle(`${inputWrapper} > input`, {
   fontSize: '1.5em',
-  width: '100%'
+  width: '100%',
+  borderRadius: '8px',
+  padding: '.25em',
+  border: 'none'
 });
 
 globalStyle(`${inputWrapper} > div`, {

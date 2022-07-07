@@ -14,10 +14,18 @@ const LiquidationBiddingModal = (props: LiquidationBiddingModalProps) => {
   const {handleShowBiddingModal} = props;
 
   const [confirmState, setConfirmState] = useState(false);
-  // const [showModal, setShowModal] = useState(true)
+  const [userInput, setUserInput] = useState<number>();
 
   function handlePlaceBid() {
     confirmState == false ? setConfirmState(true) : setConfirmState(false);
+  }
+
+  function handleExecuteBid() {
+
+  }
+
+  function handleUserChange(val: any) {
+    setUserInput(val.target.value);
   }
 
   return (
@@ -45,7 +53,12 @@ const LiquidationBiddingModal = (props: LiquidationBiddingModalProps) => {
               confirmState && (
                 <Box className={styles.inputWrapper}>
                   <Text>Place Bid</Text>
-                  <input type="number" />
+                  <input 
+                    type="number" 
+                    onChange={handleUserChange}
+                    value={userInput}
+                    placeholder="0.00"
+                  />
                 </Box>
               )
             }
@@ -53,7 +66,7 @@ const LiquidationBiddingModal = (props: LiquidationBiddingModalProps) => {
               {
                 confirmState 
                 ?
-                <Button variant="primary">Confirm Bid</Button> 
+                <Button variant="primary" onClick={handleExecuteBid}>Confirm Bid</Button> 
                 : 
                 <Button variant="primary" onClick={handlePlaceBid}>Place Bid</Button> 
             }
