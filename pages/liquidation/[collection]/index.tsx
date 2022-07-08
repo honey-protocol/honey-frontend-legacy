@@ -8,8 +8,16 @@ import * as styles from '../../../styles/liquidation.css';
 import { useConnectedWallet } from '@saberhq/use-solana';
 import LiquidationHeader from 'components/LiquidationHeader/LiquidationHeader';
 import LiquidationCard from 'components/LiquidationCard/LiquidationCard';
+import { useAnchor, LiquidatorClient } from '@honey-finance/sdk';
+import { HONEY_PROGRAM_ID, HONEY_MARKET_ID } from '../../../constants/loan';
+import { publicKey } from '@project-serum/anchor/dist/cjs/utils';
+import { LAMPORTS_PER_SOL, PublicKey } from '@solana/web3.js';
 
 const LiquidationPool = () => {
+  const { program } = useAnchor();
+  // create wallet instance for PK
+  const wallet = useConnectedWallet();
+
   const headerData = ['Position', 'Debt', 'Address', 'LTV %', 'Health Factor', 'Highest Bid'];
   const dataSet = [
     {
@@ -64,6 +72,113 @@ const LiquidationPool = () => {
 
   }, [showBiddingModal]);
 
+  async function fetchLiquidatorClient(type: string, userBid: number) {
+    try {
+      const liquidatorClient = await LiquidatorClient.connect(program.provider, HONEY_PROGRAM_ID, false);
+      
+      if (type == 'revoke_bid') {
+        // await liquidatorClient.revokeBid()
+      } else if (type == 'place_bid' && wallet) {
+          await liquidatorClient.placeBid({
+            bid_limit: userBid,
+            market: new PublicKey(HONEY_MARKET_ID),
+            bidder: wallet.publicKey,
+            bid_mint: 'E6zFcM22QzSy1aUc8MrJQ4MuHQsevGid2yYPo3heujJF'
+          })
+        } else if (type == 'increase_bid') {
+            // await liquidatorClient.revokeBid()
+          }
+      } catch (error) {
+          return console.log('error:', error);
+        }
+  }
+
+  /**
+   * @params
+   * @description
+   * @returns
+  */
+  // interface PlaceBidParams {
+  //   bid_limit: number;
+  //   market: PublicKey;
+  //   bidder: PublicKey;
+  //   bid_mint: PublicKey;
+  //   deposit_source?: PublicKey;
+  // }
+
+  // interface IncreaseBidParams {
+  //   bid_increase: number;
+  //   market: PublicKey;
+  //   bidder: PublicKey;
+  //   bid_mint: PublicKey;
+  //   deposit_source?: PublicKey;
+  // }
+
+  // interface RevokeBidParams {
+  //   market: PublicKey;
+  //   bidder: PublicKey;
+  //   bid_mint: PublicKey;
+  //   withdraw_destination?: PublicKey;
+  // }
+
+  /**
+   * @params
+   * @description
+   * @returns
+  */
+  // function handleIncreaseBid(userBid: number, params: IncreaseBidParams) {
+  //   fetchLiquidatorClient('increase_bid', {
+  //     bid_increase: userBid,
+  //     market: PublicKey,
+  //     bidder: PublicKey,
+  //     bid_mint: PublicKey,
+  //     deposit_source: PublicKey,
+  //   })
+  // }
+
+  /**
+   * @params
+   * @description
+   * @returns
+  */
+  // function handleRevokeBid(params: RevokeBidParams) {
+  //   fetchLiquidatorClient('revoke_bid', {
+  //     market: PublicKey,
+  //     bidder: PublicKey,
+  //     bid_mint: PublicKey,
+  //     withdraw_destination: PublicKey
+  //   });
+  // }
+
+  /**
+   * @params
+   * @description
+   * @returns
+  */
+  // function handlePlaceBid(userBid: number, params: PlaceBidParams) {
+  //   fetchLiquidatorClient('place_bid', {
+  //     bid_limit: userBid,
+  //     market: PublicKey,
+  //     bidder: PublicKey,
+  //     bid_mint: PublicKey,
+  //     deposit_source: PublicKey
+  //   })
+  // }
+
+
+  // function validatePositions() {
+  //   openPositions 
+  //   ? 
+  //   toastResponse('LIQUIDATION', '1 oustanding bid', 'LIQUIDATION')
+  //   :
+  //   toastResponse('LIQUIDATION', 'No outstanding bid', 'LIQUIDATION')
+  // }
+
+  // validatePositions();
+  async function handleExecuteBid(userBid: any) {
+    await fetchLiquidatorClient('place_bid', userBid)
+  }
+
   return (
     <Layout>
       <Stack>
@@ -100,6 +215,7 @@ const LiquidationPool = () => {
                 liquidationType={true}
                 handleShowBiddingModal={handleShowBiddingModal}
                 showBiddingModal={showBiddingModal}
+                handleExecuteBid={handleExecuteBid}
               />
             ))
           }

@@ -7,12 +7,12 @@ import Link from 'next/link';
 import { IconClose } from 'degen';
 
 interface LiquidationBiddingModalProps {
-  handleShowBiddingModal: () => void;
+  handleShowBiddingModal?: () => void;
+  handleExecuteBid: (userBid: any) => void;
 }
 
 const LiquidationBiddingModal = (props: LiquidationBiddingModalProps) => {
-  const {handleShowBiddingModal} = props;
-
+  const {handleShowBiddingModal, handleExecuteBid} = props;
   const [confirmState, setConfirmState] = useState(false);
   const [userInput, setUserInput] = useState<number>();
 
@@ -20,8 +20,9 @@ const LiquidationBiddingModal = (props: LiquidationBiddingModalProps) => {
     confirmState == false ? setConfirmState(true) : setConfirmState(false);
   }
 
-  function handleExecuteBid() {
-
+  function processBid() {
+    console.log('run executebid');
+    handleExecuteBid(userInput)
   }
 
   function handleUserChange(val: any) {
@@ -66,7 +67,7 @@ const LiquidationBiddingModal = (props: LiquidationBiddingModalProps) => {
               {
                 confirmState 
                 ?
-                <Button variant="primary" onClick={handleExecuteBid}>Confirm Bid</Button> 
+                <Button variant="primary" onClick={processBid}>Confirm Bid</Button> 
                 : 
                 <Button variant="primary" onClick={handlePlaceBid}>Place Bid</Button> 
             }
