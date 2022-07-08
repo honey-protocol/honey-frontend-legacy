@@ -7,7 +7,7 @@ import * as styles from '../../styles/liquidation.css';
 import LiquidationHeader from 'components/LiquidationHeader/LiquidationHeader';
 import LiquidationCard from '../../components/LiquidationCard/LiquidationCard';
 import { PublicKey } from '@solana/web3.js';
-// import { useAnchor, LiquidatorClient } from '@honey-finance/sdk';
+import { useAnchor } from '@honey-finance/sdk';
 import { HONEY_PROGRAM_ID } from '../../constants/loan';
 import {toastResponse} from '../../helpers/loanHelpers/index';
 
