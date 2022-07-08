@@ -9,8 +9,8 @@ interface LiquidationCardProps {
   loan: any;
   openPositions?: boolean;
   liquidationType?: boolean;
-  handleShowBiddingModal: () => void;
-  showBiddingModal: boolean;
+  handleShowBiddingModal?: () => void;
+  showBiddingModal?: boolean;
 }
 
 const LiquidationCard = (props: LiquidationCardProps) => {
@@ -66,7 +66,7 @@ const LiquidationCard = (props: LiquidationCardProps) => {
       }
       <Box>
         {
-          showBiddingModal && (
+          (showBiddingModal && handleShowBiddingModal) && (
             <LiquidationBiddingModal 
               handleShowBiddingModal={handleShowBiddingModal}
             />
