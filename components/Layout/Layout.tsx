@@ -20,7 +20,7 @@ const Layout: FC<Props> = ({ children }) => {
       className={styles.pageContainer}
     >
       <Head>
-        <title>Honey App</title>
+        <title>Honey Finance</title>
         <meta name="description" content="Liquidity solution for NFTs" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
