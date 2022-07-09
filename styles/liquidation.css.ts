@@ -9,6 +9,7 @@ export const subWrapper = style({
   padding: '1em',
   borderRadius: '1em',
   verticalAlign: 'center',
+  cursor: 'pointer'
 });
 globalStyle(`${subWrapper} > div > div`, {
   alignSelf: 'center'

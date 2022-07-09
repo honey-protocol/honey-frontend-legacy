@@ -76,12 +76,12 @@ const LiquidationPool = () => {
         obligations.map(item => {
           console.log('this is each obligation', item);
           let owner = item.account.owner.toString();
-          // console.log('owner', owner);
+          console.log('?nft?', item.account.collateralNftMint);
           let nftMints:PublicKey[] = item.account.collateralNftMint;
           nftMints.map((nft) => {
             // console.log('this is the nft', nft)
             if(nft.toString() != '11111111111111111111111111111111') {
-              console.log('nftCollateral', nft.toString());
+              console.log('@@@@@----nftCollateral', nft.toString());
             }
           })
         })
@@ -105,7 +105,7 @@ const LiquidationPool = () => {
           await liquidatorClient.revokeBid({
            market: new PublicKey(HONEY_MARKET_ID),
            bidder: wallet.publicKey,
-           bid_mint: 'E6zFcM22QzSy1aUc8MrJQ4MuHQsevGid2yYPo3heujJF',
+           bid_mint: '7aYt3WxZvCZkWmPPaG5orTaQpDSqcnQ6Rast1yVUGZCh',
            withdraw_destination: wallet.publicKey  
           })
         } else if (type == 'place_bid') {
