@@ -100,22 +100,35 @@ const LiquidationPool = () => {
   async function fetchLiquidatorClient(type: string, userBid: number) {
     try {
       const liquidatorClient = await LiquidatorClient.connect(program.provider, HONEY_PROGRAM_ID, false);
-      
-      if (type == 'revoke_bid') {
-        // await liquidatorClient.revokeBid()
-      } else if (type == 'place_bid' && wallet) {
-          await liquidatorClient.placeBid({
-            bid_limit: userBid,
-            market: new PublicKey(HONEY_MARKET_ID),
-            bidder: wallet.publicKey,
-            bid_mint: 'E6zFcM22QzSy1aUc8MrJQ4MuHQsevGid2yYPo3heujJF'
+      if (wallet) {
+        if (type == 'revoke_bid') {
+          await liquidatorClient.revokeBid({
+           market: new PublicKey(HONEY_MARKET_ID),
+           bidder: wallet.publicKey,
+           bid_mint: 'E6zFcM22QzSy1aUc8MrJQ4MuHQsevGid2yYPo3heujJF',
+           withdraw_destination: wallet.publicKey  
           })
+        } else if (type == 'place_bid') {
+            await liquidatorClient.placeBid({
+              bid_limit: userBid,
+              market: new PublicKey(HONEY_MARKET_ID),
+              bidder: wallet.publicKey,
+              bid_mint: 'E6zFcM22QzSy1aUc8MrJQ4MuHQsevGid2yYPo3heujJF'
+            })
         } else if (type == 'increase_bid') {
-            // await liquidatorClient.revokeBid()
+            await liquidatorClient.revokeBid({
+              bid_increase: userBid,
+              market: new PublicKey(HONEY_MARKET_ID),
+              bidder: wallet.publicKey,
+              bid_mint: 'E6zFcM22QzSy1aUc8MrJQ4MuHQsevGid2yYPo3heujJF'
+            })
           }
+      } else {
+          return;
+      }
       } catch (error) {
           return console.log('error:', error);
-        }
+      }
   }
 
   /**

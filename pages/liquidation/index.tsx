@@ -35,10 +35,6 @@ const Liquidation: NextPage = () => {
       averageLVT: 69,
     },
   ];
-  
-  function handleBid() {
-    console.log('bid fired')
-  }
 
   const headerData = [ 'Collection', 'Total Collateral', 'Total Debt','Average LVT', '']
 
