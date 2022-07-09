@@ -5,7 +5,7 @@ export const liquidationHeaderWrapper = style({
   color: 'white',
   fontSize: '1.2em',
   margin: '.75em 0',
-  padding: '1em',
+  padding: '.1em',
 });
 
 export const liquidationHeaderContainer = style({

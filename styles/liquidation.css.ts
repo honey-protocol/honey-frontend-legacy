@@ -9,7 +9,6 @@ export const subWrapper = style({
   padding: '1em',
   borderRadius: '1em',
   verticalAlign: 'center',
-  cursor: 'pointer'
 });
 globalStyle(`${subWrapper} > div > div`, {
   alignSelf: 'center'
@@ -251,4 +250,19 @@ export const healthFactor = style({
   fontWeight: '600',
   padding: '.5em 1em',
   borderRadius: '10px'
+});
+
+export const callToActionContainer = style({
+  display: 'flex',
+  flexDirection: 'row',
+  justifyContent: 'space-between'
+});
+
+globalStyle(`${callToActionContainer} > h2`, {
+  color: 'rgb(179,179,179)',
+  fontWeight: '500'
+});
+
+globalStyle(`${callToActionContainer} > h2 > span`, {
+  fontWeight: '300'
 });

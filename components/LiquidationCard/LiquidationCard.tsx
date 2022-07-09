@@ -19,7 +19,7 @@ const LiquidationCard = (props: LiquidationCardProps) => {
 
   return (
     <Box className={styles.subWrapper}>
-      <Box onClick={handleShowBiddingModal} className={styles.subContainer}>
+      <Box className={styles.subContainer}>
         <Text>{loan.position}</Text>
         <Text>{loan.debt} SOL</Text>
         <Text>{loan.address}</Text>
