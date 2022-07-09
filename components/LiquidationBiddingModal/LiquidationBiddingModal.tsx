@@ -7,7 +7,7 @@ import Link from 'next/link';
 import { IconClose } from 'degen';
 
 interface LiquidationBiddingModalProps {
-  handleShowBiddingModal?: () => void;
+  handleShowBiddingModal: () => void;
   handleExecuteBid: (userBid: any) => void;
 }
 

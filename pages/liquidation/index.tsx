@@ -9,6 +9,7 @@ import LiquidationCard from '../../components/LiquidationCard/LiquidationCard';
 import { PublicKey } from '@solana/web3.js';
 import {toastResponse} from '../../helpers/loanHelpers/index';
 import { useConnectedWallet } from '@saberhq/use-solana';
+import LiquidationCollectionCard from '../../components/LiquidationCollectionCard/LiquidationCollectionCard';
 
 
 const Liquidation: NextPage = () => {
@@ -34,6 +35,7 @@ const Liquidation: NextPage = () => {
       averageLVT: 69,
     },
   ];
+  
   function handleBid() {
     console.log('bid fired')
   }
@@ -57,11 +59,9 @@ const Liquidation: NextPage = () => {
                   key={i}
                 >
                   <a>
-                    <LiquidationCard 
+                    <LiquidationCollectionCard 
                       key={i}
                       loan={loan}
-                      openPositions={openPositions}
-                      handleExecuteBid={handleBid}
                     />
                   </a>
                 </Link>

@@ -58,19 +58,6 @@ const Loan: NextPage = () => {
         let obligations = await program?.account?.obligation?.all();
         if (obligations) {
           setTotalMarketPositions(obligations.length);
-
-          console.log('obligations', obligations);
-
-          obligations.map(item => {
-            let owner = item.account.owner.toString();
-            // console.log('owner', owner);
-            let nftMints:PublicKey[] = item.account.collateralNftMint;
-            nftMints.map((nft) => {
-              if(nft.toString() != '11111111111111111111111111111111') {
-                console.log('nftCollateral', nft.toString());
-              }
-            })
-          })
         }
       }
 

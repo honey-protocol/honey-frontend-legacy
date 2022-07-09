@@ -10,13 +10,15 @@ import LiquidationHeader from 'components/LiquidationHeader/LiquidationHeader';
 import LiquidationCard from 'components/LiquidationCard/LiquidationCard';
 import { useAnchor, LiquidatorClient } from '@honey-finance/sdk';
 import { HONEY_PROGRAM_ID, HONEY_MARKET_ID } from '../../../constants/loan';
-import { publicKey } from '@project-serum/anchor/dist/cjs/utils';
 import { LAMPORTS_PER_SOL, PublicKey } from '@solana/web3.js';
+import LiquidationBiddingModal from 'components/LiquidationBiddingModal/LiquidationBiddingModal';
 
 const LiquidationPool = () => {
+  // init anchor
   const { program } = useAnchor();
   // create wallet instance for PK
   const wallet = useConnectedWallet();
+  const [currentObligations, setCurrentObligations] = useState();
 
   const headerData = ['Position', 'Debt', 'Address', 'LTV %', 'Health Factor', 'Highest Bid'];
   const dataSet = [
@@ -63,14 +65,37 @@ const LiquidationPool = () => {
   ];
 
   const [showBiddingModal, setBiddingModal] = useState(false);
+
+  useEffect(() => {
+    async function fetchObligations() {
+      console.log('fetching obligations...');
+      let obligations = await program?.account?.obligation?.all();
+      if (obligations) {
+        console.log('obligations', obligations);
+
+        obligations.map(item => {
+          console.log('this is each obligation', item);
+          let owner = item.account.owner.toString();
+          // console.log('owner', owner);
+          let nftMints:PublicKey[] = item.account.collateralNftMint;
+          nftMints.map((nft) => {
+            // console.log('this is the nft', nft)
+            if(nft.toString() != '11111111111111111111111111111111') {
+              console.log('nftCollateral', nft.toString());
+            }
+          })
+        })
+      }
+    }
+
+    fetchObligations();
+}, [program]);
   
   function handleShowBiddingModal() {
     showBiddingModal == false ? setBiddingModal(true) : setBiddingModal(false);
   }
 
-  useEffect(() => {
-
-  }, [showBiddingModal]);
+  useEffect(() => {}, [showBiddingModal]);
 
   async function fetchLiquidatorClient(type: string, userBid: number) {
     try {
@@ -214,10 +239,19 @@ const LiquidationPool = () => {
                 loan={loan}
                 liquidationType={true}
                 handleShowBiddingModal={handleShowBiddingModal}
-                showBiddingModal={showBiddingModal}
-                handleExecuteBid={handleExecuteBid}
+                handleExecuteBid={() => handleExecuteBid}
               />
             ))
+          }
+        </Box>
+        <Box>
+          {
+            showBiddingModal && (
+              <LiquidationBiddingModal 
+                handleShowBiddingModal={handleShowBiddingModal}
+                handleExecuteBid={handleExecuteBid}
+              />
+            )
           }
         </Box>
       </Stack>
