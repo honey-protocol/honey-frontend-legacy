@@ -1,9 +1,10 @@
 import React, { FC, ReactNode, useState } from 'react';
 import Head from 'next/head';
-import { Box, Stack } from 'degen';
+import { Box, Stack, Text } from 'degen';
 import UserInfo from '../UserInfo/UserInfo';
 import Sidebar from '../Sidebar/Sidebar';
 import * as styles from './Layout.css';
+import { useTPS } from '../../hooks/useTPS';
 
 interface Props {
   children: ReactNode;
@@ -11,6 +12,7 @@ interface Props {
 
 const Layout: FC<Props> = ({ children }) => {
   const [showMobileSidebar, setShowMobileSidebar] = useState(false);
+  const tps = useTPS();
   return (
     <Box
       height="full"
@@ -37,6 +39,24 @@ const Layout: FC<Props> = ({ children }) => {
           }
         >
           <Stack flex={1} direction="vertical">
+            <Box
+              width='full'
+              height='16'
+              padding='0'
+              paddingRight='5'
+              display='flex'
+              borderRadius='large'
+              backgroundColor='background'
+              justifyContent='flex-end'
+              alignItems='center'
+            >
+              <Text size='small'
+                    align='left'
+                    weight='normal'
+                    color='textTertiary'>Solana Network: </Text>
+              <Text align='right' weight='medium' whiteSpace='pre-wrap'>{` ${tps} TPS`}</Text>
+
+            </Box>
             <UserInfo setShowMobileSidebar={setShowMobileSidebar} />
             {children}
           </Stack>
