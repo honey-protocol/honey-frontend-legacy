@@ -17,6 +17,12 @@ const Liquidation: NextPage = () => {
 
   const dataSet = [
     {
+      collection: 'Honey Eyes',
+      totalCollateral: '63',
+      totalDebt: 482,
+      averageLVT: 62,
+    },
+    {
       collection: 'SMB',
       totalCollateral: '63',
       totalDebt: 482,
@@ -36,7 +42,7 @@ const Liquidation: NextPage = () => {
     },
   ];
 
-  const headerData = [ 'Collection', 'Total Collateral', 'Total Debt','Average LVT', '']
+  const headerData = [ 'Collection', 'Total Collateral', 'Total Debt','Average LTV', '']
 
   return (
     <Layout>

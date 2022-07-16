@@ -37,7 +37,7 @@ const LiquidationBiddingModal = (props: LiquidationBiddingModalProps) => {
             </Box>
             <Box>
               <Text>Market:</Text>
-              <Text><i>SMB - Solana Monkey Business</i></Text>
+              <Text><i>HNY - Honey Eyes</i></Text>
             </Box>
             <Box>
               <Text>Minimum Bid Ask:</Text>

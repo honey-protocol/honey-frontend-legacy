@@ -242,7 +242,7 @@ const LiquidationPool = () => {
           </Stack>
         </Box>
         <Box className={styles.callToActionContainer}>
-          <h2>Collection: <span>SMB</span></h2>
+          <h2>Collection: <span>Honey Eyes</span></h2>
           <Button variant="primary" onClick={handleShowBiddingModal}>
               Place Bid on Collection
             </Button>
