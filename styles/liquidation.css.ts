@@ -1,26 +1,28 @@
 import { style, globalStyle } from '@vanilla-extract/css';
 import { sprinkles, vars } from './theme.css';
-
+/**
+ * set initial styles for the main liq. wrapper
+*/
 export const liquidationWrapper = style({
   width: '100%',
   padding: '0',
   margin: 0
 });
-
+/**
+ * set base color to white
+*/
 globalStyle(`${liquidationWrapper} > *`, {
   color: 'white'
 });
-
+/**
+ * base card layout liq. market overview
+*/
 export const subWrapper = style({
-  '@media': {
-    'screen and (min-width: 420px)': {
-      background: 'rgb(30, 30, 30)',
-      margin: '.75em 0',
-      padding: '1em',
-      borderRadius: '1em',
-      verticalAlign: 'center',
-    }
-  }
+  background: 'rgb(30, 30, 30)',
+  margin: '.75em 0',
+  padding: '1em',
+  borderRadius: '1em',
+  verticalAlign: 'center',
 });
 
 globalStyle(`${subWrapper} > div > div`, {
@@ -41,6 +43,20 @@ globalStyle(`${subContainer} > div`, {
 
 globalStyle(`${subContainer} button`, {
   margin: '0 auto'
+});
+
+globalStyle(`${subContainer} div:nth-child(n+2)`, {
+  display: 'none',
+  '@media': {
+    'screen and (min-width: 720px)': {
+      display: 'flex',
+      justifyContent: 'center'
+    }
+  }
+});
+
+globalStyle(`${subContainer} div:last-child`, {
+  display: 'flex',
 });
 
 export const imageWrapper = style({
