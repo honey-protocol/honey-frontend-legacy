@@ -20,12 +20,29 @@ const LiquidationCard = (props: LiquidationCardProps) => {
   return (
     <Box className={styles.subWrapper}>
       <Box className={styles.subContainer}>
-        <Text>{loan.position}</Text>
-        <Text>{loan.debt} SOL</Text>
-        <Text>{loan.address}</Text>
-        <Text>{loan.lvt} %</Text>
-        <Box className={styles.healthFactor}>{loan.healthFactor}</Box>
-        <Text>{loan.highestBid} SOL</Text>
+        <Box className={styles.collectionCard}>
+          <Box className={styles.collectionCardWrapper}>
+            <Text>Position:</Text>
+            <Text>{loan.position}</Text>
+          </Box>
+          <Box className={styles.collectionCardWrapper}>
+            <Text>Debt:</Text>
+            <Text>{loan.debt} SOL</Text>
+          </Box>
+          <Box className={styles.healthFactor}>{loan.healthFactor}</Box>
+          <Box className={styles.collectionCardWrapper}>
+            <Text>LVT:</Text>  
+            <Text>{loan.lvt} %</Text>
+          </Box>
+          <Box className={styles.collectionCardWrapper}>
+            <Text>Bid:</Text>  
+            <Text>{loan.highestBid} SOL</Text>
+          </Box>
+          <Box className={styles.collectionCardWrapper}>
+            <Text>Address:</Text>  
+            <Text>{loan.address}</Text>
+          </Box>
+        </Box>
       </Box>
     </Box>
   );

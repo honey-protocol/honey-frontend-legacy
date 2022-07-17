@@ -20,7 +20,7 @@ globalStyle(`${liquidationWrapper} > *`, {
 export const subWrapper = style({
   background: 'rgb(30, 30, 30)',
   margin: '.75em 0',
-  padding: '1em',
+  padding: '.75em',
   borderRadius: '1em',
   verticalAlign: 'center',
 });
@@ -57,6 +57,49 @@ globalStyle(`${subContainer} div:nth-child(n+2)`, {
 
 globalStyle(`${subContainer} div:last-child`, {
   display: 'flex',
+  justifyContent: 'space-between',
+});
+
+export const collectionCard = style({
+  display: 'flex',
+  height: '8em',
+  flexDirection: 'column',
+  flexWrap: 'wrap',
+  minWidth: '10em',
+  marginLeft: '-1em',
+  '@media': {
+    'screen and (min-width: 720px)': {
+      marginLeft: 0
+    }
+  }
+});
+
+globalStyle(`${collectionCard} div:nth-child(n+2)`, {
+  display: 'flex',
+  flexDirection: 'row',
+  justifyContent: 'space-around',
+  flexWrap: 'wrap',
+});
+
+globalStyle(`${collectionCard} div:first-child`, {
+  display: 'flex',
+  flexDirection: 'row',
+  justifyContent: 'space-around',
+});
+
+globalStyle(`${collectionCard} > div`, {
+  width: '50%',
+  height: '2em',
+  margin: '.25em',
+  justifyContent: 'center',
+  display: 'flex'
+});
+
+export const collectionCardWrapper = style({
+  flexDirection: 'row',
+  justifyContent: 'space-between',
+  alignItems: 'center',
+  verticalAlign: 'center'
 });
 
 export const imageWrapper = style({
@@ -300,8 +343,13 @@ export const healthFactor = style({
 
 export const callToActionContainer = style({
   display: 'flex',
-  flexDirection: 'row',
-  justifyContent: 'space-between'
+  flexDirection: 'column',
+  justifyContent: 'space-between',
+  '@media': {
+    'screen and (min-width: 720px)': {
+      flexDirection: 'row'
+    }
+  }
 });
 
 globalStyle(`${callToActionContainer} > h2`, {
