@@ -69,7 +69,58 @@ export const collectionCard = style({
   marginLeft: '-1em',
   '@media': {
     'screen and (min-width: 720px)': {
-      marginLeft: 0
+      marginLeft: 0,
+      flexWrap: 'nowrap',
+      height: 'auto',
+      flexDirection: 'row',
+    }
+  }
+});
+
+globalStyle(`${subContainer} div:nth-child(1)`, {
+  '@media': {
+    'screen and (min-width: 720px)': {
+      order: '1'
+    }
+  }
+});
+
+globalStyle(`${subContainer} div:nth-child(2)`, {
+  '@media': {
+    'screen and (min-width: 720px)': {
+      order: '2'
+    }
+  }
+});
+
+globalStyle(`${subContainer} div:nth-child(3)`, {
+  '@media': {
+    'screen and (min-width: 720px)': {
+      order: '5'
+    }
+  }
+});
+
+globalStyle(`${subContainer} div:nth-child(4)`, {
+  '@media': {
+    'screen and (min-width: 720px)': {
+      order: '4'
+    }
+  }
+});
+
+globalStyle(`${subContainer} div:nth-child(5)`, {
+  '@media': {
+    'screen and (min-width: 720px)': {
+      order: '6'
+    }
+  }
+});
+
+globalStyle(`${subContainer} div:nth-child(6)`, {
+  '@media': {
+    'screen and (min-width: 720px)': {
+      order: '3'
     }
   }
 });
@@ -92,14 +143,31 @@ globalStyle(`${collectionCard} > div`, {
   height: '2em',
   margin: '.25em',
   justifyContent: 'center',
-  display: 'flex'
+  display: 'flex',
+  '@media': {
+    'screen and (min-width: 720px)': {
+      width: '20%'
+    }
+  }
 });
 
 export const collectionCardWrapper = style({
   flexDirection: 'row',
-  justifyContent: 'space-between',
+  justifyContent: 'space-around',
   alignItems: 'center',
-  verticalAlign: 'center'
+  verticalAlign: 'center',
+  '@media': {
+    'screen and (min-width: 720px)': {
+    }
+  }
+});
+
+globalStyle(`${collectionCardWrapper} > div:first-child`, {
+  '@media': {
+    'screen and (min-width: 720px)': {
+      display: 'none'
+    }
+  }
 });
 
 export const imageWrapper = style({
@@ -333,14 +401,6 @@ globalStyle(`${nftDetailBlock} button`, {
   width: '100%',
 }); 
 
-export const healthFactor = style({
-  background: 'rgb(26, 58, 34)',
-  color: 'rgb(48, 208, 88)',
-  fontWeight: '600',
-  padding: '.5em 1em',
-  borderRadius: '10px'
-});
-
 export const callToActionContainer = style({
   display: 'flex',
   flexDirection: 'column',
@@ -359,4 +419,22 @@ globalStyle(`${callToActionContainer} > h2`, {
 
 globalStyle(`${callToActionContainer} > h2 > span`, {
   fontWeight: '300'
+});
+
+export const healthFactor = style({
+  background: 'rgb(26, 58, 34)',
+  color: 'rgb(48, 208, 88)',
+  fontWeight: '600',
+  padding: '.5em 1em',
+  borderRadius: '10px',
+  width: '7em!important',
+  margin: '0 auto',
+  marginLeft: '.5em!important',
+  '@media': {
+    'screen and (min-width: 350px)': {
+      marginLeft: 0,
+      margin: '0 auto!important',
+      alignSelf: 'center'
+    }
+  }
 });

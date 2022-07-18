@@ -2,18 +2,29 @@ import { style, globalStyle } from '@vanilla-extract/css';
 import { sprinkles, vars } from '../../styles/theme.css';
 
 export const liquidationBiddingModalWrapper = style({
-  width: '30em',
-  height: '40em',
+  width: '98%',
+  height: '100%',
   background: 'rgb(30, 30, 30)',
   position: 'absolute',
-  left: '50%',
-  top: '50%',
-  marginLeft: '-15em',
-  marginTop: '-20em',
-  border: '2px solid black',
+  left: '1%',
+  top: '1%',
+  marginLeft: '0',
+  marginTop: '0',
+  border: 'none',
   borderRadius: '10px',
   color: 'white',
-  padding: '2em',
+  padding: '.5em',
+  '@media': {
+    'screen and (min-width: 720px)': {
+      width: '30em',
+      height: '40em',
+      left: '50%',
+      top: '50%',
+      marginLeft: '-15em',
+      marginTop: '-20em',
+      border: '2px solid black',
+    }
+  }
 });
 
 globalStyle(`${liquidationBiddingModalWrapper} > div`, {
@@ -39,6 +50,12 @@ export const buttonWrapper = style({
 
 globalStyle(`${buttonWrapper} > button`, {
   width: '100%',
+  marginTop: '8.5em',
+  '@media': {
+    'screen and (min-width: 720px)': {
+      marginTop: '3.5em'
+    }
+  }
 });
 
 export const inputWrapper = style({
