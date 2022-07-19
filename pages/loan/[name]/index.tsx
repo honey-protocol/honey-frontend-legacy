@@ -31,7 +31,7 @@ import {
   i64Field,
   ReserveStateLayout,
   HoneyReserve
-} from '../../../../honey-sdk';
+} from '@honey-finance/sdk';
 import { RoundHalfDown } from 'helpers/utils';
 import {
   parseMappingData,
@@ -176,7 +176,9 @@ const Loan: NextPage = () => {
         userLoans = marketReserveInfo[0].loanNoteExchangeRate.mul(honeyUser?.loans()[0]?.amount).div(new BN(10 ** 15)).toNumber() * 1.002 / LAMPORTS_PER_SOL;
 
         totalDebt = marketReserveInfo[0].loanNoteExchangeRate.mul(honeyUser?.loans()[0]?.amount).div(new BN(10 ** 15)).toNumber() / LAMPORTS_PER_SOL;
-
+        console.log('marketReserveInfo[0].loanNoteExchangeRate', marketReserveInfo[0].loanNoteExchangeRate.toString());
+        console.log('honeyUser?.loans()[0]?.amount', honeyUser?.loans()[0]?.amount.toString());
+        console.log('totalDebt', totalDebt);
       }
     }
     const lvt = totalDebt / nftPrice;

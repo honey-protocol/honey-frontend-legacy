@@ -12,7 +12,7 @@ import * as styles from '../../styles/loan.css';
 import LoanHeaderComponent from 'components/LoanHeaderComponent/LoanHeaderComponent';
 import CreateMarket from 'pages/createmarket';
 import  { ConfigureSDK } from '../../helpers/loanHelpers';
-import { useMarket, useBorrowPositions, useHoney, useAnchor } from '../../../honey-sdk';
+import { useMarket, useBorrowPositions, useHoney, useAnchor, useAllPositions } from '@honey-finance/sdk'
 import {TYPE_ZERO, TYPE_ONE} from '../../constants/loan';
 import BN from 'bn.js';
 import { LAMPORTS_PER_SOL, PublicKey } from '@solana/web3.js';
@@ -29,9 +29,14 @@ const Loan: NextPage = () => {
     * @params none
     * @returns market | market reserve information | parsed reserves |
   */
-  const { market, marketReserveInfo, parsedReserves }  = useHoney();
-  const { honeyUser, honeyReserves } = useMarket(sdkConfig.saberHqConnection, sdkConfig.sdkWallet!, sdkConfig.honeyId, sdkConfig.marketId);
-
+  const { parsedReserves }  = useHoney();
+  // const { honeyReserves } = useMarket(sdkConfig.saberHqConnection, sdkConfig.sdkWallet!, sdkConfig.honeyId, sdkConfig.marketId);
+  let { positions } = useAllPositions(
+    // sdkConfig.saberHqConnection,
+    program?.provider?.connection,
+    sdkConfig.sdkWallet!,
+    sdkConfig.honeyId,
+    sdkConfig.marketId);
   /**
    *
   */
@@ -54,28 +59,20 @@ const Loan: NextPage = () => {
 
   useEffect(() => {
       async function fetchObligations() {
-        console.log('fetching obligations...');
         let obligations = await program?.account?.obligation?.all();
+        console.log('obligations', obligations)
         if (obligations) {
           setTotalMarketPositions(obligations.length);
-
-          console.log('obligations', obligations);
-
-          obligations.map(item => {
-            let owner = item.account.owner.toString();
-            // console.log('owner', owner);
-            let nftMints:PublicKey[] = item.account.collateralNftMint;
-            nftMints.map((nft) => {
-              if(nft.toString() != '11111111111111111111111111111111') {
-                console.log('nftCollateral', nft.toString());
-              }
-            })
-          })
         }
       }
 
       fetchObligations();
-  }, [program]);
+
+      console.log('positions', positions);
+  }, [
+    positions,
+    program
+  ]);
 
   /**
    * @description sets state of marketValue by parsing lamports outstanding debt amount to SOL
@@ -88,24 +85,24 @@ const Loan: NextPage = () => {
     }
   }, [parsedReserves]);
 
-  useEffect(() => {
-    const depositTokenMint = new PublicKey('So11111111111111111111111111111111111111112');
+  // useEffect(() => {
+  //   const depositTokenMint = new PublicKey('So11111111111111111111111111111111111111112');
 
-    if (honeyReserves) {
-      const depositReserve = honeyReserves.filter((reserve) =>
-        reserve?.data?.tokenMint?.equals(depositTokenMint),
-      )[0];
+  //   if (honeyReserves) {
+  //     const depositReserve = honeyReserves.filter((reserve) =>
+  //       reserve?.data?.tokenMint?.equals(depositTokenMint),
+  //     )[0];
 
-      const reserveState = depositReserve.data?.reserveState;
-      let marketDebt = reserveState?.outstandingDebt.div(new BN(10 ** 15)).toNumber();
-      if (marketDebt) {
-        let sum = Number((marketDebt / LAMPORTS_PER_SOL))
+  //     const reserveState = depositReserve.data?.reserveState;
+  //     let marketDebt = reserveState?.outstandingDebt.div(new BN(10 ** 15)).toNumber();
+  //     if (marketDebt) {
+  //       let sum = Number((marketDebt / LAMPORTS_PER_SOL))
 
-        setTotalMarketDebt(sum);
-      }
-    }
+  //       setTotalMarketDebt(sum);
+  //     }
+  //   }
 
-  }, [honeyReserves]);
+  // }, [honeyReserves]);
 
   /**
    * @description state to update open positions
@@ -119,7 +116,12 @@ const Loan: NextPage = () => {
    * @params none
    * @returns collateralNFTPositions | loading | error
   */
-  let { loading, collateralNFTPositions, error } = useBorrowPositions(sdkConfig.saberHqConnection, sdkConfig.sdkWallet!, sdkConfig.honeyId, sdkConfig.marketId)
+  let { loading, collateralNFTPositions, error } = useBorrowPositions(
+    // sdkConfig.saberHqConnection,
+    program?.provider?.connection,
+    sdkConfig.sdkWallet!,
+    sdkConfig.honeyId,
+    sdkConfig.marketId)
   /**
    * @description sets open positions
    * @params none
