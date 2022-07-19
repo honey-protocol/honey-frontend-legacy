@@ -12,7 +12,9 @@ import * as styles from '../../styles/loan.css';
 import LoanHeaderComponent from 'components/LoanHeaderComponent/LoanHeaderComponent';
 import CreateMarket from 'pages/createmarket';
 import  { ConfigureSDK } from '../../helpers/loanHelpers';
-import { useMarket, useBorrowPositions, useHoney, useAnchor } from '@honey-finance/sdk';
+import { useMarket, useBorrowPositions, useHoney, useAnchor }
+  // from '@honey-finance/sdk';
+  from '../../../honey-sdk';
 import {TYPE_ZERO, TYPE_ONE} from '../../constants/loan';
 import BN from 'bn.js';
 import { LAMPORTS_PER_SOL, PublicKey } from '@solana/web3.js';
