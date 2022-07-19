@@ -9,7 +9,9 @@ import 'react-toastify/dist/ReactToastify.css';
 import { accentSequence, ThemeAccent } from 'helpers/theme-utils';
 import { PartialNetworkConfigMap } from '@saberhq/use-solana/src/utils/useConnectionInternal';
 import SecPopup from 'components/SecPopup';
-import { AnchorProvider, HoneyProvider } from '../../honey-sdk';
+import { AnchorProvider, HoneyProvider }
+  // from '@honey-finance/sdk';
+  from '../../honey-sdk';
 import { useConnectedWallet, useConnection } from '@saberhq/use-solana';
 import React, { FC, ReactNode, useEffect, useState } from "react";
 import Script from 'next/script';

@@ -83,7 +83,7 @@ const sdkConfig = ConfigureSDK();
    * @returns market | market reserve information | parsed reserves |
   */
    const { market, marketReserveInfo, parsedReserves, fetchMarket }  = useHoney();
-  
+
    /**
    * @description calls upon the honey sdk - market
    * @params solanas useConnection func. && useConnectedWallet func. && JET ID
@@ -102,7 +102,7 @@ const sdkConfig = ConfigureSDK();
    useEffect(() => {
     setTimeout(() => {
       let depositNoteExchangeRate = 0, loanNoteExchangeRate = 0, nftPrice = 0, cRatio = 1;
-      
+
       if(marketReserveInfo) {
         nftPrice = 2;
         depositNoteExchangeRate = BnToDecimal(marketReserveInfo[0].depositNoteExchangeRate, 15, 5);
@@ -118,7 +118,7 @@ const sdkConfig = ConfigureSDK();
   /**
    * @description sets state of marketValue by parsing lamports outstanding debt amount to SOL
    * @params none, requires parsedReserves
-   * @returns updates marketValue 
+   * @returns updates marketValue
   */
   useEffect(() => {
     if (parsedReserves && parsedReserves[0].reserveState.totalDeposits) {
@@ -141,10 +141,10 @@ const sdkConfig = ConfigureSDK();
       const tokenAmount =  value * LAMPORTS_PER_SOL;
       const depositTokenMint = new PublicKey('So11111111111111111111111111111111111111112');
       const tx = await deposit(honeyUser, tokenAmount, depositTokenMint, honeyReserves);
-      
+
       if (tx[0] == 'SUCCESS') {
         toastResponse('SUCCESS', 'Deposit success', 'SUCCESS', 'DEPOSIT');
-        
+
         let refreshedHoneyReserves = await honeyReserves[0].sendRefreshTx();
         const latestBlockHash = await sdkConfig.saberHqConnection.getLatestBlockhash()
 
@@ -178,7 +178,7 @@ const sdkConfig = ConfigureSDK();
       const tokenAmount =  value * LAMPORTS_PER_SOL;
       const depositTokenMint = new PublicKey('So11111111111111111111111111111111111111112');
       const tx = await withdraw(honeyUser, tokenAmount, depositTokenMint, honeyReserves);
-      
+
       if (tx[0] == 'SUCCESS') {
         toastResponse('SUCCESS', 'Withdraw success', 'SUCCESS', 'WITHDRAW');
         let refreshedHoneyReserves = await honeyReserves[0].sendRefreshTx();

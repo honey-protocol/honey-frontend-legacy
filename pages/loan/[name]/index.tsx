@@ -31,7 +31,8 @@ import {
   i64Field,
   ReserveStateLayout,
   HoneyReserve
-} from '@honey-finance/sdk';
+// } from '@honey-finance/sdk';
+} from '../../../../honey-sdk'
 import { RoundHalfDown } from 'helpers/utils';
 import {
   parseMappingData,
