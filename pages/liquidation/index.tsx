@@ -43,6 +43,9 @@ const Liquidation: NextPage = () => {
   const [openPositions, setOpenPositions] = useState(false);
   const [loadingState, setLoadingState] = useState(true);
   const [fetchedPositions, setFetchedPositions] = useState<Array<OpenObligation>>([]);
+  const [totalMarketDebt, setTotalMarketDebt] = useState(0);
+  const [totalMarketNFTs, setTotalMarketNFTs] = useState(0);
+  const [averageMarketLVT, setaverageMarketLVT] = useState(0);
   /**
    * @description
    * @params
@@ -51,28 +54,10 @@ const Liquidation: NextPage = () => {
   const dataSet = [
     {
       collection: 'Honey Eyes',
-      totalCollateral: '63',
-      totalDebt: 482,
-      averageLVT: 62,
-    },
-    {
-      collection: 'SMB',
-      totalCollateral: '63',
-      totalDebt: 482,
-      averageLVT: 62,
-    },
-    {
-      collection: 'COFRE',
-      totalCollateral: '122',
-      totalDebt: 301,
-      averageLVT: 58,
-    },
-    {
-      collection: 'PNK',
-      totalCollateral: '319',
-      totalDebt: 867,
-      averageLVT: 69,
-    },
+      totalCollateral: totalMarketNFTs,
+      totalDebt: totalMarketDebt,
+      averageLTV: averageMarketLVT,
+    }
   ];
   /**
    * @description
@@ -90,11 +75,27 @@ const Liquidation: NextPage = () => {
   useEffect(() => {
     if (status.positions) {
       setFetchedPositions(status.positions);
-      // console.log('@@@@____status.poisitions', status.positions)
+      setTotalMarketNFTs(status.positions.length);
     }
   }, [status]);
 
-  if (fetchedPositions) console.log('@@@__Fetched_Positions_Success', fetchedPositions)
+  async function calculateMarketValues(market: any) {
+    // total market debt
+    let tmd = 0;
+    // average market lvt
+    let amltv = 0;
+
+    await market.map((m: any) => {
+      tmd += m.debt;
+      amltv += m.ltv
+    });
+    
+    setTotalMarketDebt(tmd);
+    setaverageMarketLVT(amltv / market.length);
+  }
+
+  if (fetchedPositions) calculateMarketValues(fetchedPositions);
+
   return (
     <Layout>
       <Stack>

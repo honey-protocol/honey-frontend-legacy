@@ -22,7 +22,7 @@ const LiquidationCollectionCard = (props: LiquidationCollectionCardProps) => {
             <Box className={styles.subContainer}>
               <Text>{loan.collection}</Text>
               <Text>{loan.totalCollateral} NFTs</Text>
-              <Text>{loan.averageLVT}%</Text>
+              <Text>{loan.averageLTV}%</Text>
               <Text>{loan.totalDebt} SOL</Text>
               <Text>    
                 <Button variant="primary">
