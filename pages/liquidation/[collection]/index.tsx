@@ -8,7 +8,7 @@ import * as styles from '../../../styles/liquidation.css';
 import { useConnectedWallet } from '@saberhq/use-solana';
 import LiquidationHeader from 'components/LiquidationHeader/LiquidationHeader';
 import LiquidationCard from 'components/LiquidationCard/LiquidationCard';
-import { useAnchor, LiquidatorClient } from '@honey-finance/sdk';
+import { useAnchor, LiquidatorClient } from '../../../../honey-sdk';
 import { HONEY_PROGRAM_ID, HONEY_MARKET_ID } from '../../../constants/loan';
 import { LAMPORTS_PER_SOL, PublicKey } from '@solana/web3.js';
 import LiquidationBiddingModal from 'components/LiquidationBiddingModal/LiquidationBiddingModal';
@@ -72,6 +72,7 @@ const LiquidationPool = () => {
       let obligations = await program?.account?.obligation?.all();
       if (obligations) {
         console.log('obligations', obligations);
+        console.log('___TOTAL_OBLIGATIONS___', obligations.length);
 
         obligations.map(item => {
           console.log('this is each obligation', item);

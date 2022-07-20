@@ -10,11 +10,44 @@ import { PublicKey } from '@solana/web3.js';
 import {toastResponse} from '../../helpers/loanHelpers/index';
 import { useConnectedWallet } from '@saberhq/use-solana';
 import LiquidationCollectionCard from '../../components/LiquidationCollectionCard/LiquidationCollectionCard';
+import { useAllPositions, useHoney } from '../../../honey-sdk';
+import { HONEY_MARKET_ID, HONEY_PROGRAM_ID } from 'constants/loan';
+import  { ConfigureSDK } from '../../helpers/loanHelpers';
 
+interface OpenObligation {
+  address: PublicKey,
+  debt: number,
+  highest_bid: number,
+  is_healthy: boolean,
+  ltv: number,
+}
 
 const Liquidation: NextPage = () => {
+  /**
+   * @description
+   * @params
+   * @returns
+  */
+  const sdkConfig = ConfigureSDK();
+  /**
+   * @description
+   * @params
+   * @returns
+  */
+  const { ...status } = useAllPositions(sdkConfig.saberHqConnection, sdkConfig.sdkWallet!, sdkConfig.honeyId, sdkConfig.marketId);
+  /**
+   * @description
+   * @params
+   * @returns
+  */
   const [openPositions, setOpenPositions] = useState(false);
-
+  const [loadingState, setLoadingState] = useState(true);
+  const [fetchedPositions, setFetchedPositions] = useState<Array<OpenObligation>>([]);
+  /**
+   * @description
+   * @params
+   * @returns
+  */
   const dataSet = [
     {
       collection: 'Honey Eyes',
@@ -41,9 +74,27 @@ const Liquidation: NextPage = () => {
       averageLVT: 69,
     },
   ];
-
+  /**
+   * @description
+   * @params
+   * @returns
+  */
   const headerData = [ 'Collection', 'Total Collateral', 'Total Debt','Average LTV', '']
+  
+  
+  /**
+   * @description
+   * @params
+   * @returns
+  */
+  useEffect(() => {
+    if (status.positions) {
+      setFetchedPositions(status.positions);
+      // console.log('@@@@____status.poisitions', status.positions)
+    }
+  }, [status]);
 
+  if (fetchedPositions) console.log('@@@__Fetched_Positions_Success', fetchedPositions)
   return (
     <Layout>
       <Stack>

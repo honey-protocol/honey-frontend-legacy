@@ -22,8 +22,8 @@ const LiquidationCollectionCard = (props: LiquidationCollectionCardProps) => {
             <Box className={styles.subContainer}>
               <Text>{loan.collection}</Text>
               <Text>{loan.totalCollateral} NFTs</Text>
+              <Text>{loan.averageLVT}%</Text>
               <Text>{loan.totalDebt} SOL</Text>
-              <Text>{loan.averageLVT} %</Text>
               <Text>    
                 <Button variant="primary">
                   Place bid
