@@ -413,7 +413,7 @@ const Loan: NextPage = () => {
           // set key equal to name since open positions doesnt contain id but name is with unique number
         />
 
-        <Box>
+        <Box className={styles.flexContainer}>
           {
             borrowModal == 1 && collateralNFTPositions?.length ?
               <BorrowNFTsModule

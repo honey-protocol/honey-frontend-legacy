@@ -45,7 +45,7 @@ const LoanHeaderComponent = (props: LoanHeaderComponentProps) => {
       </Button>
 
       <Button size="small">
-        <a href="https://cofre.so/#/" target="_blank" rel="noreferrer">Mint Cofre NFT</a>
+        <a href="https://mint-site-ten.vercel.app/" target="_blank" rel="noreferrer">Mint Honey Eyes</a>
       </Button>
     </Box>
   );

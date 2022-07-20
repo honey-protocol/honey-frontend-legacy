@@ -187,7 +187,7 @@ const LoanNFTsContainer = (props: LoanNFTsContainerProps) => {
                   )) 
                   : 
                   availableNFTs && availableNFTs.map((nft, i) => (
-                    nft.name.includes('Cofre') && (
+                    nft.name.includes('When') && (
                       <LoanNFTCard
                         selected={selectedId}
                         key={nft.key}

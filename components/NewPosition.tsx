@@ -39,7 +39,7 @@ const LoanNewBorrow = (props: LoanNewBorrowProps) => {
       {
         showCollateralPopup == 1 && 
         <CollateralPopup 
-        setShowCollateralPopup={setShowCollateralPopup}
+          setShowCollateralPopup={setShowCollateralPopup}
         />
       }
       <Stack flex={1} justify={'space-between'}>
@@ -54,7 +54,7 @@ const LoanNewBorrow = (props: LoanNewBorrowProps) => {
         <Stack>
           <hr className={loanStyles.lineDivider}></hr>
           <Box paddingTop="1" paddingBottom="1">
-            <Stack justify="space-between">
+            <Stack justify="flex-start">
               {/* <Stack
                 direction="horizontal"
                 justify="space-between"

@@ -45,8 +45,8 @@ const Loan: NextPage = () => {
   // TODO: should be fetched by SDK
   const assetData: Array<AssetRowType> = [
     {
-      vaultName: 'Cofre',
-      vaultImageUrl: 'https://www.arweave.net/5zeisOPbDekgyqYHd0okraQKaWwlVxvIIiXLH4Sr2M8?ext=png',
+      vaultName: 'Honey Eyes',
+      vaultImageUrl: 'https://mint-site-ten.vercel.app/when-loans.gif',
       totalBorrowed: RoundHalfDown(totalMarketDebt),
       interest: 10,
       available: totalMarkDeposits,
