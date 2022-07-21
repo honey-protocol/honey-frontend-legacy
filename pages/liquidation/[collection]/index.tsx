@@ -134,12 +134,12 @@ const LiquidationPool = () => {
 
   useEffect(() => {
     if (status.positions) {
-      console.log('__@@@__', status.positions[0].address.toString());
+      console.log('__@@@__', status.positions);
       setFetchedPositions(status.positions);
     }
   }, [status]);
 
-  async function fetchLiquidatorClient(type: string, userBid: number) {
+  async function fetchLiquidatorClient(type: string, userBid: number, nftMint: PublicKey) {
     try {
       const liquidatorClient = await LiquidatorClient.connect(program.provider, HONEY_PROGRAM_ID, false);
       if (wallet) {
@@ -147,7 +147,7 @@ const LiquidationPool = () => {
           await liquidatorClient.revokeBid({
            market: new PublicKey(HONEY_MARKET_ID),
            bidder: wallet.publicKey,
-           bid_mint: '7aYt3WxZvCZkWmPPaG5orTaQpDSqcnQ6Rast1yVUGZCh',
+           bid_mint: nftMint,
            withdraw_destination: wallet.publicKey  
           })
         } else if (type == 'place_bid') {
@@ -155,14 +155,14 @@ const LiquidationPool = () => {
               bid_limit: userBid,
               market: new PublicKey(HONEY_MARKET_ID),
               bidder: wallet.publicKey,
-              bid_mint: 'E6zFcM22QzSy1aUc8MrJQ4MuHQsevGid2yYPo3heujJF'
+              bid_mint: nftMint
             })
         } else if (type == 'increase_bid') {
             await liquidatorClient.revokeBid({
               bid_increase: userBid,
               market: new PublicKey(HONEY_MARKET_ID),
               bidder: wallet.publicKey,
-              bid_mint: 'E6zFcM22QzSy1aUc8MrJQ4MuHQsevGid2yYPo3heujJF'
+              bid_mint: nftMint
             })
           }
       } else {
@@ -256,7 +256,7 @@ const LiquidationPool = () => {
 
   // validatePositions();
   async function handleExecuteBid(userBid: any) {
-    await fetchLiquidatorClient('place_bid', userBid)
+    await fetchLiquidatorClient('place_bid', userBid, fetchedPositions[0].address)
   }
 
   if (fetchedPositions) console.log(typeof(fetchedPositions))

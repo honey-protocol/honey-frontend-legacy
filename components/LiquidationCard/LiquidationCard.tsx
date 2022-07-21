@@ -31,8 +31,7 @@ interface LiquidationCardProps {
 
 const LiquidationCard = (props: LiquidationCardProps) => {
   const { openPositions, liquidationType, handleShowBiddingModal, showBiddingModal, handleExecuteBid, loan, key } = props;
-  const healthy = 'High';
-  const notHealthy = 'Medium'
+  console.log('@@@@---', loan)
 
   return (
         <Box className={styles.subWrapper}>
@@ -60,7 +59,7 @@ const LiquidationCard = (props: LiquidationCardProps) => {
             </Box>
             <Box className={styles.collectionCardWrapper}>
               <Text>Bid:</Text>  
-              <Text>{loan.highestBid} SOL</Text>
+              <Text>{loan.highest_bid / LAMPORTS_PER_SOL} SOL</Text>
             </Box>
             <Box className={styles.collectionCardWrapper}>
               <Text>Address:</Text>  
