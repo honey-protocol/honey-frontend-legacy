@@ -13,7 +13,11 @@ import LiquidationCollectionCard from '../../components/LiquidationCollectionCar
 import { useAllPositions, useHoney } from '../../../honey-sdk';
 import { HONEY_MARKET_ID, HONEY_PROGRAM_ID } from 'constants/loan';
 import  { ConfigureSDK } from '../../helpers/loanHelpers';
-
+/**
+ * @description interface for NFT object
+ * @params none
+ * @returns typed object
+*/
 interface OpenObligation {
   address: PublicKey,
   debt: number,
@@ -24,21 +28,23 @@ interface OpenObligation {
 
 const Liquidation: NextPage = () => {
   /**
-   * @description
-   * @params
-   * @returns
+   * @description sets program | market | connection | wallet
+   * @params none
+   * @returns connection with sdk
   */
+  
   const sdkConfig = ConfigureSDK();
   /**
-   * @description
-   * @params
-   * @returns
+   * @description fetches open nft positions
+   * @params connection | wallet | honeyprogramID | honeymarketID
+   * @returns loading | nft positions | error
   */
   const { ...status } = useAllPositions(sdkConfig.saberHqConnection, sdkConfig.sdkWallet!, sdkConfig.honeyId, sdkConfig.marketId);
+  
   /**
-   * @description
-   * @params
-   * @returns
+   * @description state for liquidation
+   * @params none
+   * @returns state variables
   */
   const [openPositions, setOpenPositions] = useState(false);
   const [loadingState, setLoadingState] = useState(true);
@@ -46,10 +52,11 @@ const Liquidation: NextPage = () => {
   const [totalMarketDebt, setTotalMarketDebt] = useState(0);
   const [totalMarketNFTs, setTotalMarketNFTs] = useState(0);
   const [averageMarketLVT, setaverageMarketLVT] = useState(0);
+  
   /**
-   * @description
-   * @params
-   * @returns
+   * @description object which represents the market
+   * @params none
+   * @returns object which represents the market
   */
   const dataSet = [
     {
@@ -59,18 +66,19 @@ const Liquidation: NextPage = () => {
       averageLTV: averageMarketLVT,
     }
   ];
+
   /**
-   * @description
-   * @params
-   * @returns
+   * @description headerdata for market
+   * @params none
+   * @returns array of header data used for header component
   */
   const headerData = [ 'Collection', 'Total Collateral', 'Total Debt','Average LTV', '']
   
   
   /**
-   * @description
-   * @params
-   * @returns
+   * @description update func. for nft positions
+   * @params none
+   * @returns sets state for nft positions
   */
   useEffect(() => {
     if (status.positions) {
@@ -79,10 +87,15 @@ const Liquidation: NextPage = () => {
     }
   }, [status]);
 
+  /**
+   * @description func. that calculates total market debt and average market ltv
+   * @params market
+   * @returns sets totalmarketdebt and averagemarketlvt state
+  */
   async function calculateMarketValues(market: any) {
     // total market debt
     let tmd = 0;
-    // average market lvt
+    // average market ltv
     let amltv = 0;
 
     await market.map((m: any) => {
@@ -93,7 +106,7 @@ const Liquidation: NextPage = () => {
     setTotalMarketDebt(tmd);
     setaverageMarketLVT(amltv / market.length);
   }
-
+  // if there are positions init the average calculations
   if (fetchedPositions) calculateMarketValues(fetchedPositions);
 
   return (
