@@ -8,17 +8,51 @@ import * as styles from '../../../styles/liquidation.css';
 import { useConnectedWallet } from '@saberhq/use-solana';
 import LiquidationHeader from 'components/LiquidationHeader/LiquidationHeader';
 import LiquidationCard from 'components/LiquidationCard/LiquidationCard';
-import { useAnchor, LiquidatorClient } from '../../../../honey-sdk';
+import { useAnchor, LiquidatorClient, useAllPositions } from '../../../../honey-sdk';
+import { ConfigureSDK } from 'helpers/loanHelpers';
 import { HONEY_PROGRAM_ID, HONEY_MARKET_ID } from '../../../constants/loan';
 import { LAMPORTS_PER_SOL, PublicKey } from '@solana/web3.js';
 import LiquidationBiddingModal from 'components/LiquidationBiddingModal/LiquidationBiddingModal';
+
+/**
+ * @description interface for NFT object
+ * @params none
+ * @returns typed object
+*/
+interface OpenObligation {
+  address: PublicKey,
+  debt: number,
+  highest_bid: number,
+  is_healthy: boolean,
+  ltv: number,
+}
 
 const LiquidationPool = () => {
   // init anchor
   const { program } = useAnchor();
   // create wallet instance for PK
   const wallet = useConnectedWallet();
-  const [currentObligations, setCurrentObligations] = useState();
+
+  /**
+   * @description sets program | market | connection | wallet
+   * @params none
+   * @returns connection with sdk
+  */
+   const sdkConfig = ConfigureSDK();
+   /**
+    * @description fetches open nft positions
+    * @params connection | wallet | honeyprogramID | honeymarketID
+    * @returns loading | nft positions | error
+   */
+   const { ...status } = useAllPositions(sdkConfig.saberHqConnection, sdkConfig.sdkWallet!, sdkConfig.honeyId, sdkConfig.marketId);
+   
+   /**
+    * @description the obligations that are being rendered
+    * @params none
+    * @returns obligations
+   */
+   const [fetchedPositions, setFetchedPositions] = useState<Array<OpenObligation>>([]);
+   const [fetchedArrayPositions, setFetchedArrayPositions] = useState();
 
   const headerData = ['Position', 'Debt', 'Address', 'LTV %', 'Health Factor', 'Highest Bid'];
   const dataSet = [
@@ -66,37 +100,44 @@ const LiquidationPool = () => {
 
   const [showBiddingModal, setBiddingModal] = useState(false);
 
-  useEffect(() => {
-    async function fetchObligations() {
-      console.log('fetching obligations...');
-      let obligations = await program?.account?.obligation?.all();
-      if (obligations) {
-        console.log('obligations', obligations);
-        console.log('___TOTAL_OBLIGATIONS___', obligations.length);
+//   useEffect(() => {
+//     async function fetchObligations() {
+//       console.log('fetching obligations...');
+//       let obligations = await program?.account?.obligation?.all();
+//       if (obligations) {
+//         console.log('obligations', obligations);
+//         console.log('___TOTAL_OBLIGATIONS___', obligations.length);
 
-        obligations.map(item => {
-          console.log('this is each obligation', item);
-          let owner = item.account.owner.toString();
-          console.log('?nft?', item.account.collateralNftMint);
-          let nftMints:PublicKey[] = item.account.collateralNftMint;
-          nftMints.map((nft) => {
-            // console.log('this is the nft', nft)
-            if(nft.toString() != '11111111111111111111111111111111') {
-              console.log('@@@@@----nftCollateral', nft.toString());
-            }
-          })
-        })
-      }
-    }
+//         obligations.map(item => {
+//           console.log('this is each obligation', item);
+//           let owner = item.account.owner.toString();
+//           console.log('collateral_NFT_Mint', item.account.collateralNftMint);
+//           let nftMints:PublicKey[] = item.account.collateralNftMint;
+//           nftMints.map((nft) => {
+//             // console.log('this is the nft', nft)
+//             if(nft.toString() != '11111111111111111111111111111111') {
+//               console.log('@@@@@----nftCollateral', nft.toString());
+//             }
+//           })
+//         })
+//       }
+//     }
 
-    fetchObligations();
-}, [program]);
+//     fetchObligations();
+// }, [program]);
   
   function handleShowBiddingModal() {
     showBiddingModal == false ? setBiddingModal(true) : setBiddingModal(false);
   }
 
   useEffect(() => {}, [showBiddingModal]);
+
+  useEffect(() => {
+    if (status.positions) {
+      console.log('__@@@__', status.positions);
+      setFetchedPositions(status.positions);
+    }
+  }, [status]);
 
   async function fetchLiquidatorClient(type: string, userBid: number) {
     try {
@@ -218,6 +259,8 @@ const LiquidationPool = () => {
     await fetchLiquidatorClient('place_bid', userBid)
   }
 
+  if (fetchedPositions) console.log(typeof(fetchedPositions))
+
   return (
     <Layout>
       <Stack>
@@ -252,16 +295,29 @@ const LiquidationPool = () => {
             headerData={headerData}
           />
         <Box>
-          {
-            dataSet.map((loan, i) => (
-              <LiquidationCard 
-                key={i}
-                loan={loan}
-                liquidationType={true}
-                handleShowBiddingModal={handleShowBiddingModal}
-                handleExecuteBid={() => handleExecuteBid}
+         {
+            fetchedPositions && fetchedPositions.map((loan, i) => {
+              return (
+                // <LiquidationCard 
+                //   key={i}
+                //   debt={loan.debt}
+                //   address={loan.address}
+                //   ltv={loan.ltv}
+                //   isHealthy={loan.is_healthy}
+                //   highestBid={loan.highest_bid}
+                //   liquidationType={true}
+                //   handleShowBiddingModal={handleShowBiddingModal}
+                //   handleExecuteBid={() => handleExecuteBid}
+                // />
+                <LiquidationCard 
+                  indexer={i}
+                  loan={loan}
+                  liquidationType={true}
+                  handleShowBiddingModal={handleShowBiddingModal}
+                  handleExecuteBid={() => handleExecuteBid}
               />
-            ))
+            )
+            })
           }
         </Box>
         <Box>
