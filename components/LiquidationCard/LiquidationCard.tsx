@@ -31,7 +31,6 @@ interface LiquidationCardProps {
 
 const LiquidationCard = (props: LiquidationCardProps) => {
   const { openPositions, liquidationType, handleShowBiddingModal, showBiddingModal, handleExecuteBid, loan, key } = props;
-  console.log('@@@@---', loan)
 
   return (
         <Box className={styles.subWrapper}>

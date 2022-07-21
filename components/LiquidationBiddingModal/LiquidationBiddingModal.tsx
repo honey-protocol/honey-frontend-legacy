@@ -8,7 +8,7 @@ import { IconClose } from 'degen';
 
 interface LiquidationBiddingModalProps {
   handleShowBiddingModal: () => void;
-  handleExecuteBid: (userBid: any) => void;
+  handleExecuteBid: () => void;
 }
 
 const LiquidationBiddingModal = (props: LiquidationBiddingModalProps) => {
@@ -21,8 +21,7 @@ const LiquidationBiddingModal = (props: LiquidationBiddingModalProps) => {
   }
 
   function processBid() {
-    console.log('run executebid');
-    handleExecuteBid(userInput)
+    handleExecuteBid()
   }
 
   function handleUserChange(val: any) {

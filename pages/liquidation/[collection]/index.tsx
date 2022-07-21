@@ -134,12 +134,14 @@ const LiquidationPool = () => {
 
   useEffect(() => {
     if (status.positions) {
-      console.log('__@@@__', status.positions);
       setFetchedPositions(status.positions);
     }
   }, [status]);
 
   async function fetchLiquidatorClient(type: string, userBid: number, nftMint: PublicKey) {
+    console.log('userbid', userBid)
+    console.log('type', type)
+    console.log('nftMint', nftMint)
     try {
       const liquidatorClient = await LiquidatorClient.connect(program.provider, HONEY_PROGRAM_ID, false);
       if (wallet) {
@@ -255,8 +257,9 @@ const LiquidationPool = () => {
   // }
 
   // validatePositions();
-  async function handleExecuteBid(userBid: any) {
-    await fetchLiquidatorClient('place_bid', userBid, fetchedPositions[0].address)
+  async function handleExecuteBid() {
+    // hardcode user bid value
+    await fetchLiquidatorClient('place_bid', 6, fetchedPositions[0].address)
   }
 
   if (fetchedPositions) console.log(typeof(fetchedPositions))
