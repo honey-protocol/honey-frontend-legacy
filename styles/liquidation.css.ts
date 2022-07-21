@@ -192,7 +192,21 @@ globalStyle(`${healthFactorHigh} div`, {
 });
 
 export const healthFactorMedium = style({
-  width: '5em'
+  background: 'rgba(58, 45, 25, 100)',
+  color: 'rgb(243, 163, 60)',
+  fontWeight: '600',
+  padding: '.5em 1em',
+  borderRadius: '10px',
+  width: '7em!important',
+  margin: '0 auto',
+  marginLeft: '.5em!important',
+  '@media': {
+    'screen and (min-width: 350px)': {
+      marginLeft: 0,
+      margin: '0 auto!important',
+      alignSelf: 'center'
+    }
+  }
 });
 
 globalStyle(`${healthFactorMedium} div`, {
@@ -438,3 +452,4 @@ export const healthFactor = style({
     }
   }
 });
+

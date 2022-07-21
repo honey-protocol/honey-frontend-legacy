@@ -31,8 +31,8 @@ interface LiquidationCardProps {
 
 const LiquidationCard = (props: LiquidationCardProps) => {
   const { openPositions, liquidationType, handleShowBiddingModal, showBiddingModal, handleExecuteBid, loan, key } = props;
-  console.log('this is loan', loan)
-
+  const healthy = 'High';
+  const notHealthy = 'Medium'
 
   return (
         <Box className={styles.subWrapper}>
@@ -40,13 +40,20 @@ const LiquidationCard = (props: LiquidationCardProps) => {
           <Box className={styles.collectionCard}>
             <Box className={styles.collectionCardWrapper}>
               <Text>Position:</Text>
-              <Text>{key}</Text>
+              <Text>1</Text>
             </Box>
             <Box className={styles.collectionCardWrapper}>
               <Text>Debt:</Text>
               <Text>{loan.debt} SOL</Text>
             </Box>
-            <Box className={styles.healthFactor}>{loan.isHealthy}</Box>
+            {
+              loan.is_healthy 
+              ? 
+              <Box className={styles.healthFactor}>High</Box>
+              :
+              <Box className={styles.healthFactorMedium}>Medium</Box>
+
+            }
             <Box className={styles.collectionCardWrapper}>
               <Text>LVT:</Text>  
               <Text>{loan.ltv} %</Text>
@@ -57,7 +64,7 @@ const LiquidationCard = (props: LiquidationCardProps) => {
             </Box>
             <Box className={styles.collectionCardWrapper}>
               <Text>Address:</Text>  
-              <Text>{loan.address.toString}</Text>
+              <Text>{loan.address.toString().substring(0,5)}...</Text>
             </Box>
           </Box>
         </Box>

@@ -134,7 +134,7 @@ const LiquidationPool = () => {
 
   useEffect(() => {
     if (status.positions) {
-      console.log('__@@@__', status.positions);
+      console.log('__@@@__', status.positions[0].address.toString());
       setFetchedPositions(status.positions);
     }
   }, [status]);
@@ -296,7 +296,7 @@ const LiquidationPool = () => {
           />
         <Box>
          {
-            fetchedPositions && fetchedPositions.map((loan, i) => {
+            fetchedPositions && fetchedPositions.map((loan, index) => {
               return (
                 // <LiquidationCard 
                 //   key={i}
@@ -310,7 +310,7 @@ const LiquidationPool = () => {
                 //   handleExecuteBid={() => handleExecuteBid}
                 // />
                 <LiquidationCard 
-                  indexer={i}
+                  key={index}
                   loan={loan}
                   liquidationType={true}
                   handleShowBiddingModal={handleShowBiddingModal}
