@@ -9,7 +9,7 @@ import { useConnectedWallet } from '@saberhq/use-solana';
 import LiquidationHeader from 'components/LiquidationHeader/LiquidationHeader';
 import LiquidationCard from 'components/LiquidationCard/LiquidationCard';
 import { useAnchor, LiquidatorClient, useAllPositions } from '../../../../honey-sdk';
-import { ConfigureSDK } from 'helpers/loanHelpers';
+import { ConfigureSDK, toastResponse } from 'helpers/loanHelpers';
 import { HONEY_PROGRAM_ID, HONEY_MARKET_ID } from '../../../constants/loan';
 import { LAMPORTS_PER_SOL, PublicKey } from '@solana/web3.js';
 import LiquidationBiddingModal from 'components/LiquidationBiddingModal/LiquidationBiddingModal';
@@ -53,79 +53,11 @@ const LiquidationPool = () => {
     * @returns obligations
    */
    const [fetchedPositions, setFetchedPositions] = useState<Array<OpenObligation>>([]);
-   const [fetchedArrayPositions, setFetchedArrayPositions] = useState();
+   const [hasPosition, setHasPosition] = useState(false);
 
   const headerData = ['Position', 'Debt', 'Address', 'LTV %', 'Health Factor', 'Highest Bid'];
-  const dataSet = [
-    {
-      position: '(...)',
-      debt: '63',
-      address: 'xAz2Li..',
-      lvt: '62',
-      healthFactor: 'Healthy',
-      highestBid: '288'
-    },
-    {
-      position: '(...)',
-      debt: '122',
-      address: 'xAz2Li..',
-      lvt: '62',
-      healthFactor: 'Healthy',
-      highestBid: '321'
-    },
-    {
-      position: '(...)',
-      debt: '319',
-      address: 'xAz2Li..',
-      lvt: '62',
-      healthFactor: 'Healthy',
-      highestBid: '682'
-    },
-    {
-      position: '(...)',
-      debt: '122',
-      address: 'xAz2Li..',
-      lvt: '62',
-      healthFactor: 'Healthy',
-      highestBid: '321'
-    },
-    {
-      position: '(...)',
-      debt: '319',
-      address: 'xAz2Li..',
-      lvt: '62',
-      healthFactor: 'Healthy',
-      highestBid: '682'
-    },
-  ];
 
   const [showBiddingModal, setBiddingModal] = useState(false);
-
-//   useEffect(() => {
-//     async function fetchObligations() {
-//       console.log('fetching obligations...');
-//       let obligations = await program?.account?.obligation?.all();
-//       if (obligations) {
-//         console.log('obligations', obligations);
-//         console.log('___TOTAL_OBLIGATIONS___', obligations.length);
-
-//         obligations.map(item => {
-//           console.log('this is each obligation', item);
-//           let owner = item.account.owner.toString();
-//           console.log('collateral_NFT_Mint', item.account.collateralNftMint);
-//           let nftMints:PublicKey[] = item.account.collateralNftMint;
-//           nftMints.map((nft) => {
-//             // console.log('this is the nft', nft)
-//             if(nft.toString() != '11111111111111111111111111111111') {
-//               console.log('@@@@@----nftCollateral', nft.toString());
-//             }
-//           })
-//         })
-//       }
-//     }
-
-//     fetchObligations();
-// }, [program]);
 
   function handleShowBiddingModal() {
     showBiddingModal == false ? setBiddingModal(true) : setBiddingModal(false);
@@ -139,6 +71,16 @@ const LiquidationPool = () => {
     }
   }, [status]);
 
+  if (fetchedPositions) {
+    fetchedPositions.map((position:any) => {
+      if (
+        position.address.toString() 
+        == 
+        sdkConfig.sdkWallet?.publicKey.toString()
+      ) setHasPosition(true);
+    });
+  }
+
   async function fetchLiquidatorClient(type: string, userBid: number, nftMint: PublicKey) {
     console.log('userbid', userBid)
     console.log('type', type)
@@ -147,32 +89,51 @@ const LiquidationPool = () => {
       const liquidatorClient = await LiquidatorClient.connect(program.provider, HONEY_PROGRAM_ID, false);
       if (wallet) {
         if (type == 'revoke_bid') {
-          await liquidatorClient.revokeBid({
-           market: new PublicKey(HONEY_MARKET_ID),
-           bidder: wallet.publicKey,
-           bid_mint: nftMint,
-           withdraw_destination: wallet.publicKey
-          })
+          let transactionOutcome: any = await liquidatorClient.revokeBid({
+            market: new PublicKey(HONEY_MARKET_ID),
+            bidder: wallet.publicKey,
+            bid_mint: nftMint,
+            withdraw_destination: wallet.publicKey
+          });
+
+          if (transactionOutcome[0] == 'FAILED') {
+            toastResponse('ERROR', 'Bid failed', 'ERROR');
+          } else {
+            toastResponse('SUCCESS', 'Placed Bid', 'SUCCESS');
+          }
         } else if (type == 'place_bid') {
-            await liquidatorClient.placeBid({
+            let transactionOutcome: any = await liquidatorClient.placeBid({
               bid_limit: userBid,
               market: new PublicKey(HONEY_MARKET_ID),
               bidder: wallet.publicKey,
               bid_mint: NATIVE_MINT
-            })
+            });
+
+            if (transactionOutcome[0] == 'FAILED') {
+              toastResponse('ERROR', 'Bid failed', 'ERROR');
+            } else {
+              toastResponse('SUCCESS', 'Placed Bid', 'SUCCESS');
+            }
+
         } else if (type == 'increase_bid') {
-            await liquidatorClient.revokeBid({
+            let transactionOutcome: any = await liquidatorClient.revokeBid({
               bid_increase: userBid,
               market: new PublicKey(HONEY_MARKET_ID),
               bidder: wallet.publicKey,
               bid_mint: nftMint
-            })
+            });
+            
+            if (transactionOutcome[0] == 'FAILED') {
+              toastResponse('ERROR', 'Bid failed', 'ERROR');
+            } else {
+              toastResponse('SUCCESS', 'Placed Bid', 'SUCCESS');
+            }
           }
       } else {
           return;
       }
       } catch (error) {
-          return console.log('error:', error);
+          return toastResponse('ERROR', 'Bid failed', 'ERROR');
       }
   }
 
