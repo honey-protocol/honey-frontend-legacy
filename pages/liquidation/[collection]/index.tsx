@@ -13,6 +13,7 @@ import { ConfigureSDK } from 'helpers/loanHelpers';
 import { HONEY_PROGRAM_ID, HONEY_MARKET_ID } from '../../../constants/loan';
 import { LAMPORTS_PER_SOL, PublicKey } from '@solana/web3.js';
 import LiquidationBiddingModal from 'components/LiquidationBiddingModal/LiquidationBiddingModal';
+import { NATIVE_MINT } from '@solana/spl-token';
 
 /**
  * @description interface for NFT object
@@ -45,7 +46,7 @@ const LiquidationPool = () => {
     * @returns loading | nft positions | error
    */
    const { ...status } = useAllPositions(sdkConfig.saberHqConnection, sdkConfig.sdkWallet!, sdkConfig.honeyId, sdkConfig.marketId);
-   
+
    /**
     * @description the obligations that are being rendered
     * @params none
@@ -125,7 +126,7 @@ const LiquidationPool = () => {
 
 //     fetchObligations();
 // }, [program]);
-  
+
   function handleShowBiddingModal() {
     showBiddingModal == false ? setBiddingModal(true) : setBiddingModal(false);
   }
@@ -150,14 +151,14 @@ const LiquidationPool = () => {
            market: new PublicKey(HONEY_MARKET_ID),
            bidder: wallet.publicKey,
            bid_mint: nftMint,
-           withdraw_destination: wallet.publicKey  
+           withdraw_destination: wallet.publicKey
           })
         } else if (type == 'place_bid') {
             await liquidatorClient.placeBid({
               bid_limit: userBid,
               market: new PublicKey(HONEY_MARKET_ID),
               bidder: wallet.publicKey,
-              bid_mint: nftMint
+              bid_mint: NATIVE_MINT
             })
         } else if (type == 'increase_bid') {
             await liquidatorClient.revokeBid({
@@ -249,8 +250,8 @@ const LiquidationPool = () => {
 
 
   // function validatePositions() {
-  //   openPositions 
-  //   ? 
+  //   openPositions
+  //   ?
   //   toastResponse('LIQUIDATION', '1 oustanding bid', 'LIQUIDATION')
   //   :
   //   toastResponse('LIQUIDATION', 'No outstanding bid', 'LIQUIDATION')
@@ -294,14 +295,14 @@ const LiquidationPool = () => {
               Place Bid on Collection
             </Button>
         </Box>
-        <LiquidationHeader 
+        <LiquidationHeader
             headerData={headerData}
           />
         <Box>
          {
             fetchedPositions && fetchedPositions.map((loan, index) => {
               return (
-                // <LiquidationCard 
+                // <LiquidationCard
                 //   key={i}
                 //   debt={loan.debt}
                 //   address={loan.address}
@@ -312,7 +313,7 @@ const LiquidationPool = () => {
                 //   handleShowBiddingModal={handleShowBiddingModal}
                 //   handleExecuteBid={() => handleExecuteBid}
                 // />
-                <LiquidationCard 
+                <LiquidationCard
                   key={index}
                   loan={loan}
                   liquidationType={true}
@@ -326,7 +327,7 @@ const LiquidationPool = () => {
         <Box>
           {
             showBiddingModal && (
-              <LiquidationBiddingModal 
+              <LiquidationBiddingModal
                 handleShowBiddingModal={handleShowBiddingModal}
                 handleExecuteBid={handleExecuteBid}
               />
