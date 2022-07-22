@@ -32,7 +32,6 @@ const Liquidation: NextPage = () => {
    * @params none
    * @returns connection with sdk
   */
-  
   const sdkConfig = ConfigureSDK();
   /**
    * @description fetches open nft positions
@@ -46,7 +45,7 @@ const Liquidation: NextPage = () => {
    * @params none
    * @returns state variables
   */
-  const [openPositions, setOpenPositions] = useState(false);
+  const [openPositions, setOpenPositions] = useState(true);
   const [loadingState, setLoadingState] = useState(true);
   const [fetchedPositions, setFetchedPositions] = useState<Array<OpenObligation>>([]);
   const [totalMarketDebt, setTotalMarketDebt] = useState(0);
@@ -117,7 +116,13 @@ const Liquidation: NextPage = () => {
           <LiquidationHeader 
             headerData={headerData}
           />
-          <Box>
+          <Box className={
+            openPositions 
+            ? 
+            styles.highLightPosition
+            :
+            styles.highLightNoPosition
+            }>
             {
               dataSet.map((loan, i) => (
                 <Link 
@@ -129,6 +134,7 @@ const Liquidation: NextPage = () => {
                     <LiquidationCollectionCard 
                       key={i}
                       loan={loan}
+                      openPositions={openPositions}
                     />
                   </a>
                 </Link>

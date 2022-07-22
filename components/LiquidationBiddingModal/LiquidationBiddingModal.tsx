@@ -9,10 +9,11 @@ import { IconClose } from 'degen';
 interface LiquidationBiddingModalProps {
   handleShowBiddingModal: () => void;
   handleExecuteBid: () => void;
+  hasPosition: boolean;
 }
 
 const LiquidationBiddingModal = (props: LiquidationBiddingModalProps) => {
-  const {handleShowBiddingModal, handleExecuteBid} = props;
+  const {handleShowBiddingModal, handleExecuteBid, hasPosition} = props;
   const [confirmState, setConfirmState] = useState(false);
   const [userInput, setUserInput] = useState<number>();
 
@@ -62,15 +63,29 @@ const LiquidationBiddingModal = (props: LiquidationBiddingModalProps) => {
                 </Box>
               )
             }
-            <Box className={styles.buttonWrapper}>
-              {
-                confirmState 
-                ?
-                <Button variant="primary" onClick={processBid}>Confirm Bid</Button> 
-                : 
-                <Button variant="primary" onClick={handlePlaceBid}>Place Bid</Button> 
-            }
-            </Box>
+            {
+              hasPosition
+              ?
+              (
+                <div>
+                  <Button variant="primary" onClick={handlePlaceBid}>Increace Bid</Button>
+                  <Button variant="primary" onClick={processBid}>Revoke Bid</Button>
+                </div>
+              )
+              : 
+              (
+                <Box className={styles.buttonWrapper}>
+                {
+                  confirmState 
+                  ?
+                  <Button variant="primary" onClick={processBid}>Confirm Bid</Button> 
+                  : 
+                  <Button variant="primary" onClick={handlePlaceBid}>Place Bid</Button>
+                }
+                </Box>
+              )
+
+              }
           </Box> 
     </Box>
   )

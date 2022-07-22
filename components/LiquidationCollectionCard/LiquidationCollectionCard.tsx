@@ -7,10 +7,11 @@ import LiquidationBiddingModal from 'components/LiquidationBiddingModal/Liquidat
 
 interface LiquidationCollectionCardProps {
   loan: any;
+  openPositions: boolean;
 }
 
 const LiquidationCollectionCard = (props: LiquidationCollectionCardProps) => {
-  const { loan } = props;
+  const { loan, openPositions } = props;
 
   return (
     <Box className={styles.subWrapper}>
@@ -25,9 +26,17 @@ const LiquidationCollectionCard = (props: LiquidationCollectionCardProps) => {
               <Text>{loan.averageLTV}%</Text>
               <Text>{loan.totalDebt} SOL</Text>
               <Text>    
-                <Button variant="primary">
-                  Place bid
-                </Button>
+                {
+                  openPositions
+                  ?
+                  <Button variant="primary">
+                    Review bid
+                  </Button>
+                  :
+                  <Button variant="primary">
+                    Place bid
+                  </Button>
+                }
               </Text>
             </Box>
           </Link>

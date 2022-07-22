@@ -453,3 +453,11 @@ export const healthFactor = style({
   }
 });
 
+export const highLightPosition = style({
+  borderLeft: '5px solid orange',
+  borderRadius: '20px'
+});
+
+export const highLightNoPosition = style({
+  borderLeft: 'none'
+})

@@ -35,25 +35,25 @@ const LiquidationPool = () => {
   const wallet = useConnectedWallet();
 
   /**
-   * @description sets program | market | connection | wallet
-   * @params none
-   * @returns connection with sdk
+    * @description sets program | market | connection | wallet
+    * @params none
+    * @returns connection with sdk
   */
-   const sdkConfig = ConfigureSDK();
-   /**
+  const sdkConfig = ConfigureSDK();
+  /**
     * @description fetches open nft positions
     * @params connection | wallet | honeyprogramID | honeymarketID
     * @returns loading | nft positions | error
-   */
+  */
    const { ...status } = useAllPositions(sdkConfig.saberHqConnection, sdkConfig.sdkWallet!, sdkConfig.honeyId, sdkConfig.marketId);
 
-   /**
+  /**
     * @description the obligations that are being rendered
     * @params none
     * @returns obligations
    */
-   const [fetchedPositions, setFetchedPositions] = useState<Array<OpenObligation>>([]);
-   const [hasPosition, setHasPosition] = useState(false);
+  const [fetchedPositions, setFetchedPositions] = useState<Array<OpenObligation>>([]);
+  const [hasPosition, setHasPosition] = useState(true);
 
   const headerData = ['Position', 'Debt', 'Address', 'LTV %', 'Health Factor', 'Highest Bid'];
 
@@ -80,11 +80,12 @@ const LiquidationPool = () => {
       ) setHasPosition(true);
     });
   }
-
-  async function fetchLiquidatorClient(type: string, userBid: number, nftMint: PublicKey) {
-    console.log('userbid', userBid)
-    console.log('type', type)
-    console.log('nftMint', nftMint)
+  /**
+   * @description calls upon liquidator client for placebid | revokebid | increasebid
+   * @params tpye | userbid | nftmint
+   * @returms
+  */
+  async function fetchLiquidatorClient(type: string, userBid: number) {
     try {
       const liquidatorClient = await LiquidatorClient.connect(program.provider, HONEY_PROGRAM_ID, false);
       if (wallet) {
@@ -92,7 +93,7 @@ const LiquidationPool = () => {
           let transactionOutcome: any = await liquidatorClient.revokeBid({
             market: new PublicKey(HONEY_MARKET_ID),
             bidder: wallet.publicKey,
-            bid_mint: nftMint,
+            bid_mint: NATIVE_MINT,
             withdraw_destination: wallet.publicKey
           });
 
@@ -117,10 +118,10 @@ const LiquidationPool = () => {
 
         } else if (type == 'increase_bid') {
             let transactionOutcome: any = await liquidatorClient.revokeBid({
-              bid_increase: userBid,
               market: new PublicKey(HONEY_MARKET_ID),
               bidder: wallet.publicKey,
-              bid_mint: nftMint
+              bid_mint: NATIVE_MINT,
+              withdraw_destination: wallet.publicKey
             });
             
             if (transactionOutcome[0] == 'FAILED') {
@@ -131,10 +132,10 @@ const LiquidationPool = () => {
           }
       } else {
           return;
-      }
+        }
       } catch (error) {
           return toastResponse('ERROR', 'Bid failed', 'ERROR');
-      }
+        }
   }
 
   /**
@@ -209,22 +210,25 @@ const LiquidationPool = () => {
   //   })
   // }
 
-
-  // function validatePositions() {
-  //   openPositions
-  //   ?
-  //   toastResponse('LIQUIDATION', '1 oustanding bid', 'LIQUIDATION')
-  //   :
-  //   toastResponse('LIQUIDATION', 'No outstanding bid', 'LIQUIDATION')
-  // }
-
-  // validatePositions();
   async function handleExecuteBid() {
     // hardcode user bid value
-    await fetchLiquidatorClient('place_bid', 6, fetchedPositions[0].address)
+    await fetchLiquidatorClient('place_bid', 6)
   }
 
-  if (fetchedPositions) console.log(typeof(fetchedPositions))
+  /**
+   * @description validates if user has outstanding bid or not
+   * @params none
+   * @returns toastresponse with state of outstanding bid
+  */
+  function validatePositions() {
+    hasPosition
+    ?
+    toastResponse('LIQUIDATION', '1 oustanding bid', 'LIQUIDATION')
+    :
+    toastResponse('LIQUIDATION', 'No outstanding bid', 'LIQUIDATION')
+  }
+
+  validatePositions();
 
   return (
     <Layout>
@@ -252,9 +256,17 @@ const LiquidationPool = () => {
         </Box>
         <Box className={styles.callToActionContainer}>
           <h2>Collection: <span>Honey Eyes</span></h2>
-          <Button variant="primary" onClick={handleShowBiddingModal}>
+          {
+            hasPosition
+            ?
+            <Button variant="primary" onClick={handleShowBiddingModal}>
+              Review Bid
+            </Button>
+            :
+            <Button variant="primary" onClick={handleShowBiddingModal}>
               Place Bid on Collection
             </Button>
+          }
         </Box>
         <LiquidationHeader
             headerData={headerData}
@@ -291,6 +303,7 @@ const LiquidationPool = () => {
               <LiquidationBiddingModal
                 handleShowBiddingModal={handleShowBiddingModal}
                 handleExecuteBid={handleExecuteBid}
+                hasPosition={hasPosition}
               />
             )
           }

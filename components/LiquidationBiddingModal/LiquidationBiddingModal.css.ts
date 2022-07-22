@@ -14,6 +14,8 @@ export const liquidationBiddingModalWrapper = style({
   borderRadius: '10px',
   color: 'white',
   padding: '.5em',
+  display: 'flex',
+  flexDirection: 'column',
   '@media': {
     'screen and (min-width: 720px)': {
       width: '30em',
