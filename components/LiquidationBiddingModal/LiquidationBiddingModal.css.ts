@@ -3,7 +3,7 @@ import { sprinkles, vars } from '../../styles/theme.css';
 
 export const liquidationBiddingModalWrapper = style({
   width: '98%',
-  height: '100%',
+  height: '90%',
   background: 'rgb(30, 30, 30)',
   position: 'absolute',
   left: '1%',
@@ -47,12 +47,12 @@ export const bidWrapper = style({
 export const buttonWrapper = style({
   width: '100%',
   position: 'relative',
-  bottom: '-10em'
+  // bottom: '-10em'
 });
 
 globalStyle(`${buttonWrapper} > button`, {
   width: '100%',
-  marginTop: '8.5em',
+  marginTop: '2.5em',
   '@media': {
     'screen and (min-width: 720px)': {
       marginTop: '3.5em'

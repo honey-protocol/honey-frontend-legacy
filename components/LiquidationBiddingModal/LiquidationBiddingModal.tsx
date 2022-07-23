@@ -8,21 +8,26 @@ import { IconClose } from 'degen';
 
 interface LiquidationBiddingModalProps {
   handleShowBiddingModal: () => void;
-  handleExecuteBid: () => void;
+  handleExecuteBid: (val: any) => void;
   hasPosition: boolean;
 }
 
 const LiquidationBiddingModal = (props: LiquidationBiddingModalProps) => {
   const {handleShowBiddingModal, handleExecuteBid, hasPosition} = props;
   const [confirmState, setConfirmState] = useState(false);
-  const [userInput, setUserInput] = useState<number>();
+  const [userInput, setUserInput] = useState(0);
 
   function handlePlaceBid() {
     confirmState == false ? setConfirmState(true) : setConfirmState(false);
   }
 
-  function processBid() {
-    handleExecuteBid()
+  function processBid(type: string) {
+    console.log('process bid running', type)
+    if (userInput != 0) {
+      handleExecuteBid(type); 
+    } else {
+      handleExecuteBid(type)
+    }
   }
 
   function handleUserChange(val: any) {
@@ -68,8 +73,8 @@ const LiquidationBiddingModal = (props: LiquidationBiddingModalProps) => {
               ?
               (
                 <div>
-                  <Button variant="primary" onClick={handlePlaceBid}>Increace Bid</Button>
-                  <Button variant="primary" onClick={processBid}>Revoke Bid</Button>
+                  <Button variant="primary" onClick={() => processBid('increase_bid')}>Increase Bid</Button>
+                  <Button variant="primary" onClick={() => processBid('revoke_bid')}>Revoke Bid</Button>
                 </div>
               )
               : 
@@ -78,7 +83,7 @@ const LiquidationBiddingModal = (props: LiquidationBiddingModalProps) => {
                 {
                   confirmState 
                   ?
-                  <Button variant="primary" onClick={processBid}>Confirm Bid</Button> 
+                  <Button variant="primary" onClick={() => processBid('place_bid')}>Confirm Bid</Button> 
                   : 
                   <Button variant="primary" onClick={handlePlaceBid}>Place Bid</Button>
                 }

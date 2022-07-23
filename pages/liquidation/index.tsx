@@ -33,6 +33,7 @@ const Liquidation: NextPage = () => {
    * @returns connection with sdk
   */
   const sdkConfig = ConfigureSDK();
+  
   /**
    * @description fetches open nft positions
    * @params connection | wallet | honeyprogramID | honeymarketID
@@ -45,7 +46,7 @@ const Liquidation: NextPage = () => {
    * @params none
    * @returns state variables
   */
-  const [openPositions, setOpenPositions] = useState(true);
+  const [openPositions, setOpenPositions] = useState(false);
   const [loadingState, setLoadingState] = useState(true);
   const [fetchedPositions, setFetchedPositions] = useState<Array<OpenObligation>>([]);
   const [totalMarketDebt, setTotalMarketDebt] = useState(0);
@@ -73,6 +74,22 @@ const Liquidation: NextPage = () => {
   */
   const headerData = [ 'Collection', 'Total Collateral', 'Total Debt','Average LTV', '']
   
+  // create stringyfied instance of walletPK
+  let stringyfiedWalletPK = sdkConfig.sdkWallet?.publicKey.toString();
+  
+  /**
+   * @description sets the state if user has open bid 
+   * @params array of bids
+   * @returns state change
+  */
+  function handleBiddingState(biddingArray: any) {  
+    console.log('running');
+    biddingArray.map((obligation: any) => {
+      if (obligation.bidder == stringyfiedWalletPK) {
+        setOpenPositions(true);
+      }
+    })
+  }
   
   /**
    * @description update func. for nft positions
@@ -80,9 +97,10 @@ const Liquidation: NextPage = () => {
    * @returns sets state for nft positions
   */
   useEffect(() => {
-    if (status.positions) {
+    if (status.positions && status.bids) {
       setFetchedPositions(status.positions);
       setTotalMarketNFTs(status.positions.length);
+      handleBiddingState(status.bids);
     }
   }, [status]);
 
