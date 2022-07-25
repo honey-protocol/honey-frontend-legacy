@@ -154,12 +154,13 @@ const LiquidationPool = () => {
            withdraw_destination: wallet.publicKey
           })
         } else if (type == 'place_bid') {
-            await liquidatorClient.placeBid({
+            const result = await liquidatorClient.placeBid({
               bid_limit: userBid,
               market: new PublicKey(HONEY_MARKET_ID),
               bidder: wallet.publicKey,
               bid_mint: NATIVE_MINT
-            })
+            });
+            console.log('result', result);
         } else if (type == 'increase_bid') {
             await liquidatorClient.revokeBid({
               bid_increase: userBid,

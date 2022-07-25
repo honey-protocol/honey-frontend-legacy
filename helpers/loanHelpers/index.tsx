@@ -2,6 +2,7 @@ import { useConnection, useConnectedWallet, ConnectedWallet } from '@saberhq/use
 import { HONEY_PROGRAM_ID, HONEY_MARKET_ID } from 'constants/loan';
 import { toast } from 'react-toastify';
 import BN from 'bn.js';
+import { Connection } from '@solana/web3.js';
 
 /**
  * @description exports the current sdk configuration object
@@ -11,6 +12,7 @@ import BN from 'bn.js';
 export function ConfigureSDK() {
     return {
         saberHqConnection: useConnection(),
+        // saberHqConnection: new Connection("https://explorer-api.devnet.solana.com/"),
         sdkWallet: useConnectedWallet(),
         honeyId: HONEY_PROGRAM_ID,
         marketId: HONEY_MARKET_ID
