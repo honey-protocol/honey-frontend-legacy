@@ -5,23 +5,34 @@ import Layout from '../../components/Layout/Layout';
 import * as styles from './LiquidationBiddingModal.css';
 import Link from 'next/link';
 import { IconClose } from 'degen';
+import { LAMPORTS_PER_SOL, PublicKey } from '@solana/web3.js';
 
 interface LiquidationBiddingModalProps {
   handleShowBiddingModal: () => void;
-  handleExecuteBid: () => void;
+  handleExecuteBid: (val: any) => void;
+  hasPosition: boolean;
+  stringyfiedWalletPK: any;
+  highestBiddingAddress: string;
+  highestBiddingValue: number;
 }
 
 const LiquidationBiddingModal = (props: LiquidationBiddingModalProps) => {
-  const {handleShowBiddingModal, handleExecuteBid} = props;
+  const {handleShowBiddingModal, handleExecuteBid, hasPosition, stringyfiedWalletPK, highestBiddingAddress, highestBiddingValue} = props;
+
   const [confirmState, setConfirmState] = useState(false);
-  const [userInput, setUserInput] = useState<number>();
+  const [userInput, setUserInput] = useState(0);
 
   function handlePlaceBid() {
     confirmState == false ? setConfirmState(true) : setConfirmState(false);
   }
 
-  function processBid() {
-    handleExecuteBid()
+  function processBid(type: string) {
+    console.log('process bid running', type)
+    if (userInput != 0) {
+      handleExecuteBid(type); 
+    } else {
+      handleExecuteBid(type)
+    }
   }
 
   function handleUserChange(val: any) {
@@ -45,8 +56,8 @@ const LiquidationBiddingModal = (props: LiquidationBiddingModalProps) => {
             <Box>
               <Text>Current Highest Bid:</Text>
               <Box className={styles.bidWrapper}>
-                <Text><i>310 SOL</i></Text>
-                <Text>By: <i>HzA19f...</i></Text>
+                <Text><i>{highestBiddingValue} SOL</i></Text>
+                <Text>By: <i>{highestBiddingAddress.substring(0, 4)}...</i></Text>
               </Box>
             </Box>
             {
@@ -62,15 +73,29 @@ const LiquidationBiddingModal = (props: LiquidationBiddingModalProps) => {
                 </Box>
               )
             }
-            <Box className={styles.buttonWrapper}>
-              {
-                confirmState 
-                ?
-                <Button variant="primary" onClick={processBid}>Confirm Bid</Button> 
-                : 
-                <Button variant="primary" onClick={handlePlaceBid}>Place Bid</Button> 
-            }
-            </Box>
+            {
+              hasPosition
+              ?
+              (
+                <div>
+                  <Button variant="primary" onClick={() => processBid('increase_bid')}>Increase Bid</Button>
+                  <Button variant="primary" onClick={() => processBid('revoke_bid')}>Revoke Bid</Button>
+                </div>
+              )
+              : 
+              (
+                <Box className={styles.buttonWrapper}>
+                {
+                  confirmState 
+                  ?
+                  <Button variant="primary" onClick={() => processBid('place_bid')}>Confirm Bid</Button> 
+                  : 
+                  <Button variant="primary" onClick={handlePlaceBid}>Place Bid</Button>
+                }
+                </Box>
+              )
+
+              }
           </Box> 
     </Box>
   )

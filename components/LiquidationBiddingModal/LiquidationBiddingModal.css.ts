@@ -3,7 +3,7 @@ import { sprinkles, vars } from '../../styles/theme.css';
 
 export const liquidationBiddingModalWrapper = style({
   width: '98%',
-  height: '100%',
+  height: '90%',
   background: 'rgb(30, 30, 30)',
   position: 'absolute',
   left: '1%',
@@ -14,6 +14,8 @@ export const liquidationBiddingModalWrapper = style({
   borderRadius: '10px',
   color: 'white',
   padding: '.5em',
+  display: 'flex',
+  flexDirection: 'column',
   '@media': {
     'screen and (min-width: 720px)': {
       width: '30em',
@@ -36,6 +38,11 @@ globalStyle(`${liquidationBiddingModalWrapper} > div > div`, {
   margin: '.5em 0',
 });
 
+globalStyle(`${liquidationBiddingModalWrapper} button`, {
+  width: '100%',
+  margin: '.5em 0'
+});
+
 export const bidWrapper = style({
   display: 'flex',
   flexDirection: 'row',
@@ -45,12 +52,12 @@ export const bidWrapper = style({
 export const buttonWrapper = style({
   width: '100%',
   position: 'relative',
-  bottom: '-10em'
+  // bottom: '-10em'
 });
 
 globalStyle(`${buttonWrapper} > button`, {
   width: '100%',
-  marginTop: '8.5em',
+  marginTop: '2.5em',
   '@media': {
     'screen and (min-width: 720px)': {
       marginTop: '3.5em'
