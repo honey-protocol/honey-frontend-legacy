@@ -125,6 +125,7 @@ const LiquidationPool = () => {
       if (wallet) {
         if (type == 'revoke_bid') {
           let transactionOutcome: any = await liquidatorClient.revokeBid({
+            amount: userBid || 2,
             market: new PublicKey(HONEY_MARKET_ID),
             bidder: wallet.publicKey,
             bid_mint: NATIVE_MINT,
@@ -137,8 +138,10 @@ const LiquidationPool = () => {
             toastResponse('SUCCESS', 'Placed Bid', 'SUCCESS');
           }
         } else if (type == 'place_bid') {
+          console.log('userBid', userBid);
+
             let transactionOutcome: any = await liquidatorClient.placeBid({
-              bid_limit: userBid || 0,
+              bid_limit: userBid || 2,
               market: new PublicKey(HONEY_MARKET_ID),
               bidder: wallet.publicKey,
               bid_mint: NATIVE_MINT
