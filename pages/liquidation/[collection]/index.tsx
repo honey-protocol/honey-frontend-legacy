@@ -54,6 +54,8 @@ const LiquidationPool = () => {
    */
   const [fetchedPositions, setFetchedPositions] = useState<Array<OpenObligation>>([]);
   const [hasPosition, setHasPosition] = useState(false);
+  const [highestBiddingAddress, setHighestBiddingAddress] = useState('');
+  const [highestBiddingValue, setHighestBiddingValue] = useState(0);
 
   const headerData = ['Position', 'Debt', 'Address', 'LTV %', 'Health Factor', 'Highest Bid'];
 
@@ -74,12 +76,17 @@ const LiquidationPool = () => {
    * @returns state change
   */
   function handleBiddingState(biddingArray: any) {  
-    console.log('running');
     biddingArray.map((obligation: any) => {
+
       if (obligation.bidder == stringyfiedWalletPK) {
         setHasPosition(true);
       }
-    })
+    });
+
+    let sorted = biddingArray.sort((first: any,second: any) => first.bidLimit - second.bidLimit).reverse();
+    
+    setHighestBiddingAddress(sorted[0].bidder);
+    setHighestBiddingValue(sorted[0].bidLimit / LAMPORTS_PER_SOL);
   }
   /**
    * @description checks if there are positions, if so set state
@@ -113,13 +120,10 @@ const LiquidationPool = () => {
    * @returms toastresponse of executed call
   */
   async function fetchLiquidatorClient(type: string, userBid?: number) {
-    console.log('THIS IS TYPE', type)
     try {
       const liquidatorClient = await LiquidatorClient.connect(program.provider, HONEY_PROGRAM_ID, false);
       if (wallet) {
         if (type == 'revoke_bid') {
-          console.log('Running revoke bid!');
-
           let transactionOutcome: any = await liquidatorClient.revokeBid({
             market: new PublicKey(HONEY_MARKET_ID),
             bidder: wallet.publicKey,
@@ -133,8 +137,6 @@ const LiquidationPool = () => {
             toastResponse('SUCCESS', 'Placed Bid', 'SUCCESS');
           }
         } else if (type == 'place_bid') {
-            console.log('Running place bid!');
-
             let transactionOutcome: any = await liquidatorClient.placeBid({
               bid_limit: userBid || 0,
               market: new PublicKey(HONEY_MARKET_ID),
@@ -143,16 +145,12 @@ const LiquidationPool = () => {
             });
 
             if (transactionOutcome[0] == 'FAILED') {
-              console.log('transactionOutcome failed:', transactionOutcome)
               toastResponse('ERROR', 'Bid failed', 'ERROR');
             } else {
-              console.log('transactionOutcome success:', transactionOutcome)
               toastResponse('SUCCESS', 'Placed Bid', 'SUCCESS');
             }
 
         } else if (type == 'increase_bid') {
-            console.log('Running increase bid!')
-
             let transactionOutcome: any = await liquidatorClient.increaseBid({
               bid_increase: userBid || 0,
               market: new PublicKey(HONEY_MARKET_ID),
@@ -170,7 +168,6 @@ const LiquidationPool = () => {
           return;
         }
       } catch (error) {
-          console.log('@@@@@@', error);
           return toastResponse('ERROR', 'Bid failed', 'ERROR');
         }
   }
@@ -248,8 +245,6 @@ const LiquidationPool = () => {
   // }
 
   async function handleExecuteBid(type: string, userBid?: number) {
-    console.log('handle execute bid running', type, userBid!)
-    // hardcode user bid value
     await fetchLiquidatorClient(type, userBid!)
   }
 
@@ -342,6 +337,9 @@ const LiquidationPool = () => {
                 handleShowBiddingModal={handleShowBiddingModal}
                 handleExecuteBid={handleExecuteBid}
                 hasPosition={hasPosition}
+                stringyfiedWalletPK={stringyfiedWalletPK}
+                highestBiddingAddress={highestBiddingAddress}
+                highestBiddingValue={highestBiddingValue}
               />
             )
           }

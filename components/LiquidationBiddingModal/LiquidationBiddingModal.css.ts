@@ -38,6 +38,11 @@ globalStyle(`${liquidationBiddingModalWrapper} > div > div`, {
   margin: '.5em 0',
 });
 
+globalStyle(`${liquidationBiddingModalWrapper} button`, {
+  width: '100%',
+  margin: '.5em 0'
+});
+
 export const bidWrapper = style({
   display: 'flex',
   flexDirection: 'row',
