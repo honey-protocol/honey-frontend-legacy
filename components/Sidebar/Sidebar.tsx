@@ -1,5 +1,4 @@
 import React from 'react';
-import Image from 'next/image'
 import {
   Box,
   Stack,
@@ -25,11 +24,9 @@ import { GithubIcon } from 'icons/GithubIcon';
 import { useRouter } from 'next/router';
 import { nextAccentMap } from 'helpers/theme-utils';
 
-const feedbackUrl =
-  'https://feedback.honey.finance/';
+const feedbackUrl = 'https://feedback.honey.finance/';
 
-
-const governanceUrl = "https://forum.honey.finance/"
+const governanceUrl = 'https://forum.honey.finance/';
 
 const mainLinks = [
   {
@@ -61,7 +58,6 @@ const mainLinks = [
 ];
 
 const bottomLinks = [
-
   {
     href: 'https://honeylend.netlify.app/farm',
     title: 'Legacy website',
