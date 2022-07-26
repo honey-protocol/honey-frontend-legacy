@@ -26,35 +26,13 @@
           "isSigner": false
         },
         {
-          "name": "systemProgram",
+          "name": "governor",
           "isMut": false,
           "isSigner": false
-        }
-      ],
-      "args": [
-        {
-          "name": "admin",
-          "type": "publicKey"
         },
         {
-          "name": "params",
-          "type": {
-            "defined": "LockerParams"
-          }
-        }
-      ]
-    },
-    {
-      "name": "setLockerParams",
-      "accounts": [
-        {
-          "name": "admin",
+          "name": "systemProgram",
           "isMut": false,
-          "isSigner": true
-        },
-        {
-          "name": "locker",
-          "isMut": true,
           "isSigner": false
         }
       ],
@@ -77,7 +55,7 @@
         },
         {
           "name": "locker",
-          "isMut": true,
+          "isMut": false,
           "isSigner": false
         },
         {
@@ -99,6 +77,34 @@
       "args": []
     },
     {
+      "name": "setLockerParams",
+      "accounts": [
+        {
+          "name": "locker",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "governor",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "smartWallet",
+          "isMut": false,
+          "isSigner": true
+        }
+      ],
+      "args": [
+        {
+          "name": "params",
+          "type": {
+            "defined": "LockerParams"
+          }
+        }
+      ]
+    },
+    {
       "name": "approveProgramLockPrivilege",
       "accounts": [
         {
@@ -112,14 +118,19 @@
           "isSigner": false
         },
         {
-          "name": "lockerAdmin",
-          "isMut": false,
-          "isSigner": true
-        },
-        {
           "name": "whitelistEntry",
           "isMut": true,
           "isSigner": false
+        },
+        {
+          "name": "governor",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "smartWallet",
+          "isMut": false,
+          "isSigner": true
         },
         {
           "name": "executableId",
@@ -153,19 +164,19 @@
           "isSigner": false
         },
         {
-          "name": "lockerAdmin",
-          "isMut": false,
-          "isSigner": true
-        },
-        {
           "name": "whitelistEntry",
           "isMut": true,
           "isSigner": false
         },
         {
-          "name": "executableId",
+          "name": "governor",
           "isMut": false,
           "isSigner": false
+        },
+        {
+          "name": "smartWallet",
+          "isMut": false,
+          "isSigner": true
         }
       ],
       "args": []
@@ -222,429 +233,6 @@
     },
     {
       "name": "exit",
-      "accounts": [
-        {
-          "name": "payer",
-          "isMut": true,
-          "isSigner": true
-        },
-        {
-          "name": "locker",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "escrow",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "escrowOwner",
-          "isMut": false,
-          "isSigner": true
-        },
-        {
-          "name": "lockedTokens",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "destinationTokens",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "tokenProgram",
-          "isMut": false,
-          "isSigner": false
-        }
-      ],
-      "args": []
-    },
-    {
-      "name": "migrateLocker",
-      "accounts": [
-        {
-          "name": "payer",
-          "isMut": true,
-          "isSigner": true
-        },
-        {
-          "name": "base",
-          "isMut": false,
-          "isSigner": true
-        },
-        {
-          "name": "locker",
-          "isMut": false,
-          "isSigner": false
-        },
-        {
-          "name": "newBase",
-          "isMut": false,
-          "isSigner": true
-        },
-        {
-          "name": "newLocker",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "governor",
-          "isMut": false,
-          "isSigner": false
-        },
-        {
-          "name": "smartWallet",
-          "isMut": false,
-          "isSigner": false
-        },
-        {
-          "name": "systemProgram",
-          "isMut": false,
-          "isSigner": false
-        }
-      ],
-      "args": [
-        {
-          "name": "proposalActivationMinVotes",
-          "type": "u64"
-        }
-      ]
-    },
-    {
-      "name": "migrateEscrow",
-      "accounts": [
-        {
-          "name": "payer",
-          "isMut": true,
-          "isSigner": true
-        },
-        {
-          "name": "lockerAdmin",
-          "isMut": false,
-          "isSigner": true
-        },
-        {
-          "name": "oldLocker",
-          "isMut": false,
-          "isSigner": false
-        },
-        {
-          "name": "newLocker",
-          "isMut": false,
-          "isSigner": false
-        },
-        {
-          "name": "oldEscrow",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "newEscrow",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "oldLockedTokens",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "newLockedTokens",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "escrowOwner",
-          "isMut": false,
-          "isSigner": false
-        },
-        {
-          "name": "systemProgram",
-          "isMut": false,
-          "isSigner": false
-        },
-        {
-          "name": "tokenProgram",
-          "isMut": false,
-          "isSigner": false
-        }
-      ],
-      "args": []
-    },
-    {
-      "name": "migrateWhitelist",
-      "accounts": [
-        {
-          "name": "payer",
-          "isMut": true,
-          "isSigner": true
-        },
-        {
-          "name": "oldLocker",
-          "isMut": false,
-          "isSigner": false
-        },
-        {
-          "name": "newLocker",
-          "isMut": false,
-          "isSigner": false
-        },
-        {
-          "name": "lockerAdmin",
-          "isMut": false,
-          "isSigner": true
-        },
-        {
-          "name": "whitelistEntry",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "newWhitelistEntry",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "systemProgram",
-          "isMut": false,
-          "isSigner": false
-        }
-      ],
-      "args": []
-    },
-    {
-      "name": "initLockerV2",
-      "accounts": [
-        {
-          "name": "payer",
-          "isMut": true,
-          "isSigner": true
-        },
-        {
-          "name": "base",
-          "isMut": false,
-          "isSigner": true
-        },
-        {
-          "name": "locker",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "tokenMint",
-          "isMut": false,
-          "isSigner": false
-        },
-        {
-          "name": "governor",
-          "isMut": false,
-          "isSigner": false
-        },
-        {
-          "name": "systemProgram",
-          "isMut": false,
-          "isSigner": false
-        }
-      ],
-      "args": [
-        {
-          "name": "params",
-          "type": {
-            "defined": "LockerParamsV2"
-          }
-        }
-      ]
-    },
-    {
-      "name": "initEscrowV2",
-      "accounts": [
-        {
-          "name": "payer",
-          "isMut": true,
-          "isSigner": true
-        },
-        {
-          "name": "locker",
-          "isMut": false,
-          "isSigner": false
-        },
-        {
-          "name": "escrow",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "escrowOwner",
-          "isMut": false,
-          "isSigner": false
-        },
-        {
-          "name": "systemProgram",
-          "isMut": false,
-          "isSigner": false
-        }
-      ],
-      "args": []
-    },
-    {
-      "name": "setLockerParamsV2",
-      "accounts": [
-        {
-          "name": "locker",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "governor",
-          "isMut": false,
-          "isSigner": false
-        },
-        {
-          "name": "smartWallet",
-          "isMut": false,
-          "isSigner": true
-        }
-      ],
-      "args": [
-        {
-          "name": "params",
-          "type": {
-            "defined": "LockerParamsV2"
-          }
-        }
-      ]
-    },
-    {
-      "name": "approveProgramLockPrivilegeV2",
-      "accounts": [
-        {
-          "name": "payer",
-          "isMut": true,
-          "isSigner": true
-        },
-        {
-          "name": "locker",
-          "isMut": false,
-          "isSigner": false
-        },
-        {
-          "name": "whitelistEntry",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "governor",
-          "isMut": false,
-          "isSigner": false
-        },
-        {
-          "name": "smartWallet",
-          "isMut": false,
-          "isSigner": true
-        },
-        {
-          "name": "executableId",
-          "isMut": false,
-          "isSigner": false
-        },
-        {
-          "name": "whitelistedOwner",
-          "isMut": false,
-          "isSigner": false
-        },
-        {
-          "name": "systemProgram",
-          "isMut": false,
-          "isSigner": false
-        }
-      ],
-      "args": []
-    },
-    {
-      "name": "revokeProgramLockPrivilegeV2",
-      "accounts": [
-        {
-          "name": "payer",
-          "isMut": true,
-          "isSigner": true
-        },
-        {
-          "name": "locker",
-          "isMut": false,
-          "isSigner": false
-        },
-        {
-          "name": "whitelistEntry",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "governor",
-          "isMut": false,
-          "isSigner": false
-        },
-        {
-          "name": "smartWallet",
-          "isMut": false,
-          "isSigner": true
-        }
-      ],
-      "args": []
-    },
-    {
-      "name": "lockV2",
-      "accounts": [
-        {
-          "name": "locker",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "escrow",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "lockedTokens",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "escrowOwner",
-          "isMut": false,
-          "isSigner": true
-        },
-        {
-          "name": "sourceTokens",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "sourceTokensAuthority",
-          "isMut": false,
-          "isSigner": true
-        },
-        {
-          "name": "tokenProgram",
-          "isMut": false,
-          "isSigner": false
-        }
-      ],
-      "args": [
-        {
-          "name": "amount",
-          "type": "u64"
-        },
-        {
-          "name": "duration",
-          "type": "i64"
-        }
-      ]
-    },
-    {
-      "name": "exitV2",
       "accounts": [
         {
           "name": "payer",
@@ -765,47 +353,32 @@
           "type": "u8"
         }
       ]
+    },
+    {
+      "name": "setVoteDelegate",
+      "accounts": [
+        {
+          "name": "escrow",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "escrowOwner",
+          "isMut": false,
+          "isSigner": true
+        }
+      ],
+      "args": [
+        {
+          "name": "newDelegate",
+          "type": "publicKey"
+        }
+      ]
     }
   ],
   "accounts": [
     {
       "name": "Escrow",
-      "type": {
-        "kind": "struct",
-        "fields": [
-          {
-            "name": "locker",
-            "type": "publicKey"
-          },
-          {
-            "name": "owner",
-            "type": "publicKey"
-          },
-          {
-            "name": "bump",
-            "type": "u8"
-          },
-          {
-            "name": "tokens",
-            "type": "publicKey"
-          },
-          {
-            "name": "amount",
-            "type": "u64"
-          },
-          {
-            "name": "escrowStartedAt",
-            "type": "i64"
-          },
-          {
-            "name": "escrowEndsAt",
-            "type": "i64"
-          }
-        ]
-      }
-    },
-    {
-      "name": "EscrowV2",
       "type": {
         "kind": "struct",
         "fields": [
@@ -866,47 +439,13 @@
             "type": "u64"
           },
           {
-            "name": "admin",
-            "type": "publicKey"
-          },
-          {
-            "name": "params",
-            "type": {
-              "defined": "LockerParams"
-            }
-          }
-        ]
-      }
-    },
-    {
-      "name": "LockerV2",
-      "type": {
-        "kind": "struct",
-        "fields": [
-          {
-            "name": "base",
-            "type": "publicKey"
-          },
-          {
-            "name": "bump",
-            "type": "u8"
-          },
-          {
-            "name": "tokenMint",
-            "type": "publicKey"
-          },
-          {
-            "name": "lockedSupply",
-            "type": "u64"
-          },
-          {
             "name": "governor",
             "type": "publicKey"
           },
           {
             "name": "params",
             "type": {
-              "defined": "LockerParamsV2"
+              "defined": "LockerParams"
             }
           }
         ]
@@ -958,34 +497,10 @@
           {
             "name": "multiplier",
             "type": "u8"
-          }
-        ]
-      }
-    },
-    {
-      "name": "LockerParamsV2",
-      "type": {
-        "kind": "struct",
-        "fields": [
-          {
-            "name": "minStakeDuration",
-            "type": "u64"
-          },
-          {
-            "name": "maxStakeDuration",
-            "type": "u64"
           },
           {
             "name": "proposalActivationMinVotes",
             "type": "u64"
-          },
-          {
-            "name": "whitelistEnabled",
-            "type": "bool"
-          },
-          {
-            "name": "multiplier",
-            "type": "u8"
           }
         ]
       }
@@ -1061,33 +576,6 @@
           "index": false
         },
         {
-          "name": "admin",
-          "type": "publicKey",
-          "index": false
-        },
-        {
-          "name": "params",
-          "type": {
-            "defined": "LockerParams"
-          },
-          "index": false
-        }
-      ]
-    },
-    {
-      "name": "InitLockerV2Event",
-      "fields": [
-        {
-          "name": "locker",
-          "type": "publicKey",
-          "index": false
-        },
-        {
-          "name": "tokenMint",
-          "type": "publicKey",
-          "index": false
-        },
-        {
           "name": "governor",
           "type": "publicKey",
           "index": false
@@ -1095,7 +583,7 @@
         {
           "name": "params",
           "type": {
-            "defined": "LockerParamsV2"
+            "defined": "LockerParams"
           },
           "index": false
         }
@@ -1147,6 +635,26 @@
         {
           "name": "nextEscrowStartedAt",
           "type": "i64",
+          "index": false
+        }
+      ]
+    },
+    {
+      "name": "SetVoteDelegateEvent",
+      "fields": [
+        {
+          "name": "escrowOwner",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "oldDelegate",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "newDelegate",
+          "type": "publicKey",
           "index": false
         }
       ]
