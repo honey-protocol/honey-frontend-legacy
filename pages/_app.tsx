@@ -11,7 +11,7 @@ import { PartialNetworkConfigMap } from '@saberhq/use-solana/src/utils/useConnec
 import { useEffect, useState } from 'react';
 import SecPopup from 'components/SecPopup';
 import Script from 'next/script';
-
+import Head from 'next/head';
 const network = process.env.NETWORK as Network;
 const networkConfiguration = () => {
   if (process.env.NETWORK_CONFIGURATION) {
@@ -40,6 +40,7 @@ function MyApp({ Component, pageProps }: AppProps) {
   if (!shouldRender) return null;
 
   return (
+
     <ThemeProvider
       defaultMode="dark"
       defaultAccent={storedAccent || defaultAccent}
@@ -70,7 +71,8 @@ function MyApp({ Component, pageProps }: AppProps) {
         {showPopup ? (
           <SecPopup setShowPopup={setShowPopup} />
         ) : (
-          <>
+          <> 
+
             <Component {...pageProps} />
             <ToastContainer theme="dark" position="bottom-right" />
           </>

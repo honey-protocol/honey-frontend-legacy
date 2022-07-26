@@ -110,10 +110,9 @@ const Sidebar = (props: SidebarProps) => {
           height="16"
         >
           <Button variant="transparent" onClick={toggleAccent}>
-            {/* <Heading as="h5" color="foreground" align="center" responsive>
-              Honey 
-            </Heading> */}
-            <Image alt='Honey logo' src={"/honey-logo.svg"} width={180} height={90} />
+            <Heading as="h5" color="foreground" align="center" responsive>
+              Honey Finance
+            </Heading>
           </Button>
         </Box>
         <Stack>
