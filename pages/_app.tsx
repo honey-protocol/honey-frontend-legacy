@@ -11,7 +11,6 @@ import { PartialNetworkConfigMap } from '@saberhq/use-solana/src/utils/useConnec
 import { useEffect, useState } from 'react';
 import SecPopup from 'components/SecPopup';
 import Script from 'next/script';
-
 const network = process.env.NETWORK as Network;
 const networkConfiguration = () => {
   if (process.env.NETWORK_CONFIGURATION) {
