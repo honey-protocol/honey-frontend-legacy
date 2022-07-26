@@ -70,13 +70,13 @@ const LiquidationPool = () => {
 
   // create stringyfied instance of walletPK
   let stringyfiedWalletPK = sdkConfig.sdkWallet?.publicKey.toString();
-  
+
   /**
-   * @description sets the state if user has open bid 
+   * @description sets the state if user has open bid
    * @params array of bids
    * @returns state change
   */
-  function handleBiddingState(biddingArray: any) {  
+  function handleBiddingState(biddingArray: any) {
     biddingArray.map((obligation: any) => {
       if (obligation.bidder == stringyfiedWalletPK) {
         setHasPosition(true);
@@ -86,7 +86,7 @@ const LiquidationPool = () => {
     });
 
     let sorted = biddingArray.sort((first: any,second: any) => first.bidLimit - second.bidLimit).reverse();
-    
+
     setHighestBiddingAddress(sorted[0].bidder);
     setHighestBiddingValue(sorted[0].bidLimit / LAMPORTS_PER_SOL);
   }
@@ -133,7 +133,7 @@ const LiquidationPool = () => {
         } else if (type == 'place_bid') {
             console.log('place bid being called')
             let transactionOutcome: any = await liquidatorClient.placeBid({
-              bid_limit: userBid || 0,
+              bid_limit: userBid || 2,
               market: new PublicKey(HONEY_MARKET_ID),
               bidder: wallet.publicKey,
               bid_mint: NATIVE_MINT
