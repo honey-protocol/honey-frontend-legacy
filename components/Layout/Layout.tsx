@@ -23,7 +23,7 @@ const Layout: FC<Props> = ({ children }) => {
     >
       <Head>
         <title>Honey Finance</title>
-        <meta name="description" content="Liquidity solution for NFTs" />
+        {/* <meta name="description" content="Liquidity solution for NFTs" /> */}
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Stack flex={1} direction="horizontal" space="0">

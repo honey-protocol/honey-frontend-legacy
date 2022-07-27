@@ -25,6 +25,7 @@ const HeadSeo = ({
       <title>{title}</title>
       <meta name="viewport" content="width=device-width, initial-scale=1" />
       <meta name="description" content={description} />
+
       {/* twitter metadata */}
       <meta name="twitter:card" content="summary" />
       <meta name="twitter:site" content={siteMetadata.twitterHandle} />
