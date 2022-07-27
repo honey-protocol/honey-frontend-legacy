@@ -14,6 +14,7 @@ import { HONEY_PROGRAM_ID, HONEY_MARKET_ID } from '../../../constants/loan';
 import { LAMPORTS_PER_SOL, PublicKey } from '@solana/web3.js';
 import LiquidationBiddingModal from 'components/LiquidationBiddingModal/LiquidationBiddingModal';
 import { NATIVE_MINT } from '@solana/spl-token';
+import axios from 'axios';
 
 /**
  * @description interface for NFT object
@@ -56,7 +57,7 @@ const LiquidationPool = () => {
   const [hasPosition, setHasPosition] = useState(false);
   const [highestBiddingAddress, setHighestBiddingAddress] = useState('');
   const [highestBiddingValue, setHighestBiddingValue] = useState(0);
-  const [currentUserBid, setCurrentUserBid] = useState(0);
+  const [currentUserBid, setCurrentUserBid] = useState(2);
 
   const headerData = ['Position', 'Debt', 'Address', 'LTV %', 'Health Factor', 'Highest Bid'];
 
@@ -80,7 +81,7 @@ const LiquidationPool = () => {
     biddingArray.map((obligation: any) => {
       if (obligation.bidder == stringyfiedWalletPK) {
         setHasPosition(true);
-        console.log('@@@@@@@', obligation)
+        console.log('@@@@@@@-----', obligation)
         setCurrentUserBid(obligation.highest_bid);
       }
     });
@@ -91,6 +92,8 @@ const LiquidationPool = () => {
     setHighestBiddingValue(sorted[0].bidLimit / LAMPORTS_PER_SOL);
   }
 
+  const [statusState, setStatusState] = useState(false);
+
   /**
    * @description checks if there are positions, if so set state
    * @params none
@@ -98,10 +101,23 @@ const LiquidationPool = () => {
   */
   useEffect(() => {
     if (status.positions) {
+      setStatusState(true);
+    }
+  }, [status]);
+
+  useEffect(() => {
+    if (statusState == true) {
       setFetchedPositions(status.positions);
       handleBiddingState(status.bids);
     }
-  }, [status]);
+  }, [statusState]);
+
+  function refreshDB() {
+    axios.get('https://honey-nft-api.herokuapp.com/refresh_db')
+    .then((result) => {
+      console.log('DB refresh result:', result);
+    })
+  }
 
   /**
    * @description calls upon liquidator client for placebid | revokebid | increasebid
@@ -115,6 +131,8 @@ const LiquidationPool = () => {
         if (type == 'revoke_bid') {
           console.log('revoke bid being called');
 
+          if (!currentUserBid) return;
+
           let transactionOutcome: any = await liquidatorClient.revokeBid({
             amount: currentUserBid,
             market: new PublicKey(HONEY_MARKET_ID),
@@ -124,23 +142,23 @@ const LiquidationPool = () => {
           });
 
           console.log('@@__Transaction_Outcome revoke bid:', transactionOutcome);
-
+          refreshDB();
           if (transactionOutcome[0] == 'SUCCESS') {
             toastResponse('SUCCESS', 'Placed Bid', 'SUCCESS');
           } else {
             toastResponse('ERROR', 'Bid failed', 'ERROR');
           }
         } else if (type == 'place_bid') {
-            console.log('place bid being called')
+            console.log('place bid being called', userBid)
             let transactionOutcome: any = await liquidatorClient.placeBid({
-              bid_limit: userBid || 2,
+              bid_limit: userBid || 7,
               market: new PublicKey(HONEY_MARKET_ID),
               bidder: wallet.publicKey,
               bid_mint: NATIVE_MINT
             });
 
             console.log('@@__Transaction_Outcome place bid:', transactionOutcome);
-
+            refreshDB();
             if (transactionOutcome[0] == 'SUCCESS') {
               toastResponse('SUCCESS', 'Placed Bid', 'SUCCESS');
             } else {
@@ -157,7 +175,7 @@ const LiquidationPool = () => {
             });
 
             console.log('@@__Transaction_Outcome increase bid:', transactionOutcome);
-            
+            refreshDB();
             if (transactionOutcome[0] == 'SUCCESS') {
               toastResponse('SUCCESS', 'Placed Bid', 'SUCCESS');
             } else {
@@ -263,8 +281,6 @@ const LiquidationPool = () => {
   }
 
   validatePositions();
-
-  console.log('currentUserBid::::', currentUserBid)
 
   return (
     <Layout>
