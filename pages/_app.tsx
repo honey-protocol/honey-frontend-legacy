@@ -11,7 +11,6 @@ import { PartialNetworkConfigMap } from '@saberhq/use-solana/src/utils/useConnec
 import { useEffect, useState } from 'react';
 import SecPopup from 'components/SecPopup';
 import Script from 'next/script';
-import { RefreshContextProvider } from '../contexts/RefreshContext';
 
 const network = process.env.NETWORK as Network;
 const networkConfiguration = () => {
@@ -67,7 +66,6 @@ function MyApp({ Component, pageProps }: AppProps) {
         }}
         networkConfigs={networkConfiguration()}
       >
-      <RefreshContextProvider>
         {/* {children} */}
         {showPopup ? (
           <SecPopup setShowPopup={setShowPopup} />
@@ -77,7 +75,6 @@ function MyApp({ Component, pageProps }: AppProps) {
             <ToastContainer theme="dark" position="bottom-right" />
           </>
         )}
-      </RefreshContextProvider>
       </WalletKitProvider>
     </ThemeProvider>
   );
