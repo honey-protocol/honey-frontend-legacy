@@ -56,7 +56,7 @@ const LiquidationPool = () => {
   const [hasPosition, setHasPosition] = useState(false);
   const [highestBiddingAddress, setHighestBiddingAddress] = useState('');
   const [highestBiddingValue, setHighestBiddingValue] = useState(0);
-  const [currentUserBid, setCurrentUserBid] = useState(2);
+  const [currentUserBid, setCurrentUserBid] = useState(0);
 
   const headerData = ['Position', 'Debt', 'Address', 'LTV %', 'Health Factor', 'Highest Bid'];
 
