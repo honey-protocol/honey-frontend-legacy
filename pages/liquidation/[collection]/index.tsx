@@ -14,7 +14,7 @@ import { HONEY_PROGRAM_ID, HONEY_MARKET_ID } from '../../../constants/loan';
 import { LAMPORTS_PER_SOL, PublicKey } from '@solana/web3.js';
 import LiquidationBiddingModal from 'components/LiquidationBiddingModal/LiquidationBiddingModal';
 import { NATIVE_MINT } from '@solana/spl-token';
-import axios from 'axios';
+// import axios from 'axios';
 
 /**
  * @description interface for NFT object
@@ -112,12 +112,12 @@ const LiquidationPool = () => {
     }
   }, [statusState]);
 
-  function refreshDB() {
-    axios.get('https://honey-nft-api.herokuapp.com/refresh_db')
-    .then((result) => {
-      console.log('DB refresh result:', result);
-    })
-  }
+  // function refreshDB() {
+  //   axios.get('https://honey-nft-api.herokuapp.com/refresh_db')
+  //   .then((result) => {
+  //     console.log('DB refresh result:', result);
+  //   })
+  // }
 
   /**
    * @description calls upon liquidator client for placebid | revokebid | increasebid
@@ -142,7 +142,7 @@ const LiquidationPool = () => {
           });
 
           console.log('@@__Transaction_Outcome revoke bid:', transactionOutcome);
-          refreshDB();
+          // refreshDB();
           if (transactionOutcome[0] == 'SUCCESS') {
             toastResponse('SUCCESS', 'Placed Bid', 'SUCCESS');
           } else {
@@ -158,7 +158,7 @@ const LiquidationPool = () => {
             });
 
             console.log('@@__Transaction_Outcome place bid:', transactionOutcome);
-            refreshDB();
+            // refreshDB();
             if (transactionOutcome[0] == 'SUCCESS') {
               toastResponse('SUCCESS', 'Placed Bid', 'SUCCESS');
             } else {
@@ -175,7 +175,7 @@ const LiquidationPool = () => {
             });
 
             console.log('@@__Transaction_Outcome increase bid:', transactionOutcome);
-            refreshDB();
+            // refreshDB();
             if (transactionOutcome[0] == 'SUCCESS') {
               toastResponse('SUCCESS', 'Placed Bid', 'SUCCESS');
             } else {

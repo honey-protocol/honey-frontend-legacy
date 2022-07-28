@@ -97,6 +97,7 @@ const Liquidation: NextPage = () => {
   */
   useEffect(() => {
     if (status.positions && status.bids) {
+      console.log('this is status', status)
       setFetchedPositions(status.positions);
       setTotalMarketNFTs(status.positions.length);
       handleBiddingState(status.bids);
