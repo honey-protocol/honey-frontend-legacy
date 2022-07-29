@@ -117,7 +117,7 @@ export class VeHoneyClient extends ClientBase<VeHoney> {
     return { txSig, destination };
   }
 
-  async lock(
+  async lockV2(
     locker: PublicKey,
     source: PublicKey,
     amount: anchor.BN,
@@ -164,7 +164,7 @@ export class VeHoneyClient extends ClientBase<VeHoney> {
 
   async fetchLockerV2(locker: PublicKey) {
     try {
-      return await this.program.account.lockerV2.fetch(locker);
+      return await this.program.account.locker.fetch(locker);
     } catch (e) {
       console.log(e);
     }
@@ -172,7 +172,7 @@ export class VeHoneyClient extends ClientBase<VeHoney> {
 
   async fetchEscrowV2(escrow: PublicKey) {
     try {
-      return await this.program.account.escrowV2.fetch(escrow);
+      return await this.program.account.escrow.fetch(escrow);
     } catch (e) {
       console.log(e);
     }
@@ -192,7 +192,7 @@ export class VeHoneyClient extends ClientBase<VeHoney> {
         this.wallet.publicKey
       ),
       await this.program.methods
-        .initEscrowV2()
+        .initEscrow()
         .accounts({
           payer: this.wallet.publicKey,
           locker,
@@ -237,7 +237,7 @@ export class VeHoneyClient extends ClientBase<VeHoney> {
     const lockedTokens = await this.getEscrowLockedTokenPDA(escrow);
 
     const txSig = await this.program.methods
-      .exitV2()
+      .exit()
       .accounts({
         payer: this.wallet.publicKey,
         locker,
@@ -253,7 +253,7 @@ export class VeHoneyClient extends ClientBase<VeHoney> {
     return { txSig, destination };
   }
 
-  async lockV2(
+  async lock(
     locker: PublicKey,
     source: PublicKey,
     amount: anchor.BN,
@@ -282,7 +282,7 @@ export class VeHoneyClient extends ClientBase<VeHoney> {
     const lockedTokens = await this.getEscrowLockedTokenPDA(escrow);
 
     const txSig = await this.program.methods
-      .lockV2(new anchor.BN(amount), new anchor.BN(duration))
+      .lock(new anchor.BN(amount), new anchor.BN(duration))
       .accounts({
         locker,
         escrow,

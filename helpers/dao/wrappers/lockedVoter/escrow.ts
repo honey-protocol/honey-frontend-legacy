@@ -10,14 +10,14 @@ import { SystemProgram } from '@solana/web3.js';
 import BN from 'bn.js';
 
 import { HONEY_DAO_ADDRESSES } from '../../constants';
-import type { EscrowV2Data, LockerV2Data } from '../../programs/lockedVoter';
+import type { EscrowData, LockerData } from '../../programs/lockedVoter';
 import type { TribecaSDK } from '../../sdk';
 import { findVoteAddress } from '../govern/pda';
 import type { VoteSide } from '../govern/types';
 
 export class VoteEscrow {
-  private _lockerData: LockerV2Data | null = null;
-  private _escrowData: EscrowV2Data | null = null;
+  private _lockerData: LockerData | null = null;
+  private _escrowData: EscrowData | null = null;
 
   constructor(
     readonly sdk: TribecaSDK,
@@ -40,7 +40,7 @@ export class VoteEscrow {
    */
   async lockerData() {
     if (!this._lockerData) {
-      this._lockerData = await this.lockerProgram.account.lockerV2.fetch(
+      this._lockerData = await this.lockerProgram.account.locker.fetch(
         this.locker
       );
     }
@@ -52,7 +52,7 @@ export class VoteEscrow {
    */
   async data() {
     if (!this._escrowData) {
-      this._escrowData = await this.lockerProgram.account.escrowV2.fetch(
+      this._escrowData = await this.lockerProgram.account.escrow.fetch(
         this.escrowKey
       );
     }
@@ -183,7 +183,7 @@ export class VoteEscrow {
       owner: escrowData.owner
     });
     return this.provider.newTX([
-      this.lockerProgram.instruction.lockV2(
+      this.lockerProgram.instruction.lock(
         amount.toU64(),
         new BN(durationSeconds),
         {
@@ -215,7 +215,7 @@ export class VoteEscrow {
     });
     return this.provider.newTX([
       destinationTokens.instruction,
-      this.lockerProgram.instruction.exitV2({
+      this.lockerProgram.instruction.exit({
         accounts: {
           locker: this.locker,
           escrow: this.escrowKey,

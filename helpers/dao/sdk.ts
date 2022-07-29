@@ -83,7 +83,7 @@ export class TribecaSDK {
       tx: new TransactionEnvelope(
         this.provider,
         [
-          this.programs.LockedVoter.instruction.initLockerV2(lockerParams, {
+          this.programs.LockedVoter.instruction.initLocker(lockerParams, {
             accounts: {
               base: baseKP.publicKey,
               governor,

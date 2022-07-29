@@ -14,9 +14,9 @@ import invariant from 'tiny-invariant';
 
 import { HONEY_DAO_ADDRESSES } from '../../constants';
 import type {
-  EscrowV2Data,
+  EscrowData,
   LockedVoterProgram,
-  LockerV2Data,
+  LockerData,
   LockerParamsV2,
   ProposalData
 } from '../../programs';
@@ -33,7 +33,7 @@ export class LockerWrapper {
   readonly program: LockedVoterProgram;
   readonly governor: GovernorWrapper;
 
-  private _lockerData: LockerV2Data | null = null;
+  private _lockerData: LockerData | null = null;
 
   constructor(
     readonly sdk: TribecaSDK,
@@ -58,21 +58,21 @@ export class LockerWrapper {
    * Fetches the data of the locker.
    * @returns
    */
-  async reload(): Promise<LockerV2Data> {
-    return this.program.account.lockerV2.fetch(this.locker);
+  async reload(): Promise<LockerData> {
+    return this.program.account.locker.fetch(this.locker);
   }
 
   async fetchProposalData(proposalKey: PublicKey): Promise<ProposalData> {
     return await this.sdk.govern.program.account.proposal.fetch(proposalKey);
   }
 
-  async fetchEscrow(escrowKey: PublicKey): Promise<EscrowV2Data> {
-    return await this.program.account.escrowV2.fetch(escrowKey);
+  async fetchEscrow(escrowKey: PublicKey): Promise<EscrowData> {
+    return await this.program.account.escrow.fetch(escrowKey);
   }
 
   async fetchEscrowByAuthority(
     authority: PublicKey = this.sdk.provider.wallet.publicKey
-  ): Promise<EscrowV2Data> {
+  ): Promise<EscrowData> {
     const [escrowKey] = await findEscrowAddress(this.locker, authority);
     return this.fetchEscrow(escrowKey);
   }
@@ -81,7 +81,7 @@ export class LockerWrapper {
    * Fetches the data of the locker.
    * @returns
    */
-  async data(): Promise<LockerV2Data> {
+  async data(): Promise<LockerData> {
     if (!this._lockerData) {
       this._lockerData = await this.reload();
     }
@@ -95,7 +95,7 @@ export class LockerWrapper {
     instruction: TransactionInstruction | null;
   }> {
     const [escrow] = await findEscrowAddress(this.locker, authority);
-    const escrowData = await this.program.account.escrowV2.fetchNullable(
+    const escrowData = await this.program.account.escrow.fetchNullable(
       escrow
     );
     if (escrowData) {
@@ -117,7 +117,7 @@ export class LockerWrapper {
     authority: PublicKey = this.sdk.provider.wallet.publicKey
   ): Promise<TransactionInstruction> {
     const [escrow] = await findEscrowAddress(this.locker, authority);
-    return this.program.instruction.initEscrowV2({
+    return this.program.instruction.initEscrow({
       accounts: {
         locker: this.locker,
         escrow,
@@ -172,7 +172,7 @@ export class LockerWrapper {
     const lockerData = await this.reload();
 
     instructions.push(
-      this.program.instruction.lockV2(amount, duration, {
+      this.program.instruction.lock(amount, duration, {
         accounts: {
           locker: this.locker,
           escrow: escrow,
@@ -265,7 +265,7 @@ export class LockerWrapper {
     const { govTokenAccount, instructions } =
       await this._getOrCreateGovTokenATAsInternal(authority, escrow);
     instructions.push(
-      this.program.instruction.exitV2({
+      this.program.instruction.exit({
         accounts: {
           locker: this.locker,
           escrow,
@@ -360,7 +360,7 @@ export class LockerWrapper {
     const governorData = await this.sdk.programs.Govern.account.governor.fetch(
       lockerData.governor
     );
-    return this.program.instruction.approveProgramLockPrivilegeV2({
+    return this.program.instruction.approveProgramLockPrivilege({
       accounts: {
         locker: this.locker,
         whitelistEntry,
@@ -387,7 +387,7 @@ export class LockerWrapper {
     const governorData = await this.sdk.programs.Govern.account.governor.fetch(
       lockerData.governor
     );
-    return this.program.instruction.revokeProgramLockPrivilegeV2({
+    return this.program.instruction.revokeProgramLockPrivilege({
       accounts: {
         locker: this.locker,
         whitelistEntry,
@@ -406,7 +406,7 @@ export class LockerWrapper {
       lockerData.governor
     );
 
-    return this.program.instruction.setLockerParamsV2(args, {
+    return this.program.instruction.setLockerParams(args, {
       accounts: {
         locker: this.locker,
         governor: lockerData.governor,

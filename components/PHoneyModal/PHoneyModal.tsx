@@ -22,7 +22,7 @@ const PHoneyModal = () => {
   // ======================== Should replace with configuration ================
   const pHoneyToken = tokenAccounts.find(t => t.info.mint.equals(PHONEY_MINT));
   const STAKE_POOL_ADDRESS = new PublicKey(
-    process.env.NEXT_PUBLIC_STAKE_POOL_ADDR ||
+    process.env.NEXT_PUBLIC_STAKE_POOL_ADDRESS ||
       '4v62DWSwrUVEHe2g88MeyJ7g32vVzQsCnADZF8yUy8iU'
   );
   const LOCKER_ADDRESS = new PublicKey(

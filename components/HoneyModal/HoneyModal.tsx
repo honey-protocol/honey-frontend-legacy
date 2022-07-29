@@ -38,7 +38,7 @@ const HoneyModal = () => {
   // ======================== Should replace with configuration ================
   const honeyToken = tokenAccounts.find(t => t.info.mint.equals(HONEY_MINT));
   const STAKE_POOL_ADDRESS = new PublicKey(
-    process.env.NEXT_PUBLIC_STAKE_POOL_ADDR ||
+    process.env.NEXT_PUBLIC_STAKE_POOL_ADDRESS ||
       '4v62DWSwrUVEHe2g88MeyJ7g32vVzQsCnADZF8yUy8iU'
   );
   const LOCKER_ADDRESS = new PublicKey(
