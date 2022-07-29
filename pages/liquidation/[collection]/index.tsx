@@ -57,7 +57,7 @@ const LiquidationPool = () => {
   const [hasPosition, setHasPosition] = useState(false);
   const [highestBiddingAddress, setHighestBiddingAddress] = useState('');
   const [highestBiddingValue, setHighestBiddingValue] = useState(0);
-  const [currentUserBid, setCurrentUserBid] = useState(2);
+  const [currentUserBid, setCurrentUserBid] = useState();
 
   const headerData = ['Position', 'Debt', 'Address', 'LTV %', 'Health Factor', 'Highest Bid'];
 
@@ -81,8 +81,9 @@ const LiquidationPool = () => {
     biddingArray.map((obligation: any) => {
       if (obligation.bidder == stringyfiedWalletPK) {
         setHasPosition(true);
-        console.log('@@@@@@@-----', obligation)
-        setCurrentUserBid(obligation.highest_bid);
+        console.log('@@@@@@@-----', obligation.bidLimit)
+        setCurrentUserBid(obligation.bidLimit);
+        console.log('@@@@@__Userbid___', currentUserBid);
       }
     });
 
@@ -101,23 +102,18 @@ const LiquidationPool = () => {
   */
   useEffect(() => {
     if (status.positions) {
+      console.log('state change STATUS.POSITIONS running');
       setStatusState(true);
     }
   }, [status]);
 
   useEffect(() => {
     if (statusState == true) {
+      console.log('state change STATUSSTATE running');
       setFetchedPositions(status.positions);
       handleBiddingState(status.bids);
     }
   }, [statusState]);
-
-  // function refreshDB() {
-  //   axios.get('https://honey-nft-api.herokuapp.com/refresh_db')
-  //   .then((result) => {
-  //     console.log('DB refresh result:', result);
-  //   })
-  // }
 
   /**
    * @description calls upon liquidator client for placebid | revokebid | increasebid
@@ -129,9 +125,8 @@ const LiquidationPool = () => {
       const liquidatorClient = await LiquidatorClient.connect(program.provider, HONEY_PROGRAM_ID, false);
       if (wallet) {
         if (type == 'revoke_bid') {
-          console.log('revoke bid being called');
-
           if (!currentUserBid) return;
+          console.log('revoke bid being called', currentUserBid);
 
           let transactionOutcome: any = await liquidatorClient.revokeBid({
             amount: currentUserBid,
@@ -144,14 +139,17 @@ const LiquidationPool = () => {
           console.log('@@__Transaction_Outcome revoke bid:', transactionOutcome);
           // refreshDB();
           if (transactionOutcome[0] == 'SUCCESS') {
-            toastResponse('SUCCESS', 'Placed Bid', 'SUCCESS');
+            toastResponse('SUCCESS', 'Revoke Bid', 'SUCCESS');
           } else {
-            toastResponse('ERROR', 'Bid failed', 'ERROR');
+            toastResponse('ERROR', 'Revoke failed', 'ERROR');
           }
         } else if (type == 'place_bid') {
-            console.log('place bid being called', userBid)
+            // if no user bid terminate action
+            if (!userBid) return;
+            console.log('place bid being called', userBid);
+
             let transactionOutcome: any = await liquidatorClient.placeBid({
-              bid_limit: userBid || 7,
+              bid_limit: userBid,
               market: new PublicKey(HONEY_MARKET_ID),
               bidder: wallet.publicKey,
               bid_mint: NATIVE_MINT
@@ -166,7 +164,10 @@ const LiquidationPool = () => {
             }
 
         } else if (type == 'increase_bid') {
-            console.log('increase bid being called')
+            // if no user bid terminate action
+            if (!userBid) return;
+            console.log('increase bid being called');
+
             let transactionOutcome: any = await liquidatorClient.increaseBid({
               bid_increase: userBid || 0,
               market: new PublicKey(HONEY_MARKET_ID),
@@ -186,6 +187,7 @@ const LiquidationPool = () => {
           return;
         }
       } catch (error) {
+          console.log('The error:', error)
           return toastResponse('ERROR', 'Bid failed', 'ERROR');
         }
   }

@@ -86,6 +86,7 @@ const Liquidation: NextPage = () => {
     biddingArray.map((obligation: any) => {
       if (obligation.bidder == stringyfiedWalletPK) {
         setOpenPositions(true);
+        console.log('@@@@@@@-', obligation)
       }
     })
   }
