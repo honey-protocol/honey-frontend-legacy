@@ -170,7 +170,7 @@ const LiquidationPool = () => {
             console.log('increase bid being called');
 
             let transactionOutcome: any = await liquidatorClient.increaseBid({
-              bid_increase: userBid || 0,
+              bid_increase: userBid,
               market: new PublicKey(HONEY_MARKET_ID),
               bidder: wallet.publicKey,
               bid_mint: NATIVE_MINT,
