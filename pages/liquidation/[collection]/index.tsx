@@ -144,6 +144,7 @@ const LiquidationPool = () => {
             toastResponse('ERROR', 'Revoke failed', 'ERROR');
           }
         } else if (type == 'place_bid') {
+            console.log('inside place bid', userBid)
             // if no user bid terminate action
             if (!userBid) return;
             console.log('place bid being called', userBid);
@@ -266,6 +267,7 @@ const LiquidationPool = () => {
   // }
 
   async function handleExecuteBid(type: string, userBid?: number) {
+    console.log('running executeBid')
     await fetchLiquidatorClient(type, userBid!)
   }
 

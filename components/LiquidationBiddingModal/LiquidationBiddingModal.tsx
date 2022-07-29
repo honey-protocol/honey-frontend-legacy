@@ -6,10 +6,11 @@ import * as styles from './LiquidationBiddingModal.css';
 import Link from 'next/link';
 import { IconClose } from 'degen';
 import { LAMPORTS_PER_SOL, PublicKey } from '@solana/web3.js';
+import { toastResponse } from 'helpers/loanHelpers';
 
 interface LiquidationBiddingModalProps {
   handleShowBiddingModal: () => void;
-  handleExecuteBid: (val: any) => void;
+  handleExecuteBid: (val: any, userBid?: number) => void;
   hasPosition: boolean;
   stringyfiedWalletPK: any;
   highestBiddingAddress: string;
@@ -37,15 +38,16 @@ const LiquidationBiddingModal = (props: LiquidationBiddingModalProps) => {
     if (type == 'revoke_bid') {
       handleExecuteBid(type);
     } else if (type == 'place_bid') {
+      console.log('this is userInput', userInput)
       if (userInput) {
-        handleExecuteBid(type);
+        handleExecuteBid(type, userInput);
       }
     } else if (type == 'increase_bid') {
       if (userInput) {
         if (userInput < (highestBiddingValue + .1)) {
-          return;
+          return toastResponse('ERROR', 'Bid not high enough', 'ERROR');
         };
-        handleExecuteBid(type); 
+        handleExecuteBid(type, userInput); 
       }
     }
     
