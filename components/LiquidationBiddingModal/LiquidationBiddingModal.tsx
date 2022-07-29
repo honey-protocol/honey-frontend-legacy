@@ -44,9 +44,9 @@ const LiquidationBiddingModal = (props: LiquidationBiddingModalProps) => {
       }
     } else if (type == 'increase_bid') {
       if (userInput) {
-        if (userInput < (highestBiddingValue + .1)) {
-          return toastResponse('ERROR', 'Bid not high enough', 'ERROR');
-        };
+        // if (userInput < (highestBiddingValue + .1)) {
+        //   return toastResponse('ERROR', 'Bid not high enough', 'ERROR');
+        // };
         handleExecuteBid(type, userInput); 
       }
     }
