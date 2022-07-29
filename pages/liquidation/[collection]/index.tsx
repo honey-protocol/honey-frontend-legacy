@@ -82,7 +82,7 @@ const LiquidationPool = () => {
       if (obligation.bidder == stringyfiedWalletPK) {
         setHasPosition(true);
         console.log('@@@@@@@-----', obligation.bidLimit)
-        setCurrentUserBid(obligation.bidLimit);
+        setCurrentUserBid(obligation.bidLimit / LAMPORTS_PER_SOL);
         console.log('@@@@@__Userbid___', currentUserBid);
       }
     });
@@ -283,6 +283,10 @@ const LiquidationPool = () => {
   }
 
   validatePositions();
+
+  useEffect(() => {
+    if (currentUserBid) console.log('this is currentUserBid', currentUserBid);
+  }, [currentUserBid])
 
   return (
     <Layout>
