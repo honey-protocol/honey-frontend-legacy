@@ -13,13 +13,13 @@ export const liquidationBiddingModalWrapper = style({
   border: 'none',
   borderRadius: '10px',
   color: 'white',
-  padding: '.5em',
+  padding: '1.5em',
   display: 'flex',
   flexDirection: 'column',
   '@media': {
     'screen and (min-width: 720px)': {
       width: '30em',
-      height: '40em',
+      height: '44em',
       left: '50%',
       top: '50%',
       marginLeft: '-15em',
@@ -30,47 +30,54 @@ export const liquidationBiddingModalWrapper = style({
 });
 
 globalStyle(`${liquidationBiddingModalWrapper} > div`, {
-  margin: '2em 0',
+  flex: '1 1px',
   fontSize: '1.2em',
 });
 
-globalStyle(`${liquidationBiddingModalWrapper} > div > div`, {
-  margin: '.5em 0',
-});
-
-globalStyle(`${liquidationBiddingModalWrapper} button`, {
+globalStyle(`${liquidationBiddingModalWrapper} div button`, {
   width: '100%',
   margin: '.5em 0'
 });
 
-export const bidWrapper = style({
-  display: 'flex',
-  flexDirection: 'row',
-  justifyContent: 'space-between'
-});
+// globalStyle(`${liquidationBiddingModalWrapper} > div > div`, {
+//   margin: '.5em 0',
+// });
 
-export const buttonWrapper = style({
-  width: '100%',
-  position: 'relative',
-  // bottom: '-10em'
-});
+// globalStyle(`${liquidationBiddingModalWrapper} button`, {
+//   width: '100%',
+//   margin: '.5em 0',
+//   bottom: '-5em',
+// });
 
-globalStyle(`${buttonWrapper} > button`, {
-  width: '100%',
-  marginTop: '2.5em',
-  '@media': {
-    'screen and (min-width: 720px)': {
-      marginTop: '3.5em'
-    }
-  }
-});
+// globalStyle(`${liquidationBiddingModalWrapper} div:last-child`, {
+//   marginBottom: '1em',
+//   width: '90%',
+//   bottom: '-1em'
+// });
+
+// export const bidWrapper = style({
+//   display: 'flex',
+//   flexDirection: 'row',
+//   justifyContent: 'space-between'
+// });
+
+// export const buttonWrapper = style({
+//   width: '100%',
+//   position: 'relative',
+//   // bottom: '-10em'
+// });
+
+// globalStyle(`${buttonWrapper} > button`, {
+//   width: '100%',
+//   marginTop: '2.5em',
+//   '@media': {
+//     'screen and (min-width: 720px)': {
+//       marginTop: '3.5em'
+//     }
+//   }
+// });
 
 export const inputWrapper = style({
-  position: 'absolute',
-  bottom: '4em',
-  width: '86%',
-  margin: '0',
-  padding: '0'
 });
 
 globalStyle(`${inputWrapper} > input`, {
@@ -81,9 +88,9 @@ globalStyle(`${inputWrapper} > input`, {
   border: 'none'
 });
 
-globalStyle(`${inputWrapper} > div`, {
-  fontSize: '1.5em',
-});
+// globalStyle(`${inputWrapper} > div`, {
+//   fontSize: '1.5em',
+// });
 
 export const closingAction = style({
   borderRadius: '50%',
@@ -95,9 +102,9 @@ export const closingAction = style({
   justifyContent: 'center',
   alignItems: 'center',
   position: 'absolute',
-  right: '2em',
+  right: '1em',
   cursor: 'pointer'
 });
 
-globalStyle(`${closingAction}`, {
-});
+// globalStyle(`${closingAction}`, {
+// });

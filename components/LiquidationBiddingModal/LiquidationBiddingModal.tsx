@@ -6,10 +6,11 @@ import * as styles from './LiquidationBiddingModal.css';
 import Link from 'next/link';
 import { IconClose } from 'degen';
 import { LAMPORTS_PER_SOL, PublicKey } from '@solana/web3.js';
+import { toastResponse } from 'helpers/loanHelpers';
 
 interface LiquidationBiddingModalProps {
   handleShowBiddingModal: () => void;
-  handleExecuteBid: (val: any) => void;
+  handleExecuteBid: (val: any, userBid?: number) => void;
   hasPosition: boolean;
   stringyfiedWalletPK: any;
   highestBiddingAddress: string;
@@ -20,24 +21,43 @@ const LiquidationBiddingModal = (props: LiquidationBiddingModalProps) => {
   const {handleShowBiddingModal, handleExecuteBid, hasPosition, stringyfiedWalletPK, highestBiddingAddress, highestBiddingValue} = props;
 
   const [confirmState, setConfirmState] = useState(false);
-  const [userInput, setUserInput] = useState(0);
+  const [userInput, setUserInput] = useState();
+  const [increaseUserBid, setIncreaseUserBid] = useState(false);
 
   function handlePlaceBid() {
     confirmState == false ? setConfirmState(true) : setConfirmState(false);
   }
 
+  function handleIncreaseBid() {
+    increaseUserBid == false ? setIncreaseUserBid(true) : setIncreaseUserBid(false);
+    confirmState == false ? setConfirmState(true) : setConfirmState(false);
+  }
+
   function processBid(type: string) {
     console.log('process bid running', type)
-    if (userInput != 0) {
-      handleExecuteBid(type); 
-    } else {
-      handleExecuteBid(type)
+    if (type == 'revoke_bid') {
+      handleExecuteBid(type);
+    } else if (type == 'place_bid') {
+      console.log('this is userInput', userInput)
+      if (userInput) {
+        handleExecuteBid(type, userInput);
+      }
+    } else if (type == 'increase_bid') {
+      if (userInput) {
+        if (userInput < (highestBiddingValue + .1)) {
+          return toastResponse('ERROR', 'Bid not high enough', 'ERROR');
+        };
+        handleExecuteBid(type, userInput); 
+      }
     }
+    
   }
 
   function handleUserChange(val: any) {
     setUserInput(val.target.value);
   }
+
+  // if (hasPosition == true) setConfirmState(true);
 
   return (
     <Box>
@@ -55,7 +75,7 @@ const LiquidationBiddingModal = (props: LiquidationBiddingModalProps) => {
             </Box>
             <Box>
               <Text>Current Highest Bid:</Text>
-              <Box className={styles.bidWrapper}>
+              <Box>
                 <Text><i>{highestBiddingValue} SOL</i></Text>
                 <Text>By: <i>{highestBiddingAddress.substring(0, 4)}...</i></Text>
               </Box>
@@ -68,7 +88,7 @@ const LiquidationBiddingModal = (props: LiquidationBiddingModalProps) => {
                     type="number" 
                     onChange={handleUserChange}
                     value={userInput}
-                    placeholder="0.00"
+                    placeholder={userInput}
                   />
                 </Box>
               )
@@ -78,13 +98,19 @@ const LiquidationBiddingModal = (props: LiquidationBiddingModalProps) => {
               ?
               (
                 <div>
-                  <Button variant="primary" onClick={() => processBid('increase_bid')}>Increase Bid</Button>
+                  {
+                    hasPosition && increaseUserBid
+                    ?
+                    <Button variant="primary" onClick={() => processBid('increase_bid')}>Place Bid</Button>
+                    :
+                    <Button variant="primary" onClick={handleIncreaseBid}>Increase Bid</Button>
+                  }
                   <Button variant="primary" onClick={() => processBid('revoke_bid')}>Revoke Bid</Button>
                 </div>
               )
               : 
               (
-                <Box className={styles.buttonWrapper}>
+                <Box>
                 {
                   confirmState 
                   ?

@@ -56,7 +56,6 @@ const Loan: NextPage = () => {
 
   useEffect(() => {
       async function fetchObligations() {
-        console.log('fetching obligations...');
         let obligations = await program?.account?.obligation?.all();
         if (obligations) {
           setTotalMarketPositions(obligations.length);

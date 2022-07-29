@@ -83,10 +83,10 @@ const Liquidation: NextPage = () => {
    * @returns state change
   */
   function handleBiddingState(biddingArray: any) {  
-    console.log('running');
     biddingArray.map((obligation: any) => {
       if (obligation.bidder == stringyfiedWalletPK) {
         setOpenPositions(true);
+        console.log('@@@@@@@-', obligation)
       }
     })
   }
@@ -98,6 +98,7 @@ const Liquidation: NextPage = () => {
   */
   useEffect(() => {
     if (status.positions && status.bids) {
+      console.log('this is status', status)
       setFetchedPositions(status.positions);
       setTotalMarketNFTs(status.positions.length);
       handleBiddingState(status.bids);
