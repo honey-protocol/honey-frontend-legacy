@@ -64,7 +64,10 @@ const VeHoneyModal = () => {
   );
   // ============================================================================
 
-  const { stake, escrow } = useStake(STAKE_POOL_ADDRESS, LOCKER_ADDRESS);
+  const { stake, unlock, escrow } = useStake(
+    STAKE_POOL_ADDRESS,
+    LOCKER_ADDRESS
+  );
 
   const lockedAmount = useMemo(() => {
     if (!escrow) {
@@ -81,6 +84,21 @@ const VeHoneyModal = () => {
 
     return convertBnTimestampToDate(escrow.escrowEndsAt);
   }, [escrow]);
+
+  const lockPeriodHasEnded = useMemo((): boolean => {
+    if (!escrow) {
+      return true;
+    }
+    const lockEndsTimestamp = convert(escrow.escrowEndsAt, 0);
+    const currentTimestamp = new Date().getTime();
+
+    if (lockEndsTimestamp <= currentTimestamp) {
+      return false;
+    }
+    return true;
+  }, [escrow]);
+
+  // console.log(new Date().getTime())
 
   const veHoneyAmount = useMemo(() => {
     if (!escrow) {
@@ -104,7 +122,6 @@ const VeHoneyModal = () => {
   const handleStake = useCallback(async () => {
     if (!amount || !vestingPeriodInSeconds) return;
 
-    // console.log(vestingPeriodInSeconds);
 
     await stake(
       convertToBN(amount, PHONEY_DECIMALS),
@@ -204,6 +221,9 @@ const VeHoneyModal = () => {
             width="full"
           >
             {amount ? 'Deposit' : 'Enter amount'}
+          </Button>
+          <Button onClick={unlock}  disabled={lockPeriodHasEnded} width="full">
+            Unlock
           </Button>
         </Stack>
       </Box>

@@ -47,7 +47,7 @@ const HoneyModal = () => {
   );
   // ============================================================================
 
-  const { lock, escrow } = useStake(STAKE_POOL_ADDRESS, LOCKER_ADDRESS);
+  const { lock, unlock, escrow } = useStake(STAKE_POOL_ADDRESS, LOCKER_ADDRESS);
 
   const lockedAmount = useMemo(() => {
     if (!escrow) {
@@ -63,6 +63,19 @@ const HoneyModal = () => {
     }
 
     return convertBnTimestampToDate(escrow.escrowEndsAt);
+  }, [escrow]);
+
+  const lockPeriodHasEnded = useMemo((): boolean => {
+    if (!escrow) {
+      return true;
+    }
+    const lockEndsTimestamp = convert(escrow.escrowEndsAt, 0);
+    const currentTimestamp = new Date().getTime();
+
+    if (lockEndsTimestamp  >= currentTimestamp) {
+      return true;
+    }
+    return false;
   }, [escrow]);
 
   const veHoneyAmount = useMemo(() => {
@@ -169,6 +182,9 @@ const HoneyModal = () => {
             width="full"
           >
             {amount ? 'Deposit' : 'Enter amount'}
+          </Button>
+          <Button onClick={unlock} disabled={lockPeriodHasEnded} width="full">
+            Unlock
           </Button>
         </Stack>
       </Box>
