@@ -156,7 +156,7 @@ export class StakeClient extends ClientBase<Stake> {
     hasEscrow?: boolean
   ) {
     const preInstructions = !hasEscrow
-      ? [...(await veHoneyClient.createInitializeEscrowV2Ix(locker))]
+      ? [...(await veHoneyClient.createInitializeEscrowIx(locker))]
       : undefined;
 
     const remainingAccounts = whitelistEnabled

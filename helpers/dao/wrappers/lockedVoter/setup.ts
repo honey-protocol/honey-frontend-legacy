@@ -6,7 +6,7 @@ import { Keypair } from '@solana/web3.js';
 import type {
   GovernanceParameters,
   GovernorWrapper,
-  LockerParamsV2
+  LockerParams
 } from '../..';
 import {
   DEFAULT_GOVERNANCE_PARAMETERS,
@@ -36,7 +36,7 @@ export const createLocker = async ({
   govTokenMint: PublicKey;
   owners?: PublicKey[];
   governanceParameters?: Partial<GovernanceParameters>;
-  lockerParams?: Partial<LockerParamsV2>;
+  lockerParams?: Partial<LockerParams>;
   /**
    * Base of the governor.
    */

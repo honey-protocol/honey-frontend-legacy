@@ -14,7 +14,7 @@ import {
   HONEY_DAO_ADDRESSES,
   HONEY_DAO_IDLS
 } from './constants';
-import type { LockerParamsV2 } from './programs/lockedVoter';
+import type { LockerParams } from './programs/lockedVoter';
 import { GovernWrapper } from './wrappers';
 import { findLockerAddress } from './wrappers/lockedVoter/pda';
 
@@ -69,7 +69,7 @@ export class TribecaSDK {
     baseKP?: Keypair;
     governor: PublicKey;
     govTokenMint: PublicKey;
-  } & Partial<LockerParamsV2>): Promise<{
+  } & Partial<LockerParams>): Promise<{
     locker: PublicKey;
     tx: TransactionEnvelope;
   }> {

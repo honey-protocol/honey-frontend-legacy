@@ -16,7 +16,7 @@ export type LockerData = Accounts['locker'];
 export type EscrowData = Accounts['escrow'];
 export type LockerWhitelistEntryData = Accounts['whitelistEntry'];
 
-export type LockerParamsV2 = LockedVoterTypes['Defined']['LockerParams'];
+export type LockerParams = LockedVoterTypes['Defined']['LockerParams'];
 
 export type LockedVoterError = LockedVoterTypes['Error'];
 export type LockedVoterProgram = LockedVoterTypes['Program'];

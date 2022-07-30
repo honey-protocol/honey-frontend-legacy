@@ -10,7 +10,7 @@ import type {
   GovernTypes,
   LockedVoterProgram,
   LockedVoterTypes,
-  LockerParamsV2
+  LockerParams
 } from './programs';
 
 /**
@@ -80,7 +80,7 @@ export const DEFAULT_GOVERNANCE_PARAMETERS: GovernanceParameters = {
 /**
  * Default parameters for a Locker.
  */
-export const DEFAULT_LOCKER_PARAMS: LockerParamsV2 = {
+export const DEFAULT_LOCKER_PARAMS: LockerParams = {
   // 1M tokens if max locked.
   proposalActivationMinVotes: new BN(10_000_000 * 10 ** 6),
   // 1 day.

@@ -89,7 +89,7 @@ export const ExecuteProposalButton: React.FC<Props> = ({
         invariant(governorW && sdkMut && smartWallet && ecWallet.data);
         const sw = await sdkMut.loadSmartWallet(ecWallet.data.publicKey);
         const [invoker] = await sw.findOwnerInvokerAddress(0);
-        const invokeTX = await sw.ownerInvokeInstructionV2({
+        const invokeTX = await sw.ownerInvokeInstruction({
           instruction: sdkMut.programs.SmartWallet.instruction.approve({
             accounts: {
               smartWallet: smartWallet,
@@ -109,7 +109,7 @@ export const ExecuteProposalButton: React.FC<Props> = ({
         });
         const executeIX = executeTX.instructions[0];
         invariant(executeIX, 'executed');
-        const executeInvoke = await sw.ownerInvokeInstructionV2({
+        const executeInvoke = await sw.ownerInvokeInstruction({
           instruction: executeIX,
           index: 0
         });

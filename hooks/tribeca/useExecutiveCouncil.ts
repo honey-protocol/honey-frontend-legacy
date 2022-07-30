@@ -64,7 +64,7 @@ export const useExecutiveCouncil = () => {
     const sw = await sdkMut.loadSmartWallet(ecWallet.data?.publicKey);
     const allTXs = await Promise.all(
       tx.instructions.map(async instruction => {
-        return await sw.ownerInvokeInstructionV2({
+        return await sw.ownerInvokeInstruction({
           instruction,
           index: subaccountInfo.account.index.toNumber()
         });

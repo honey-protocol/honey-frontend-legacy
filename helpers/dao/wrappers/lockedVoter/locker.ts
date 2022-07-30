@@ -17,7 +17,7 @@ import type {
   EscrowData,
   LockedVoterProgram,
   LockerData,
-  LockerParamsV2,
+  LockerParams,
   ProposalData
 } from '../../programs';
 import type { TribecaSDK } from '../../sdk';
@@ -149,7 +149,7 @@ export class LockerWrapper {
     return new TransactionEnvelope(this.sdk.provider, [ix]);
   }
 
-  async lockTokensV2({
+  async lockTokens({
     amount,
     duration,
     authority = this.sdk.provider.wallet.publicKey
@@ -399,7 +399,7 @@ export class LockerWrapper {
   }
 
   async setLockerParamsIx(
-    args: LockerParamsV2
+    args: LockerParams
   ): Promise<TransactionInstruction> {
     const lockerData = await this.reload();
     const governorData = await this.sdk.programs.Govern.account.governor.fetch(
