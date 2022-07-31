@@ -14,6 +14,7 @@ import { HONEY_PROGRAM_ID, HONEY_MARKET_ID } from '../../../constants/loan';
 import { LAMPORTS_PER_SOL, PublicKey } from '@solana/web3.js';
 import LiquidationBiddingModal from 'components/LiquidationBiddingModal/LiquidationBiddingModal';
 import { NATIVE_MINT } from '@solana/spl-token';
+import { styleVariants } from '@vanilla-extract/css';
 // import axios from 'axios';
 
 /**
@@ -59,7 +60,7 @@ const LiquidationPool = () => {
   const [highestBiddingValue, setHighestBiddingValue] = useState(0);
   const [currentUserBid, setCurrentUserBid] = useState();
 
-  const headerData = ['Position', 'Debt', 'Address', 'LTV %', 'Health Factor', 'Highest Bid'];
+  const headerData = ['Position', 'Debt', 'LTV %', 'Health Factor', 'Address'];
 
   const [showBiddingModal, setBiddingModal] = useState(false);
 
@@ -109,7 +110,18 @@ const LiquidationPool = () => {
 
   useEffect(() => {
     if (statusState == true) {
-      console.log('state change STATUSSTATE running');
+      console.log('state change STATUSSTATE running', status);
+      
+      status.positions?.map((position) => {
+        if (position.is_healthy == 'MEDIUM') {
+          position.is_healthy = '0'
+        } else if (position.is_healthy == 'LOW') {
+          position.is_healthy = '1'
+        } else if (position.is_healthy == 'RISKY') {
+          position.is_healthy = '2'
+        }
+      });
+
       setFetchedPositions(status.positions);
       handleBiddingState(status.bids);
     }
@@ -315,7 +327,7 @@ const LiquidationPool = () => {
           </Stack>
         </Box>
         <Box className={styles.callToActionContainer}>
-          <h2>Collection: <span>Honey Eyes</span></h2>
+            <h2>Collection: <span>Honey Eyes</span></h2>
           {
             hasPosition
             ?
@@ -327,6 +339,9 @@ const LiquidationPool = () => {
               Place Bid on Collection
             </Button>
           }
+        </Box>
+        <Box className={styles.biddingOverview}>
+          <h4>Highest bid on collection: <span>{highestBiddingValue} SOL</span></h4>
         </Box>
         <LiquidationHeader
             headerData={headerData}

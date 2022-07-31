@@ -31,6 +31,17 @@ interface LiquidationCardProps {
 
 const LiquidationCard = (props: LiquidationCardProps) => {
   const { openPositions, liquidationType, handleShowBiddingModal, showBiddingModal, handleExecuteBid, loan, key } = props;
+  console.log('this is loan', loan);
+
+  function handleHealthStatus() {
+    if (loan.is_healthy == '0') {
+      return <Box className={styles.healthFactorHigh}>Healthy</Box>
+    } else if (loan.is_healthy == '1') {
+      return <Box className={styles.healthFactorMedium}>Medium</Box>
+    } else if (loan.is_healthy == '2') {
+      return <Box className={styles.healthFactorLow}>Low</Box>
+    }
+  }
 
   return (
         <Box className={styles.subWrapper}>
@@ -45,20 +56,14 @@ const LiquidationCard = (props: LiquidationCardProps) => {
               <Text>{loan.debt} SOL</Text>
             </Box>
             {
-              loan.is_healthy 
-              ? 
-              <Box className={styles.healthFactor}>High</Box>
-              :
-              <Box className={styles.healthFactorMedium}>Medium</Box>
-
+              handleHealthStatus()
             }
+
+              {/* <Box className={styles.healthFactor}>High</Box> */}
+              {/* <Box className={styles.healthFactorMedium}>Medium</Box> */}
             <Box className={styles.collectionCardWrapper}>
               <Text>LVT:</Text>  
               <Text>{loan.ltv} %</Text>
-            </Box>
-            <Box className={styles.collectionCardWrapper}>
-              <Text>Bid:</Text>  
-              <Text>{loan.highest_bid / LAMPORTS_PER_SOL} SOL</Text>
             </Box>
             <Box className={styles.collectionCardWrapper}>
               <Text>Address:</Text>  

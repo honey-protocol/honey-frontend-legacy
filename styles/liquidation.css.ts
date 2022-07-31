@@ -20,7 +20,7 @@ globalStyle(`${liquidationWrapper} > *`, {
 export const subWrapper = style({
   background: 'rgb(30, 30, 30)',
   margin: '.75em 0',
-  padding: '.75em',
+  padding: '.75em 0',
   borderRadius: '1em',
   verticalAlign: 'center',
 });
@@ -177,16 +177,29 @@ export const imageWrapper = style({
 });
 
 export const healthFactorHigh = style({
-  width: '5em'
+  background: 'rgb(26, 58, 34)',
+  color: 'rgb(48, 208, 88)',
+  fontWeight: '600',
+  padding: '.5em 1em',
+  borderRadius: '10px',
+  width: '7em!important',
+  margin: '0 auto',
+  marginLeft: '.5em!important',
+  '@media': {
+    'screen and (min-width: 350px)': {
+      marginLeft: 0,
+      margin: '0 auto!important',
+      alignSelf: 'center'
+    }
+  }
 });
 
 globalStyle(`${healthFactorHigh} div`, {
   width: '75%',
   textAlign: 'center',
   fontWeight: '600',
-  color: 'rgb(48, 208, 88) !important',
   padding: '0.5em',
-  background: 'rgb(26, 58, 34)',
+  background: 'rgb(255, 215, 0, .3)',
   borderRadius: '10px',
   margin: '0 auto'
 });
@@ -220,16 +233,29 @@ globalStyle(`${healthFactorMedium} div`, {
 });
 
 export const healthFactorLow = style({
-  width: '5em'
+  background: 'darkred',
+  color: 'red',
+  fontWeight: '600',
+  padding: '.5em 1em',
+  borderRadius: '10px',
+  width: '7em!important',
+  margin: '0 auto',
+  marginLeft: '.5em!important',
+  '@media': {
+    'screen and (min-width: 350px)': {
+      marginLeft: 0,
+      margin: '0 auto!important',
+      alignSelf: 'center'
+    }
+  }
 });
 
 globalStyle(`${healthFactorLow} div`, {
   width: '75%',
   textAlign: 'center',
   fontWeight: '600',
-  color: 'red',
   padding: '0.5em',
-  background: 'rgba(255, 0, 0, .3)',
+  background: 'rgb(255, 215, 0, .3)',
   borderRadius: '10px',
   margin: '0 auto'
 });
@@ -434,6 +460,20 @@ globalStyle(`${callToActionContainer} > h2`, {
 globalStyle(`${callToActionContainer} > h2 > span`, {
   fontWeight: '300'
 });
+
+globalStyle(`${callToActionContainer} > h2:last-of-type`, {
+  display: 'block'
+});
+
+export const biddingOverview = style({
+  margin: '0',
+  marginTop: '-2em'
+});
+
+globalStyle(`${biddingOverview} > h4`, {
+  color: 'rgb(179,179,179)',
+  fontWeight: '500',
+})
 
 export const healthFactor = style({
   background: 'rgb(26, 58, 34)',
