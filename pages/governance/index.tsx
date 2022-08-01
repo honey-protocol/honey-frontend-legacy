@@ -65,7 +65,7 @@ const Governance: NextPage = () => {
     : lockedSupply;
 
   const STAKE_POOL_ADDRESS = new PublicKey(
-    process.env.NEXT_PUBLIC_STAKE_POOL_ADDR ||
+    process.env.NEXT_PUBLIC_STAKE_POOL_ADDRESS ||
       'Cv9Hx3VRvqkz5JRPiZM8A2BH31yvpcT4qiUJLdtgu7TE'
   );
   const LOCKER_ADDRESS = new PublicKey(
