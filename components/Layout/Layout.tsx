@@ -1,6 +1,6 @@
 import React, { FC, ReactNode, useState } from 'react';
 import Head from 'next/head';
-import { Box, Stack } from 'degen';
+import { Box, Stack, Text } from 'degen';
 import UserInfo from '../UserInfo/UserInfo';
 import Sidebar from '../Sidebar/Sidebar';
 import * as styles from './Layout.css';
