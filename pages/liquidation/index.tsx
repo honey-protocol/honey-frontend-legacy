@@ -93,7 +93,6 @@ const Liquidation: NextPage = () => {
   */
   useEffect(() => {
     if (status.positions && status.bids) {
-      console.log('this is status', status)
       setFetchedPositions(status.positions);
       setTotalMarketNFTs(status.positions.length);
       handleBiddingState(status.bids);
@@ -122,23 +121,28 @@ const Liquidation: NextPage = () => {
   // if there are positions init the average calculations
   if (fetchedPositions) calculateMarketValues(fetchedPositions);
 
-
   /**
    * @description validates if user has outstanding bid or not
    * @params none
    * @returns toastresponse with state of outstanding bid
   */
    function validatePositions() {
-    setTimeout(() => {
-      openPositions
-      ?
-      toastResponse('LIQUIDATION', '1 oustanding bid', 'LIQUIDATION')
-      :
-      toastResponse('LIQUIDATION', 'No outstanding bid', 'LIQUIDATION')
-    }, 2000);
+    console.log('this is open pos', openPositions)
+
+    openPositions
+    ?
+    toastResponse('LIQUIDATION', '1 oustanding bid', 'LIQUIDATION')
+    :
+    toastResponse('LIQUIDATION', 'No outstanding bid', 'LIQUIDATION')
   }
 
-  validatePositions();
+  useEffect(() => {
+    if (status.positions) {
+      setTimeout(() => {
+        validatePositions();
+      }, 5000)
+    }
+  }, []);
 
   return (
     <Layout>

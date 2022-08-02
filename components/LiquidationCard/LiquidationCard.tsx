@@ -31,7 +31,6 @@ interface LiquidationCardProps {
 
 const LiquidationCard = (props: LiquidationCardProps) => {
   const { openPositions, liquidationType, handleShowBiddingModal, showBiddingModal, handleExecuteBid, loan, key } = props;
-  console.log('this is loan', loan);
 
   function handleHealthStatus() {
     if (loan.is_healthy == '0') {

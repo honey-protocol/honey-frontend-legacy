@@ -77,7 +77,7 @@ const LiquidationBiddingModal = (props: LiquidationBiddingModalProps) => {
               <Text>Current Highest Bid:</Text>
               <Box>
                 <Text><i>{highestBiddingValue} SOL</i></Text>
-                <Text>By: <i>{highestBiddingAddress.substring(0, 4)}...</i></Text>
+                <Text>By: <i>{highestBiddingAddress?.substring(0, 4)}...</i></Text>
               </Box>
             </Box>
             {
