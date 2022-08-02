@@ -32,7 +32,7 @@ globalStyle(`${subWrapper} > div > div`, {
 export const subContainer = style({
   display: 'flex',
   flexDirection: 'row',
-  justifyContent: 'space-between',
+  justifyContent: 'space-around',
   width: '100%'
 });
 
@@ -156,6 +156,7 @@ export const collectionCardWrapper = style({
   justifyContent: 'space-around',
   alignItems: 'center',
   verticalAlign: 'center',
+  minWidth: '25%',
   '@media': {
     'screen and (min-width: 720px)': {
     }

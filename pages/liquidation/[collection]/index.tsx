@@ -58,7 +58,7 @@ const LiquidationPool = () => {
   const [highestBiddingValue, setHighestBiddingValue] = useState(0);
   const [currentUserBid, setCurrentUserBid] = useState(0);
 
-  const headerData = ['Position', 'Debt', 'LTV %', 'Health Factor', 'Address'];
+  const headerData = ['Position', 'Debt', 'Address', 'Health Factor'];
 
   const [showBiddingModal, setBiddingModal] = useState(false);
 
@@ -91,6 +91,8 @@ const LiquidationPool = () => {
     setHighestBiddingAddress(new PublicKey(highestBid[0].address).toString());
     setHighestBiddingValue(highestBid[0].highest_bid / LAMPORTS_PER_SOL);
     setFetchedPositions(sorted);
+
+    console.log('this is sorted@@@@@@', sorted)
   }
 
   const [statusState, setStatusState] = useState(false);
@@ -250,12 +252,18 @@ const LiquidationPool = () => {
         <Box className={styles.biddingOverview}>
           <h4>Highest bid on collection: <span>{highestBiddingValue} SOL</span></h4>
         </Box>
+        {
+          fetchedPositions &&
+          <Box className={styles.biddingOverview}>
+            <h4>Loan to value ratio <span>{fetchedPositions[0].ltv}%</span></h4>
+          </Box>
+        }
         <LiquidationHeader
             headerData={headerData}
           />
         <Box>
          {
-            fetchedPositions && fetchedPositions.map((loan, index) => {
+            fetchedPositions && fetchedPositions.map((loan, i) => {
               return (
                 // <LiquidationCard
                 //   key={i}
@@ -269,7 +277,7 @@ const LiquidationPool = () => {
                 //   handleExecuteBid={() => handleExecuteBid}
                 // />
                 <LiquidationCard
-                  key={index}
+                  index={i}
                   loan={loan}
                   liquidationType={true}
                   handleShowBiddingModal={handleShowBiddingModal}
