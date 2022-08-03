@@ -112,7 +112,7 @@ const LoanDeposit = (props: LoanDepositProps) => {
         {/* Borrowed amount and currency */}
         <Box className={styles.selectionWrapper}>
           <Box className={styles.selectionDetails}>
-            <input type="number" placeholder='0.00' step=".01" onChange={(value) => handleChange(value)} className={styles.currencyStyles} value={userInput} min="1" max="2" />
+            <input type="number" placeholder='0.00' step=".01" onChange={(value) => handleChange(value)} className={styles.currencyStyles} defaultValue={userInput} min="1" max="2" />
             {/* <Avatar
               label="TetranodeNFT"
               size="7"

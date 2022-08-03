@@ -16,7 +16,6 @@ import { useMarket, useBorrowPositions, useHoney, useAnchor }
   // from '@honey-finance/sdk';
   from '../../../honey-sdk';
 import {TYPE_ZERO, TYPE_ONE} from '../../constants/loan';
-import BN from 'bn.js';
 import { BnDivided } from '../../helpers/loanHelpers';
 import { LAMPORTS_PER_SOL, PublicKey } from '@solana/web3.js';
 import {RoundHalfDown} from '../../helpers/utils';

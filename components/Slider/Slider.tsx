@@ -102,7 +102,7 @@ const Slider = (props: SliderProps) => {
               placeholder="0.00" 
               onChange={handleNumberInput}
               className={styles.currencyStylesChild} 
-              value={userInput} 
+              defaultValue={userInput}
               min="0" 
               max="100"
                />
@@ -114,7 +114,7 @@ const Slider = (props: SliderProps) => {
           <input 
             className={styles.rangeSliderRange} 
             type="range"
-            value={rangeSlider} 
+            defaultValue={rangeSlider}
             min="0" 
             max="100"
             onChange={handleRangeInput} 
