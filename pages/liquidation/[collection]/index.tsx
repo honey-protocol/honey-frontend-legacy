@@ -278,6 +278,7 @@ const LiquidationPool = () => {
                 // />
                 <LiquidationCard
                   index={i}
+                  key={i}
                   loan={loan}
                   liquidationType={true}
                   handleShowBiddingModal={handleShowBiddingModal}
