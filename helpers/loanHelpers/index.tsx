@@ -104,3 +104,8 @@ export function BnToDecimal(val: BN | undefined, decimal: number, precision: num
     return 0;
   return val.div(new BN(10 ** (decimal - precision))).toNumber() / (10 ** precision);
 }
+
+export function BnDivided(val: BN, a: number, b: number) {
+  return val.div(new BN(a ** b)).toNumber();
+}
+// setTotalMarketDeposits(parsedReserves[0].reserveState.totalDeposits.div(new BN(10 ** 9)).toNumber());
