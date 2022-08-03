@@ -129,22 +129,17 @@ const Liquidation: NextPage = () => {
    * @returns toastresponse with state of outstanding bid
   */
    function validatePositions() {
-    console.log('this is open pos', openPositions)
-
-    openPositions
-    ?
-    toastResponse('LIQUIDATION', '1 oustanding bid', 'LIQUIDATION')
-    :
-    toastResponse('LIQUIDATION', 'No outstanding bid', 'LIQUIDATION')
+    setTimeout(() => {
+      console.log('this is open pos', openPositions)
+      openPositions
+      ?
+      toastResponse('LIQUIDATION', '1 oustanding bid', 'LIQUIDATION')
+      :
+      toastResponse('LIQUIDATION', 'No outstanding bid', 'LIQUIDATION')
+    }, 5000);
   }
 
-  useEffect(() => {
-    if (status.positions) {
-      setTimeout(() => {
-        validatePositions();
-      }, 5000)
-    }
-  }, []);
+  validatePositions();
 
   return (
     <Layout>

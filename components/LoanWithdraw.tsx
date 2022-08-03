@@ -76,14 +76,14 @@ const LoanWithdraw = (props: LoanWithdrawProps) => {
     >
       {/* Vault data row */}
       <Stack align="center">
-        <Avatar label="" size="15" src={'/nfts/2738.png'} />
+        <Avatar label="" size="15" src={'https://mint-site-ten.vercel.app/when-loans.gif'} />
         <Text
           align="right"
           weight="semiBold"
           color="foreground"
           variant="large"
         >
-          Solana Monkey Business
+          Honey Eyes
         </Text>
       </Stack>
       <Stack>
