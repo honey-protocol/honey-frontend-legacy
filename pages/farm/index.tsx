@@ -1,4 +1,6 @@
 import type { NextPage } from 'next';
+import HeadSeo from 'components/HeadSeo/HeadSeo';
+import siteMetadata from 'constants/siteMetadata';
 import Link from 'next/link';
 import { Box, Text, Stack, Button, IconSearch, Input, Spinner } from 'degen';
 import Layout from '../../components/Layout/Layout';
@@ -105,6 +107,15 @@ const Farm: NextPage = (props: any) => {
 
   return (
     <Layout>
+      <HeadSeo
+        title={`Farms | ${siteMetadata.companyName}`}
+        description={`Stake your favorite Solana NFTs to earn crypto rewards. Start earning now!`}
+        canonicalUrl={siteMetadata.siteUrl}
+        ogImageUrl={'https://app.honey.finance/honey-og-image.png'}
+        ogTwitterImage={siteMetadata.siteLogoSquare}
+        ogType={'website'}
+      />
+
       <Box display={'flex'} flexDirection="column" flex={1}>
         <Box minWidth="full" gap="3" paddingTop="4">
           <Stack

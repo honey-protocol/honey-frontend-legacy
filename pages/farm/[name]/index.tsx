@@ -1,3 +1,5 @@
+import HeadSeo from 'components/HeadSeo/HeadSeo';
+import siteMetadata from 'constants/siteMetadata';
 import type { NextPage } from 'next';
 import { Box, Stack, Button, IconChevronLeft } from 'degen';
 import Layout from '../../../components/Layout/Layout';
@@ -7,6 +9,7 @@ import FarmNFTsContainer from 'components/FarmNFTsContainer/FarmNFTsContainer';
 import Link from 'next/link';
 import * as styles from '../../../styles/name.css';
 import { useState } from 'react';
+import { useRouter } from 'next/router';
 
 const Nft: NextPage = () => {
   const {
@@ -27,8 +30,13 @@ const Nft: NextPage = () => {
     selectedWalletNFTs,
     farmerState,
     farmerVaultLocked,
+    rewardTokenName,
     lockVault
   } = useGemFarm();
+
+  const router = useRouter();
+  const { name } = router.query;
+  console.log('Page Id ' + name);
 
   const [txLoading, setTxLoading] = useState({
     value: false,
@@ -48,10 +56,20 @@ const Nft: NextPage = () => {
 
   return (
     <Layout>
+      <HeadSeo
+        title={`${name} | Farms | ${siteMetadata.companyName}`}
+        description={`Start staking your ${name} NFT to earn ${rewardTokenName} token in Solana.`}
+        canonicalUrl={siteMetadata.siteUrl}
+        ogImageUrl={'https://app.honey.finance/honey-og-image.png'}
+        ogTwitterImage={siteMetadata.siteLogoSquare}
+        ogType={'website'}
+      />
+
       <Box marginTop="3" marginBottom="2">
         <Stack
-          direction={{ lg: 'horizontal', md: 'vertical' }}
+          direction={{ lg: 'horizontal', xs: 'vertical' }}
           justify="space-between"
+          wrap
         >
           <Box
             marginRight="auto"

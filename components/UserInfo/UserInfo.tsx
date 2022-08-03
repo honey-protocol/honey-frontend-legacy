@@ -13,6 +13,7 @@ import { Text } from 'degen';
 import { useWalletKit } from '@gokiprotocol/walletkit';
 import { useConnectedWallet, useSolana } from '@saberhq/use-solana';
 import * as styles from './UserInfo.css';
+import Tps from '../Tps/TpsBar';
 
 interface UserInfoProps {
   setShowMobileSidebar: Function;
@@ -67,6 +68,9 @@ const UserInfo = (props: UserInfoProps) => {
           >
             <IconMenu size="8" color="accent" />
           </Button>
+        </Box>
+        <Box marginRight="auto" >
+          <Tps/>
         </Box>
         {wallet ? (
           <Button

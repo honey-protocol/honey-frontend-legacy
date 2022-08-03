@@ -175,7 +175,7 @@ const LoanNFTsContainer = (props: LoanNFTsContainerProps) => {
                   openPositions && openPositions.length > TYPE_ZERO && renderNFTs == TYPE_ZERO ? openPositions.map((nft: any, i: any) => (
                     <LoanNFTCard
                       selected={selectedId}
-                      key={nft.key}
+                      key={i}
                       NFT={nft}
                       onSelectNFT={onSelectNFT}
                       available={false}
@@ -190,7 +190,7 @@ const LoanNFTsContainer = (props: LoanNFTsContainerProps) => {
                     nft.name.includes('When') && (
                       <LoanNFTCard
                         selected={selectedId}
-                        key={nft.key}
+                        key={i}
                         NFT={nft}
                         onSelectNFT={onSelectNFT}
                         available={true}

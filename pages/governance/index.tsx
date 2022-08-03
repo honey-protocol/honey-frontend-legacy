@@ -1,4 +1,6 @@
 import type { NextPage } from 'next';
+import HeadSeo from 'components/HeadSeo/HeadSeo';
+import siteMetadata from 'constants/siteMetadata';
 import {
   Box,
   Button,
@@ -121,6 +123,15 @@ const Governance: NextPage = () => {
 
   return (
     <Layout>
+      <HeadSeo
+        title={`Governance | ${siteMetadata.companyName}`}
+        description={`Propose, vote and vest your HONEY for veHONEY to participate in Honey DAO governance.`}
+        ogImageUrl={'https://app.honey.finance/honey-og-image.png'}
+        canonicalUrl={siteMetadata.siteUrl}
+        ogTwitterImage={siteMetadata.siteLogoSquare}
+        ogType={'website'}
+      />
+
       <Stack space="5" flex={1}>
         {/* Modals */}
         <ModalContainer
@@ -168,14 +179,15 @@ const Governance: NextPage = () => {
                 <Stack flex={1} justify="center" align="center" space="3">
                   <IconExclamation color="accent" />
                   <Text as="span" color="accent">
-                      Maintenance warning
-                    </Text>{' '}
+                    Maintenance warning
+                  </Text>{' '}
                   <Text variant="small" align="center">
-                    Our governance program is {' '}
+                    Our governance program is{' '}
                     <Text as="span" color="accent">
                       currently undergoing a maintenance.
                     </Text>{' '}
-                    Please wait before converting pHONEY to HONEY, or withdrawing HONEY from the conversion tool.
+                    Please wait before converting pHONEY to HONEY, or
+                    withdrawing HONEY from the conversion tool.
                   </Text>
                   <Stack direction="horizontal" justify="center" align="center">
                     <Button

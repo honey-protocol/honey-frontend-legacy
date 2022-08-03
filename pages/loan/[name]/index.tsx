@@ -234,9 +234,6 @@ const Loan: NextPage = () => {
   useEffect(() => {
   }, [withDrawDepositNFT]);
 
-  // useEffect(() => {
-  //   toastResponse('LOADING', 'Loading..', 'LOADING');
-  // }, [loading]);
 
   // state handler based off nft key
   function selectNFT(key: any, type: boolean) {

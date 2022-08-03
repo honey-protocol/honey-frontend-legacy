@@ -54,15 +54,13 @@ const Loan: NextPage = () => {
     }
   ];
 
-  useEffect(() => {
-      async function fetchObligations() {
-        let obligations = await program?.account?.obligation?.all();
-        if (obligations) {
-          setTotalMarketPositions(obligations.length);
-        }
-      }
+  async function fetchObligations() {
+    let obligations = await program?.account?.obligation?.all();
+    if (obligations) setTotalMarketPositions(obligations.length);
+  }
 
-      fetchObligations();
+  useEffect(() => {
+    fetchObligations();
   }, [program]);
 
   /**

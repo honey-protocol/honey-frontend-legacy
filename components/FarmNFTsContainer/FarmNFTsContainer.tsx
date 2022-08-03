@@ -35,7 +35,11 @@ const FarmNFTsContainer = (props: FarmNFTsContainerProps) => {
       <Card level="2" width="full" padding="8" shadow>
         <Box height="full" display="flex">
           <Stack flex={1}>
-            <Stack direction="horizontal" justify="space-between">
+            <Stack
+              direction={{ md: 'horizontal', xs: 'vertical' }}
+              justify={{ md: 'space-between' }}
+              align={{ xs: 'center' }}
+            >
               <Text weight="semiBold" variant="large">
                 {title}
               </Text>
