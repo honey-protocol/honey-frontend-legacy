@@ -17,6 +17,7 @@ import { useMarket, useBorrowPositions, useHoney, useAnchor }
   from '../../../honey-sdk';
 import {TYPE_ZERO, TYPE_ONE} from '../../constants/loan';
 import BN from 'bn.js';
+import { BnToDecimal } from '../../helpers/loanHelpers';
 import { LAMPORTS_PER_SOL, PublicKey } from '@solana/web3.js';
 import {RoundHalfDown} from '../../helpers/utils';
 
@@ -70,6 +71,7 @@ const Loan: NextPage = () => {
   */
   useEffect(() => {
     if (parsedReserves && parsedReserves[0].reserveState.totalDeposits) {
+      // setTotalMarketDeposits(BnToDecimal(parsedReserves[0].reserveState.totalDeposits, 10, 9));
       setTotalMarketDeposits(parsedReserves[0].reserveState.totalDeposits.div(new BN(10 ** 9)).toNumber());
     }
   }, [parsedReserves]);
@@ -83,6 +85,7 @@ const Loan: NextPage = () => {
       )[0];
 
       const reserveState = depositReserve.data?.reserveState;
+      // let marketDebt = BnToDecimal(reserveState?.outstandingDebt, 10, 15);
       let marketDebt = reserveState?.outstandingDebt.div(new BN(10 ** 15)).toNumber();
       if (marketDebt) {
         let sum = Number((marketDebt / LAMPORTS_PER_SOL))

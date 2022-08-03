@@ -19,7 +19,7 @@ interface OpenObligation {
   address: PublicKey,
   debt: number,
   highest_bid: number,
-  is_healthy: boolean,
+  is_healthy: string,
   ltv: number,
 }
 
@@ -94,6 +94,7 @@ const Liquidation: NextPage = () => {
   */
   useEffect(() => {
     if (status.positions && status.bids) {
+      console.log('STATUS_POSITIONS', status.positions);
       setFetchedPositions(status.positions);
       setTotalMarketNFTs(status.positions.length);
       handleBiddingState(status.bids);
