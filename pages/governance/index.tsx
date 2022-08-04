@@ -1,5 +1,17 @@
 import type { NextPage } from 'next';
-import { Box, Button, Card, IconExclamation, Stat, Text } from 'degen';
+import HeadSeo from 'components/HeadSeo/HeadSeo';
+import siteMetadata from 'constants/siteMetadata';
+import {
+  Box,
+  Button,
+  Card,
+  IconChevronRight,
+  IconExclamation,
+  Input,
+  Tag,
+  Stat,
+  Text
+} from 'degen';
 import { Stack } from 'degen';
 import Layout from '../../components/Layout/Layout';
 import ModalContainer from 'components/ModalContainer/ModalContainer';
@@ -144,6 +156,15 @@ const Governance: NextPage = () => {
 
   return (
     <Layout>
+       <HeadSeo
+        title={`Governance | ${siteMetadata.companyName}`}
+        description={`Propose, vote and vest your HONEY for veHONEY to participate in Honey DAO governance.`}
+        ogImageUrl={'https://app.honey.finance/honey-og-image.png'}
+        canonicalUrl={siteMetadata.siteUrl}
+        ogTwitterImage={siteMetadata.siteLogoSquare}
+        ogType={'website'}
+      />
+
       {/* Modals */}
       <ModalContainer
         onClose={() => setShowPHoneyModal(false)}
@@ -163,6 +184,7 @@ const Governance: NextPage = () => {
       >
         <HoneyModal />
       </ModalContainer>
+
       <Stack space="5" flex={1}>
         <Card level="2" padding="6">
           <Box
@@ -258,6 +280,7 @@ const Governance: NextPage = () => {
                   paddingBottom={{ xs: '3', sm: '0' }}
                   borderBottomWidth={{ xs: '0.375', sm: '0' }}
                   borderRightWidth={{ xs: '0', sm: '0.375' }}
+
                 >
                   <Stack flex={1} justify="space-between" space="6">
                     <Stack justify="space-between" direction="horizontal">

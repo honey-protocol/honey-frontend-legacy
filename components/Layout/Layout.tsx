@@ -1,6 +1,6 @@
 import React, { FC, ReactNode, useState } from 'react';
 import Head from 'next/head';
-import { Box, Stack } from 'degen';
+import { Box, Stack, Text } from 'degen';
 import UserInfo from '../UserInfo/UserInfo';
 import Sidebar from '../Sidebar/Sidebar';
 import * as styles from './Layout.css';
@@ -20,8 +20,8 @@ const Layout: FC<Props> = ({ children }) => {
       className={styles.pageContainer}
     >
       <Head>
-        <title>Honey App</title>
-        <meta name="description" content="Liquidity solution for NFTs" />
+        <title>Honey Finance</title>
+        {/* <meta name="description" content="Liquidity solution for NFTs" /> */}
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Stack flex={1} direction="horizontal" space="0">

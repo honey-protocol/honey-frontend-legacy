@@ -94,7 +94,8 @@ const FarmHeaderComponent = (props: FarmHeaderComponentProps) => {
               Total staked
             </Text>
             <Text size="small" variant="small">
-              {stakedNftCount}
+              {/* {stakedNftCount} */}
+              --
             </Text>
           </Stack>
           <Stack direction="vertical" space="1" align="center">
@@ -102,7 +103,8 @@ const FarmHeaderComponent = (props: FarmHeaderComponentProps) => {
               % Staked
             </Text>
             <Text size="small" variant="small">
-              {percentageStaked} %
+              {/* {percentageStaked} % */}
+              --
             </Text>
           </Stack>
           <Stack direction="vertical" space="1" align="center">
