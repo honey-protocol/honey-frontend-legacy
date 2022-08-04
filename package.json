@@ -6,6 +6,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
+    "serve": "yarn build && yarn start",
     "lint": "next lint",
     "postinstall": "patch-package"
   },

@@ -3,7 +3,7 @@ import { Box, Button, Card, IconExclamation, Stat, Text } from 'degen';
 import { Stack } from 'degen';
 import Layout from '../../components/Layout/Layout';
 import ModalContainer from 'components/ModalContainer/ModalContainer';
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import PHoneyModal from 'components/PHoneyModal/PHoneyModal';
 import VeHoneyModal from 'components/VeHoneyModal/VeHoneyModal';
 import HoneyModal from 'components/HoneyModal/HoneyModal';
@@ -38,6 +38,7 @@ const Governance: NextPage = () => {
   const [showPHoneyModal, setShowPHoneyModal] = useState(false);
   const [showVeHoneyModal, setShowVeHoneyModal] = useState(false);
   const [showHoneyModal, setShowHoneyModal] = useState(false);
+  const [vehoneySupply, setVehoneySupply] = useState("");
 
   const { tokenAccounts } = useAccounts();
   // ======================== Should replace with configuration ================
@@ -45,7 +46,8 @@ const Governance: NextPage = () => {
   const honeyToken = tokenAccounts.find(t => t.info.mint.equals(HONEY_MINT));
 
   const { govToken, veToken, lockedSupply } = useGovernor();
-  const totalVeTokens = useTokenAmount(veToken, '0');
+
+  // const totalVeTokens = useTokenAmount(veToken, '0');
   const { data: govTokenData } = useTokenMint(govToken?.mintAccount);
   const totalSupplyFmt =
     govTokenData && govToken
@@ -74,7 +76,20 @@ const Governance: NextPage = () => {
   );
   // ============================================================================
 
-  const { user, escrow } = useStake(STAKE_POOL_ADDRESS, LOCKER_ADDRESS);
+  const { user, escrow, totalVeHoney } = useStake(
+    STAKE_POOL_ADDRESS,
+    LOCKER_ADDRESS
+  );
+
+  async function getVeHoneySupply() {
+    const response = await totalVeHoney()
+    
+    setVehoneySupply(response.toFixed(0))
+  }
+
+  useEffect(()=>{
+    getVeHoneySupply()
+  }, [getVeHoneySupply])
 
   const lockedAmount = useMemo(() => {
     if (!escrow) {
@@ -82,14 +97,6 @@ const Governance: NextPage = () => {
     }
 
     return convert(escrow.amount, HONEY_DECIMALS);
-  }, [escrow]);
-
-  const lockedPeriodStart = useMemo(() => {
-    if (!escrow) {
-      return 0;
-    }
-
-    return convertBnTimestampToDate(escrow.escrowStartedAt);
   }, [escrow]);
 
   const lockedPeriodEnd = useMemo(() => {
@@ -213,9 +220,7 @@ const Governance: NextPage = () => {
                   value={
                     <NumberFormat
                       thousandSeparator
-                      value={totalVeTokens?.asNumber.toLocaleString(undefined, {
-                        maximumFractionDigits: 0
-                      })}
+                      value={vehoneySupply.toString()}
                       displayType={'text'}
                     />
                   }

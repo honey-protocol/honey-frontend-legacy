@@ -7,7 +7,7 @@ import { useProposals } from 'hooks/tribeca/useProposals';
 import { PageNav } from './PageNav';
 import { PlaceholderCard } from './PlaceholderCard';
 import { ProposalCard } from './ProposalCard';
-import { Box, Text , Button} from 'degen';
+import { Box, Text } from 'degen';
 
 const NUM_PLACEHOLDERS = 0;
 const PROPOSALS_PER_PAGE = 20;
@@ -102,9 +102,7 @@ export const ProposalsList: React.FC<Props> = ({
         <EmptyState title="There aren't any proposals yet.">
           <Text>
           <Link href={'/governance/proposals/create'} passHref>
-            <Button justifyContent={"space-between"} size='small'>
               Create a proposal
-            </Button>
             </Link>
           </Text>
         </EmptyState>
