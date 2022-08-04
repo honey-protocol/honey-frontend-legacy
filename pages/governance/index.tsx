@@ -15,7 +15,7 @@ import {
 import { Stack } from 'degen';
 import Layout from '../../components/Layout/Layout';
 import ModalContainer from 'components/ModalContainer/ModalContainer';
-import { useState, useMemo, useEffect } from 'react';
+import { useState, useMemo, useEffect, useCallback } from 'react';
 import PHoneyModal from 'components/PHoneyModal/PHoneyModal';
 import VeHoneyModal from 'components/VeHoneyModal/VeHoneyModal';
 import HoneyModal from 'components/HoneyModal/HoneyModal';
@@ -93,15 +93,16 @@ const Governance: NextPage = () => {
     LOCKER_ADDRESS
   );
 
-  async function getVeHoneySupply() {
+  const getVeHoneySupply = useCallback(async () => {
     const response = await totalVeHoney()
     
     setVehoneySupply(response.toFixed(0))
-  }
+  }, [totalVeHoney])
+ 
 
   useEffect(()=>{
     getVeHoneySupply()
-  }, [getVeHoneySupply])
+  }, [getVeHoneySupply, totalVeHoney])
 
   const lockedAmount = useMemo(() => {
     if (!escrow) {
