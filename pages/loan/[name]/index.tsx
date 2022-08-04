@@ -166,6 +166,7 @@ const Loan: NextPage = () => {
 
     if (marketReserveInfo) {
         setNFTPrice(2);
+        console.log('marketReserveInfo[0].depositNoteExchangeRate', marketReserveInfo[0].depositNoteExchangeRate.toString())
         setDepositNoteExchangeRate(BnToDecimal(marketReserveInfo[0].depositNoteExchangeRate, 15, 5))
         setCRatio(BnToDecimal(marketReserveInfo[0].minCollateralRatio, 15, 5))
       }

@@ -70,5 +70,6 @@
   "resolutions": {
     "@types/react": "<18.0.0",
     "@types/react-dom": "<18.0.0"
-  }
+  },
+  "browser": { "fs": false, "path": false, "os": false, "net": false, "tls": false }
 }
