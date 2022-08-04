@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Box, Stack, Button, Avatar } from 'degen';
 import * as styles from './Slider.css';
-import BN from 'bn.js';
 import {TYPE_BORROW, TYPE_REPAY, TYPE_ZERO} from '../../constants/loan';
 import {inputNumberValidator} from '../../helpers/loanHelpers';
 import {RoundHalfDown} from '../../helpers/utils';
@@ -103,7 +102,7 @@ const Slider = (props: SliderProps) => {
               placeholder="0.00" 
               onChange={handleNumberInput}
               className={styles.currencyStylesChild} 
-              value={userInput} 
+              defaultValue={userInput}
               min="0" 
               max="100"
                />
@@ -115,7 +114,7 @@ const Slider = (props: SliderProps) => {
           <input 
             className={styles.rangeSliderRange} 
             type="range"
-            value={rangeSlider} 
+            defaultValue={rangeSlider}
             min="0" 
             max="100"
             onChange={handleRangeInput} 

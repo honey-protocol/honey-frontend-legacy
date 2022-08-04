@@ -14,7 +14,7 @@ import LoanNewBorrow from 'components/NewPosition';
 import { LAMPORTS_PER_SOL, PublicKey } from '@solana/web3.js';
 import {TYPE_ZERO, TYPE_ONE, LTV} from '../../../constants/loan';
 import BN from 'bn.js';
-import * as BL from '@solana/buffer-layout';
+import { BnDivided } from '../../../helpers/loanHelpers/index';
 import {toastResponse, BnToDecimal, asyncTimeout} from '../../../helpers/loanHelpers/index';
 import {
   depositNFT,
@@ -176,10 +176,10 @@ const Loan: NextPage = () => {
 
     if (honeyUser?.loans().length > 0) {
       if (honeyUser?.loans().length > 0 && marketReserveInfo) {
-        userLoans = marketReserveInfo[0].loanNoteExchangeRate.mul(honeyUser?.loans()[0]?.amount).div(new BN(10 ** 15)).toNumber() * 1.002 / LAMPORTS_PER_SOL;
-
-        totalDebt = marketReserveInfo[0].loanNoteExchangeRate.mul(honeyUser?.loans()[0]?.amount).div(new BN(10 ** 15)).toNumber() / LAMPORTS_PER_SOL;
-
+        userLoans = BnDivided(marketReserveInfo[0].loanNoteExchangeRate.mul(honeyUser?.loans()[0]?.amount), 10, 15) * 1.002 / LAMPORTS_PER_SOL;
+        // userLoans = marketReserveInfo[0].loanNoteExchangeRate.mul(honeyUser?.loans()[0]?.amount).div(new BN(10 ** 15)).toNumber() * 1.002 / LAMPORTS_PER_SOL;
+        totalDebt = BnDivided(marketReserveInfo[0].loanNoteExchangeRate.mul(honeyUser?.loans()[0]?.amount), 10, 15) / LAMPORTS_PER_SOL;
+        // totalDebt = marketReserveInfo[0].loanNoteExchangeRate.mul(honeyUser?.loans()[0]?.amount).div(new BN(10 ** 15)).toNumber() / LAMPORTS_PER_SOL;
       }
     }
     const lvt = totalDebt / nftPrice;
@@ -235,9 +235,6 @@ const Loan: NextPage = () => {
   useEffect(() => {
   }, [withDrawDepositNFT]);
 
-  // useEffect(() => {
-  //   toastResponse('LOADING', 'Loading..', 'LOADING');
-  // }, [loading]);
 
   // state handler based off nft key
   function selectNFT(key: any, type: boolean) {

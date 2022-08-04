@@ -7,3 +7,5 @@ export const WHITELIST_ENTRY_SEED = "LockerWhitelistEntry";
 
 export const TOKEN_VAULT_SEED = "TokenVault";
 export const VAULT_AUTHORITY_SEED = "VaultAuthority";
+
+export const LOW_TPS = 1700;

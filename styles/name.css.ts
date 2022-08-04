@@ -26,5 +26,5 @@ export const flexContainer = style({
 });
 
 globalStyle(`${flexContainer} > div div`, {
-  justifyContent: 'flex-start'
+  justifyContent: 'space-between'
 })

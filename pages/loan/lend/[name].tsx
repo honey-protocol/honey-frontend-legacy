@@ -12,7 +12,7 @@ import {
 import { LAMPORTS_PER_SOL, PublicKey } from '@solana/web3.js';
 import Layout from '../../../components/Layout/Layout';
 import DepositWithdrawModule from 'components/DepositWithdrawModule/DepositWIthdrawModule';
-import {toastResponse, BnToDecimal, ConfigureSDK} from '../../../helpers/loanHelpers/index';
+import {toastResponse, BnToDecimal, BnDivided, ConfigureSDK} from '../../../helpers/loanHelpers/index';
 import {
   Area,
   AreaChart,
@@ -22,7 +22,6 @@ import {
   YAxis
 } from 'recharts';
 import Link from 'next/link';
-import BN from 'bn.js';
 import * as styles from '../../../styles/lend.css';
 
 // TOOD: Needs to accept props for data
@@ -110,7 +109,8 @@ const sdkConfig = ConfigureSDK();
       }
 
       if(honeyUser?.deposits().length > 0) {
-        let totalDeposit = honeyUser.deposits()[0].amount.div(new BN(10 ** 5)).toNumber() * depositNoteExchangeRate / (10 ** 4);
+        let totalDeposit = BnDivided(honeyUser.deposits()[0].amount, 10, 5) * depositNoteExchangeRate / (10 ** 4)
+        // let totalDeposit = honeyUser.deposits()[0].amount.div(new BN(10 ** 5)).toNumber() * depositNoteExchangeRate / (10 ** 4);
         setUserTotalDeposits(totalDeposit);
       }
     }, 3000);
@@ -123,7 +123,9 @@ const sdkConfig = ConfigureSDK();
   */
   useEffect(() => {
     if (parsedReserves && parsedReserves[0].reserveState.totalDeposits) {
-      setTotalMarketDeposits(parsedReserves[0].reserveState.totalDeposits.div(new BN(10 ** 9)).toNumber());
+      let totalMarketDeposits = BnDivided(parsedReserves[0].reserveState.totalDeposits, 10, 9);
+      setTotalMarketDeposits(totalMarketDeposits);
+      // setTotalMarketDeposits(parsedReserves[0].reserveState.totalDeposits.div(new BN(10 ** 9)).toNumber());
     }
   }, [parsedReserves]);
 

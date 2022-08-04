@@ -76,14 +76,14 @@ const LoanWithdraw = (props: LoanWithdrawProps) => {
     >
       {/* Vault data row */}
       <Stack align="center">
-        <Avatar label="" size="15" src={'/nfts/2738.png'} />
+        <Avatar label="" size="15" src={'https://mint-site-ten.vercel.app/when-loans.gif'} />
         <Text
           align="right"
           weight="semiBold"
           color="foreground"
           variant="large"
         >
-          Solana Monkey Business
+          Honey Eyes
         </Text>
       </Stack>
       <Stack>
@@ -124,7 +124,7 @@ const LoanWithdraw = (props: LoanWithdrawProps) => {
         {/* Borrowed amount and currency */}
         <Box className={styles.selectionWrapper}>
           <Box className={styles.selectionDetails}>
-          <input type="number" placeholder='0.00' step='.01' onChange={(value) => handleChange(value)} className={styles.currencyStyles} value={userInput} />
+          <input type="number" placeholder='0.00' step='.01' onChange={(value) => handleChange(value)} className={styles.currencyStyles} defaultValue={userInput} />
             {/* <Avatar
               label="TetranodeNFT"
               size="7"

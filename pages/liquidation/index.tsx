@@ -5,14 +5,11 @@ import { Box, Stack } from 'degen';
 import Layout from '../../components/Layout/Layout';
 import * as styles from '../../styles/liquidation.css';
 import LiquidationHeader from 'components/LiquidationHeader/LiquidationHeader';
-import LiquidationCard from '../../components/LiquidationCard/LiquidationCard';
 import { PublicKey } from '@solana/web3.js';
-import {toastResponse} from '../../helpers/loanHelpers/index';
-import { useConnectedWallet } from '@saberhq/use-solana';
 import LiquidationCollectionCard from '../../components/LiquidationCollectionCard/LiquidationCollectionCard';
 import { useAllPositions, useHoney } from '../../../honey-sdk';
-import { HONEY_MARKET_ID, HONEY_PROGRAM_ID } from 'constants/loan';
-import  { ConfigureSDK } from '../../helpers/loanHelpers';
+// from '../../../honey-sdk';
+import  { ConfigureSDK, toastResponse } from '../../helpers/loanHelpers';
 /**
  * @description interface for NFT object
  * @params none
@@ -22,7 +19,7 @@ interface OpenObligation {
   address: PublicKey,
   debt: number,
   highest_bid: number,
-  is_healthy: boolean,
+  is_healthy: string,
   ltv: number,
 }
 
@@ -62,7 +59,7 @@ const Liquidation: NextPage = () => {
     {
       collection: 'Honey Eyes',
       totalCollateral: totalMarketNFTs,
-      totalDebt: totalMarketDebt,
+      totalDebt: totalMarketDebt.toFixed(2),
       averageLTV: averageMarketLVT,
     }
   ];
@@ -86,8 +83,7 @@ const Liquidation: NextPage = () => {
     biddingArray.map((obligation: any) => {
       if (obligation.bidder == stringyfiedWalletPK) {
         setOpenPositions(true);
-        console.log('@@@@@@@-', obligation)
-      }
+      } 
     })
   }
   
@@ -98,7 +94,7 @@ const Liquidation: NextPage = () => {
   */
   useEffect(() => {
     if (status.positions && status.bids) {
-      console.log('this is status', status)
+      console.log('STATUS_POSITIONS', status.positions);
       setFetchedPositions(status.positions);
       setTotalMarketNFTs(status.positions.length);
       handleBiddingState(status.bids);
@@ -126,6 +122,24 @@ const Liquidation: NextPage = () => {
   }
   // if there are positions init the average calculations
   if (fetchedPositions) calculateMarketValues(fetchedPositions);
+
+  /**
+   * @description validates if user has outstanding bid or not
+   * @params none
+   * @returns toastresponse with state of outstanding bid
+  */
+   function validatePositions() {
+    setTimeout(() => {
+      console.log('this is open pos', openPositions)
+      openPositions
+      ?
+      toastResponse('LIQUIDATION', '1 oustanding bid', 'LIQUIDATION')
+      :
+      toastResponse('LIQUIDATION', 'No outstanding bid', 'LIQUIDATION')
+    }, 5000);
+  }
+
+  validatePositions();
 
   return (
     <Layout>

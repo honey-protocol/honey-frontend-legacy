@@ -1,6 +1,6 @@
 import type { NextPage } from 'next';
-import Head from 'next/head';
-import styles from '/styles/Home.module.css';
+import HeadSeo from 'components/HeadSeo/HeadSeo'
+import siteMetadata from 'constants/siteMetadata';
 import Link from 'next/link';
 import { Box, Text, Stack, Button, IconSearch, Input } from 'degen';
 import Layout from '../components/Layout/Layout';
@@ -79,11 +79,15 @@ const Home: NextPage = (props: any) => {
 
   return (
     <div>
-      <Head>
-        <title>Honey App</title>
-        <meta name="description" content="Liquidity solutions for NFTs" />
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
+      <HeadSeo
+                title={`Honey Finance | Liquidity solutions for NFTs`}
+                description={`Honey Finance offers NFT staking and loans in Solana`}
+                  ogImageUrl={'https://app.honey.finance/honey-og-image.png'}
+                canonicalUrl={siteMetadata.siteUrl}
+                ogTwitterImage={siteMetadata.siteLogoSquare}
+                ogType={"website"}
+            />
+
       <Layout>
         <Box>
           <Box height="16" minWidth="full" gap="3" paddingTop="4">

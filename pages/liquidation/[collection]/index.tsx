@@ -14,7 +14,6 @@ import { HONEY_PROGRAM_ID, HONEY_MARKET_ID } from '../../../constants/loan';
 import { LAMPORTS_PER_SOL, PublicKey } from '@solana/web3.js';
 import LiquidationBiddingModal from 'components/LiquidationBiddingModal/LiquidationBiddingModal';
 import { NATIVE_MINT } from '@solana/spl-token';
-// import axios from 'axios';
 
 /**
  * @description interface for NFT object
@@ -25,7 +24,7 @@ interface OpenObligation {
   address: PublicKey,
   debt: number,
   highest_bid: number,
-  is_healthy: boolean,
+  is_healthy: string,
   ltv: number,
 }
 
@@ -53,13 +52,13 @@ const LiquidationPool = () => {
     * @params none
     * @returns obligations
    */
-  const [fetchedPositions, setFetchedPositions] = useState<Array<OpenObligation>>([]);
+  const [fetchedPositions, setFetchedPositions] = useState<Array<OpenObligation>>();
   const [hasPosition, setHasPosition] = useState(false);
   const [highestBiddingAddress, setHighestBiddingAddress] = useState('');
   const [highestBiddingValue, setHighestBiddingValue] = useState(0);
-  const [currentUserBid, setCurrentUserBid] = useState();
+  const [currentUserBid, setCurrentUserBid] = useState(0);
 
-  const headerData = ['Position', 'Debt', 'Address', 'LTV %', 'Health Factor', 'Highest Bid'];
+  const headerData = ['Position', 'Debt', 'Address', 'Health Factor'];
 
   const [showBiddingModal, setBiddingModal] = useState(false);
 
@@ -77,20 +76,23 @@ const LiquidationPool = () => {
    * @params array of bids
    * @returns state change
   */
-  function handleBiddingState(biddingArray: any) {
+  function handleBiddingState(biddingArray: any, positions: any) {
     biddingArray.map((obligation: any) => {
       if (obligation.bidder == stringyfiedWalletPK) {
         setHasPosition(true);
-        console.log('@@@@@@@-----', obligation.bidLimit)
-        setCurrentUserBid(obligation.bidLimit / LAMPORTS_PER_SOL);
-        console.log('@@@@@__Userbid___', currentUserBid);
+        setCurrentUserBid(Number(obligation.bidLimit / LAMPORTS_PER_SOL));
       }
     });
 
-    let sorted = biddingArray.sort((first: any,second: any) => first.bidLimit - second.bidLimit).reverse();
+    let sorted = positions.sort((first: any,second: any) => first.is_healthy - second.is_healthy).reverse();
+    let highestBid = positions.sort((first: any, second: any) => first.highest_bid - second.highest_bid);
+    console.log('this is highestBid', highestBid[0]);
+    
+    setHighestBiddingAddress(new PublicKey(highestBid[0].address).toString());
+    setHighestBiddingValue(highestBid[0].highest_bid / LAMPORTS_PER_SOL);
+    setFetchedPositions(sorted);
 
-    setHighestBiddingAddress(sorted[0].bidder);
-    setHighestBiddingValue(sorted[0].bidLimit / LAMPORTS_PER_SOL);
+    console.log('this is sorted@@@@@@', sorted)
   }
 
   const [statusState, setStatusState] = useState(false);
@@ -108,10 +110,18 @@ const LiquidationPool = () => {
   }, [status]);
 
   useEffect(() => {
-    if (statusState == true) {
-      console.log('state change STATUSSTATE running');
-      setFetchedPositions(status.positions);
-      handleBiddingState(status.bids);
+    if (statusState == true) {      
+      status.positions?.map((position) => {
+        if (position.is_healthy == 'MEDIUM') {
+          position.is_healthy = '0'
+        } else if (position.is_healthy == 'LOW') {
+          position.is_healthy = '1'
+        } else if (position.is_healthy == 'RISKY') {
+          position.is_healthy = '2'
+        }
+      });
+
+      handleBiddingState(status.bids, status.positions);
     }
   }, [statusState]);
 
@@ -193,98 +203,10 @@ const LiquidationPool = () => {
         }
   }
 
-  /**
-   * @params
-   * @description
-   * @returns
-  */
-  // interface PlaceBidParams {
-  //   bid_limit: number;
-  //   market: PublicKey;
-  //   bidder: PublicKey;
-  //   bid_mint: PublicKey;
-  //   deposit_source?: PublicKey;
-  // }
-
-  // interface IncreaseBidParams {
-  //   bid_increase: number;
-  //   market: PublicKey;
-  //   bidder: PublicKey;
-  //   bid_mint: PublicKey;
-  //   deposit_source?: PublicKey;
-  // }
-
-  // interface RevokeBidParams {
-  //   amount: number;
-  //   market: PublicKey;
-  //   bidder: PublicKey;
-  //   bid_mint: PublicKey;
-  //   withdraw_destination?: PublicKey;
-  // }
-
-  /**
-   * @params
-   * @description
-   * @returns
-  */
-  // function handleIncreaseBid(userBid: number, params: IncreaseBidParams) {
-  //   fetchLiquidatorClient('increase_bid', {
-  //     bid_increase: userBid,
-  //     market: PublicKey,
-  //     bidder: PublicKey,
-  //     bid_mint: PublicKey,
-  //     deposit_source: PublicKey,
-  //   })
-  // }
-
-  /**
-   * @params
-   * @description
-   * @returns
-  */
-  // function handleRevokeBid(params: RevokeBidParams) {
-  //   fetchLiquidatorClient('revoke_bid', {
-  //     market: PublicKey,
-  //     bidder: PublicKey,
-  //     bid_mint: PublicKey,
-  //     withdraw_destination: PublicKey
-  //   });
-  // }
-
-  /**
-   * @params
-   * @description
-   * @returns
-  */
-  // function handlePlaceBid(userBid: number, params: PlaceBidParams) {
-  //   fetchLiquidatorClient('place_bid', {
-  //     bid_limit: userBid,
-  //     market: PublicKey,
-  //     bidder: PublicKey,
-  //     bid_mint: PublicKey,
-  //     deposit_source: PublicKey
-  //   })
-  // }
-
   async function handleExecuteBid(type: string, userBid?: number) {
     console.log('running executeBid')
     await fetchLiquidatorClient(type, userBid!)
   }
-
-  /**
-   * @description validates if user has outstanding bid or not
-   * @params none
-   * @returns toastresponse with state of outstanding bid
-  */
-  function validatePositions() {
-    hasPosition
-    ?
-    toastResponse('LIQUIDATION', '1 oustanding bid', 'LIQUIDATION')
-    :
-    toastResponse('LIQUIDATION', 'No outstanding bid', 'LIQUIDATION')
-  }
-
-  validatePositions();
 
   useEffect(() => {
     if (currentUserBid) console.log('this is currentUserBid', currentUserBid);
@@ -315,7 +237,7 @@ const LiquidationPool = () => {
           </Stack>
         </Box>
         <Box className={styles.callToActionContainer}>
-          <h2>Collection: <span>Honey Eyes</span></h2>
+            <h2>Collection: <span>Honey Eyes</span></h2>
           {
             hasPosition
             ?
@@ -328,12 +250,21 @@ const LiquidationPool = () => {
             </Button>
           }
         </Box>
+        <Box className={styles.biddingOverview}>
+          <h4>Highest bid on collection: <span>{highestBiddingValue} SOL</span></h4>
+        </Box>
+        {
+          fetchedPositions &&
+          <Box className={styles.biddingOverview}>
+            <h4>Loan to value ratio <span>{fetchedPositions[0].ltv}%</span></h4>
+          </Box>
+        }
         <LiquidationHeader
             headerData={headerData}
           />
         <Box>
          {
-            fetchedPositions && fetchedPositions.map((loan, index) => {
+            fetchedPositions && fetchedPositions.map((loan, i) => {
               return (
                 // <LiquidationCard
                 //   key={i}
@@ -347,7 +278,8 @@ const LiquidationPool = () => {
                 //   handleExecuteBid={() => handleExecuteBid}
                 // />
                 <LiquidationCard
-                  key={index}
+                  index={i}
+                  key={i}
                   loan={loan}
                   liquidationType={true}
                   handleShowBiddingModal={handleShowBiddingModal}

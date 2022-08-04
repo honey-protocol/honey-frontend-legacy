@@ -16,7 +16,7 @@ import { useMarket, useBorrowPositions, useHoney, useAnchor }
   // from '@honey-finance/sdk';
   from '../../../honey-sdk';
 import {TYPE_ZERO, TYPE_ONE} from '../../constants/loan';
-import BN from 'bn.js';
+import { BnDivided } from '../../helpers/loanHelpers';
 import { LAMPORTS_PER_SOL, PublicKey } from '@solana/web3.js';
 import {RoundHalfDown} from '../../helpers/utils';
 
@@ -54,15 +54,13 @@ const Loan: NextPage = () => {
     }
   ];
 
-  useEffect(() => {
-      async function fetchObligations() {
-        let obligations = await program?.account?.obligation?.all();
-        if (obligations) {
-          setTotalMarketPositions(obligations.length);
-        }
-      }
+  async function fetchObligations() {
+    let obligations = await program?.account?.obligation?.all();
+    if (obligations) setTotalMarketPositions(obligations.length);
+  }
 
-      fetchObligations();
+  useEffect(() => {
+    fetchObligations();
   }, [program]);
 
   /**
@@ -72,7 +70,9 @@ const Loan: NextPage = () => {
   */
   useEffect(() => {
     if (parsedReserves && parsedReserves[0].reserveState.totalDeposits) {
-      setTotalMarketDeposits(parsedReserves[0].reserveState.totalDeposits.div(new BN(10 ** 9)).toNumber());
+      let totMarketDeposits = BnDivided(parsedReserves[0].reserveState.totalDeposits, 10, 9);
+      setTotalMarketDeposits(totMarketDeposits);
+      // setTotalMarketDeposits(parsedReserves[0].reserveState.totalDeposits.div(new BN(10 ** 9)).toNumber());
     }
   }, [parsedReserves]);
 
@@ -85,11 +85,14 @@ const Loan: NextPage = () => {
       )[0];
 
       const reserveState = depositReserve.data?.reserveState;
-      let marketDebt = reserveState?.outstandingDebt.div(new BN(10 ** 15)).toNumber();
-      if (marketDebt) {
-        let sum = Number((marketDebt / LAMPORTS_PER_SOL))
-
-        setTotalMarketDebt(sum);
+      
+      if (reserveState?.outstandingDebt) {
+        let marketDebt = BnDivided(reserveState?.outstandingDebt, 10, 15);
+        // let marketDebt = reserveState?.outstandingDebt.div(new BN(10 ** 15)).toNumber();
+        if (marketDebt) {
+          let sum = Number((marketDebt / LAMPORTS_PER_SOL));
+          setTotalMarketDebt(sum);
+        }
       }
     }
 
