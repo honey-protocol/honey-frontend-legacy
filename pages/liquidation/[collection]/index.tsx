@@ -8,25 +8,12 @@ import * as styles from '../../../styles/liquidation.css';
 import { useConnectedWallet } from '@saberhq/use-solana';
 import LiquidationHeader from 'components/LiquidationHeader/LiquidationHeader';
 import LiquidationCard from 'components/LiquidationCard/LiquidationCard';
-import { useAnchor, LiquidatorClient, useAllPositions } from '../../../../honey-sdk';
+import { useAnchor, LiquidatorClient, useAllPositions, NftPosition } from '../../../../honey-sdk';
 import { ConfigureSDK, toastResponse } from 'helpers/loanHelpers';
 import { HONEY_PROGRAM_ID, HONEY_MARKET_ID } from '../../../constants/loan';
 import { LAMPORTS_PER_SOL, PublicKey } from '@solana/web3.js';
 import LiquidationBiddingModal from 'components/LiquidationBiddingModal/LiquidationBiddingModal';
 import { NATIVE_MINT } from '@solana/spl-token';
-
-/**
- * @description interface for NFT object
- * @params none
- * @returns typed object
-*/
-interface OpenObligation {
-  address: PublicKey,
-  debt: number,
-  highest_bid: number,
-  is_healthy: string,
-  ltv: number,
-}
 
 const LiquidationPool = () => {
   // init anchor
@@ -52,7 +39,7 @@ const LiquidationPool = () => {
     * @params none
     * @returns obligations
    */
-  const [fetchedPositions, setFetchedPositions] = useState<Array<OpenObligation>>();
+  const [fetchedPositions, setFetchedPositions] = useState<Array<NftPosition>>();
   const [hasPosition, setHasPosition] = useState(false);
   const [highestBiddingAddress, setHighestBiddingAddress] = useState('');
   const [highestBiddingValue, setHighestBiddingValue] = useState(0);
@@ -88,7 +75,7 @@ const LiquidationPool = () => {
     let highestBid = positions.sort((first: any, second: any) => first.highest_bid - second.highest_bid);
     console.log('this is highestBid', highestBid[0]);
     
-    setHighestBiddingAddress(new PublicKey(highestBid[0].address).toString());
+    setHighestBiddingAddress(new PublicKey(highestBid[0].owner).toString());
     setHighestBiddingValue(highestBid[0].highest_bid / LAMPORTS_PER_SOL);
     setFetchedPositions(sorted);
 
