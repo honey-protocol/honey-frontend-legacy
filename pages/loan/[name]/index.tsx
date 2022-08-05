@@ -8,14 +8,13 @@ import LoanNFTsContainer from 'components/LoanNFTsContainer/LoanNFTsContainer';
 import BorrowNFTsModule from 'components/BorrowNFTsModule/BorrowNFTsModule';
 import Link from 'next/link';
 import * as styles from '../../../styles/name.css';
-import { ConfigureSDK } from '../../../helpers/loanHelpers/index';
 import useFetchNFTByUser from '../../../hooks/useNFTV2';
 import LoanNewBorrow from 'components/NewPosition';
 import { LAMPORTS_PER_SOL, PublicKey } from '@solana/web3.js';
 import {TYPE_ZERO, TYPE_ONE, LTV} from '../../../constants/loan';
 import BN from 'bn.js';
 import { BnDivided } from '../../../helpers/loanHelpers/index';
-import {toastResponse, BnToDecimal, asyncTimeout} from '../../../helpers/loanHelpers/index';
+import {toastResponse, BnToDecimal, asyncTimeout, getNftPrice, ConfigureSDK} from '../../../helpers/loanHelpers/index';
 import {
   depositNFT,
   withdrawNFT,
@@ -164,7 +163,9 @@ const Loan: NextPage = () => {
   useEffect(() => {
     if (collateralNFTPositions) setDefaultNFT(collateralNFTPositions);
 
-    if (marketReserveInfo) {
+    if (marketReserveInfo && parsedReserves) {
+      let testPrice = getNftPrice('devnet', sdkConfig.saberHqConnection, parsedReserves[0].switchboardPriceAggregator);
+      console.log('this is test nft price switchboard', testPrice);
         setNFTPrice(2);
         setDepositNoteExchangeRate(BnToDecimal(marketReserveInfo[0].depositNoteExchangeRate, 15, 5))
         setCRatio(BnToDecimal(marketReserveInfo[0].minCollateralRatio, 15, 5))
