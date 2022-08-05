@@ -153,9 +153,8 @@ const Loan: NextPage = () => {
   async function calculateNFTPrice() {
     if (marketReserveInfo && parsedReserves) {
       let oracleOutcome = await getNftPrice('devnet', sdkConfig.saberHqConnection, parsedReserves[0].switchboardPriceAggregator);
-      oracleOutcome = oracleOutcome.c[0] + '.' + oracleOutcome.c[1]
       
-      setNFTPrice(Number(oracleOutcome));
+      setNFTPrice(oracleOutcome);
       setCalculatedNFTPrice(true);
     }
   }

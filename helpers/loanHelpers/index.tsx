@@ -2,6 +2,7 @@ import { useConnection, useConnectedWallet, ConnectedWallet } from '@saberhq/use
 import { HONEY_PROGRAM_ID, HONEY_MARKET_ID } from 'constants/loan';
 import { toast } from 'react-toastify';
 import BN from 'bn.js';
+import {Big} from 'big.js';
 import { clusterApiUrl, Connection, Keypair, PublicKey } from '@solana/web3.js';
 import {
   AggregatorAccount,
@@ -130,5 +131,11 @@ export async function getNftPrice(cluster: "devnet" | "mainnet-beta" = "devnet",
   // get the result
   const result = await aggregator.getLatestValue();
   console.log(`Switchboard Result: ${result}`);
-  return result;
+  if (result) {
+    let val = new Big(result).toNumber();
+
+    return val;
+  } else {
+    return 0;
+  }
 } 
