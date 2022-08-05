@@ -2,7 +2,11 @@ import { useConnection, useConnectedWallet, ConnectedWallet } from '@saberhq/use
 import { HONEY_PROGRAM_ID, HONEY_MARKET_ID } from 'constants/loan';
 import { toast } from 'react-toastify';
 import BN from 'bn.js';
-import { Connection } from '@solana/web3.js';
+import { clusterApiUrl, Connection, Keypair, PublicKey } from '@solana/web3.js';
+import {
+  AggregatorAccount,
+  loadSwitchboardProgram,
+} from "@switchboard-xyz/switchboard-v2";
 
 /**
  * @description exports the current sdk configuration object
@@ -108,4 +112,23 @@ export function BnToDecimal(val: BN | undefined, decimal: number, precision: num
 export function BnDivided(val: BN, a: number, b: number) {
   return val.div(new BN(a ** b)).toNumber();
 }
-// setTotalMarketDeposits(parsedReserves[0].reserveState.totalDeposits.div(new BN(10 ** 9)).toNumber());
+
+export async function getNftPrice(cluster: "devnet" | "mainnet-beta" = "devnet", connection: Connection, aggregatorKey: PublicKey): Promise<any> {
+  // load the switchboard program
+  const program = await loadSwitchboardProgram(
+    cluster,
+    connection,
+    Keypair.fromSeed(new Uint8Array(32).fill(1)) // using dummy keypair since we wont be submitting any transactions
+  );
+
+  // load the switchboard aggregator
+  const aggregator = new AggregatorAccount({
+    program,
+    publicKey: aggregatorKey,
+  });
+
+  // get the result
+  const result = await aggregator.getLatestValue();
+  console.log(`Switchboard Result: ${result}`);
+  return result;
+}

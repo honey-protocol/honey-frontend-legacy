@@ -8,7 +8,7 @@ import LoanNFTsContainer from 'components/LoanNFTsContainer/LoanNFTsContainer';
 import BorrowNFTsModule from 'components/BorrowNFTsModule/BorrowNFTsModule';
 import Link from 'next/link';
 import * as styles from '../../../styles/name.css';
-import { ConfigureSDK } from '../../../helpers/loanHelpers/index';
+import { ConfigureSDK, getNftPrice } from '../../../helpers/loanHelpers/index';
 import useFetchNFTByUser from '../../../hooks/useNFTV2';
 import LoanNewBorrow from 'components/NewPosition';
 import { LAMPORTS_PER_SOL, PublicKey } from '@solana/web3.js';
@@ -35,12 +35,6 @@ import {
 } from '../../../../honey-sdk';
 
 import { RoundHalfDown } from 'helpers/utils';
-import {
-  parseMappingData,
-  parsePriceData,
-  parseProductData,
-  PythHttpClient
-} from "@pythnetwork/client";
 import { toast } from 'react-toastify';
 import { Connection } from '@metaplex/js';
 /**
@@ -164,7 +158,7 @@ const Loan: NextPage = () => {
   useEffect(() => {
     if (collateralNFTPositions) setDefaultNFT(collateralNFTPositions);
 
-    if (marketReserveInfo) {
+    if (marketReserveInfo && parsedReserves) {
         setNFTPrice(2);
         console.log('marketReserveInfo[0].depositNoteExchangeRate', marketReserveInfo[0].depositNoteExchangeRate.toString())
         setDepositNoteExchangeRate(BnToDecimal(marketReserveInfo[0].depositNoteExchangeRate, 15, 5))
