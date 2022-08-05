@@ -7,8 +7,8 @@ import {
   withdraw,
   useMarket,
   useHoney,
-}  from '../../../../honey-sdk';
-// from '@honey-finance/sdk';
+// } from '@honey-finance/sdk';
+} from '../../../../honey-sdk'
 import { LAMPORTS_PER_SOL, PublicKey } from '@solana/web3.js';
 import Layout from '../../../components/Layout/Layout';
 import DepositWithdrawModule from 'components/DepositWithdrawModule/DepositWIthdrawModule';

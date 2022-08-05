@@ -34,12 +34,6 @@ import {
 } from '../../../../honey-sdk';
 
 import { RoundHalfDown } from 'helpers/utils';
-import {
-  parseMappingData,
-  parsePriceData,
-  parseProductData,
-  PythHttpClient
-} from "@pythnetwork/client";
 import { toast } from 'react-toastify';
 import { Connection } from '@metaplex/js';
 /**
@@ -154,6 +148,21 @@ const Loan: NextPage = () => {
   const [depositNoteExchangeRate, setDepositNoteExchangeRate] = useState(0);
   const [nftPrice, setNFTPrice] = useState(0);
   const [cRatio, setCRatio] = useState(0);
+  const [calculatedNFTPrice, setCalculatedNFTPrice] = useState(false);
+
+  async function calculateNFTPrice() {
+    if (marketReserveInfo && parsedReserves) {
+      let oracleOutcome = await getNftPrice('devnet', sdkConfig.saberHqConnection, parsedReserves[0].switchboardPriceAggregator);
+      oracleOutcome = oracleOutcome.c[0] + '.' + oracleOutcome.c[1]
+      
+      setNFTPrice(Number(oracleOutcome));
+      setCalculatedNFTPrice(true);
+    }
+  }
+
+  useEffect(() => {
+    calculateNFTPrice();
+  }, [marketReserveInfo, parsedReserves]);
 
   /**
    * @description updates honeyUser | marketReserveInfo | - timeout required
@@ -161,17 +170,20 @@ const Loan: NextPage = () => {
    * @returns honeyUser | marketReserveInfo |
   */
   useEffect(() => {
+
     if (collateralNFTPositions) setDefaultNFT(collateralNFTPositions);
 
     if (marketReserveInfo && parsedReserves) {
-      let testPrice = getNftPrice('devnet', sdkConfig.saberHqConnection, parsedReserves[0].switchboardPriceAggregator);
-      console.log('this is test nft price switchboard', testPrice);
-        setNFTPrice(2);
+        // console.log('this is test nft price switchboard', testPrice);
+        // console.log('marketReserveInfo[0].depositNoteExchangeRate', marketReserveInfo[0].depositNoteExchangeRate.toString())
+        // setNFTPrice(2);
         setDepositNoteExchangeRate(BnToDecimal(marketReserveInfo[0].depositNoteExchangeRate, 15, 5))
         setCRatio(BnToDecimal(marketReserveInfo[0].minCollateralRatio, 15, 5))
       }
 
       let userLoans = 0, totalDebt = 0;
+      console.log('this is the nft price', nftPrice);
+      
       let nftCollateralValue = nftPrice * (collateralNFTPositions?.length || 0);
 
     if (honeyUser?.loans().length > 0) {
@@ -191,7 +203,7 @@ const Loan: NextPage = () => {
 
     // let liquidationThresh = 1 / cRatio * 100;
     setLiquidationThreshold(1 / cRatio * 100);
-  }, [marketReserveInfo, honeyUser, collateralNFTPositions, market, error, parsedReserves, honeyReserves, cRatio, nftPrice, reserveHoneyState]);
+  }, [marketReserveInfo, honeyUser, collateralNFTPositions, market, error, parsedReserves, honeyReserves, cRatio, reserveHoneyState, calculatedNFTPrice]);
 
   /**
    * @description logic regarding borrow modal or lendmodal
