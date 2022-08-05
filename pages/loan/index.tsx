@@ -32,7 +32,7 @@ const Loan: NextPage = () => {
     * @returns market | market reserve information | parsed reserves |
   */
   const { market, marketReserveInfo, parsedReserves }  = useHoney();
-  const { honeyUser, honeyReserves } = useMarket(sdkConfig.saberHqConnection, sdkConfig.sdkWallet!, sdkConfig.honeyId, sdkConfig.marketId);
+  const { honeyUser, honeyReserves, honeyMarket } = useMarket(sdkConfig.saberHqConnection, sdkConfig.sdkWallet!, sdkConfig.honeyId, sdkConfig.marketId);
 
   /**
    *
@@ -55,13 +55,17 @@ const Loan: NextPage = () => {
   ];
 
   async function fetchObligations() {
-    let obligations = await program?.account?.obligation?.all();
-    if (obligations) setTotalMarketPositions(obligations.length);
+    console.log('fethching obligations')
+    let obligations = await honeyMarket.fetchObligations();
+    console.log('obligations', obligations)
+    setTotalMarketPositions(obligations.length);
   }
 
   useEffect(() => {
-    fetchObligations();
-  }, [program]);
+    if(honeyMarket) {
+      fetchObligations();
+    }
+  }, [honeyMarket]);
 
   /**
    * @description sets state of marketValue by parsing lamports outstanding debt amount to SOL
@@ -85,7 +89,7 @@ const Loan: NextPage = () => {
       )[0];
 
       const reserveState = depositReserve.data?.reserveState;
-      
+
       if (reserveState?.outstandingDebt) {
         let marketDebt = BnDivided(reserveState?.outstandingDebt, 10, 15);
         // let marketDebt = reserveState?.outstandingDebt.div(new BN(10 ** 15)).toNumber();
