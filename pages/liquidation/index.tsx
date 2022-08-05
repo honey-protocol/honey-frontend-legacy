@@ -130,7 +130,6 @@ const Liquidation: NextPage = () => {
   */
    function validatePositions() {
     setTimeout(() => {
-      console.log('this is open pos', openPositions)
       openPositions
       ?
       toastResponse('LIQUIDATION', '1 oustanding bid', 'LIQUIDATION')
@@ -138,8 +137,10 @@ const Liquidation: NextPage = () => {
       toastResponse('LIQUIDATION', 'No outstanding bid', 'LIQUIDATION')
     }, 5000);
   }
-
-  validatePositions();
+  // run once on initial render to validate position
+  useEffect(() => {
+    validatePositions();
+  }, []);
 
   return (
     <Layout>
