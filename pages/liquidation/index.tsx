@@ -71,6 +71,21 @@ const Liquidation: NextPage = () => {
   */
   const headerData = [ 'Collection', 'Total Collateral', 'Total Debt','Average LTV', '']
   
+  /**
+   * @description validates if user has outstanding bid or not
+   * @params none
+   * @returns toastresponse with state of outstanding bid
+  */
+  function validatePositions(openPositions: boolean) {
+    setTimeout(() => {
+      console.log('this is openPos', openPositions)
+      openPositions
+      ?
+      toastResponse('LIQUIDATION', '1 oustanding bid', 'LIQUIDATION')
+      :
+      toastResponse('LIQUIDATION', 'No outstanding bid', 'LIQUIDATION')
+    }, 5000)
+  }
   // create stringyfied instance of walletPK
   let stringyfiedWalletPK = sdkConfig.sdkWallet?.publicKey.toString();
   
@@ -79,12 +94,21 @@ const Liquidation: NextPage = () => {
    * @params array of bids
    * @returns state change
   */
-  function handleBiddingState(biddingArray: any) {  
+  function handleBiddingState(biddingArray: any) { 
+    let val = 0 
+    
     biddingArray.map((obligation: any, index: number) => {
       if (obligation.bidder == stringyfiedWalletPK) {
         setOpenPositions(true);
-      } 
-    })
+        val = 1;
+      }
+    });
+
+    if (val == 1) {
+      toastResponse('LIQUIDATION', '1 oustanding bid', 'LIQUIDATION')
+    } else {
+      toastResponse('LIQUIDATION', 'No outstanding bid', 'LIQUIDATION')
+    }
   }
   
   /**
@@ -122,25 +146,6 @@ const Liquidation: NextPage = () => {
   }
   // if there are positions init the average calculations
   if (fetchedPositions) calculateMarketValues(fetchedPositions);
-
-  /**
-   * @description validates if user has outstanding bid or not
-   * @params none
-   * @returns toastresponse with state of outstanding bid
-  */
-   function validatePositions() {
-    setTimeout(() => {
-      openPositions
-      ?
-      toastResponse('LIQUIDATION', '1 oustanding bid', 'LIQUIDATION')
-      :
-      toastResponse('LIQUIDATION', 'No outstanding bid', 'LIQUIDATION')
-    }, 5000);
-  }
-  // run once on initial render to validate position
-  useEffect(() => {
-    validatePositions();
-  }, []);
 
   return (
     <Layout>
