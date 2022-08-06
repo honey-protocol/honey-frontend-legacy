@@ -87,7 +87,7 @@ const LiquidationBiddingModal = (props: LiquidationBiddingModalProps) => {
                   <input 
                     type="number" 
                     onChange={handleUserChange}
-                    value={userInput}
+                    defaultValue={userInput}
                     placeholder={userInput}
                   />
                 </Box>

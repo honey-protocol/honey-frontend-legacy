@@ -31,7 +31,7 @@ interface LiquidationCardProps {
 
 const LiquidationCard = (props: LiquidationCardProps) => {
   const { openPositions, liquidationType, handleShowBiddingModal, showBiddingModal, handleExecuteBid, loan, index } = props;
-  console.log('this is key', index)
+  console.log('this is key',  new PublicKey(loan.address).toString())
   function handleHealthStatus() {
     if (loan.is_healthy == '0') {
       return <Box className={styles.healthFactorHigh}>Healthy</Box>
@@ -66,7 +66,8 @@ const LiquidationCard = (props: LiquidationCardProps) => {
             </Box> */}
             <Box className={styles.collectionCardWrapper}>
               <Text>Address:</Text>  
-              <Text>{loan.owner.toString().substring(0,5)}...</Text>
+              {/* <Text>{loan.address}...</Text> */}
+              <Text>{loan.address.toString().substring(0,5)}...</Text>
             </Box>
           </Box>
         </Box>

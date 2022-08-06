@@ -80,7 +80,7 @@ const Liquidation: NextPage = () => {
    * @returns state change
   */
   function handleBiddingState(biddingArray: any) {  
-    biddingArray.map((obligation: any) => {
+    biddingArray.map((obligation: any, index: number) => {
       if (obligation.bidder == stringyfiedWalletPK) {
         setOpenPositions(true);
       } 

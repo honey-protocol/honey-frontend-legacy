@@ -75,7 +75,7 @@ const LiquidationPool = () => {
     let highestBid = positions.sort((first: any, second: any) => first.highest_bid - second.highest_bid);
     console.log('this is highestBid', highestBid[0]);
     
-    setHighestBiddingAddress(new PublicKey(highestBid[0].owner).toString());
+    setHighestBiddingAddress(new PublicKey(highestBid[0].address).toString());
     setHighestBiddingValue(highestBid[0].highest_bid / LAMPORTS_PER_SOL);
     setFetchedPositions(sorted);
 
@@ -253,17 +253,6 @@ const LiquidationPool = () => {
          {
             fetchedPositions && fetchedPositions.map((loan, i) => {
               return (
-                // <LiquidationCard
-                //   key={i}
-                //   debt={loan.debt}
-                //   address={loan.address}
-                //   ltv={loan.ltv}
-                //   isHealthy={loan.is_healthy}
-                //   highestBid={loan.highest_bid}
-                //   liquidationType={true}
-                //   handleShowBiddingModal={handleShowBiddingModal}
-                //   handleExecuteBid={() => handleExecuteBid}
-                // />
                 <LiquidationCard
                   index={i}
                   key={i}
