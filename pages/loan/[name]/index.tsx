@@ -30,8 +30,7 @@ import {
   i64Field,
   ReserveStateLayout,
   HoneyReserve
-// } from '@honey-finance/sdk';
-} from '../../../../honey-sdk';
+} from '@honey-finance/sdk';
 
 import { RoundHalfDown } from 'helpers/utils';
 import { toast } from 'react-toastify';

@@ -13,8 +13,7 @@ import LoanHeaderComponent from 'components/LoanHeaderComponent/LoanHeaderCompon
 import CreateMarket from 'pages/createmarket';
 import  { ConfigureSDK } from '../../helpers/loanHelpers';
 import { useMarket, useBorrowPositions, useHoney, useAnchor }
-  // from '@honey-finance/sdk';
-  from '../../../honey-sdk';
+  from '@honey-finance/sdk';
 import {TYPE_ZERO, TYPE_ONE} from '../../constants/loan';
 import { BnDivided } from '../../helpers/loanHelpers';
 import { LAMPORTS_PER_SOL, PublicKey } from '@solana/web3.js';
