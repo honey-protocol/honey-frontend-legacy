@@ -17,9 +17,10 @@ export interface AssetRowType {
 }
 interface AssetRowProps {
     data: AssetRowType,
+    openPositions?: number
 }
 
-const AssetRow = ({ data }: AssetRowProps) => {
+const AssetRow = ({ data, openPositions }: AssetRowProps) => {
  return (
   <Box
     backgroundColor="foregroundSecondary"
@@ -61,7 +62,7 @@ const AssetRow = ({ data }: AssetRowProps) => {
                 </Box>
                 <Box
                 >
-                    <Text align="center" >
+                    <Text align="center">
                         {data.available} SOL
                     </Text>
                 </Box>

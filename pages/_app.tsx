@@ -14,7 +14,6 @@ import { useConnectedWallet, useConnection } from '@saberhq/use-solana';
 import React, { FC, ReactNode, useEffect, useState } from "react";
 import Script from 'next/script';
 import { HONEY_MARKET_ID, HONEY_PROGRAM_ID } from '../constants/loan';
-import { Connection } from '@solana/web3.js';
 const network = process.env.NETWORK as Network;
 
 const networkConfiguration = () => {
@@ -33,19 +32,15 @@ const storedAccent =
 
 const OnChainProvider: FC<{ children: ReactNode }> = ({ children }) => {
   const wallet = useConnectedWallet();
-
   const connection = useConnection();
-  // const connection = new Connection("https://explorer-api.devnet.solana.com/");
-
   const network = 'devnet';
 
   return (
     <AnchorProvider
-      wallet={wallet}
-      connection={connection}
-      network={network}
-      honeyProgram={HONEY_PROGRAM_ID}
-    >
+    wallet={wallet}
+    connection={connection}
+    network={network}
+    honeyProgram={HONEY_PROGRAM_ID}>
       <HoneyProvider
         wallet={wallet}
         connection={connection}

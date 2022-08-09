@@ -88,7 +88,6 @@ const LiquidationPool = () => {
   */
   useEffect(() => {
     if (status.positions) {
-      console.log('state change STATUS.POSITIONS running', status.positions);
       setStatusState(true);
     }
   }, [status]);
