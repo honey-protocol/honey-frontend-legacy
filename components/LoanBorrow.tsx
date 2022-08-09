@@ -6,7 +6,6 @@ import * as styles from './Slider/Slider.css';
 import { PublicKey } from '@solana/web3.js';
 import { TYPE_BORROW } from "constants/loan";
 import {toastResponse} from '../helpers/loanHelpers/index';
-import BN from 'bn.js';
 
 interface LoanBorrowProps {
   NFT: {

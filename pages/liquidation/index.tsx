@@ -22,6 +22,16 @@ interface OpenObligation {
   ltv: number,
 }
 
+interface NftPosition {
+  obligation: string;
+  debt: number;
+  nft_mint: PublicKey;
+  owner: PublicKey;
+  ltv: number;
+  is_healthy: string;
+  highest_bid: number;
+}
+
 const Liquidation: NextPage = () => {
   /**
    * @description sets program | market | connection | wallet
@@ -44,7 +54,7 @@ const Liquidation: NextPage = () => {
   */
   const [openPositions, setOpenPositions] = useState(false);
   const [loadingState, setLoadingState] = useState(true);
-  const [fetchedPositions, setFetchedPositions] = useState<Array<OpenObligation>>([]);
+  const [fetchedPositions, setFetchedPositions] = useState<Array<NftPosition>>([]);
   const [totalMarketDebt, setTotalMarketDebt] = useState(0);
   const [totalMarketNFTs, setTotalMarketNFTs] = useState(0);
   const [averageMarketLVT, setaverageMarketLVT] = useState(0);
