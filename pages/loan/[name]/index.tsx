@@ -189,7 +189,7 @@ const Loan: NextPage = () => {
         // totalDebt = marketReserveInfo[0].loanNoteExchangeRate.mul(honeyUser?.loans()[0]?.amount).div(new BN(10 ** 15)).toNumber() / LAMPORTS_PER_SOL;
       }
     }
-    console.log('@@@@---nft price', nftPrice);
+
     const lvt = totalDebt / nftPrice;
 
     let sumOfAllowance = RoundHalfDown(nftCollateralValue * LTV - userLoans, 4);
