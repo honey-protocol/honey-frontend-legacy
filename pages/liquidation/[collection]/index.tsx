@@ -73,8 +73,10 @@ const LiquidationPool = () => {
 
     let sorted = positions.sort((first: any,second: any) => first.is_healthy - second.is_healthy).reverse();
     let highestBid = positions.sort((first: any, second: any) => first.highest_bid - second.highest_bid);
-    
+    console.log('this is highestBid', highestBid[0].nft_mint.toString());
+    console.log('this is sorted', sorted);
     setHighestBiddingAddress(highestBid[0].owner.toString());
+    // loan.owner.toString()
     setHighestBiddingValue(highestBid[0].highest_bid / LAMPORTS_PER_SOL);
     setFetchedPositions(sorted);
   }

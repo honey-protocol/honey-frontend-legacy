@@ -138,7 +138,6 @@ const sdkConfig = ConfigureSDK();
   */
   async function executeDeposit(value?: number) {
     try {
-      console.log('hello', value)
       if (!value) return toastResponse('ERROR', 'Deposit failed', 'ERROR');
 
       console.log('this is value', value);
