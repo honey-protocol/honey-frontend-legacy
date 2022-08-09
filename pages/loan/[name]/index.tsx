@@ -172,9 +172,6 @@ const Loan: NextPage = () => {
     if (collateralNFTPositions) setDefaultNFT(collateralNFTPositions);
 
     if (marketReserveInfo && parsedReserves) {
-        // console.log('this is test nft price switchboard', testPrice);
-        // console.log('marketReserveInfo[0].depositNoteExchangeRate', marketReserveInfo[0].depositNoteExchangeRate.toString())
-        // setNFTPrice(2);
         setDepositNoteExchangeRate(BnToDecimal(marketReserveInfo[0].depositNoteExchangeRate, 15, 5))
         setCRatio(BnToDecimal(marketReserveInfo[0].minCollateralRatio, 15, 5))
       }
@@ -192,9 +189,11 @@ const Loan: NextPage = () => {
         // totalDebt = marketReserveInfo[0].loanNoteExchangeRate.mul(honeyUser?.loans()[0]?.amount).div(new BN(10 ** 15)).toNumber() / LAMPORTS_PER_SOL;
       }
     }
+    console.log('@@@@---nft price', nftPrice);
     const lvt = totalDebt / nftPrice;
 
     let sumOfAllowance = RoundHalfDown(nftCollateralValue * LTV - userLoans, 4);
+    console.log('Sum of allowance after calc.', nftPrice);
     sumOfAllowance < 0 ? setUserAllowance(0) : setUserAllowance(RoundHalfDown(sumOfAllowance));
     setUserDebt(RoundHalfDown(totalDebt));
     setLoanToValue(RoundHalfDown(lvt));
