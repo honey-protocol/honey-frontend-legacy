@@ -443,6 +443,7 @@ const Loan: NextPage = () => {
                 loanToValue={loanToValue}
                 fetchMarket={fetchMarket}
                 liqidationThreshold={liqidationThreshold}
+                nftPrice={nftPrice}
               />
             :
               <LoanNewBorrow
@@ -460,6 +461,7 @@ const Loan: NextPage = () => {
                 reFetchNFTs={reFetchNFTs}
                 refreshPositions={refreshPositions}
                 liqidationThreshold={liqidationThreshold}
+                nftPrice={nftPrice}
               />
           }
         </Box>

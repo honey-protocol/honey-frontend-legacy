@@ -138,9 +138,14 @@ const sdkConfig = ConfigureSDK();
   */
   async function executeDeposit(value?: number) {
     try {
+      console.log('hello', value)
       if (!value) return toastResponse('ERROR', 'Deposit failed', 'ERROR');
 
+      console.log('this is value', value);
+
       const tokenAmount =  value * LAMPORTS_PER_SOL;
+      console.log('this is total amount', tokenAmount);
+      
       const depositTokenMint = new PublicKey('So11111111111111111111111111111111111111112');
       const tx = await deposit(honeyUser, tokenAmount, depositTokenMint, honeyReserves);
       

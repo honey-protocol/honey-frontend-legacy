@@ -25,10 +25,11 @@ interface LoanBorrowProps {
   loanToValue: number;
   fetchMarket: Function;
   liqidationThreshold: number;
+  nftPrice: number;
 }
 
 const LoanBorrow = (props: LoanBorrowProps) => {
-  const { NFT, executeBorrow, openPositions, loanPositions, parsedReserves, userDebt, userAllowance, loanToValue, fetchMarket, liqidationThreshold } = props;
+  const { NFT, executeBorrow, openPositions, loanPositions, parsedReserves, userDebt, userAllowance, loanToValue, fetchMarket, liqidationThreshold, nftPrice } = props;
 
   let nftPlaceholder = {
     image: 'https://assets.coingecko.com/coins/images/24781/small/honey.png?1648902423',
@@ -114,7 +115,7 @@ const LoanBorrow = (props: LoanBorrowProps) => {
               {NFT ? NFT.name : nftPlaceholder.name}
             </Text>
             <Text>
-              Estimated value: <span>2 SOL</span>
+              Estimated value: <span>{nftPrice}</span>
             </Text>
           </Stack>
         </Box>
