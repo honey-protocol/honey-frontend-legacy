@@ -7,8 +7,7 @@ import * as styles from '../../styles/liquidation.css';
 import LiquidationHeader from 'components/LiquidationHeader/LiquidationHeader';
 import { PublicKey } from '@solana/web3.js';
 import LiquidationCollectionCard from '../../components/LiquidationCollectionCard/LiquidationCollectionCard';
-import { useAllPositions, useHoney } from '../../../honey-sdk';
-// from '../../../honey-sdk';
+import { useAllPositions, useHoney } from '@honey-finance/sdk';
 import  { ConfigureSDK, toastResponse } from '../../helpers/loanHelpers';
 /**
  * @description interface for NFT object
@@ -21,6 +20,16 @@ interface OpenObligation {
   highest_bid: number,
   is_healthy: string,
   ltv: number,
+}
+
+interface NftPosition {
+  obligation: string;
+  debt: number;
+  nft_mint: PublicKey;
+  owner: PublicKey;
+  ltv: number;
+  is_healthy: string;
+  highest_bid: number;
 }
 
 const Liquidation: NextPage = () => {
@@ -45,7 +54,7 @@ const Liquidation: NextPage = () => {
   */
   const [openPositions, setOpenPositions] = useState(false);
   const [loadingState, setLoadingState] = useState(true);
-  const [fetchedPositions, setFetchedPositions] = useState<Array<OpenObligation>>([]);
+  const [fetchedPositions, setFetchedPositions] = useState<Array<NftPosition>>([]);
   const [totalMarketDebt, setTotalMarketDebt] = useState(0);
   const [totalMarketNFTs, setTotalMarketNFTs] = useState(0);
   const [averageMarketLVT, setaverageMarketLVT] = useState(0);
@@ -71,6 +80,21 @@ const Liquidation: NextPage = () => {
   */
   const headerData = [ 'Collection', 'Total Collateral', 'Total Debt','Average LTV', '']
   
+  /**
+   * @description validates if user has outstanding bid or not
+   * @params none
+   * @returns toastresponse with state of outstanding bid
+  */
+  function validatePositions(openPositions: boolean) {
+    setTimeout(() => {
+      console.log('this is openPos', openPositions)
+      openPositions
+      ?
+      toastResponse('LIQUIDATION', '1 oustanding bid', 'LIQUIDATION')
+      :
+      toastResponse('LIQUIDATION', 'No outstanding bid', 'LIQUIDATION')
+    }, 5000)
+  }
   // create stringyfied instance of walletPK
   let stringyfiedWalletPK = sdkConfig.sdkWallet?.publicKey.toString();
   
@@ -79,12 +103,21 @@ const Liquidation: NextPage = () => {
    * @params array of bids
    * @returns state change
   */
-  function handleBiddingState(biddingArray: any) {  
-    biddingArray.map((obligation: any) => {
+  function handleBiddingState(biddingArray: any) { 
+    let val = 0 
+    
+    biddingArray.map((obligation: any, index: number) => {
       if (obligation.bidder == stringyfiedWalletPK) {
         setOpenPositions(true);
-      } 
-    })
+        val = 1;
+      }
+    });
+
+    if (val == 1) {
+      toastResponse('LIQUIDATION', '1 oustanding bid', 'LIQUIDATION')
+    } else {
+      toastResponse('LIQUIDATION', 'No outstanding bid', 'LIQUIDATION')
+    }
   }
   
   /**
@@ -94,7 +127,6 @@ const Liquidation: NextPage = () => {
   */
   useEffect(() => {
     if (status.positions && status.bids) {
-      console.log('STATUS_POSITIONS', status.positions);
       setFetchedPositions(status.positions);
       setTotalMarketNFTs(status.positions.length);
       handleBiddingState(status.bids);
@@ -122,25 +154,6 @@ const Liquidation: NextPage = () => {
   }
   // if there are positions init the average calculations
   if (fetchedPositions) calculateMarketValues(fetchedPositions);
-
-  /**
-   * @description validates if user has outstanding bid or not
-   * @params none
-   * @returns toastresponse with state of outstanding bid
-  */
-   function validatePositions() {
-    setTimeout(() => {
-      openPositions
-      ?
-      toastResponse('LIQUIDATION', '1 oustanding bid', 'LIQUIDATION')
-      :
-      toastResponse('LIQUIDATION', 'No outstanding bid', 'LIQUIDATION')
-    }, 5000);
-  }
-  // run once on initial render to validate position
-  useEffect(() => {
-    validatePositions();
-  }, []);
 
   return (
     <Layout>

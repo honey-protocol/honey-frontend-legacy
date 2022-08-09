@@ -213,5 +213,3 @@ const LoanNFTsContainer = (props: LoanNFTsContainerProps) => {
 };
 
 export default LoanNFTsContainer;
-
-

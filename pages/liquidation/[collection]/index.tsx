@@ -8,7 +8,7 @@ import * as styles from '../../../styles/liquidation.css';
 import { useConnectedWallet } from '@saberhq/use-solana';
 import LiquidationHeader from 'components/LiquidationHeader/LiquidationHeader';
 import LiquidationCard from 'components/LiquidationCard/LiquidationCard';
-import { useAnchor, LiquidatorClient, useAllPositions, NftPosition } from '../../../../honey-sdk';
+import { useAnchor, LiquidatorClient, useAllPositions, NftPosition } from '@honey-finance/sdk';
 import { ConfigureSDK, toastResponse } from 'helpers/loanHelpers';
 import { HONEY_PROGRAM_ID, HONEY_MARKET_ID } from '../../../constants/loan';
 import { LAMPORTS_PER_SOL, PublicKey } from '@solana/web3.js';
@@ -73,13 +73,10 @@ const LiquidationPool = () => {
 
     let sorted = positions.sort((first: any,second: any) => first.is_healthy - second.is_healthy).reverse();
     let highestBid = positions.sort((first: any, second: any) => first.highest_bid - second.highest_bid);
-    console.log('this is highestBid', highestBid[0]);
     
-    setHighestBiddingAddress(new PublicKey(highestBid[0].owner).toString());
+    setHighestBiddingAddress(highestBid[0].owner.toString());
     setHighestBiddingValue(highestBid[0].highest_bid / LAMPORTS_PER_SOL);
     setFetchedPositions(sorted);
-
-    console.log('this is sorted@@@@@@', sorted)
   }
 
   const [statusState, setStatusState] = useState(false);
@@ -91,7 +88,6 @@ const LiquidationPool = () => {
   */
   useEffect(() => {
     if (status.positions) {
-      console.log('state change STATUS.POSITIONS running', status.positions);
       setStatusState(true);
     }
   }, [status]);
@@ -253,17 +249,6 @@ const LiquidationPool = () => {
          {
             fetchedPositions && fetchedPositions.map((loan, i) => {
               return (
-                // <LiquidationCard
-                //   key={i}
-                //   debt={loan.debt}
-                //   address={loan.address}
-                //   ltv={loan.ltv}
-                //   isHealthy={loan.is_healthy}
-                //   highestBid={loan.highest_bid}
-                //   liquidationType={true}
-                //   handleShowBiddingModal={handleShowBiddingModal}
-                //   handleExecuteBid={() => handleExecuteBid}
-                // />
                 <LiquidationCard
                   index={i}
                   key={i}
