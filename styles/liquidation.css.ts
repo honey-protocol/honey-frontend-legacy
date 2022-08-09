@@ -474,7 +474,12 @@ export const biddingOverview = style({
 globalStyle(`${biddingOverview} > h4`, {
   color: 'rgb(179,179,179)',
   fontWeight: '500',
-})
+});
+
+globalStyle(`${biddingOverview} a`, {
+  color: 'orange',
+  textDecoration: 'underline'
+});
 
 export const healthFactor = style({
   background: 'rgb(26, 58, 34)',

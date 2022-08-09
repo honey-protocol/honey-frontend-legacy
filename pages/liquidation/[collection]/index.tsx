@@ -234,7 +234,10 @@ const LiquidationPool = () => {
           }
         </Box>
         <Box className={styles.biddingOverview}>
-          <h4>Highest bid on collection: <span>{highestBiddingValue} SOL</span></h4>
+          <h4>
+            Highest bid on collection: <span>{highestBiddingValue} SOL </span><br /> 
+            <span>by account: <a target="_blank" rel="noreferrer" href={`https://solscan.io/account/${highestBiddingAddress}`}>{highestBiddingAddress?.substring(0, 6)}..</a></span>
+          </h4>
         </Box>
         {
           fetchedPositions &&
