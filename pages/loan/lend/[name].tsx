@@ -122,7 +122,7 @@ const sdkConfig = ConfigureSDK();
   */
   useEffect(() => {
     if (parsedReserves && parsedReserves[0].reserveState.totalDeposits) {
-      let totalMarketDeposits = BnDivided(parsedReserves[0].reserveState.totalDeposits, 10, 9);
+      let totalMarketDeposits = BnToDecimal(parsedReserves[0].reserveState.totalDeposits, 9, 2);
       setTotalMarketDeposits(totalMarketDeposits);
       // setTotalMarketDeposits(parsedReserves[0].reserveState.totalDeposits.div(new BN(10 ** 9)).toNumber());
     }
