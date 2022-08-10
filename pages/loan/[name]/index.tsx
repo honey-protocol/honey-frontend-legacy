@@ -183,17 +183,17 @@ const Loan: NextPage = () => {
 
     if (honeyUser?.loans().length > 0) {
       if (honeyUser?.loans().length > 0 && marketReserveInfo) {
-        userLoans = BnDivided(marketReserveInfo[0].loanNoteExchangeRate.mul(honeyUser?.loans()[0]?.amount), 10, 15) * 1.002 / LAMPORTS_PER_SOL;
-        // userLoans = marketReserveInfo[0].loanNoteExchangeRate.mul(honeyUser?.loans()[0]?.amount).div(new BN(10 ** 15)).toNumber() * 1.002 / LAMPORTS_PER_SOL;
-        totalDebt = BnDivided(marketReserveInfo[0].loanNoteExchangeRate.mul(honeyUser?.loans()[0]?.amount), 10, 15) / LAMPORTS_PER_SOL;
-        // totalDebt = marketReserveInfo[0].loanNoteExchangeRate.mul(honeyUser?.loans()[0]?.amount).div(new BN(10 ** 15)).toNumber() / LAMPORTS_PER_SOL;
+        // userLoans = BnDivided(marketReserveInfo[0].loanNoteExchangeRate.mul(honeyUser?.loans()[0]?.amount), 10, 15) * 1.002 / LAMPORTS_PER_SOL;
+        userLoans = marketReserveInfo[0].loanNoteExchangeRate.mul(honeyUser?.loans()[0]?.amount).div(new BN(10 ** 15)).toNumber() * 1.002 / LAMPORTS_PER_SOL;
+        // totalDebt = BnDivided(marketReserveInfo[0].loanNoteExchangeRate.mul(honeyUser?.loans()[0]?.amount), 10, 15) / LAMPORTS_PER_SOL;
+        totalDebt = marketReserveInfo[0].loanNoteExchangeRate.mul(honeyUser?.loans()[0]?.amount).div(new BN(10 ** 15)).toNumber() / LAMPORTS_PER_SOL;
       }
     }
 
     const lvt = totalDebt / nftPrice;
 
     let sumOfAllowance = RoundHalfDown(nftCollateralValue * LTV - userLoans, 4);
-    console.log('Sum of allowance after calc.', nftPrice);
+
     sumOfAllowance < 0 ? setUserAllowance(0) : setUserAllowance(RoundHalfDown(sumOfAllowance));
     setUserDebt(RoundHalfDown(totalDebt));
     setLoanToValue(RoundHalfDown(lvt));
