@@ -403,14 +403,14 @@
   dependencies:
     "@hapi/hoek" "^9.0.0"
 
-"@honey-finance/sdk@^1.0.59", "@honey-finance/sdk@^1.0.93":
-  version "1.0.93"
-  resolved "https://registry.yarnpkg.com/@honey-finance/sdk/-/sdk-1.0.93.tgz#e0d5fdf7e4c0cc42588939bc66ff6c5f6c8d3ce2"
-  integrity sha512-8wQdJeqels2NLtxCsaSnRpl1RVL7T96DL7g2hIyAys0e6dNnt38y4b10KsDzpZUhP0z9aiQ7CMoPaJWS3LG2Fg==
+"@honey-finance/sdk@^1.0.59", "@honey-finance/sdk@^1.0.95":
+  version "1.0.95"
+  resolved "https://registry.yarnpkg.com/@honey-finance/sdk/-/sdk-1.0.95.tgz#1bc828aeeb5e6f9c2736af5671036959ddc313b1"
+  integrity sha512-3X2Z5H1HzLJI0Q7Egfk3oIoz9Ni8Gu7r3UQhyQ9So+DXlzjcgbykbdKfVOsmZ/XiyXpPn4BIpLVkiSjLPyCvmQ==
   dependencies:
     "@honey-finance/sdk" "^1.0.59"
     "@metaplex-foundation/mpl-token-metadata" "^1.2.0"
-    "@project-serum/anchor" "0.18.0"
+    "@project-serum/anchor" "^0.25.0"
     "@project-serum/serum" "^0.13.61"
     "@pythnetwork/client" "^2.5.3"
     "@rollup/plugin-commonjs" "^21.1.0"
@@ -719,26 +719,6 @@
     "@nodelib/fs.scandir" "2.1.5"
     fastq "^1.6.0"
 
-"@project-serum/anchor@0.18.0":
-  version "0.18.0"
-  resolved "https://registry.yarnpkg.com/@project-serum/anchor/-/anchor-0.18.0.tgz#867144282e59482230f797f73ee9f5634f846061"
-  integrity sha512-WTm+UB93MoxyCbjnHIibv/uUEoO/5gL4GEtE/aMioLF8Z4i0vCMPnvAN0xpk9VBu3t7ld2DcCE/L+6Z7dwU++w==
-  dependencies:
-    "@project-serum/borsh" "^0.2.2"
-    "@solana/web3.js" "^1.17.0"
-    base64-js "^1.5.1"
-    bn.js "^5.1.2"
-    bs58 "^4.0.1"
-    buffer-layout "^1.2.0"
-    camelcase "^5.3.1"
-    crypto-hash "^1.3.0"
-    eventemitter3 "^4.0.7"
-    find "^0.3.0"
-    js-sha256 "^0.9.0"
-    pako "^2.0.3"
-    snake-case "^3.0.4"
-    toml "^3.0.0"
-
 "@project-serum/anchor@0.24.2", "@project-serum/anchor@^0.24.2":
   version "0.24.2"
   resolved "https://registry.yarnpkg.com/@project-serum/anchor/-/anchor-0.24.2.tgz#a3c52a99605c80735f446ca9b3a4885034731004"
@@ -777,6 +757,27 @@
     js-sha256 "^0.9.0"
     pako "^2.0.3"
     snake-case "^3.0.4"
+    toml "^3.0.0"
+
+"@project-serum/anchor@^0.25.0":
+  version "0.25.0"
+  resolved "https://registry.yarnpkg.com/@project-serum/anchor/-/anchor-0.25.0.tgz#88ee4843336005cf5a64c80636ce626f0996f503"
+  integrity sha512-E6A5Y/ijqpfMJ5psJvbw0kVTzLZFUcOFgs6eSM2M2iWE1lVRF18T6hWZVNl6zqZsoz98jgnNHtVGJMs+ds9A7A==
+  dependencies:
+    "@project-serum/borsh" "^0.2.5"
+    "@solana/web3.js" "^1.36.0"
+    base64-js "^1.5.1"
+    bn.js "^5.1.2"
+    bs58 "^4.0.1"
+    buffer-layout "^1.2.2"
+    camelcase "^5.3.1"
+    cross-fetch "^3.1.5"
+    crypto-hash "^1.3.0"
+    eventemitter3 "^4.0.7"
+    js-sha256 "^0.9.0"
+    pako "^2.0.3"
+    snake-case "^3.0.4"
+    superstruct "^0.15.4"
     toml "^3.0.0"
 
 "@project-serum/borsh@^0.2.2", "@project-serum/borsh@^0.2.5":
@@ -5284,7 +5285,7 @@ superstruct@0.14.2, superstruct@^0.14.2:
   resolved "https://registry.yarnpkg.com/superstruct/-/superstruct-0.14.2.tgz#0dbcdf3d83676588828f1cf5ed35cda02f59025b"
   integrity sha512-nPewA6m9mR3d6k7WkZ8N8zpTWfenFH3q9pA2PkuiZxINr9DKB2+40wEQf0ixn8VaGuJ78AB6iWOtStI+/4FKZQ==
 
-superstruct@^0.15.2:
+superstruct@^0.15.2, superstruct@^0.15.4:
   version "0.15.5"
   resolved "https://registry.yarnpkg.com/superstruct/-/superstruct-0.15.5.tgz#0f0a8d3ce31313f0d84c6096cd4fa1bfdedc9dab"
   integrity sha512-4AOeU+P5UuE/4nOUkmcQdW5y7i9ndt1cQd/3iUe+LTz3RxESf/W/5lg4B74HbDMMv8PHnPnGCQFH45kBcrQYoQ==
