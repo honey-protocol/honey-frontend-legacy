@@ -45,7 +45,7 @@ const AssetRow = ({ data, openPositions }: AssetRowProps) => {
             >
                 <Box className={styles.avatarContainer} >
                     {/* Implement next image https://degen-xyz.vercel.app/components/Avatar#next-image */}
-                    <Avatar label="SMB" size="10" src={data.vaultImageUrl} />
+                    <Avatar label="HNE" size="10" src={data.vaultImageUrl || 'https://assets.coingecko.com/coins/images/24781/small/honey.png?1648902423'} />
                     <Text>{data.vaultName}</Text>
                 </Box>
                 <Box

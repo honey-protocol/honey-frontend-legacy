@@ -76,7 +76,7 @@ const LiquidationPool = () => {
     console.log('Sorted Bidding Array:', highestBid);
 
     highestBid.map((obj:any) => {
-      console.log(`bid: ${obj.highest_bid} owner: ${obj.owner.toString}`);
+      console.log(`bid: ${obj.highest_bid} owner: ${obj.owner.toString()}`);
     });
 
     setHighestBiddingAddress(highestBid[0].owner.toString());

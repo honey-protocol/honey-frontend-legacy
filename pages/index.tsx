@@ -82,7 +82,7 @@ const Home: NextPage = (props: any) => {
       <HeadSeo
                 title={`Honey Finance | Liquidity solutions for NFTs`}
                 description={`Honey Finance offers NFT staking and loans in Solana`}
-                  ogImageUrl={'https://app.honey.finance/honey-og-image.png'}
+                ogImageUrl={'https://app.honey.finance/honey-og-image.png'}
                 canonicalUrl={siteMetadata.siteUrl}
                 ogTwitterImage={siteMetadata.siteLogoSquare}
                 ogType={"website"}
