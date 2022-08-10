@@ -71,7 +71,7 @@ const LiquidationBiddingModal = (props: LiquidationBiddingModalProps) => {
             </Box>
             <Box>
               <Text>Minimum Bid Ask:</Text>
-              <Text><i>{highestBiddingValue * 1.1}</i></Text>
+              <Text><i>{(highestBiddingValue * 1.1).toFixed(2)}</i></Text>
             </Box>
             <Box>
               <Text>Current Highest Bid:</Text>
