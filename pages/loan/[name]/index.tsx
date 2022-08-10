@@ -191,6 +191,7 @@ const Loan: NextPage = () => {
     }
 
     const lvt = totalDebt / nftPrice;
+    console.log('@@@@---this is lvt', lvt);
 
     let sumOfAllowance = RoundHalfDown(nftCollateralValue * LTV - userLoans, 4);
 
