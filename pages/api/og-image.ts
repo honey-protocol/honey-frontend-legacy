@@ -1,4 +1,3 @@
-// pages/api/og-image.ts
 import { withOGImage } from 'next-api-og-image';
 
 interface QueryParams {
