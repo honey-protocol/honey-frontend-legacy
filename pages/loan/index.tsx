@@ -11,7 +11,7 @@ import Layout from '../../components/Layout/Layout';
 import * as styles from '../../styles/loan.css';
 import LoanHeaderComponent from 'components/LoanHeaderComponent/LoanHeaderComponent';
 import CreateMarket from 'pages/createmarket';
-import  { ConfigureSDK } from '../../helpers/loanHelpers';
+import  { BnToDecimal, ConfigureSDK } from '../../helpers/loanHelpers';
 import { useMarket, useBorrowPositions, useHoney, useAnchor }
   from '@honey-finance/sdk';
 import {TYPE_ZERO, TYPE_ONE} from '../../constants/loan';
@@ -73,7 +73,7 @@ const Loan: NextPage = () => {
   */
   useEffect(() => {
     if (parsedReserves && parsedReserves[0].reserveState.totalDeposits) {
-      let totMarketDeposits = BnDivided(parsedReserves[0].reserveState.totalDeposits, 10, 9);
+      let totMarketDeposits = BnToDecimal(parsedReserves[0].reserveState.totalDeposits, 9, 2);
       setTotalMarketDeposits(totMarketDeposits);
       // setTotalMarketDeposits(parsedReserves[0].reserveState.totalDeposits.div(new BN(10 ** 9)).toNumber());
     }
