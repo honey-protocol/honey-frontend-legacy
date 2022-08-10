@@ -54,9 +54,8 @@ const Loan: NextPage = () => {
   ];
 
   async function fetchObligations() {
-    console.log('fethching obligations')
     let obligations = await honeyMarket.fetchObligations();
-    console.log('obligations', obligations)
+    console.log('obligations:', obligations)
     setTotalMarketPositions(obligations.length);
   }
 
