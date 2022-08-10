@@ -22,6 +22,7 @@ import {
 } from 'recharts';
 import Link from 'next/link';
 import * as styles from '../../../styles/lend.css';
+import BN from 'bn.js'
 
 // TOOD: Needs to accept props for data
 // TODO: render rows of length two for NFT collections based on data props
