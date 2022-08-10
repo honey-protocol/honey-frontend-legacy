@@ -18,6 +18,7 @@ import {TYPE_ZERO, TYPE_ONE} from '../../constants/loan';
 import { BnDivided } from '../../helpers/loanHelpers';
 import { LAMPORTS_PER_SOL, PublicKey } from '@solana/web3.js';
 import {RoundHalfDown} from '../../helpers/utils';
+import BN from 'bn.js';
 
 const Loan: NextPage = () => {
   const wallet = useConnectedWallet();
@@ -54,9 +55,8 @@ const Loan: NextPage = () => {
   ];
 
   async function fetchObligations() {
-    console.log('fethching obligations')
     let obligations = await honeyMarket.fetchObligations();
-    console.log('obligations', obligations)
+    console.log('obligations:', obligations)
     setTotalMarketPositions(obligations.length);
   }
 
@@ -90,8 +90,8 @@ const Loan: NextPage = () => {
       const reserveState = depositReserve.data?.reserveState;
 
       if (reserveState?.outstandingDebt) {
-        let marketDebt = BnDivided(reserveState?.outstandingDebt, 10, 15);
-        // let marketDebt = reserveState?.outstandingDebt.div(new BN(10 ** 15)).toNumber();
+        // let marketDebt = BnDivided(reserveState?.outstandingDebt, 10, 15);
+        let marketDebt = reserveState?.outstandingDebt.div(new BN(10 ** 15)).toNumber();
         if (marketDebt) {
           let sum = Number((marketDebt / LAMPORTS_PER_SOL));
           setTotalMarketDebt(sum);

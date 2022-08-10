@@ -74,6 +74,12 @@ const LiquidationPool = () => {
     let sorted = positions.sort((first: any,second: any) => first.is_healthy - second.is_healthy).reverse();
     let highestBid = positions.sort((first: any, second: any) => first.highest_bid - second.highest_bid);
     
+    console.log('Sorted Bidding Array:', highestBid);
+
+    highestBid.map((obj:any) => {
+      console.log(`bid: ${obj.highest_bid} owner: ${obj.owner.toString()}`);
+    });
+
     setHighestBiddingAddress(highestBid[0].owner.toString());
     setHighestBiddingValue(highestBid[0].highest_bid / LAMPORTS_PER_SOL);
     setFetchedPositions(sorted);
@@ -129,12 +135,14 @@ const LiquidationPool = () => {
             withdraw_destination: wallet.publicKey
           });
 
-          console.log('@@__Transaction_Outcome revoke bid:', transactionOutcome);
-          // refreshDB();
+
+
+          console.log('@@__Transaction_Outcome revoke bid:', transactionOutcome[0]);
+
           if (transactionOutcome[0] == 'SUCCESS') {
-            toastResponse('SUCCESS', 'Revoke Bid', 'SUCCESS');
+            return toastResponse('SUCCESS', 'Revoke Bid', 'SUCCESS');
           } else {
-            toastResponse('ERROR', 'Revoke failed', 'ERROR');
+            return toastResponse('ERROR', 'Revoke failed', 'ERROR');
           }
         } else if (type == 'place_bid') {
             console.log('inside place bid', userBid)
@@ -149,12 +157,12 @@ const LiquidationPool = () => {
               bid_mint: NATIVE_MINT
             });
 
-            console.log('@@__Transaction_Outcome place bid:', transactionOutcome);
+            console.log('@@__Transaction_Outcome place bid:', transactionOutcome[0]);
             // refreshDB();
             if (transactionOutcome[0] == 'SUCCESS') {
-              toastResponse('SUCCESS', 'Placed Bid', 'SUCCESS');
+              return toastResponse('SUCCESS', 'Placed Bid', 'SUCCESS');
             } else {
-              toastResponse('ERROR', 'Bid failed', 'ERROR');
+              return toastResponse('ERROR', 'Bid failed', 'ERROR');
             }
 
         } else if (type == 'increase_bid') {
@@ -169,12 +177,12 @@ const LiquidationPool = () => {
               bid_mint: NATIVE_MINT,
             });
 
-            console.log('@@__Transaction_Outcome increase bid:', transactionOutcome);
+            console.log('@@__Transaction_Outcome increase bid:', transactionOutcome[0]);
             // refreshDB();
             if (transactionOutcome[0] == 'SUCCESS') {
-              toastResponse('SUCCESS', 'Placed Bid', 'SUCCESS');
+              return toastResponse('SUCCESS', 'Placed Bid', 'SUCCESS');
             } else {
-              toastResponse('ERROR', 'Bid failed', 'ERROR');
+              return toastResponse('ERROR', 'Bid failed', 'ERROR');
             }
           }
       } else {
@@ -188,6 +196,7 @@ const LiquidationPool = () => {
 
   async function handleExecuteBid(type: string, userBid?: number) {
     console.log('running executeBid')
+    handleShowBiddingModal();
     await fetchLiquidatorClient(type, userBid!)
   }
 
@@ -234,7 +243,10 @@ const LiquidationPool = () => {
           }
         </Box>
         <Box className={styles.biddingOverview}>
-          <h4>Highest bid on collection: <span>{highestBiddingValue} SOL</span></h4>
+          <h4>
+            Highest bid on collection: <span>{highestBiddingValue} SOL </span><br /> 
+            <span>by account: <a target="_blank" rel="noreferrer" href={`https://solscan.io/account/${highestBiddingAddress}`}>{highestBiddingAddress?.substring(0, 6)}..</a></span>
+          </h4>
         </Box>
         {
           fetchedPositions &&

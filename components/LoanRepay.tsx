@@ -26,10 +26,11 @@ interface LoanRepayProps {
     loanToValue: number;
     fetchMarket: Function;
     liqidationThreshold: number;
+    nftPrice: number;
 }
 
 const LoanRepay = (props: LoanRepayProps) => {
-    const { NFT, executeWithdrawNFT, mint, executeRepay, loanPositions, parsedReserves, userDebt, userAllowance, loanToValue, fetchMarket, liqidationThreshold } = props;
+    const { NFT, executeWithdrawNFT, mint, executeRepay, loanPositions, parsedReserves, userDebt, userAllowance, loanToValue, fetchMarket, liqidationThreshold, nftPrice } = props;
     const [userInput, setUserInput] = useState();
     const [userMessage, setUserMessage] = useState('');
     const [rangeVal, setRangeVal] = useState(0);
@@ -103,7 +104,7 @@ const LoanRepay = (props: LoanRepayProps) => {
                     align="right"
                     color="foreground"
                     >
-                    2 SOL
+                    {nftPrice}
                     </Text>
                 </Stack>
                 </Box>

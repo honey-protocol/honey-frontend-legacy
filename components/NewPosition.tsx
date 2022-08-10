@@ -16,10 +16,11 @@ interface LoanNewBorrowProps {
   reFetchNFTs: (val: any) => void;
   refreshPositions: () => void;
   liqidationThreshold: number;
+  nftPrice: number;
 }
 
 const LoanNewBorrow = (props: LoanNewBorrowProps) => {
-  const { NFT, mint, executeDepositNFT, loanPositions, parsedReserves, openPositions, userAvailableNFTs, reFetchNFTs, refreshPositions, liqidationThreshold } = props;
+  const { NFT, mint, executeDepositNFT, loanPositions, parsedReserves, openPositions, userAvailableNFTs, reFetchNFTs, refreshPositions, liqidationThreshold, nftPrice } = props;
   const [showCollateralPopup, setShowCollateralPopup] = useState(0);
 
   async function handleExecute(val: any) {
@@ -78,7 +79,7 @@ const LoanNewBorrow = (props: LoanNewBorrowProps) => {
                   Estimated value
                 </Text>
                 <Text align="right" color="foreground">
-                  2 SOL
+                  {nftPrice}
                 </Text>
               </Stack>
               <Stack

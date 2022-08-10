@@ -22,6 +22,7 @@ import {
 } from 'recharts';
 import Link from 'next/link';
 import * as styles from '../../../styles/lend.css';
+import BN from 'bn.js'
 
 // TOOD: Needs to accept props for data
 // TODO: render rows of length two for NFT collections based on data props
@@ -108,8 +109,8 @@ const sdkConfig = ConfigureSDK();
       }
 
       if(honeyUser?.deposits().length > 0) {
-        let totalDeposit = BnDivided(honeyUser.deposits()[0].amount, 10, 5) * depositNoteExchangeRate / (10 ** 4)
-        // let totalDeposit = honeyUser.deposits()[0].amount.div(new BN(10 ** 5)).toNumber() * depositNoteExchangeRate / (10 ** 4);
+        // let totalDeposit = BnDivided(honeyUser.deposits()[0].amount, 10, 5) * depositNoteExchangeRate / (10 ** 4)
+        let totalDeposit = honeyUser.deposits()[0].amount.div(new BN(10 ** 5)).toNumber() * depositNoteExchangeRate / (10 ** 4);
         setUserTotalDeposits(totalDeposit);
       }
     }, 3000);
@@ -140,7 +141,11 @@ const sdkConfig = ConfigureSDK();
     try {
       if (!value) return toastResponse('ERROR', 'Deposit failed', 'ERROR');
 
+      console.log('this is value', value);
+
       const tokenAmount =  value * LAMPORTS_PER_SOL;
+      console.log('this is total amount', tokenAmount);
+      
       const depositTokenMint = new PublicKey('So11111111111111111111111111111111111111112');
       const tx = await deposit(honeyUser, tokenAmount, depositTokenMint, honeyReserves);
       

@@ -40,9 +40,9 @@ const LoanHeaderComponent = (props: LoanHeaderComponentProps) => {
           {openPositions}
         </Text>
       </Box>
-      <Button size="small" onClick={handleCreateMarket} disabled={true}>
+      {/* <Button size="small" onClick={handleCreateMarket} disabled={true}>
         Create market
-      </Button>
+      </Button> */}
 
       <Button size="small">
         <a href="https://mint-site-ten.vercel.app/" target="_blank" rel="noreferrer">Mint Honey Eyes</a>
