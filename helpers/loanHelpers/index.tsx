@@ -119,7 +119,7 @@ export function BnDivided(val: BN, a: number, b: number) {
   return val.div(new BN(a ** b)).toNumber();
 }
 
-export async function getNftPrice(cluster: "devnet" | "mainnet-beta" = "devnet", connection: Connection, aggregatorKey: PublicKey): Promise<any> {
+export async function getOraclePrice(cluster: "devnet" | "mainnet-beta" = "devnet", connection: Connection, aggregatorKey: PublicKey): Promise<any> {
   // load the switchboard program
   const program = await loadSwitchboardProgram(
     cluster,

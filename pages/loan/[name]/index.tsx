@@ -14,7 +14,7 @@ import { LAMPORTS_PER_SOL, PublicKey } from '@solana/web3.js';
 import {TYPE_ZERO, TYPE_ONE, LTV} from '../../../constants/loan';
 import BN from 'bn.js';
 import { BnDivided } from '../../../helpers/loanHelpers/index';
-import {toastResponse, BnToDecimal, asyncTimeout, getNftPrice, ConfigureSDK} from '../../../helpers/loanHelpers/index';
+import {toastResponse, BnToDecimal, asyncTimeout, getOraclePrice, ConfigureSDK} from '../../../helpers/loanHelpers/index';
 import {
   depositNFT,
   withdrawNFT,
@@ -103,7 +103,7 @@ const Loan: NextPage = () => {
   * @params  useConnection func. | useConnectedWallet func. | honeyID | marketID
   * @returns honeyUser | honeyReserves - used for interaction regarding the SDK
   */
-  const { honeyClient, honeyUser, honeyReserves } = useMarket(sdkConfig.saberHqConnection, sdkConfig.sdkWallet!, sdkConfig.honeyId, sdkConfig.marketId);
+  const { honeyClient, honeyUser, honeyReserves, honeyMarket } = useMarket(sdkConfig.saberHqConnection, sdkConfig.sdkWallet!, sdkConfig.honeyId, sdkConfig.marketId);
 
   // const {sendRefreshTx} = new HoneyReserve(sdkConfig.saberHqConnection, sdkConfig.sdkWallet!, sdkConfig.honeyId, sdkConfig.marketId)
   /**
@@ -151,9 +151,10 @@ const Loan: NextPage = () => {
 
   async function calculateNFTPrice() {
     if (marketReserveInfo && parsedReserves) {
-      let oracleOutcome = await getNftPrice('devnet', sdkConfig.saberHqConnection, parsedReserves[0].switchboardPriceAggregator);
+      let solPrice = await getOraclePrice('devnet', sdkConfig.saberHqConnection, parsedReserves[0].switchboardPriceAggregator);//in usd
+      let nftPrice = await getOraclePrice('devnet', sdkConfig.saberHqConnection, honeyMarket.nftSwithchboardPriceAggregator);//in usd
       
-      setNFTPrice(oracleOutcome);
+      setNFTPrice(nftPrice / solPrice);//nft's price in SOL
       setCalculatedNFTPrice(true);
     }
   }
