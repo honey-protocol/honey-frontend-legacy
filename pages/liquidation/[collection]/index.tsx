@@ -257,7 +257,7 @@ const LiquidationPool = () => {
           </h4>
         </Box>
         {
-          fetchedPositions &&
+          fetchedPositions?.length &&
           <Box className={styles.biddingOverview}>
             <h4>Loan to value ratio <span>{fetchedPositions[0].ltv}%</span></h4>
           </Box>
