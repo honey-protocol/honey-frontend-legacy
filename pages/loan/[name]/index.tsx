@@ -150,7 +150,7 @@ const Loan: NextPage = () => {
   const [calculatedNFTPrice, setCalculatedNFTPrice] = useState(false);
 
   async function calculateNFTPrice() {
-    if (marketReserveInfo && parsedReserves) {
+    if (marketReserveInfo && parsedReserves && honeyMarket) {
       let solPrice = await getOraclePrice('devnet', sdkConfig.saberHqConnection, parsedReserves[0].switchboardPriceAggregator);//in usd
       let nftPrice = await getOraclePrice('devnet', sdkConfig.saberHqConnection, honeyMarket.nftSwithchboardPriceAggregator);//in usd
       
