@@ -191,14 +191,14 @@ const Loan: NextPage = () => {
       }
     }
 
-    const lvt = totalDebt / nftPrice;
-    console.log('@@@@---this is lvt', lvt);
+    const ltv = totalDebt / nftPrice;
+    console.log('@@@@---this is lvt', ltv);
 
     let sumOfAllowance = RoundHalfDown(nftCollateralValue * LTV - userLoans, 4);
 
     sumOfAllowance < 0 ? setUserAllowance(0) : setUserAllowance(RoundHalfDown(sumOfAllowance));
     setUserDebt(RoundHalfDown(totalDebt));
-    setLoanToValue(RoundHalfDown(lvt));
+    setLoanToValue(RoundHalfDown(ltv));
 
     // let liquidationThresh = 1 / cRatio * 100;
     setLiquidationThreshold(1 / cRatio * 100);
