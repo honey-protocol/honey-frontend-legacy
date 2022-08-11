@@ -403,10 +403,10 @@
   dependencies:
     "@hapi/hoek" "^9.0.0"
 
-"@honey-finance/sdk@^1.0.59", "@honey-finance/sdk@^1.0.96":
-  version "1.0.96"
-  resolved "https://registry.yarnpkg.com/@honey-finance/sdk/-/sdk-1.0.96.tgz#2d135e9c9814c2b5b755bd7c030202223f68397c"
-  integrity sha512-0DISi2jr17KGzOmpAU/3NK8XrpmH6R2GCZTTxsHBR8A83HY6wIjKCiLe4M206zcmUEaSQ6OQWFrLiKds7/Ap3g==
+"@honey-finance/sdk@^1.0.59", "@honey-finance/sdk@^1.0.97":
+  version "1.0.97"
+  resolved "https://registry.yarnpkg.com/@honey-finance/sdk/-/sdk-1.0.97.tgz#4ce377f63b7f97f03482384472b8a996f3be3892"
+  integrity sha512-bUjn8I5N0FfzDaKlbb8ENn9xMNBM/PJviygXjRGlI7a7qPlDWVncJcU9O7EQ9RDWNv5jqcnb7VDWQnrdawYY4A==
   dependencies:
     "@honey-finance/sdk" "^1.0.59"
     "@metaplex-foundation/mpl-token-metadata" "^1.2.0"
@@ -417,6 +417,7 @@
     "@solana/buffer-layout" "^3.0.0"
     "@solana/spl-token" "^0.1.8"
     "@solana/web3.js" "^1.32.1"
+    "@switchboard-xyz/switchboard-v2" "^0.0.127"
     "@types/chai" "^4.3.0"
     "@types/chai-as-promised" "^7.1.5"
     "@types/mocha" "^9.1.0"

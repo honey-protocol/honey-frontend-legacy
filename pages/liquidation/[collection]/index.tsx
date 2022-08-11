@@ -84,8 +84,10 @@ const LiquidationPool = () => {
 
     // setHighestBiddingAddress(highestBid[0].owner.toString());
     // setHighestBiddingValue(highestBid[0].highest_bid / LAMPORTS_PER_SOL);
-    setHighestBiddingAddress(highestBid[0].bidder);
-    setHighestBiddingValue(highestBid[0].bidLimit / LAMPORTS_PER_SOL);
+    if (highestBid[0]) {
+      setHighestBiddingAddress(highestBid[0].bidder);
+      setHighestBiddingValue(highestBid[0].bidLimit / LAMPORTS_PER_SOL);
+    }
     setFetchedPositions(sorted);
   }
 
