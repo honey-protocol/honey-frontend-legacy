@@ -79,7 +79,7 @@ const LoanNewBorrow = (props: LoanNewBorrowProps) => {
                   Estimated value
                 </Text>
                 <Text align="right" color="foreground">
-                  {nftPrice}
+                  {nftPrice.toFixed(4)}
                 </Text>
               </Stack>
               <Stack

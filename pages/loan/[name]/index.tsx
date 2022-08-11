@@ -150,7 +150,7 @@ const Loan: NextPage = () => {
   const [calculatedNFTPrice, setCalculatedNFTPrice] = useState(false);
 
   async function calculateNFTPrice() {
-    if (marketReserveInfo && parsedReserves) {
+    if (marketReserveInfo && parsedReserves && honeyMarket) {
       let solPrice = await getOraclePrice('devnet', sdkConfig.saberHqConnection, parsedReserves[0].switchboardPriceAggregator);//in usd
       let nftPrice = await getOraclePrice('devnet', sdkConfig.saberHqConnection, honeyMarket.nftSwithchboardPriceAggregator);//in usd
       
@@ -191,13 +191,14 @@ const Loan: NextPage = () => {
       }
     }
 
-    const lvt = totalDebt / nftPrice;
+    const ltv = totalDebt / nftPrice;
+    console.log('@@@@---this is lvt', ltv);
 
     let sumOfAllowance = RoundHalfDown(nftCollateralValue * LTV - userLoans, 4);
 
     sumOfAllowance < 0 ? setUserAllowance(0) : setUserAllowance(RoundHalfDown(sumOfAllowance));
     setUserDebt(RoundHalfDown(totalDebt));
-    setLoanToValue(RoundHalfDown(lvt));
+    setLoanToValue(RoundHalfDown(ltv));
 
     // let liquidationThresh = 1 / cRatio * 100;
     setLiquidationThreshold(1 / cRatio * 100);

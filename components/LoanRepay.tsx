@@ -104,7 +104,7 @@ const LoanRepay = (props: LoanRepayProps) => {
                     align="right"
                     color="foreground"
                     >
-                    {nftPrice}
+                    {nftPrice.toFixed(4)}
                     </Text>
                 </Stack>
                 </Box>

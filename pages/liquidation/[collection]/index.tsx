@@ -72,16 +72,22 @@ const LiquidationPool = () => {
     });
 
     let sorted = positions.sort((first: any,second: any) => first.is_healthy - second.is_healthy).reverse();
-    let highestBid = positions.sort((first: any, second: any) => first.highest_bid - second.highest_bid);
+    let highestBid = biddingArray.sort((first: any, second: any) => first.bidLimit - second.bidLimit).reverse();
+    // let highestBid = biddingArray.bidder || '';
     
-    console.log('Sorted Bidding Array:', highestBid);
+    // console.log('Sorted Bidding Array:', highestBid);
+    console.log('this is biddingArray', highestBid)
 
-    highestBid.map((obj:any) => {
-      console.log(`bid: ${obj.highest_bid} owner: ${obj.owner.toString()}`);
-    });
+    // highestBid.map((obj:any) => {
+    //   console.log(`bid: ${obj.highest_bid} owner: ${obj.owner.toString()}`);
+    // });
 
-    setHighestBiddingAddress(highestBid[0].owner.toString());
-    setHighestBiddingValue(highestBid[0].highest_bid / LAMPORTS_PER_SOL);
+    // setHighestBiddingAddress(highestBid[0].owner.toString());
+    // setHighestBiddingValue(highestBid[0].highest_bid / LAMPORTS_PER_SOL);
+    if (highestBid[0]) {
+      setHighestBiddingAddress(highestBid[0].bidder);
+      setHighestBiddingValue(highestBid[0].bidLimit / LAMPORTS_PER_SOL);
+    }
     setFetchedPositions(sorted);
   }
 
@@ -109,6 +115,8 @@ const LiquidationPool = () => {
           position.is_healthy = '2'
         }
       });
+
+      console.log('STATUS.OBJ', status);
 
       handleBiddingState(status.bids, status.positions);
     }
@@ -249,7 +257,7 @@ const LiquidationPool = () => {
           </h4>
         </Box>
         {
-          fetchedPositions &&
+          fetchedPositions?.length &&
           <Box className={styles.biddingOverview}>
             <h4>Loan to value ratio <span>{fetchedPositions[0].ltv}%</span></h4>
           </Box>
