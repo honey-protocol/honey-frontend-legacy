@@ -1,13 +1,7 @@
-import type { NextPage } from 'next';
-import React, { useState, useEffect } from 'react';
-import { Box, Stack, Button, IconChevronLeft, Text, Avatar } from 'degen';
-import Layout from '../../components/Layout/Layout';
+import React, { useState } from 'react';
+import { Box, Button, Text } from 'degen';
 import * as styles from './LiquidationBiddingModal.css';
-import Link from 'next/link';
 import { IconClose } from 'degen';
-import { LAMPORTS_PER_SOL, PublicKey } from '@solana/web3.js';
-import { toastResponse } from 'helpers/loanHelpers';
-
 interface LiquidationBiddingModalProps {
   handleShowBiddingModal: () => void;
   handleExecuteBid: (val: any, userBid?: number) => void;
@@ -34,30 +28,22 @@ const LiquidationBiddingModal = (props: LiquidationBiddingModalProps) => {
   }
 
   function processBid(type: string) {
-    console.log('process bid running', type)
     if (type == 'revoke_bid') {
       handleExecuteBid(type);
     } else if (type == 'place_bid') {
-      console.log('this is userInput', userInput)
       if (userInput) {
         handleExecuteBid(type, userInput);
       }
     } else if (type == 'increase_bid') {
       if (userInput) {
-        // if (userInput < (highestBiddingValue + .1)) {
-        //   return toastResponse('ERROR', 'Bid not high enough', 'ERROR');
-        // };
         handleExecuteBid(type, userInput); 
       }
     }
-    
   }
 
   function handleUserChange(val: any) {
     setUserInput(val.target.value);
   }
-
-  // if (hasPosition == true) setConfirmState(true);
 
   return (
     <Box>
@@ -110,7 +96,7 @@ const LiquidationBiddingModal = (props: LiquidationBiddingModalProps) => {
               )
               : 
               (
-                <Box>
+                <Box className={styles.baseWrapper}>
                 {
                   confirmState 
                   ?

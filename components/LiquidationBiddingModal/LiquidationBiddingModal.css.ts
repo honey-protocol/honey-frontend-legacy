@@ -19,7 +19,7 @@ export const liquidationBiddingModalWrapper = style({
   '@media': {
     'screen and (min-width: 720px)': {
       width: '30em',
-      height: '44em',
+      height: '35em',
       left: '50%',
       top: '50%',
       marginLeft: '-15em',
@@ -39,43 +39,11 @@ globalStyle(`${liquidationBiddingModalWrapper} div button`, {
   margin: '.5em 0'
 });
 
-// globalStyle(`${liquidationBiddingModalWrapper} > div > div`, {
-//   margin: '.5em 0',
-// });
-
-// globalStyle(`${liquidationBiddingModalWrapper} button`, {
-//   width: '100%',
-//   margin: '.5em 0',
-//   bottom: '-5em',
-// });
-
-// globalStyle(`${liquidationBiddingModalWrapper} div:last-child`, {
-//   marginBottom: '1em',
-//   width: '90%',
-//   bottom: '-1em'
-// });
-
-// export const bidWrapper = style({
-//   display: 'flex',
-//   flexDirection: 'row',
-//   justifyContent: 'space-between'
-// });
-
-// export const buttonWrapper = style({
-//   width: '100%',
-//   position: 'relative',
-//   // bottom: '-10em'
-// });
-
-// globalStyle(`${buttonWrapper} > button`, {
-//   width: '100%',
-//   marginTop: '2.5em',
-//   '@media': {
-//     'screen and (min-width: 720px)': {
-//       marginTop: '3.5em'
-//     }
-//   }
-// });
+export const baseWrapper = style({
+  display: 'flex',
+  flexDirection: 'column',
+  justifyContent: 'flex-end'
+});
 
 export const inputWrapper = style({
 });
@@ -87,10 +55,6 @@ globalStyle(`${inputWrapper} > input`, {
   padding: '.25em',
   border: 'none'
 });
-
-// globalStyle(`${inputWrapper} > div`, {
-//   fontSize: '1.5em',
-// });
 
 export const closingAction = style({
   borderRadius: '50%',
@@ -105,6 +69,3 @@ export const closingAction = style({
   right: '1em',
   cursor: 'pointer'
 });
-
-// globalStyle(`${closingAction}`, {
-// });
