@@ -78,23 +78,8 @@ const Liquidation: NextPage = () => {
    * @params none
    * @returns array of header data used for header component
   */
-  const headerData = [ 'Collection', 'Total Collateral', 'Total Debt','Average LTV', '']
-  
-  /**
-   * @description validates if user has outstanding bid or not
-   * @params none
-   * @returns toastresponse with state of outstanding bid
-  */
-  function validatePositions(openPositions: boolean) {
-    setTimeout(() => {
-      console.log('this is openPos', openPositions)
-      openPositions
-      ?
-      toastResponse('LIQUIDATION', '1 oustanding bid', 'LIQUIDATION')
-      :
-      toastResponse('LIQUIDATION', 'No outstanding bid', 'LIQUIDATION')
-    }, 5000)
-  }
+  const headerData = [ 'Collection', 'Total Collateral', 'Total Debt','Average LTV', ''];
+
   // create stringyfied instance of walletPK
   let stringyfiedWalletPK = sdkConfig.sdkWallet?.publicKey.toString();
   
