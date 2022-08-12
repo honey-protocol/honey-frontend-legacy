@@ -14,14 +14,6 @@ import  { ConfigureSDK, toastResponse } from '../../helpers/loanHelpers';
  * @params none
  * @returns typed object
 */
-interface OpenObligation {
-  address: PublicKey,
-  debt: number,
-  highest_bid: number,
-  is_healthy: string,
-  ltv: number,
-}
-
 interface NftPosition {
   obligation: string;
   debt: number;
@@ -53,7 +45,6 @@ const Liquidation: NextPage = () => {
    * @returns state variables
   */
   const [openPositions, setOpenPositions] = useState(false);
-  const [loadingState, setLoadingState] = useState(true);
   const [fetchedPositions, setFetchedPositions] = useState<Array<NftPosition>>([]);
   const [totalMarketDebt, setTotalMarketDebt] = useState(0);
   const [totalMarketNFTs, setTotalMarketNFTs] = useState(0);

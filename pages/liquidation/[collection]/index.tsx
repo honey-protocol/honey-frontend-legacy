@@ -20,7 +20,6 @@ const LiquidationPool = () => {
   const { program } = useAnchor();
   // create wallet instance for PK
   const wallet = useConnectedWallet();
-
   /**
     * @description sets program | market | connection | wallet
     * @params none
@@ -33,7 +32,6 @@ const LiquidationPool = () => {
     * @returns loading | nft positions | error
   */
    const { ...status } = useAllPositions(sdkConfig.saberHqConnection, sdkConfig.sdkWallet!, sdkConfig.honeyId, sdkConfig.marketId);
-
   /**
     * @description the obligations that are being rendered
     * @params none
@@ -143,8 +141,6 @@ const LiquidationPool = () => {
             withdraw_destination: wallet.publicKey
           });
 
-
-
           console.log('@@__Transaction_Outcome revoke bid:', transactionOutcome[0]);
 
           if (transactionOutcome[0] == 'SUCCESS') {
@@ -210,7 +206,7 @@ const LiquidationPool = () => {
 
   useEffect(() => {
     if (currentUserBid) console.log('this is currentUserBid', currentUserBid);
-  }, [currentUserBid])
+  }, [currentUserBid]);
 
   return (
     <Layout>
