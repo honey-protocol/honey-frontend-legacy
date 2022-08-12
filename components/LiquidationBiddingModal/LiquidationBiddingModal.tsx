@@ -13,20 +13,24 @@ interface LiquidationBiddingModalProps {
 
 const LiquidationBiddingModal = (props: LiquidationBiddingModalProps) => {
   const {handleShowBiddingModal, handleExecuteBid, hasPosition, stringyfiedWalletPK, highestBiddingAddress, highestBiddingValue} = props;
-
+  // state to determine which buttons to show regarding position or no position
   const [confirmState, setConfirmState] = useState(false);
   const [userInput, setUserInput] = useState();
   const [increaseUserBid, setIncreaseUserBid] = useState(false);
-
+  // set state handlers
   function handlePlaceBid() {
     confirmState == false ? setConfirmState(true) : setConfirmState(false);
   }
-
+  // set state handlers
   function handleIncreaseBid() {
     increaseUserBid == false ? setIncreaseUserBid(true) : setIncreaseUserBid(false);
     confirmState == false ? setConfirmState(true) : setConfirmState(false);
   }
-
+  /**
+   * @description processes the action of a user; 
+   * @params type string; place_bid | increase_bid | revoke_bid
+   * @returns executes the handler in the parent component which fires off SDK hook
+  */
   function processBid(type: string) {
     if (type == 'revoke_bid') {
       handleExecuteBid(type);
@@ -40,7 +44,11 @@ const LiquidationBiddingModal = (props: LiquidationBiddingModalProps) => {
       }
     }
   }
-
+  /**
+   * @description set current user input regarding bid
+   * @params input object containing value
+   * @returns sets state
+  */
   function handleUserChange(val: any) {
     setUserInput(val.target.value);
   }
