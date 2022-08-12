@@ -96,5 +96,5 @@ globalStyle(`${cardMenuContainer} > div`, {
 export const loanWrapper = style({
   background: 'rgb(20, 20, 20)',
   borderRadius: '1rem',
-  padding: '2rem'
+  padding: '2rem',
 });
