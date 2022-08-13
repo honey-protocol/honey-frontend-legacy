@@ -38,6 +38,10 @@ globalStyle(`${buttonSelectionWrapper} > button`, {
   cursor: 'pointer'
 });
 
+globalStyle(`${buttonSelectionWrapper} > button:first-of-type`, {
+  marginLeft: '-.5em'
+});
+
 export const buttonActive = style({
   color: 'rgb(255, 159, 10)',
   background: '#ff9f0a33',
