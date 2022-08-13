@@ -18,6 +18,7 @@ import {
   SDKProvider
 } from 'helpers/sdk';
 import { GovernorProvider } from 'hooks/tribeca/useGovernor';
+import { GovernanceProvider } from 'contexts/GovernanceProvider';
 
 import 'degen/styles';
 import '../styles/globals.css';
@@ -74,6 +75,7 @@ function MyApp({ Component, pageProps }: AppProps) {
       </Script>
       <QueryClientProvider client={queryClient}>
         <ReactQueryDevtools initialIsOpen={false} />
+
         <WalletKitProvider
           defaultNetwork={network}
           app={{
@@ -81,32 +83,34 @@ function MyApp({ Component, pageProps }: AppProps) {
           }}
           networkConfigs={networkConfiguration()}
         >
-          <SailProvider
-            initialState={{
-              onSailError
-            }}
-          >
-            <SDKProvider>
-              <GovernorProvider
-                initialState={{
-                  governor: GOVERNOR_ADDRESS,
-                  govToken: HONEY_MINT,
-                  minter: {
-                    mintWrapper: HONEY_MINT_WRAPPER
-                  }
-                }}
-              >
-                {/* {children} */}
-                {showPopup ? (
-                  <SecPopup setShowPopup={setShowPopup} />
-                ) : (
-                  <>
-                    <Component {...pageProps} />
-                  </>
-                )}
-              </GovernorProvider>
-            </SDKProvider>
-          </SailProvider>
+          <GovernanceProvider>
+            <SailProvider
+              initialState={{
+                onSailError
+              }}
+            >
+              <SDKProvider>
+                <GovernorProvider
+                  initialState={{
+                    governor: GOVERNOR_ADDRESS,
+                    govToken: HONEY_MINT,
+                    minter: {
+                      mintWrapper: HONEY_MINT_WRAPPER
+                    }
+                  }}
+                >
+                  {/* {children} */}
+                  {showPopup ? (
+                    <SecPopup setShowPopup={setShowPopup} />
+                  ) : (
+                    <>
+                      <Component {...pageProps} />
+                    </>
+                  )}
+                </GovernorProvider>
+              </SDKProvider>
+            </SailProvider>
+          </GovernanceProvider>
         </WalletKitProvider>
       </QueryClientProvider>
       <ToastContainer theme="dark" position="bottom-right" />

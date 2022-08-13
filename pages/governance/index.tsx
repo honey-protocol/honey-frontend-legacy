@@ -23,7 +23,7 @@ import { PublicKey } from '@solana/web3.js';
 import { useConnectedWallet } from '@saberhq/use-solana';
 import { useWalletKit } from '@gokiprotocol/walletkit';
 import NumberFormat from 'react-number-format';
-import { useStake } from 'hooks/useStake';
+  import { useStake } from 'hooks/useStake';
 import { useAccounts } from 'hooks/useAccounts';
 import {
   PHONEY_DECIMALS,
@@ -43,6 +43,7 @@ import { useTokenAmount, useTokenMint } from '@saberhq/sail';
 import { useGovernor } from 'hooks/tribeca/useGovernor';
 import { TokenAmount } from '@saberhq/token-utils';
 import ToolTip from 'components/ToolTip/ToolTip';
+import { useGovernance } from 'contexts/GovernanceProvider';
 
 const Governance: NextPage = () => {
   const wallet = useConnectedWallet();
@@ -52,14 +53,11 @@ const Governance: NextPage = () => {
   const [showHoneyModal, setShowHoneyModal] = useState(false);
   const [vehoneySupply, setVehoneySupply] = useState("");
 
-  const { tokenAccounts } = useAccounts();
-  // ======================== Should replace with configuration ================
-  const pHoneyToken = tokenAccounts.find(t => t.info.mint.equals(PHONEY_MINT));
-  const honeyToken = tokenAccounts.find(t => t.info.mint.equals(HONEY_MINT));
 
   const { govToken, veToken, lockedSupply } = useGovernor();
+  
+  const { veHoneyAmount, lockedAmount, lockedPeriodEnd, pHoneyAmount, honeyAmount, depositedAmount } = useGovernance();
 
-  // const totalVeTokens = useTokenAmount(veToken, '0');
   const { data: govTokenData } = useTokenMint(govToken?.mintAccount);
   const totalSupplyFmt =
     govTokenData && govToken
@@ -88,7 +86,7 @@ const Governance: NextPage = () => {
   );
   // ============================================================================
 
-  const { user, escrow, totalVeHoney } = useStake(
+  const { totalVeHoney } = useStake(
     STAKE_POOL_ADDRESS,
     LOCKER_ADDRESS
   );
@@ -104,56 +102,6 @@ const Governance: NextPage = () => {
     getVeHoneySupply()
   }, [getVeHoneySupply, totalVeHoney])
 
-  const lockedAmount = useMemo(() => {
-    if (!escrow) {
-      return 0;
-    }
-
-    return convert(escrow.amount, HONEY_DECIMALS);
-  }, [escrow]);
-
-  const lockedPeriodEnd = useMemo(() => {
-    if (!escrow) {
-      return 0;
-    }
-
-    return convertBnTimestampToDate(escrow.escrowEndsAt);
-  }, [escrow]);
-
-  const veHoneyAmount = useMemo(() => {
-    if (!escrow) {
-      return 0;
-    }
-    return calcVeHoneyAmount(
-      escrow.escrowStartedAt,
-      escrow.escrowEndsAt,
-      escrow.amount
-    );
-  }, [escrow]);
-
-  const depositedAmount = useMemo(() => {
-    if (!user) {
-      return 0;
-    }
-
-    return convert(user.depositAmount, PHONEY_DECIMALS);
-  }, [user]);
-
-  const pHoneyAmount = useMemo(() => {
-    if (!pHoneyToken) {
-      return 0;
-    }
-
-    return convert(pHoneyToken.info.amount, PHONEY_DECIMALS);
-  }, [pHoneyToken]);
-
-  const honeyAmount = useMemo(() => {
-    if (!honeyToken) {
-      return 0;
-    }
-
-    return convert(honeyToken.info.amount, HONEY_DECIMALS);
-  }, [honeyToken]);
 
   return (
     <Layout>
@@ -309,7 +257,7 @@ const Governance: NextPage = () => {
                           <Text size="small">{lockedPeriodEnd}</Text>
                         </Stack>
                         <Stack justify="space-between" direction="horizontal">
-                          <Text size="small">pHONEY deposited:</Text>
+                          <Text size="small">pHONEY deposited</Text>
                           <Text size="small">{depositedAmount}</Text>
                         </Stack>
                         <Stack justify="space-between" direction="horizontal">

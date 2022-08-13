@@ -5,6 +5,7 @@ import { useStake } from 'hooks/useStake';
 import { useAccounts } from 'hooks/useAccounts';
 import { PHONEY_DECIMALS, PHONEY_MINT } from 'helpers/sdk/constant';
 import { convert, convertToBN } from 'helpers/utils';
+import { useGovernance } from 'contexts/GovernanceProvider';
 
 // console.log("The stake pool address is : ", process.env.PUBLIC_NEXT_PUBLIC_STAKE_POOL_ADDRESS)
 const PHoneyModal = () => {
@@ -17,10 +18,9 @@ const PHoneyModal = () => {
     setAmount(Number(event.target.value));
   };
 
-  const { tokenAccounts } = useAccounts();
+  const { depositedAmount, pHoneyAmount } = useGovernance();
 
   // ======================== Should replace with configuration ================
-  const pHoneyToken = tokenAccounts.find(t => t.info.mint.equals(PHONEY_MINT));
   const STAKE_POOL_ADDRESS = new PublicKey(
     process.env.NEXT_PUBLIC_STAKE_POOL_ADDRESS ||
       '4v62DWSwrUVEHe2g88MeyJ7g32vVzQsCnADZF8yUy8iU'
@@ -39,22 +39,6 @@ const PHoneyModal = () => {
   useEffect(() => {
     setIsClaimable(claimableAmount !== 0);
   }, [claimableAmount]);
-
-  const depositedAmount = useMemo(() => {
-    if (!user) {
-      return 0;
-    }
-
-    return convert(user.depositAmount, PHONEY_DECIMALS);
-  }, [user]);
-
-  const pHoneyAmount = useMemo(() => {
-    if (!pHoneyToken) {
-      return 0;
-    }
-
-    return convert(pHoneyToken.info.amount, PHONEY_DECIMALS);
-  }, [pHoneyToken]);
 
   const handleDeposit = useCallback(async () => {
     if (!amount) return;
