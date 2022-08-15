@@ -107,6 +107,8 @@ const Liquidation: NextPage = () => {
       setTotalMarketNFTs(status.positions.length);
       handleBiddingState(status.bids);
     }
+
+    return;
   }, [status]);
 
   /**

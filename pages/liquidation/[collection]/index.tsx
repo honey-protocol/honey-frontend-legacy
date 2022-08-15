@@ -100,6 +100,8 @@ const LiquidationPool = () => {
     if (status.positions) {
       setStatusState(true);
     }
+
+    return;
   }, [status]);
 
   useEffect(() => {
@@ -118,6 +120,8 @@ const LiquidationPool = () => {
 
       handleBiddingState(status.bids, status.positions);
     }
+
+    return;
   }, [statusState]);
 
   /**
@@ -197,16 +201,18 @@ const LiquidationPool = () => {
           return toastResponse('ERROR', 'Bid failed', 'ERROR');
         }
   }
-
+  /**
+   * @description changes state of bidding modal | inits fetchLiq. func
+   * @params type, being type of bid | userbid being the amount, is optional |
+   * @returns inits fetchLiq. func
+  */
   async function handleExecuteBid(type: string, userBid?: number) {
     console.log('running executeBid')
     handleShowBiddingModal();
     await fetchLiquidatorClient(type, userBid!)
   }
 
-  useEffect(() => {
-    if (currentUserBid) console.log('this is currentUserBid', currentUserBid);
-  }, [currentUserBid]);
+  useEffect(() => {}, [currentUserBid]);
 
   return (
     <Layout>
@@ -284,7 +290,6 @@ const LiquidationPool = () => {
                 handleShowBiddingModal={handleShowBiddingModal}
                 handleExecuteBid={handleExecuteBid}
                 hasPosition={hasPosition}
-                stringyfiedWalletPK={stringyfiedWalletPK}
                 highestBiddingAddress={highestBiddingAddress}
                 highestBiddingValue={highestBiddingValue}
               />

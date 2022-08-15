@@ -6,13 +6,12 @@ interface LiquidationBiddingModalProps {
   handleShowBiddingModal: () => void;
   handleExecuteBid: (val: any, userBid?: number) => void;
   hasPosition: boolean;
-  stringyfiedWalletPK: any;
   highestBiddingAddress: string;
   highestBiddingValue: number;
 }
 
 const LiquidationBiddingModal = (props: LiquidationBiddingModalProps) => {
-  const {handleShowBiddingModal, handleExecuteBid, hasPosition, stringyfiedWalletPK, highestBiddingAddress, highestBiddingValue} = props;
+  const {handleShowBiddingModal, handleExecuteBid, hasPosition, highestBiddingAddress, highestBiddingValue} = props;
   // state to determine which buttons to show regarding position or no position
   const [confirmState, setConfirmState] = useState(false);
   const [userInput, setUserInput] = useState();
