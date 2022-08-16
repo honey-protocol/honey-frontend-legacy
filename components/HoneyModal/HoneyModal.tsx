@@ -4,14 +4,8 @@ import { PublicKey } from '@solana/web3.js';
 import * as anchor from '@project-serum/anchor';
 import * as styles from './HoneyModal.css';
 import { useStake } from 'hooks/useStake';
-import { useAccounts } from 'hooks/useAccounts';
-import { HONEY_DECIMALS, HONEY_MINT } from 'helpers/sdk/constant';
-import {
-  convert,
-  convertToBN,
-  convertBnTimestampToDate,
-  calcVeHoneyAmount
-} from 'helpers/utils';
+import { HONEY_DECIMALS } from 'helpers/sdk/constant';
+import { convertToBN } from 'helpers/utils';
 import { useGovernance } from 'contexts/GovernanceProvider';
 
 const HoneyModal = () => {

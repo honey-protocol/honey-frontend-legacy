@@ -2,21 +2,10 @@ import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { Box, Button, Input, Stack, Text, Tag } from 'degen';
 import { PublicKey } from '@solana/web3.js';
 import * as anchor from '@project-serum/anchor';
-
 import * as styles from './VeHoneyModal.css';
 import { useStake } from 'hooks/useStake';
-import { useAccounts } from 'hooks/useAccounts';
-import {
-  HONEY_DECIMALS,
-  PHONEY_DECIMALS,
-  PHONEY_MINT
-} from 'helpers/sdk/constant';
-import {
-  convert,
-  convertToBN,
-  convertBnTimestampToDate,
-  calcVeHoneyAmount
-} from 'helpers/utils';
+import { PHONEY_DECIMALS } from 'helpers/sdk/constant';
+import { convertToBN } from 'helpers/utils';
 import { useGovernance } from 'contexts/GovernanceProvider';
 
 const VeHoneyModal = () => {

@@ -1,10 +1,9 @@
-import React, { useCallback, useMemo, useState, useEffect } from 'react';
+import React, { useCallback, useState, useEffect } from 'react';
 import { Box, Button, Input, Stack, Text, Tag } from 'degen';
 import { PublicKey } from '@solana/web3.js';
 import { useStake } from 'hooks/useStake';
-import { useAccounts } from 'hooks/useAccounts';
-import { PHONEY_DECIMALS, PHONEY_MINT } from 'helpers/sdk/constant';
-import { convert, convertToBN } from 'helpers/utils';
+import { PHONEY_DECIMALS } from 'helpers/sdk/constant';
+import { convertToBN } from 'helpers/utils';
 import { useGovernance } from 'contexts/GovernanceProvider';
 
 // console.log("The stake pool address is : ", process.env.PUBLIC_NEXT_PUBLIC_STAKE_POOL_ADDRESS)

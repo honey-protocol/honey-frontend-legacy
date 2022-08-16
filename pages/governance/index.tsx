@@ -1,21 +1,11 @@
 import type { NextPage } from 'next';
 import HeadSeo from 'components/HeadSeo/HeadSeo';
 import siteMetadata from 'constants/siteMetadata';
-import {
-  Box,
-  Button,
-  Card,
-  IconChevronRight,
-  IconExclamation,
-  Input,
-  Tag,
-  Stat,
-  Text
-} from 'degen';
+import { Box, Button, Card, IconExclamation, Stat, Text } from 'degen';
 import { Stack } from 'degen';
 import Layout from '../../components/Layout/Layout';
 import ModalContainer from 'components/ModalContainer/ModalContainer';
-import { useState, useMemo, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import PHoneyModal from 'components/PHoneyModal/PHoneyModal';
 import VeHoneyModal from 'components/VeHoneyModal/VeHoneyModal';
 import HoneyModal from 'components/HoneyModal/HoneyModal';
@@ -23,23 +13,10 @@ import { PublicKey } from '@solana/web3.js';
 import { useConnectedWallet } from '@saberhq/use-solana';
 import { useWalletKit } from '@gokiprotocol/walletkit';
 import NumberFormat from 'react-number-format';
-  import { useStake } from 'hooks/useStake';
-import { useAccounts } from 'hooks/useAccounts';
-import {
-  PHONEY_DECIMALS,
-  PHONEY_MINT,
-  HONEY_MINT,
-  HONEY_DECIMALS
-} from 'helpers/sdk/constant';
-import {
-  convert,
-  convertToBN,
-  convertBnTimestampToDate,
-  calcVeHoneyAmount
-} from 'helpers/utils';
+import { useStake } from 'hooks/useStake';
 import { ProposalsList } from 'components/Proposals/ProposalsList';
 import { Card as ProposalContainer } from 'components/common/governance/Card';
-import { useTokenAmount, useTokenMint } from '@saberhq/sail';
+import { useTokenMint } from '@saberhq/sail';
 import { useGovernor } from 'hooks/tribeca/useGovernor';
 import { TokenAmount } from '@saberhq/token-utils';
 import ToolTip from 'components/ToolTip/ToolTip';
@@ -51,14 +28,21 @@ const Governance: NextPage = () => {
   const [showPHoneyModal, setShowPHoneyModal] = useState(false);
   const [showVeHoneyModal, setShowVeHoneyModal] = useState(false);
   const [showHoneyModal, setShowHoneyModal] = useState(false);
-  const [vehoneySupply, setVehoneySupply] = useState("");
+  const [vehoneySupply, setVehoneySupply] = useState('');
 
+  const { govToken, lockedSupply } = useGovernor();
 
-  const { govToken, veToken, lockedSupply } = useGovernor();
-  
-  const { veHoneyAmount, lockedAmount, lockedPeriodEnd, pHoneyAmount, honeyAmount, depositedAmount } = useGovernance();
+  const {
+    veHoneyAmount,
+    lockedAmount,
+    lockedPeriodEnd,
+    pHoneyAmount,
+    honeyAmount,
+    depositedAmount
+  } = useGovernance();
 
   const { data: govTokenData } = useTokenMint(govToken?.mintAccount);
+
   const totalSupplyFmt =
     govTokenData && govToken
       ? new TokenAmount(govToken, govTokenData.account.supply).format({
@@ -86,26 +70,21 @@ const Governance: NextPage = () => {
   );
   // ============================================================================
 
-  const { totalVeHoney } = useStake(
-    STAKE_POOL_ADDRESS,
-    LOCKER_ADDRESS
-  );
+  const { totalVeHoney } = useStake(STAKE_POOL_ADDRESS, LOCKER_ADDRESS);
 
   const getVeHoneySupply = useCallback(async () => {
-    const response = await totalVeHoney()
-    
-    setVehoneySupply(response.toFixed(0))
-  }, [totalVeHoney])
- 
+    const response = await totalVeHoney();
 
-  useEffect(()=>{
-    getVeHoneySupply()
-  }, [getVeHoneySupply, totalVeHoney])
+    setVehoneySupply(response.toFixed(0));
+  }, [totalVeHoney]);
 
+  useEffect(() => {
+    getVeHoneySupply();
+  }, []);
 
   return (
     <Layout>
-       <HeadSeo
+      <HeadSeo
         title={`Governance | ${siteMetadata.companyName}`}
         description={`Propose, vote and vest your HONEY for veHONEY to participate in Honey DAO governance.`}
         ogImageUrl={'https://app.honey.finance/honey-og-image.png'}
@@ -229,7 +208,6 @@ const Governance: NextPage = () => {
                   paddingBottom={{ xs: '3', sm: '0' }}
                   borderBottomWidth={{ xs: '0.375', sm: '0' }}
                   borderRightWidth={{ xs: '0', sm: '0.375' }}
-
                 >
                   <Stack flex={1} justify="space-between" space="6">
                     <Stack justify="space-between" direction="horizontal">

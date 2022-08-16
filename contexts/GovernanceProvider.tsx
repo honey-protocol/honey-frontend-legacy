@@ -38,7 +38,6 @@ type Props = {
 };
 
 export function GovernanceProvider({ children }: Props) {
-  
     const STAKE_POOL_ADDRESS = new PublicKey(
         process.env.NEXT_PUBLIC_STAKE_POOL_ADDRESS ||
           'Cv9Hx3VRvqkz5JRPiZM8A2BH31yvpcT4qiUJLdtgu7TE'
@@ -60,7 +59,6 @@ export function GovernanceProvider({ children }: Props) {
     const pHoneyToken = tokenAccounts.find(t => t.info.mint.equals(PHONEY_MINT));
     const honeyToken = tokenAccounts.find(t => t.info.mint.equals(HONEY_MINT));
   
-
     // calculate user veHONEY amount locked
     const veHoneyAmount = useMemo(() => {
         if (!escrow) {
@@ -119,7 +117,6 @@ export function GovernanceProvider({ children }: Props) {
     }, [user]);
     
     // locked period has ended 
-
     const lockPeriodHasEnded = useMemo((): boolean => {
       if (!escrow) {
         return true;
@@ -133,11 +130,8 @@ export function GovernanceProvider({ children }: Props) {
       return false;
     }, [escrow]);
 
-  
-    
     // the data that's passed to the provider 
     const value = {
- 
         veHoneyAmount,
         lockedAmount,
         lockedPeriodEnd,
@@ -145,7 +139,6 @@ export function GovernanceProvider({ children }: Props) {
         honeyAmount,
         depositedAmount,
         lockPeriodHasEnded
-
     };
 
     return (
