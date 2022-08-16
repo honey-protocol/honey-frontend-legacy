@@ -59,8 +59,8 @@ const mainLinks = [
 
 const bottomLinks = [
   {
-    href: 'https://honeylend.netlify.app/farm',
-    title: 'Legacy website',
+    href: 'https://p2p.honey.finance',
+    title: 'Honey P2P',
     IconComp: IconLink
   },
   {
