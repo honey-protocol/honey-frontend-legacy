@@ -152,7 +152,7 @@ const Loan: NextPage = () => {
   async function calculateNFTPrice() {
     if (marketReserveInfo && parsedReserves && honeyMarket) {
       let solPrice = await getOraclePrice('devnet', sdkConfig.saberHqConnection, parsedReserves[0].switchboardPriceAggregator);//in usd
-      let nftPrice = await getOraclePrice('devnet', sdkConfig.saberHqConnection, honeyMarket.nftSwithchboardPriceAggregator);//in usd
+      let nftPrice = await getOraclePrice('devnet', sdkConfig.saberHqConnection, honeyMarket.nftSwitchboardPriceAggregator);//in usd
       
       setNFTPrice(nftPrice / solPrice);//nft's price in SOL
       setCalculatedNFTPrice(true);

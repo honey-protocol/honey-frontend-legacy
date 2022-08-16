@@ -403,10 +403,10 @@
   dependencies:
     "@hapi/hoek" "^9.0.0"
 
-"@honey-finance/sdk@^1.0.59", "@honey-finance/sdk@^1.0.97":
-  version "1.0.97"
-  resolved "https://registry.yarnpkg.com/@honey-finance/sdk/-/sdk-1.0.97.tgz#4ce377f63b7f97f03482384472b8a996f3be3892"
-  integrity sha512-bUjn8I5N0FfzDaKlbb8ENn9xMNBM/PJviygXjRGlI7a7qPlDWVncJcU9O7EQ9RDWNv5jqcnb7VDWQnrdawYY4A==
+"@honey-finance/sdk@^1.0.59", "@honey-finance/sdk@^1.0.98":
+  version "1.0.98"
+  resolved "https://registry.yarnpkg.com/@honey-finance/sdk/-/sdk-1.0.98.tgz#1b9a773cabeef2ba1ba1f0a65ad270fb60880f68"
+  integrity sha512-Liz8GC4JLMcrrGK1+89WAvqJ0V3ux3dJ5LA805vdwZuUQSEJXnpy7mpA+4lkULAu2LKb0ofEzf+Q6zgVyfgbJQ==
   dependencies:
     "@honey-finance/sdk" "^1.0.59"
     "@metaplex-foundation/mpl-token-metadata" "^1.2.0"

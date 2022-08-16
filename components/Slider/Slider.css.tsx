@@ -54,7 +54,10 @@ export const selectionWrapper = style({
   borderRadius: '15px',
   background: 'black',
   alignItems: 'center',
-  marginTop: '0.2em'
+  marginTop: '0.2em',
+  paddingTop: '1.25em!important',
+  paddingLeft: '.25em!important',
+  marginBottom: '1.5em!important'
 });
 
 globalStyle(`${selectionWrapper} > div`, {

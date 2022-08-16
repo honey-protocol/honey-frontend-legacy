@@ -31,7 +31,7 @@ const LiquidationPool = () => {
     * @params connection | wallet | honeyprogramID | honeymarketID
     * @returns loading | nft positions | error
   */
-   const { ...status } = useAllPositions(sdkConfig.saberHqConnection, sdkConfig.sdkWallet!, sdkConfig.honeyId, sdkConfig.marketId);
+  const { ...status } = useAllPositions(sdkConfig.saberHqConnection, sdkConfig.sdkWallet!, sdkConfig.honeyId, sdkConfig.marketId);
   /**
     * @description the obligations that are being rendered
     * @params none
