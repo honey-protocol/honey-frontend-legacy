@@ -1,4 +1,5 @@
 import { style, globalStyle } from '@vanilla-extract/css';
+import { vars } from 'degen';
 
 export const cardContainer = style({
   width: '100%',
@@ -31,7 +32,7 @@ export const buttonSelectionWrapper = style({
   display: 'flex',
   flexDirection: 'row',
   justifyContent: 'space-between',
-  width: '100%'
+  gap: vars.space[3]
 });
 
 globalStyle(`${buttonSelectionWrapper} > button`, {

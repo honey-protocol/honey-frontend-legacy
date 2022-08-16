@@ -397,18 +397,19 @@ const Loan: NextPage = () => {
           </Box>
         </Stack>
       </Box>
-      <Box display="flex" height="full" className={styles.loanCardsContainer}>
+      <Box display="flex" flex={1} className={styles.loanCardsContainer}>
         <LoanNFTsContainer
+          title="Select collateral"
           selectedId={selectedId}
           handleBorrow={handleBorrowModal}
           buttons={[
             {
               title: 'Open positions',
-              active: false,
+              active: false
             },
             {
               title: 'New position',
-              active: true,
+              active: true
             }
           ]}
           openPositions={userCollateralPositions}
@@ -421,15 +422,12 @@ const Loan: NextPage = () => {
           refreshPositions={refreshPositions}
           // set key equal to name since open positions doesnt contain id but name is with unique number
         />
-
-        <Box className={styles.flexContainer}>
-          {
-            borrowModal == 1 && collateralNFTPositions?.length ?
+        {borrowModal == 1 && collateralNFTPositions?.length ? (
               <BorrowNFTsModule
                 NFT={
-                  collateralNFTPositions
-                  &&
-                  collateralNFTPositions.find((NFT) => NFT.name == selectedId) || defaultNFT[0]
+              (collateralNFTPositions &&
+                collateralNFTPositions.find(NFT => NFT.name == selectedId)) ||
+              defaultNFT[0]
                 }
                 mint={withDrawDepositNFT}
                 loanPositions={loanPositions}
@@ -447,12 +445,12 @@ const Loan: NextPage = () => {
                 liqidationThreshold={liqidationThreshold}
                 nftPrice={nftPrice}
               />
-            :
+        ) : (
               <LoanNewBorrow
                 NFT={
-                  availableNFTs
-                  &&
-                  availableNFTs[0].find((NFT: any) => NFT.name == selectedId) || newPositionPlaceholder[0]
+              (availableNFTs &&
+                availableNFTs[0].find((NFT: any) => NFT.name == selectedId)) ||
+              newPositionPlaceholder[0]
                 }
                 mint={withDrawDepositNFT}
                 executeDepositNFT={executeDepositNFT}
@@ -465,8 +463,7 @@ const Loan: NextPage = () => {
                 liqidationThreshold={liqidationThreshold}
                 nftPrice={nftPrice}
               />
-          }
-        </Box>
+        )}
       </Box>
     </Layout>
   );

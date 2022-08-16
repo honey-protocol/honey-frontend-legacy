@@ -1,4 +1,5 @@
 import { globalStyle, style } from '@vanilla-extract/css';
+import { vars } from 'degen';
 
 export const cardsContainer = style({
   display: 'grid',
@@ -14,33 +15,16 @@ export const cardsContainer = style({
 export const loanCardsContainer = style({
   display: 'flex',
   flexDirection: 'column',
+  gap: vars.space[5],
   '@media': {
     'screen and (min-width: 860px)': {
       // gridTemplateColumns: '2fr 1fr',
-      flexDirection: 'row',
+      flexDirection: 'row'
     }
   }
 });
 
-globalStyle(`${loanCardsContainer} div`, {
-  margin: '0 0 .5em 0',
-  '@media': {
-    'screen and (min-width: 860px)': {
-      // gridTemplateColumns: '2fr 1fr',
-    }
-  }
-});
-
-globalStyle(`${loanCardsContainer} div:first-of-type`, {
-  '@media': {
-    'screen and (min-width: 860px)': {
-      marginRight: '.5em'
-    }
-  }
-});
-
-export const flexContainer = style({
-});
+export const flexContainer = style({});
 
 globalStyle(`${flexContainer} > div div`, {
   justifyContent: 'space-between'

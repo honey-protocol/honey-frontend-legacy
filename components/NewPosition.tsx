@@ -36,13 +36,15 @@ const LoanNewBorrow = (props: LoanNewBorrowProps) => {
   if (!NFT) return null;
 
   return (
-    <Box display="flex" paddingTop="5" gap="3" minHeight="full" className={loanStyles.loanWrapper}>
-      {
-        showCollateralPopup == 1 && 
-        <CollateralPopup 
-          setShowCollateralPopup={setShowCollateralPopup}
-        />
-      }
+    <Box
+      display="flex"
+      paddingTop="5"
+      gap="3"
+      className={loanStyles.loanWrapper}
+    >
+      {showCollateralPopup == 1 && (
+        <CollateralPopup setShowCollateralPopup={setShowCollateralPopup} />
+      )}
       <Stack flex={1} justify={'space-between'}>
         <Stack justify="space-between">
           <Stack justify="space-between" align="center">
