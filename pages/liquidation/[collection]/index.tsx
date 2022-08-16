@@ -214,6 +214,13 @@ const LiquidationPool = () => {
 
   useEffect(() => {}, [currentUserBid]);
 
+  async function handleRefetch() {
+    if (status) {
+      let x = await status.fetchPositions();
+      console.log('this is the refetch outcome', x);
+    }
+  }
+
   return (
     <Layout>
       <Stack>
@@ -292,6 +299,7 @@ const LiquidationPool = () => {
                 hasPosition={hasPosition}
                 highestBiddingAddress={highestBiddingAddress}
                 highestBiddingValue={highestBiddingValue}
+                // handleRefetch={handleRefetch}
               />
             )
           }
