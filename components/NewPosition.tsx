@@ -115,7 +115,9 @@ const LoanNewBorrow = (props: LoanNewBorrowProps) => {
           <Button
             onClick={() => handleExecute(NFT.mint)}
             width="full"
-          >Deposit
+            size="small"
+          >
+            Deposit
           </Button>
         </Box>
       </Stack>
