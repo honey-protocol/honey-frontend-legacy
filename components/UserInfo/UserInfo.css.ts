@@ -1,34 +1,14 @@
 import { globalStyle, style } from '@vanilla-extract/css';
-import { sprinkles, vars } from '../../styles/theme.css';
+import { vars } from 'degen';
+import { sprinkles } from '../../styles/theme.css';
 
-export const topbar = style([
-  sprinkles({
-    paddingX: 'medium'
-  }),
-  {
-    height: '12em'
-  },
-  {
-    alignItems: 'center',
-    padding: 0,
-    justifyContent: 'center',
-    display: 'flex'
-  },
-  {
-    '@media': {
-      'screen and (min-width: 570px)': {
-        height: 'auto',
-
-      }
-    }
-  }
-]);
-
-globalStyle(`${topbar} > div:first-of-type`, {
-  height: '100%',
+export const topbar = style({
   display: 'flex',
-  justifyContent: 'space-around',
-  padding: '.5em 0'
+  gap: vars.space[5],
+  alignItems: 'center',
+  justifyContent: 'space-between',
+  borderRadius: vars.radii.large,
+  background: vars.colors.background
 });
 
 export const topbarContainer = style({
@@ -43,32 +23,6 @@ export const topbarContainer = style({
   }
 });
 
-globalStyle(`${topbarContainer} > *`, {
-  display: 'flex',
-  margin: '0 auto',
-  padding: '.5em',
-  height: '2.5em',
-  '@media': {
-    'screen and (min-width: 570px)': {
-      height: 'auto',
-      padding: '.5em 0',
-      margin: '0 auto',
-    }
-  }
-});
-
-globalStyle(`${topbarContainer} > * > button`, {
-  margin: '0 auto',
-});
-
-globalStyle(`${topbarContainer} > div:first-of-type`, {
-  '@media': {
-    'screen and (min-width: 1021px)': {
-      display: 'none!important'
-    }
-  }
-});
-
 export const menuIcon = style([
   sprinkles({
     display: {
@@ -76,5 +30,5 @@ export const menuIcon = style([
       tablet: 'block',
       desktop: 'none'
     }
-  }),
+  })
 ]);
