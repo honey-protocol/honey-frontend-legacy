@@ -4,6 +4,7 @@ import { PublicKey } from '@solana/web3.js';
 import { useStake } from 'hooks/useStake';
 import { HONEY_DECIMALS, HONEY_MINT, PHONEY_DECIMALS, PHONEY_MINT } from "helpers/sdk";
 import { useAccounts } from "hooks/useAccounts";
+import config from "../config"
 
 type govContextType = {
 
@@ -38,15 +39,8 @@ type Props = {
 };
 
 export function GovernanceProvider({ children }: Props) {
-    const STAKE_POOL_ADDRESS = new PublicKey(
-        process.env.NEXT_PUBLIC_STAKE_POOL_ADDRESS ||
-          'Cv9Hx3VRvqkz5JRPiZM8A2BH31yvpcT4qiUJLdtgu7TE'
-      );
-      const LOCKER_ADDRESS = new PublicKey(
-        process.env.NEXT_PUBLIC_LOCKER_ADDR ||
-          '5FnK8H9kDbmPNpBYMuvSkDevkMfnVPRrPNNqmTQyBBae'
-      );
-      // ============================================================================
+  const STAKE_POOL_ADDRESS = new PublicKey(config.NEXT_PUBLIC_STAKE_POOL_ADDRESS);
+  const LOCKER_ADDRESS = new PublicKey(config.NEXT_PUBLIC_LOCKER_ADDR);
     
       const { user, escrow, totalVeHoney } = useStake(
         STAKE_POOL_ADDRESS,
@@ -55,7 +49,6 @@ export function GovernanceProvider({ children }: Props) {
     
     // use token accounts for honey and phoney
     const { tokenAccounts } = useAccounts();
-    // ======================== Should replace with configuration ================
     const pHoneyToken = tokenAccounts.find(t => t.info.mint.equals(PHONEY_MINT));
     const honeyToken = tokenAccounts.find(t => t.info.mint.equals(HONEY_MINT));
   

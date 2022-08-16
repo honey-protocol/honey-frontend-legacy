@@ -21,6 +21,7 @@ import { useGovernor } from 'hooks/tribeca/useGovernor';
 import { TokenAmount } from '@saberhq/token-utils';
 import ToolTip from 'components/ToolTip/ToolTip';
 import { useGovernance } from 'contexts/GovernanceProvider';
+import config from '../../config';
 
 const Governance: NextPage = () => {
   const wallet = useConnectedWallet();
@@ -60,15 +61,9 @@ const Governance: NextPage = () => {
       })
     : lockedSupply;
 
-  const STAKE_POOL_ADDRESS = new PublicKey(
-    process.env.NEXT_PUBLIC_STAKE_POOL_ADDRESS ||
-      'Cv9Hx3VRvqkz5JRPiZM8A2BH31yvpcT4qiUJLdtgu7TE'
-  );
-  const LOCKER_ADDRESS = new PublicKey(
-    process.env.NEXT_PUBLIC_LOCKER_ADDR ||
-      '5FnK8H9kDbmPNpBYMuvSkDevkMfnVPRrPNNqmTQyBBae'
-  );
-  // ============================================================================
+    const STAKE_POOL_ADDRESS = new PublicKey(config.NEXT_PUBLIC_STAKE_POOL_ADDRESS);
+    const LOCKER_ADDRESS = new PublicKey(config.NEXT_PUBLIC_LOCKER_ADDR);
+  
 
   const { totalVeHoney } = useStake(STAKE_POOL_ADDRESS, LOCKER_ADDRESS);
 

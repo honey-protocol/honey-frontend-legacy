@@ -7,6 +7,7 @@ import { useStake } from 'hooks/useStake';
 import { PHONEY_DECIMALS } from 'helpers/sdk/constant';
 import { convertToBN } from 'helpers/utils';
 import { useGovernance } from 'contexts/GovernanceProvider';
+import config from '../../config'
 
 const VeHoneyModal = () => {
   const [amount, setAmount] = useState<number>(0);
@@ -48,16 +49,8 @@ const VeHoneyModal = () => {
     return 0;
   }, [vestingPeriod]);
 
-  // ======================== Should replace with configuration ================
-  const STAKE_POOL_ADDRESS = new PublicKey(
-    process.env.NEXT_PUBLIC_STAKE_POOL_ADDRESS ||
-      '4v62DWSwrUVEHe2g88MeyJ7g32vVzQsCnADZF8yUy8iU'
-  );
-  const LOCKER_ADDRESS = new PublicKey(
-    process.env.NEXT_PUBLIC_LOCKER_ADDR ||
-      '5FnK8H9kDbmPNpBYMuvSkDevkMfnVPRrPNNqmTQyBBae'
-  );
-  // ============================================================================
+  const STAKE_POOL_ADDRESS = new PublicKey(config.NEXT_PUBLIC_STAKE_POOL_ADDRESS);
+  const LOCKER_ADDRESS = new PublicKey(config.NEXT_PUBLIC_LOCKER_ADDR);
 
   const { stake, unlock, escrow } = useStake(
     STAKE_POOL_ADDRESS,

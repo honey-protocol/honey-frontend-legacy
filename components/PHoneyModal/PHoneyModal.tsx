@@ -5,8 +5,8 @@ import { useStake } from 'hooks/useStake';
 import { PHONEY_DECIMALS } from 'helpers/sdk/constant';
 import { convertToBN } from 'helpers/utils';
 import { useGovernance } from 'contexts/GovernanceProvider';
+import config from '../../config'
 
-// console.log("The stake pool address is : ", process.env.PUBLIC_NEXT_PUBLIC_STAKE_POOL_ADDRESS)
 const PHoneyModal = () => {
   const [amount, setAmount] = useState<number>(0);
   const [isClaimable, setIsClaimable] = useState<boolean>(false);
@@ -19,16 +19,8 @@ const PHoneyModal = () => {
 
   const { depositedAmount, pHoneyAmount } = useGovernance();
 
-  // ======================== Should replace with configuration ================
-  const STAKE_POOL_ADDRESS = new PublicKey(
-    process.env.NEXT_PUBLIC_STAKE_POOL_ADDRESS ||
-      '4v62DWSwrUVEHe2g88MeyJ7g32vVzQsCnADZF8yUy8iU'
-  );
-  const LOCKER_ADDRESS = new PublicKey(
-    process.env.NEXT_PUBLIC_LOCKER_ADDR ||
-      '5FnK8H9kDbmPNpBYMuvSkDevkMfnVPRrPNNqmTQyBBae'
-  );
-  // ============================================================================
+  const STAKE_POOL_ADDRESS = new PublicKey(config.NEXT_PUBLIC_STAKE_POOL_ADDRESS);
+  const LOCKER_ADDRESS = new PublicKey(config.NEXT_PUBLIC_LOCKER_ADDR);
 
   const { user, deposit, claim, claimableAmount } = useStake(
     STAKE_POOL_ADDRESS,
