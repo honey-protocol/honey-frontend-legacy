@@ -117,18 +117,20 @@ const Liquidation: NextPage = () => {
    * @returns sets totalmarketdebt and averagemarketlvt state
   */
   async function calculateMarketValues(market: any) {
-    // total market debt
-    let tmd = 0;
-    // average market ltv
-    let amltv = 0;
+    if (market.length) {
+      // total market debt
+      let tmd = 0;
+      // average market ltv
+      let amltv = 0;
 
-    await market.map((m: any) => {
-      tmd += m.debt;
-      amltv += m.ltv
-    });
-    
-    setTotalMarketDebt(tmd);
-    setaverageMarketLVT(amltv / market.length);
+      await market.map((m: any) => {
+        tmd += m.debt;
+        amltv += m.ltv
+      });
+
+      setTotalMarketDebt(tmd);
+      setaverageMarketLVT(amltv / market.length);
+    }
   }
   // if there are positions init the average calculations
   if (fetchedPositions) calculateMarketValues(fetchedPositions);

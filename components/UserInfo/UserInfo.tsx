@@ -52,13 +52,7 @@ const UserInfo = (props: UserInfoProps) => {
       backgroundColor="background"
       className={styles.topbar}
     >
-      <Stack
-        flex={1}
-        direction="horizontal"
-        space="3"
-        justify="flex-end"
-        align="center"
-      >
+      <Box className={styles.topbarContainer}>
         <Box marginRight="auto" className={styles.menuIcon}>
           <Button
             onClick={() => props.setShowMobileSidebar(true)}
@@ -91,7 +85,7 @@ const UserInfo = (props: UserInfoProps) => {
             Connect Wallet
           </Button>
         )}
-      </Stack>
+      </Box>
     </Box>
   );
 };
