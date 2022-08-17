@@ -83,6 +83,7 @@ const Liquidation: NextPage = () => {
     let val = 0 
     
     biddingArray.map((obligation: any, index: number) => {
+      console.log('this is stringyfiedwalletpk', stringyfiedWalletPK);
       if (obligation.bidder == stringyfiedWalletPK) {
         setOpenPositions(true);
         val = 1;
@@ -90,9 +91,9 @@ const Liquidation: NextPage = () => {
     });
 
     if (val == 1) {
-      toastResponse('LIQUIDATION', '1 oustanding bid', 'LIQUIDATION')
+      toastResponse('LIQUIDATION', '1 oustanding bid', 'LIQUIDATION');
     } else {
-      toastResponse('LIQUIDATION', 'No outstanding bid', 'LIQUIDATION')
+      toastResponse('LIQUIDATION', 'No outstanding bid', 'LIQUIDATION');
     }
   }
   
@@ -124,7 +125,7 @@ const Liquidation: NextPage = () => {
       let amltv = 0;
 
       await market.map((m: any) => {
-        tmd += m.debt;
+        tmd += m.debt
         amltv += m.ltv
       });
 
@@ -132,6 +133,7 @@ const Liquidation: NextPage = () => {
       setaverageMarketLVT(amltv / market.length);
     }
   }
+
   // if there are positions init the average calculations
   if (fetchedPositions) calculateMarketValues(fetchedPositions);
 

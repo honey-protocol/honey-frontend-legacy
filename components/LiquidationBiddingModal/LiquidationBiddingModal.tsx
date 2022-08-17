@@ -8,10 +8,11 @@ interface LiquidationBiddingModalProps {
   hasPosition: boolean;
   highestBiddingAddress: string;
   highestBiddingValue: number;
+  handleRefetch: () => void;
 }
 
 const LiquidationBiddingModal = (props: LiquidationBiddingModalProps) => {
-  const {handleShowBiddingModal, handleExecuteBid, hasPosition, highestBiddingAddress, highestBiddingValue} = props;
+  const {handleShowBiddingModal, handleExecuteBid, hasPosition, highestBiddingAddress, highestBiddingValue, handleRefetch} = props;
   // state to determine which buttons to show regarding position or no position
   const [confirmState, setConfirmState] = useState(false);
   const [userInput, setUserInput] = useState();
@@ -42,6 +43,7 @@ const LiquidationBiddingModal = (props: LiquidationBiddingModalProps) => {
         handleExecuteBid(type, userInput); 
       }
     }
+    handleRefetch();
   }
   /**
    * @description set current user input regarding bid

@@ -101,6 +101,8 @@ const LiquidationPool = () => {
       setStatusState(true);
     }
 
+    if (status.bids && status.positions) handleBiddingState(status.bids, status.positions);
+
     return;
   }, [status]);
 
@@ -115,8 +117,6 @@ const LiquidationPool = () => {
           position.is_healthy = '2'
         }
       });
-
-      console.log('STATUS.OBJ', status);
 
       handleBiddingState(status.bids, status.positions);
     }
@@ -214,11 +214,16 @@ const LiquidationPool = () => {
 
   useEffect(() => {}, [currentUserBid]);
 
-  async function handleRefetch() {
-    if (status) {
-      let x = await status.fetchPositions();
-      console.log('this is the refetch outcome', x);
-    }
+  function handleRefetch() {
+    console.log('handle refetch initialized');
+    setTimeout(async () => {
+      console.log('handle refetch running');
+      if (status) {
+        status.fetchPositions().then(() => {
+          console.log('updated statusObject', status);
+        })
+      }
+    }, 60000)
   }
 
   return (
@@ -299,7 +304,7 @@ const LiquidationPool = () => {
                 hasPosition={hasPosition}
                 highestBiddingAddress={highestBiddingAddress}
                 highestBiddingValue={highestBiddingValue}
-                // handleRefetch={handleRefetch}
+                handleRefetch={handleRefetch}
               />
             )
           }
