@@ -1,13 +1,3 @@
-import path from 'path';
-import dotenv from 'dotenv';
-
-// Parsing the env file.
-dotenv.config({ path: path.resolve(__dirname, './.env') });
-
-// Interface to load env variables
-// Note these variables can possibly be undefined
-// as someone could skip these varibales or not setup a .env file at all
-
 interface ENV {
   NEXT_PUBLIC_LOCKER_ADDR: string | undefined;
   NEXT_PUBLIC_VOTER_PROGRAM_ID: string | undefined;
@@ -39,7 +29,6 @@ interface Config {
 }
 
 // Loading process.env as ENV interface
-
 const getConfig = (): ENV => {
   return {
     NEXT_PUBLIC_LOCKER_ADDR: process.env.NEXT_PUBLIC_LOCKER_ADDR,
@@ -59,7 +48,6 @@ const getConfig = (): ENV => {
 };
 
 // Throwing an Error if any field was undefined
-
 const getSanitzedConfig = (config: ENV): Config => {
   for (const [key, value] of Object.entries(config)) {
     if (value === undefined) {
