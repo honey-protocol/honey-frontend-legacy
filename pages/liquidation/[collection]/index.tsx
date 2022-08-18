@@ -2,7 +2,19 @@ import type { NextPage } from 'next';
 import Image from 'next/image'
 import Link from 'next/link';
 import React, { useState, useEffect } from 'react';
-import { Box, Stack, Button, IconChevronLeft, IconClose, Text, Avatar, IconWallet, IconChevronDown, IconChevronRight } from 'degen';
+import {
+  Box,
+  Stack,
+  Button,
+  IconChevronLeft,
+  IconClose,
+  Text,
+  Avatar,
+  IconWallet,
+  IconChevronDown,
+  IconChevronRight,
+  Input
+} from 'degen';
 import Layout from '../../../components/Layout/Layout';
 import * as styles from '../../../styles/liquidation.css';
 import { useConnectedWallet } from '@saberhq/use-solana';
@@ -14,6 +26,9 @@ import { HONEY_PROGRAM_ID, HONEY_MARKET_ID } from '../../../constants/loan';
 import { LAMPORTS_PER_SOL, PublicKey } from '@solana/web3.js';
 import LiquidationBiddingModal from 'components/LiquidationBiddingModal/LiquidationBiddingModal';
 import { NATIVE_MINT } from '@solana/spl-token';
+import VerifiedIcon from 'icons/VerifiedIcon';
+import SolanaIcon from 'icons/SolanaIcon';
+import { formatAddress } from 'helpers/addressUtils';
 
 const LiquidationPool = () => {
   // init anchor
@@ -229,14 +244,6 @@ const LiquidationPool = () => {
   return (
     <Layout>
       <Stack>
-        <Box>
-          <Stack
-            direction="horizontal"
-            justify="space-between"
-            wrap
-            align="center"
-          >
-            <Box display="flex" alignSelf="center" justifySelf="center">
               <Link href="/liquidation" passHref>
                 <Button
                   size="small"
@@ -247,41 +254,116 @@ const LiquidationPool = () => {
                   Liquidations
                 </Button>
               </Link>
-            </Box>
+
+        {/* COLLECTION LIQUIDATION DETAILS */}
+        <Box
+          backgroundColor="background"
+          paddingX="5"
+          paddingY="7"
+          borderRadius="2xLarge"
+        >
+          <Stack
+            direction="horizontal"
+            justify="space-between"
+            wrap
+            align="center"
+            space={{ xs: '10', md: 'none' }}
+          >
+            <Stack
+              wrap
+              direction="horizontal"
+              space="5"
+              justify={{ xs: 'center', md: 'flex-start' }}
+              align="center"
+            >
+              <Box paddingX={{ xs: '10', md: 'none' }}>
+              <Avatar
+                  size={{ xs: 'full', sm: '32' }}
+                label="Honey eyes"
+                shape="square"
+                src="https://hwhm5h2hx7widk46v6fn6763c2palrfr2f6zzjfxsefgb4kp5jta.arweave.net/PY7On0e_7IGrnq-K33_bFp4FxLHRfZykt5EKYPFP6mY"
+              />
+              </Box>
+              <Stack space="5">
+                <Stack direction="horizontal" align="center">
+                  <Text size="extraLarge" weight="bold" color="textPrimary">
+                    Honey Genesis Bees
+                  </Text>
+                  <VerifiedIcon />
+                </Stack>
+                <Stack
+                  justify="space-between"
+                  space="10"
+                  direction="horizontal"
+                >
+                  <Stack space="1" align={{ xs: 'center', md: 'flex-start' }}>
+                    <Text weight="semiBold" color="textSecondary">
+                      Winning bid
+                    </Text>
+                    <Stack direction="horizontal" align="center" space="2">
+                      <Text
+                        weight="semiBold"
+                        size="extraLarge"
+                        color="textPrimary"
+                      >
+                        {highestBiddingValue.toFixed(2)}
+                      </Text>
+                      <SolanaIcon />
+                    </Stack>
+                  </Stack>
+                  <Stack space="1" align={{ xs: 'center', md: 'flex-start' }}>
+                    <Text weight="semiBold" color="textSecondary">
+                      Held by
+                    </Text>
+                    <Text
+                      weight="semiBold"
+                      size="extraLarge"
+                      color="textPrimary"
+                    >
+                      {formatAddress(highestBiddingAddress)}
+                    </Text>
+                  </Stack>
+                </Stack>
+              </Stack>
           </Stack>
-        </Box>
-        <Box className={styles.callToActionContainer}>
-            <h2>Collection: <span>Honey Eyes</span></h2>
-          {
-            hasPosition
-            ?
+
+            <Stack>
+              {hasPosition ? (
             <Button variant="primary" onClick={handleShowBiddingModal}>
               Review Bid
             </Button>
-            :
-            <Button variant="primary" onClick={handleShowBiddingModal}>
-              Place Bid on Collection
+              ) : (
+                <Stack>
+                  <Stack direction="horizontal" space="2">
+                    <Text>
+                      Min bid: {(highestBiddingValue * 1.1).toFixed(2)}
+                    </Text>
+                    <SolanaIcon />
+                  </Stack>
+                  <Stack direction="horizontal" wrap>
+                    <Input
+                      label="bid amount"
+                      hideLabel
+                      width={{ xs: 'full', sm: '44', md: '56' }}
+                    />
+                    <Button
+                      variant="primary"
+                      width={{ xs: 'full', md: 'fit' }}
+                      onClick={handleShowBiddingModal}
+                    >
+                      Place Bid
             </Button>
-          }
+                  </Stack>
+                </Stack>
+              )}
+            </Stack>
+          </Stack>
         </Box>
-        <Box className={styles.biddingOverview}>
-          <h4>
-            Highest bid on collection: <span>{highestBiddingValue} SOL </span><br /> 
-            <span>by account: <a target="_blank" rel="noreferrer" href={`https://solscan.io/account/${highestBiddingAddress}`}>{highestBiddingAddress?.substring(0, 6)}..</a></span>
-          </h4>
-        </Box>
-        {
-          fetchedPositions?.length &&
-          <Box className={styles.biddingOverview}>
-            <h4>Loan to value ratio <span>{fetchedPositions[0].ltv}%</span></h4>
-          </Box>
-        }
-        <LiquidationHeader
-            headerData={headerData}
-          />
+        <Box backgroundColor="background" padding="5" borderRadius="2xLarge">
+        <LiquidationHeader headerData={headerData} />
         <Box>
-         {
-            fetchedPositions && fetchedPositions.map((loan, i) => {
+          {fetchedPositions &&
+            fetchedPositions.map((loan, i) => {
               return (
                 <LiquidationCard
                   index={i}
@@ -291,13 +373,13 @@ const LiquidationPool = () => {
                   handleShowBiddingModal={handleShowBiddingModal}
                   handleExecuteBid={() => handleExecuteBid}
               />
-            )
-            })
-          }
+              );
+            })}
         </Box>
+        </Box>
+
         <Box>
-          {
-            showBiddingModal && (
+          {showBiddingModal && (
               <LiquidationBiddingModal
                 handleShowBiddingModal={handleShowBiddingModal}
                 handleExecuteBid={handleExecuteBid}
@@ -306,8 +388,7 @@ const LiquidationPool = () => {
                 highestBiddingValue={highestBiddingValue}
                 handleRefetch={handleRefetch}
               />
-            )
-          }
+          )}
         </Box>
       </Stack>
     </Layout>

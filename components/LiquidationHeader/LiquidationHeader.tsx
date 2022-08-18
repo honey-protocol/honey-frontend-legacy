@@ -3,7 +3,7 @@ import React from 'react';
 import * as styles from './LiquidationHeader.css';
 
 interface LiquidationHeaderProps {
-  headerData: any
+  headerData: any;
 }
 
 const LiquidationHeader = (props: LiquidationHeaderProps) => {
@@ -12,15 +12,13 @@ const LiquidationHeader = (props: LiquidationHeaderProps) => {
   return (
     <Box className={styles.liquidationHeaderWrapper}>
       <Box className={styles.liquidationHeaderContainer}>
-        {
-          headerData.map((item: any, i: number) => {
-            return (
-              <Text key={i}>
-                {item}
-              </Text>
-            )
-          })
-        }
+        {headerData.map((item: any, i: number) => {
+          return (
+            <Text size="small" key={i}>
+              {item}
+            </Text>
+          );
+        })}
       </Box>
     </Box>
   );
