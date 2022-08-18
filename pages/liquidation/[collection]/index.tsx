@@ -329,10 +329,19 @@ const LiquidationPool = () => {
 
             <Stack>
               {hasPosition ? (
-            <Button variant="primary" onClick={handleShowBiddingModal}>
-              Review Bid
+                <Stack align="flex-end">
+                  <Stack direction="horizontal" align="center" space="5">
+                    <Input width="40" label="new bid" hideLabel />
+                    <Button>Place new bid</Button>
+                  </Stack>
+                  <Button width="full" variant="secondary">
+                    Cancel current bid
             </Button>
+                </Stack>
               ) : (
+                // <Button variant="primary" onClick={handleShowBiddingModal}>
+                //   Review Bid
+                // </Button>
                 <Stack>
                   <Stack direction="horizontal" space="2">
                     <Text>
