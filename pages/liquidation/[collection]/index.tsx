@@ -57,6 +57,7 @@ const LiquidationPool = () => {
   const [highestBiddingAddress, setHighestBiddingAddress] = useState('');
   const [highestBiddingValue, setHighestBiddingValue] = useState(0);
   const [currentUserBid, setCurrentUserBid] = useState(0);
+  const [userInput, setUserInput] = useState(0);
 
   const headerData = ['Position', 'Debt', 'Address', 'Health Factor'];
 
@@ -86,21 +87,15 @@ const LiquidationPool = () => {
 
     let sorted = positions.sort((first: any,second: any) => first.is_healthy - second.is_healthy).reverse();
     let highestBid = biddingArray.sort((first: any, second: any) => first.bidLimit - second.bidLimit).reverse();
-    // let highestBid = biddingArray.bidder || '';
-    
-    // console.log('Sorted Bidding Array:', highestBid);
+
     console.log('this is biddingArray', highestBid)
+    console.log('this is sorted', sorted)
 
-    // highestBid.map((obj:any) => {
-    //   console.log(`bid: ${obj.highest_bid} owner: ${obj.owner.toString()}`);
-    // });
-
-    // setHighestBiddingAddress(highestBid[0].owner.toString());
-    // setHighestBiddingValue(highestBid[0].highest_bid / LAMPORTS_PER_SOL);
     if (highestBid[0]) {
       setHighestBiddingAddress(highestBid[0].bidder);
       setHighestBiddingValue(highestBid[0].bidLimit / LAMPORTS_PER_SOL);
     }
+
     setFetchedPositions(sorted);
   }
 
@@ -115,8 +110,6 @@ const LiquidationPool = () => {
     if (status.positions) {
       setStatusState(true);
     }
-
-    if (status.bids && status.positions) handleBiddingState(status.bids, status.positions);
 
     return;
   }, [status]);
@@ -133,7 +126,8 @@ const LiquidationPool = () => {
         }
       });
 
-      handleBiddingState(status.bids, status.positions);
+      // handleBiddingState(status.bids, status.positions);
+      if (status.bids && status.positions) handleBiddingState(status.bids, status.positions);
     }
 
     return;
@@ -222,9 +216,10 @@ const LiquidationPool = () => {
    * @returns inits fetchLiq. func
   */
   async function handleExecuteBid(type: string, userBid?: number) {
-    console.log('running executeBid')
-    handleShowBiddingModal();
-    await fetchLiquidatorClient(type, userBid!)
+    console.log('running executeBid, this is curr user bid', userBid)
+    if (!userBid && type != 'revoke_bid') return console.log('no user input');
+
+    await fetchLiquidatorClient(type, userBid!);
   }
 
   useEffect(() => {}, [currentUserBid]);
@@ -241,19 +236,28 @@ const LiquidationPool = () => {
     }, 60000)
   }
 
+  function handleUserInput(val: any) {
+    if (val.target.value.includes(',')) {
+      let formatNumber = val.target.value.replace(',', '.') 
+      setUserInput(formatNumber);
+    } else {
+      setUserInput(val.target.value);
+    }
+  }
+
   return (
     <Layout>
       <Stack>
-              <Link href="/liquidation" passHref>
-                <Button
-                  size="small"
-                  variant="transparent"
-                  rel="noreferrer"
-                  prefix={<IconChevronLeft />}
-                >
-                  Liquidations
-                </Button>
-              </Link>
+        <Link href="/liquidation" passHref>
+          <Button
+            size="small"
+            variant="transparent"
+            rel="noreferrer"
+            prefix={<IconChevronLeft />}
+          >
+            Liquidations
+          </Button>
+        </Link>
 
         {/* COLLECTION LIQUIDATION DETAILS */}
         <Box
@@ -298,7 +302,7 @@ const LiquidationPool = () => {
                 >
                   <Stack space="1" align={{ xs: 'center', md: 'flex-start' }}>
                     <Text weight="semiBold" color="textSecondary">
-                      Winning bid
+                      Highest bid
                     </Text>
                     <Stack direction="horizontal" align="center" space="2">
                       <Text
@@ -330,18 +334,28 @@ const LiquidationPool = () => {
             <Stack>
               {hasPosition ? (
                 <Stack align="flex-end">
-                  <Stack direction="horizontal" align="center" space="5">
-                    <Input width="40" label="new bid" hideLabel />
-                    <Button>Place new bid</Button>
+                  <Stack direction="horizontal" space="2">
+                    <Text>
+                      Min bid: {(highestBiddingValue * 1.1).toFixed(2)}
+                    </Text>
+                    <SolanaIcon />
                   </Stack>
-                  <Button width="full" variant="secondary">
+                  <Stack direction="horizontal" align="center" space="5">
+                    <Input 
+                      onChange={(val) => handleUserInput(val)} 
+                      width="40" 
+                      label="new bid" 
+                      hideLabel 
+                    />
+                    <Button onClick={() => handleExecuteBid('increase_bid', userInput)}>
+                      Increase Bid
+                    </Button>
+                  </Stack>
+                  <Button onClick={() => handleExecuteBid('revoke_bid')} width="full" variant="secondary">
                     Cancel current bid
             </Button>
                 </Stack>
               ) : (
-                // <Button variant="primary" onClick={handleShowBiddingModal}>
-                //   Review Bid
-                // </Button>
                 <Stack>
                   <Stack direction="horizontal" space="2">
                     <Text>
@@ -354,14 +368,15 @@ const LiquidationPool = () => {
                       label="bid amount"
                       hideLabel
                       width={{ xs: 'full', sm: '44', md: '56' }}
+                      onChange={(val) => handleUserInput(val)}
                     />
                     <Button
                       variant="primary"
                       width={{ xs: 'full', md: 'fit' }}
-                      onClick={handleShowBiddingModal}
+                      onClick={() => handleExecuteBid('place_bid', userInput)}
                     >
                       Place Bid
-            </Button>
+                    </Button>
                   </Stack>
                 </Stack>
               )}
