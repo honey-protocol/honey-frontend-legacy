@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import type { NextPage } from 'next';
 import Link from 'next/link';
-import { Box, Stack } from 'degen';
+import { Box, Stack, Text } from 'degen';
 import Layout from '../../components/Layout/Layout';
 import * as styles from '../../styles/liquidation.css';
 import LiquidationHeader from 'components/LiquidationHeader/LiquidationHeader';
@@ -140,20 +140,25 @@ const Liquidation: NextPage = () => {
   return (
     <Layout>
       <Stack>
-        <Box marginY="4" className={styles.liquidationWrapper}>
-          <h2>Market overview</h2>
-          <LiquidationHeader 
-            headerData={headerData}
-          />
-          <Box className={
+        <Box marginY="5" className={styles.liquidationWrapper}>
+          <Text size="extraLarge" weight="semiBold">
+            Market overview
+          </Text>
+          <Box
+            marginTop="10"
+            backgroundColor="background"
+            padding="5"
+            borderRadius="2xLarge"
+          >
+          <LiquidationHeader headerData={headerData} />
+          <Box
+            className={
             openPositions 
-            ? 
-            styles.highLightPosition
-            :
-            styles.highLightNoPosition
-            }>
-            {
-              dataSet.map((loan, i) => (
+                ? styles.highLightPosition
+                : styles.highLightNoPosition
+            }
+          >
+            {dataSet.map((loan, i) => (
                 <Link 
                   href="/liquidation/[collection]" 
                   as={`/liquidation/${loan.collection}`}
@@ -167,8 +172,8 @@ const Liquidation: NextPage = () => {
                     />
                   </a>
                 </Link>
-              ))
-            }
+            ))}
+            </Box>
           </Box>
         </Box>
       </Stack>

@@ -144,7 +144,7 @@ const LoanNFTsContainer = (props: LoanNFTsContainerProps) => {
       <Card level="2" width="full" padding="8" shadow>
         <Box height="full" display="flex">
           <Stack flex={1}>
-            <Stack direction="horizontal" justify="space-between">
+            <Stack direction="horizontal" wrap justify="space-between">
               <Text weight="semiBold" variant="large">
                 {title}
               </Text>

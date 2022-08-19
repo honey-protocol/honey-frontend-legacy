@@ -5,8 +5,7 @@ import { sprinkles, vars } from './theme.css';
 */
 export const liquidationWrapper = style({
   width: '100%',
-  padding: '0',
-  margin: 0
+  padding: '0'
 });
 /**
  * set base color to white
@@ -439,31 +438,7 @@ globalStyle(`${nftDetailBlockPrice} > div:last-child`, {
 });
 
 globalStyle(`${nftDetailBlock} button`, {
-  width: '100%',
-}); 
-
-export const callToActionContainer = style({
-  display: 'flex',
-  flexDirection: 'column',
-  justifyContent: 'space-between',
-  '@media': {
-    'screen and (min-width: 720px)': {
-      flexDirection: 'row'
-    }
-  }
-});
-
-globalStyle(`${callToActionContainer} > h2`, {
-  color: 'rgb(179,179,179)',
-  fontWeight: '500'
-});
-
-globalStyle(`${callToActionContainer} > h2 > span`, {
-  fontWeight: '300'
-});
-
-globalStyle(`${callToActionContainer} > h2:last-of-type`, {
-  display: 'block'
+  width: '100%'
 });
 
 export const biddingOverview = style({

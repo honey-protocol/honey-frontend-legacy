@@ -31,16 +31,6 @@ interface LiquidationCardProps {
 
 const LiquidationCard = (props: LiquidationCardProps) => {
   const { openPositions, liquidationType, handleShowBiddingModal, showBiddingModal, handleExecuteBid, loan, index } = props;
-  
-  function handleHealthStatus() {
-    if (loan.is_healthy == '0') {
-      return <Box className={styles.healthFactorHigh}>Healthy</Box>
-    } else if (loan.is_healthy == '1') {
-      return <Box className={styles.healthFactorMedium}>Medium</Box>
-    } else if (loan.is_healthy == '2') {
-      return <Box className={styles.healthFactorLow}>Low</Box>
-    }
-  }
 
   return (
         <Box className={styles.subWrapper}>
@@ -54,19 +44,30 @@ const LiquidationCard = (props: LiquidationCardProps) => {
               <Text>Debt:</Text>
               <Text>{loan.debt} SOL</Text>
             </Box>
-            {
-              handleHealthStatus()
-            }
 
-              {/* <Box className={styles.healthFactor}>High</Box> */}
-              {/* <Box className={styles.healthFactorMedium}>Medium</Box> */}
-            {/* <Box className={styles.collectionCardWrapper}>
-              <Text>LVT:</Text>  
-              <Text>{loan.ltv} %</Text>
-            </Box> */}
+            {(() => {
+              if (loan.is_healthy == '0') {
+                return (
+                  <Box className={styles.healthFactorHigh}>
+                    <Text>High</Text>
+                  </Box>
+                )
+              } else if (loan.is_healthy == '1') {
+                  return (
+                    <Box className={styles.healthFactorMedium}>
+                      <Text>Medium</Text>
+                    </Box>
+                  )
+              } else {
+                  return (
+                    <Box className={styles.healthFactorLow}>
+                      Low
+                    </Box>
+                  )}
+            })()}
+            
             <Box className={styles.collectionCardWrapper}>
               <Text>Address:</Text>  
-              {/* <Text>{loan.address}...</Text> */}
               <Text>{loan.owner.toString().substring(0,5)}...</Text>
             </Box>
           </Box>

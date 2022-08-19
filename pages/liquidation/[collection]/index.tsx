@@ -2,7 +2,19 @@ import type { NextPage } from 'next';
 import Image from 'next/image'
 import Link from 'next/link';
 import React, { useState, useEffect } from 'react';
-import { Box, Stack, Button, IconChevronLeft, IconClose, Text, Avatar, IconWallet, IconChevronDown, IconChevronRight } from 'degen';
+import {
+  Box,
+  Stack,
+  Button,
+  IconChevronLeft,
+  IconClose,
+  Text,
+  Avatar,
+  IconWallet,
+  IconChevronDown,
+  IconChevronRight,
+  Input
+} from 'degen';
 import Layout from '../../../components/Layout/Layout';
 import * as styles from '../../../styles/liquidation.css';
 import { useConnectedWallet } from '@saberhq/use-solana';
@@ -14,6 +26,9 @@ import { HONEY_PROGRAM_ID, HONEY_MARKET_ID } from '../../../constants/loan';
 import { LAMPORTS_PER_SOL, PublicKey } from '@solana/web3.js';
 import LiquidationBiddingModal from 'components/LiquidationBiddingModal/LiquidationBiddingModal';
 import { NATIVE_MINT } from '@solana/spl-token';
+import VerifiedIcon from 'icons/VerifiedIcon';
+import SolanaIcon from 'icons/SolanaIcon';
+import { formatAddress } from 'helpers/addressUtils';
 
 const LiquidationPool = () => {
   // init anchor
@@ -42,6 +57,7 @@ const LiquidationPool = () => {
   const [highestBiddingAddress, setHighestBiddingAddress] = useState('');
   const [highestBiddingValue, setHighestBiddingValue] = useState(0);
   const [currentUserBid, setCurrentUserBid] = useState(0);
+  const [userInput, setUserInput] = useState(0);
 
   const headerData = ['Position', 'Debt', 'Address', 'Health Factor'];
 
@@ -71,22 +87,15 @@ const LiquidationPool = () => {
 
     let sorted = positions.sort((first: any,second: any) => first.is_healthy - second.is_healthy).reverse();
     let highestBid = biddingArray.sort((first: any, second: any) => first.bidLimit - second.bidLimit).reverse();
-    // let highestBid = biddingArray.bidder || '';
-    
-    // console.log('Sorted Bidding Array:', highestBid);
+
     console.log('this is biddingArray', highestBid)
     console.log('this is sorted', sorted)
 
-    // highestBid.map((obj:any) => {
-    //   console.log(`bid: ${obj.highest_bid} owner: ${obj.owner.toString()}`);
-    // });
-
-    // setHighestBiddingAddress(highestBid[0].owner.toString());
-    // setHighestBiddingValue(highestBid[0].highest_bid / LAMPORTS_PER_SOL);
     if (highestBid[0]) {
       setHighestBiddingAddress(highestBid[0].bidder);
       setHighestBiddingValue(highestBid[0].bidLimit / LAMPORTS_PER_SOL);
     }
+
     setFetchedPositions(sorted);
   }
 
@@ -101,8 +110,6 @@ const LiquidationPool = () => {
     if (status.positions) {
       setStatusState(true);
     }
-
-    if (status.bids && status.positions) handleBiddingState(status.bids, status.positions);
 
     return;
   }, [status]);
@@ -119,7 +126,8 @@ const LiquidationPool = () => {
         }
       });
 
-      handleBiddingState(status.bids, status.positions);
+      // handleBiddingState(status.bids, status.positions);
+      if (status.bids && status.positions) handleBiddingState(status.bids, status.positions);
     }
 
     return;
@@ -149,9 +157,9 @@ const LiquidationPool = () => {
           console.log('@@__Transaction_Outcome revoke bid:', transactionOutcome[0]);
 
           if (transactionOutcome[0] == 'SUCCESS') {
-            return toastResponse('SUCCESS', 'Revoke Bid', 'SUCCESS');
+            return toastResponse('SUCCESS', 'Bid revoked', 'SUCCESS');
           } else {
-            return toastResponse('ERROR', 'Revoke failed', 'ERROR');
+            return toastResponse('ERROR', 'Revoke bid failed', 'ERROR');
           }
         } else if (type == 'place_bid') {
             console.log('inside place bid', userBid)
@@ -169,7 +177,7 @@ const LiquidationPool = () => {
             console.log('@@__Transaction_Outcome place bid:', transactionOutcome[0]);
             // refreshDB();
             if (transactionOutcome[0] == 'SUCCESS') {
-              return toastResponse('SUCCESS', 'Placed Bid', 'SUCCESS');
+              return toastResponse('SUCCESS', 'Bid placed', 'SUCCESS');
             } else {
               return toastResponse('ERROR', 'Bid failed', 'ERROR');
             }
@@ -189,9 +197,9 @@ const LiquidationPool = () => {
             console.log('@@__Transaction_Outcome increase bid:', transactionOutcome[0]);
             // refreshDB();
             if (transactionOutcome[0] == 'SUCCESS') {
-              return toastResponse('SUCCESS', 'Placed Bid', 'SUCCESS');
+              return toastResponse('SUCCESS', 'Bid increased', 'SUCCESS');
             } else {
-              return toastResponse('ERROR', 'Bid failed', 'ERROR');
+              return toastResponse('ERROR', 'Bid increase failed', 'ERROR');
             }
           }
       } else {
@@ -208,9 +216,10 @@ const LiquidationPool = () => {
    * @returns inits fetchLiq. func
   */
   async function handleExecuteBid(type: string, userBid?: number) {
-    console.log('running executeBid')
-    handleShowBiddingModal();
-    await fetchLiquidatorClient(type, userBid!)
+    console.log('running executeBid, this is curr user bid', userBid)
+    if (!userBid && type != 'revoke_bid') return console.log('no user input');
+
+    await fetchLiquidatorClient(type, userBid!);
   }
 
   useEffect(() => {}, [currentUserBid]);
@@ -227,62 +236,158 @@ const LiquidationPool = () => {
     }, 60000)
   }
 
+  function handleUserInput(val: any) {
+    if (val.target.value.includes(',')) {
+      let formatNumber = val.target.value.replace(',', '.') 
+      setUserInput(formatNumber);
+    } else {
+      setUserInput(val.target.value);
+    }
+  }
+
   return (
     <Layout>
       <Stack>
-        <Box>
+        <Link href="/liquidation" passHref>
+          <Button
+            size="small"
+            variant="transparent"
+            rel="noreferrer"
+            prefix={<IconChevronLeft />}
+          >
+            Liquidations
+          </Button>
+        </Link>
+
+        {/* COLLECTION LIQUIDATION DETAILS */}
+        <Box
+          backgroundColor="background"
+          paddingX="5"
+          paddingY="7"
+          borderRadius="2xLarge"
+        >
           <Stack
             direction="horizontal"
             justify="space-between"
             wrap
             align="center"
+            space={{ xs: '10', md: 'none' }}
           >
-            <Box display="flex" alignSelf="center" justifySelf="center">
-              <Link href="/liquidation" passHref>
-                <Button
-                  size="small"
-                  variant="transparent"
-                  rel="noreferrer"
-                  prefix={<IconChevronLeft />}
+            <Stack
+              wrap
+              direction="horizontal"
+              space="5"
+              justify={{ xs: 'center', md: 'flex-start' }}
+              align="center"
+            >
+              <Box paddingX={{ xs: '10', md: 'none' }}>
+              <Avatar
+                  size={{ xs: 'full', sm: '32' }}
+                label="Honey eyes"
+                shape="square"
+                src="https://hwhm5h2hx7widk46v6fn6763c2palrfr2f6zzjfxsefgb4kp5jta.arweave.net/PY7On0e_7IGrnq-K33_bFp4FxLHRfZykt5EKYPFP6mY"
+              />
+              </Box>
+              <Stack space="5">
+                <Stack direction="horizontal" align="center">
+                  <Text size="extraLarge" weight="bold" color="textPrimary">
+                    Honey Genesis Bees
+                  </Text>
+                  <VerifiedIcon />
+                </Stack>
+                <Stack
+                  justify="space-between"
+                  space="10"
+                  direction="horizontal"
                 >
-                  Liquidations
-                </Button>
-              </Link>
-            </Box>
+                  <Stack space="1" align={{ xs: 'center', md: 'flex-start' }}>
+                    <Text weight="semiBold" color="textSecondary">
+                      Highest bid
+                    </Text>
+                    <Stack direction="horizontal" align="center" space="2">
+                      <Text
+                        weight="semiBold"
+                        size="extraLarge"
+                        color="textPrimary"
+                      >
+                        {highestBiddingValue.toFixed(2)}
+                      </Text>
+                      <SolanaIcon />
+                    </Stack>
+                  </Stack>
+                  <Stack space="1" align={{ xs: 'center', md: 'flex-start' }}>
+                    <Text weight="semiBold" color="textSecondary">
+                      Held by
+                    </Text>
+                    <Text
+                      weight="semiBold"
+                      size="extraLarge"
+                      color="textPrimary"
+                    >
+                      {formatAddress(highestBiddingAddress)}
+                    </Text>
+                  </Stack>
+                </Stack>
+              </Stack>
+          </Stack>
+
+            <Stack>
+              {hasPosition ? (
+                <Stack align="flex-end">
+                  <Stack direction="horizontal" space="2">
+                    <Text>
+                      Min bid: {(highestBiddingValue * 1.1).toFixed(2)}
+                    </Text>
+                    <SolanaIcon />
+                  </Stack>
+                  <Stack direction="horizontal" align="center" space="5">
+                    <Input 
+                      onChange={(val) => handleUserInput(val)} 
+                      width="40" 
+                      label="new bid" 
+                      hideLabel 
+                    />
+                    <Button onClick={() => handleExecuteBid('increase_bid', userInput)}>
+                      Increase Bid
+                    </Button>
+                  </Stack>
+                  <Button onClick={() => handleExecuteBid('revoke_bid')} width="full" variant="secondary">
+                    Cancel current bid
+            </Button>
+                </Stack>
+              ) : (
+                <Stack>
+                  <Stack direction="horizontal" space="2">
+                    <Text>
+                      Min bid: {(highestBiddingValue * 1.1).toFixed(2)}
+                    </Text>
+                    <SolanaIcon />
+                  </Stack>
+                  <Stack direction="horizontal" wrap>
+                    <Input
+                      label="bid amount"
+                      hideLabel
+                      width={{ xs: 'full', sm: '44', md: '56' }}
+                      onChange={(val) => handleUserInput(val)}
+                    />
+                    <Button
+                      variant="primary"
+                      width={{ xs: 'full', md: 'fit' }}
+                      onClick={() => handleExecuteBid('place_bid', userInput)}
+                    >
+                      Place Bid
+                    </Button>
+                  </Stack>
+                </Stack>
+              )}
+            </Stack>
           </Stack>
         </Box>
-        <Box className={styles.callToActionContainer}>
-            <h2>Collection: <span>Honey Eyes</span></h2>
-          {
-            hasPosition
-            ?
-            <Button variant="primary" onClick={handleShowBiddingModal}>
-              Review Bid
-            </Button>
-            :
-            <Button variant="primary" onClick={handleShowBiddingModal}>
-              Place Bid on Collection
-            </Button>
-          }
-        </Box>
-        <Box className={styles.biddingOverview}>
-          <h4>
-            Highest bid on collection: <span>{highestBiddingValue} SOL </span><br /> 
-            <span>by account: <a target="_blank" rel="noreferrer" href={`https://solscan.io/account/${highestBiddingAddress}`}>{highestBiddingAddress?.substring(0, 6)}..</a></span>
-          </h4>
-        </Box>
-        {
-          fetchedPositions?.length &&
-          <Box className={styles.biddingOverview}>
-            <h4>Loan to value ratio <span>{fetchedPositions[0].ltv}%</span></h4>
-          </Box>
-        }
-        <LiquidationHeader
-            headerData={headerData}
-          />
+        <Box backgroundColor="background" padding="5" borderRadius="2xLarge">
+        <LiquidationHeader headerData={headerData} />
         <Box>
-         {
-            fetchedPositions && fetchedPositions.map((loan, i) => {
+          {fetchedPositions &&
+            fetchedPositions.map((loan, i) => {
               return (
                 <LiquidationCard
                   index={i}
@@ -292,23 +397,9 @@ const LiquidationPool = () => {
                   handleShowBiddingModal={handleShowBiddingModal}
                   handleExecuteBid={() => handleExecuteBid}
               />
-            )
-            })
-          }
+              );
+            })}
         </Box>
-        <Box>
-          {
-            showBiddingModal && (
-              <LiquidationBiddingModal
-                handleShowBiddingModal={handleShowBiddingModal}
-                handleExecuteBid={handleExecuteBid}
-                hasPosition={hasPosition}
-                highestBiddingAddress={highestBiddingAddress}
-                highestBiddingValue={highestBiddingValue}
-                handleRefetch={handleRefetch}
-              />
-            )
-          }
         </Box>
       </Stack>
     </Layout>
