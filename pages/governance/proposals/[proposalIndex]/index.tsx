@@ -1,4 +1,4 @@
-import { NextPage } from 'next';
+  import { NextPage } from 'next';
 import Layout from 'components/Layout/Layout';
 import { ProposalIndexView } from 'components/Proposals/ProposalIndexView';
 import { Button, IconChevronLeft, Stack } from 'degen';

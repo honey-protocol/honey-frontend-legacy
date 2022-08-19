@@ -75,7 +75,7 @@ const Governance: NextPage = () => {
 
   useEffect(() => {
     getVeHoneySupply();
-  }, []);
+  }, [getVeHoneySupply]);
 
   return (
     <Layout>

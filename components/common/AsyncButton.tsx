@@ -44,7 +44,7 @@ export const AsyncButton: React.FC<Props> = ({
       disabled={false}
       onClick={() => connect()}
     >
-      {connectWalletOverride ?? 'Connect Wallet'}
+      {connectWalletOverride ?? 'Connect TEST'}
     </Button>
   );
 };

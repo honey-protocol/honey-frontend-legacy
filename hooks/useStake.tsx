@@ -33,7 +33,7 @@ const checkErrorAndShowToast = (error: any, defaultToastMsg: string) => {
   return toast.error(toastMsg);
 };
 
-export const useStake = (stakePool: PublicKey, locker: PublicKey) => {
+export const useStake = (stakePool: PublicKey, locker: PublicKey) => {  
   const wallet = useConnectedWallet();
   const connection = useConnection();
   const [sc, setSC] = useState<StakeClient | undefined>(undefined);

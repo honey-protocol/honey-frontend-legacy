@@ -14,6 +14,8 @@ import { Card } from 'components/common/governance/Card';
 import { CastVoteButton } from '../CastVoteButton';
 import { Box, Button, Text } from 'degen';
 import Link from 'next/link';
+import { useWalletKit } from '@gokiprotocol/walletkit';
+
 
 interface Props {
   proposalInfo: ProposalInfo;
@@ -21,6 +23,7 @@ interface Props {
 }
 
 export const ProposalVote: React.FC<Props> = ({ proposalInfo }: Props) => {
+  const { connect } = useWalletKit();
   const { veToken } = useGovernor();
   const { sdkMut } = useSDK();
   const { data: escrow, veBalance } = useUserEscrow();
@@ -68,7 +71,9 @@ export const ProposalVote: React.FC<Props> = ({ proposalInfo }: Props) => {
       <Box paddingY="8">
         <Box display="flex" flexDirection="column" alignItems="center" gap="4">
           {!sdkMut ? (
-            <ConnectWalletButton />
+            <Button variant="primary" size="small" width="48" onClick={connect}>
+            Connect Wallet
+          </Button>
           ) : !veBalance ? (
             <Box paddingX="8" fontSize="small" textAlign="center">
               <Text as="p">
