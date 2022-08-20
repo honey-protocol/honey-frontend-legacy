@@ -29,6 +29,7 @@ import { NATIVE_MINT } from '@solana/spl-token';
 import VerifiedIcon from 'icons/VerifiedIcon';
 import SolanaIcon from 'icons/SolanaIcon';
 import { formatAddress } from 'helpers/addressUtils';
+import NextNProgress from 'nextjs-progressbar';
 
 const LiquidationPool = () => {
   // init anchor
@@ -216,9 +217,9 @@ const LiquidationPool = () => {
    * @returns inits fetchLiq. func
   */
   async function handleExecuteBid(type: string, userBid?: number) {
-    console.log('running executeBid, this is curr user bid', userBid)
+    console.log('running executeBid, this is curr user bid', userBid);
     if (!userBid && type != 'revoke_bid') return console.log('no user input');
-
+    handleRefetch();
     await fetchLiquidatorClient(type, userBid!);
   }
 
@@ -226,6 +227,8 @@ const LiquidationPool = () => {
 
   function handleRefetch() {
     console.log('handle refetch initialized');
+
+
     setTimeout(async () => {
       console.log('handle refetch running');
       if (status) {

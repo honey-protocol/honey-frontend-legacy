@@ -423,15 +423,9 @@
     "@types/mocha" "^9.1.0"
 
 "@honey-finance/sdk@^1.0.59":
-<<<<<<< HEAD
-  version "1.0.98"
-  resolved "https://registry.yarnpkg.com/@honey-finance/sdk/-/sdk-1.0.98.tgz#1b9a773cabeef2ba1ba1f0a65ad270fb60880f68"
-  integrity sha512-Liz8GC4JLMcrrGK1+89WAvqJ0V3ux3dJ5LA805vdwZuUQSEJXnpy7mpA+4lkULAu2LKb0ofEzf+Q6zgVyfgbJQ==
-=======
   version "1.0.97"
   resolved "https://registry.yarnpkg.com/@honey-finance/sdk/-/sdk-1.0.97.tgz#4ce377f63b7f97f03482384472b8a996f3be3892"
   integrity sha512-bUjn8I5N0FfzDaKlbb8ENn9xMNBM/PJviygXjRGlI7a7qPlDWVncJcU9O7EQ9RDWNv5jqcnb7VDWQnrdawYY4A==
->>>>>>> feature/demo-liquidations-yuri
   dependencies:
     "@honey-finance/sdk" "^1.0.59"
     "@metaplex-foundation/mpl-token-metadata" "^1.2.0"
@@ -4154,6 +4148,14 @@ next@12.1.0:
     "@next/swc-win32-ia32-msvc" "12.1.0"
     "@next/swc-win32-x64-msvc" "12.1.0"
 
+nextjs-progressbar@^0.0.14:
+  version "0.0.14"
+  resolved "https://registry.yarnpkg.com/nextjs-progressbar/-/nextjs-progressbar-0.0.14.tgz#cc2630ee4e9dec598314394bd0fffb0cbfc40444"
+  integrity sha512-AXYXHDN6M52AwFnGqH/vlwyo0gbC9zM7QS/4ryOTI0RUqfze5FJl8uSrxKJMzK6hGFdDeQXcZoWsLGXeCVtTwg==
+  dependencies:
+    nprogress "^0.2.0"
+    prop-types "^15.7.2"
+
 nice-try@^1.0.4:
   version "1.0.5"
   resolved "https://registry.yarnpkg.com/nice-try/-/nice-try-1.0.5.tgz#a3378a7696ce7d223e88fc9b764bd7ef1089e366"
@@ -4224,6 +4226,11 @@ npm-run-path@^4.0.1:
   integrity sha512-S48WzZW777zhNIrn7gxOlISNAqi9ZC/uQFnRdbeIHhZhCA6UqpkOT8T1G7BvfdgP4Er8gF4sUbaS0i7QvIfCWw==
   dependencies:
     path-key "^3.0.0"
+
+nprogress@^0.2.0:
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/nprogress/-/nprogress-0.2.0.tgz#cb8f34c53213d895723fcbab907e9422adbcafb1"
+  integrity sha512-I19aIingLgR1fmhftnbWWO3dXc0hSxqHQHQb3H8m+K3TnEn/iSeTZZOyvKXWqQESMwuUVnatlCnZdLBZZt2VSA==
 
 object-assign@^4.1.1:
   version "4.1.1"

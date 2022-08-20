@@ -1,9 +1,10 @@
 import React, { FC, ReactNode, useState } from 'react';
 import Head from 'next/head';
-import { Box, Stack, Text } from 'degen';
+import { Box, Stack, Text, vars } from 'degen';
 import UserInfo from '../UserInfo/UserInfo';
 import Sidebar from '../Sidebar/Sidebar';
 import * as styles from './Layout.css';
+import NextNProgress from 'nextjs-progressbar';
 
 interface Props {
   children: ReactNode;
@@ -25,6 +26,7 @@ const Layout: FC<Props> = ({ children }) => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Stack flex={1} direction="horizontal" space="0">
+        <NextNProgress color={vars.colors.accent} height={4} />
         <Sidebar showMobileSidebar={showMobileSidebar} />
         <Box
           width="full"

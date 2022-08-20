@@ -118,6 +118,7 @@ const Liquidation: NextPage = () => {
    * @returns sets totalmarketdebt and averagemarketlvt state
   */
   async function calculateMarketValues(market: any) {
+    console.log('this is the market', market)
     if (market.length) {
       // total market debt
       let tmd = 0;
