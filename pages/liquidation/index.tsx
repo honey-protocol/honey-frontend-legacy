@@ -49,6 +49,7 @@ const Liquidation: NextPage = () => {
   const [totalMarketDebt, setTotalMarketDebt] = useState(0);
   const [totalMarketNFTs, setTotalMarketNFTs] = useState(0);
   const [averageMarketLVT, setaverageMarketLVT] = useState(0);
+  const [initBidding, setInitBidding] = useState(false);
   
   /**
    * @description object which represents the market
@@ -83,7 +84,6 @@ const Liquidation: NextPage = () => {
     let val = 0 
     
     biddingArray.map((obligation: any, index: number) => {
-      console.log('this is stringyfiedwalletpk', stringyfiedWalletPK);
       if (obligation.bidder == stringyfiedWalletPK) {
         setOpenPositions(true);
         val = 1;
@@ -103,14 +103,20 @@ const Liquidation: NextPage = () => {
    * @returns sets state for nft positions
   */
   useEffect(() => {
-    if (status.positions && status.bids) {
-      setFetchedPositions(status.positions);
-      setTotalMarketNFTs(status.positions.length);
-      handleBiddingState(status.bids);
+    if (status.loading == false) {
+      if (status.positions && status.positions.length) {
+        setFetchedPositions(status.positions);
+        setTotalMarketNFTs(status.positions.length);
+      }
+
+      if (initBidding == false && status.bids) {
+        handleBiddingState(status.bids);
+        setInitBidding(true);
+      }
     }
 
     return;
-  }, [status]);
+  }, [status.positions]);
 
   /**
    * @description func. that calculates total market debt and average market ltv
@@ -118,7 +124,6 @@ const Liquidation: NextPage = () => {
    * @returns sets totalmarketdebt and averagemarketlvt state
   */
   async function calculateMarketValues(market: any) {
-    console.log('this is the market', market)
     if (market.length) {
       // total market debt
       let tmd = 0;
@@ -135,8 +140,10 @@ const Liquidation: NextPage = () => {
     }
   }
 
-  // if there are positions init the average calculations
-  if (fetchedPositions) calculateMarketValues(fetchedPositions);
+  useEffect(() => {
+    // if there are positions init the average calculations
+    if (fetchedPositions) calculateMarketValues(fetchedPositions);
+  }, [fetchedPositions])
 
   return (
     <Layout>
