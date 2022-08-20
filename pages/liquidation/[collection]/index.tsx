@@ -146,7 +146,7 @@ const LiquidationPool = () => {
           console.log('@@__Transaction_Outcome revoke bid:', transactionOutcome[0]);
 
           if (transactionOutcome[0] == 'SUCCESS') {
-            return toastResponse('SUCCESS', 'Bid revoked', 'SUCCESS');
+            return toastResponse('SUCCESS', 'Bid revoked, fetching chain data', 'SUCCESS');
           } else {
             return toastResponse('ERROR', 'Revoke bid failed', 'ERROR');
           }
@@ -166,7 +166,7 @@ const LiquidationPool = () => {
             console.log('@@__Transaction_Outcome place bid:', transactionOutcome[0]);
             // refreshDB();
             if (transactionOutcome[0] == 'SUCCESS') {
-              return toastResponse('SUCCESS', 'Bid placed', 'SUCCESS');
+              return toastResponse('SUCCESS', 'Bid placed, fetching chain data', 'SUCCESS');
             } else {
               return toastResponse('ERROR', 'Bid failed', 'ERROR');
             }
@@ -186,7 +186,7 @@ const LiquidationPool = () => {
             console.log('@@__Transaction_Outcome increase bid:', transactionOutcome[0]);
             // refreshDB();
             if (transactionOutcome[0] == 'SUCCESS') {
-              return toastResponse('SUCCESS', 'Bid increased', 'SUCCESS');
+              return toastResponse('SUCCESS', 'Bid increased, fetching chain data', 'SUCCESS');
             } else {
               return toastResponse('ERROR', 'Bid increase failed', 'ERROR');
             }
@@ -213,6 +213,7 @@ const LiquidationPool = () => {
 
   useEffect(() => {}, [currentUserBid]);
 
+
   function handleRefetch() {
     console.log('handle refetch initialized');
     setLoadingState(true);
@@ -220,12 +221,14 @@ const LiquidationPool = () => {
     setTimeout(async () => {
       console.log('handle refetch running');
       setLoadingState(false);
+
       if (status) {
         status.fetchPositions().then(() => {
           console.log('updated statusObject', status);
+          return toastResponse('SUCCESS', 'Chain data fetched', 'SUCCESS');
         })
       }
-    }, 60000)
+    }, 70000)
   }
 
   function handleUserInput(val: any) {
@@ -240,7 +243,6 @@ const LiquidationPool = () => {
   return (
     <Layout>
       <Stack>
-        <Box className={styles.headWrapper}>
           <Link href="/liquidation" passHref>
             <Button
               size="small"
@@ -251,15 +253,6 @@ const LiquidationPool = () => {
               Liquidations
             </Button>
           </Link>
-          {
-            loadingState && 
-            
-            <Box className={styles.headWrapperSub}>
-              <Text color="textPrimary">Chain Data Being Fetched</Text>
-              <Spinner />
-            </Box>
-          }
-        </Box>
         {/* COLLECTION LIQUIDATION DETAILS */}
         <Box
           backgroundColor="background"
