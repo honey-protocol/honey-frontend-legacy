@@ -481,4 +481,22 @@ export const highLightPosition = style({
 
 export const highLightNoPosition = style({
   borderLeft: 'none'
-})
+});
+
+export const headWrapper = style({
+  display: 'flex',
+  flexDirection: 'row',
+  justifyContent: 'space-between',
+  alignItems: 'center'
+});
+
+export const headWrapperSub = style({
+  background: 'rgba(58, 45, 25, 100)',
+  borderRadius: '8px',
+  padding: '.5em',
+  display: 'flex',
+  flexDirection: 'row',
+  justifyContent: 'space-between',
+  alignItems: 'center',
+  color: 'orange'
+});

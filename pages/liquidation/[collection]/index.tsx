@@ -7,13 +7,10 @@ import {
   Stack,
   Button,
   IconChevronLeft,
-  IconClose,
   Text,
   Avatar,
-  IconWallet,
-  IconChevronDown,
-  IconChevronRight,
-  Input
+  Input,
+  Spinner
 } from 'degen';
 import Layout from '../../../components/Layout/Layout';
 import * as styles from '../../../styles/liquidation.css';
@@ -24,7 +21,6 @@ import { useAnchor, LiquidatorClient, useAllPositions, NftPosition } from '@hone
 import { ConfigureSDK, toastResponse } from 'helpers/loanHelpers';
 import { HONEY_PROGRAM_ID, HONEY_MARKET_ID } from '../../../constants/loan';
 import { LAMPORTS_PER_SOL, PublicKey } from '@solana/web3.js';
-import LiquidationBiddingModal from 'components/LiquidationBiddingModal/LiquidationBiddingModal';
 import { NATIVE_MINT } from '@solana/spl-token';
 import VerifiedIcon from 'icons/VerifiedIcon';
 import SolanaIcon from 'icons/SolanaIcon';
@@ -59,17 +55,9 @@ const LiquidationPool = () => {
   const [highestBiddingValue, setHighestBiddingValue] = useState(0);
   const [currentUserBid, setCurrentUserBid] = useState(0);
   const [userInput, setUserInput] = useState(0);
+  const [loadingState, setLoadingState] = useState(false);
 
   const headerData = ['Position', 'Debt', 'Address', 'Health Factor'];
-
-  const [showBiddingModal, setBiddingModal] = useState(false);
-
-  function handleShowBiddingModal() {
-    showBiddingModal == false ? setBiddingModal(true) : setBiddingModal(false);
-  }
-
-  useEffect(() => {}, [showBiddingModal]);
-
   // create stringyfied instance of walletPK
   let stringyfiedWalletPK = sdkConfig.sdkWallet?.publicKey.toString();
 
@@ -227,10 +215,11 @@ const LiquidationPool = () => {
 
   function handleRefetch() {
     console.log('handle refetch initialized');
-
+    setLoadingState(true);
 
     setTimeout(async () => {
       console.log('handle refetch running');
+      setLoadingState(false);
       if (status) {
         status.fetchPositions().then(() => {
           console.log('updated statusObject', status);
@@ -251,17 +240,26 @@ const LiquidationPool = () => {
   return (
     <Layout>
       <Stack>
-        <Link href="/liquidation" passHref>
-          <Button
-            size="small"
-            variant="transparent"
-            rel="noreferrer"
-            prefix={<IconChevronLeft />}
-          >
-            Liquidations
-          </Button>
-        </Link>
-
+        <Box className={styles.headWrapper}>
+          <Link href="/liquidation" passHref>
+            <Button
+              size="small"
+              variant="transparent"
+              rel="noreferrer"
+              prefix={<IconChevronLeft />}
+            >
+              Liquidations
+            </Button>
+          </Link>
+          {
+            loadingState && 
+            
+            <Box className={styles.headWrapperSub}>
+              <Text color="textPrimary">Chain Data Being Fetched</Text>
+              <Spinner />
+            </Box>
+          }
+        </Box>
         {/* COLLECTION LIQUIDATION DETAILS */}
         <Box
           backgroundColor="background"
@@ -285,7 +283,7 @@ const LiquidationPool = () => {
             >
               <Box paddingX={{ xs: '10', md: 'none' }}>
               <Avatar
-                  size={{ xs: 'full', sm: '32' }}
+                size={{ xs: 'full', sm: '32' }}
                 label="Honey eyes"
                 shape="square"
                 src="https://hwhm5h2hx7widk46v6fn6763c2palrfr2f6zzjfxsefgb4kp5jta.arweave.net/PY7On0e_7IGrnq-K33_bFp4FxLHRfZykt5EKYPFP6mY"
@@ -397,7 +395,6 @@ const LiquidationPool = () => {
                   key={i}
                   loan={loan}
                   liquidationType={true}
-                  handleShowBiddingModal={handleShowBiddingModal}
                   handleExecuteBid={() => handleExecuteBid}
               />
               );

@@ -3,7 +3,6 @@ import { Box, Stack, Button, IconChevronLeft, Text, Avatar } from 'degen';
 import Layout from '../Layout/Layout';
 import * as styles from '../../styles/liquidation.css';
 import Link from 'next/link'
-import LiquidationBiddingModal from 'components/LiquidationBiddingModal/LiquidationBiddingModal';
 
 interface LiquidationCollectionCardProps {
   loan: any;

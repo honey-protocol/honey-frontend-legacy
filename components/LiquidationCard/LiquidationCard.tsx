@@ -4,7 +4,6 @@ import Layout from '../../components/Layout/Layout';
 import * as styles from '../../styles/liquidation.css';
 import Link from 'next/link'
 import { LAMPORTS_PER_SOL, PublicKey } from '@solana/web3.js';
-import LiquidationBiddingModal from 'components/LiquidationBiddingModal/LiquidationBiddingModal';
 
 // interface LiquidationCardProps {
 //   debt: number;
@@ -23,14 +22,12 @@ interface LiquidationCardProps {
   loan: any;
   openPositions?: boolean;
   liquidationType?: boolean;
-  handleShowBiddingModal?: () => void;
-  showBiddingModal?: boolean;
   handleExecuteBid: () => void;
   index: number;
 }
 
 const LiquidationCard = (props: LiquidationCardProps) => {
-  const { openPositions, liquidationType, handleShowBiddingModal, showBiddingModal, handleExecuteBid, loan, index } = props;
+  const { openPositions, liquidationType, handleExecuteBid, loan, index } = props;
 
   return (
         <Box className={styles.subWrapper}>
