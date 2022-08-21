@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import type { NextPage } from 'next';
 import Link from 'next/link';
-import { Box, Stack, Text } from 'degen';
+import { Box, Stack, Text, Spinner } from 'degen';
 import Layout from '../../components/Layout/Layout';
 import * as styles from '../../styles/liquidation.css';
 import LiquidationHeader from 'components/LiquidationHeader/LiquidationHeader';
@@ -9,6 +9,7 @@ import { PublicKey } from '@solana/web3.js';
 import LiquidationCollectionCard from '../../components/LiquidationCollectionCard/LiquidationCollectionCard';
 import { useAllPositions, useHoney } from '@honey-finance/sdk';
 import  { ConfigureSDK, toastResponse } from '../../helpers/loanHelpers';
+import { useConnectedWallet } from '@saberhq/use-solana';
 /**
  * @description interface for NFT object
  * @params none
@@ -50,6 +51,8 @@ const Liquidation: NextPage = () => {
   const [totalMarketNFTs, setTotalMarketNFTs] = useState(0);
   const [averageMarketLVT, setaverageMarketLVT] = useState(0);
   const [initBidding, setInitBidding] = useState(false);
+  const [loadingState, setLoadingState] = useState(false);
+  const [activeState, setActiveState] = useState(false);
   
   /**
    * @description object which represents the market
@@ -83,12 +86,14 @@ const Liquidation: NextPage = () => {
   function handleBiddingState(biddingArray: any) { 
     let val = 0 
     
-    biddingArray.map((obligation: any, index: number) => {
-      if (obligation.bidder == stringyfiedWalletPK) {
-        setOpenPositions(true);
-        val = 1;
-      }
-    });
+    if (stringyfiedWalletPK) {
+      biddingArray.map((obligation: any, index: number) => {
+        if (obligation.bidder == stringyfiedWalletPK) {
+          setOpenPositions(true);
+          val = 1;
+        }
+      });
+    }
 
     if (val == 1) {
       toastResponse('LIQUIDATION', '1 oustanding bid', 'LIQUIDATION');
@@ -143,11 +148,49 @@ const Liquidation: NextPage = () => {
   useEffect(() => {
     // if there are positions init the average calculations
     if (fetchedPositions) calculateMarketValues(fetchedPositions);
-  }, [fetchedPositions])
+  }, [fetchedPositions]);
+
+  function handleRefetch() {
+    console.log('handle refetch running');
+    if (status) {
+      status.fetchPositions().then(() => {
+        setLoadingState(false);
+        console.log('updated statusObject', status);
+      }).catch((err) => {
+        console.log('the err:', err);
+        setLoadingState(false);
+      })
+    }
+  }
+
+  useEffect(() => {
+    let mounted = true;
+    setLoadingState(true);
+    setTimeout(() => {
+      if (mounted) {
+        handleRefetch();
+      }
+    }, 30000)
+
+    return function cleanup() {
+      mounted = false;
+    }
+  }, []);
+
 
   return (
     <Layout>
       <Stack>
+        <Box>
+          {
+            loadingState && 
+
+            <Box className={styles.headWrapperSub}>
+              <Text color="textPrimary">Chain Data Being Fetched</Text>
+              <Spinner />
+            </Box>
+          }
+        </Box>
         <Box marginY="5" className={styles.liquidationWrapper}>
           <Text size="extraLarge" weight="semiBold">
             Market overview

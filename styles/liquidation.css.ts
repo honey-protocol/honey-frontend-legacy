@@ -491,12 +491,16 @@ export const headWrapper = style({
 });
 
 export const headWrapperSub = style({
-  background: 'rgba(58, 45, 25, 100)',
   borderRadius: '8px',
   padding: '.5em',
-  display: 'flex',
   flexDirection: 'row',
-  justifyContent: 'space-between',
   alignItems: 'center',
-  color: 'orange'
+  color: 'orange',
+  display: 'flex',
+  justifyContent: 'flex-end'
 });
+
+export const collectionLiqWrapper = style({
+  display: 'flex',
+  justifyContent: 'space-between'
+})

@@ -213,23 +213,32 @@ const LiquidationPool = () => {
 
   useEffect(() => {}, [currentUserBid]);
 
-
   function handleRefetch() {
-    console.log('handle refetch initialized');
-    setLoadingState(true);
-
-    setTimeout(async () => {
-      console.log('handle refetch running');
-      setLoadingState(false);
-
-      if (status) {
-        status.fetchPositions().then(() => {
-          console.log('updated statusObject', status);
-          return toastResponse('SUCCESS', 'Chain data fetched', 'SUCCESS');
-        })
-      }
-    }, 70000)
+    console.log('handle refetch running');
+    if (status) {
+      status.fetchPositions().then(() => {
+        console.log('updated statusObject', status);
+        setLoadingState(false);
+      }).catch((err) => {
+        console.log('the err:', err);
+        setLoadingState(false);
+      })
+    }
   }
+
+  useEffect(() => {
+    let mounted = true;
+    setLoadingState(true);
+    setTimeout(() => {
+      if (mounted && wallet != null) {
+        handleRefetch();
+      }
+    }, 30000)
+
+    return function cleanup() {
+      mounted = false;
+    }
+  }, []);
 
   function handleUserInput(val: any) {
     if (val.target.value.includes(',')) {
@@ -243,16 +252,28 @@ const LiquidationPool = () => {
   return (
     <Layout>
       <Stack>
-          <Link href="/liquidation" passHref>
-            <Button
-              size="small"
-              variant="transparent"
-              rel="noreferrer"
-              prefix={<IconChevronLeft />}
-            >
-              Liquidations
-            </Button>
-          </Link>
+          <Box className={styles.collectionLiqWrapper}>
+            <Link href="/liquidation" passHref>
+              <Button
+                size="small"
+                variant="transparent"
+                rel="noreferrer"
+                prefix={<IconChevronLeft />}
+              >
+                Liquidations
+              </Button>
+            </Link>
+            <Box>
+              {
+                loadingState && 
+
+                <Box className={styles.headWrapperSub}>
+                  <Text color="textPrimary">Chain Data Being Fetched</Text>
+                  <Spinner />
+                </Box>
+              }
+            </Box>
+          </Box>
         {/* COLLECTION LIQUIDATION DETAILS */}
         <Box
           backgroundColor="background"
