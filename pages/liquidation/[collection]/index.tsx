@@ -78,14 +78,11 @@ const LiquidationPool = () => {
     let sorted = positions.sort((first: any,second: any) => first.is_healthy - second.is_healthy).reverse();
     let highestBid = biddingArray.sort((first: any, second: any) => first.bidLimit - second.bidLimit).reverse();
 
-    console.log('this is biddingArray', highestBid)
-    console.log('this is sorted', sorted)
-
     if (highestBid[0]) {
       setHighestBiddingAddress(highestBid[0].bidder);
       setHighestBiddingValue(highestBid[0].bidLimit / LAMPORTS_PER_SOL);
     }
-
+    
     setFetchedPositions(sorted);
   }
 
@@ -134,7 +131,6 @@ const LiquidationPool = () => {
       if (wallet) {
         if (type == 'revoke_bid') {
           if (!currentUserBid) return;
-          console.log('revoke bid being called', currentUserBid);
 
           let transactionOutcome: any = await liquidatorClient.revokeBid({
             amount: currentUserBid,
@@ -144,18 +140,14 @@ const LiquidationPool = () => {
             withdraw_destination: wallet.publicKey
           });
 
-          console.log('@@__Transaction_Outcome revoke bid:', transactionOutcome[0]);
-
           if (transactionOutcome[0] == 'SUCCESS') {
             return toastResponse('SUCCESS', 'Bid revoked, fetching chain data', 'SUCCESS');
           } else {
             return toastResponse('ERROR', 'Revoke bid failed', 'ERROR');
           }
         } else if (type == 'place_bid') {
-            console.log('inside place bid', userBid)
             // if no user bid terminate action
             if (!userBid) return;
-            console.log('place bid being called', userBid);
 
             let transactionOutcome: any = await liquidatorClient.placeBid({
               bid_limit: userBid,
@@ -164,7 +156,6 @@ const LiquidationPool = () => {
               bid_mint: NATIVE_MINT
             });
 
-            console.log('@@__Transaction_Outcome place bid:', transactionOutcome[0]);
             // refreshDB();
             if (transactionOutcome[0] == 'SUCCESS') {
               return toastResponse('SUCCESS', 'Bid placed, fetching chain data', 'SUCCESS');
@@ -175,7 +166,6 @@ const LiquidationPool = () => {
         } else if (type == 'increase_bid') {
             // if no user bid terminate action
             if (!userBid) return;
-            console.log('increase bid being called');
 
             let transactionOutcome: any = await liquidatorClient.increaseBid({
               bid_increase: userBid,
@@ -184,8 +174,6 @@ const LiquidationPool = () => {
               bid_mint: NATIVE_MINT,
             });
 
-            console.log('@@__Transaction_Outcome increase bid:', transactionOutcome[0]);
-            // refreshDB();
             if (transactionOutcome[0] == 'SUCCESS') {
               return toastResponse('SUCCESS', 'Bid increased, fetching chain data', 'SUCCESS');
             } else {
@@ -206,18 +194,15 @@ const LiquidationPool = () => {
    * @returns inits fetchLiq. func
   */
   async function handleExecuteBid(type: string, userBid?: number) {
-    console.log('running executeBid, this is curr user bid', userBid);
     if (!userBid && type != 'revoke_bid') return console.log('no user input');
     handleRefetch();
     await fetchLiquidatorClient(type, userBid!);
-    console.log('@@@@@-------');
     setRefetchState(true);
   }
 
   useEffect(() => {}, [currentUserBid]);
 
   async function handleRefetch() {
-    console.log('handle refetch running');
     if (status) {
       try {
         await status.fetchPositions();
@@ -242,7 +227,6 @@ const LiquidationPool = () => {
     }, 60000)
 
     return function cleanup() {
-      console.log('cleanup running --')
       mounted = false;
     }
   }, [refetchState]);
