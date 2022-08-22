@@ -150,32 +150,32 @@ const Liquidation: NextPage = () => {
     if (fetchedPositions) calculateMarketValues(fetchedPositions);
   }, [fetchedPositions]);
 
-  function handleRefetch() {
-    console.log('handle refetch running');
-    if (status) {
-      status.fetchPositions().then(() => {
-        setLoadingState(false);
-        console.log('updated statusObject', status);
-      }).catch((err) => {
-        console.log('the err:', err);
-        setLoadingState(false);
-      })
-    }
-  }
+  // async function handleRefetch() {
+  //   console.log('handle refetch running', status);
+  //   if (status) {
+  //     try {
+  //       await status.fetchPositions();
+  //       setLoadingState(false);
+  //     } catch (error) {
+  //       console.log('the err:', error);
+  //       setLoadingState(false);
+  //     }
+  //   }
+  // }
 
-  useEffect(() => {
-    let mounted = true;
-    setLoadingState(true);
-    setTimeout(() => {
-      if (mounted) {
-        handleRefetch();
-      }
-    }, 30000)
+  // useEffect(() => {
+  //   let mounted = true;
+  //   setLoadingState(true);
+  //   setTimeout(() => {
+  //     if (mounted) {
+  //       handleRefetch();
+  //     }
+  //   }, 30000)
 
-    return function cleanup() {
-      mounted = false;
-    }
-  }, []);
+  //   return function cleanup() {
+  //     mounted = false;
+  //   }
+  // }, []);
 
 
   return (

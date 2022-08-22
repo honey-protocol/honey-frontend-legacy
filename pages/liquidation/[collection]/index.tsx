@@ -56,6 +56,7 @@ const LiquidationPool = () => {
   const [currentUserBid, setCurrentUserBid] = useState(0);
   const [userInput, setUserInput] = useState(0);
   const [loadingState, setLoadingState] = useState(false);
+  const [refetchState, setRefetchState] = useState(false);
 
   const headerData = ['Position', 'Debt', 'Address', 'Health Factor'];
   // create stringyfied instance of walletPK
@@ -209,36 +210,42 @@ const LiquidationPool = () => {
     if (!userBid && type != 'revoke_bid') return console.log('no user input');
     handleRefetch();
     await fetchLiquidatorClient(type, userBid!);
+    console.log('@@@@@-------');
+    setRefetchState(true);
   }
 
   useEffect(() => {}, [currentUserBid]);
 
-  function handleRefetch() {
+  async function handleRefetch() {
     console.log('handle refetch running');
     if (status) {
-      status.fetchPositions().then(() => {
-        console.log('updated statusObject', status);
+      try {
+        await status.fetchPositions();
+        console.log('updated status obj:', status);
         setLoadingState(false);
-      }).catch((err) => {
-        console.log('the err:', err);
+        setRefetchState(false);
+      } catch (error) {
+        console.log('the err:', error);
         setLoadingState(false);
-      })
+      }
     }
   }
 
   useEffect(() => {
     let mounted = true;
-    setLoadingState(true);
+    if (refetchState == true) setLoadingState(true);
+
     setTimeout(() => {
       if (mounted && wallet != null) {
         handleRefetch();
       }
-    }, 30000)
+    }, 60000)
 
     return function cleanup() {
+      console.log('cleanup running --')
       mounted = false;
     }
-  }, []);
+  }, [refetchState]);
 
   function handleUserInput(val: any) {
     if (val.target.value.includes(',')) {
