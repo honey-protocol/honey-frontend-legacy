@@ -55,7 +55,7 @@ const LiquidationCard = (props: LiquidationCardProps) => {
                       Medium
                     </Box>
                   )
-              } else {
+              } else if (loan.is_healthy == '2') {
                   return (
                     <Box className={styles.healthFactorLow}>
                       Low

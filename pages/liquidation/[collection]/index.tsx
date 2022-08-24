@@ -67,7 +67,7 @@ const LiquidationPool = () => {
    * @params array of bids
    * @returns state change
   */
-  function handleBiddingState(biddingArray: any, positions: any) {
+  async function handleBiddingState(biddingArray: any, positions: any) {
     biddingArray.map((obligation: any) => {
       if (obligation.bidder == stringyfiedWalletPK) {
         setHasPosition(true);
@@ -75,7 +75,7 @@ const LiquidationPool = () => {
       }
     });
 
-    let sorted = positions.sort((first: any,second: any) => first.is_healthy - second.is_healthy).reverse();
+    let sorted = await positions.sort((first: any,second: any) => first.is_healthy - second.is_healthy).reverse();
     let highestBid = biddingArray.sort((first: any, second: any) => first.bidLimit - second.bidLimit).reverse();
 
     if (highestBid[0]) {
@@ -120,6 +120,9 @@ const LiquidationPool = () => {
 
     return;
   }, [statusState]);
+
+  useEffect(() => {
+  }, [fetchedPositions]);
 
   /**
    * @description calls upon liquidator client for placebid | revokebid | increasebid
@@ -219,7 +222,6 @@ const LiquidationPool = () => {
   }
 
   useEffect(() => {
-    console.log('running line 221')
     let mounted = true;
     if (refetchState == true) setLoadingState(true);
 
