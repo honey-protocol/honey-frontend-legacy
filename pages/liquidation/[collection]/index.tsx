@@ -121,8 +121,8 @@ const LiquidationPool = () => {
     return;
   }, [statusState]);
 
-  useEffect(() => {
-  }, [fetchedPositions]);
+  // useEffect(() => {
+  // }, [fetchedPositions]);
 
   /**
    * @description calls upon liquidator client for placebid | revokebid | increasebid
