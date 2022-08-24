@@ -422,13 +422,13 @@ const Loan: NextPage = () => {
           refreshPositions={refreshPositions}
           // set key equal to name since open positions doesnt contain id but name is with unique number
         />
-        {borrowModal == 1 && collateralNFTPositions?.length ? (
-              <BorrowNFTsModule
-                NFT={
-              (collateralNFTPositions &&
-                collateralNFTPositions.find(NFT => NFT.name == selectedId)) ||
-              defaultNFT[0]
-                }
+        {
+          borrowModal == 1 && collateralNFTPositions?.length ? (
+            <BorrowNFTsModule
+              NFT={(
+                  collateralNFTPositions &&
+                  collateralNFTPositions.find(NFT => NFT.name == selectedId)
+                ) || defaultNFT[0]}
                 mint={withDrawDepositNFT}
                 loanPositions={loanPositions}
                 executeWithdrawNFT={executeWithdrawNFT}
@@ -445,13 +445,12 @@ const Loan: NextPage = () => {
                 liqidationThreshold={liqidationThreshold}
                 nftPrice={nftPrice}
               />
-        ) : (
+              ) : (
               <LoanNewBorrow
-                NFT={
-              (availableNFTs &&
-                availableNFTs[0].find((NFT: any) => NFT.name == selectedId)) ||
-              newPositionPlaceholder[0]
-                }
+                NFT={(
+                  availableNFTs &&
+                  availableNFTs[0].find((NFT: any) => NFT.name == selectedId)
+                ) || newPositionPlaceholder[0]}
                 mint={withDrawDepositNFT}
                 executeDepositNFT={executeDepositNFT}
                 loanPositions={loanPositions}
@@ -463,7 +462,8 @@ const Loan: NextPage = () => {
                 liqidationThreshold={liqidationThreshold}
                 nftPrice={nftPrice}
               />
-        )}
+          )
+        }
       </Box>
     </Layout>
   );

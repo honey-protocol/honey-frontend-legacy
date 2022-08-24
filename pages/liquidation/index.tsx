@@ -51,8 +51,6 @@ const Liquidation: NextPage = () => {
   const [totalMarketNFTs, setTotalMarketNFTs] = useState(0);
   const [averageMarketLVT, setaverageMarketLVT] = useState(0);
   const [initBidding, setInitBidding] = useState(false);
-  const [loadingState, setLoadingState] = useState(false);
-  const [activeState, setActiveState] = useState(false);
   
   /**
    * @description object which represents the market
@@ -150,47 +148,9 @@ const Liquidation: NextPage = () => {
     if (fetchedPositions) calculateMarketValues(fetchedPositions);
   }, [fetchedPositions]);
 
-  // async function handleRefetch() {
-  //   console.log('handle refetch running', status);
-  //   if (status) {
-  //     try {
-  //       await status.fetchPositions();
-  //       setLoadingState(false);
-  //     } catch (error) {
-  //       console.log('the err:', error);
-  //       setLoadingState(false);
-  //     }
-  //   }
-  // }
-
-  // useEffect(() => {
-  //   let mounted = true;
-  //   setLoadingState(true);
-  //   setTimeout(() => {
-  //     if (mounted) {
-  //       handleRefetch();
-  //     }
-  //   }, 30000)
-
-  //   return function cleanup() {
-  //     mounted = false;
-  //   }
-  // }, []);
-
-
   return (
     <Layout>
       <Stack>
-        <Box>
-          {
-            loadingState && 
-
-            <Box className={styles.headWrapperSub}>
-              <Text color="textPrimary">Chain Data Being Fetched</Text>
-              <Spinner />
-            </Box>
-          }
-        </Box>
         <Box marginY="5" className={styles.liquidationWrapper}>
           <Text size="extraLarge" weight="semiBold">
             Market overview
@@ -203,11 +163,7 @@ const Liquidation: NextPage = () => {
           >
           <LiquidationHeader headerData={headerData} />
           <Box
-            className={
-            openPositions 
-                ? styles.highLightPosition
-                : styles.highLightNoPosition
-            }
+            className={styles.highLightNoPosition}
           >
             {dataSet.map((loan, i) => (
                 <Link 

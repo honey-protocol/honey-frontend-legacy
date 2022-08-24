@@ -23,15 +23,15 @@ const LoanHeaderComponent = (props: LoanHeaderComponentProps) => {
         </Text>
       </Box>
       <Box>
-        <Text>Borrow Balance</Text>
+        <Text>Total debt</Text>
         <Text weight="medium" color="textSecondary">
-          0$
+          0 SOL
         </Text>
       </Box>
       <Box>
-        <Text>Supply Balance</Text>
+        <Text>Allowance</Text>
         <Text weight="medium" color="textSecondary">
-          0$
+          0 SOL
         </Text>
       </Box>
       <Box>

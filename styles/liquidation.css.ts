@@ -22,11 +22,20 @@ export const subWrapper = style({
   padding: '.75em 0',
   borderRadius: '1em',
   verticalAlign: 'center',
+  position: 'relative'
 });
 
 globalStyle(`${subWrapper} > div > div`, {
   alignSelf: 'center'
 });
+
+globalStyle(`${subWrapper} svg`, {
+  position: 'absolute',
+  right: '-.25em',
+  top: '-.25em'
+});
+
+
 
 export const subContainer = style({
   display: 'flex',

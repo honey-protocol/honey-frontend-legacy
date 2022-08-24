@@ -82,7 +82,7 @@ const LiquidationPool = () => {
       setHighestBiddingAddress(highestBid[0].bidder);
       setHighestBiddingValue(highestBid[0].bidLimit / LAMPORTS_PER_SOL);
     }
-    
+
     setFetchedPositions(sorted);
   }
 
@@ -94,14 +94,17 @@ const LiquidationPool = () => {
    * @returns state positions && bids
   */
   useEffect(() => {
+    console.log('running line 97')
     if (status.positions) {
       setStatusState(true);
+      if (status.bids) handleBiddingState(status.bids, status.positions);
     }
 
     return;
-  }, [status]);
+  }, [status.positions]);
 
   useEffect(() => {
+    console.log('running line 106')
     if (statusState == true) {      
       status.positions?.map((position) => {
         if (position.is_healthy == 'MEDIUM') {
@@ -200,7 +203,9 @@ const LiquidationPool = () => {
     setRefetchState(true);
   }
 
-  useEffect(() => {}, [currentUserBid]);
+  useEffect(() => {
+    console.log('running line 205')
+  }, [currentUserBid]);
 
   async function handleRefetch() {
     if (status) {
@@ -217,6 +222,7 @@ const LiquidationPool = () => {
   }
 
   useEffect(() => {
+    console.log('running line 221')
     let mounted = true;
     if (refetchState == true) setLoadingState(true);
 
@@ -291,13 +297,13 @@ const LiquidationPool = () => {
                 size={{ xs: 'full', sm: '32' }}
                 label="Honey eyes"
                 shape="square"
-                src="https://hwhm5h2hx7widk46v6fn6763c2palrfr2f6zzjfxsefgb4kp5jta.arweave.net/PY7On0e_7IGrnq-K33_bFp4FxLHRfZykt5EKYPFP6mY"
+                src="https://mint-site-ten.vercel.app/when-loans.gif"
               />
               </Box>
               <Stack space="5">
                 <Stack direction="horizontal" align="center">
                   <Text size="extraLarge" weight="bold" color="textPrimary">
-                    Honey Genesis Bees
+                    Honey Eyes
                   </Text>
                   <VerifiedIcon />
                 </Stack>
@@ -339,14 +345,18 @@ const LiquidationPool = () => {
 
             <Stack>
               {hasPosition ? (
-                <Stack align="flex-end">
+                <Stack align="center">
                   <Stack direction="horizontal" space="2">
+                  {
+                      currentUserBid &&
+                      <Text>Your current bid: {currentUserBid} <SolanaIcon /></Text>
+                    }
                     <Text>
                       Min bid: {(highestBiddingValue * 1.1).toFixed(2)}
                     </Text>
                     <SolanaIcon />
                   </Stack>
-                  <Stack direction="horizontal" align="center" space="5">
+                  <Stack direction="horizontal" align="center" space="2">
                     <Input 
                       onChange={(val) => handleUserInput(val)} 
                       width="40" 
