@@ -180,9 +180,11 @@ const sdkConfig = ConfigureSDK();
   */
   async function executeWithdraw(value?: number) {
     try {
+      console.log('this is the value', value)
       if (!value) return toastResponse('ERROR', 'Withdraw failed', 'ERROR');
 
       const tokenAmount =  value * LAMPORTS_PER_SOL;
+      console.log('this is tokenAmount', tokenAmount);
       const depositTokenMint = new PublicKey('So11111111111111111111111111111111111111112');
       const tx = await withdraw(honeyUser, tokenAmount, depositTokenMint, honeyReserves);
       

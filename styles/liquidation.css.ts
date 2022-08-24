@@ -513,3 +513,15 @@ export const collectionLiqWrapper = style({
   display: 'flex',
   justifyContent: 'space-between'
 })
+
+export const currentBidWrapper = style({
+
+});
+
+globalStyle(`${currentBidWrapper} > div`, {
+  display: 'flex',
+  flexDirection: 'row',
+  justifyContent: 'center',
+  alignItems: 'center',
+  verticalAlign: 'center',
+});

@@ -94,7 +94,6 @@ const LiquidationPool = () => {
    * @returns state positions && bids
   */
   useEffect(() => {
-    console.log('running line 97')
     if (status.positions) {
       setStatusState(true);
       if (status.bids) handleBiddingState(status.bids, status.positions);
@@ -104,7 +103,6 @@ const LiquidationPool = () => {
   }, [status.positions]);
 
   useEffect(() => {
-    console.log('running line 106')
     if (statusState == true) {      
       status.positions?.map((position) => {
         if (position.is_healthy == 'MEDIUM') {
@@ -204,7 +202,6 @@ const LiquidationPool = () => {
   }
 
   useEffect(() => {
-    console.log('running line 205')
   }, [currentUserBid]);
 
   async function handleRefetch() {
@@ -347,10 +344,12 @@ const LiquidationPool = () => {
               {hasPosition ? (
                 <Stack align="center">
                   <Stack direction="horizontal" space="2">
-                  {
-                      currentUserBid &&
-                      <Text>Your current bid: {currentUserBid} <SolanaIcon /></Text>
-                    }
+                    <Box className={styles.currentBidWrapper}>
+                      {
+                        currentUserBid &&
+                        <Text>Your current bid: {currentUserBid} <SolanaIcon /></Text>
+                      }
+                    </Box>
                     <Text>
                       Min bid: {(highestBiddingValue * 1.1).toFixed(2)}
                     </Text>
