@@ -22,37 +22,11 @@ import {
   useMarket,
   useHoney,
   borrow,
-  repay,
-  Reserve,
-  ObligationAccount,
-  numberField,
-  u64Field,
-  i64Field,
-  ReserveStateLayout,
-  HoneyReserve
+  repay
 } from '@honey-finance/sdk';
 
 import { RoundHalfDown } from 'helpers/utils';
-import { toast } from 'react-toastify';
-import { Connection } from '@metaplex/js';
-/**
- * @description
- *  static nft object based off current posted as collateral and available nfts
- *  logic based on key to render out selected nft inside borrow module
- * @params none
- * @returns 3 nfts
-*/
-const marketNFTs = [
-  {
-    name: 'No open positions available',
-    image:'https://assets.coingecko.com/coins/images/24781/small/honey.png?1648902423',
-    borrowApy: '0%',
-    estValue: '0 SOL',
-    assetsBorrowed: 0,
-    netBorrowBalance: 0,
-    key: 1
-  }
-];
+import { calculateCollectionwideAllowance } from 'helpers/loanHelpers/userCollection'
 
 const newPositionPlaceholder = [
   {
@@ -163,6 +137,15 @@ const Loan: NextPage = () => {
     calculateNFTPrice();
   }, [marketReserveInfo, parsedReserves]);
 
+  async function fetchHelperValues(nftPrice: any, collateralNFTPositions: any, honeyUser: any, marketReserveInfo: any) {
+    let outcome = await calculateCollectionwideAllowance(nftPrice, collateralNFTPositions, honeyUser, marketReserveInfo)
+    console.log('this is the outcome object', outcome);
+    
+    outcome.sumOfAllowance < 0 ? setUserAllowance(0) : setUserAllowance(outcome.sumOfAllowance);
+    setUserDebt(outcome.sumOfTotalDebt);
+    setLoanToValue(outcome.sumOfLtv);
+  }
+
   /**
    * @description updates honeyUser | marketReserveInfo | - timeout required
    * @params none
@@ -175,32 +158,10 @@ const Loan: NextPage = () => {
     if (marketReserveInfo && parsedReserves) {
         setDepositNoteExchangeRate(BnToDecimal(marketReserveInfo[0].depositNoteExchangeRate, 15, 5))
         setCRatio(BnToDecimal(marketReserveInfo[0].minCollateralRatio, 15, 5))
-      }
-
-      let userLoans = 0, totalDebt = 0;
-      console.log('this is the nft price', nftPrice);
-      
-      let nftCollateralValue = nftPrice * (collateralNFTPositions?.length || 0);
-
-    if (honeyUser?.loans().length > 0) {
-      if (honeyUser?.loans().length > 0 && marketReserveInfo) {
-        // userLoans = BnDivided(marketReserveInfo[0].loanNoteExchangeRate.mul(honeyUser?.loans()[0]?.amount), 10, 15) * 1.002 / LAMPORTS_PER_SOL;
-        userLoans = marketReserveInfo[0].loanNoteExchangeRate.mul(honeyUser?.loans()[0]?.amount).div(new BN(10 ** 15)).toNumber() * 1.002 / LAMPORTS_PER_SOL;
-        // totalDebt = BnDivided(marketReserveInfo[0].loanNoteExchangeRate.mul(honeyUser?.loans()[0]?.amount), 10, 15) / LAMPORTS_PER_SOL;
-        totalDebt = marketReserveInfo[0].loanNoteExchangeRate.mul(honeyUser?.loans()[0]?.amount).div(new BN(10 ** 15)).toNumber() / LAMPORTS_PER_SOL;
-      }
     }
 
-    const ltv = totalDebt / nftPrice;
-    console.log('@@@@---this is lvt', ltv);
+    if (nftPrice && collateralNFTPositions && honeyUser && marketReserveInfo) fetchHelperValues(nftPrice, collateralNFTPositions, honeyUser, marketReserveInfo);
 
-    let sumOfAllowance = RoundHalfDown(nftCollateralValue * LTV - userLoans, 4);
-
-    sumOfAllowance < 0 ? setUserAllowance(0) : setUserAllowance(RoundHalfDown(sumOfAllowance));
-    setUserDebt(RoundHalfDown(totalDebt));
-    setLoanToValue(RoundHalfDown(ltv));
-
-    // let liquidationThresh = 1 / cRatio * 100;
     setLiquidationThreshold(1 / cRatio * 100);
   }, [marketReserveInfo, honeyUser, collateralNFTPositions, market, error, parsedReserves, honeyReserves, cRatio, reserveHoneyState, calculatedNFTPrice]);
 
