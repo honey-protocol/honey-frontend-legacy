@@ -14,14 +14,14 @@ const LoanHeaderComponent = (props: LoanHeaderComponentProps) => {
 
   return (
     <Box className={styles.headerWrapper}>
-      <Box>
+      {/* <Box>
         <Text>
           Health Factor <span>Healthy</span>
         </Text>
         <Text weight="medium" color="textSecondary">
           100%
         </Text>
-      </Box>
+      </Box> */}
       <Box>
         <Text>Total debt</Text>
         <Text weight="medium" color="textSecondary">

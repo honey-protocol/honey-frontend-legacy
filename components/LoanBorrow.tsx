@@ -115,7 +115,7 @@ const LoanBorrow = (props: LoanBorrowProps) => {
               {NFT ? NFT.name : nftPlaceholder.name}
             </Text>
             <Text>
-              Estimated value: <span>{nftPrice.toFixed(4)}</span>
+              Estimated value: <span>{nftPrice.toFixed(2)}</span>
             </Text>
           </Stack>
         </Box>
@@ -221,7 +221,7 @@ const LoanBorrow = (props: LoanBorrowProps) => {
                       align="right"
                       color="foreground"
                   >
-                      {userAllowance}
+                      {userAllowance.toFixed(2)}
                   </Text>
               </Stack>
           </Box>
