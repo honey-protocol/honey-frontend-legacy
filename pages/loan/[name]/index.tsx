@@ -14,7 +14,7 @@ import { LAMPORTS_PER_SOL, PublicKey } from '@solana/web3.js';
 import {TYPE_ZERO, TYPE_ONE, LTV} from '../../../constants/loan';
 import BN from 'bn.js';
 import { BnDivided } from '../../../helpers/loanHelpers/index';
-import {toastResponse, BnToDecimal, asyncTimeout, getOraclePrice, ConfigureSDK} from '../../../helpers/loanHelpers/index';
+import {toastResponse, BnToDecimal, asyncTimeout, getOraclePrice, ConfigureSDK } from '../../../helpers/loanHelpers/index';
 import {
   depositNFT,
   withdrawNFT,
@@ -26,7 +26,7 @@ import {
 } from '@honey-finance/sdk';
 
 import { RoundHalfDown } from 'helpers/utils';
-import { calculateCollectionwideAllowance } from 'helpers/loanHelpers/userCollection'
+import { calculateCollectionwideAllowance, calcNFT } from 'helpers/loanHelpers/userCollection'
 
 const newPositionPlaceholder = [
   {
@@ -124,11 +124,9 @@ const Loan: NextPage = () => {
   const [calculatedNFTPrice, setCalculatedNFTPrice] = useState(false);
 
   async function calculateNFTPrice() {
-    if (marketReserveInfo && parsedReserves && honeyMarket) {
-      let solPrice = await getOraclePrice('devnet', sdkConfig.saberHqConnection, parsedReserves[0].switchboardPriceAggregator);//in usd
-      let nftPrice = await getOraclePrice('devnet', sdkConfig.saberHqConnection, honeyMarket.nftSwitchboardPriceAggregator);//in usd
-      
-      setNFTPrice(nftPrice / solPrice);//nft's price in SOL
+    if (marketReserveInfo && parsedReserves && honeyMarket) {      
+      let nftPrice = await calcNFT(marketReserveInfo, parsedReserves, honeyMarket, sdkConfig.saberHqConnection);
+      setNFTPrice(Number(nftPrice))
       setCalculatedNFTPrice(true);
     }
   }
@@ -139,7 +137,6 @@ const Loan: NextPage = () => {
 
   async function fetchHelperValues(nftPrice: any, collateralNFTPositions: any, honeyUser: any, marketReserveInfo: any) {
     let outcome = await calculateCollectionwideAllowance(nftPrice, collateralNFTPositions, honeyUser, marketReserveInfo)
-    console.log('this is the outcome object', outcome);
     
     outcome.sumOfAllowance < 0 ? setUserAllowance(0) : setUserAllowance(outcome.sumOfAllowance);
     setUserDebt(outcome.sumOfTotalDebt);

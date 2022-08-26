@@ -2,6 +2,7 @@ import { RoundHalfDown } from 'helpers/utils';
 import {LTV} from '../../constants/loan';
 import BN from 'bn.js';
 import { LAMPORTS_PER_SOL } from '@solana/web3.js';
+import { getOraclePrice, ConfigureSDK } from '../../helpers/loanHelpers/index';
 
 /**
  * @description
@@ -12,7 +13,8 @@ export async function calculateCollectionwideAllowance(
     nftPrice: any, 
     collateralNFTPositions: any,
     honeyUser: any,
-    marketReserveInfo: any) {
+    marketReserveInfo: any
+  ) {
     
       let totalDebt = 0;
       let userLoans = 0;
@@ -37,6 +39,21 @@ export async function calculateCollectionwideAllowance(
         sumOfTotalDebt
       }
 }
+
+export async function calcNFT(
+  marketReserveInfo: any, 
+  parsedReserves: any, 
+  honeyMarket: any,
+  connection: any
+  ) {
+  if (marketReserveInfo && parsedReserves && honeyMarket) {
+    let solPrice = await getOraclePrice('devnet', connection, parsedReserves[0].switchboardPriceAggregator);//in usd
+    let nftPrice = await getOraclePrice('devnet', connection, honeyMarket.nftSwitchboardPriceAggregator);//in usd
+    
+    return nftPrice / solPrice;
+  }
+}
+
 /**
  * @description
  * @params
