@@ -199,9 +199,21 @@ const LiquidationPool = () => {
   */
   async function handleExecuteBid(type: string, userBid?: number) {
     if (!userBid && type != 'revoke_bid') return console.log('no user input');
-    handleRefetch();
-    await fetchLiquidatorClient(type, userBid!);
-    setRefetchState(true);
+
+    if (type == 'increase_bid' || type == 'place_bid') {
+      if (userBid && userBid < (highestBiddingValue * 1.1)) {
+        toastResponse('ERROR', `Min bid is ${((highestBiddingValue * 1.1) + .01).toFixed(2)}`, 'ERROR');
+      } else {
+        handleRefetch();
+        await fetchLiquidatorClient(type, userBid!);
+        setRefetchState(true);
+        console.log('im running');
+      }
+    }
+    // console.log('still running?')
+    // handleRefetch();
+    // await fetchLiquidatorClient(type, userBid!);
+    // setRefetchState(true);
   }
 
   useEffect(() => {
@@ -353,7 +365,7 @@ const LiquidationPool = () => {
                       }
                     </Box>
                     <Text>
-                      Min bid: {(highestBiddingValue * 1.1).toFixed(2)}
+                      Min bid: {((highestBiddingValue * 1.1) + .01).toFixed(2)}
                     </Text>
                     <SolanaIcon />
                   </Stack>
@@ -376,7 +388,7 @@ const LiquidationPool = () => {
                 <Stack>
                   <Stack direction="horizontal" space="2">
                     <Text>
-                      Min bid: {(highestBiddingValue * 1.1).toFixed(2)}
+                      Min bid: {((highestBiddingValue * 1.1) + .01).toFixed(2)}
                     </Text>
                     <SolanaIcon />
                   </Stack>
