@@ -2,7 +2,7 @@ import { ProposalState, VoteSide } from 'helpers/dao';
 import { noop } from 'lodash';
 import { useRouter } from 'next/router';
 
-import { useProposal } from 'hooks/tribeca/useProposals';
+import { useProposal, ZERO } from 'hooks/tribeca/useProposals';
 // import { ContentLoader } from '../../../../../common/ContentLoader';
 import { GovernancePage } from 'components/common/governance/GovernancePage';
 // import { Profile } from 'components/common/governance/Profile';
@@ -79,9 +79,10 @@ export const ProposalIndexView: React.FC = () => {
         <ProposalDetails proposalInfo={proposalInfo} />
 
         {proposalInfo?.status.state === ProposalState.Draft &&
-          !proposalInfo.status.executed && (
-            <ProposalActivate proposal={proposalInfo} onActivate={noop} />
-          )}
+          !proposalInfo?.status.state ===
+            !(
+              ProposalState.Queued && proposalInfo.status.executionTime.gt(ZERO)
+            ) && <ProposalActivate proposal={proposalInfo} onActivate={noop} />}
         {proposalInfo?.status.state === ProposalState.Active && (
           <ProposalVote proposalInfo={proposalInfo} onVote={noop} />
         )}
