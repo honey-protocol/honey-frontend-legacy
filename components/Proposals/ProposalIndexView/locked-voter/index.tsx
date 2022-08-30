@@ -87,9 +87,10 @@ export const ProposalIndexView: React.FC = () => {
         {proposalInfo?.status.state === ProposalState.Succeeded && (
           <ProposalQueue proposal={proposalInfo} onActivate={noop} />
         )}
-        {proposalInfo?.status.state === ProposalState.Queued && (
-          <ProposalExecute proposal={proposalInfo} onActivate={noop} />
-        )}
+        {proposalInfo?.status.state === ProposalState.Queued &&
+          !proposalInfo.status.executed && (
+            <ProposalExecute proposal={proposalInfo} onActivate={noop} />
+          )}
         <ProposalHistory proposalInfo={proposalInfo} />
       </Box>
     </GovernancePage>
