@@ -78,11 +78,9 @@ export const ProposalIndexView: React.FC = () => {
 
         <ProposalDetails proposalInfo={proposalInfo} />
 
-        {proposalInfo?.status.state === ProposalState.Draft &&
-          !proposalInfo?.status.state ===
-            !(
-              ProposalState.Queued && proposalInfo.status.executionTime.gt(ZERO)
-            ) && <ProposalActivate proposal={proposalInfo} onActivate={noop} />}
+        {proposalInfo?.status.state === ProposalState.Draft && (
+          <ProposalActivate proposal={proposalInfo} onActivate={noop} />
+        )}
         {proposalInfo?.status.state === ProposalState.Active && (
           <ProposalVote proposalInfo={proposalInfo} onVote={noop} />
         )}
