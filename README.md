@@ -16,9 +16,6 @@ Hello and welcome 👋🏼, we are happy to see that you arrived at Honey Labs -
 ##  <span style="color: rgb(235, 85, 69); font-weight: 900">Getting Started</span>
 The Honey Finance Ecosystem consists of several components this repo represents the Front-end.
 
-<b>***Note @Heron 
-- what is the min. required node version in order to run the project?******</b>
-
 In order to run this project you need to create a 
 ```bash
 .env #you can use the .env.example file as silver lining
