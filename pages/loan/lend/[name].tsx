@@ -29,33 +29,33 @@ import BN from 'bn.js'
 const chartData = [
   {
     name: 'Fri',
-    APR: 3000
+    APR: 1
   },
   {
     name: 'Sat',
-    APR: 3000
+    APR: 2
   },
   {
     name: 'Sun',
-    APR: 4000
+    APR: 3
   },
 
   {
     name: 'Mon',
-    APR: 4000
+    APR: 4
   },
   {
     name: 'Tue',
-    APR: 4000
+    APR: 50
   },
   {
     name: 'Wed',
-    APR: 5500
+    APR: 6
   },
 
   {
     name: 'Thu',
-    APR: 5500
+    APR: 7
   }
 ];
 

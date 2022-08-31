@@ -1,20 +1,23 @@
-import LoanNFTCard from '../LoanNftCard';
 import { Box, Button, Text } from 'degen';
-import Link from 'next/link';
 import React, {useState, useEffect} from 'react';
 import * as styles from './LoanHeaderComponent.css';
 import {
-  depositNFT,
-  withdrawNFT,
   useBorrowPositions,
   useMarket,
   useHoney,
-  borrow,
-  repay
 } from '@honey-finance/sdk';
-import { ConfigureSDK } from 'helpers/loanHelpers';
+import { ConfigureSDK, BnToDecimal } from 'helpers/loanHelpers';
 import { calcNFT, calculateCollectionwideAllowance } from 'helpers/loanHelpers/userCollection';
+import { LAMPORTS_PER_SOL, PublicKey } from '@solana/web3.js';
 
+interface CollateralNFT {
+  image: string,
+  mint: PublicKey,
+  name: string,
+  symbol: string,
+  updateAuthority: PublicKey,
+  uri: string
+}
 interface LoanHeaderComponentProps {
   handleCreateMarket: () => void;
   openPositions: number;
@@ -45,43 +48,81 @@ const LoanHeaderComponent = (props: LoanHeaderComponentProps) => {
   */
   let { loading, collateralNFTPositions, loanPositions, fungibleCollateralPosition, refreshPositions, error } = useBorrowPositions(sdkConfig.saberHqConnection, sdkConfig.sdkWallet!, sdkConfig.honeyId, sdkConfig.marketId);
   
+  const [calculatedNFTPrice, setCalculatedNFTPrice] = useState(false);
+  const [defaultNFT, setDefaultNFT] = useState<Array<CollateralNFT>>([]);
+  const [liqidationThreshold, setLiquidationThreshold] = useState(0);
+  const [depositNoteExchangeRate, setDepositNoteExchangeRate] = useState(0);
+  const [cRatio, setCRatio] = useState(0);
   const [userDebt, setUserDebt] = useState(0);
   const [userAllowance, setUserAllowance] = useState(0);
   const [nftPrice, setNftPrice] = useState(0);
   const [colNftPositions, setColNftPositions] = useState<{}>();
 
-  async function fetchNftPrice() {
+  async function calculateNFTPrice() {
+    if (marketReserveInfo && parsedReserves && honeyMarket) {      
+      let nftPrice = await calcNFT(marketReserveInfo, parsedReserves, honeyMarket, sdkConfig.saberHqConnection);
+      setNftPrice(Number(nftPrice))
+      setCalculatedNFTPrice(true);
+    }
+  }
+
+  useEffect(() => {
+    calculateNFTPrice();
+  }, [marketReserveInfo, parsedReserves]);
+
+  async function fetchNftPrice(nftPrice: any, collateralNFTPositions: any, honeyUser:any, marketReserveInfo: any) {
     if (marketReserveInfo && parsedReserves && honeyMarket && sdkConfig.saberHqConnection && honeyUser) {
-      console.log('running')
       let outcome = await calcNFT(marketReserveInfo, parsedReserves, honeyMarket, sdkConfig.saberHqConnection);
       setNftPrice(Number(outcome));
-      console.log('this is the nft price', outcome);
-      console.log('this is the nft honeyUser', honeyUser);
-      console.log('this is the nft marketReserveInfo', marketReserveInfo);
-  
-      console.log('we are inside')
       let collectionWideObject = await calculateCollectionwideAllowance(nftPrice, colNftPositions, honeyUser, marketReserveInfo);
-      console.log('the outcome of sum etc.', collectionWideObject)
-      collectionWideObject.sumOfAllowance < 0 ? setUserAllowance(0) : setUserAllowance(collectionWideObject.sumOfAllowance);
+
+      setUserAllowance(collectionWideObject.sumOfAllowance);
       setUserDebt(collectionWideObject.sumOfTotalDebt);
     }
   }
 
   useEffect(() => {
-    fetchNftPrice();
+    console.log('running!!!!')
+    if (nftPrice && collateralNFTPositions && honeyUser && marketReserveInfo) {
+      fetchNftPrice(nftPrice, collateralNFTPositions, honeyUser, marketReserveInfo);
+    }
   }, [marketReserveInfo, parsedReserves, honeyMarket, sdkConfig.saberHqConnection, honeyUser]);
 
-  // useEffect(() => {
-      // fetchNftPrice();
-  // }, []);
+  useEffect(() => {
+    if (nftPrice && collateralNFTPositions && honeyUser && marketReserveInfo) {
+      fetchNftPrice(nftPrice, collateralNFTPositions, honeyUser, marketReserveInfo);
+    }
+  }, []);
 
   useEffect(() => {
     setColNftPositions(collateralNFTPositions);
+    if (nftPrice && collateralNFTPositions && honeyUser && marketReserveInfo) {
+      fetchNftPrice(nftPrice, collateralNFTPositions, honeyUser, marketReserveInfo);
+    }
   }, [collateralNFTPositions]);
 
   useEffect(() => {
 
   }, [userDebt, userAllowance]);
+
+    /**
+   * @description updates honeyUser | marketReserveInfo | - timeout required
+   * @params none
+   * @returns honeyUser | marketReserveInfo |
+  */
+     useEffect(() => {
+
+      if (collateralNFTPositions) setDefaultNFT(collateralNFTPositions);
+  
+      if (marketReserveInfo && parsedReserves) {
+          setDepositNoteExchangeRate(BnToDecimal(marketReserveInfo[0].depositNoteExchangeRate, 15, 5))
+          setCRatio(BnToDecimal(marketReserveInfo[0].minCollateralRatio, 15, 5))
+      }
+  
+      if (nftPrice && collateralNFTPositions && honeyUser && marketReserveInfo) fetchNftPrice(nftPrice, colNftPositions, honeyUser, marketReserveInfo);
+  
+      setLiquidationThreshold(1 / cRatio * 100);
+    }, [marketReserveInfo, honeyUser, collateralNFTPositions, market, error, parsedReserves, honeyReserves, cRatio, calculatedNFTPrice]);
   
   return (
     <Box className={styles.headerWrapper}>
