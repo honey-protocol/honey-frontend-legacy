@@ -62,7 +62,6 @@ const Slider = (props: SliderProps) => {
 
         let finalizedSum = RoundHalfDown(sum); 
         setUserInput(finalizedSum);
-        console.log('@@@@', userInput)
         handleUserChange(finalizedSum, rangeSlider);
         setRangeSlider(RoundHalfDown(val.target.value));
   

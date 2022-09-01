@@ -103,12 +103,12 @@ const LiquidationPool = () => {
   }, [status.positions]);
 
   useEffect(() => {
-    if (statusState == true) {      
+    if (statusState == true) {   
       status.positions?.map((position) => {
         if (position.is_healthy == 'MEDIUM') {
-          position.is_healthy = '0'
-        } else if (position.is_healthy == 'LOW') {
           position.is_healthy = '1'
+        } else if (position.is_healthy == 'LOW') {
+          position.is_healthy = '0'
         } else if (position.is_healthy == 'RISKY') {
           position.is_healthy = '2'
         }

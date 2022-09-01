@@ -46,7 +46,7 @@ const LiquidationCard = (props: LiquidationCardProps) => {
               if (loan.is_healthy == '0') {
                 return (
                   <Box className={styles.healthFactorHigh}>
-                    High
+                    Healthy
                   </Box>
                 )
               } else if (loan.is_healthy == '1') {
@@ -58,7 +58,7 @@ const LiquidationCard = (props: LiquidationCardProps) => {
               } else if (loan.is_healthy == '2') {
                   return (
                     <Box className={styles.healthFactorLow}>
-                      Low
+                      Risky
                     </Box>
                   )}
             })()}
