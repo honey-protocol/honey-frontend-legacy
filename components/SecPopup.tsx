@@ -25,13 +25,10 @@ const SecPopup = (props: { setShowPopup: Function }) => {
           This version is a first version demo running on devnet. Please setup your wallet and SOL accordingly.
         </Text>
         <Text align="center" lineHeight="1.375">
-          Persons accessing the website need to be aware that they are
-          responsible for themselves for the compliance with all local rules and
-          regulations
+          If you have any feedback or encounter any bugs please reach out to us through the #feedback channel on Discord
         </Text>
         <Text variant="large" weight="bold" align="center" lineHeight="1.375">
-          Honey Finance is unavailable to residents and citizens of the United
-          States of America.
+          This is not production software use at your own risk.
         </Text>
       </Stack>
       <Box marginTop="7">
