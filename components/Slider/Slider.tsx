@@ -82,7 +82,6 @@ const Slider = (props: SliderProps) => {
    * @returns
   */
   async function handleNumberInput(val: any) {
-    console.log('this is the value from number input', val.target.value)
     let rangeUserCalc = userDebt ? (Number(userDebt / 100)) : 0;
     let rangeAllowanceCalc = userAllowance ? (Number(userAllowance / 100)) : 0;
 
