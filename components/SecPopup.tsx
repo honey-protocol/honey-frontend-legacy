@@ -25,7 +25,10 @@ const SecPopup = (props: { setShowPopup: Function }) => {
           This version is a first version demo running on devnet. Please setup your wallet and SOL accordingly.
         </Text>
         <Text align="center" lineHeight="1.375">
-          If you have any feedback or encounter any bugs please reach out to us through the #feedback channel on Discord
+          This is a work in progress and may still be prone to errors or issues.
+        </Text>
+        <Text align="center" lineHeight="1.375">
+          If you have any feedback or encounter any bugs please reach out to us through the #feedback channel on Discord.
         </Text>
         <Text variant="large" weight="bold" align="center" lineHeight="1.375">
           This is not production software use at your own risk.
