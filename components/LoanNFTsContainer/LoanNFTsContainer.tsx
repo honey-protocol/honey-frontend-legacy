@@ -90,7 +90,6 @@ const LoanNFTsContainer = (props: LoanNFTsContainerProps) => {
    * @returns highlightNFTAvailable
   */
   function handleActiveState(nft: any, positionType: string) {
-    console.log('this is type open', positionType)
     if (positionType == TYPE_OPEN) {
       setHighlightNFTOpen(nft)
     } else {

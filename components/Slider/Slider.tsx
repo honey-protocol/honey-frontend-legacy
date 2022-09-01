@@ -111,6 +111,19 @@ const Slider = (props: SliderProps) => {
     handleRangeInput(val, true)
   }
 
+
+  useEffect(() => {
+    if (userDebt == 0 && type == 'repay') {
+      setRangeSlider(0);
+      handleRangeInput(0, true);
+      setUserInput(0);
+    } else if (userAllowance == 0 && type == 'borrow') {
+      setRangeSlider(0);
+      handleRangeInput(0, true);
+      setUserInput(0);
+    }
+  }, [userDebt, userAllowance]);
+
   return (
     <Stack space="0">
       {
