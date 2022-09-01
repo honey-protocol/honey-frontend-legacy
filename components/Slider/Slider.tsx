@@ -59,9 +59,11 @@ const Slider = (props: SliderProps) => {
       if (type == TYPE_REPAY && userDebt) {
         setSlideCount(val.target.value)
         let sum = ((val.target.value / 100) * userDebt);
-  
-        setUserInput(RoundHalfDown(sum));
-        handleUserChange(RoundHalfDown(sum), rangeSlider);
+
+        let finalizedSum = RoundHalfDown(sum); 
+        setUserInput(finalizedSum);
+        console.log('@@@@', userInput)
+        handleUserChange(finalizedSum, rangeSlider);
         setRangeSlider(RoundHalfDown(val.target.value));
   
       } else if (type == TYPE_BORROW && userAllowance) {
@@ -80,8 +82,9 @@ const Slider = (props: SliderProps) => {
    * @returns
   */
   async function handleNumberInput(val: any) {
-    let rangeUserCalc = (Number(userDebt) / 100 || 0);
-    let rangeAllowanceCalc = (Number(userAllowance) / 100) || 0;
+    console.log('this is the value from number input', val.target.value)
+    let rangeUserCalc = userDebt ? (Number(userDebt / 100)) : 0;
+    let rangeAllowanceCalc = userAllowance ? (Number(userAllowance / 100)) : 0;
 
     if (type == TYPE_BORROW) {
       setUserInput(val.target.value);
@@ -124,7 +127,7 @@ const Slider = (props: SliderProps) => {
               placeholder="0.00" 
               onChange={handleNumberInput}
               className={styles.currencyStylesChild} 
-              defaultValue={userInput}
+              value={userInput}
               min="0" 
               max="100"
                />
