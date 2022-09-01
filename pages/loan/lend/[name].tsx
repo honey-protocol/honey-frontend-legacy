@@ -61,7 +61,7 @@ const chartData = [
 
 const cardsDetails = [
   {
-    title: 'Utilization rate',
+    title: 'Utilization rate (coming soon)',
     value: '86%'
   },
   {
@@ -69,7 +69,7 @@ const cardsDetails = [
     value: '14%'
   },
   {
-    title: 'Estimated Supply APR',
+    title: 'Estimated Supply APR (coming soon)',
     value: '20%'
   }
 ];
@@ -279,7 +279,7 @@ const sdkConfig = ConfigureSDK();
               <Stack space="8" flex={1}>
                 <Box marginX="2">
                   <Text size="large" weight="semiBold" color="textPrimary">
-                    Supply APR
+                    Supply APR (coming soon)
                   </Text>
                 </Box>
                 <Box flex={1} display="flex" alignItems="center">
