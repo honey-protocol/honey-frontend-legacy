@@ -44,8 +44,8 @@ const LoanNFTCard = (props: LoanNFTCardProps) => {
   }
 
   useEffect(() => {
-    if (props) setActiveNFTState(props.NFT.name, TYPE_OPEN);
-  }, [props])
+    if (props && available == false) setActiveNFTState(props.NFT.name, TYPE_OPEN);
+  }, [props]);
 
   /**
    * @description updates activeCard 
@@ -62,7 +62,7 @@ const LoanNFTCard = (props: LoanNFTCardProps) => {
       borderWidth={props.selected ? '0.5' : '0'}
       padding="1.5"
       overflow="hidden"
-      // onClick={() => setActiveNFTState(props.NFT.name, (available == false ? TYPE_OPEN : TYPE_CLOSED))}
+      onClick={() => setActiveNFTState(props.NFT.name, (available == false ? TYPE_OPEN : TYPE_CLOSED))}
       className={activeNFT == props.NFT.name ? styles.active : styles.notActive}
     >
       <Avatar
