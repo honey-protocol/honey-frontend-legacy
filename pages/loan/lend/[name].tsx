@@ -59,21 +59,6 @@ const chartData = [
   }
 ];
 
-const cardsDetails = [
-  {
-    title: 'Utilization rate (coming soon)',
-    value: '86%'
-  },
-  {
-    title: 'Avg Default rate',
-    value: '14%'
-  },
-  {
-    title: 'Estimated Supply APR (coming soon)',
-    value: '20%'
-  }
-];
-
 const Borrow: NextPage = () => {
 const sdkConfig = ConfigureSDK();
 
@@ -93,6 +78,21 @@ const sdkConfig = ConfigureSDK();
   const [totalMarkDeposits, setTotalMarketDeposits] = useState(0);
   const [userTotalDeposits, setUserTotalDeposits] = useState(0);
   const [reserveHoneyState, setReserveHoneyState] = useState(0);
+
+  const cardsDetails = [
+    {
+      title: 'Utilization rate',
+      value: '86%'
+    },
+    {
+      title: 'Available liquidity',
+      value: totalMarkDeposits
+    },
+    {
+      title: 'Estimated Supply APR',
+      value: '20%'
+    }
+  ];
 
   /**
    * @description updates honeyUser | marketReserveInfo | - timeout required

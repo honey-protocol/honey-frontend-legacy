@@ -103,19 +103,6 @@ const LoanWithdraw = (props: LoanWithdrawProps) => {
             {RoundHalfDown(userTotalDeposits)} SOL
             </Text>
           </Stack>
-          <Stack
-            direction="horizontal"
-            justify="space-between"
-            align="center"
-            space="2"
-          >
-            <Text align="left" color="textSecondary">
-              Available liquidity
-            </Text>
-            <Text align="right" color="textPrimary">
-            {totalMarkDeposits} SOL
-            </Text>
-          </Stack>
         </Stack>
         </Box>
       </Stack>
