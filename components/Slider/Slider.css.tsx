@@ -110,7 +110,8 @@ export const currencyStylesChild = style({
 export const currencySelector = style({
   background: 'none',
   border: 'none',
-  marginLeft: '.1em'
+  marginLeft: '.1em',
+  marginBottom: '1.5em'
 });
 
 export const errorMessage = style({
@@ -129,5 +130,9 @@ export const noPositions = style({
 });
 
 export const currencyStyles = style({
-  fontSize: '2em'
+  fontSize: '2em',
+  textAlign: 'start',
+  marginLeft: '-1em',
+  paddingLeft: '.75em',
+  paddingBottom: '.5em'
 });
