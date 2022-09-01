@@ -45,6 +45,10 @@ export const percentageWrapper = style({
   margin: '0 auto',
   marginBottom: '1em'
 });
+
+globalStyle(`${percentageWrapper} > *`, {
+  cursor: 'pointer'
+})
 // styles for the selection overview box; currency / amount and max btn
 export const selectionWrapper = style({
   display: 'flex',
