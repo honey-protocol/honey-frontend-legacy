@@ -73,40 +73,31 @@ const LoanRepay = (props: LoanRepayProps) => {
             <Stack
                 direction="horizontal"
                 justify="space-between"
+                align="center"
             >
                 <Box alignItems="flex-end">
                     <Avatar label="" size="10" src={NFT ? NFT.image : nftPlaceholder.image} />
                 </Box>
                 <Box
-                paddingBottom="2"
+                    paddingBottom="2"
                 >
-                <Stack
-                    direction="horizontal"
-                    justify="flex-end"
-                    space="2"
-                >
-                    <Text
-                    align="right"
-                    weight="semiBold"
-                    color="foreground"
-                    variant="large"
+                    <Stack
+                        direction="vertical"
+                        justify="flex-start"
+                        space="2"
                     >
-                    {NFT ? NFT.name : nftPlaceholder.name}
-                    </Text>
-                </Stack>
-                <Stack
-                    direction="horizontal"
-                    justify="flex-end"
-                    space="2"
-                >
-                    <Text align="right" color="textSecondary">Estimated value</Text>
-                    <Text
-                    align="right"
-                    color="foreground"
-                    >
-                    {nftPrice.toFixed(2)}
-                    </Text>
-                </Stack>
+                        <Text
+                            align="right"
+                            weight="semiBold"
+                            color="foreground"
+                            variant="large"
+                        >
+                            {NFT ? NFT.name : nftPlaceholder.name}
+                        </Text>
+                        <Text>
+                            Estimated value: <span>{nftPrice.toFixed(2)} SOL</span>
+                        </Text>
+                    </Stack>
                 </Box>
             </Stack>
             </Stack>
@@ -117,26 +108,20 @@ const LoanRepay = (props: LoanRepayProps) => {
             paddingBottom="1"
             >
             <Stack
-                justify="space-between"
-            >   
-                <Text color="textSecondary">
-                    Total debt
-                </Text>
-                <Stack
                 direction="horizontal"
                 justify="space-between"
                 align="center"
                 space="2"
-                >
+            >
                 <Text align="left"
-                    color="textPrimary">SOL</Text>
+                      color="textSecondary">Your allowance</Text>
                 <Text
                     align="right"
                     color="foreground"
                 >
-                    {userDebt}
+                    {userAllowance.toFixed(2)} SOL
                 </Text>
-                </Stack>
+
             </Stack>
             </Box>
             <hr></hr>
@@ -190,7 +175,7 @@ const LoanRepay = (props: LoanRepayProps) => {
             {/* Interest & payback data*/}
             <Box
                 paddingTop="1"
-                paddingBottom="1"
+                paddingBottom="3"
             >
                 <Stack
                     justify="space-between"
@@ -202,12 +187,12 @@ const LoanRepay = (props: LoanRepayProps) => {
                         space="2"
                     >
                         <Text align="left"
-                        color="textSecondary">Total allowance</Text>
+                        color="textSecondary">Your debt</Text>
                         <Text
                             align="right"
                             color="foreground"
                         >
-                            {userAllowance.toFixed(2)}
+                            {userDebt} SOL
                         </Text>
                     </Stack>
                 </Stack>

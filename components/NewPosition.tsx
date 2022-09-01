@@ -78,7 +78,7 @@ const LoanNewBorrow = (props: LoanNewBorrowProps) => {
                 space="2"
               >
                 <Text align="left" color="textSecondary">
-                  Estimated value
+                  Estimated value of your collateral
                 </Text>
                 <Text align="right" color="foreground">
                   {nftPrice.toFixed(4)}

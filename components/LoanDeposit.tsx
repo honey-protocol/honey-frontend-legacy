@@ -84,10 +84,10 @@ const LoanDeposit = (props: LoanDepositProps) => {
             space="2"
           >
             <Text align="left" color="textSecondary">
-              Assets Deposited
+              Your Deposits
             </Text>
             <Text align="right" color="foreground">
-              {RoundHalfDown(userTotalDeposits)}
+              {RoundHalfDown(userTotalDeposits)} SOL
             </Text>
           </Stack>
           <Stack
@@ -97,7 +97,7 @@ const LoanDeposit = (props: LoanDepositProps) => {
             space="2"
           >
             <Text align="left" color="textSecondary">
-              Total balance
+              Available liquidity
             </Text>
             <Text align="right" color="foreground">
               {totalMarkDeposits} SOL

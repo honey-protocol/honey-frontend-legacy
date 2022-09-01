@@ -88,8 +88,8 @@ const LoanWithdraw = (props: LoanWithdrawProps) => {
         </Text>
       </Stack>
       <Stack>
-        {/* Assets deposited */}
-        <Stack justify="space-between">
+        <Box paddingTop="1" paddingBottom="1">
+          <Stack justify="space-between" space="6">
           <Stack
             direction="horizontal"
             justify="space-between"
@@ -97,10 +97,10 @@ const LoanWithdraw = (props: LoanWithdrawProps) => {
             space="2"
           >
             <Text align="left" color="textSecondary">
-              Assets deposited
+              Your Deposits
             </Text>
             <Text align="right" color="foreground">
-            {RoundHalfDown(userTotalDeposits)}
+            {RoundHalfDown(userTotalDeposits)} SOL
             </Text>
           </Stack>
           <Stack
@@ -110,15 +110,16 @@ const LoanWithdraw = (props: LoanWithdrawProps) => {
             space="2"
           >
             <Text align="left" color="textSecondary">
-              Total balance
+              Available liquidity
             </Text>
             <Text align="right" color="textPrimary">
             {totalMarkDeposits} SOL
             </Text>
           </Stack>
         </Stack>
+        </Box>
       </Stack>
-      <Stack direction="vertical" space="4">
+      <Stack direction="vertical" space="6">
         <Box className={styles.errorMessage}>
           {userMessage && userMessage}
         </Box> 
