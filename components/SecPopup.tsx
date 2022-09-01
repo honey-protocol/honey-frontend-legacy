@@ -22,7 +22,7 @@ const SecPopup = (props: { setShowPopup: Function }) => {
           Honey Finance
         </Text>
         <Text align="center" lineHeight="1.375">
-          Please take caution when using honey.finance and other defi products
+          This version is a first version demo running on devnet. Please setup your wallet and SOL accordingly.
         </Text>
         <Text align="center" lineHeight="1.375">
           Persons accessing the website need to be aware that they are
