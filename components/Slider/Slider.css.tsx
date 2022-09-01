@@ -32,7 +32,7 @@ globalStyle(`${rangeSlider} > input::-webkit-slider-thumb`, {
   borderRadius: '50%',
   background: 'rgb(255,69, 58)',
   cursor: 'pointer',
-  transition: 'background 0.15s ease-in-out'
+  transition: 'background 0.15s ease-in-out',
 });
 // styles the percentage calculator
 export const percentageWrapper = style({
@@ -101,7 +101,10 @@ export const currencyStylesChild = style({
   border: 'none',
   width: '10em',
   color: 'white',
-  outline: 'none'
+  outline: 'none',
+  marginLeft: '-1em',
+  paddingLeft: '.5em',
+  paddingBottom: '.5em'
 });
 
 export const currencySelector = style({
