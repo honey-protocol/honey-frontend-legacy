@@ -3,6 +3,7 @@ import { Box, Button, Stack, Text } from 'degen';
 import { Avatar } from 'degen';
 import * as loanStyles from '../styles/loan.css';
 import CollateralPopup from '../components/CollateralPopup/CollateralPopup';
+import { toastResponse } from 'helpers/loanHelpers';
 
 interface LoanNewBorrowProps {
   NFT: any;
@@ -35,6 +36,10 @@ const LoanNewBorrow = (props: LoanNewBorrowProps) => {
 
   if (!NFT) return null;
 
+  function handleNoPosition() {
+    toastResponse('ERROR', 'Currently loans are limited to 1 open position', 'ERROR');
+  }
+
   return (
     <Box
       display="flex"
@@ -42,9 +47,7 @@ const LoanNewBorrow = (props: LoanNewBorrowProps) => {
       gap="3"
       className={loanStyles.loanWrapper}
     >
-      {showCollateralPopup == 1 && (
-        <CollateralPopup setShowCollateralPopup={setShowCollateralPopup} />
-      )}
+      {showCollateralPopup == 1 && handleNoPosition()}
       <Stack flex={1} justify={'space-between'}>
         <Stack justify="space-between">
           <Stack justify="space-between" align="center">
