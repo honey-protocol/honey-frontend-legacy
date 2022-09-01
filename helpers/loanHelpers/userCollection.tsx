@@ -15,7 +15,6 @@ export async function calculateCollectionwideAllowance(
     honeyUser: any,
     marketReserveInfo: any
   ) {
-
       let totalDebt = 0;
       let userLoans = 0;
       let nftCollateralValue = nftPrice * (collateralNFTPositions?.length || 0);

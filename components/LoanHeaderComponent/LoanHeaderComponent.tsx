@@ -61,7 +61,7 @@ const LoanHeaderComponent = (props: LoanHeaderComponentProps) => {
   async function calculateNFTPrice() {
     if (marketReserveInfo && parsedReserves && honeyMarket) {      
       let nftPrice = await calcNFT(marketReserveInfo, parsedReserves, honeyMarket, sdkConfig.saberHqConnection);
-      setNftPrice(Number(nftPrice))
+      setNftPrice(Number(nftPrice));
       setCalculatedNFTPrice(true);
     }
   }
@@ -71,37 +71,12 @@ const LoanHeaderComponent = (props: LoanHeaderComponentProps) => {
   }, [marketReserveInfo, parsedReserves]);
 
   async function fetchNftPrice(nftPrice: any, collateralNFTPositions: any, honeyUser:any, marketReserveInfo: any) {
-    if (marketReserveInfo && parsedReserves && honeyMarket && sdkConfig.saberHqConnection && honeyUser) {
-      let outcome = await calcNFT(marketReserveInfo, parsedReserves, honeyMarket, sdkConfig.saberHqConnection);
-      setNftPrice(Number(outcome));
-      let collectionWideObject = await calculateCollectionwideAllowance(nftPrice, colNftPositions, honeyUser, marketReserveInfo);
-
-      setUserAllowance(collectionWideObject.sumOfAllowance);
+      let collectionWideObject = await calculateCollectionwideAllowance(nftPrice, collateralNFTPositions, honeyUser, marketReserveInfo);
+      collectionWideObject.sumOfAllowance < 0 ? setUserAllowance(0) : setUserAllowance(collectionWideObject.sumOfAllowance);
       setUserDebt(collectionWideObject.sumOfTotalDebt);
-    }
   }
 
   useEffect(() => {
-    if (nftPrice && collateralNFTPositions && honeyUser && marketReserveInfo) {
-      fetchNftPrice(nftPrice, collateralNFTPositions, honeyUser, marketReserveInfo);
-    }
-  }, [marketReserveInfo, parsedReserves, honeyMarket, sdkConfig.saberHqConnection, honeyUser]);
-
-  useEffect(() => {
-    if (nftPrice && collateralNFTPositions && honeyUser && marketReserveInfo) {
-      fetchNftPrice(nftPrice, collateralNFTPositions, honeyUser, marketReserveInfo);
-    }
-  }, []);
-
-  useEffect(() => {
-    setColNftPositions(collateralNFTPositions);
-    if (nftPrice && collateralNFTPositions && honeyUser && marketReserveInfo) {
-      fetchNftPrice(nftPrice, collateralNFTPositions, honeyUser, marketReserveInfo);
-    }
-  }, [collateralNFTPositions]);
-
-  useEffect(() => {
-
   }, [userDebt, userAllowance]);
 
     /**
@@ -109,20 +84,20 @@ const LoanHeaderComponent = (props: LoanHeaderComponentProps) => {
    * @params none
    * @returns honeyUser | marketReserveInfo |
   */
-     useEffect(() => {
-
+    useEffect(() => {
       if (collateralNFTPositions) setDefaultNFT(collateralNFTPositions);
-  
+
       if (marketReserveInfo && parsedReserves) {
           setDepositNoteExchangeRate(BnToDecimal(marketReserveInfo[0].depositNoteExchangeRate, 15, 5))
           setCRatio(BnToDecimal(marketReserveInfo[0].minCollateralRatio, 15, 5))
       }
-  
-      if (nftPrice && collateralNFTPositions && honeyUser && marketReserveInfo) fetchNftPrice(nftPrice, colNftPositions, honeyUser, marketReserveInfo);
-  
+
+      if (nftPrice && collateralNFTPositions && honeyUser && marketReserveInfo) fetchNftPrice(nftPrice, collateralNFTPositions, honeyUser, marketReserveInfo);
+
       setLiquidationThreshold(1 / cRatio * 100);
-    }, [marketReserveInfo, honeyUser, collateralNFTPositions, market, error, parsedReserves, honeyReserves, cRatio, calculatedNFTPrice]);
-  
+  }, [marketReserveInfo, honeyUser, collateralNFTPositions, market, error, parsedReserves, honeyReserves, cRatio, calculatedNFTPrice]);
+
+    
   return (
     <Box className={styles.headerWrapper}>
       {/* <Box>
