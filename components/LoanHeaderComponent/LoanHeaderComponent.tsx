@@ -82,7 +82,6 @@ const LoanHeaderComponent = (props: LoanHeaderComponentProps) => {
   }
 
   useEffect(() => {
-    console.log('running!!!!')
     if (nftPrice && collateralNFTPositions && honeyUser && marketReserveInfo) {
       fetchNftPrice(nftPrice, collateralNFTPositions, honeyUser, marketReserveInfo);
     }
