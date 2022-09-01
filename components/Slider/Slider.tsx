@@ -38,21 +38,39 @@ const Slider = (props: SliderProps) => {
    * @params
    * @returns
   */
-  function handleRangeInput(val: any) {
-    if (type == TYPE_REPAY && userDebt) {
-      setSlideCount(val.target.value)
-      let sum = ((val.target.value / 100) * userDebt);
-
-      setUserInput(RoundHalfDown(sum));
-      handleUserChange(RoundHalfDown(sum), rangeSlider);
-      setRangeSlider(RoundHalfDown(val.target.value));
-
-    } else if (type == TYPE_BORROW && userAllowance) {
-      setSlideCount(RoundHalfDown(val.target.value))
-      let sum = ((val.target.value / 100) * userAllowance);
-      setUserInput(RoundHalfDown(sum))
-      handleUserChange(RoundHalfDown(sum));
-      setRangeSlider(RoundHalfDown(val.target.value))
+  function handleRangeInput(val: any, step?: boolean) {
+    if (step) {
+      if (type == TYPE_REPAY && userDebt) {
+        setSlideCount(val)
+        let sum = ((val / 100) * userDebt);
+  
+        setUserInput(RoundHalfDown(sum));
+        handleUserChange(RoundHalfDown(sum), rangeSlider);
+        setRangeSlider(RoundHalfDown(val));
+  
+      } else if (type == TYPE_BORROW && userAllowance) {
+        setSlideCount(RoundHalfDown(val))
+        let sum = ((val / 100) * userAllowance);
+        setUserInput(RoundHalfDown(sum))
+        handleUserChange(RoundHalfDown(sum));
+        setRangeSlider(RoundHalfDown(val))
+      }
+    } else {
+      if (type == TYPE_REPAY && userDebt) {
+        setSlideCount(val.target.value)
+        let sum = ((val.target.value / 100) * userDebt);
+  
+        setUserInput(RoundHalfDown(sum));
+        handleUserChange(RoundHalfDown(sum), rangeSlider);
+        setRangeSlider(RoundHalfDown(val.target.value));
+  
+      } else if (type == TYPE_BORROW && userAllowance) {
+        setSlideCount(RoundHalfDown(val.target.value))
+        let sum = ((val.target.value / 100) * userAllowance);
+        setUserInput(RoundHalfDown(sum))
+        handleUserChange(RoundHalfDown(sum));
+        setRangeSlider(RoundHalfDown(val.target.value))
+      }
     }
   }
   
@@ -86,6 +104,10 @@ const Slider = (props: SliderProps) => {
   useEffect(() => {
   }, [slideCount, userInput, userMessage]);
 
+  function handleStep(val: number) {
+    handleRangeInput(val, true)
+  }
+
   return (
     <Stack space="0">
       {
@@ -114,18 +136,18 @@ const Slider = (props: SliderProps) => {
           <input 
             className={styles.rangeSliderRange} 
             type="range"
-            defaultValue={rangeSlider}
+            value={rangeSlider}
             min="0" 
             max="100"
             onChange={handleRangeInput} 
           />
         </div>
         <div className={styles.percentageWrapper}>
-            <span>0%</span>
-            <span>25%</span>
-            <span>50%</span>
-            <span>75%</span>
-            <span>100%</span>
+            <span onClick={() => handleStep(0)}>0%</span>
+            <span onClick={() => handleStep(25)}>25%</span>
+            <span onClick={() => handleStep(50)}>50%</span>
+            <span onClick={() => handleStep(75)}>75%</span>
+            <span onClick={() => handleStep(100)}>100%</span>
         </div>
     </Box>
     </Stack>
