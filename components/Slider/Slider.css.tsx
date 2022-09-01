@@ -1,5 +1,6 @@
 import { globalStyle, style } from '@vanilla-extract/css';
-import { sprinkles, vars } from '../../styles/theme.css';
+import { sprinkles} from '../../styles/theme.css';
+import {vars} from 'degen';
 // sets the default wrapper
 export const rangeSlider = style({
   margin: '30px 0 0 0%',
@@ -14,7 +15,7 @@ export const rangeSliderRange = style({
   background: 'black',
   outline: 'none',
   padding: '0',
-  margin: '0 0 2em 0'
+  margin: '0 0 2em 0',
 });
 
 globalStyle(`${rangeSlider} > input`, {
@@ -30,7 +31,7 @@ globalStyle(`${rangeSlider} > input::-webkit-slider-thumb`, {
   width: '30px',
   height: '30px',
   borderRadius: '50%',
-  background: 'rgb(255,69, 58)',
+  background: vars.colors.accent,
   cursor: 'pointer',
   transition: 'background 0.15s ease-in-out',
 });

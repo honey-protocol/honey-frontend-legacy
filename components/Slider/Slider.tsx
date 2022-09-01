@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Box, Stack, Button, Avatar } from 'degen';
+import { Box, Stack, Button, Avatar, vars } from 'degen';
 import * as styles from './Slider.css';
 import {TYPE_BORROW, TYPE_REPAY, TYPE_ZERO} from '../../constants/loan';
 import {inputNumberValidator} from '../../helpers/loanHelpers';
