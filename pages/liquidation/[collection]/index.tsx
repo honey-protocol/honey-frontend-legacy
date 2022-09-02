@@ -134,7 +134,6 @@ const LiquidationPool = () => {
       const liquidatorClient = await LiquidatorClient.connect(program.provider, HONEY_PROGRAM_ID, false);
       if (wallet) {
         if (type == 'revoke_bid') {
-          console.log('current user bid', currentUserBid)
           if (!currentUserBid) return;
 
           let transactionOutcome: any = await liquidatorClient.revokeBid({
@@ -199,7 +198,7 @@ const LiquidationPool = () => {
    * @returns inits fetchLiq. func
   */
   async function handleExecuteBid(type: string, userBid?: number) {
-    if (!userBid && type != 'revoke_bid') return console.log('no user input');
+    if (!userBid && type != 'revoke_bid') return toastResponse('ERROR', 'No bid provided', 'ERROR');
 
     if (type == 'increase_bid') {
       if (userBid && ((Number(userBid)) + (Number(currentUserBid))) < (highestBiddingValue * 1.1)) {
