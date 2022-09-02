@@ -201,23 +201,34 @@ const LiquidationPool = () => {
   async function handleExecuteBid(type: string, userBid?: number) {
     if (!userBid && type != 'revoke_bid') return console.log('no user input');
 
-    if (type == 'increase_bid' || type == 'place_bid') {
-      if (userBid && userBid < (highestBiddingValue * 1.1)) {
-        toastResponse('ERROR', `Min bid is ${((highestBiddingValue * 1.1) + .01).toFixed(2)}`, 'ERROR');
+    if (type == 'increase_bid') {
+      if (userBid && ((Number(userBid)) + (Number(currentUserBid))) < (highestBiddingValue * 1.1)) {
+        toastResponse('ERROR', `Min bid is ${(((highestBiddingValue * 1.1) - currentUserBid) + .01).toFixed(2)}`, 'ERROR');
       } else {
         handleRefetch();
         await fetchLiquidatorClient(type, userBid!);
         setRefetchState(true);
+        setUserInput(0);
       }
+    } else if (type == 'place_bid') {
+        if (userBid && userBid < (highestBiddingValue * 1.1)) {
+          toastResponse('ERROR', `Min bid is ${((highestBiddingValue * 1.1) + .01).toFixed(2)}`, 'ERROR');
+        } else {
+          handleRefetch();
+          await fetchLiquidatorClient(type, userBid!);
+          setRefetchState(true);
+          setUserInput(0);
+        }
     } else if (type == 'revoke_bid') {
-      handleRefetch();
-      await fetchLiquidatorClient(type, userBid!);
-      setRefetchState(true);
+        handleRefetch();
+        await fetchLiquidatorClient(type, userBid!);
+        setRefetchState(true);
+        setUserInput(0);
     }
   }
 
   useEffect(() => {
-  }, [currentUserBid]);
+  }, [currentUserBid, highestBiddingValue, userInput]);
 
   async function handleRefetch() {
     if (status) {
@@ -365,7 +376,7 @@ const LiquidationPool = () => {
                       }
                     </Box>
                     <Text>
-                      Min bid: {((highestBiddingValue * 1.1) + .01).toFixed(2)}
+                      Min bid: {(((highestBiddingValue * 1.1) - currentUserBid) + .01).toFixed(2)}
                     </Text>
                     <SolanaIcon />
                   </Stack>
