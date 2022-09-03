@@ -90,9 +90,9 @@ const Loan: NextPage = () => {
   /**
    * @description fetches open positions and the amount regarding loan positions / token account
    * @params none
-   * @returns collateralNFTPositions | loanPositions | fungibleCollateralPosition | loading | error
+   * @returns collateralNFTPositions | loanPositions | loading | error
    */
-   let { loading, collateralNFTPositions, loanPositions, fungibleCollateralPosition, refreshPositions, error } = useBorrowPositions(sdkConfig.saberHqConnection, sdkConfig.sdkWallet!, sdkConfig.honeyId, sdkConfig.marketId);
+   let { loading, collateralNFTPositions, loanPositions, refreshPositions, error } = useBorrowPositions(sdkConfig.saberHqConnection, sdkConfig.sdkWallet!, sdkConfig.honeyId, sdkConfig.marketId);
 
   /**
    * @description fetched available nfts in the users wallet
@@ -173,9 +173,9 @@ const Loan: NextPage = () => {
   }
 
   /**
-   * @description updates collateralNFTPositions | loanPositions | fungibleCollateralPosition
+   * @description updates collateralNFTPositions | loanPositions
    * @params none
-   * @returns collateralNFTPositions | loanPositions | fungibleCollateralPosition
+   * @returns collateralNFTPositions | loanPositions
   */
   useEffect(() => {
     // validate if loanpositions and amount
@@ -184,7 +184,7 @@ const Loan: NextPage = () => {
     if (collateralNFTPositions && collateralNFTPositions.length > TYPE_ZERO) setBorrowModal(TYPE_ONE);
 
     setUserCollateralPositions(collateralNFTPositions);
-  }, [collateralNFTPositions, loanPositions, fungibleCollateralPosition, error, globalLoadingState]);
+  }, [collateralNFTPositions, loanPositions, error, globalLoadingState]);
 
   /**
    * @description updates availableNFTs | reFetchNFTs

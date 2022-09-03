@@ -15,7 +15,7 @@
     "@fontsource/inter": "^4.5.4",
     "@gemworks/gem-farm-ts": "^0.24.1",
     "@gokiprotocol/walletkit": "^1.6.5",
-    "@honey-finance/sdk": "^1.0.111",
+    "@honey-finance/sdk": "1.0.115",
     "@metaplex-foundation/mpl-auction": "^0.0.2",
     "@metaplex-foundation/mpl-core": "^0.0.4",
     "@metaplex-foundation/mpl-metaplex": "^0.0.5",
