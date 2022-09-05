@@ -64,7 +64,7 @@ const LoanNewBorrow = (props: LoanNewBorrowProps) => {
               {/* <Stack
                 direction="horizontal"
                 justify="space-between"
-                align="center"
+                align="center",
                 space="2"
               >
                 <Text align="left" color="textSecondary">
