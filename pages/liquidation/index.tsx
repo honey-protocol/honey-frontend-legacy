@@ -161,7 +161,10 @@ const Liquidation: NextPage = () => {
             padding="5"
             borderRadius="2xLarge"
           >
-          <LiquidationHeader headerData={headerData} />
+          <LiquidationHeader 
+            headerData={headerData} 
+            source={'market_overview'}
+          />
           <Box
             className={styles.highLightNoPosition}
           >

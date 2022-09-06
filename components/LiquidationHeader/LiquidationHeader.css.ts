@@ -24,6 +24,41 @@ export const liquidationHeaderContainer = style({
   justifyContent: 'space-between',
   width: '100%'
 });
+
+
+/**
+ * header wrapper for liquidation page
+*/
+export const liquidationHeaderWrapperOverview = style({
+  display: 'none',
+  '@media': {
+    'screen and (min-width: 720px)': {
+      display: 'flex',
+      justifyContent: 'space-between',
+      color: 'white',
+      fontSize: '1.2em',
+      margin: '.75em 0',
+      padding: '.1em',
+    }
+  }
+});
+/**
+ * header container for child elems
+*/
+export const liquidationHeaderContainerOverview = style({
+  display: 'flex',
+  justifyContent: 'space-between',
+  width: '100%'
+});
+
+/**
+ * align header items according to market and collection data
+*/
+globalStyle(`${liquidationHeaderContainerOverview} > div`, {
+  minWidth: '20%',
+  textAlign: 'center'
+});
+
 /**
  * align header items according to market and collection data
 */

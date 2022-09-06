@@ -68,6 +68,31 @@ globalStyle(`${subContainer} div:last-child`, {
   justifyContent: 'space-between',
 });
 
+export const subContainerOverview = style({
+  display: 'flex',
+  flexDirection: 'row',
+  justifyContent: 'space-around',
+  width: '100%',
+});
+
+globalStyle(`${subContainerOverview} > div`, {
+  '@media': {
+    'screen and (min-width: 720px)': {
+      width: '25%',
+      textAlign: 'center',
+      margin: '0 auto',
+    }
+  }
+});
+
+globalStyle(`${subContainerOverview} > div button`, {
+  '@media': {
+    'screen and (min-width: 720px)': {
+      margin: '0 auto'
+    }
+  }
+});
+
 export const collectionCard = style({
   display: 'flex',
   height: '8em',

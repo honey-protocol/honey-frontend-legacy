@@ -427,7 +427,10 @@ const LiquidationPool = () => {
           </Stack>
         </Box>
         <Box backgroundColor="background" padding="5" borderRadius="2xLarge">
-        <LiquidationHeader headerData={headerData} />
+        <LiquidationHeader 
+          headerData={headerData} 
+          source="market_detail"
+        />
         <Box>
           {fetchedPositions &&
             fetchedPositions.map((loan, i) => {

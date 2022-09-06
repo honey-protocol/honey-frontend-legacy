@@ -23,7 +23,7 @@ const LiquidationCollectionCard = (props: LiquidationCollectionCardProps) => {
         as={`/liquidation/${loan.collection}`}
         passHref
       >
-        <Box className={styles.subContainer}>
+        <Box className={styles.subContainerOverview}>
           <Text>{loan.collection}</Text>
           <Text>{loan.totalCollateral} NFTs</Text>
           <Text>{loan.averageLTV}%</Text>
