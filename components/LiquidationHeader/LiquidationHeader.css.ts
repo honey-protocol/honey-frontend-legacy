@@ -28,6 +28,6 @@ export const liquidationHeaderContainer = style({
  * align header items according to market and collection data
 */
 globalStyle(`${liquidationHeaderContainer} > div`, {
-  minWidth: '20%',
+  minWidth: '25%',
   textAlign: 'center'
 });

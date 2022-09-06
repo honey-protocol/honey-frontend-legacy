@@ -41,12 +41,12 @@ export const subContainer = style({
   display: 'flex',
   flexDirection: 'row',
   justifyContent: 'space-around',
-  width: '100%'
+  width: '100%',
 });
 
 globalStyle(`${subContainer} > div`, {
   flex: '1 1 0px',
-  textAlign: 'center'
+  textAlign: 'center',
 });
 
 globalStyle(`${subContainer} button`, {
@@ -73,7 +73,7 @@ export const collectionCard = style({
   height: '8em',
   flexDirection: 'column',
   flexWrap: 'wrap',
-  minWidth: '10em',
+  minWidth: '25%',
   marginLeft: '-1em',
   '@media': {
     'screen and (min-width: 720px)': {
@@ -85,50 +85,50 @@ export const collectionCard = style({
   }
 });
 
-globalStyle(`${subContainer} div:nth-child(1)`, {
-  '@media': {
-    'screen and (min-width: 720px)': {
-      order: '1'
-    }
-  }
-});
+// globalStyle(`${subContainer} div:nth-child(1)`, {
+//   '@media': {
+//     'screen and (min-width: 720px)': {
+//       order: '1'
+//     }
+//   }
+// });
 
-globalStyle(`${subContainer} div:nth-child(2)`, {
-  '@media': {
-    'screen and (min-width: 720px)': {
-      order: '2'
-    }
-  }
-});
+// globalStyle(`${subContainer} div:nth-child(2)`, {
+//   '@media': {
+//     'screen and (min-width: 720px)': {
+//       order: '2'
+//     }
+//   }
+// });
+
+// globalStyle(`${subContainer} div:nth-child(3)`, {
+//   '@media': {
+//     'screen and (min-width: 720px)': {
+//       order: '5'
+//     }
+//   }
+// });
+
+// globalStyle(`${subContainer} div:nth-child(4)`, {
+//   '@media': {
+//     'screen and (min-width: 720px)': {
+//       order: '4'
+//     }
+//   }
+// });
+
+// globalStyle(`${subContainer} div:nth-child(5)`, {
+//   '@media': {
+//     'screen and (min-width: 720px)': {
+//       order: '6'
+//     }
+//   }
+// });
 
 globalStyle(`${subContainer} div:nth-child(3)`, {
   '@media': {
     'screen and (min-width: 720px)': {
-      order: '5'
-    }
-  }
-});
-
-globalStyle(`${subContainer} div:nth-child(4)`, {
-  '@media': {
-    'screen and (min-width: 720px)': {
       order: '4'
-    }
-  }
-});
-
-globalStyle(`${subContainer} div:nth-child(5)`, {
-  '@media': {
-    'screen and (min-width: 720px)': {
-      order: '6'
-    }
-  }
-});
-
-globalStyle(`${subContainer} div:nth-child(6)`, {
-  '@media': {
-    'screen and (min-width: 720px)': {
-      order: '3'
     }
   }
 });
@@ -149,12 +149,13 @@ globalStyle(`${collectionCard} div:first-child`, {
 globalStyle(`${collectionCard} > div`, {
   width: '50%',
   height: '2em',
-  margin: '.25em',
+  margin: '4px 0',
   justifyContent: 'center',
   display: 'flex',
   '@media': {
     'screen and (min-width: 720px)': {
-      width: '20%'
+      width: '25%',
+      verticalAlign: 'center'
     }
   }
 });

@@ -1,7 +1,7 @@
 import type { NextPage } from 'next';
 import Image from 'next/image'
 import Link from 'next/link';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import {
   Box,
   Stack,
@@ -26,6 +26,7 @@ import VerifiedIcon from 'icons/VerifiedIcon';
 import SolanaIcon from 'icons/SolanaIcon';
 import { formatAddress } from 'helpers/addressUtils';
 import NextNProgress from 'nextjs-progressbar';
+import { stateDiscriminator } from '@project-serum/anchor';
 
 const LiquidationPool = () => {
   // init anchor
@@ -96,26 +97,29 @@ const LiquidationPool = () => {
   useEffect(() => {
     if (status.positions) {
       setStatusState(true);
-      if (status.bids) handleBiddingState(status.bids, status.positions);
+      // if (status.bids) handleBiddingState(status.bids, status.positions);
     }
 
     return;
   }, [status.positions]);
 
-  useEffect(() => {
-    if (statusState == true) {   
-      status.positions?.map((position) => {
-        if (position.is_healthy == 'MEDIUM') {
-          position.is_healthy = '1'
-        } else if (position.is_healthy == 'LOW') {
-          position.is_healthy = '0'
-        } else if (position.is_healthy == 'RISKY') {
-          position.is_healthy = '2'
-        }
-      });
+  const handleHealthPositions = useCallback(async (status: any) => {
+    await status.positions.map((position: any) => {
+      if (position.is_healthy == 'MEDIUM') {
+        position.is_healthy = '1'
+      } else if (position.is_healthy == 'LOW') {
+        position.is_healthy = '0'
+      } else if (position.is_healthy == 'RISKY') {
+        position.is_healthy = '2'
+      }
+    })
 
-      // handleBiddingState(status.bids, status.positions);
-      if (status.bids && status.positions) handleBiddingState(status.bids, status.positions);
+    handleBiddingState(status.bids, status.positions);
+  }, [])
+
+  useEffect(() => {
+    if (statusState == true && status.bids && status.positions) {
+      handleHealthPositions(status)
     }
 
     return;
