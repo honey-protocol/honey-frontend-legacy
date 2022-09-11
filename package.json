@@ -29,6 +29,7 @@
     "@saberhq/token-utils": "^1.12.48",
     "@saberhq/use-solana": "^1.12.48",
     "@solana/spl-token": "0.1.8",
+    "@solana/wallet-adapter-react": "^0.15.18",
     "@solana/web3.js": "^1.47.3",
     "@strata-foundation/spl-utils": "^3.5.7",
     "@vanilla-extract/babel-plugin": "^1.1.4",

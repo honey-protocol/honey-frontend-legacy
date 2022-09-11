@@ -1,3 +1,4 @@
+import { NFT } from '@/hooks/useWalletNFTs';
 import FarmNFTCard from 'components/FarmNftCard';
 import { Box, Button, Card, Spinner, Stack, Text } from 'degen';
 import React from 'react';
@@ -73,13 +74,13 @@ const FarmNFTsContainer = (props: FarmNFTsContainerProps) => {
               <Box className={styles.nftContainer}>
                 {NFTs.map((nft, i) => (
                   <FarmNFTCard
-                    key={nft.mint}
+                    // key={nft.mint}
                     NFT={nft}
                     onSelect={onNFTSelect ? () => onNFTSelect(nft) : () => {}}
                     onUnselect={() => onNFTUnselect(nft)}
                     isSelected={Boolean(
                       selectedNFTs.find(
-                        (NFT: NFT) => nft.tokenId === NFT.tokenId
+                        (NFT: NFT) => NFT.onchainMetadata.mint === NFT.onchainMetadata.mint
                       )
                     )}
                   />

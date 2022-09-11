@@ -1,6 +1,7 @@
 import React, { FC, ReactNode } from 'react';
 import Image from 'next/image';
 import { Avatar, Box } from 'degen';
+import { NFT } from '@/hooks/useWalletNFTs';
 
 interface FarmNFTCardProps {
   NFT: NFT;
@@ -23,11 +24,11 @@ const FarmNFTCard = (props: FarmNFTCardProps) => {
       }
     >
       <Avatar
-        label={props.NFT.name}
+        label={props.NFT.externalMetadata.name}
         size="full"
-        src={props.NFT.image}
+        src={props.NFT.externalMetadata.image}
         shape="square"
-        key={props.NFT.mint}
+        // key={props.NFT.mint}
       />
     </Box>
   );

@@ -1,6 +1,7 @@
 import { programs } from '@metaplex/js';
 import { Connection, PublicKey } from '@solana/web3.js';
 import * as anchor from '@project-serum/anchor';
+import { NFT } from '@/hooks/useWalletNFTs';
 
 export const convertArrayToObject = (array: any[], key: string) => {
   const initialValue = {};
@@ -17,29 +18,29 @@ export const convertArrayToObject = (array: any[], key: string) => {
  * @description extract metadata for a nft
  * @returns the NFT data for the nft
  **/
-export const extractMetaData = async (
-  mint: PublicKey,
-  connection: Connection
-): Promise<NFT> => {
-  const tokenmetaPubkey = await programs.metadata.Metadata.getPDA(
-    new PublicKey(mint)
-  );
-  const tokenmeta = await programs.metadata.Metadata.load(
-    connection,
-    tokenmetaPubkey
-  );
+// export const extractMetaData = async (
+//   mint: PublicKey,
+//   connection: Connection
+// ): Promise<NFT> => {
+//   const tokenmetaPubkey = await programs.metadata.Metadata.getPDA(
+//     new PublicKey(mint)
+//   );
+//   const tokenmeta = await programs.metadata.Metadata.load(
+//     connection,
+//     tokenmetaPubkey
+//   );
 
-  let nftMetaData = await (await fetch(tokenmeta.data.data.uri)).json();
-  return {
-    name: nftMetaData.name,
-    symbol: nftMetaData.symbol,
-    updateAuthority: tokenmeta.data.updateAuthority,
-    image: nftMetaData.image,
-    creators: nftMetaData.properties.creators,
-    tokenId: tokenmetaPubkey.toString(),
-    mint: mint.toString()
-  };
-};
+//   let nftMetaData = await (await fetch(tokenmeta.data.data.uri)).json();
+//   return {
+//     name: nftMetaData.name,
+//     symbol: nftMetaData.symbol,
+//     updateAuthority: tokenmeta.data.updateAuthority,
+//     image: nftMetaData.image,
+//     creators: nftMetaData.properties.creators,
+//     tokenId: tokenmetaPubkey.toString(),
+//     mint: mint.toString()
+//   };
+// };
 
 export const convert = (amount: anchor.BN, decimals: number = 6): number => {
   const wads = new anchor.BN(10).pow(new anchor.BN(decimals));

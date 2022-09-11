@@ -8,12 +8,26 @@ type Creator = {
 };
 
 //tokenAcc is same as pubkey,
-type NFT = {
-  name: string;
-  symbol?: string;
-  updateAuthority: string;
-  image: string;
-  creators: Array<Creator>;
-  tokenId: string;
-  mint: string;
-};
+export type NFT = {
+  pubkey?: PublicKey
+  mint: PublicKey
+  onchainMetadata: programs.metadata.MetadataData
+  externalMetadata: {
+    attributes: Array<any>
+    collection: any
+    description: string
+    edition: number
+    external_url: string
+    image: string
+    name: string
+    properties: {
+      files: Array<string>
+      category: string
+      creators: Array<{
+        pubKey: string
+        address: string
+      }>
+    }
+    seller_fee_basis_points: number
+  }
+}

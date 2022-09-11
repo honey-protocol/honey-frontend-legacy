@@ -137,7 +137,7 @@ export const newFarmCollections: TGFarm[] = [
   },
   {
     id: "SKLT",
-    imageUrl: "https://img-cdn.magiceden.dev/rs:fill:640:640:0:0/plain/https://www.arweave.net/pozaL5nqCfxsBTXXKddXcQblK4oJ3k2jBuR6pcCLxp4?ext=png",
+    imageUrl: "",
     name: "Skeleton Crew",
     totalStaked: "???",
     totalNumber: 6666,
@@ -153,7 +153,7 @@ export const newFarmCollections: TGFarm[] = [
 
   {
     id: "GUAV3", // manager BRkAbtjmzY9DBrmZJRgQ1thJsVVQd8vdW8CXmWzA6PK9
-    imageUrl: "https://img-cdn.magiceden.dev/rs:fill:640:640:0:0/plain/https://www.arweave.net/oPjxhg-jCZK7WXPJbvt4LvCPr28efSAOA2oSoCC0Wys?ext=png",
+    imageUrl: "",
     name: "New Bat City v3",
     totalStaked: "???",
     totalNumber:3333,

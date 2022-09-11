@@ -10,8 +10,33 @@ import Link from 'next/link';
 import * as styles from '../../../styles/name.css';
 import { useState } from 'react';
 import { useRouter } from 'next/router';
+import useGemFarmStaking from "../../../hooks/useGemFarmStaking"
 
 const Nft: NextPage = () => {
+  const [farmId, setFarmId] = useState(process.env.NEXT_PUBLIC_GEMFARM_ID || "")
+
+  const {
+    walletNFTs,
+    farmerAccount,
+    farmerVaultAccount,
+    farmerStatus,
+    selectedWalletItems,
+    isLocked,
+    availableA,
+    feedbackStatus,
+    handleStakeButtonClick,
+    handleUnstakeButtonClick,
+    handleClaimButtonClick,
+    handleWalletItemClick,
+    handleMoveToVaultButtonClick,
+    farmerVaultNFTs,
+    selectedVaultItems,
+    handleMoveToWalletButtonClick,
+    handleVaultItemClick,
+    handleInitStakingButtonClick,
+    handleRefreshRewardsButtonClick,
+  } = useGemFarmStaking(farmId)
+
   const {
     onWalletNFTSelect,
     onWalletNFTSelectAll,
@@ -20,8 +45,8 @@ const Nft: NextPage = () => {
     onStakedNFTSelectAll,
     onStakedNFTUnselect,
     initializeFarmerAcc,
-    handleStakeButtonClick,
-    handleUnstakeButtonClick,
+    // handleStakeButtonClick,
+    // handleUnstakeButtonClick,
     isFetching,
     stakedNFTsInFarm,
     walletNFTsInFarm,
@@ -105,7 +130,7 @@ const Nft: NextPage = () => {
           buttons={[
             {
               title: `Select All`,
-              disabled: !farmerAcc
+              disabled: !farmerAccount
                 ? false
                 : Object.values(walletNFTsInFarm).length > 0
                 ? false
@@ -113,21 +138,21 @@ const Nft: NextPage = () => {
               onClick: () => onWalletNFTSelectAll()
             },
             {
-              title: !farmerAcc
+              title: !farmerAccount
                 ? 'Initialize'
                 : `Stake ( ${selectedWalletNFTs.length} )`,
-              disabled: !farmerAcc
+              disabled: !farmerAccount
                 ? false
                 : selectedWalletNFTs.length
                 ? false
                 : true,
               loading: txLoading.value && txLoading.txName === 'deposit',
-              onClick: !farmerAcc
+              onClick: !farmerAccount
                 ? () => withTxLoading(initializeFarmerAcc, 'deposit')
                 : () => withTxLoading(handleStakeButtonClick, 'deposit')
             }
           ]}
-          NFTs={Object.values(walletNFTsInFarm)}
+          NFTs={walletNFTs}
           selectedNFTs={selectedWalletNFTs}
           onNFTSelect={onWalletNFTSelect}
           onNFTUnselect={onWalletNFTUnselect}
@@ -149,7 +174,7 @@ const Nft: NextPage = () => {
               onClick: () => withTxLoading(handleUnstakeButtonClick, 'vault')
             }
           ]}
-          NFTs={Object.values(stakedNFTsInFarm)}
+          NFTs={farmerVaultNFTs}
           selectedNFTs={selectedVaultNFTs}
           onNFTSelect={onStakedNFTSelect}
           onNFTUnselect={onStakedNFTUnselect}

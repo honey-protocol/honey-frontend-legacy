@@ -2,6 +2,8 @@ import { Box, Button, IconRefresh, Stack, Text } from 'degen';
 import React, { useMemo, useState } from 'react';
 import { LAMPORTS_PER_SOL } from '@solana/web3.js';
 import useGemFarm from 'hooks/useGemFarm';
+import { NFT } from '@/hooks/useWalletNFTs';
+import useGemFarmStaking from '@/hooks/useGemFarmStaking';
 
 interface FarmHeaderComponentProps {
   farmerState: string;
