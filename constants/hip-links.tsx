@@ -1,5 +1,10 @@
 export const HIPS = [
   {
+    title: 'HIP#4 - Upfront governance for NFT holders',
+    date: 'Sep 20, 2022',
+    link: 'https://forum.honey.finance/t/hip-4-upfront-governance-for-nft-holders/477'
+  },
+  {
     title: 'HIP#3 - Increased Allocation of HONEY to NFT Holders',
     date: 'Mar 18, 2022',
     link: 'https://forum.honey.finance/t/hip-3-increased-allocation-of-honey-to-nft-holders/187'
