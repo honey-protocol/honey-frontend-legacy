@@ -1,0 +1,100 @@
+name: Atomic Contract
+description: Contributors can only give you what you need if you can accurately describe what you want!
+title: "[ATOMIC CONTRACT]: "
+labels: ["paid"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Give your contributors what they need to succeed - a great description of what you need completed.
+  - type: textarea
+    id: description
+    attributes:
+      label: 📃 Description
+      description: What do you want to do? Why do you want to do it?
+      placeholder: |
+        e.g. build a Connect Wallet button for users to connect their Ethereum account
+        e.g. integrate a MATIC Testnet Faucet
+        e.g. change the color of this text
+    validations:
+      required: true
+  - type: textarea
+    id: acceptance-criteria
+    attributes:
+      label: 👨‍⚖️ Acceptance Criteria
+      description: What conditions must be met for you to consider this work finished?
+      placeholder: |
+        e.g. UI of completed feature match the attached screenshots
+        e.g. Code passes test suite located at [file link]
+        e.g. Must take <1 second to open modal
+    validations:
+      required: true
+  - type: input
+    id: budget
+    attributes:
+      label: 💰 Budget
+      description: How much do you intend to pay for successful completion of this contract?
+      placeholder: 500 USDC
+    validations:
+      required: false
+  - type: textarea
+    id: screenshots
+    attributes:
+      label: 🖼 Screenshots + Mock Ups
+      description: Are there any visual guides to aid in development?
+    validations:
+      required: false
+  - type: textarea
+    id: where-to-start
+    attributes:
+      label: 🎬 Where to Start
+      description: Can you link your contributor to some helpful starting files or example code?
+      placeholder: |
+        This new component is similar to this one: https://github.com/OpenQDev/OpenQ-Frontend/blob/production/components/BountyClosed/BountyClosed.js
+    validations:
+      required: false
+  - type: textarea
+    id: out-of-scope
+    attributes:
+      label: 📵 What's Out of Scope
+      description: What DOES NOT need to be done for this contract?
+      placeholder: |
+        e.g. You do not need to make the UI pretty, we only care about the functionality
+        e.g. You do not need to accomodate any other ERC20 tokens besides DAI
+    validations:
+      required: false
+  - type: textarea
+    id: user-story
+    attributes:
+      label: 🤳 User Story
+      description: What will this look like from the outside looking in? Give the step by step of how the user will experience this new feature.
+      placeholder: |
+        1. WHEN the ADMIN goes to the /admin/{id} page
+        2. THEN they can top up their wallet with Test MATIC
+        3. SO THAT they can then interact with the rest of the platform
+    validations:
+      required: false
+  - type: textarea
+    id: developer-story
+    attributes:
+      label: 👩‍💻 Developer Story
+      description: What will this look like from the perspective of other developers building on top of the contributed code?
+      placeholder: |
+        1. WHEN the DEVELOPER needs to access the service
+        2. THEN they can import it from shared React Context
+        3. SO THAT they can call the appropriate methods in the component
+    validations:
+      required: false
+  - type: textarea
+    id: tools-to-user
+    attributes:
+      label: 🛠 Tools to Use
+      description: Are you opinionated about the tools the contributor will use to create this, e.g. packages, scripts or languages?
+      placeholder: |
+        e.g. Use React Context for injecting the newly created service
+        e.g. Place the new page under the Next.js /pages directory
+  - type: textarea
+    id: resources
+    attributes:
+      label: 🖇 Resources
+      description: Are there any helpful resources like documentation, tutorials, or blogs to get your contributor started?
