@@ -114,9 +114,12 @@ export function GovernanceProvider({ children }: Props) {
       if (!escrow) {
         return true;
       }
-      const lockEndsTimestamp = convert(escrow.escrowEndsAt, 0);
+      const lockEndsTimestamp = convert(escrow.escrowEndsAt, 0) * 1000;
+      console.log("Lock Ends" + lockEndsTimestamp)
       const currentTimestamp = new Date().getTime();
-  
+      console.log("Current Time" + currentTimestamp)
+      // console.log("comparation" + if )
+
       if (lockEndsTimestamp >= currentTimestamp) {
         return true;
       }

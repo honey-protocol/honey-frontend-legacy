@@ -126,7 +126,7 @@ const HoneyModal = () => {
           >
             {amount ? 'Deposit' : 'Enter amount'}
           </Button>
-          <Button onClick={unlock} disabled={true} width="full">
+          <Button onClick={unlock} disabled={lockPeriodHasEnded} width="full">
             Unlock
           </Button>
         </Stack>
