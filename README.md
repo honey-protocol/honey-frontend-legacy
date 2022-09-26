@@ -9,7 +9,7 @@ Hello and welcome 👋🏼, we are happy to see that you arrived at Honey Labs -
 - <a href="https://github.com/gemworks/gem-farm" target="blank">GemFarm</a>: for staking as a service through a service layer API built by Honey Finance (🛠 WIP)
 - <a href="https://github.com/honey-labs/honey-sdk" target="blank">Honey-SDK:</a> for permissionless lending pools that use NFTs as collateral (🛠 WIP)
 - <a href="https://github.com/GokiProtocol/walletkit" target="blank">Goki-Wallet:</a> for connecting to Solana wallets
-- <a href="https://degen-xyz.vercel.app/" target="blank">Degen-UI:</a> for styling accopanied by <a href="https://vanilla-extract.style/documentation/setup/" target="blank">Vanilla-Extract</a> for custom CSS classes
+- <a href="https://degen-xyz.vercel.app/" target="blank">Degen-UI:</a> for styling accompanied by <a href="https://vanilla-extract.style/documentation/setup/" target="blank">Vanilla-Extract</a> for custom CSS classes
 
 
 
