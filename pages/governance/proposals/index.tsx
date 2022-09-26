@@ -41,7 +41,8 @@ const Proposals: NextPage = () => {
                 setIsActive={setShowDrafts}
               />
             </Stack>
-            {wallet?.connected ? (
+            {/* commented out the new proposal button
+                  {wallet?.connected ? (
               <Link href="/governance/proposals/create" passHref>
                 <Button variant="secondary" prefix={<IconPlus />} size="small">
                   New proposal
@@ -56,7 +57,7 @@ const Proposals: NextPage = () => {
               >
                 New proposal
               </Button>
-            )}
+            )} */}
           </Stack>
           <Box backgroundColor="background" borderRadius="2xLarge" padding="6">
             <ProposalsList showDrafts={showDrafts} />
