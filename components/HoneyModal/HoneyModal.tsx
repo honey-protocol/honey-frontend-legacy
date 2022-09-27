@@ -4,18 +4,22 @@ import { PublicKey } from '@solana/web3.js';
 import * as anchor from '@project-serum/anchor';
 import * as styles from './HoneyModal.css';
 import { useStake } from 'hooks/useStake';
-import { useAccounts } from 'hooks/useAccounts';
-import { HONEY_DECIMALS, HONEY_MINT } from 'helpers/sdk/constant';
-import {
-  convert,
-  convertToBN,
-  convertBnTimestampToDate,
-  calcVeHoneyAmount
-} from 'helpers/utils';
+import { HONEY_DECIMALS } from 'helpers/sdk/constant';
+import { convertToBN } from 'helpers/utils';
+import { useGovernance } from 'contexts/GovernanceProvider';
+import config from "../../config"
 
 const HoneyModal = () => {
   const [amount, setAmount] = useState<number>(0);
   const [vestingPeriod, setVestingPeriod] = useState<number>(12);
+
+  const {
+    veHoneyAmount,
+    lockedAmount,
+    lockedPeriodEnd,
+    honeyAmount,
+    lockPeriodHasEnded
+  } = useGovernance();
 
   const handleOnChange = (event: any) => {
     setAmount(event.target.value);
@@ -33,61 +37,13 @@ const HoneyModal = () => {
     return 0;
   }, [vestingPeriod]);
 
-  const { tokenAccounts } = useAccounts();
+  const STAKE_POOL_ADDRESS = new PublicKey(config.NEXT_PUBLIC_STAKE_POOL_ADDRESS);
+  const LOCKER_ADDRESS = new PublicKey(config.NEXT_PUBLIC_LOCKER_ADDR);
 
-  // ======================== Should replace with configuration ================
-  const honeyToken = tokenAccounts.find(t => t.info.mint.equals(HONEY_MINT));
-  const STAKE_POOL_ADDRESS = new PublicKey(
-    process.env.NEXT_STAKE_POOL_ADDR ||
-      '4v62DWSwrUVEHe2g88MeyJ7g32vVzQsCnADZF8yUy8iU'
-  );
-  const LOCKER_ADDRESS = new PublicKey(
-    process.env.NEXT_LOCKER_ADDR ||
-      '5FnK8H9kDbmPNpBYMuvSkDevkMfnVPRrPNNqmTQyBBae'
-  );
-  // ============================================================================
-
-  const { lock, escrow } = useStake(STAKE_POOL_ADDRESS, LOCKER_ADDRESS);
-
-  const lockedAmount = useMemo(() => {
-    if (!escrow) {
-      return 0;
-    }
-
-    return convert(escrow.amount, HONEY_DECIMALS);
-  }, [escrow]);
-
-  const lockedPeriodEnd = useMemo(() => {
-    if (!escrow) {
-      return 0;
-    }
-
-    return convertBnTimestampToDate(escrow.escrowEndsAt);
-  }, [escrow]);
-
-  const veHoneyAmount = useMemo(() => {
-    if (!escrow) {
-      return 0;
-    }
-    return calcVeHoneyAmount(
-      escrow.escrowStartedAt,
-      escrow.escrowEndsAt,
-      escrow.amount
-    );
-  }, [escrow]);
-
-  const HoneyAmount = useMemo(() => {
-    if (!honeyToken) {
-      return 0;
-    }
-
-    return convert(honeyToken.info.amount, HONEY_DECIMALS);
-  }, [honeyToken]);
+  const { lock, unlock, escrow } = useStake(STAKE_POOL_ADDRESS, LOCKER_ADDRESS);
 
   const handleLock = useCallback(async () => {
     if (!amount || !vestingPeriodInSeconds) return;
-
-    // console.log(vestingPeriodInSeconds);
 
     await lock(
       convertToBN(amount, HONEY_DECIMALS),
@@ -139,7 +95,7 @@ const HoneyModal = () => {
                   onChange={event =>
                     setVestingPeriod(Number(event.target.value))
                   }
-                > 
+                >
                   <option value="1">1 month</option>
                   <option value="3">3 months</option>
                   <option value="6">6 months</option>
@@ -152,11 +108,11 @@ const HoneyModal = () => {
           <Input
             type="number"
             label="Amount"
-            labelSecondary={<Tag>{HoneyAmount} pHONEY max</Tag>}
-            max={HoneyAmount || ''}
+            labelSecondary={<Tag>{honeyAmount} pHONEY max</Tag>}
+            max={honeyAmount || ''}
             min={0}
             value={amount || ''}
-            disabled={!HoneyAmount}
+            disabled={!honeyAmount}
             hideLabel
             units="HONEY"
             placeholder="0"
@@ -169,6 +125,9 @@ const HoneyModal = () => {
             width="full"
           >
             {amount ? 'Deposit' : 'Enter amount'}
+          </Button>
+          <Button onClick={unlock} disabled={lockPeriodHasEnded} width="full">
+            Unlock
           </Button>
         </Stack>
       </Box>

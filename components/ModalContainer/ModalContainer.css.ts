@@ -7,7 +7,7 @@ export const modalContainer = style({
   pointerEvents: 'none',
   overflow: 'auto',
   cursor: 'pointer',
-  padding: '5rem 0px 0px',
+  padding: '3rem 0px 0px',
   inset: '0',
   zIndex: '99',
   background:

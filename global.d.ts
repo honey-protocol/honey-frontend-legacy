@@ -1,0 +1,16 @@
+declare namespace NodeJS {
+  interface ProcessEnv {
+    NEXT_PUBLIC_LOCKER_ADDR: string;
+    NEXT_PUBLIC_VOTER_PROGRAM_ID: string;
+    NEXT_PUBLIC_STAKE_PROGRAM_ID: string;
+    NEXT_PUBLIC_GOVERNOR_ADDRESS: string;
+    NEXT_PUBLIC_SMART_WALLET_ADDRESS: string;
+    NEXT_PUBLIC_RPC_NODE: string;
+    NEXT_PUBLIC_GA: string;
+    NEXT_PUBLIC_WHITELIST_ENTRY: string;
+    NEXT_PUBLIC_PHONEY_MINT: string;
+    NEXT_PUBLIC_HONEY_MINT: string;
+    NEXT_PUBLIC_STAKE_POOL_ADDRESS: string;
+    NEXT_PUBLIC_HONEY_MINT_WRAPPER: string;
+  }
+}

@@ -1,17 +1,31 @@
+import Script from 'next/script';
+import { useEffect, useState } from 'react';
+import { WalletKitProvider } from '@gokiprotocol/walletkit';
+import { Network } from '@saberhq/solana-contrib';
+import { PartialNetworkConfigMap } from '@saberhq/use-solana/src/utils/useConnectionInternal';
+import { SailProvider } from '@saberhq/sail';
+import { QueryClient, QueryClientProvider } from 'react-query';
+import { ReactQueryDevtools } from 'react-query/devtools';
 import type { AppProps } from 'next/app';
 import { ThemeProvider } from 'degen';
-import 'degen/styles';
-import { WalletKitProvider } from '@gokiprotocol/walletkit';
-import '../styles/globals.css';
-import { Network } from '@saberhq/solana-contrib';
 import { ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
 import { accentSequence, ThemeAccent } from 'helpers/theme-utils';
-import { PartialNetworkConfigMap } from '@saberhq/use-solana/src/utils/useConnectionInternal';
-import { useEffect, useState } from 'react';
 import SecPopup from 'components/SecPopup';
-import Script from 'next/script';
+import {
+  GOVERNOR_ADDRESS,
+  HONEY_MINT,
+  HONEY_MINT_WRAPPER,
+  SDKProvider
+} from 'helpers/sdk';
+import { GovernorProvider } from 'hooks/tribeca/useGovernor';
+import { GovernanceProvider } from 'contexts/GovernanceProvider';
 
+import 'degen/styles';
+import '../styles/globals.css';
+import 'react-toastify/dist/ReactToastify.css';
+import { onSailError } from 'helpers/error';
+
+const queryClient = new QueryClient();
 const network = process.env.NETWORK as Network;
 const networkConfiguration = () => {
   if (process.env.NETWORK_CONFIGURATION) {
@@ -59,23 +73,47 @@ function MyApp({ Component, pageProps }: AppProps) {
 
          `}
       </Script>
-      <WalletKitProvider
-        defaultNetwork={network}
-        app={{
-          name: 'Honey Finance'
-        }}
-        networkConfigs={networkConfiguration()}
-      >
-        {/* {children} */}
-        {showPopup ? (
-          <SecPopup setShowPopup={setShowPopup} />
-        ) : (
-          <>
-            <Component {...pageProps} />
-            <ToastContainer theme="dark" position="bottom-right" />
-          </>
-        )}
-      </WalletKitProvider>
+      <QueryClientProvider client={queryClient}>
+        <ReactQueryDevtools initialIsOpen={false} />
+
+        <WalletKitProvider
+          defaultNetwork={network}
+          app={{
+            name: 'Honey Finance'
+          }}
+          networkConfigs={networkConfiguration()}
+        >
+          <GovernanceProvider>
+            <SailProvider
+              initialState={{
+                onSailError
+              }}
+            >
+              <SDKProvider>
+                <GovernorProvider
+                  initialState={{
+                    governor: GOVERNOR_ADDRESS,
+                    govToken: HONEY_MINT,
+                    minter: {
+                      mintWrapper: HONEY_MINT_WRAPPER
+                    }
+                  }}
+                >
+                  {/* {children} */}
+                  {showPopup ? (
+                    <SecPopup setShowPopup={setShowPopup} />
+                  ) : (
+                    <>
+                      <Component {...pageProps} />
+                    </>
+                  )}
+                </GovernorProvider>
+              </SDKProvider>
+            </SailProvider>
+          </GovernanceProvider>
+        </WalletKitProvider>
+      </QueryClientProvider>
+      <ToastContainer theme="dark" position="bottom-right" />
     </ThemeProvider>
   );
 }

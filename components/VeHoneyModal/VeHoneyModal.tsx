@@ -2,27 +2,26 @@ import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { Box, Button, Input, Stack, Text, Tag } from 'degen';
 import { PublicKey } from '@solana/web3.js';
 import * as anchor from '@project-serum/anchor';
-
 import * as styles from './VeHoneyModal.css';
 import { useStake } from 'hooks/useStake';
-import { useAccounts } from 'hooks/useAccounts';
-import {
-  HONEY_DECIMALS,
-  PHONEY_DECIMALS,
-  PHONEY_MINT
-} from 'helpers/sdk/constant';
-import {
-  convert,
-  convertToBN,
-  convertBnTimestampToDate,
-  calcVeHoneyAmount
-} from 'helpers/utils';
+import { PHONEY_DECIMALS } from 'helpers/sdk/constant';
+import { convertToBN } from 'helpers/utils';
+import { useGovernance } from 'contexts/GovernanceProvider';
+import config from '../../config'
 
 const VeHoneyModal = () => {
   const [amount, setAmount] = useState<number>(0);
   const [vestingPeriod, setVestingPeriod] = useState<number>(12);
   const [pHoneyConversionAmount, setPHoneyConversionAmount] =
     useState<number>(0);
+
+  const {
+    veHoneyAmount,
+    lockedAmount,
+    lockedPeriodEnd,
+    pHoneyAmount,
+    lockPeriodHasEnded
+  } = useGovernance();
 
   const handleOnChange = (event: any) => {
     setAmount(event.target.value);
@@ -50,61 +49,16 @@ const VeHoneyModal = () => {
     return 0;
   }, [vestingPeriod]);
 
-  const { tokenAccounts } = useAccounts();
+  const STAKE_POOL_ADDRESS = new PublicKey(config.NEXT_PUBLIC_STAKE_POOL_ADDRESS);
+  const LOCKER_ADDRESS = new PublicKey(config.NEXT_PUBLIC_LOCKER_ADDR);
 
-  // ======================== Should replace with configuration ================
-  const pHoneyToken = tokenAccounts.find(t => t.info.mint.equals(PHONEY_MINT));
-  const STAKE_POOL_ADDRESS = new PublicKey(
-    process.env.NEXT_STAKE_POOL_ADDR ||
-      '4v62DWSwrUVEHe2g88MeyJ7g32vVzQsCnADZF8yUy8iU'
+  const { stake, unlock, escrow } = useStake(
+    STAKE_POOL_ADDRESS,
+    LOCKER_ADDRESS
   );
-  const LOCKER_ADDRESS = new PublicKey(
-    process.env.NEXT_LOCKER_ADDR ||
-      '5FnK8H9kDbmPNpBYMuvSkDevkMfnVPRrPNNqmTQyBBae'
-  );
-  // ============================================================================
-
-  const { stake, escrow } = useStake(STAKE_POOL_ADDRESS, LOCKER_ADDRESS);
-
-  const lockedAmount = useMemo(() => {
-    if (!escrow) {
-      return 0;
-    }
-
-    return convert(escrow.amount, HONEY_DECIMALS);
-  }, [escrow]);
-
-  const lockedPeriodEnd = useMemo(() => {
-    if (!escrow) {
-      return 0;
-    }
-
-    return convertBnTimestampToDate(escrow.escrowEndsAt);
-  }, [escrow]);
-
-  const veHoneyAmount = useMemo(() => {
-    if (!escrow) {
-      return 0;
-    }
-    return calcVeHoneyAmount(
-      escrow.escrowStartedAt,
-      escrow.escrowEndsAt,
-      escrow.amount
-    );
-  }, [escrow]);
-
-  const pHoneyAmount = useMemo(() => {
-    if (!pHoneyToken) {
-      return 0;
-    }
-
-    return convert(pHoneyToken.info.amount, PHONEY_DECIMALS);
-  }, [pHoneyToken]);
 
   const handleStake = useCallback(async () => {
     if (!amount || !vestingPeriodInSeconds) return;
-
-    // console.log(vestingPeriodInSeconds);
 
     await stake(
       convertToBN(amount, PHONEY_DECIMALS),
@@ -204,6 +158,9 @@ const VeHoneyModal = () => {
             width="full"
           >
             {amount ? 'Deposit' : 'Enter amount'}
+          </Button>
+          <Button onClick={unlock} disabled={lockPeriodHasEnded} width="full">
+            Unlock
           </Button>
         </Stack>
       </Box>

@@ -55,15 +55,16 @@ export class VeHoneyClient extends ClientBase<VeHoney> {
         escrow,
         this.wallet.publicKey
       ),
-      this.program.instruction.initEscrow({
-        accounts: {
+      await this.program.methods
+        .initEscrow()
+        .accounts({
           payer: this.wallet.publicKey,
           locker,
           escrow,
           escrowOwner: this.wallet.publicKey,
           systemProgram: anchor.web3.SystemProgram.programId
-        }
-      })
+        })
+        .instruction()
     ];
   }
 
@@ -76,8 +77,7 @@ export class VeHoneyClient extends ClientBase<VeHoney> {
       [escrow] = await this.getEscrowPDA(locker);
     }
 
-    let preInstructions: anchor.web3.TransactionInstruction[] | undefined =
-      undefined;
+    let preInstructions: anchor.web3.TransactionInstruction[] = [];
     if (!destination) {
       destination = await Token.getAssociatedTokenAddress(
         ASSOCIATED_TOKEN_PROGRAM_ID,
@@ -86,7 +86,7 @@ export class VeHoneyClient extends ClientBase<VeHoney> {
         this.wallet.publicKey
       );
 
-      preInstructions = [
+      preInstructions.push(
         Token.createAssociatedTokenAccountInstruction(
           ASSOCIATED_TOKEN_PROGRAM_ID,
           TOKEN_PROGRAM_ID,
@@ -95,13 +95,14 @@ export class VeHoneyClient extends ClientBase<VeHoney> {
           this.wallet.publicKey,
           this.wallet.publicKey
         )
-      ];
+      );
     }
 
     const lockedTokens = await this.getEscrowLockedTokenPDA(escrow);
 
-    const txSig = await this.program.rpc.exit({
-      accounts: {
+    const txSig = await this.program.methods
+      .exit()
+      .accounts({
         payer: this.wallet.publicKey,
         locker,
         escrow,
@@ -109,9 +110,9 @@ export class VeHoneyClient extends ClientBase<VeHoney> {
         lockedTokens,
         destinationTokens: destination,
         tokenProgram: TOKEN_PROGRAM_ID
-      },
-      preInstructions
-    });
+      })
+      .preInstructions(preInstructions)
+      .rpc();
 
     return { txSig, destination };
   }
@@ -123,9 +124,10 @@ export class VeHoneyClient extends ClientBase<VeHoney> {
     duration: anchor.BN,
     hasEscrow?: boolean
   ) {
-    const preInstructions = !hasEscrow
-      ? [...(await this.createInitializeEscrowIx(locker))]
-      : undefined;
+    const preInstructions = [];
+    if (!hasEscrow) {
+      preInstructions.push(...(await this.createInitializeEscrowIx(locker)));
+    }
 
     const remainingAccounts = [
       {
@@ -143,26 +145,25 @@ export class VeHoneyClient extends ClientBase<VeHoney> {
     const [escrow] = await this.getEscrowPDA(locker);
     const lockedTokens = await this.getEscrowLockedTokenPDA(escrow);
 
-    const txSig = await this.program.rpc.lock(
-      new anchor.BN(amount),
-      new anchor.BN(duration),
-      {
-        accounts: {
-          locker,
-          escrow,
-          lockedTokens,
-          escrowOwner: this.wallet.publicKey,
-          sourceTokens: source,
-          sourceTokensAuthority: this.wallet.publicKey,
-          tokenProgram: TOKEN_PROGRAM_ID
-        },
-        remainingAccounts,
-        preInstructions
-      }
-    );
-
+    const txSig = await this.program.methods
+      .lock(new anchor.BN(amount), new anchor.BN(duration))
+      .accounts({
+        locker,
+        escrow,
+        lockedTokens,
+        escrowOwner: this.wallet.publicKey,
+        sourceTokens: source,
+        sourceTokensAuthority: this.wallet.publicKey,
+        tokenProgram: TOKEN_PROGRAM_ID
+      })
+      .remainingAccounts(remainingAccounts)
+      .preInstructions(preInstructions)
+      .rpc();
     return { txSig, escrow };
   }
+
+
+
   async getEscrowPDA(locker: PublicKey) {
     return anchor.web3.PublicKey.findProgramAddress(
       [
@@ -198,5 +199,9 @@ export class VeHoneyClient extends ClientBase<VeHoney> {
       ],
       this.program.programId
     );
+  }
+  
+  async getAllEscrowAccounts() {
+    return this.program.account.escrow.all();
   }
 }

@@ -89,6 +89,27 @@
       ]
     },
     {
+      "name": "setOwner",
+      "accounts": [
+        {
+          "name": "owner",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "poolInfo",
+          "isMut": true,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "newOwner",
+          "type": "publicKey"
+        }
+      ]
+    },
+    {
       "name": "setMintAuthority",
       "accounts": [
         {
