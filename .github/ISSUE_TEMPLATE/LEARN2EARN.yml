@@ -1,0 +1,20 @@
+name: Learn2Earn
+description: Pay out a fixed amount to multiple contributors
+title: "[LEARN2EARN]: "
+labels: ["Learn2Earn"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Setup a competition for your contributor community
+  - type: textarea
+    id: description
+    attributes:
+      label: 📃 Description
+      description: What do you want to do? Why do you want to do it?
+      placeholder: |
+        e.g. Design a new app for 
+        e.g. integrate a MATIC Testnet Faucet
+        e.g. change the color of this text
+    validations:
+      required: true

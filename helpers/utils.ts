@@ -76,8 +76,6 @@ export const convertBnTimestampToDate = (amount: anchor.BN): string => {
   const date = new Date(timestamp * 1000);
 
   const formattedTime = date.toLocaleDateString('en-us', {  year:"numeric", month:"short", day:"numeric"}) 
-;
-
   return formattedTime;
 };
 
