@@ -204,4 +204,8 @@ export class VeHoneyClient extends ClientBase<VeHoney> {
   async getAllEscrowAccounts() {
     return this.program.account.escrow.all();
   }
+
+  async getAllLockerAccounts() {
+    return this.program.account.locker.all();
+  }
 }

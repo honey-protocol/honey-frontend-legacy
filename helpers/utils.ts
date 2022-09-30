@@ -75,30 +75,40 @@ export const convertBnTimestampToDate = (amount: anchor.BN): string => {
 
   const date = new Date(timestamp * 1000);
 
-  const formattedTime = date.toLocaleDateString('en-us', {  year:"numeric", month:"short", day:"numeric"}) 
+  const formattedTime = date.toLocaleDateString('en-us', {
+    year: 'numeric',
+    month: 'short',
+    day: 'numeric'
+  });
   return formattedTime;
 };
 
 export const calcVeHoneyAmount = (
+  honeyAmount: anchor.BN,
   startTimestamp: anchor.BN,
   endTimestamp: anchor.BN,
-  honeyAmount: anchor.BN,
-  decimals: number = 6
+  multiplier: number,
+  maxStakeDuration: anchor.BN,
+  decimals: number
 ): number => {
-  const timestampStart = new anchor.BN(startTimestamp).toNumber();
-  const timestampEnd = new anchor.BN(endTimestamp).toNumber();
-  const honeyAmountHuman = convert(honeyAmount, decimals);
+  // const timestampStart = new anchor.BN(startTimestamp).toNumber();
+  // const timestampEnd = new anchor.BN(endTimestamp).toNumber();
+  // const honeyAmountHuman = convert(honeyAmount, decimals);
 
-  const startDate = new Date(timestampStart).getTime();
-  const endDate = new Date(timestampEnd).getTime();
+  // const startDate = new Date(timestampStart).getTime();
+  // const endDate = new Date(timestampEnd).getTime();
 
-  const vestingPeriod = endDate - startDate;
+  // const vestingPeriod = endDate - startDate;
 
-  const vestingPeriodToWeek = Math.floor(vestingPeriod / (3600 * 24 * 7));
+  // const vestingPeriodToWeek = Math.floor(vestingPeriod / (3600 * 24 * 7));
 
-  const veHoneyAmount = honeyAmountHuman * (vestingPeriodToWeek * (1 / 208));
+  // const veHoneyAmount = honeyAmountHuman * (vestingPeriodToWeek * (1 / 208));
 
-  return veHoneyAmount;
+  const duration = endTimestamp.sub(startTimestamp)
+  const veHoneyAmount = honeyAmount.mul(duration).muln(multiplier).div(maxStakeDuration).divn(10 ** decimals)
+
+
+  return new anchor.BN(veHoneyAmount).toNumber();;
 };
 
 export const convertToBN = (

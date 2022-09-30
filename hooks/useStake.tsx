@@ -227,13 +227,24 @@ export const useStake = (stakePool: PublicKey, locker: PublicKey) => {
 
   const totalVeHoney = useCallback(async () => {
     const allEscrowAccounts = await vc?.getAllEscrowAccounts();
+    const lockerAcc = await vc?.fetchLocker(locker);
+
     let totalHoney: number = 0;
 
-    allEscrowAccounts?.forEach(escrow => {
+    allEscrowAccounts?.forEach(async escrow => {
+      const pubKey = escrow.publicKey;
       const amount = escrow.account.amount;
       const startDate = escrow.account.escrowStartedAt;
       const endDate = escrow.account.escrowEndsAt;
-      const userVeHoneyAmount = calcVeHoneyAmount(startDate, endDate, amount);
+
+      const userVeHoneyAmount = calcVeHoneyAmount(
+        amount,
+        startDate,
+        endDate,
+        lockerAcc!.params.multiplier,
+        lockerAcc!.params.maxStakeDuration,
+        HONEY_DECIMALS
+      );
 
       totalHoney += userVeHoneyAmount;
     });
