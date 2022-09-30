@@ -1,0 +1,64 @@
+name: Competition
+description: Create an online hackathon with tiered payouts
+title: "[COMPETITION]: "
+labels: ["competition"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Setup a competition for your contributor community
+  - type: textarea
+    id: description
+    attributes:
+      label: 📃 Description
+      description: What do you want to do? Why do you want to do it?
+      placeholder: |
+        e.g. Design a new app for 
+        e.g. integrate a MATIC Testnet Faucet
+        e.g. change the color of this text
+    validations:
+      required: true
+  - type: textarea
+    id: judge-criteria
+    attributes:
+      label: 🧑‍⚖️ Judging Criteria
+      description: How will your judges determine winners?
+      placeholder: |
+        - Technical Feasibility
+        - UX
+        - Potential for Impact on Community
+    validations:
+      required: true
+  - type: dropdown
+    id: competition-type
+    attributes:
+      label: Competition Type
+      description: Fixed vs. Percentage payouts. Percentage payout competition's can be crowdfunded easily. Fixed payouts pay out a fixed amount to each winner's tier.
+      options:
+        - Percentage Payout
+        - Fixed Payout
+    validations:
+      required: true
+  - type: textarea
+    id: awards
+    attributes:
+      label: 🏅 Awards
+      description: How much will each winner get?
+      value: |
+        For Percentage Payouts, make a table like:
+
+        🥇 Place | 💸 Payout % from Pool
+        -- | --
+        First Place | 70%
+        Second Place | 20%
+        Third Place | 10%
+
+        For Fixed Payouts, make a table like:
+
+        🥇 Place | 💸 Payout Amount in USDC
+        -- | --
+        First Place | 5,000 USDC
+        Second Place | 2,500 USDC
+        Third Place | 1,000 USDC
+    validations:
+      required: true

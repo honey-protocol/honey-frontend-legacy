@@ -1,12 +1,12 @@
-import React, { useCallback, useMemo, useState, useEffect } from 'react';
+import React, { useCallback, useState, useEffect } from 'react';
 import { Box, Button, Input, Stack, Text, Tag } from 'degen';
 import { PublicKey } from '@solana/web3.js';
 import { useStake } from 'hooks/useStake';
-import { useAccounts } from 'hooks/useAccounts';
-import { PHONEY_DECIMALS, PHONEY_MINT } from 'helpers/sdk/constant';
-import { convert, convertToBN } from 'helpers/utils';
+import { PHONEY_DECIMALS } from 'helpers/sdk/constant';
+import { convertToBN } from 'helpers/utils';
+import { useGovernance } from 'contexts/GovernanceProvider';
+import config from '../../config'
 
-// console.log("The stake pool address is : ", process.env.PUBLIC_NEXT_STAKE_POOL_ADDRESS)
 const PHoneyModal = () => {
   const [amount, setAmount] = useState<number>(0);
   const [isClaimable, setIsClaimable] = useState<boolean>(false);
@@ -17,19 +17,10 @@ const PHoneyModal = () => {
     setAmount(Number(event.target.value));
   };
 
-  const { tokenAccounts } = useAccounts();
+  const { depositedAmount, pHoneyAmount } = useGovernance();
 
-  // ======================== Should replace with configuration ================
-  const pHoneyToken = tokenAccounts.find(t => t.info.mint.equals(PHONEY_MINT));
-  const STAKE_POOL_ADDRESS = new PublicKey(
-    process.env.NEXT_STAKE_POOL_ADDR ||
-      '4v62DWSwrUVEHe2g88MeyJ7g32vVzQsCnADZF8yUy8iU'
-  );
-  const LOCKER_ADDRESS = new PublicKey(
-    process.env.NEXT_LOCKER_ADDR ||
-      '5FnK8H9kDbmPNpBYMuvSkDevkMfnVPRrPNNqmTQyBBae'
-  );
-  // ============================================================================
+  const STAKE_POOL_ADDRESS = new PublicKey(config.NEXT_PUBLIC_STAKE_POOL_ADDRESS);
+  const LOCKER_ADDRESS = new PublicKey(config.NEXT_PUBLIC_LOCKER_ADDR);
 
   const { user, deposit, claim, claimableAmount } = useStake(
     STAKE_POOL_ADDRESS,
@@ -39,22 +30,6 @@ const PHoneyModal = () => {
   useEffect(() => {
     setIsClaimable(claimableAmount !== 0);
   }, [claimableAmount]);
-
-  const depositedAmount = useMemo(() => {
-    if (!user) {
-      return 0;
-    }
-
-    return convert(user.depositAmount, PHONEY_DECIMALS);
-  }, [user]);
-
-  const pHoneyAmount = useMemo(() => {
-    if (!pHoneyToken) {
-      return 0;
-    }
-
-    return convert(pHoneyToken.info.amount, PHONEY_DECIMALS);
-  }, [pHoneyToken]);
 
   const handleDeposit = useCallback(async () => {
     if (!amount) return;
