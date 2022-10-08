@@ -52,7 +52,7 @@ const VeHoneyModal = () => {
   const STAKE_POOL_ADDRESS = new PublicKey(config.NEXT_PUBLIC_STAKE_POOL_ADDRESS);
   const LOCKER_ADDRESS = new PublicKey(config.NEXT_PUBLIC_LOCKER_ADDR);
 
-  const { stake, unlock, escrow } = useStake(
+  const { vest, unlock, escrow } = useStake(
     STAKE_POOL_ADDRESS,
     LOCKER_ADDRESS
   );
@@ -60,12 +60,12 @@ const VeHoneyModal = () => {
   const handleStake = useCallback(async () => {
     if (!amount || !vestingPeriodInSeconds) return;
 
-    await stake(
+    await vest(
       convertToBN(amount, PHONEY_DECIMALS),
       new anchor.BN(vestingPeriodInSeconds),
       !!escrow
     );
-  }, [stake, escrow, amount, vestingPeriodInSeconds]);
+  }, [vest, escrow, amount, vestingPeriodInSeconds]);
 
   return (
     <Box width="96">

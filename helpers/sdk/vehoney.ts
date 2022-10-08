@@ -101,7 +101,7 @@ export class VeHoneyClient extends ClientBase<VeHoney> {
     const lockedTokens = await this.getEscrowLockedTokenPDA(escrow);
 
     const txSig = await this.program.methods
-      .exit()
+      .unlock()
       .accounts({
         payer: this.wallet.publicKey,
         locker,

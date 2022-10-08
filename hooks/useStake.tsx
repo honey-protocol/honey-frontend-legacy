@@ -165,7 +165,7 @@ export const useStake = (stakePool: PublicKey, locker: PublicKey) => {
     }
   }, [sc, userKey, honeyToken]);
 
-  const stake = useCallback(
+  const vest = useCallback(
     async (amount: BN, duration: BN, hasEscrow: boolean = true) => {
       if (sc && vc && userKey && pHoneyToken) {
         setIsLoading(true);
@@ -300,7 +300,7 @@ export const useStake = (stakePool: PublicKey, locker: PublicKey) => {
     isLoading,
     deposit,
     claim,
-    stake,
+    vest,
     lock,
     unlock,
     claimableAmount,

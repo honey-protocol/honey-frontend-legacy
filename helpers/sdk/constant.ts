@@ -10,7 +10,7 @@ export const HONEY_DECIMALS = 6;
 export const PHONEY_MINT = new PublicKey(config.NEXT_PUBLIC_PHONEY_MINT);
 
 export const WHITELIST_ENTRY = new PublicKey(
-  'G62oYbYUbchjHMRddcFaDqRQ5CuNV9KE36kfzyYvFuDy'
+  'EAc9qa3DXCgBwSEjRkXGZxPUmvuNTV56zfYzbjihbiYv'
 );
 
 export const PHONEY_DECIMALS = 6;

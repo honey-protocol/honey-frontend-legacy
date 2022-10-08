@@ -145,6 +145,7 @@ export class StakeClient extends ClientBase<Stake> {
     return { destination, txSig };
   }
 
+
   async vest(
     pool: PublicKey,
     locker: PublicKey,
@@ -186,29 +187,30 @@ export class StakeClient extends ClientBase<Stake> {
     const lockedTokens = await veHoneyClient.getEscrowLockedTokenPDA(escrow);
     const lockerProgram = veHoneyClient.getProgramId();
 
-    const txSig = await this.program.rpc.vest(
-      new anchor.BN(amount),
-      new anchor.BN(duration),
-      {
-        accounts: {
-          payer: this.wallet.publicKey,
-          poolInfo: pool,
-          tokenMint: HONEY_MINT,
-          pTokenMint: PHONEY_MINT,
-          pTokenFrom: source,
-          userAuthority: this.wallet.publicKey,
-          tokenVault,
-          authority,
-          locker,
-          escrow,
-          lockedTokens,
-          lockerProgram,
-          tokenProgram: TOKEN_PROGRAM_ID
-        },
-        remainingAccounts,
-        preInstructions
-      }
-    );
+    let txBuilder = this.program.methods
+      .vest(amount, duration)
+      .accounts({
+        payer: this.wallet.publicKey,
+        poolInfo: pool,
+        tokenMint: HONEY_MINT,
+        pTokenMint: PHONEY_MINT,
+        pTokenFrom: source,
+        userAuthority: this.wallet.publicKey,
+        tokenVault,
+        authority,
+        locker,
+        escrow,
+        lockedTokens,
+        lockerProgram,
+        tokenProgram: TOKEN_PROGRAM_ID
+      })
+      .remainingAccounts(remainingAccounts!);
+
+    if (preInstructions) {
+      txBuilder = txBuilder.preInstructions(preInstructions);
+    }
+
+    const txSig = await txBuilder.rpc();
 
     return { txSig, escrow };
   }
