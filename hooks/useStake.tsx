@@ -170,7 +170,7 @@ export const useStake = (stakePool: PublicKey, locker: PublicKey) => {
       if (sc && vc && userKey && pHoneyToken) {
         setIsLoading(true);
         try {
-          await sc.stake(
+          await sc.vest(
             stakePool,
             locker,
             pHoneyToken.pubkey,

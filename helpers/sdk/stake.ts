@@ -145,7 +145,7 @@ export class StakeClient extends ClientBase<Stake> {
     return { destination, txSig };
   }
 
-  async stake(
+  async vest(
     pool: PublicKey,
     locker: PublicKey,
     source: PublicKey,
@@ -186,11 +186,12 @@ export class StakeClient extends ClientBase<Stake> {
     const lockedTokens = await veHoneyClient.getEscrowLockedTokenPDA(escrow);
     const lockerProgram = veHoneyClient.getProgramId();
 
-    const txSig = await this.program.rpc.stake(
+    const txSig = await this.program.rpc.vest(
       new anchor.BN(amount),
       new anchor.BN(duration),
       {
         accounts: {
+          payer: this.wallet.publicKey,
           poolInfo: pool,
           tokenMint: HONEY_MINT,
           pTokenMint: PHONEY_MINT,

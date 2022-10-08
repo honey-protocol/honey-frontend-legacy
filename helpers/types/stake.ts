@@ -1,5 +1,5 @@
 export type Stake = {
-  "version": "0.1.0",
+  "version": "2.0.0",
   "name": "stake",
   "instructions": [
     {
@@ -305,8 +305,13 @@ export type Stake = {
       "args": []
     },
     {
-      "name": "stake",
+      "name": "vest",
       "accounts": [
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
         {
           "name": "poolInfo",
           "isMut": false,
@@ -472,45 +477,54 @@ export type Stake = {
   ],
   "errors": [
     {
-      "code": 6000,
-      "name": "InvalidParam",
-      "msg": "Invalid params"
+      "code": 6100,
+      "name": "Uninitialized"
     },
     {
-      "code": 6001,
-      "name": "StartTimeFreezed",
-      "msg": "Started time can't be modified"
+      "code": 6101,
+      "name": "InvalidParams"
     },
     {
-      "code": 6002,
-      "name": "InsufficientFunds",
-      "msg": "Insufficient funds"
+      "code": 6102,
+      "name": "StartTimeFreezed"
     },
     {
-      "code": 6003,
-      "name": "NotClaimable",
-      "msg": "Not claimable"
+      "code": 6103,
+      "name": "InvalidOwner"
     },
     {
-      "code": 6004,
-      "name": "MathOverflow",
-      "msg": "Math overflow"
+      "code": 6104,
+      "name": "InvalidMint"
     },
     {
-      "code": 6005,
-      "name": "Uninitialized",
-      "msg": "Pool is not initialized"
+      "code": 6105,
+      "name": "InvalidPool"
     },
     {
-      "code": 6006,
-      "name": "AnchorSerializationError",
-      "msg": "Anchor serialization error"
+      "code": 6200,
+      "name": "InsufficientFunds"
+    },
+    {
+      "code": 6201,
+      "name": "NotClaimable"
+    },
+    {
+      "code": 6202,
+      "name": "VarientViolated"
+    },
+    {
+      "code": 6203,
+      "name": "InvalidInputValue"
+    },
+    {
+      "code": 6300,
+      "name": "MathOverflow"
     }
   ]
 };
 
 export const IDL: Stake = {
-  "version": "0.1.0",
+  "version": "2.0.0",
   "name": "stake",
   "instructions": [
     {
@@ -816,8 +830,13 @@ export const IDL: Stake = {
       "args": []
     },
     {
-      "name": "stake",
+      "name": "vest",
       "accounts": [
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
         {
           "name": "poolInfo",
           "isMut": false,
@@ -983,39 +1002,48 @@ export const IDL: Stake = {
   ],
   "errors": [
     {
-      "code": 6000,
-      "name": "InvalidParam",
-      "msg": "Invalid params"
+      "code": 6100,
+      "name": "Uninitialized"
     },
     {
-      "code": 6001,
-      "name": "StartTimeFreezed",
-      "msg": "Started time can't be modified"
+      "code": 6101,
+      "name": "InvalidParams"
     },
     {
-      "code": 6002,
-      "name": "InsufficientFunds",
-      "msg": "Insufficient funds"
+      "code": 6102,
+      "name": "StartTimeFreezed"
     },
     {
-      "code": 6003,
-      "name": "NotClaimable",
-      "msg": "Not claimable"
+      "code": 6103,
+      "name": "InvalidOwner"
     },
     {
-      "code": 6004,
-      "name": "MathOverflow",
-      "msg": "Math overflow"
+      "code": 6104,
+      "name": "InvalidMint"
     },
     {
-      "code": 6005,
-      "name": "Uninitialized",
-      "msg": "Pool is not initialized"
+      "code": 6105,
+      "name": "InvalidPool"
     },
     {
-      "code": 6006,
-      "name": "AnchorSerializationError",
-      "msg": "Anchor serialization error"
+      "code": 6200,
+      "name": "InsufficientFunds"
+    },
+    {
+      "code": 6201,
+      "name": "NotClaimable"
+    },
+    {
+      "code": 6202,
+      "name": "VarientViolated"
+    },
+    {
+      "code": 6203,
+      "name": "InvalidInputValue"
+    },
+    {
+      "code": 6300,
+      "name": "MathOverflow"
     }
   ]
 };

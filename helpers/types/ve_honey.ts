@@ -1,7 +1,5 @@
-import { generateErrorMap } from '@saberhq/anchor-contrib';
-
 export type VeHoney = {
-  "version": "0.1.0",
+  "version": "2.0.0",
   "name": "ve_honey",
   "instructions": [
     {
@@ -24,6 +22,11 @@ export type VeHoney = {
         },
         {
           "name": "tokenMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "wlTokenMint",
           "isMut": false,
           "isSigner": false
         },
@@ -72,6 +75,57 @@ export type VeHoney = {
         },
         {
           "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "initTreasury",
+      "accounts": [
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "locker",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "treasury",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "governor",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "smartWallet",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
           "isMut": false,
           "isSigner": false
         }
@@ -184,6 +238,145 @@ export type VeHoney = {
       "args": []
     },
     {
+      "name": "addProof",
+      "accounts": [
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "locker",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "proof",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "address",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "governor",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "smartWallet",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "proofType",
+          "type": "u8"
+        }
+      ]
+    },
+    {
+      "name": "removeProof",
+      "accounts": [
+        {
+          "name": "locker",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "proof",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "fundsReceiver",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "governor",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "smartWallet",
+          "isMut": false,
+          "isSigner": true
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "setWlMintAuthority",
+      "accounts": [
+        {
+          "name": "locker",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "wlTokenMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "currentAuthority",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "reclaimWlMintAuthority",
+      "accounts": [
+        {
+          "name": "locker",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "wlTokenMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "governor",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "smartWallet",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "mintAuthority",
+          "type": "publicKey"
+        }
+      ]
+    },
+    {
       "name": "lock",
       "accounts": [
         {
@@ -234,7 +427,124 @@ export type VeHoney = {
       ]
     },
     {
-      "name": "exit",
+      "name": "lockNft",
+      "accounts": [
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "locker",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "escrow",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "receipt",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "escrowOwner",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "lockedTokens",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "lockerTreasury",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "nftSource",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "nftSourceAuthority",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "wlTokenMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "wlDestination",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "duration",
+          "type": "i64"
+        }
+      ]
+    },
+    {
+      "name": "claim",
+      "accounts": [
+        {
+          "name": "locker",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "escrow",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "escrowOwner",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "lockedTokens",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "destinationTokens",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "nftReceipt",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "unlock",
       "accounts": [
         {
           "name": "payer",
@@ -263,6 +573,73 @@ export type VeHoney = {
         },
         {
           "name": "destinationTokens",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "closeReceipt",
+      "accounts": [
+        {
+          "name": "locker",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "escrow",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "nftReceipt",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "escrowOwner",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "fundsReceiver",
+          "isMut": true,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "closeEscrow",
+      "accounts": [
+        {
+          "name": "locker",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "escrow",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "escrowOwner",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "lockedTokens",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "fundsReceiver",
           "isMut": true,
           "isSigner": false
         },
@@ -413,6 +790,14 @@ export type VeHoney = {
             "type": "i64"
           },
           {
+            "name": "receiptCount",
+            "type": "u64"
+          },
+          {
+            "name": "amountToReceipt",
+            "type": "u64"
+          },
+          {
             "name": "voteDelegate",
             "type": "publicKey"
           }
@@ -441,6 +826,10 @@ export type VeHoney = {
             "type": "u64"
           },
           {
+            "name": "wlTokenMint",
+            "type": "publicKey"
+          },
+          {
             "name": "governor",
             "type": "publicKey"
           },
@@ -449,6 +838,58 @@ export type VeHoney = {
             "type": {
               "defined": "LockerParams"
             }
+          }
+        ]
+      }
+    },
+    {
+      "name": "nftReceipt",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "receiptId",
+            "type": "u64"
+          },
+          {
+            "name": "locker",
+            "type": "publicKey"
+          },
+          {
+            "name": "owner",
+            "type": "publicKey"
+          },
+          {
+            "name": "vestStartedAt",
+            "type": "i64"
+          },
+          {
+            "name": "vestEndsAt",
+            "type": "i64"
+          },
+          {
+            "name": "claimedAmount",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "proof",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "locker",
+            "type": "publicKey"
+          },
+          {
+            "name": "proofType",
+            "type": "u8"
+          },
+          {
+            "name": "proofAddress",
+            "type": "publicKey"
           }
         ]
       }
@@ -503,42 +944,28 @@ export type VeHoney = {
           {
             "name": "proposalActivationMinVotes",
             "type": "u64"
+          },
+          {
+            "name": "nftStakeDurationUnit",
+            "type": "i64"
+          },
+          {
+            "name": "nftStakeBaseReward",
+            "type": "u64"
+          },
+          {
+            "name": "nftStakeDurationCount",
+            "type": "u8"
+          },
+          {
+            "name": "nftRewardHalvingStartsAt",
+            "type": "u8"
           }
         ]
       }
     }
   ],
   "events": [
-    {
-      "name": "ExitEscrowEvent",
-      "fields": [
-        {
-          "name": "escrowOwner",
-          "type": "publicKey",
-          "index": false
-        },
-        {
-          "name": "locker",
-          "type": "publicKey",
-          "index": false
-        },
-        {
-          "name": "timestamp",
-          "type": "i64",
-          "index": false
-        },
-        {
-          "name": "lockedSupply",
-          "type": "u64",
-          "index": false
-        },
-        {
-          "name": "releasedAmount",
-          "type": "u64",
-          "index": false
-        }
-      ]
-    },
     {
       "name": "InitEscrowEvent",
       "fields": [
@@ -662,6 +1089,36 @@ export type VeHoney = {
       ]
     },
     {
+      "name": "ExitEscrowEvent",
+      "fields": [
+        {
+          "name": "escrowOwner",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "locker",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "timestamp",
+          "type": "i64",
+          "index": false
+        },
+        {
+          "name": "lockedSupply",
+          "type": "u64",
+          "index": false
+        },
+        {
+          "name": "releasedAmount",
+          "type": "u64",
+          "index": false
+        }
+      ]
+    },
+    {
       "name": "ApproveLockPrivilegeEvent",
       "fields": [
         {
@@ -709,90 +1166,162 @@ export type VeHoney = {
   ],
   "errors": [
     {
-      "code": 6000,
-      "name": "EscrowNotEnded",
-      "msg": "Escrow has not ended."
+      "code": 7000,
+      "name": "InvalidLocker"
     },
     {
-      "code": 6001,
-      "name": "InvalidLockerAdmin",
-      "msg": "Invalid locker admin"
+      "code": 7001,
+      "name": "InvalidLockerMint"
     },
     {
-      "code": 6002,
-      "name": "LockupDurationTooShort",
-      "msg": "Lockup duration must at least be the min stake duration."
+      "code": 7002,
+      "name": "InvalidLockerWLMint"
     },
     {
-      "code": 6003,
-      "name": "LockupDurationTooLong",
-      "msg": "Lockup duration must at most be the max stake duration."
+      "code": 7003,
+      "name": "InvalidAccountOwner"
     },
     {
-      "code": 6004,
-      "name": "RefreshCannotShorten",
-      "msg": "A voting escrow refresh cannot shorten the escrow time remaining."
+      "code": 7004,
+      "name": "InvalidTokenOwner"
     },
     {
-      "code": 6005,
-      "name": "MustProvideWhitelist",
-      "msg": "Program whitelist enabled; please provide whitelist entry and instructions sysvar"
+      "code": 7005,
+      "name": "InvalidToken"
     },
     {
-      "code": 6006,
-      "name": "ProgramNotWhitelisted",
-      "msg": "CPI caller not whitelisted to invoke lock instruction."
+      "code": 7006,
+      "name": "InvalidAssociatedTokenAccount"
     },
     {
-      "code": 6007,
-      "name": "EscrowOwnerNotWhitelisted",
-      "msg": "CPI caller not whitelisted for escrow owner to invoke lock instruction."
+      "code": 7007,
+      "name": "InvalidRemainingAccounts"
     },
     {
-      "code": 6008,
-      "name": "EscrowExpired",
-      "msg": "Escrow was already expired."
+      "code": 7008,
+      "name": "InvalidProofType"
     },
     {
-      "code": 6009,
-      "name": "LockedSupplyMismatch",
-      "msg": "Token lock failed, locked supply mismatches the exact amount."
+      "code": 7009,
+      "name": "InvalidProof"
     },
     {
-      "code": 6010,
-      "name": "EscrowInUse",
-      "msg": "The escrow has already locked."
+      "code": 7010,
+      "name": "InvalidGovernorParams"
     },
     {
-      "code": 6011,
-      "name": "EscrowNoBalance",
-      "msg": "The escrow doesn't have balance"
+      "code": 7011,
+      "name": "InvalidVoteDelegate"
     },
     {
-      "code": 6012,
-      "name": "ProposalMustBeActive",
-      "msg": "The proposal must be active"
+      "code": 7012,
+      "name": "InvalidProgramId"
     },
     {
-      "code": 6013,
-      "name": "GovernorMismatch",
-      "msg": "Governor mismatch"
+      "code": 7100,
+      "name": "EscrowNotEnded"
     },
     {
-      "code": 6014,
-      "name": "ProgramIdMustBeExecutable",
-      "msg": "Program id must be executable"
+      "code": 7101,
+      "name": "EscrowExpired"
     },
     {
-      "code": 6015,
-      "name": "InsufficientVotingPower",
-      "msg": "Insufficient voting power to activate a proposal"
+      "code": 7102,
+      "name": "EscrowInUse"
+    },
+    {
+      "code": 7103,
+      "name": "EscrowNoBalance"
+    },
+    {
+      "code": 7104,
+      "name": "LockupDurationTooShort"
+    },
+    {
+      "code": 7105,
+      "name": "LockupDurationTooLong"
+    },
+    {
+      "code": 7106,
+      "name": "RefreshCannotShorten"
+    },
+    {
+      "code": 7107,
+      "name": "ClaimError"
+    },
+    {
+      "code": 7108,
+      "name": "CloseNonZeroReceipt"
+    },
+    {
+      "code": 7109,
+      "name": "ReceiptCountError"
+    },
+    {
+      "code": 7110,
+      "name": "ReceiptNotEnded"
+    },
+    {
+      "code": 7200,
+      "name": "MustProvideWhitelist"
+    },
+    {
+      "code": 7201,
+      "name": "ProgramNotWhitelisted"
+    },
+    {
+      "code": 7202,
+      "name": "EscrowOwnerNotWhitelisted"
+    },
+    {
+      "code": 7203,
+      "name": "ProgramIdMustBeExecutable"
+    },
+    {
+      "code": 7204,
+      "name": "NoProofProvided"
+    },
+    {
+      "code": 7300,
+      "name": "GovernorMismatch"
+    },
+    {
+      "code": 7301,
+      "name": "SmartWalletMismatch"
+    },
+    {
+      "code": 7302,
+      "name": "ProposalMismatch"
+    },
+    {
+      "code": 7303,
+      "name": "VoterMismatch"
+    },
+    {
+      "code": 7304,
+      "name": "MetadataMismatch"
+    },
+    {
+      "code": 7305,
+      "name": "ProposalMustBeActive"
+    },
+    {
+      "code": 7306,
+      "name": "InsufficientVotingPower"
+    },
+    {
+      "code": 7307,
+      "name": "LockedSupplyMismatch"
+    },
+    {
+      "code": 7400,
+      "name": "InvariantViolated"
     }
   ]
 };
 
 export const IDL: VeHoney = {
-  "version": "0.1.0",
+  "version": "2.0.0",
   "name": "ve_honey",
   "instructions": [
     {
@@ -815,6 +1344,11 @@ export const IDL: VeHoney = {
         },
         {
           "name": "tokenMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "wlTokenMint",
           "isMut": false,
           "isSigner": false
         },
@@ -863,6 +1397,57 @@ export const IDL: VeHoney = {
         },
         {
           "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "initTreasury",
+      "accounts": [
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "locker",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "treasury",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "governor",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "smartWallet",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
           "isMut": false,
           "isSigner": false
         }
@@ -975,6 +1560,145 @@ export const IDL: VeHoney = {
       "args": []
     },
     {
+      "name": "addProof",
+      "accounts": [
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "locker",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "proof",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "address",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "governor",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "smartWallet",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "proofType",
+          "type": "u8"
+        }
+      ]
+    },
+    {
+      "name": "removeProof",
+      "accounts": [
+        {
+          "name": "locker",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "proof",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "fundsReceiver",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "governor",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "smartWallet",
+          "isMut": false,
+          "isSigner": true
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "setWlMintAuthority",
+      "accounts": [
+        {
+          "name": "locker",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "wlTokenMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "currentAuthority",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "reclaimWlMintAuthority",
+      "accounts": [
+        {
+          "name": "locker",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "wlTokenMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "governor",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "smartWallet",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "mintAuthority",
+          "type": "publicKey"
+        }
+      ]
+    },
+    {
       "name": "lock",
       "accounts": [
         {
@@ -1025,7 +1749,124 @@ export const IDL: VeHoney = {
       ]
     },
     {
-      "name": "exit",
+      "name": "lockNft",
+      "accounts": [
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "locker",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "escrow",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "receipt",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "escrowOwner",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "lockedTokens",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "lockerTreasury",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "nftSource",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "nftSourceAuthority",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "wlTokenMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "wlDestination",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "duration",
+          "type": "i64"
+        }
+      ]
+    },
+    {
+      "name": "claim",
+      "accounts": [
+        {
+          "name": "locker",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "escrow",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "escrowOwner",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "lockedTokens",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "destinationTokens",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "nftReceipt",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "unlock",
       "accounts": [
         {
           "name": "payer",
@@ -1054,6 +1895,73 @@ export const IDL: VeHoney = {
         },
         {
           "name": "destinationTokens",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "closeReceipt",
+      "accounts": [
+        {
+          "name": "locker",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "escrow",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "nftReceipt",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "escrowOwner",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "fundsReceiver",
+          "isMut": true,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "closeEscrow",
+      "accounts": [
+        {
+          "name": "locker",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "escrow",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "escrowOwner",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "lockedTokens",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "fundsReceiver",
           "isMut": true,
           "isSigner": false
         },
@@ -1204,6 +2112,14 @@ export const IDL: VeHoney = {
             "type": "i64"
           },
           {
+            "name": "receiptCount",
+            "type": "u64"
+          },
+          {
+            "name": "amountToReceipt",
+            "type": "u64"
+          },
+          {
             "name": "voteDelegate",
             "type": "publicKey"
           }
@@ -1232,6 +2148,10 @@ export const IDL: VeHoney = {
             "type": "u64"
           },
           {
+            "name": "wlTokenMint",
+            "type": "publicKey"
+          },
+          {
             "name": "governor",
             "type": "publicKey"
           },
@@ -1240,6 +2160,58 @@ export const IDL: VeHoney = {
             "type": {
               "defined": "LockerParams"
             }
+          }
+        ]
+      }
+    },
+    {
+      "name": "nftReceipt",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "receiptId",
+            "type": "u64"
+          },
+          {
+            "name": "locker",
+            "type": "publicKey"
+          },
+          {
+            "name": "owner",
+            "type": "publicKey"
+          },
+          {
+            "name": "vestStartedAt",
+            "type": "i64"
+          },
+          {
+            "name": "vestEndsAt",
+            "type": "i64"
+          },
+          {
+            "name": "claimedAmount",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "proof",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "locker",
+            "type": "publicKey"
+          },
+          {
+            "name": "proofType",
+            "type": "u8"
+          },
+          {
+            "name": "proofAddress",
+            "type": "publicKey"
           }
         ]
       }
@@ -1294,42 +2266,28 @@ export const IDL: VeHoney = {
           {
             "name": "proposalActivationMinVotes",
             "type": "u64"
+          },
+          {
+            "name": "nftStakeDurationUnit",
+            "type": "i64"
+          },
+          {
+            "name": "nftStakeBaseReward",
+            "type": "u64"
+          },
+          {
+            "name": "nftStakeDurationCount",
+            "type": "u8"
+          },
+          {
+            "name": "nftRewardHalvingStartsAt",
+            "type": "u8"
           }
         ]
       }
     }
   ],
   "events": [
-    {
-      "name": "ExitEscrowEvent",
-      "fields": [
-        {
-          "name": "escrowOwner",
-          "type": "publicKey",
-          "index": false
-        },
-        {
-          "name": "locker",
-          "type": "publicKey",
-          "index": false
-        },
-        {
-          "name": "timestamp",
-          "type": "i64",
-          "index": false
-        },
-        {
-          "name": "lockedSupply",
-          "type": "u64",
-          "index": false
-        },
-        {
-          "name": "releasedAmount",
-          "type": "u64",
-          "index": false
-        }
-      ]
-    },
     {
       "name": "InitEscrowEvent",
       "fields": [
@@ -1453,6 +2411,36 @@ export const IDL: VeHoney = {
       ]
     },
     {
+      "name": "ExitEscrowEvent",
+      "fields": [
+        {
+          "name": "escrowOwner",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "locker",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "timestamp",
+          "type": "i64",
+          "index": false
+        },
+        {
+          "name": "lockedSupply",
+          "type": "u64",
+          "index": false
+        },
+        {
+          "name": "releasedAmount",
+          "type": "u64",
+          "index": false
+        }
+      ]
+    },
+    {
       "name": "ApproveLockPrivilegeEvent",
       "fields": [
         {
@@ -1500,86 +2488,156 @@ export const IDL: VeHoney = {
   ],
   "errors": [
     {
-      "code": 6000,
-      "name": "EscrowNotEnded",
-      "msg": "Escrow has not ended."
+      "code": 7000,
+      "name": "InvalidLocker"
     },
     {
-      "code": 6001,
-      "name": "InvalidLockerAdmin",
-      "msg": "Invalid locker admin"
+      "code": 7001,
+      "name": "InvalidLockerMint"
     },
     {
-      "code": 6002,
-      "name": "LockupDurationTooShort",
-      "msg": "Lockup duration must at least be the min stake duration."
+      "code": 7002,
+      "name": "InvalidLockerWLMint"
     },
     {
-      "code": 6003,
-      "name": "LockupDurationTooLong",
-      "msg": "Lockup duration must at most be the max stake duration."
+      "code": 7003,
+      "name": "InvalidAccountOwner"
     },
     {
-      "code": 6004,
-      "name": "RefreshCannotShorten",
-      "msg": "A voting escrow refresh cannot shorten the escrow time remaining."
+      "code": 7004,
+      "name": "InvalidTokenOwner"
     },
     {
-      "code": 6005,
-      "name": "MustProvideWhitelist",
-      "msg": "Program whitelist enabled; please provide whitelist entry and instructions sysvar"
+      "code": 7005,
+      "name": "InvalidToken"
     },
     {
-      "code": 6006,
-      "name": "ProgramNotWhitelisted",
-      "msg": "CPI caller not whitelisted to invoke lock instruction."
+      "code": 7006,
+      "name": "InvalidAssociatedTokenAccount"
     },
     {
-      "code": 6007,
-      "name": "EscrowOwnerNotWhitelisted",
-      "msg": "CPI caller not whitelisted for escrow owner to invoke lock instruction."
+      "code": 7007,
+      "name": "InvalidRemainingAccounts"
     },
     {
-      "code": 6008,
-      "name": "EscrowExpired",
-      "msg": "Escrow was already expired."
+      "code": 7008,
+      "name": "InvalidProofType"
     },
     {
-      "code": 6009,
-      "name": "LockedSupplyMismatch",
-      "msg": "Token lock failed, locked supply mismatches the exact amount."
+      "code": 7009,
+      "name": "InvalidProof"
     },
     {
-      "code": 6010,
-      "name": "EscrowInUse",
-      "msg": "The escrow has already locked."
+      "code": 7010,
+      "name": "InvalidGovernorParams"
     },
     {
-      "code": 6011,
-      "name": "EscrowNoBalance",
-      "msg": "The escrow doesn't have balance"
+      "code": 7011,
+      "name": "InvalidVoteDelegate"
     },
     {
-      "code": 6012,
-      "name": "ProposalMustBeActive",
-      "msg": "The proposal must be active"
+      "code": 7012,
+      "name": "InvalidProgramId"
     },
     {
-      "code": 6013,
-      "name": "GovernorMismatch",
-      "msg": "Governor mismatch"
+      "code": 7100,
+      "name": "EscrowNotEnded"
     },
     {
-      "code": 6014,
-      "name": "ProgramIdMustBeExecutable",
-      "msg": "Program id must be executable"
+      "code": 7101,
+      "name": "EscrowExpired"
     },
     {
-      "code": 6015,
-      "name": "InsufficientVotingPower",
-      "msg": "Insufficient voting power to activate a proposal"
+      "code": 7102,
+      "name": "EscrowInUse"
+    },
+    {
+      "code": 7103,
+      "name": "EscrowNoBalance"
+    },
+    {
+      "code": 7104,
+      "name": "LockupDurationTooShort"
+    },
+    {
+      "code": 7105,
+      "name": "LockupDurationTooLong"
+    },
+    {
+      "code": 7106,
+      "name": "RefreshCannotShorten"
+    },
+    {
+      "code": 7107,
+      "name": "ClaimError"
+    },
+    {
+      "code": 7108,
+      "name": "CloseNonZeroReceipt"
+    },
+    {
+      "code": 7109,
+      "name": "ReceiptCountError"
+    },
+    {
+      "code": 7110,
+      "name": "ReceiptNotEnded"
+    },
+    {
+      "code": 7200,
+      "name": "MustProvideWhitelist"
+    },
+    {
+      "code": 7201,
+      "name": "ProgramNotWhitelisted"
+    },
+    {
+      "code": 7202,
+      "name": "EscrowOwnerNotWhitelisted"
+    },
+    {
+      "code": 7203,
+      "name": "ProgramIdMustBeExecutable"
+    },
+    {
+      "code": 7204,
+      "name": "NoProofProvided"
+    },
+    {
+      "code": 7300,
+      "name": "GovernorMismatch"
+    },
+    {
+      "code": 7301,
+      "name": "SmartWalletMismatch"
+    },
+    {
+      "code": 7302,
+      "name": "ProposalMismatch"
+    },
+    {
+      "code": 7303,
+      "name": "VoterMismatch"
+    },
+    {
+      "code": 7304,
+      "name": "MetadataMismatch"
+    },
+    {
+      "code": 7305,
+      "name": "ProposalMustBeActive"
+    },
+    {
+      "code": 7306,
+      "name": "InsufficientVotingPower"
+    },
+    {
+      "code": 7307,
+      "name": "LockedSupplyMismatch"
+    },
+    {
+      "code": 7400,
+      "name": "InvariantViolated"
     }
   ]
 };
-
-export const LockedVoterErrors = generateErrorMap(IDL);
