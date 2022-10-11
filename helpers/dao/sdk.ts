@@ -63,12 +63,14 @@ export class TribecaSDK {
   async createLocker({
     governor,
     govTokenMint,
+    wlTokenMint,
     baseKP = Keypair.generate(),
     ...providedLockerParams
   }: {
     baseKP?: Keypair;
     governor: PublicKey;
     govTokenMint: PublicKey;
+    wlTokenMint: PublicKey;
   } & Partial<LockerParams>): Promise<{
     locker: PublicKey;
     tx: TransactionEnvelope;
@@ -89,6 +91,7 @@ export class TribecaSDK {
               governor,
               locker,
               tokenMint: govTokenMint,
+              wlTokenMint: wlTokenMint,
               payer: this.provider.wallet.publicKey,
               systemProgram: SystemProgram.programId
             }

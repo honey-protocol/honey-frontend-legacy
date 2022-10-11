@@ -12,6 +12,7 @@ import stakeIdl from '../idl/stake.json';
 import { Stake } from '../types/stake';
 import { VeHoneyClient } from './vehoney';
 
+// TODO: replace with config
 export const STAKE_PROGRAM_ID = new PublicKey(
   '4V68qajTiVHm3Pm9fQoV8D4tEYBmq3a34R9NV5TymLr7'
 );
@@ -49,15 +50,17 @@ export class StakeClient extends ClientBase<Stake> {
   async initializeUser(pool: PublicKey) {
     const [user, userBump] = await this.getUserPDA(pool);
 
-    const txSig = await this.program.rpc.initializeUser({
-      accounts: {
+    let txBuilder =  this.program.methods.initializeUser().
+      accounts( {
         payer: this.wallet.publicKey,
         poolInfo: pool,
         userInfo: user,
         userOwner: this.wallet.publicKey,
         systemProgram: anchor.web3.SystemProgram.programId
       }
-    });
+    )
+
+    const txSig = await txBuilder.rpc()
 
     return { user, userBump, txSig };
   }
@@ -69,22 +72,24 @@ export class StakeClient extends ClientBase<Stake> {
     amount: anchor.BN,
     hasUser: boolean
   ) {
+    // TODO CHECK
+      //   let preInstructions: anchor.web3.TransactionInstruction[] | undefined =
+      // undefined;
     const preInstructions = !hasUser
-      ? [
-          this.program.instruction.initializeUser({
-            accounts: {
+      ? 
+          [this.program.methods.initializeUser().accounts(
+            {
               payer: this.wallet.publicKey,
               poolInfo: pool,
               userInfo: user,
               userOwner: this.wallet.publicKey,
               systemProgram: anchor.web3.SystemProgram.programId
-            }
-          })
-        ]
+          
+          })]
+        
       : undefined;
 
-    const txSig = await this.program.rpc.deposit(new anchor.BN(amount), {
-      accounts: {
+    let txBuilder = this.program.methods.deposit(new anchor.BN(amount)).accounts({
         poolInfo: pool,
         userInfo: user,
         userOwner: this.wallet.publicKey,
@@ -92,9 +97,16 @@ export class StakeClient extends ClientBase<Stake> {
         source,
         userAuthority: this.wallet.publicKey,
         tokenProgram: TOKEN_PROGRAM_ID
-      },
-      preInstructions
-    });
+      })
+
+  
+
+      if (preInstructions) {
+        txBuilder = txBuilder.preInstructions(preInstructions);
+      }
+
+      const txSig = await txBuilder.rpc();
+
 
     return { txSig, amount };
   }
@@ -128,19 +140,22 @@ export class StakeClient extends ClientBase<Stake> {
 
     const [authority] = await this.getPoolAuthorityPDA(pool);
 
-    const txSig = await this.program.rpc.claim({
-      accounts: {
-        payer: this.wallet.publicKey,
-        poolInfo: pool,
-        authority,
-        tokenMint: HONEY_MINT,
-        userInfo: user,
-        userOwner: this.wallet.publicKey,
-        destination,
-        tokenProgram: TOKEN_PROGRAM_ID
-      },
-      preInstructions
+    let txBuilder =  this.program.methods.claim().accounts({
+      payer: this.wallet.publicKey,
+      poolInfo: pool,
+      authority,
+      tokenMint: HONEY_MINT,
+      userInfo: user,
+      userOwner: this.wallet.publicKey,
+      destination,
+      tokenProgram: TOKEN_PROGRAM_ID
     });
+
+    if (preInstructions) {
+      txBuilder = txBuilder.preInstructions(preInstructions);
+    }
+
+    const txSig = await txBuilder.rpc();
 
     return { destination, txSig };
   }

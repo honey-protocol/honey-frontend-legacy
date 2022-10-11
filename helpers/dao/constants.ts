@@ -89,5 +89,9 @@ export const DEFAULT_LOCKER_PARAMS: LockerParams = {
   // 5 years.
   maxStakeDuration: new BN(5).mul(ONE_YEAR),
   multiplier: 10,
-  whitelistEnabled: false
+  whitelistEnabled: false,
+  nftStakeDurationUnit: new BN(20),
+  nftStakeBaseReward: new BN(3_750_000_000),
+  nftStakeDurationCount: 10,
+  nftRewardHalvingStartsAt: 2,
 };
