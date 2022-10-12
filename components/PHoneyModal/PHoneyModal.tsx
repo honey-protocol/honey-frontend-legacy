@@ -5,7 +5,7 @@ import { useStake } from 'hooks/useStake';
 import { PHONEY_DECIMALS } from 'helpers/sdk/constant';
 import { convertToBN } from 'helpers/utils';
 import { useGovernance } from 'contexts/GovernanceProvider';
-import config from '../../config'
+import config from '../../config';
 
 const PHoneyModal = () => {
   const [amount, setAmount] = useState<number>(0);
@@ -19,7 +19,9 @@ const PHoneyModal = () => {
 
   const { depositedAmount, pHoneyAmount } = useGovernance();
 
-  const STAKE_POOL_ADDRESS = new PublicKey(config.NEXT_PUBLIC_STAKE_POOL_ADDRESS);
+  const STAKE_POOL_ADDRESS = new PublicKey(
+    config.NEXT_PUBLIC_STAKE_POOL_ADDRESS
+  );
   const LOCKER_ADDRESS = new PublicKey(config.NEXT_PUBLIC_LOCKER_ADDR);
 
   const { user, deposit, claim, claimableAmount } = useStake(
@@ -86,7 +88,7 @@ const PHoneyModal = () => {
             type="number"
             label="Amount"
             labelSecondary={<Tag>{pHoneyAmount} pHONEY max</Tag>}
-            disabled={!pHoneyAmount}
+            // disabled={!pHoneyAmount}
             max={pHoneyAmount || ''}
             min={0}
             hideLabel
@@ -95,10 +97,18 @@ const PHoneyModal = () => {
             placeholder="0"
             onChange={handleOnChange}
           />
-          <Button onClick={handleDeposit} disabled={!amount} width="full">
+          <Button
+            onClick={handleDeposit}
+            // disabled={!amount}
+            width="full"
+          >
             {amount ? 'Deposit' : 'Enter amount'}
           </Button>
-          <Button onClick={claim} disabled={claimableAmount == 0} width="full">
+          <Button
+            onClick={claim}
+            // disabled={claimableAmount == 0}
+            width="full"
+          >
             Claim
           </Button>
         </Stack>
