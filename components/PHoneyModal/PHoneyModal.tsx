@@ -17,7 +17,7 @@ const PHoneyModal = () => {
     setAmount(Number(event.target.value));
   };
 
-  const { depositedAmount, pHoneyAmount } = useGovernance();
+  const { depositedAmount, pHoneyAmount, lockPeriodHasEnded } = useGovernance();
 
   const STAKE_POOL_ADDRESS = new PublicKey(
     config.NEXT_PUBLIC_STAKE_POOL_ADDRESS
@@ -97,18 +97,10 @@ const PHoneyModal = () => {
             placeholder="0"
             onChange={handleOnChange}
           />
-          <Button
-            onClick={handleDeposit}
-            // disabled={!amount}
-            width="full"
-          >
+          <Button onClick={handleDeposit} disabled={true} width="full">
             {amount ? 'Deposit' : 'Enter amount'}
           </Button>
-          <Button
-            onClick={claim}
-            // disabled={claimableAmount == 0}
-            width="full"
-          >
+          <Button onClick={claim} disabled={!lockPeriodHasEnded} width="full">
             Claim
           </Button>
         </Stack>
