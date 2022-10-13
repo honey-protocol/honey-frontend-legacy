@@ -1,4 +1,4 @@
-#  <span style="color: rgb(235, 85, 69); font-weight: 900">Honey Labs - Building liquidity solutions for NFTs
+#  <span style="color: rgb(235, 85, 69); font-weight: 900">Honey Labs - Building liquidity solutions for NFTs.  
 
 ### <span style="color: rgb(235, 85, 69); font-weight: 300; font-style: italic;">This is a <a href="https://nextjs.org/" target="blank">Next.JS</a> project bootstrapped with <a href="https://github.com/vercel/next.js/tree/canary/packages/create-next-app" target="blank">create-react-app</a> 
 
