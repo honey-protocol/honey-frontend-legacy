@@ -11,7 +11,7 @@ import config from "../../config"
 
 const HoneyModal = () => {
   const [amount, setAmount] = useState<number>(0);
-  const [vestingPeriod, setVestingPeriod] = useState<number>(12);
+  const [vestingPeriod, setVestingPeriod] = useState<number>(30);
 
   const {
     veHoneyAmount,
@@ -26,13 +26,13 @@ const HoneyModal = () => {
   };
 
   const vestingPeriodInSeconds = useMemo(() => {
-    if ([1, 3, 6, 12, 48].includes(vestingPeriod)) {
-      const date = new Date();
-      const current = Math.floor(date.getTime() / 1000);
-      date.setMonth(date.getMonth() + vestingPeriod);
-      const nMonthsLater = Math.floor(date.getTime() / 1000);
+    if ([ 30, 60, 120, 480].includes(vestingPeriod)) {
+      // const date = new Date();
+      // const current = Math.floor(date.getTime() / 1000);
+      // date.setMonth(date.getMonth() + vestingPeriod);
+      // const nMonthsLater = Math.floor(date.getTime() / 1000);
 
-      return nMonthsLater - current;
+      return vestingPeriod;
     }
     return 0;
   }, [vestingPeriod]);
@@ -96,11 +96,11 @@ const HoneyModal = () => {
                     setVestingPeriod(Number(event.target.value))
                   }
                 >
-                  <option value="1">1 month</option>
-                  <option value="3">3 months</option>
-                  <option value="6">6 months</option>
-                  <option value="12">1 year</option>
-                  <option value="48">4 years</option>
+                  {/* <option value="1">1 month</option> */}
+                  <option value="30">30 seconds</option>
+                  <option value="60">60 seconds</option>
+                  <option value="120">120 seconds</option>
+                  <option value="480">480 seconds</option>
                 </select>
               </Box>
             </Stack>

@@ -83,15 +83,15 @@ export const DEFAULT_GOVERNANCE_PARAMETERS: GovernanceParameters = {
  */
 export const DEFAULT_LOCKER_PARAMS: LockerParams = {
   // 1M tokens if max locked.
-  proposalActivationMinVotes: new BN(10_000_000 * 10 ** 6),
+  proposalActivationMinVotes: new BN(10000),
   // 1 day.
-  minStakeDuration: ONE_DAY,
+  minStakeDuration: new BN(30),
   // 5 years.
-  maxStakeDuration: new BN(5).mul(ONE_YEAR),
+  maxStakeDuration: new BN(480),
   multiplier: 10,
   whitelistEnabled: false,
   nftStakeDurationUnit: new BN(20),
-  nftStakeBaseReward: new BN(3_750_000_000),
+  nftStakeBaseReward: new BN(3750),
   nftStakeDurationCount: 10,
   nftRewardHalvingStartsAt: 2,
 };

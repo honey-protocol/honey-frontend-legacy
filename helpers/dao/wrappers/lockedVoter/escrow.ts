@@ -215,7 +215,7 @@ export class VoteEscrow {
     });
     return this.provider.newTX([
       destinationTokens.instruction,
-      this.lockerProgram.instruction.exit({
+      this.lockerProgram.instruction.unlock({
         accounts: {
           locker: this.locker,
           escrow: this.escrowKey,

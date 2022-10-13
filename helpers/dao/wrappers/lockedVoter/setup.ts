@@ -24,6 +24,7 @@ export const createLocker = async ({
   sdk,
   gokiSDK,
   govTokenMint,
+  wlTokenMint,
   owners = [sdk.provider.wallet.publicKey],
   governanceParameters = DEFAULT_GOVERNANCE_PARAMETERS,
   lockerParams = DEFAULT_LOCKER_PARAMS,
@@ -34,6 +35,7 @@ export const createLocker = async ({
   sdk: TribecaSDK;
   gokiSDK: GokiSDK;
   govTokenMint: PublicKey;
+  wlTokenMint: PublicKey;
   owners?: PublicKey[];
   governanceParameters?: Partial<GovernanceParameters>;
   lockerParams?: Partial<LockerParams>;
@@ -64,7 +66,8 @@ export const createLocker = async ({
         ...lockerParams,
         baseKP: lockerBaseKP,
         governor: governorKey,
-        govTokenMint
+        govTokenMint,
+        wlTokenMint: wlTokenMint
       });
       return {
         key: locker,

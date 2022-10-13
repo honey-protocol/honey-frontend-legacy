@@ -11,7 +11,7 @@ import config from '../../config'
 
 const VeHoneyModal = () => {
   const [amount, setAmount] = useState<number>(0);
-  const [vestingPeriod, setVestingPeriod] = useState<number>(12);
+  const [vestingPeriod, setVestingPeriod] = useState<number>(30);
   const [pHoneyConversionAmount, setPHoneyConversionAmount] =
     useState<number>(0);
 
@@ -37,14 +37,21 @@ const VeHoneyModal = () => {
       : 0;
   }, [vestingPeriod]);
 
-  const vestingPeriodInSeconds = useMemo(() => {
-    if ([3, 6, 12].includes(vestingPeriod)) {
-      const date = new Date();
-      const current = Math.floor(date.getTime() / 1000);
-      date.setMonth(date.getMonth() + vestingPeriod);
-      const nMonthsLater = Math.floor(date.getTime() / 1000);
+  // const vestingPeriodInSeconds = useMemo(() => {
+  //   if ([3, 6, 12].includes(vestingPeriod)) {
+  //     const date = new Date();
+  //     const current = Math.floor(date.getTime() / 1000);
+  //     date.setMonth(date.getMonth() + vestingPeriod);
+  //     const nMonthsLater = Math.floor(date.getTime() / 1000);
 
-      return nMonthsLater - current;
+  //     return nMonthsLater - current;
+  //   }
+  //   return 0;
+  // }, [vestingPeriod]);
+
+  const vestingPeriodInSeconds = useMemo(() => {
+    if ([30, 60, 120].includes(vestingPeriod)) {
+      return vestingPeriod;
     }
     return 0;
   }, [vestingPeriod]);
@@ -131,9 +138,9 @@ const VeHoneyModal = () => {
                     setVestingPeriod(Number(event.target.value))
                   }
                 >
-                  <option value="3">3 months</option>
-                  <option value="6">6 months</option>
-                  <option value="12">1 year</option>
+                  <option value="30">30 seconds</option>
+                  <option value="60">60 seconds</option>
+                  <option value="120">120 seconds</option>
                 </select>
               </Box>
             </Stack>

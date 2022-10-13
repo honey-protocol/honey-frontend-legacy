@@ -217,6 +217,7 @@ export const useStake = (stakePool: PublicKey, locker: PublicKey) => {
       try {
         await vc.unlockEscrow(locker, escrowKey, honeyToken?.pubkey);
         setIsLoading(false);
+        toast.success('HONEY successfully unlocked');
       } catch (e) {
         console.log(e);
         checkErrorAndShowToast(e, 'Error unlocking');

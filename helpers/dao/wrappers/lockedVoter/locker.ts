@@ -265,7 +265,7 @@ export class LockerWrapper {
     const { govTokenAccount, instructions } =
       await this._getOrCreateGovTokenATAsInternal(authority, escrow);
     instructions.push(
-      this.program.instruction.exit({
+      this.program.instruction.unlock({
         accounts: {
           locker: this.locker,
           escrow,

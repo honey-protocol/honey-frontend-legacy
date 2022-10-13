@@ -50,19 +50,30 @@ export class StakeClient extends ClientBase<Stake> {
   async initializeUser(pool: PublicKey) {
     const [user, userBump] = await this.getUserPDA(pool);
 
-    let txBuilder =  this.program.methods.initializeUser().
-      accounts( {
-        payer: this.wallet.publicKey,
-        poolInfo: pool,
-        userInfo: user,
-        userOwner: this.wallet.publicKey,
-        systemProgram: anchor.web3.SystemProgram.programId
-      }
-    )
+    let txBuilder = this.program.methods.initializeUser().accounts({
+      payer: this.wallet.publicKey,
+      poolInfo: pool,
+      userInfo: user,
+      userOwner: this.wallet.publicKey,
+      systemProgram: anchor.web3.SystemProgram.programId
+    });
 
-    const txSig = await txBuilder.rpc()
+    const txSig = await txBuilder.rpc();
 
     return { user, userBump, txSig };
+  }
+
+  async initializeUserIx(pool: PublicKey) {
+    const [user, userBump] = await this.getUserPDA(pool);
+
+    return [await this.program.methods.initializeUser().accounts({
+      payer: this.wallet.publicKey,
+      poolInfo: pool,
+      userInfo: user,
+      userOwner: this.wallet.publicKey,
+      systemProgram: anchor.web3.SystemProgram.programId
+    }).instruction()]
+
   }
 
   async deposit(
@@ -72,24 +83,16 @@ export class StakeClient extends ClientBase<Stake> {
     amount: anchor.BN,
     hasUser: boolean
   ) {
-    // TODO CHECK
-      //   let preInstructions: anchor.web3.TransactionInstruction[] | undefined =
-      // undefined;
-    const preInstructions = !hasUser
-      ? 
-          [this.program.methods.initializeUser().accounts(
-            {
-              payer: this.wallet.publicKey,
-              poolInfo: pool,
-              userInfo: user,
-              userOwner: this.wallet.publicKey,
-              systemProgram: anchor.web3.SystemProgram.programId
-          
-          })]
-        
+  
+      const preInstructions = !hasUser
+      ? [
+        ...(await this.initializeUserIx(pool))
+        ]
       : undefined;
 
-    let txBuilder = this.program.methods.deposit(new anchor.BN(amount)).accounts({
+    let txBuilder = this.program.methods
+      .deposit(new anchor.BN(amount))
+      .accounts({
         poolInfo: pool,
         userInfo: user,
         userOwner: this.wallet.publicKey,
@@ -97,16 +100,13 @@ export class StakeClient extends ClientBase<Stake> {
         source,
         userAuthority: this.wallet.publicKey,
         tokenProgram: TOKEN_PROGRAM_ID
-      })
+      });
 
-  
+    if (preInstructions) {
+      txBuilder = txBuilder.preInstructions(preInstructions);
+    }
 
-      if (preInstructions) {
-        txBuilder = txBuilder.preInstructions(preInstructions);
-      }
-
-      const txSig = await txBuilder.rpc();
-
+    const txSig = await txBuilder.rpc();
 
     return { txSig, amount };
   }
@@ -140,7 +140,7 @@ export class StakeClient extends ClientBase<Stake> {
 
     const [authority] = await this.getPoolAuthorityPDA(pool);
 
-    let txBuilder =  this.program.methods.claim().accounts({
+    let txBuilder = this.program.methods.claim().accounts({
       payer: this.wallet.publicKey,
       poolInfo: pool,
       authority,
@@ -159,7 +159,6 @@ export class StakeClient extends ClientBase<Stake> {
 
     return { destination, txSig };
   }
-
 
   async vest(
     pool: PublicKey,

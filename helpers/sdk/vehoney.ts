@@ -6,6 +6,13 @@ import {
   TOKEN_PROGRAM_ID
 } from '@solana/spl-token';
 
+import {
+  Metadata,
+  Edition,
+  MetadataProgram,
+} from "@metaplex-foundation/mpl-token-metadata";
+
+
 import { ClientBase } from './base';
 import { HONEY_MINT } from './constant';
 import veHoneyIdl from '../idl/ve_honey.json';
@@ -16,6 +23,11 @@ export const VE_HONEY_PROGRAM_ID = new PublicKey(
 );
 export const ESCROW_SEED = 'Escrow';
 export const WHITELIST_ENTRY_SEED = 'LockerWhitelistEntry';
+export const NFT_RECEIPT_SEED = "Receipt";
+export const PROOF_SEED = "Proof";
+export const TREASURY_SEED = "Treasury";
+
+
 
 export class VeHoneyClient extends ClientBase<VeHoney> {
   constructor(connection: Connection, wallet: anchor.Wallet) {
@@ -162,7 +174,174 @@ export class VeHoneyClient extends ClientBase<VeHoney> {
     return { txSig, escrow };
   }
 
+  //TODO:  Lock NFT
+  //  async LockNft({ duration, nft }: LockNftArgs) {
+  //   const creator = new PublicKey(
+  //     nft.metadata.data.data.creators.at(0).address
+  //   );
 
+  //   const proof = await this.getProofAddress(creator);
+  //   const nftMint = nft.mint.address;
+  //   const nftMetadata = await Metadata.getPDA(nftMint);
+  //   const nftEdition = await Edition.getPDA(nftMint);
+  //   const remainingAccounts = [
+  //     {
+  //       pubkey: proof,
+  //       isSigner: false,
+  //       isWritable: false
+  //     },
+  //     {
+  //       pubkey: MetadataProgram.PUBKEY,
+  //       isSigner: false,
+  //       isWritable: false
+  //     },
+  //     {
+  //       pubkey: nftMetadata,
+  //       isSigner: false,
+  //       isWritable: true
+  //     },
+  //     {
+  //       pubkey: nftMint,
+  //       isSigner: false,
+  //       isWritable: true
+  //     },
+  //     {
+  //       pubkey: nftEdition,
+  //       isSigner: false,
+  //       isWritable: true
+  //     }
+  //   ];
+
+  //   if (nft.metadata.data.collection && nft.metadata.data.collection.verified) {
+  //     remainingAccounts.push({
+  //       pubkey: new PublicKey(nft.metadata.data.collection.key),
+  //       isSigner: false,
+  //       isWritable: true
+  //     });
+  //   }
+
+  //   let lockedTokens = await this.getLockedTokensAddress();
+  //   let preInstruction: anchor.web3.TransactionInstruction[] = [];
+
+  //   if (
+  //     (await this.tokenMint.tryGetAssociatedTokenAccount(this.escrow)) === null
+  //   ) {
+  //     preInstruction.push(
+  //       Token.createAssociatedTokenAccountInstruction(
+  //         ASSOCIATED_TOKEN_PROGRAM_ID,
+  //         TOKEN_PROGRAM_ID,
+  //         this.tokenMint.address,
+  //         lockedTokens,
+  //         this.escrow,
+  //         this.wallet.publicKey
+  //       )
+  //     );
+  //   }
+
+  //   let wlDestination = await this.getWLTokenAddress();
+
+  //   if (
+  //     (await this.wlTokenMint.tryGetAssociatedTokenAccount(
+  //       this.wallet.publicKey
+  //     )) === null
+  //   ) {
+  //     preInstruction.push(
+  //       Token.createAssociatedTokenAccountInstruction(
+  //         ASSOCIATED_TOKEN_PROGRAM_ID,
+  //         TOKEN_PROGRAM_ID,
+  //         this.wlTokenMint.address,
+  //         wlDestination,
+  //         this.wallet.publicKey,
+  //         this.wallet.publicKey
+  //       )
+  //     );
+  //   }
+
+  //   const escrowAccount = await this.fetchEscrow();
+  //   if (!escrowAccount) {
+  //     throw new Error('escrow undefined');
+  //   }
+
+  //   const txBuilder =  this.program.methods
+  //     .lockNft(duration)
+  //     .accounts({
+  //       payer: this.wallet.publicKey,
+  //       locker: this.governor.locker,
+  //       escrow: this.escrow,
+  //       receipt: await this.getReceiptAddress(escrowAccount.receiptCount),
+  //       escrowOwner: this.wallet.publicKey,
+  //       lockedTokens: await this.getLockedTokensAddress(),
+  //       lockerTreasury: await this.getTreasuryAddress(),
+  //       nftSource: await nft.mint.getAssociatedTokenAddress(
+  //         this.wallet.publicKey
+  //       ),
+  //       nftSourceAuthority: this.wallet.publicKey,
+  //       wlTokenMint: this.wlTokenMint.address,
+  //       wlDestination,
+  //       systemProgram: anchor.web3.SystemProgram.programId,
+  //       tokenProgram: TOKEN_PROGRAM_ID
+  //     })
+  //     .preInstructions([...preInstruction])
+  //     .remainingAccounts([...remainingAccounts])
+  //     ;
+
+  //     const txSig = await txBuilder.rpc();
+
+  //     return { txSig }
+  // }
+
+  // private async createCloseEscrowTx() {
+  //   let destination = await this.tokenMint.getAssociatedTokenAddress(
+  //     this.wallet.publicKey
+  //   );
+  //   let preInstructions: anchor.web3.TransactionInstruction[] = [];
+
+  //   if (
+  //     (await this.tokenMint.tryGetAssociatedTokenAccount(
+  //       this.wallet.publicKey
+  //     )) === null
+  //   ) {
+  //     preInstructions.push(
+  //       Token.createAssociatedTokenAccountInstruction(
+  //         ASSOCIATED_TOKEN_PROGRAM_ID,
+  //         TOKEN_PROGRAM_ID,
+  //         this.tokenMint.address,
+  //         destination,
+  //         this.wallet.publicKey,
+  //         this.wallet.publicKey
+  //       )
+  //     );
+  //   }
+
+  //   return await this.veHoneyProgram.methods
+  //     .closeEscrow()
+  //     .accounts({
+  //       locker: this.governor.locker,
+  //       escrow: this.escrow,
+  //       escrowOwner: this.wallet.publicKey,
+  //       lockedTokens: await this.getLockedTokensAddress(),
+  //       fundsReceiver: this.wallet.publicKey,
+  //       tokenProgram: TOKEN_PROGRAM_ID,
+  //     })
+  //     .preInstructions([...preInstructions])
+  //     .transaction();
+  // }
+
+
+  // private async createCloseReceiptTx(receiptId: anchor.BN, locker: PublicKey) {
+  //   const [escrow] = await this.getEscrowPDA(locker);
+
+  //   return await this.program.methods
+  //     .closeReceipt()
+  //     .accounts({
+  //       locker,
+  //       escrow: escrow,
+  //       nftReceipt: await this.getReceiptAddress(receiptId),
+  //       escrowOwner: this.wallet.publicKey,
+  //       fundsReceiver: this.wallet.publicKey
+  //     })
+  //     .transaction();
+  // }
 
   async getEscrowPDA(locker: PublicKey) {
     return anchor.web3.PublicKey.findProgramAddress(
@@ -200,7 +379,7 @@ export class VeHoneyClient extends ClientBase<VeHoney> {
       this.program.programId
     );
   }
-  
+
   async getAllEscrowAccounts() {
     return this.program.account.escrow.all();
   }
@@ -208,4 +387,57 @@ export class VeHoneyClient extends ClientBase<VeHoney> {
   async getAllLockerAccounts() {
     return this.program.account.locker.all();
   }
+
+  // async getReceiptAddress(receiptId: anchor.BN) {
+  //   const [address] = await PublicKey.findProgramAddress(
+  //     [
+  //       Buffer.from(NFT_RECEIPT_SEED),
+  //       this.governor.locker.toBuffer(),
+  //       this.wallet.publicKey.toBuffer(),
+  //       receiptId.toBuffer('le', 8)
+  //     ],
+  //     this.program.programId
+  //   );
+  //   return address;
+  // }
+
+  //  async getLockedTokensAddress() {
+  //   if (this.tokenMint) {
+  //     return await this.tokenMint.getAssociatedTokenAddress(this.escrow);
+  //   }
+  //   return null;
+  // }
+
+  //  async getWLTokenAddress() {
+  //   if (this.wlTokenMint) {
+  //     return await this.wlTokenMint.getAssociatedTokenAddress(
+  //       this.wallet.publicKey
+  //     );
+  //   }
+  //   return null;
+  // }
+
+  // public async getProofAddress(proofFor: PublicKey) {
+  //   const [address] = await PublicKey.findProgramAddress(
+  //     [
+  //       Buffer.from(PROOF_SEED),
+  //       this.locker.toBuffer(),
+  //       proofFor.toBuffer(),
+  //     ],
+  //     this.program.programId
+  //   );
+  //   return address;
+  // }
+
+  // public async getTreasuryAddress() {
+  //   const [address] = await PublicKey.findProgramAddress(
+  //     [
+  //       Buffer.from(TREASURY_SEED),
+  //       this.locker.toBuffer(),
+  //       this.tokenMint.address.toBuffer(),
+  //     ],
+  //     this.program.programId
+  //   );
+  //   return address;
+  // }
 }
