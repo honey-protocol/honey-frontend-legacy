@@ -53,14 +53,14 @@ The Honey Finance Front-end makes use of two frameworks regarding testing:
 - Jest
 - React Testing Library
 
-<b>Jest</b> a framework that will actually run our test. Jest runs in a headless mode which means it doenst actually opens a browser. It uses JSDOM under the hood to render out the components. So we dont have access to the window object. 
+<b>Jest</b> a framework that will actually run our test. Jest runs in a headless mode which means it doesn't actually open a browser. It uses JSDOM under the hood to render out the components. So we don't have access to the window object. 
 <b>React Testing Library takes each of our react components and gives us the 'end' result as in how the user will see it. So this is more regarding the UI part, as we can also interact with all the components.
 </b>
 
 `jest.setup.js`: 
 
 ****
-as well as ... (EXAMPLE: several addons like the debugging package). This is reflected in the directory structure of this repository. Each package has a `src/` folder where the source code can be found, a `test` folder for all sorts of tests that check if the code in `src/` is correct, and a `dist/` folder where you can find the bundled artifacts. Note that the `dist/` folder may not be present initially. It will be created as soon as you run any of the build scripts inside `package.json`. 
+as well as ... (EXAMPLE: several add-ons like the debugging package). This is reflected in the directory structure of this repository. Each package has a `src/` folder where the source code can be found, a `test` folder for all sorts of tests that check if the code in `src/` is correct, and a `dist/` folder where you can find the bundled artifacts. Note that the `dist/` folder may not be present initially. It will be created as soon as you run any of the build scripts inside `package.json`. 
 
 A quick overview of our repository (or ideally how it should become):
 
@@ -80,7 +80,7 @@ A quick overview of our repository (or ideally how it should become):
   	dist/ # Build artifacts for publishing on npm (may not be present)
   
   # Sub-package, can be imported via `preact/hooks` by users.
-  # The hooks API is an effect based API to deal with component lifcycles.
+  # The hooks API is an effect based API to deal with component lifecycles.
   # It's similar to hooks in React
   hooks/
   	src/  # Source code of the hooks addon
@@ -113,7 +113,7 @@ A quick overview of our repository (or ideally how it should become):
 
 ### What does `XYZ.json` do?
 
-It's a special file that can be used to ... Because each sub-package has it's own distribution files we need to ensure that the variable names stay consistent across bundles.
+It's a special file that can be used to ... Because each sub-package has its own distribution files we need to ensure that the variable names stay consistent across bundles.
 
 ## What does `XYZ.js` do?
 
@@ -160,7 +160,7 @@ TODO: change examples
 
 Several members of the team are very fond of TypeScript and we wanted to leverage as many of its advantages, like improved autocompletion, for Preact. We even attempted to port Preact to TypeScript a few times, but we ran into many issues with the DOM typings. Those would force us to fill our codebase with many `any` castings, making our code very noisy.
 
-Luckily TypeScript has a mode where it can somewhat reliably typecheck JavaScript code by reusing the types defined in JSDoc blocks. It's not perfect and it often has trouble inferring the correct types the further one strays away from the function arguments, but it's good enough that it helps us a lot with autocompletion. Another plus is that we can make sure that our TypeScript definitons are correct at the same time.
+Luckily TypeScript has a mode where it can somewhat reliably typecheck JavaScript code by reusing the types defined in JSDoc blocks. It's not perfect and it often has trouble inferring the correct types the further one strays away from the function arguments, but it's good enough that it helps us a lot with autocompletion. Another plus is that we can make sure that our TypeScript definitions are correct at the same time.
 
 Check out the [official TypeScript documentation](https://www.typescriptlang.org/docs/handbook/type-checking-javascript-files.html) for more information.
 
@@ -168,7 +168,7 @@ _Note that we have separate tests for our TypeScript definition files. We only u
 
 ### Why does the code base often use `let` instead of `const`?
 
-There is no real reason for that other a historical one. Back before auto-formatting via prettier was a thing and minifiers weren't as advanced as they are today we used a pretty terse code-style. The code-style deliberately was aimed at making code look as concise and short as possible. The `let` keyword is a bit shorter than `const` to write, so we only used that. This was done only for stylistic reasons.
+There is no real reason for that other than a historical one. Back before auto-formatting via prettier was a thing and minifiers weren't as advanced as they are today we used a pretty terse code-style. The code-style deliberately was aimed at making code look as concise and short as possible. The `let` keyword is a bit shorter than `const` to write, so we only used that. This was done only for stylistic reasons.
 
 This helped our minds to not lose sight of focusing on size, but made it difficult for newcomers to start contributing to Preact. For that reason alone we switched to `prettier` and loosened our rule regarding usage of `let` or `const`. Today we use both, but you can still find many existing places where `let` is still in use.
 
