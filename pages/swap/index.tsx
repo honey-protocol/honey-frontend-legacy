@@ -8,6 +8,8 @@ import { useWalletKit } from '@gokiprotocol/walletkit';
 import { JupiterApiProvider } from "../../contexts/jupiter";
 import JupiterForm from "../../components/Jupiter";
 import { Box, Button } from 'degen';
+import jupiter from "../../images/jupiter-icon.svg";
+import Image from 'next/image';
 
 const Swap: NextPage = () => {
   const wallet = useConnectedWallet();

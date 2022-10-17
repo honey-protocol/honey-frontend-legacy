@@ -29,7 +29,7 @@ export const SwapRoute = ({
       {/* Badge */}
       {isBestRoute && (
         <div className="absolute right-0 top-[-11px] bg-blue-500 text-white text-sm font-bold px-2 py-[1px] rounded-[5px]">
-          Best price
+          Route
         </div>
       )}
 

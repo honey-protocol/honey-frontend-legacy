@@ -31,6 +31,7 @@ import Image from 'next/image';
 import { useJupiterApiContext } from "../../contexts/jupiter";
 import { useSDK } from "helpers/sdk";
 import { useTXHandlers } from "@saberhq/sail";
+import jupiter from "../../images/jupiter-icon.svg";
 
 // Token Mints
 export const INPUT_MINT_ADDRESS =
@@ -265,26 +266,9 @@ const JupiterForm: FunctionComponent<IJupiterFormProps> = (props) => {
   return (
     <>
       <div className="bg-base-200 sm:w-[450px] w-[95%] rounded-[15px] px-5 pb-10 pt-5 mb-5 sm:mb-0 mt-3 sm:mt-0">
-        <div className="relative">
-          <Slippage slippage={slippage} setSlippage={setSlippage} />
-          <button
-            onClick={refresh}
-            disabled={loadingRoute}
-            type="button"
-            className="absolute top-0 bg-gray-200 btn btn-sm btn-circle right-2 bg-opacity-20 hover:bg-gray-200 hover:bg-opacity-20"
-          >
-            <RefreshIcon className="h-[20px]" />
-          </button>
-        </div>
-
-        <div className="flex flex-col justify-between mt-10">
+        <div className="flex flex-col justify-between">
           <div className="flex flex-row justify-between">
             <span className="ml-3 font-bold text-white">You pay</span>
-            <Balance
-              tokenAccounts={tokenAccounts}
-              token={inputTokenInfo}
-              setInput={setInputAmount}
-            />
           </div>
           <div className="relative w-full p-10 my-5 rounded-lg bg-neutral">
             <input
@@ -300,7 +284,13 @@ const JupiterForm: FunctionComponent<IJupiterFormProps> = (props) => {
               />
             </div>
           </div>
-
+          <div className="flex flex-row justify-between">
+            <Balance
+              tokenAccounts={tokenAccounts}
+              token={inputTokenInfo}
+              setInput={setInputAmount}
+            />
+          </div>
           <div className="flex flex-row justify-center w-full my-1">
             <SwitchVerticalIcon
               onClick={handleSwitch}
@@ -311,7 +301,7 @@ const JupiterForm: FunctionComponent<IJupiterFormProps> = (props) => {
 
           <div className="flex flex-row justify-between mt-5">
             <span className="ml-3 font-bold text-white">You receive</span>
-            <Balance tokenAccounts={tokenAccounts} token={outputTokenInfo} />
+            {/* <Balance tokenAccounts={tokenAccounts} token={outputTokenInfo} /> */}
           </div>
           <div className="relative w-full p-10 my-5 rounded-lg bg-neutral">
             <div className="absolute text-xl font-bold text-right bg-transparent right-4 top-6 input">
@@ -324,10 +314,57 @@ const JupiterForm: FunctionComponent<IJupiterFormProps> = (props) => {
               />
             </div>
           </div>
+          <div className="flex flex-row justify-between mt-5">
+            <span className="ml-3 font-bold text-white">Slippage Settings</span>
+          </div>
+          <div className="relative w-full p-1 my-5 rounded-lg">
+            <Slippage slippage={slippage} setSlippage={setSlippage} /> 
+          </div>
+
+          <div className="relative w-full my-5 rounded-lg bg-neutral h-[70px] text-sm">
+            <div>
+              <div className="absolute left-2 top-0">
+                Rate
+                <button
+                  onClick={refresh}
+                  disabled={loadingRoute}
+                  type="button"
+                  className="absolute left-10 top-[3px] bg-gray-200 h-[17px] btn-circle bg-opacity-20 hover:bg-gray-200 hover:bg-opacity-20 inline-flex items-center"
+                >
+                  <RefreshIcon className="absolute left-4 h-[16px]" />
+                </button>
+              </div>
+              <div className="absolute text-right text-sm bg-transparent top-0 right-4 input">
+                1 {inputTokenInfo?.symbol} = {(parseInt(bestRoute?.outAmount!) / parseInt(bestRoute?.inAmount!)).toFixed(outputTokenInfo?.decimals) } {outputTokenInfo?.symbol}
+              </div>
+            </div>
+            <div>
+              <div className="absolute left-2 top-4">
+                Price Impact
+              </div>
+              <div className="absolute text-right text-sm bg-transparent right-4 top-4 input">
+                {bestRoute?.priceImpactPct! < 0.01 ? "< 0.01" : bestRoute?.priceImpactPct}%
+              </div>
+            </div>
+            <div>
+              <div className="absolute left-2 top-8">
+                Minimum Received
+              </div>
+              <div className="absolute text-right text-sm bg-transparent right-4 top-8 input">
+                {bestRoute?.marketInfos[0].minOutAmount?bestRoute?.marketInfos[0].minOutAmount:0}
+              </div>
+            </div>
+            <div>
+              <div className="absolute left-2 top-12">
+                Transaction Fee
+              </div>
+              <div className="absolute text-right text-sm bg-transparent right-4 top-12 input">
+                {bestRoute?.fees?.minimumSOLForTransaction ? bestRoute?.fees?.minimumSOLForTransaction : 0} SOL
+              </div>
+            </div>
+          </div>
           {loadingRoute && (
-            <div className="h-[216px]">
-              <progress className="progress w-full h-[72px]"></progress>
-              <progress className="progress w-full h-[72px]"></progress>
+            <div className="h-[72px]">
               <progress className="progress w-full h-[72px]"></progress>
             </div>
           )}
@@ -352,31 +389,6 @@ const JupiterForm: FunctionComponent<IJupiterFormProps> = (props) => {
                 />
               </button>
             )}
-          {!loadingRoute &&
-            hasRoute &&
-            routes
-              ?.slice(1)
-              ?.filter((e) => !!e.marketInfos && !!e.outAmount)
-              .map((r, idx) => {
-                return (
-                  <button
-                    onClick={() => setSelectedRoute(r)}
-                    key={`route-${idx}`}
-                  >
-                    <SwapRoute
-                      route={
-                        r.marketInfos as InlineResponse200MarketInfos[]
-                      }
-                      tokenMap={tokenMap}
-                      amount={
-                        parseInt(r.outAmount) /
-                        Math.pow(10, outputTokenInfo?.decimals || 0)
-                      }
-                      selected={r === selectedRoute}
-                    />
-                  </button>
-                );
-              })}
 
           {connected ? (
             <div className="mt-4">
@@ -402,6 +414,13 @@ const JupiterForm: FunctionComponent<IJupiterFormProps> = (props) => {
               Connect Wallet
             </div>
           )}
+        </div>
+      </div>
+      <div className="flex flex-col justify-center mt-4">
+        <div className="flex flex-row justify-center text-sm">Powered by</div>
+        <div className="flex flex-row justify-center">
+          <Image src={jupiter} width={30} height={30} className="h-4 mt-1 ml-1" alt={`jupiter Img`} />
+          <span className="ml-1 text-lg text-white text-bold">Jupiter</span>
         </div>
       </div>
     </>
