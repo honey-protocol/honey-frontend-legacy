@@ -13,7 +13,7 @@ export const Slippage = ({
   slippage: number;
   setSlippage: (arg: number) => void;
 }) => {
-  const [input, setInput] = useState<number | null>(null);
+  const [input, setInput] = useState<number | null>(slippage);
   const [visible, setVisible] = useState(false);
 
   const custom = !OPTIONS.includes(input || -1);
@@ -31,7 +31,7 @@ export const Slippage = ({
         return (
           <ButtonBorderGradient
             key={`slippage-option-${e}`}
-            onClick={() => setInput(e)}
+            onClick={() => {setInput(e);handleSave}}
             buttonClass="bg-neutral p-2 uppercase font-bold h-[40px] w-full"
             fromColor={input === e ? "green-400" : "none"}
             toColor="blue-500"
@@ -51,7 +51,7 @@ export const Slippage = ({
           )}
         >
           <input
-            onChange={(e) => setInput(10 * parseFloat(e.target.value.trim()))}
+            onChange={(e) => {setInput(10 * parseFloat(e.target.value.trim()));handleSave}}
             placeholder="0.00 %"
             value={(input || 0) / 10}
             type="number"
@@ -64,7 +64,7 @@ export const Slippage = ({
         :
         <ButtonBorderGradient
           key={`slippage-option-manual`}
-          onClick={() => setInput(0)}
+          onClick={() => {setInput(0);handleSave}}
           buttonClass="bg-neutral p-2 h-[40px] w-full"
           fromColor={"none"}
           toColor="blue-500"

@@ -17,6 +17,7 @@ import { Slippage } from "./Slippage";
 import {
   InlineResponse200MarketInfos,
   InlineResponse200Data,
+  V3QuoteGetSwapModeEnum,
 } from "@jup-ag/api";
 import { SwapRoute } from "./SwapRoute";
 import { toast } from "react-toastify";
@@ -87,8 +88,11 @@ const JupiterForm: FunctionComponent<IJupiterFormProps> = (props) => {
         amount: (parseFloat(inputAmout) * Math.pow(10, inputTokenInfo?.decimals)).toString(),
         inputMint: inputTokenInfo?.address,
         outputMint: outputTokenInfo?.address,
-        slippageBps: slippage,
+        slippageBps: slippage * 100,
         feeBps: FEES_BPS,
+        swapMode: V3QuoteGetSwapModeEnum.ExactIn,
+        // onlyDirectRoutes: true,
+        userPublicKey: publicKey.toString()
       })
       .then(({ data }) => {
         if (data) {
@@ -101,7 +105,7 @@ const JupiterForm: FunctionComponent<IJupiterFormProps> = (props) => {
       .finally(() => {
         setLoadingRoute(false);
       });
-  }, [api, inputAmout, inputTokenInfo, outputTokenInfo, slippage]);
+  }, [api, inputAmout, inputTokenInfo, outputTokenInfo, publicKey, slippage]);
 
   useEffect(() => {
     fetchRoute();
@@ -335,7 +339,7 @@ const JupiterForm: FunctionComponent<IJupiterFormProps> = (props) => {
                 </button>
               </div>
               <div className="absolute text-right text-sm bg-transparent top-0 right-4 input">
-                1 {inputTokenInfo?.symbol} = {(parseInt(bestRoute?.outAmount!) / parseInt(bestRoute?.inAmount!)).toFixed(outputTokenInfo?.decimals) } {outputTokenInfo?.symbol}
+                1 {inputTokenInfo?.symbol} = {(parseInt(bestRoute?.outAmount!) / parseInt(bestRoute?.inAmount!) * 10 ** inputTokenInfo?.decimals! / 10 ** outputTokenInfo?.decimals!).toFixed(outputTokenInfo?.decimals) } {outputTokenInfo?.symbol}
               </div>
             </div>
             <div>
@@ -343,7 +347,7 @@ const JupiterForm: FunctionComponent<IJupiterFormProps> = (props) => {
                 Price Impact
               </div>
               <div className="absolute text-right text-sm bg-transparent right-4 top-4 input">
-                {bestRoute?.priceImpactPct! < 0.01 ? "< 0.01" : bestRoute?.priceImpactPct}%
+                {bestRoute?.priceImpactPct! * 100 < 0.01 ? "< 0.01" : bestRoute?.priceImpactPct! * 100}%
               </div>
             </div>
             <div>
@@ -351,7 +355,7 @@ const JupiterForm: FunctionComponent<IJupiterFormProps> = (props) => {
                 Minimum Received
               </div>
               <div className="absolute text-right text-sm bg-transparent right-4 top-8 input">
-                {bestRoute?.marketInfos[0].minOutAmount?bestRoute?.marketInfos[0].minOutAmount:0}
+                {bestRoute?.otherAmountThreshold?parseInt(bestRoute?.otherAmountThreshold) / 10 ** outputTokenInfo?.decimals!:0}
               </div>
             </div>
             <div>
@@ -359,7 +363,7 @@ const JupiterForm: FunctionComponent<IJupiterFormProps> = (props) => {
                 Transaction Fee
               </div>
               <div className="absolute text-right text-sm bg-transparent right-4 top-12 input">
-                {bestRoute?.fees?.minimumSOLForTransaction ? bestRoute?.fees?.minimumSOLForTransaction : 0} SOL
+                {bestRoute?.fees?.totalFeeAndDeposits! / 10 ** 9} SOL
               </div>
             </div>
           </div>
