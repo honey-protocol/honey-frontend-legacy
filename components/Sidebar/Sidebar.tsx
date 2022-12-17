@@ -38,9 +38,8 @@ const mainLinks = [
     key: 1
   },
   {
-    url: '/loan',
+    url: 'https://beta.honey.finance/borrow',
     title: 'Loans',
-    comingSoon: true,
     IconComp: IconSplit,
     key: 2
   },
