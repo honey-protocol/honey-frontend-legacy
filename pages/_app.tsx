@@ -17,8 +17,8 @@ import {
   HONEY_MINT_WRAPPER,
   SDKProvider
 } from 'helpers/sdk';
-import { GovernorProvider } from 'hooks/tribeca/useGovernor';
-import { GovernanceProvider } from 'contexts/GovernanceProvider';
+// import { GovernorProvider } from 'hooks/tribeca/useGovernor';
+// import { GovernanceProvider } from 'contexts/GovernanceProvider';
 
 import 'degen/styles';
 import '../styles/globals.css';
@@ -83,14 +83,14 @@ function MyApp({ Component, pageProps }: AppProps) {
           }}
           networkConfigs={networkConfiguration()}
         >
-          <GovernanceProvider>
-            <SailProvider
-              initialState={{
-                onSailError
-              }}
-            >
-              <SDKProvider>
-                <GovernorProvider
+          {/* <GovernanceProvider> */}
+          <SailProvider
+            initialState={{
+              onSailError
+            }}
+          >
+            <SDKProvider>
+              {/* <GovernorProvider
                   initialState={{
                     governor: GOVERNOR_ADDRESS,
                     govToken: HONEY_MINT,
@@ -98,19 +98,19 @@ function MyApp({ Component, pageProps }: AppProps) {
                       mintWrapper: HONEY_MINT_WRAPPER
                     }
                   }}
-                >
-                  {/* {children} */}
-                  {showPopup ? (
-                    <SecPopup setShowPopup={setShowPopup} />
-                  ) : (
-                    <>
-                      <Component {...pageProps} />
-                    </>
-                  )}
-                </GovernorProvider>
-              </SDKProvider>
-            </SailProvider>
-          </GovernanceProvider>
+                > */}
+              {/* {children} */}
+              {showPopup ? (
+                <SecPopup setShowPopup={setShowPopup} />
+              ) : (
+                <>
+                  <Component {...pageProps} />
+                </>
+              )}
+              {/* </GovernorProvider> */}
+            </SDKProvider>
+          </SailProvider>
+          {/* </GovernanceProvider> */}
         </WalletKitProvider>
       </QueryClientProvider>
       <ToastContainer theme="dark" position="bottom-right" />
