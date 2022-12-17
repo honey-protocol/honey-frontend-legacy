@@ -53,6 +53,7 @@ const mainLinks = [
   {
     url: '/governance',
     title: 'Governance',
+    comingSoon: true,
     IconComp: IconHand,
     key: 4
   },
