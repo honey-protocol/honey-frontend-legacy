@@ -51,6 +51,10 @@ module.exports = (phase, {defaultConfig}) => {
     const devNextConfig = {
       reactStrictMode: true,
       env: env,
+      domains:[
+        "quote-api.jup.ag",
+        "www.google-analytics.com"
+      ]
     };
     return withVanillaExtract(devNextConfig)
   } else {
@@ -76,6 +80,10 @@ module.exports = (phase, {defaultConfig}) => {
     const ProdNextConfig = {
       reactStrictMode: true,
       env: env,
+      domains:[
+        "quote-api.jup.ag",
+        "www.google-analytics.com"
+      ]
     };
     return withVanillaExtract(ProdNextConfig)
   }
