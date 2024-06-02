@@ -8,6 +8,7 @@ import {
   IconBookOpen,
   IconDocuments,
   IconHand,
+  IconChevronRight,
   IconTokens,
   IconSplit,
   vars,
@@ -54,6 +55,12 @@ const mainLinks = [
     comingSoon: true,
     IconComp: IconHand,
     key: 4
+  },
+  {
+    url: '/swap',
+    title: 'Swap',
+    IconComp: IconChevronRight,
+    key: 5
   }
 ];
 
